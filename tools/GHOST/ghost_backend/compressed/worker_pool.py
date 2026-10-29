@@ -4,8 +4,10 @@ import multiprocessing as mp
 from pathlib import Path
 import tempfile
 import time
+import threading
 
 _GENERATION = None
+_POOL_LOCK = threading.RLock()
 
 
 def run_tile(path, task):
@@ -41,6 +43,8 @@ class WorkerPool:
         self.busy = False
 
     def prepare(self, payload):
+        if self.closed:
+            raise RuntimeError('Cannot prepare a closed tile-worker pool.')
         if self.path is not None:
             try:
                 self.path.unlink()
@@ -73,22 +77,47 @@ class WorkerPool:
             self.directory.cleanup()
 
 
-def acquire(workers):
+def acquire(workers, lease=False):
+    """Atomically acquire exclusive traversal ownership before preparation."""
+    with _POOL_LOCK:
+        return _acquire(workers, lease)
+
+
+def _acquire(workers, lease):
     from ghost_backend.twod.preparation import run_resources
     resources = run_resources()
     if resources is None:
         return None
     previous = resources.get('compressed_tile_workers')
+    if previous is not None and previous.busy:
+        raise RuntimeError('The run already has an active tile-worker traversal.')
     if previous is not None and (previous.closed or previous.workers != workers):
         previous.close()
         previous = None
     if previous is None:
         previous = WorkerPool(workers)
         resources['compressed_tile_workers'] = previous
+    if lease:
+        previous.busy = True
     return previous
 
 
+def release_lease(pool, failed=False):
+    """Release ownership even when preparation or traversal was interrupted."""
+    with _POOL_LOCK:
+        try:
+            if failed:
+                pool.close()
+        finally:
+            pool.busy = False
+
+
 def retained_bytes():
+    with _POOL_LOCK:
+        return _retained_bytes()
+
+
+def _retained_bytes():
     from ghost_backend.twod.preparation import run_resources
     resources = run_resources()
     pool = resources.get('compressed_tile_workers') if resources else None
@@ -97,6 +126,11 @@ def retained_bytes():
 
 def release_idle():
     """Release a run's idle tile team before refusing subsequent work for RAM."""
+    with _POOL_LOCK:
+        return _release_idle()
+
+
+def _release_idle():
     from ghost_backend.twod.preparation import run_resources
     resources = run_resources()
     pool = resources.get('compressed_tile_workers') if resources else None

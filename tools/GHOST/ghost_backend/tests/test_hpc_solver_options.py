@@ -64,6 +64,9 @@ assert study_template()['cases']
 
     def _driver_process(self, driver, arguments, env, log):
         # File output avoids inherited pipe handles hanging timeout cleanup.
+        # The log is read as UTF-8 below, so require that encoding in the
+        # driver and its children independently of the local Windows locale.
+        env = dict(env, PYTHONIOENCODING='utf-8')
         with log.open("w", encoding="utf-8") as stream:
             process = subprocess.Popen(
                 [sys.executable, str(driver), *arguments], env=env,

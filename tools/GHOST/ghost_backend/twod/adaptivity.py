@@ -124,20 +124,26 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
             arguments = dict(solver_kwargs, geometry_snapshot=geometry_snapshot, mesh_convergence_policy=policy)
             fallback_selection = select_backend(arguments, fallback_options, certified=True)
             fallback_options['factorization'] = fallback_selection['selected']
+            fallback_options['angle_batch_size'] = min(fallback_options['angle_batch_size'],
+                fallback_selection.get('angle_batch_size', fallback_options['angle_batch_size']))
+            notice = fallback_selection.get('resource_adjustment', {}).get('notice')
+            if notice and progress_callback is not None:
+                progress_callback(0, 1, notice)
         with execution_scope(fallback_options):
             result = s._run_certified_2d_pair_impl(low_level_solver, geometry_snapshot, solver_kwargs,
                 policy, progress_callback, shared_discretization_caches)
-        return result, fallback_options['factorization']
+        return result, fallback_options
 
     if not eligible:
         # The initial request was planned on this reference path already. A
         # conservative retry can instead arrive from an admitted HP8 mesh;
         # admit the larger P1 pair again if HP4 cannot repay its own cost.
-        result, backend = reference_solve(forced_initial_coarsening)
+        result, fallback_options = reference_solve(forced_initial_coarsening)
         result['metadata']['adaptive_mesh'] = dict(used=False, reason=reason)
         if forced_initial_coarsening:
             result['metadata']['adaptive_mesh'].update(strategy='hp', fallback=True, steps=[],
-                initial_coarsening=initial_coarsening, final_backend=backend)
+                initial_coarsening=initial_coarsening, final_backend=fallback_options['factorization'],
+                angle_batch_size=fallback_options['angle_batch_size'])
         return result
     # Coarsening must not consume the permissive legacy default error budget.
     # Honor any stricter requested limits and retain the user's reference policy
@@ -197,6 +203,9 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
             selected_options['factorization'] = selection['selected']
             selected_options['angle_batch_size'] = min(selected_options['angle_batch_size'],
                 selection.get('angle_batch_size', selected_options['angle_batch_size']))
+            notice = selection.get('resource_adjustment', {}).get('notice')
+            if notice and progress_callback is not None:
+                progress_callback(0, 1, notice)
         modes = [selected_options['factorization']] + (selection.get('retry_order', []) if selection else [])
         failures = []
         for index, mode in enumerate(modes):
@@ -259,6 +268,7 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                     initial_coarsening=initial_coarsening,
                     elapsed_seconds=time.perf_counter()-start, accepted_degree=3,
                     final_backend=steps[-1]['backend'],
+                    angle_batch_size=steps[-1]['angle_batch_size'],
                     acceptance_policy=candidate_policy,
                     polynomial_pair=polynomial_pair_evidence,
                     estimator='normalized Legendre tail marking; full-field convergence acceptance',
@@ -305,9 +315,10 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
         adaptation['elapsed_seconds'] = time.perf_counter()-start
         return result
     if progress_callback is not None: progress_callback(0, 1, 'Adaptive candidate rejected; checking the reference mesh')
-    result, backend = reference_solve(True)
+    result, fallback_options = reference_solve(True)
     result['metadata']['adaptive_mesh'] = dict(used=False, strategy='hp', steps=steps, fallback=True, reason=reason,
         initial_coarsening=initial_coarsening,
-        final_backend=backend,
+        final_backend=fallback_options['factorization'],
+        angle_batch_size=fallback_options['angle_batch_size'],
         elapsed_seconds=time.perf_counter()-start)
     return result

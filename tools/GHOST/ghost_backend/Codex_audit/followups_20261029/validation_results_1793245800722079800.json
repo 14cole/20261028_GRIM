@@ -1,0 +1,249 @@
+[
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_scales_and_reprices_then_builds_once",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00033649999932094943
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[frequency]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001725999991322169
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[geometry]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001905999997688923
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[material]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00015019999955256935
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[units]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00015980000171111897
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[sweep]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00014629999895987567
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[formulation]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00029850000100850593
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_does_not_cross_incompatible_scope[new_request]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00013159999980416615
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_adaptive_tags_preserve_physical_request_identity",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003051999992749188
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_build_rejection_restores_standard_policy[MemoryError]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00024649999977555126
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_build_rejection_restores_standard_policy[RuntimeWarning]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000247500000114087
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_cancellation_restores_budget_and_propagates",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00028980000024603214
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_without_headroom_is_not_built",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000218999999560765
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_hint_solve_rejection_falls_back_once",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 0.0003526999989844626,
+    "failure": "tests\\test_large_geometry_followups.py:128: in test_hint_solve_rejection_falls_back_once\n    np.testing.assert_array_equal(f.inverse(np.ones(2)),np.ones(2))\n                                  ^^^^^^^^^^^^^^^^^^^^^\ncompressed\\factor.py:262: in inverse\n    if b.ndim!=2 or b.shape[0]!=len(self.a) or not b.shape[1] or not np.all(np.isfinite(b)):\n                                ^^^^^^^^^^^\nE   TypeError: object of type 'types.SimpleNamespace' has no len()"
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_paired_admission_retains_both_polarizations",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009666999994806247
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_shared_context_cannot_acquire_or_release_an_active_pool",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.004157399998803157
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_publication_retry_is_bounded_and_never_overwrites[success]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005019999989599455
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_publication_retry_is_bounded_and_never_overwrites[exhausted]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004915000008622883
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_publication_retry_is_bounded_and_never_overwrites[destination]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005044999998062849
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_publication_retry_is_bounded_and_never_overwrites[other]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00039060000017343555
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_small_batch_notice_counts_passes_without_inventing_time",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 7.490000098187011e-05
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.19089370000074268
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[8]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009035999992192956
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[16]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008508999999321532
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[64]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008493000004818896
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007375999994110316
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[success]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006973000017751474
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[memory]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003927999987354269
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[rank]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00044549999984155875
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[cancel]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000453800001196214
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_refuses_without_construction_headroom",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00037119999979040585
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_slow_refinement_restarts_once_with_stronger_inverse",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003710999990289565
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_batch_recovery_reprices_and_keeps_every_angle",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.012444700001651654
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_batch_recovery_does_not_admit_an_oversized_operator",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0011302999992039986
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_worker_release_never_closes_a_busy_pool",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002987000007124152
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_tile_fallback_is_repriced_before_building_workers[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008307000007334864
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_tile_fallback_is_repriced_before_building_workers[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006911999989824835
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[rank]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.002990800001498428
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[sampled row error]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007243999989441363
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[storage]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010548399999606772
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_sweep_reprices_common_batch_before_ranking_incompatible_peaks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.002771499999653315
+  }
+]

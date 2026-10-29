@@ -193,14 +193,17 @@ def compressed_tiles(oracle, operators, workers, payload, checkpoint):
     for operator in operators:
         operator.worker_moment_cache = moment_evidence
         operator.assembly_components = components
-    from ghost_backend.compressed.worker_pool import acquire, run_tile
-    owner = acquire(workers)
-    path = owner.prepare(payload) if owner is not None else None
-    executor = owner.executor if owner is not None else ProcessPoolExecutor(
-        workers, mp_context=mp.get_context('spawn'), initializer=_initialize, initargs=(payload,))
+    from ghost_backend.compressed.worker_pool import acquire, release_lease, run_tile
+    owner = acquire(workers, lease=True)
+    try:
+        path = owner.prepare(payload) if owner is not None else None
+        executor = owner.executor if owner is not None else ProcessPoolExecutor(
+            workers, mp_context=mp.get_context('spawn'), initializer=_initialize, initargs=(payload,))
+    except BaseException:
+        if owner is not None:
+            release_lease(owner, failed=True)
+        raise
     successful = False
-    if owner is not None:
-        owner.busy = True
     def fill():
         # Starting a process imports numerical runtimes before its initializer.
         # Keep both bootstrap protections around every bounded submission.
@@ -266,9 +269,7 @@ def compressed_tiles(oracle, operators, workers, payload, checkpoint):
             future.cancel()
         pending.clear()
         if owner is not None:
-            if not successful:
-                owner.close()
-            owner.busy = False
+            release_lease(owner, failed=not successful)
         else:
             for process in list((getattr(executor, '_processes', None) or {}).values()):
                 if process.is_alive():

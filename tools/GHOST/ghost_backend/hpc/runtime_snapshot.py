@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
+import time
 
 from ghost_backend.execution.provenance import (
     backend_source_inventory, backend_source_records,
@@ -18,6 +19,7 @@ _RUNTIME_DATA_GLOBS = (
     "data_tools/__init__.py", "data_tools/cem_tools/*.py",
 )
 _NAMESPACE_MARKER = '"""Frozen GHOST backend for this HPC run."""\n'
+_WINDOWS_RENAME_RETRY = os.name == 'nt'
 
 
 def _snapshot_records(backend_dir):
@@ -36,6 +38,20 @@ def _snapshot_records(backend_dir):
 
 def _file_inventory(records):
     return {name: sha256_file(str(path)) for name, path in sorted(records.items())}
+
+
+def _publish_directory(staging, destination):
+    """Retry a bounded Windows access/sharing failure without replacing output."""
+    for attempt in range(4):
+        if os.path.lexists(str(destination)):
+            raise FileExistsError('Run backend snapshot already exists: ' + str(destination))
+        try:
+            os.rename(str(staging), str(destination))
+            return
+        except PermissionError as exc:
+            if not _WINDOWS_RENAME_RETRY or getattr(exc, 'winerror', None) not in (5, 32, 33) or attempt == 3:
+                raise
+            time.sleep(.05 * 2**attempt)
 
 
 def snapshot_backend_runtime(backend_dir, run_dir):
@@ -83,7 +99,7 @@ def snapshot_backend_runtime(backend_dir, run_dir):
         marker = copied_backend / "__init__.py"
         if not marker.exists():
             marker.write_text(_NAMESPACE_MARKER, encoding="utf-8")
-        os.rename(str(staging), str(destination))
+        _publish_directory(staging, destination)
         staging = None
         return destination
     finally:

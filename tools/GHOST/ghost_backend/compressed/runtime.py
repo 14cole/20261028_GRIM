@@ -168,6 +168,14 @@ def admit_tile_fallback(oracle, xy, reason):
     return event
 
 
+def record_paired_admission(pair, admission):
+    """Keep the same admission visible in each polarization's operator report."""
+    if admission is not None:
+        for operator, polarization in zip(pair, ('TE', 'TM')):
+            operator.evidence['fallback_admission'] = dict(admission, polarization=polarization)
+            operator.evidence['hmatrix_fallback'] = admission['reason']
+
+
 @timed_stage('compressed_assembly')
 def build(oracle,xy):
     from ghost_backend.compressed.operator import StreamedOperator
@@ -209,11 +217,12 @@ def native(mesh,infos,pol,k0,kind,obs_order=8,src_order=8,layer=None):
         other=NativeOracle(mesh,None if kind=='thin' else partner[1],'TM',k0,kind,obs_order,src_order,layer)
         attach(other,mesh,None if kind=='thin' else partner[1],'TM',kind,k0,layer,obs_order,src_order)
         if other.n==oracle.n:
-            admit_tile_fallback(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n),
+            admission=admit_tile_fallback(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n),
                                getattr(oracle,'hmatrix_rejected',None))
             pair=build_pair(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n),
                 tile=min(512,getattr(oracle,'maximum_tile',512)),budget=storage_budget(),
                 checkpoint=checkpoint,spool_directory=temporary_directory())
+            record_paired_admission(pair,admission)
             pair[0].reserved_partner_bytes=pair[1].bytes
             key=(system_key(mesh,partner[1] if kind!='thin' else [],'compressed_'+kind,obs_order,src_order),layer)
             session.save(key,'TE',pair[1]);session.compressed_partner=None
@@ -383,14 +392,19 @@ def _regional(mesh,infos,pol,obs_order=8,src_order=8):
                 session.save(key,'TE',(pair[1],oracle.oracles[1].layout))
                 session.compressed_partner=None
                 return pair[0],oracle.oracles[0].layout
-            oracle=oracle.oracles[0]
+            # A combined storage rejection can still fit one hierarchical
+            # polarization. Rank/error rejections mark both sources for tiles;
+            # preserve that pair so its admitted traversal and evidence stay shared.
+            if not pairable(oracle.oracles[0]):
+                oracle=oracle.oracles[0]
     if isinstance(oracle,PairedOracle):
         for source,values,label in zip(oracle.oracles,(infos,partner[1]),('TE','TM')):
             attach(source,mesh,values,label,'multi_region',obs_order=obs_order,src_order=src_order)
         xy=mr.dof_coordinates(mesh,oracle.oracles[0].layout)
-        admit_tile_fallback(oracle,xy,next((getattr(o,'hmatrix_rejected',None) for o in oracle.oracles
+        admission=admit_tile_fallback(oracle,xy,next((getattr(o,'hmatrix_rejected',None) for o in oracle.oracles
                                           if getattr(o,'hmatrix_rejected',None)),None))
         pair=build_pair(oracle,xy,tile=512,budget=storage_budget(),checkpoint=checkpoint,spool_directory=temporary_directory())
+        record_paired_admission(pair,admission)
         pair[0].reserved_partner_bytes=pair[1].bytes
         key=system_key(mesh,partner[1],'compressed_region',obs_order,src_order)
         session.save(key,'TE',(pair[1],oracle.oracles[1].layout))

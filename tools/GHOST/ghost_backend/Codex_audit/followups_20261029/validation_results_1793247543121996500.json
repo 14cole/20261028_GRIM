@@ -1,0 +1,15 @@
+[
+  {
+    "test": "tests/test_large_geometry_followups.py::test_actual_paired_fallback_publishes_each_polarization[dielectric]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.7648503000000346
+  },
+  {
+    "test": "tests/test_large_geometry_followups.py::test_actual_paired_fallback_publishes_each_polarization[layered]",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 1.5948573000005126,
+    "failure": "tests\\test_large_geometry_followups.py:330: in test_actual_paired_fallback_publishes_each_polarization\n    evidence=[f['compressed']['fallback_admission'] for f in result['metadata']['compressed_factors']]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests\\test_large_geometry_followups.py:330: in <listcomp>\n    evidence=[f['compressed']['fallback_admission'] for f in result['metadata']['compressed_factors']]\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: 'fallback_admission'"
+  }
+]

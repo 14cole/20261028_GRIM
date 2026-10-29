@@ -1,0 +1,307 @@
+{
+  "name": "learned_hint",
+  "geometry": "inlet_high_contrast",
+  "frequency_ghz": 1.0,
+  "options": {
+    "version": 1,
+    "factorization": "compressed",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 8.0,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "synthetic": true,
+  "angle_count": 361,
+  "experimental_preconditioner_tolerance": null,
+  "experimental_disable_upgrade": false,
+  "preflight": {
+    "requested": "adaptive",
+    "dense_peak_gib": 5.146559440530837,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 34.8963682664104,
+        "peak_gb": 5.146559440530837
+      },
+      "compressed": {
+        "cost": 432.22498889879995,
+        "peak_gb": 4.131416827440262,
+        "hmatrix": true
+      }
+    },
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 8.0,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+    "meshes": [
+      {
+        "frequency_ghz": 1.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 2162,
+        "unknowns": 8648,
+        "dense_peak_gib": 3.0401668548583984,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 3.0401668548583984,
+          "compressed": 2.7912723422050476
+        },
+        "resources": {
+          "nodes": 4324,
+          "panels": 2162,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 8648,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 642663592,
+            "operator_allowance_bytes": 642663592,
+            "inverse_bytes": 749733744,
+            "inverse_peak_bytes": 1218386160,
+            "assembly_workspace_bytes": 473910400,
+            "coefficients": 65183871,
+            "retained_entries": 39459701,
+            "inverse_rank": 1129,
+            "density_multiplicity": 2.0,
+            "wavenumber": 467.96213861568,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true
+          }
+        }
+      },
+      {
+        "frequency_ghz": 1.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 2162,
+        "unknowns": 8648,
+        "dense_peak_gib": 3.0401668548583984,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 3.0401668548583984,
+          "compressed": 2.7912723422050476
+        },
+        "resources": {
+          "nodes": 4324,
+          "panels": 2162,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 8648,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 642663592,
+            "operator_allowance_bytes": 642663592,
+            "inverse_bytes": 749733744,
+            "inverse_peak_bytes": 1218386160,
+            "assembly_workspace_bytes": 473910400,
+            "coefficients": 65183871,
+            "retained_entries": 39459701,
+            "inverse_rank": 1129,
+            "density_multiplicity": 2.0,
+            "wavenumber": 467.96213861568,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true
+          }
+        }
+      },
+      {
+        "frequency_ghz": 1.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 2162,
+        "unknowns": 12972,
+        "dense_peak_gib": 5.146559440530837,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 5.146559440530837,
+          "compressed": 4.131416827440262
+        },
+        "resources": {
+          "nodes": 6486,
+          "panels": 2162,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 12972,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1077909408,
+            "operator_allowance_bytes": 1077909408,
+            "inverse_bytes": 1060293344,
+            "inverse_peak_bytes": 1763271968,
+            "assembly_workspace_bytes": 710864128,
+            "coefficients": 105859184,
+            "retained_entries": 66310842,
+            "inverse_rank": 1129,
+            "density_multiplicity": 2.0,
+            "wavenumber": 467.96213861568,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true
+          }
+        }
+      },
+      {
+        "frequency_ghz": 1.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 2162,
+        "unknowns": 12972,
+        "dense_peak_gib": 5.146559440530837,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 5.146559440530837,
+          "compressed": 4.131416827440262
+        },
+        "resources": {
+          "nodes": 6486,
+          "panels": 2162,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 12972,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1077909408,
+            "operator_allowance_bytes": 1077909408,
+            "inverse_bytes": 1060293344,
+            "inverse_peak_bytes": 1763271968,
+            "assembly_workspace_bytes": 710864128,
+            "coefficients": 105859184,
+            "retained_entries": 66310842,
+            "inverse_rank": 1129,
+            "density_multiplicity": 2.0,
+            "wavenumber": 467.96213861568,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true
+          }
+        }
+      }
+    ],
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ]
+  },
+  "preflight_seconds": 0.47625539999899047,
+  "solve_seconds": 38.396127299998625,
+  "status": "ok",
+  "panels": 2162,
+  "basis_order": 3,
+  "quality_gate": {
+    "passed": true,
+    "channels": {
+      "VV": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.233976916965857e-11,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 61005.685009274996,
+          "condition_est_gate_value": 61005.685009274996,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "HH": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.1860853140540508e-11,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 19477.1130170855,
+          "condition_est_gate_value": 19477.1130170855,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      }
+    },
+    "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+  },
+  "mesh_convergence_certified": true,
+  "runtime_profile": {
+    "wall_seconds": 38.25630590000037,
+    "stage_seconds": {
+      "operators": 39.6662699000517,
+      "hmatrix_norms": 1.1751461000003474,
+      "hmatrix_validation": 0.13271829999939655,
+      "hmatrix_assembly": 18.592356799999834,
+      "factorization": 7.5981380000011995,
+      "condition_estimation": 9.788760000001275,
+      "excitation": 1.2291731999994226,
+      "linear_solve": 6.056462200003807,
+      "rhs_compression": 6.383683400001246,
+      "far_field": 0.20399540000289562,
+      "mesh_certification": 0.004659300000639632
+    },
+    "stage_calls": {
+      "operators": 3605,
+      "hmatrix_norms": 4,
+      "hmatrix_validation": 4,
+      "hmatrix_assembly": 2,
+      "factorization": 5,
+      "condition_estimation": 8,
+      "excitation": 8,
+      "linear_solve": 8,
+      "rhs_compression": 8,
+      "far_field": 32,
+      "mesh_certification": 2
+    },
+    "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+    "sampled_peak_process_rss_bytes": 1596997632,
+    "initial_process_rss_bytes": 92520448,
+    "memory_semantics": "50 ms process RSS samples, including other jobs; not an exclusive allocation peak",
+    "sampled_peak_process_tree_rss_bytes": 1589723136,
+    "sampled_peak_process_tree_private_bytes": 2025095168,
+    "process_tree_incomplete_samples": 0,
+    "process_tree_memory_semantics": "250 ms parent plus descendant RSS sums; shared pages may be counted more than once; includes other jobs; incomplete snapshots excluded. Private bytes, when available, are Windows private commit, not resident RAM."
+  }
+}

@@ -1,0 +1,274 @@
+{
+  "name": "metal_inlet_15ghz_auto",
+  "geometry": "inlet",
+  "frequency_ghz": 15.0,
+  "options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 8.0,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "synthetic": true,
+  "angle_count": 361,
+  "experimental_preconditioner_tolerance": null,
+  "experimental_disable_upgrade": false,
+  "experimental_disable_hint": false,
+  "experimental_leaf": 0,
+  "preflight": {
+    "requested": "adaptive",
+    "dense_peak_gib": 1.1821662187576294,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 22.556222298613335,
+        "peak_gb": 1.1821662187576294
+      },
+      "compressed": {
+        "cost": 22.584365410805333,
+        "peak_gb": 3.032469868659973
+      }
+    },
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 8.0,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+    "meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 1454,
+        "unknowns": 2908,
+        "dense_peak_gib": 0.8005795478820801,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.8005795478820801,
+          "compressed": 0.8385178446769714
+        },
+        "resources": {
+          "nodes": 2908,
+          "panels": 1454,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 2908,
+          "operator_matrices": 48,
+          "operator_entries": 16912928,
+          "geometric_near_pairs": 10990,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 953824,
+          "mass_workspace_bytes": 546712,
+          "block_workspace_bytes": 35733504,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 261451040
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 1454,
+        "unknowns": 2908,
+        "dense_peak_gib": 0.8005795478820801,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.8005795478820801,
+          "compressed": 0.8385178446769714
+        },
+        "resources": {
+          "nodes": 2908,
+          "panels": 1454,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 2908,
+          "operator_matrices": 48,
+          "operator_entries": 16912928,
+          "geometric_near_pairs": 10990,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 953824,
+          "mass_workspace_bytes": 546712,
+          "block_workspace_bytes": 35733504,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 261451040
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 1454,
+        "unknowns": 4362,
+        "dense_peak_gib": 1.1821662187576294,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.1821662187576294,
+          "compressed": 3.032469868659973
+        },
+        "resources": {
+          "nodes": 4362,
+          "panels": 1454,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 4362,
+          "operator_matrices": 71,
+          "operator_entries": 38054088,
+          "geometric_near_pairs": 10990,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1430736,
+          "mass_workspace_bytes": 965464,
+          "block_workspace_bytes": 53600256,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 265143680
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 1454,
+        "unknowns": 4362,
+        "dense_peak_gib": 1.1821662187576294,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.1821662187576294,
+          "compressed": 3.032469868659973
+        },
+        "resources": {
+          "nodes": 4362,
+          "panels": 1454,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 4362,
+          "operator_matrices": 71,
+          "operator_entries": 38054088,
+          "geometric_near_pairs": 10990,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1430736,
+          "mass_workspace_bytes": 965464,
+          "block_workspace_bytes": 53600256,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 265143680
+        }
+      }
+    ],
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ]
+  },
+  "preflight_seconds": 0.4064261000003171,
+  "solve_seconds": 103.42821580000054,
+  "status": "ok",
+  "panels": 4765,
+  "basis_order": 3,
+  "quality_gate": {
+    "passed": true,
+    "channels": {
+      "VV": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.83080447339896e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 20941.993671287288,
+          "condition_est_gate_value": 20941.993671287288,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "HH": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 3.678767820708427e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 38734.51530414363,
+          "condition_est_gate_value": 38734.51530414363,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      }
+    },
+    "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+  },
+  "mesh_convergence_certified": true,
+  "runtime_profile": {
+    "wall_seconds": 103.1030679000014,
+    "stage_seconds": {
+      "operators": 46.9515281999993,
+      "condition_scaling": 0.28370880000329635,
+      "factorization": 29.471521100000245,
+      "condition_estimation": 2.627130599999873,
+      "excitation": 3.1376378999993904,
+      "rhs_solve": 14.323096099997201,
+      "linear_solve": 16.071125900005427,
+      "rhs_compression": 16.323206300001402,
+      "far_field": 0.28645619999224436,
+      "mesh_certification": 0.007542300003478886
+    },
+    "stage_calls": {
+      "operators": 5,
+      "condition_scaling": 8,
+      "factorization": 8,
+      "condition_estimation": 8,
+      "excitation": 16,
+      "rhs_solve": 16,
+      "linear_solve": 16,
+      "rhs_compression": 16,
+      "far_field": 64,
+      "mesh_certification": 4
+    },
+    "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+    "sampled_peak_process_rss_bytes": 4264927232,
+    "initial_process_rss_bytes": 90456064,
+    "memory_semantics": "50 ms process RSS samples, including other jobs; not an exclusive allocation peak",
+    "sampled_peak_process_tree_rss_bytes": 4231536640,
+    "sampled_peak_process_tree_private_bytes": 4537737216,
+    "process_tree_incomplete_samples": 0,
+    "process_tree_memory_semantics": "250 ms parent plus descendant RSS sums; shared pages may be counted more than once; includes other jobs; incomplete snapshots excluded. Private bytes, when available, are Windows private commit, not resident RAM."
+  }
+}

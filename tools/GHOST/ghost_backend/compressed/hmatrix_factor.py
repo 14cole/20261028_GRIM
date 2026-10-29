@@ -188,6 +188,8 @@ class HMatrixFactor(CompressedFactor):
         if vector:
             b = b[:, None]
         x, residual = self.inverse(b, return_residual=True)
+        from ghost_backend.compressed.preconditioner_hints import remember
+        remember(self)
         self.relative_residual = self.relative_errors(x, b, residual)
         self.event['rhs_batches'] += 1
         self.event['max_rhs_columns'] = max(self.event['max_rhs_columns'], b.shape[1])

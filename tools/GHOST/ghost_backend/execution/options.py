@@ -651,7 +651,14 @@ def configured_execution(function):
         if events is None:
             events = []
         event_start = len(events)
-        with _BLAS_EVENTS.override(events), _AUTOMATIC_REQUEST.override(selection is not None or _AUTOMATIC_REQUEST.get()), execution_scope(value, limit_blas=requested is not None and inherited is None):
+        from ghost_backend.compressed.preconditioner_hints import scope as inverse_hint_scope
+        hint_scope = inverse_hint_scope(bound.arguments.get('frequencies_ghz', ()),
+            bound.arguments.get('geometry_snapshot'), bound.arguments.get('material_base_dir'),
+            bound.arguments.get('geometry_units'))
+        with hint_scope, _BLAS_EVENTS.override(events), _AUTOMATIC_REQUEST.override(selection is not None or _AUTOMATIC_REQUEST.get()), execution_scope(value, limit_blas=requested is not None and inherited is None):
+            adjustment = (selection or {}).get('resource_adjustment', {})
+            if adjustment.get('notice') and bound.arguments.get('progress_callback'):
+                bound.arguments['progress_callback'](0, len(bound.arguments.get('frequencies_ghz', ())), adjustment['notice'])
             result = invoke()
             if isinstance(result, dict):
                 metadata = result.setdefault('metadata', {})
@@ -666,7 +673,9 @@ def configured_execution(function):
                     metadata['execution_options_scope'] = 'request; effective settings are in frequency_metadata'
                 if adaptation.get('final_backend') and not per_frequency:
                     actual['factorization'] = adaptation['final_backend']
-                    if adaptation.get('steps'):
+                    if 'angle_batch_size' in adaptation:
+                        actual['angle_batch_size'] = adaptation['angle_batch_size']
+                    elif adaptation.get('steps'):
                         actual['angle_batch_size'] = adaptation['steps'][-1].get('angle_batch_size', actual['angle_batch_size'])
                     if selection is not None and selection['selected'] != actual['factorization']:
                         selection = dict(selection, initial_selection=selection['selected'],

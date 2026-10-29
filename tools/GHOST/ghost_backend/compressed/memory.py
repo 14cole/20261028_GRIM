@@ -148,7 +148,16 @@ def hmatrix_storage(mesh, infos, formulation, system_dofs, layout=None):
         return None
     waves = [complex(value) for info in infos for value in (info.k_plus, info.k_minus) if value is not None]
     wavenumber = max(abs(value) for value in waves) if waves else 0.
-    return hmatrix.forecast_storage(xy, hmatrix.support_radius(mesh, xy), wavenumber)
+    model = hmatrix.forecast_storage(xy, hmatrix.support_radius(mesh, xy), wavenumber)
+    media = sorted(set(waves), key=lambda k: (k.real, k.imag))
+    # Preserve loss information for matched calibration without treating one
+    # lossy-inlet experiment as permission to discount future allocations.
+    model['medium_wavenumbers'] = [dict(real=k.real, imag=k.imag, magnitude=abs(k)) for k in media[:32]]
+    model['medium_count'] = len(media)
+    model['medium_list_truncated'] = len(media) > 32
+    model['attenuation_calibrated'] = False
+    model['rank_model_note'] = 'Magnitude-only rank estimate; material loss does not reduce the admission allowance.'
+    return model
 
 
 @timed_stage('compressed_memory_sampling')
@@ -303,6 +312,10 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.)
                   solve=resident + inverse + solve_work + correction_work + PROJECTION_CACHE_BYTES + overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
     return dict(model='compressed_hmatrix_v2', peak_bytes=int(math.ceil(peak)),
+        medium_wavenumbers=model.get('medium_wavenumbers', []),
+        medium_count=model.get('medium_count'), medium_list_truncated=model.get('medium_list_truncated', False),
+        attenuation_calibrated=False,
+        rank_model_note=model.get('rank_model_note', 'Magnitude-only rank estimate; not attenuation-calibrated.'),
         phase_bytes={k: int(v) for k, v in phases.items()}, operator_bytes=int(operator),
         operator_allowance_bytes=int(operator), resident_operator_bytes=int(resident),
         inverse_ceiling_bytes=int(inverse), inverse_construction_bytes=int(construction),

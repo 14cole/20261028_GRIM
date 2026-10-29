@@ -1,0 +1,2321 @@
+{
+  "user_max_frequency_ghz": 15,
+  "user_ram_ceiling_gib": 32,
+  "observed_machine_total_gib": 31.102954864501953,
+  "observed_available_gib": 15.966102600097656,
+  "scope": "Initial certification candidates only. Hypothetical budget scenarios, not completed solves or live admission.",
+  "scenarios": [
+    {
+      "geometry": "inlet",
+      "budget_gib": 24.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 1.1821662187576294,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 22.556222298613335,
+            "peak_gb": 1.1821662187576294
+          },
+          "compressed": {
+            "cost": 22.584365410805333,
+            "peak_gb": 3.032469868659973
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 24.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 2908,
+            "panels": 1454,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 2908,
+            "operator_matrices": 48,
+            "operator_entries": 16912928,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 953824,
+            "mass_workspace_bytes": 546712,
+            "block_workspace_bytes": 35733504,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 261451040
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8005795478820801,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8385178446769714,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 900351680,
+                "phase_bytes": {
+                  "assembly": 834487168,
+                  "factorization": 739638976,
+                  "solve": 900351680
+                },
+                "operator_bytes": 135582592,
+                "operator_allowance_bytes": 135582592,
+                "inverse_ceiling_bytes": 102533952,
+                "process_geometry_bytes": 455634944,
+                "rhs_workspace_bytes": 176488448,
+                "gmres_workspace_bytes": 21723136,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 135582592,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 2908,
+            "panels": 1454,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 2908,
+            "operator_matrices": 48,
+            "operator_entries": 16912928,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 953824,
+            "mass_workspace_bytes": 546712,
+            "block_workspace_bytes": 35733504,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 261451040
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8005795478820801,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8385178446769714,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 900351680,
+                "phase_bytes": {
+                  "assembly": 834487168,
+                  "factorization": 739638976,
+                  "solve": 900351680
+                },
+                "operator_bytes": 135582592,
+                "operator_allowance_bytes": 135582592,
+                "inverse_ceiling_bytes": 102533952,
+                "process_geometry_bytes": 455634944,
+                "rhs_workspace_bytes": 176488448,
+                "gmres_workspace_bytes": 21723136,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 135582592,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4362,
+            "panels": 1454,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4362,
+            "operator_matrices": 71,
+            "operator_entries": 38054088,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1430736,
+            "mass_workspace_bytes": 965464,
+            "block_workspace_bytes": 53600256,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 265143680
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.1821662187576294,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.032469868659973,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3256089728,
+                "phase_bytes": {
+                  "assembly": 3026201088,
+                  "factorization": 3033960064,
+                  "solve": 3256089728
+                },
+                "operator_bytes": 304851456,
+                "operator_allowance_bytes": 304851456,
+                "inverse_ceiling_bytes": 184296576,
+                "process_geometry_bytes": 2478080000,
+                "rhs_workspace_bytes": 247955456,
+                "gmres_workspace_bytes": 32517632,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 304851456,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4362,
+            "panels": 1454,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4362,
+            "operator_matrices": 71,
+            "operator_entries": 38054088,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1430736,
+            "mass_workspace_bytes": 965464,
+            "block_workspace_bytes": 53600256,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 265143680
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.1821662187576294,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.032469868659973,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3256089728,
+                "phase_bytes": {
+                  "assembly": 3026201088,
+                  "factorization": 3033960064,
+                  "solve": 3256089728
+                },
+                "operator_bytes": 304851456,
+                "operator_allowance_bytes": 304851456,
+                "inverse_ceiling_bytes": 184296576,
+                "process_geometry_bytes": 2478080000,
+                "rhs_workspace_bytes": 247955456,
+                "gmres_workspace_bytes": 32517632,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 304851456,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 4362,
+      "initial_peak_gib": {
+        "dense": 1.1821662187576294,
+        "compressed": 3.032469868659973
+      }
+    },
+    {
+      "geometry": "inlet",
+      "budget_gib": 32.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 1.1821662187576294,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 22.556222298613335,
+            "peak_gb": 1.1821662187576294
+          },
+          "compressed": {
+            "cost": 22.584365410805333,
+            "peak_gb": 3.032469868659973
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 32.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 2908,
+            "panels": 1454,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 2908,
+            "operator_matrices": 48,
+            "operator_entries": 16912928,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 953824,
+            "mass_workspace_bytes": 546712,
+            "block_workspace_bytes": 35733504,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 261451040
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8005795478820801,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8385178446769714,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 900351680,
+                "phase_bytes": {
+                  "assembly": 834487168,
+                  "factorization": 739638976,
+                  "solve": 900351680
+                },
+                "operator_bytes": 135582592,
+                "operator_allowance_bytes": 135582592,
+                "inverse_ceiling_bytes": 102533952,
+                "process_geometry_bytes": 455634944,
+                "rhs_workspace_bytes": 176488448,
+                "gmres_workspace_bytes": 21723136,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 135582592,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 2908,
+            "panels": 1454,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 2908,
+            "operator_matrices": 48,
+            "operator_entries": 16912928,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 953824,
+            "mass_workspace_bytes": 546712,
+            "block_workspace_bytes": 35733504,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 261451040
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8005795478820801,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8385178446769714,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 900351680,
+                "phase_bytes": {
+                  "assembly": 834487168,
+                  "factorization": 739638976,
+                  "solve": 900351680
+                },
+                "operator_bytes": 135582592,
+                "operator_allowance_bytes": 135582592,
+                "inverse_ceiling_bytes": 102533952,
+                "process_geometry_bytes": 455634944,
+                "rhs_workspace_bytes": 176488448,
+                "gmres_workspace_bytes": 21723136,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 135582592,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4362,
+            "panels": 1454,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4362,
+            "operator_matrices": 71,
+            "operator_entries": 38054088,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1430736,
+            "mass_workspace_bytes": 965464,
+            "block_workspace_bytes": 53600256,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 265143680
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.1821662187576294,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.032469868659973,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3256089728,
+                "phase_bytes": {
+                  "assembly": 3026201088,
+                  "factorization": 3033960064,
+                  "solve": 3256089728
+                },
+                "operator_bytes": 304851456,
+                "operator_allowance_bytes": 304851456,
+                "inverse_ceiling_bytes": 184296576,
+                "process_geometry_bytes": 2478080000,
+                "rhs_workspace_bytes": 247955456,
+                "gmres_workspace_bytes": 32517632,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 304851456,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4362,
+            "panels": 1454,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4362,
+            "operator_matrices": 71,
+            "operator_entries": 38054088,
+            "geometric_near_pairs": 10990,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1430736,
+            "mass_workspace_bytes": 965464,
+            "block_workspace_bytes": 53600256,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 265143680
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.1821662187576294,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.032469868659973,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3256089728,
+                "phase_bytes": {
+                  "assembly": 3026201088,
+                  "factorization": 3033960064,
+                  "solve": 3256089728
+                },
+                "operator_bytes": 304851456,
+                "operator_allowance_bytes": 304851456,
+                "inverse_ceiling_bytes": 184296576,
+                "process_geometry_bytes": 2478080000,
+                "rhs_workspace_bytes": 247955456,
+                "gmres_workspace_bytes": 32517632,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 304851456,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 4362,
+      "initial_peak_gib": {
+        "dense": 1.1821662187576294,
+        "compressed": 3.032469868659973
+      }
+    },
+    {
+      "geometry": "narrow_inlet",
+      "budget_gib": 24.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 1.3267965614795685,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 27.481133691249997,
+            "peak_gb": 1.3267965614795685
+          },
+          "compressed": {
+            "cost": 27.51542573605,
+            "peak_gb": 3.1409342736005783
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 24.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 3210,
+            "panels": 1605,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 3210,
+            "operator_matrices": 53,
+            "operator_entries": 20608200,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1052880,
+            "mass_workspace_bytes": 603488,
+            "block_workspace_bytes": 39444480,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 262015984
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8694678544998169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8969542384147644,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 963097280,
+                "phase_bytes": {
+                  "assembly": 865933824,
+                  "factorization": 789628096,
+                  "solve": 963097280
+                },
+                "operator_bytes": 165173760,
+                "operator_allowance_bytes": 165173760,
+                "inverse_ceiling_bytes": 116746944,
+                "process_geometry_bytes": 457490432,
+                "rhs_workspace_bytes": 191332352,
+                "gmres_workspace_bytes": 23965184,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 165173760,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 3210,
+            "panels": 1605,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 3210,
+            "operator_matrices": 53,
+            "operator_entries": 20608200,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1052880,
+            "mass_workspace_bytes": 603488,
+            "block_workspace_bytes": 39444480,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 262015984
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8694678544998169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8969542384147644,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 963097280,
+                "phase_bytes": {
+                  "assembly": 865933824,
+                  "factorization": 789628096,
+                  "solve": 963097280
+                },
+                "operator_bytes": 165173760,
+                "operator_allowance_bytes": 165173760,
+                "inverse_ceiling_bytes": 116746944,
+                "process_geometry_bytes": 457490432,
+                "rhs_workspace_bytes": 191332352,
+                "gmres_workspace_bytes": 23965184,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 165173760,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4815,
+            "panels": 1605,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4815,
+            "operator_matrices": 78,
+            "operator_entries": 46368450,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1579320,
+            "mass_workspace_bytes": 1065728,
+            "block_workspace_bytes": 59166720,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 266091328
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.3267965614795685,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.1409342736005783,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3372552496,
+                "phase_bytes": {
+                  "assembly": 3095542704,
+                  "factorization": 3131298352,
+                  "solve": 3372552496
+                },
+                "operator_bytes": 371409840,
+                "operator_allowance_bytes": 371409840,
+                "inverse_ceiling_bytes": 205788800,
+                "process_geometry_bytes": 2480863232,
+                "rhs_workspace_bytes": 270221312,
+                "gmres_workspace_bytes": 35880704,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 371409840,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4815,
+            "panels": 1605,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4815,
+            "operator_matrices": 78,
+            "operator_entries": 46368450,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1579320,
+            "mass_workspace_bytes": 1065728,
+            "block_workspace_bytes": 59166720,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 266091328
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.3267965614795685,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.1409342736005783,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3372552496,
+                "phase_bytes": {
+                  "assembly": 3095542704,
+                  "factorization": 3131298352,
+                  "solve": 3372552496
+                },
+                "operator_bytes": 371409840,
+                "operator_allowance_bytes": 371409840,
+                "inverse_ceiling_bytes": 205788800,
+                "process_geometry_bytes": 2480863232,
+                "rhs_workspace_bytes": 270221312,
+                "gmres_workspace_bytes": 35880704,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 15461882265,
+                "temporary_disk_bytes": 371409840,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 4815,
+      "initial_peak_gib": {
+        "dense": 1.3267965614795685,
+        "compressed": 3.1409342736005783
+      }
+    },
+    {
+      "geometry": "narrow_inlet",
+      "budget_gib": 32.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 1.3267965614795685,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 27.481133691249997,
+            "peak_gb": 1.3267965614795685
+          },
+          "compressed": {
+            "cost": 27.51542573605,
+            "peak_gb": 3.1409342736005783
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 32.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 3210,
+            "panels": 1605,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 3210,
+            "operator_matrices": 53,
+            "operator_entries": 20608200,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1052880,
+            "mass_workspace_bytes": 603488,
+            "block_workspace_bytes": 39444480,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 262015984
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8694678544998169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8969542384147644,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 963097280,
+                "phase_bytes": {
+                  "assembly": 865933824,
+                  "factorization": 789628096,
+                  "solve": 963097280
+                },
+                "operator_bytes": 165173760,
+                "operator_allowance_bytes": 165173760,
+                "inverse_ceiling_bytes": 116746944,
+                "process_geometry_bytes": 457490432,
+                "rhs_workspace_bytes": 191332352,
+                "gmres_workspace_bytes": 23965184,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 165173760,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 3210,
+            "panels": 1605,
+            "basis_width": 3,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 3210,
+            "operator_matrices": 53,
+            "operator_entries": 20608200,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1052880,
+            "mass_workspace_bytes": 603488,
+            "block_workspace_bytes": 39444480,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 262015984
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 0.8694678544998169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 0.8969542384147644,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 963097280,
+                "phase_bytes": {
+                  "assembly": 865933824,
+                  "factorization": 789628096,
+                  "solve": 963097280
+                },
+                "operator_bytes": 165173760,
+                "operator_allowance_bytes": 165173760,
+                "inverse_ceiling_bytes": 116746944,
+                "process_geometry_bytes": 457490432,
+                "rhs_workspace_bytes": 191332352,
+                "gmres_workspace_bytes": 23965184,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 81920,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 165173760,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4815,
+            "panels": 1605,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4815,
+            "operator_matrices": 78,
+            "operator_entries": 46368450,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1579320,
+            "mass_workspace_bytes": 1065728,
+            "block_workspace_bytes": 59166720,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 266091328
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.3267965614795685,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.1409342736005783,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3372552496,
+                "phase_bytes": {
+                  "assembly": 3095542704,
+                  "factorization": 3131298352,
+                  "solve": 3372552496
+                },
+                "operator_bytes": 371409840,
+                "operator_allowance_bytes": 371409840,
+                "inverse_ceiling_bytes": 205788800,
+                "process_geometry_bytes": 2480863232,
+                "rhs_workspace_bytes": 270221312,
+                "gmres_workspace_bytes": 35880704,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 371409840,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 4815,
+            "panels": 1605,
+            "basis_width": 4,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4815,
+            "operator_matrices": 78,
+            "operator_entries": 46368450,
+            "geometric_near_pairs": 12129,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1579320,
+            "mass_workspace_bytes": 1065728,
+            "block_workspace_bytes": 59166720,
+            "moment_cache_bytes": 268435456,
+            "assembly_workspace_bytes": 266091328
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 1.3267965614795685,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 3.1409342736005783,
+              "details": {
+                "model": "compressed_phase_v2",
+                "peak_bytes": 3372552496,
+                "phase_bytes": {
+                  "assembly": 3095542704,
+                  "factorization": 3131298352,
+                  "solve": 3372552496
+                },
+                "operator_bytes": 371409840,
+                "operator_allowance_bytes": 371409840,
+                "inverse_ceiling_bytes": 205788800,
+                "process_geometry_bytes": 2480863232,
+                "rhs_workspace_bytes": 270221312,
+                "gmres_workspace_bytes": 35880704,
+                "projection_cache_bytes": 8388608,
+                "retained_worker_allowance_bytes": 2013265920,
+                "retained_polynomial_operator_bytes": 0,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 243269632,
+                "tile_metadata_bytes": 327680,
+                "storage_limit_bytes": 20615843020,
+                "temporary_disk_bytes": 371409840,
+                "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+                "storage_method": "dimensions_only_ceiling",
+                "sampled": false,
+                "samples": 0,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 4815,
+      "initial_peak_gib": {
+        "dense": 1.3267965614795685,
+        "compressed": 3.1409342736005783
+      }
+    },
+    {
+      "geometry": "inlet_dielectric",
+      "budget_gib": 24.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 8.67753086052835,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 63.48245878836431,
+            "peak_gb": 8.67753086052835
+          },
+          "compressed": {
+            "cost": 868.7113689987999,
+            "peak_gb": 6.624628126621246,
+            "hmatrix": true
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 24.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 5808,
+            "panels": 2904,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 11616,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1105234888,
+              "operator_allowance_bytes": 1105234888,
+              "inverse_bytes": 1267081248,
+              "inverse_peak_bytes": 2099530272,
+              "assembly_workspace_bytes": 832541952,
+              "coefficients": 112303665,
+              "retained_entries": 68128421,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 4.26472625695169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 4.423611089587212,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 4749816240,
+                "phase_bytes": {
+                  "assembly": 4315369872,
+                  "factorization": 4749816240,
+                  "solve": 4616631216
+                },
+                "operator_bytes": 1105234888,
+                "operator_allowance_bytes": 1105234888,
+                "resident_operator_bytes": 2210469776,
+                "inverse_ceiling_bytes": 1267081248,
+                "inverse_construction_bytes": 2099530272,
+                "process_geometry_bytes": 439816192,
+                "rhs_workspace_bytes": 604504064,
+                "gmres_workspace_bytes": 86371328,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 832541952,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 112303665,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 5808,
+            "panels": 2904,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 11616,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1105234888,
+              "operator_allowance_bytes": 1105234888,
+              "inverse_bytes": 1267081248,
+              "inverse_peak_bytes": 2099530272,
+              "assembly_workspace_bytes": 832541952,
+              "coefficients": 112303665,
+              "retained_entries": 68128421,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 4.26472625695169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 4.423611089587212,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 4749816240,
+                "phase_bytes": {
+                  "assembly": 4315369872,
+                  "factorization": 4749816240,
+                  "solve": 4616631216
+                },
+                "operator_bytes": 1105234888,
+                "operator_allowance_bytes": 1105234888,
+                "resident_operator_bytes": 2210469776,
+                "inverse_ceiling_bytes": 1267081248,
+                "inverse_construction_bytes": 2099530272,
+                "process_geometry_bytes": 439816192,
+                "rhs_workspace_bytes": 604504064,
+                "gmres_workspace_bytes": 86371328,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 832541952,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 112303665,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 8712,
+            "panels": 2904,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 17424,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1775781144,
+              "operator_allowance_bytes": 1775781144,
+              "inverse_bytes": 1855246096,
+              "inverse_peak_bytes": 3103919632,
+              "assembly_workspace_bytes": 1249509888,
+              "coefficients": 185505192,
+              "retained_entries": 108389356,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 8.67753086052835,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 6.624628126621246,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 7113140288,
+                "phase_bytes": {
+                  "assembly": 6508240432,
+                  "factorization": 7113140288,
+                  "solve": 6892324160
+                },
+                "operator_bytes": 1775781144,
+                "operator_allowance_bytes": 1775781144,
+                "resident_operator_bytes": 3551562288,
+                "inverse_ceiling_bytes": 1855246096,
+                "inverse_construction_bytes": 3103919632,
+                "process_geometry_bytes": 457658368,
+                "rhs_workspace_bytes": 889978880,
+                "gmres_workspace_bytes": 129489920,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 1249509888,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 185505192,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 8712,
+            "panels": 2904,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 17424,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1775781144,
+              "operator_allowance_bytes": 1775781144,
+              "inverse_bytes": 1855246096,
+              "inverse_peak_bytes": 3103919632,
+              "assembly_workspace_bytes": 1249509888,
+              "coefficients": 185505192,
+              "retained_entries": 108389356,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 8.67753086052835,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 6.624628126621246,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 7113140288,
+                "phase_bytes": {
+                  "assembly": 6508240432,
+                  "factorization": 7113140288,
+                  "solve": 6892324160
+                },
+                "operator_bytes": 1775781144,
+                "operator_allowance_bytes": 1775781144,
+                "resident_operator_bytes": 3551562288,
+                "inverse_ceiling_bytes": 1855246096,
+                "inverse_construction_bytes": 3103919632,
+                "process_geometry_bytes": 457658368,
+                "rhs_workspace_bytes": 889978880,
+                "gmres_workspace_bytes": 129489920,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 1249509888,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 185505192,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 17424,
+      "initial_peak_gib": {
+        "dense": 8.67753086052835,
+        "compressed": 6.624628126621246
+      }
+    },
+    {
+      "geometry": "inlet_dielectric",
+      "budget_gib": 32.0,
+      "selection": {
+        "requested": "adaptive",
+        "dense_peak_gib": 8.67753086052835,
+        "model": "stage_work_v6",
+        "objective": "predicted_solve_completion",
+        "candidates": {
+          "dense": {
+            "cost": 63.48245878836431,
+            "peak_gb": 8.67753086052835
+          },
+          "compressed": {
+            "cost": 868.7113689987999,
+            "peak_gb": 6.624628126621246,
+            "hmatrix": true
+          }
+        },
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 32.0,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ]
+      },
+      "resources": [
+        {
+          "resource": {
+            "nodes": 5808,
+            "panels": 2904,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 11616,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1105234888,
+              "operator_allowance_bytes": 1105234888,
+              "inverse_bytes": 1267081248,
+              "inverse_peak_bytes": 2099530272,
+              "assembly_workspace_bytes": 832541952,
+              "coefficients": 112303665,
+              "retained_entries": 68128421,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 4.26472625695169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 4.423611089587212,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 4749816240,
+                "phase_bytes": {
+                  "assembly": 4315369872,
+                  "factorization": 4749816240,
+                  "solve": 4616631216
+                },
+                "operator_bytes": 1105234888,
+                "operator_allowance_bytes": 1105234888,
+                "resident_operator_bytes": 2210469776,
+                "inverse_ceiling_bytes": 1267081248,
+                "inverse_construction_bytes": 2099530272,
+                "process_geometry_bytes": 439816192,
+                "rhs_workspace_bytes": 604504064,
+                "gmres_workspace_bytes": 86371328,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 832541952,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 112303665,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 5808,
+            "panels": 2904,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 11616,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1105234888,
+              "operator_allowance_bytes": 1105234888,
+              "inverse_bytes": 1267081248,
+              "inverse_peak_bytes": 2099530272,
+              "assembly_workspace_bytes": 832541952,
+              "coefficients": 112303665,
+              "retained_entries": 68128421,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 4.26472625695169,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 4.423611089587212,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 4749816240,
+                "phase_bytes": {
+                  "assembly": 4315369872,
+                  "factorization": 4749816240,
+                  "solve": 4616631216
+                },
+                "operator_bytes": 1105234888,
+                "operator_allowance_bytes": 1105234888,
+                "resident_operator_bytes": 2210469776,
+                "inverse_ceiling_bytes": 1267081248,
+                "inverse_construction_bytes": 2099530272,
+                "process_geometry_bytes": 439816192,
+                "rhs_workspace_bytes": 604504064,
+                "gmres_workspace_bytes": 86371328,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 832541952,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 112303665,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 8712,
+            "panels": 2904,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 17424,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1775781144,
+              "operator_allowance_bytes": 1775781144,
+              "inverse_bytes": 1855246096,
+              "inverse_peak_bytes": 3103919632,
+              "assembly_workspace_bytes": 1249509888,
+              "coefficients": 185505192,
+              "retained_entries": 108389356,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 8.67753086052835,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 6.624628126621246,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 7113140288,
+                "phase_bytes": {
+                  "assembly": 6508240432,
+                  "factorization": 7113140288,
+                  "solve": 6892324160
+                },
+                "operator_bytes": 1775781144,
+                "operator_allowance_bytes": 1775781144,
+                "resident_operator_bytes": 3551562288,
+                "inverse_ceiling_bytes": 1855246096,
+                "inverse_construction_bytes": 3103919632,
+                "process_geometry_bytes": 457658368,
+                "rhs_workspace_bytes": 889978880,
+                "gmres_workspace_bytes": 129489920,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 1249509888,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 185505192,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 8712,
+            "panels": 2904,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 17424,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 1775781144,
+              "operator_allowance_bytes": 1775781144,
+              "inverse_bytes": 1855246096,
+              "inverse_peak_bytes": 3103919632,
+              "assembly_workspace_bytes": 1249509888,
+              "coefficients": 185505192,
+              "retained_entries": 108389356,
+              "inverse_rank": 1493,
+              "density_multiplicity": 2.0,
+              "wavenumber": 628.7692248337472,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 8.67753086052835,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 6.624628126621246,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 7113140288,
+                "phase_bytes": {
+                  "assembly": 6508240432,
+                  "factorization": 7113140288,
+                  "solve": 6892324160
+                },
+                "operator_bytes": 1775781144,
+                "operator_allowance_bytes": 1775781144,
+                "resident_operator_bytes": 3551562288,
+                "inverse_ceiling_bytes": 1855246096,
+                "inverse_construction_bytes": 3103919632,
+                "process_geometry_bytes": 457658368,
+                "rhs_workspace_bytes": 889978880,
+                "gmres_workspace_bytes": 129489920,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 1249509888,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": true,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 185505192,
+                "inverse_rank": 1493,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 17424,
+      "initial_peak_gib": {
+        "dense": 8.67753086052835,
+        "compressed": 6.624628126621246
+      }
+    },
+    {
+      "geometry": "inlet_high_contrast",
+      "budget_gib": 24.0,
+      "admission_error": "No compatible backend fits the 24.00 GiB solve budget (dense 935.84 GiB, compressed 474.48 GiB). Formulations: single_dielectric. Final angle batch: 1.",
+      "resources": [
+        {
+          "resource": {
+            "nodes": 64708,
+            "panels": 32354,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 129416,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 108886775328,
+              "operator_allowance_bytes": 108886775328,
+              "inverse_bytes": 133182900624,
+              "inverse_peak_bytes": 232257578256,
+              "assembly_workspace_bytes": 96192324480,
+              "coefficients": 12085894713,
+              "retained_entries": 6785405774,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 418.13362202607095,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 318.462076947093,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 341946051376,
+                "phase_bytes": {
+                  "assembly": 205880797600,
+                  "factorization": 341946051376,
+                  "solve": 250235290544
+                },
+                "operator_bytes": 108886775328,
+                "operator_allowance_bytes": 108886775328,
+                "resident_operator_bytes": 108886775328,
+                "inverse_ceiling_bytes": 133182900624,
+                "inverse_construction_bytes": 232257578256,
+                "process_geometry_bytes": 801697792,
+                "rhs_workspace_bytes": 6394609664,
+                "gmres_workspace_bytes": 960918528,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 96192324480,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 12085894713,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 64708,
+            "panels": 32354,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 129416,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 108886775328,
+              "operator_allowance_bytes": 108886775328,
+              "inverse_bytes": 133182900624,
+              "inverse_peak_bytes": 232257578256,
+              "assembly_workspace_bytes": 96192324480,
+              "coefficients": 12085894713,
+              "retained_entries": 6785405774,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 418.13362202607095,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 318.462076947093,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 341946051376,
+                "phase_bytes": {
+                  "assembly": 205880797600,
+                  "factorization": 341946051376,
+                  "solve": 250235290544
+                },
+                "operator_bytes": 108886775328,
+                "operator_allowance_bytes": 108886775328,
+                "resident_operator_bytes": 108886775328,
+                "inverse_ceiling_bytes": 133182900624,
+                "inverse_construction_bytes": 232257578256,
+                "process_geometry_bytes": 801697792,
+                "rhs_workspace_bytes": 6394609664,
+                "gmres_workspace_bytes": 960918528,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 96192324480,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 12085894713,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 97062,
+            "panels": 32354,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 194124,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 170519704720,
+              "operator_allowance_bytes": 170519704720,
+              "inverse_bytes": 189337215136,
+              "inverse_peak_bytes": 337949231584,
+              "assembly_workspace_bytes": 144305547648,
+              "coefficients": 18987066243,
+              "retained_entries": 10635214112,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 935.8382043000311,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 474.48036919534206,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 509469417072,
+                "phase_bytes": {
+                  "assembly": 315825733136,
+                  "factorization": 509469417072,
+                  "solve": 371882237232
+                },
+                "operator_bytes": 170519704720,
+                "operator_allowance_bytes": 170519704720,
+                "resident_operator_bytes": 170519704720,
+                "inverse_ceiling_bytes": 189337215136,
+                "inverse_construction_bytes": 337949231584,
+                "process_geometry_bytes": 1000480768,
+                "rhs_workspace_bytes": 9575137280,
+                "gmres_workspace_bytes": 1441310720,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 144305547648,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 18987066243,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 97062,
+            "panels": 32354,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 194124,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 170519704720,
+              "operator_allowance_bytes": 170519704720,
+              "inverse_bytes": 189337215136,
+              "inverse_peak_bytes": 337949231584,
+              "assembly_workspace_bytes": 144305547648,
+              "coefficients": 18987066243,
+              "retained_entries": 10635214112,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 935.8382043000311,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 474.48036919534206,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 509469417072,
+                "phase_bytes": {
+                  "assembly": 315825733136,
+                  "factorization": 509469417072,
+                  "solve": 371882237232
+                },
+                "operator_bytes": 170519704720,
+                "operator_allowance_bytes": 170519704720,
+                "resident_operator_bytes": 170519704720,
+                "inverse_ceiling_bytes": 189337215136,
+                "inverse_construction_bytes": 337949231584,
+                "process_geometry_bytes": 1000480768,
+                "rhs_workspace_bytes": 9575137280,
+                "gmres_workspace_bytes": 1441310720,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 144305547648,
+                "storage_limit_bytes": 15461882265,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 18987066243,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 194124,
+      "initial_peak_gib": {
+        "dense": 935.8382043000311,
+        "compressed": 474.48036919534206
+      }
+    },
+    {
+      "geometry": "inlet_high_contrast",
+      "budget_gib": 32.0,
+      "admission_error": "No compatible backend fits the 32.00 GiB solve budget (dense 935.84 GiB, compressed 474.48 GiB). Formulations: single_dielectric. Final angle batch: 1.",
+      "resources": [
+        {
+          "resource": {
+            "nodes": 64708,
+            "panels": 32354,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 129416,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 108886775328,
+              "operator_allowance_bytes": 108886775328,
+              "inverse_bytes": 133182900624,
+              "inverse_peak_bytes": 232257578256,
+              "assembly_workspace_bytes": 96192324480,
+              "coefficients": 12085894713,
+              "retained_entries": 6785405774,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 418.13362202607095,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 318.462076947093,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 341946051376,
+                "phase_bytes": {
+                  "assembly": 205880797600,
+                  "factorization": 341946051376,
+                  "solve": 250235290544
+                },
+                "operator_bytes": 108886775328,
+                "operator_allowance_bytes": 108886775328,
+                "resident_operator_bytes": 108886775328,
+                "inverse_ceiling_bytes": 133182900624,
+                "inverse_construction_bytes": 232257578256,
+                "process_geometry_bytes": 801697792,
+                "rhs_workspace_bytes": 6394609664,
+                "gmres_workspace_bytes": 960918528,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 96192324480,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 12085894713,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 64708,
+            "panels": 32354,
+            "basis_width": 3,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 129416,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 108886775328,
+              "operator_allowance_bytes": 108886775328,
+              "inverse_bytes": 133182900624,
+              "inverse_peak_bytes": 232257578256,
+              "assembly_workspace_bytes": 96192324480,
+              "coefficients": 12085894713,
+              "retained_entries": 6785405774,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 2,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 418.13362202607095,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 318.462076947093,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 341946051376,
+                "phase_bytes": {
+                  "assembly": 205880797600,
+                  "factorization": 341946051376,
+                  "solve": 250235290544
+                },
+                "operator_bytes": 108886775328,
+                "operator_allowance_bytes": 108886775328,
+                "resident_operator_bytes": 108886775328,
+                "inverse_ceiling_bytes": 133182900624,
+                "inverse_construction_bytes": 232257578256,
+                "process_geometry_bytes": 801697792,
+                "rhs_workspace_bytes": 6394609664,
+                "gmres_workspace_bytes": 960918528,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 96192324480,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 12085894713,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 97062,
+            "panels": 32354,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 194124,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 170519704720,
+              "operator_allowance_bytes": 170519704720,
+              "inverse_bytes": 189337215136,
+              "inverse_peak_bytes": 337949231584,
+              "assembly_workspace_bytes": 144305547648,
+              "coefficients": 18987066243,
+              "retained_entries": 10635214112,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 935.8382043000311,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 474.48036919534206,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 509469417072,
+                "phase_bytes": {
+                  "assembly": 315825733136,
+                  "factorization": 509469417072,
+                  "solve": 371882237232
+                },
+                "operator_bytes": 170519704720,
+                "operator_allowance_bytes": 170519704720,
+                "resident_operator_bytes": 170519704720,
+                "inverse_ceiling_bytes": 189337215136,
+                "inverse_construction_bytes": 337949231584,
+                "process_geometry_bytes": 1000480768,
+                "rhs_workspace_bytes": 9575137280,
+                "gmres_workspace_bytes": 1441310720,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 144305547648,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 18987066243,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        },
+        {
+          "resource": {
+            "nodes": 97062,
+            "panels": 32354,
+            "basis_width": 4,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 194124,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 170519704720,
+              "operator_allowance_bytes": 170519704720,
+              "inverse_bytes": 189337215136,
+              "inverse_peak_bytes": 337949231584,
+              "assembly_workspace_bytes": 144305547648,
+              "coefficients": 18987066243,
+              "retained_entries": 10635214112,
+              "inverse_rank": 15949,
+              "density_multiplicity": 2.0,
+              "wavenumber": 7019.432079235201,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true
+            }
+          },
+          "basis_order": 3,
+          "forecasts": {
+            "dense": {
+              "peak_gib": 935.8382043000311,
+              "details": null
+            },
+            "compressed": {
+              "peak_gib": 474.48036919534206,
+              "details": {
+                "model": "compressed_hmatrix_v2",
+                "peak_bytes": 509469417072,
+                "phase_bytes": {
+                  "assembly": 315825733136,
+                  "factorization": 509469417072,
+                  "solve": 371882237232
+                },
+                "operator_bytes": 170519704720,
+                "operator_allowance_bytes": 170519704720,
+                "resident_operator_bytes": 170519704720,
+                "inverse_ceiling_bytes": 189337215136,
+                "inverse_construction_bytes": 337949231584,
+                "process_geometry_bytes": 1000480768,
+                "rhs_workspace_bytes": 9575137280,
+                "gmres_workspace_bytes": 1441310720,
+                "projection_cache_bytes": 8388608,
+                "moment_cache_bytes": 268435456,
+                "retained_worker_allowance_bytes": 0,
+                "retained_polynomial_operator_bytes": 0,
+                "assembly_workspace_bytes": 144305547648,
+                "storage_limit_bytes": 20615843020,
+                "storage_fits": false,
+                "temporary_disk_bytes": 0,
+                "storage_method": "hmatrix_model",
+                "sampled": false,
+                "samples": 0,
+                "coefficients": 18987066243,
+                "inverse_rank": 15949,
+                "safety": 1.0,
+                "floor_gb": 0.0,
+                "forecast_is_hard_limit": false
+              }
+            }
+          }
+        }
+      ],
+      "max_initial_unknowns": 194124,
+      "initial_peak_gib": {
+        "dense": 935.8382043000311,
+        "compressed": 474.48036919534206
+      }
+    }
+  ]
+}

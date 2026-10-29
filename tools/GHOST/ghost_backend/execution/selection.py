@@ -103,6 +103,7 @@ def _select_backend(arguments, options, certified=False, checkpoint=None):
             result['resource_adjustment'] = dict(result.get('resource_adjustment', {}),
                 requested_angle_batch_size=normalized['angle_batch_size'],
                 angle_batch_size=result['angle_batch_size'], reason='Common admitted batch for all frequencies.')
+        describe_batch_adjustment(result, len(arguments['elevations_deg']))
         return result
     resource_records = []
     result = _forecast_backend(arguments, normalized, certified, checkpoint, resource_records)
@@ -151,6 +152,7 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
             record.update(dense_peak_gib=peaks['dense'], backend_peak_gib=peaks)
     result['admission_budget_gib'] = budget
     result['angle_batch_size'] = options['angle_batch_size']
+    describe_mesh_scope(result)
     try:
         ranked = rank_candidates(result['candidates'], budget)
     except MemoryError:
@@ -184,9 +186,37 @@ def _recover_memory_forecast(result, resource_records, arguments, options, check
             angle_batch_size=batch, released_worker_allowance_bytes=released,
             rejected_batch_sizes=attempted,
             reason='Retain one factor and solve all angles in smaller admitted batches.')
+        describe_batch_adjustment(result, len(arguments['elevations_deg']))
         return
     # Return the final, most restrictive forecast's failure, not a timing claim.
-    rank_candidates(result['candidates'], result['admission_budget_gib'])
+    try:
+        rank_candidates(result['candidates'], result['admission_budget_gib'])
+    except MemoryError as exc:
+        formulations = sorted({r.get('formulation', r.get('resources', {}).get('formulation', 'unknown'))
+                               for r in result['meshes']})
+        raise MemoryError('{} Formulations: {}. Final angle batch: {}.'.format(
+            exc, ', '.join(formulations), result.get('angle_batch_size', requested))) from exc
+
+
+def describe_batch_adjustment(result, n_angles):
+    adjustment = result.get('resource_adjustment')
+    if adjustment is None:
+        return
+    requested, batch = adjustment['requested_angle_batch_size'], result['angle_batch_size']
+    original, effective = math.ceil(n_angles/requested), math.ceil(n_angles/batch)
+    adjustment.update(requested_angle_batches=original, effective_angle_batches=effective,
+        batch_count_scope='per system and polarization', predicted_extra_seconds=None)
+    if batch < requested:
+        adjustment['notice'] = ('Memory recovery: using {} angles per batch ({} batches instead of {} per system). '
+            'All angles are retained and the factor is reused; extra passes may take longer.').format(batch,effective,original)
+
+
+def describe_mesh_scope(result):
+    sizes = [r['unknowns'] for r in result['meshes'] if 'unknowns' in r]
+    if sizes:
+        result['mesh_forecast_scope'] = dict(initial_candidate_unknowns_min=min(sizes),
+            initial_candidate_unknowns_max=max(sizes), final_size_guaranteed=False,
+            note='Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range.')
 
 
 def _forecast_backend(arguments, options, certified=False, checkpoint=None, resource_records=None):
@@ -277,6 +307,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
         angle_batch_size=options['angle_batch_size'],
         reason='Lowest predicted cost among compatible backends admitted against available RAM.',
         meshes=records)
+    describe_mesh_scope(result)
     try:
         ranked=rank_candidates(candidates,budget)
     except MemoryError:

@@ -47,9 +47,16 @@ class CompressedFactor:
             preconditioners=[],gmres_columns=0,max_refinements=0,refinement_steps=0)
         if evidence is not None:evidence.append(self.event)
         self._fresh_build()
-        if diagnostics is not None:self._condition()
+        if diagnostics is not None:
+            # Condition probes can discover an expensive correction path before
+            # the first field RHS. Label this without changing probe gates.
+            self._solve_phase = 'condition_probe'
+            try:self._condition()
+            finally:self._solve_phase = 'field_solve'
 
     def _fresh_build(self):
+        from ghost_backend.compressed.preconditioner_hints import try_build
+        if try_build(self):return
         rejected=False
         try:
             compact=False
@@ -116,6 +123,7 @@ class CompressedFactor:
         headroom = _solve_memory_limit_gb(resident/1024**3)*1024**3 - resident
         construction = max(64*1024**2, 3*old_bytes)
         event = dict(trigger='more_than_three_refinements', old_inverse_bytes=old_bytes,
+                     phase=getattr(self, '_solve_phase', 'field_solve'),
                      construction_allowance_bytes=construction, available_bytes=max(0, int(headroom)),
                      accepted=False)
         self.event['preconditioner_upgrade'] = event
@@ -153,6 +161,7 @@ class CompressedFactor:
                 self.event['max_refinements']=max(self.event['max_refinements'],step)
                 return x,-residual
             if step >= 3 and self._upgrade_preconditioner():
+                self.event['max_refinements']=max(self.event['max_refinements'],step)
                 # Restart against the same operator/RHS; the attempted flag
                 # bounds this restart even if the stronger inverse stalls.
                 del x, residual
@@ -253,11 +262,29 @@ class CompressedFactor:
         if b.ndim!=2 or b.shape[0]!=len(self.a) or not b.shape[1] or not np.all(np.isfinite(b)):
             raise ValueError('Invalid compressed RHS.')
         failed=False
+        hint_failed=False
         try:x,residual=self._refine(b,trans)
         except (HierarchicalRejected,np.linalg.LinAlgError,RuntimeWarning) as exc:
-            if self.tolerance<=2e-10:raise
-            self.event['coarse_rejection']=str(exc)
-            failed=True
+            hint=self.event.get('preconditioner_hint',{})
+            if hint.get('accepted') and not getattr(self,'_hint_failed',False):
+                hint['solve_rejection']=str(exc)
+                hint['accepted']=False
+                hint['build_accepted']=True
+                self._hint_failed=True
+                hint_failed=True
+            else:
+                if self.tolerance<=2e-10:raise
+                self.event['coarse_rejection']=str(exc)
+                failed=True
+        if hint_failed:
+            from ghost_backend.compressed.preconditioner_hints import discard
+            discard(self)
+            self.factor=None
+            # Restore the ordinary initial policy once, without immediately
+            # repeating the optional upgrade that just failed.
+            self._upgrade_attempted=True
+            self._fresh_build()
+            return self.inverse(rhs,trans,return_residual,limit)
         if failed:
             self._build(2e-10)
             x,residual=self._refine(b,trans)
