@@ -609,7 +609,9 @@ def configured_execution(function):
             if timing_key is not None:
                 from ghost_backend.execution.timing_history import adjust
                 selection=adjust(selection,timing_key,batch=batch_planned,entries=timing_entries)
-            value = dict(value, factorization=selection['selected'])
+            value = dict(value, factorization=selection['selected'],
+                         angle_batch_size=min(value['angle_batch_size'],
+                                              selection.get('angle_batch_size', value['angle_batch_size'])))
         if bound.arguments.get('solver_method') == 'auto' and value['factorization'] == 'compressed':
             bound.arguments['solver_method']='experimental_cpu'
             args,kwargs=bound.args,bound.kwargs
@@ -664,6 +666,8 @@ def configured_execution(function):
                     metadata['execution_options_scope'] = 'request; effective settings are in frequency_metadata'
                 if adaptation.get('final_backend') and not per_frequency:
                     actual['factorization'] = adaptation['final_backend']
+                    if adaptation.get('steps'):
+                        actual['angle_batch_size'] = adaptation['steps'][-1].get('angle_batch_size', actual['angle_batch_size'])
                     if selection is not None and selection['selected'] != actual['factorization']:
                         selection = dict(selection, initial_selection=selection['selected'],
                             selected=actual['factorization'],

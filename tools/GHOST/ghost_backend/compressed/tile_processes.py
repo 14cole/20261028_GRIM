@@ -199,6 +199,8 @@ def compressed_tiles(oracle, operators, workers, payload, checkpoint):
     executor = owner.executor if owner is not None else ProcessPoolExecutor(
         workers, mp_context=mp.get_context('spawn'), initializer=_initialize, initargs=(payload,))
     successful = False
+    if owner is not None:
+        owner.busy = True
     def fill():
         # Starting a process imports numerical runtimes before its initializer.
         # Keep both bootstrap protections around every bounded submission.
@@ -266,6 +268,7 @@ def compressed_tiles(oracle, operators, workers, payload, checkpoint):
         if owner is not None:
             if not successful:
                 owner.close()
+            owner.busy = False
         else:
             for process in list((getattr(executor, '_processes', None) or {}).values()):
                 if process.is_alive():

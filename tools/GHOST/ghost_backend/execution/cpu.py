@@ -83,6 +83,8 @@ class CPUState:
         self.abort_event = abort_event
         self.progress_callback = None
         self.batch_size = configured_batch_size()
+        self.n_rhs = self.batch_size
+        self.current_resources = {}
         self.cache = OrderedDict()
         self.tables = OrderedDict()
         self.table_bytes = 0
@@ -108,6 +110,7 @@ class CPUState:
             raise InterruptedError("Solve canceled by user.")
 
     def select(self, resources):
+        self.current_resources = dict(resources)
         self.active = resources["formulation"] in STREAMED_FORMULATIONS
 
 
@@ -159,6 +162,9 @@ def _run_with_kernel_tables(function, signature, args, kwargs):
     bound = signature.bind(*args, **kwargs)
     state = CPUState(bound.arguments.get('abort_event'), bound.arguments.get('progress_callback'),
                      kernel_only=True)
+    angles = bound.arguments.get('elevations_deg', bound.arguments.get('incidence_angles_deg'))
+    if angles is not None:
+        state.n_rhs = max(1, len(angles))
     state.reuse_operators = False
     with _STATE.override(state):
         try:
@@ -213,6 +219,9 @@ def experimental_monostatic(function):
         if _STATE.get() is not None:
             return function(*args, **kwargs)
         state = CPUState(bound.arguments.get("abort_event"), bound.arguments.get("progress_callback"))
+        angles = bound.arguments.get('elevations_deg', bound.arguments.get('incidence_angles_deg'))
+        if angles is not None:
+            state.n_rhs = max(1, len(angles))
         with _STATE.override(state):
             state.checkpoint()
             result = function(*args, **kwargs)

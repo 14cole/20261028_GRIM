@@ -1,0 +1,23 @@
+{
+  "local_links": 35,
+  "missing_links": [],
+  "source_files_checked": 27,
+  "changed_production_files": [],
+  "completed_solves": 10,
+  "all_quality_checks_pass": true,
+  "all_field_comparisons_finite": true,
+  "validation": {
+    "exit_code": 0,
+    "tests": 72,
+    "passed": 72,
+    "files": [
+      "tests/test_hmatrix_resource_bounds.py",
+      "tests/test_hmatrix_product_resources.py",
+      "tests/test_bounded_factor_workspaces.py",
+      "tests/test_solver_resource_recovery.py",
+      "tests/test_compressed_memory.py",
+      "tests/test_factorization_audit_resources.py"
+    ],
+    "note": "Earlier plain pytest invocations did not return cleanly and were interrupted; this run isolates plugins and disables the cache provider."
+  }
+}

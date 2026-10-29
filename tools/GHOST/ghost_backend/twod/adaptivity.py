@@ -195,6 +195,8 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                     retry_order=[mode for mode in admitted if mode != preferred],
                     reason='Retained request or batch preference after admission on the actual adaptive mesh.')
             selected_options['factorization'] = selection['selected']
+            selected_options['angle_batch_size'] = min(selected_options['angle_batch_size'],
+                selection.get('angle_batch_size', selected_options['angle_batch_size']))
         modes = [selected_options['factorization']] + (selection.get('retry_order', []) if selection else [])
         failures = []
         for index, mode in enumerate(modes):
@@ -223,6 +225,7 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                           coarsening=snapshot['_2d_hp_coarsening'],
                           nodes=metadata.get('linear_node_count'), seconds=time.perf_counter()-before,
                           backend=selected_options['factorization'], backend_selection=selection,
+                          angle_batch_size=selected_options['angle_batch_size'],
                           failed_backends=failures, marked_primitives=len(indicators.marked()),
                           indicators_computed=degree > 2))
         return result, indicators

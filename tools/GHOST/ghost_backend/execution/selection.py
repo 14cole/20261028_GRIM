@@ -90,12 +90,19 @@ def _select_backend(arguments, options, certified=False, checkpoint=None):
                        peak_gb=max(part['candidates'][mode]['peak_gb'] for part in parts),
                        **({'hmatrix': True} if any(part['candidates'][mode].get('hmatrix') for part in parts) else {}))
             for mode in result['candidates']}
-        with execution_scope(dict(normalized, factorization='dense')):
-            budget = s._solve_memory_limit_gb()
-        ranked = rank_candidates(result['candidates'], budget)
-        result.update(selected=ranked[0], retry_order=ranked[1:], admission_budget_gib=budget,
-                      dense_peak_gib=max(part['dense_peak_gib'] for part in parts),
-                      forecast_reused=all(part.get('forecast_reused', False) for part in parts))
+        batch = min(part.get('angle_batch_size', normalized['angle_batch_size']) for part in parts)
+        # Every frequency executes under one request scope. Reprice all records
+        # before ranking: different frequencies may have admitted different
+        # modes, so their unadjusted combined peaks need not admit either mode.
+        resources = [(r['resources'], dict(normalized, basis_order=r['polynomial_degree']))
+                     for r in result['meshes']]
+        _refresh_memory_forecast(result, resources, arguments,
+                                 dict(normalized, angle_batch_size=batch), checkpoint)
+        result['forecast_reused'] = all(part.get('forecast_reused', False) for part in parts)
+        if batch != normalized['angle_batch_size']:
+            result['resource_adjustment'] = dict(result.get('resource_adjustment', {}),
+                requested_angle_batch_size=normalized['angle_batch_size'],
+                angle_batch_size=result['angle_batch_size'], reason='Common admitted batch for all frequencies.')
         return result
     resource_records = []
     result = _forecast_backend(arguments, normalized, certified, checkpoint, resource_records)
@@ -104,7 +111,7 @@ def _select_backend(arguments, options, certified=False, checkpoint=None):
     return result
 
 
-def _refresh_memory_forecast(result, resource_records, arguments, options, checkpoint=None):
+def _refresh_memory_forecast(result, resource_records, arguments, options, checkpoint=None, recover=True):
     """Reprice saved geometry resources with current RAM, storage and CPU limits.
 
     Automatic compressed storage and dense residual storage depend on live
@@ -114,6 +121,7 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
     Only small geometry resource counts are cached; no meshes or operators.
     """
     from ghost_backend.twod import solver as s
+    result.pop('resource_adjustment', None)
     for candidate in result['candidates'].values():
         candidate['peak_gb'] = 0.
         candidate['cost'] = 0.
@@ -122,6 +130,7 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
     with execution_scope(dense):
         budget = s._solve_memory_limit_gb()
         for record, (resources, mesh_options) in zip(result['meshes'], resource_records):
+            mesh_options = dict(mesh_options, angle_batch_size=options['angle_batch_size'])
             if checkpoint is not None:
                 checkpoint()
             event = arguments.get('abort_event')
@@ -140,9 +149,44 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
             for mode in result['candidates']:
                 result['candidates'][mode]['cost'] += relative_cost(resources, n_rhs, mode, *threads)
             record.update(dense_peak_gib=peaks['dense'], backend_peak_gib=peaks)
-    ranked = rank_candidates(result['candidates'], budget)
+    result['admission_budget_gib'] = budget
+    result['angle_batch_size'] = options['angle_batch_size']
+    try:
+        ranked = rank_candidates(result['candidates'], budget)
+    except MemoryError:
+        if not recover:
+            raise
+        _recover_memory_forecast(result, resource_records, arguments, options, checkpoint)
+        return
     result.update(selected=ranked[0], retry_order=ranked[1:], admission_budget_gib=budget,
                   dense_peak_gib=max(record['dense_peak_gib'] for record in result['meshes']))
+
+
+def _recover_memory_forecast(result, resource_records, arguments, options, checkpoint=None):
+    """Retry only resource settings: every angle and numerical gate is retained."""
+    from ghost_backend.compressed.worker_pool import release_idle
+    released = release_idle()
+    requested = int(options['angle_batch_size'])
+    candidates = ([requested] if released else [])
+    batch = requested
+    while batch > 1:
+        batch = max(1, batch//2)
+        candidates.append(batch)
+    attempted = []
+    for batch in candidates:
+        try:
+            _refresh_memory_forecast(result, resource_records, arguments,
+                dict(options, angle_batch_size=batch), checkpoint, recover=False)
+        except MemoryError:
+            attempted.append(batch)
+            continue
+        result['resource_adjustment'] = dict(requested_angle_batch_size=requested,
+            angle_batch_size=batch, released_worker_allowance_bytes=released,
+            rejected_batch_sizes=attempted,
+            reason='Retain one factor and solve all angles in smaller admitted batches.')
+        return
+    # Return the final, most restrictive forecast's failure, not a timing claim.
+    rank_candidates(result['candidates'], result['admission_budget_gib'])
 
 
 def _forecast_backend(arguments, options, certified=False, checkpoint=None, resource_records=None):
@@ -226,15 +270,18 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                             formulation=resources['formulation'],backend_peak_gib=peaks, resources=dict(resources)))
     peak = max(r['dense_peak_gib'] for r in records)
     candidates={m:c for m,c in candidates.items() if m not in exclusions}
-    try:
-        ranked=rank_candidates(candidates,budget)
-    except MemoryError as exc:
-        kinds=', '.join(sorted({r['formulation'] for r in records}))
-        raise MemoryError('{} Formulations: {}.'.format(exc,kinds)) from exc
-    selected=ranked[0]
-    return dict(requested='adaptive', selected=selected, dense_peak_gib=peak,
+    result = dict(requested='adaptive', dense_peak_gib=peak,
         model=MODEL,objective='predicted_solve_completion',candidates=candidates,
-        retry_order=ranked[1:],exclusions=exclusions,optimality_guaranteed=False,
+        exclusions=exclusions,optimality_guaranteed=False,
         admission_budget_gib=budget, dense_margin_fraction=.2,
+        angle_batch_size=options['angle_batch_size'],
         reason='Lowest predicted cost among compatible backends admitted against available RAM.',
         meshes=records)
+    try:
+        ranked=rank_candidates(candidates,budget)
+    except MemoryError:
+        repricing = [(r['resources'], dict(options, basis_order=r['polynomial_degree'])) for r in records]
+        _recover_memory_forecast(result, repricing, arguments, options, checkpoint)
+    else:
+        result.update(selected=ranked[0], retry_order=ranked[1:])
+    return result

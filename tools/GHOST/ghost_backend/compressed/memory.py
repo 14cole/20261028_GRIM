@@ -10,6 +10,20 @@ SAMPLES_PER_BAND = 4
 SMALL_DENSE_DOFS = 8192
 
 
+def correction_workspace(dofs, batch):
+    """Additional live Krylov storage beyond the ordinary RHS/refinement buffers.
+
+    Restarted GMRES keeps its basis while operator/preconditioner products and
+    orthogonalization run. Count the maximum active column group, including
+    vector temporaries and the small per-column Hessenberg/rotation arrays.
+    """
+    from ghost_backend.compressed.factor import GMRES_BATCH, GMRES_RESTART
+    columns = min(max(1, int(batch)), GMRES_BATCH)
+    restart = GMRES_RESTART
+    return (16*int(dofs)*columns*(restart + 1 + 8)
+            + 16*columns*((restart + 1)*restart + 5*restart + 4))
+
+
 def inverse_storage(n):
     """Maximum retained numeric tree and construction live set, in bytes."""
     cache = {}
@@ -238,14 +252,16 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
 
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
     solve_work = 32*MIB + 16*12*d*batch
+    correction_work = correction_workspace(d, batch)
     phases = dict(assembly=min(storage_limit,operator)+assembly_work+overhead,
                   factorization=resident+inverse_growth+overhead,
-                  solve=resident+solve_work+PROJECTION_CACHE_BYTES+overhead)
+                  solve=resident+solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
-    return dict(model='compressed_phase_v1', peak_bytes=int(math.ceil(peak)),
+    return dict(model='compressed_phase_v2', peak_bytes=int(math.ceil(peak)),
         phase_bytes={k:int(v) for k,v in phases.items()}, operator_bytes=int(expected),
         operator_allowance_bytes=int(operator), inverse_ceiling_bytes=int(inverse),
         process_geometry_bytes=int(overhead), rhs_workspace_bytes=int(solve_work),
+        gmres_workspace_bytes=int(correction_work),
         projection_cache_bytes=PROJECTION_CACHE_BYTES,
         retained_worker_allowance_bytes=worker_bytes,
         retained_polynomial_operator_bytes=polynomial_bytes,
@@ -281,15 +297,17 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.)
     overhead = 128*MIB + 6144*n + count*4096 + moment_cache + worker_bytes + polynomial_bytes
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
     solve_work = 32*MIB + 16*12*d*batch
+    correction_work = correction_workspace(d, batch)
     phases = dict(assembly=resident + (resident//operator)*model['assembly_workspace_bytes'] + overhead,
                   factorization=resident + construction + overhead,
-                  solve=resident + inverse + solve_work + PROJECTION_CACHE_BYTES + overhead)
+                  solve=resident + inverse + solve_work + correction_work + PROJECTION_CACHE_BYTES + overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
-    return dict(model='compressed_hmatrix_v1', peak_bytes=int(math.ceil(peak)),
+    return dict(model='compressed_hmatrix_v2', peak_bytes=int(math.ceil(peak)),
         phase_bytes={k: int(v) for k, v in phases.items()}, operator_bytes=int(operator),
         operator_allowance_bytes=int(operator), resident_operator_bytes=int(resident),
         inverse_ceiling_bytes=int(inverse), inverse_construction_bytes=int(construction),
         process_geometry_bytes=int(overhead), rhs_workspace_bytes=int(solve_work),
+        gmres_workspace_bytes=int(correction_work),
         projection_cache_bytes=PROJECTION_CACHE_BYTES, moment_cache_bytes=moment_cache,
         retained_worker_allowance_bytes=int(worker_bytes),
         retained_polynomial_operator_bytes=int(polynomial_bytes),

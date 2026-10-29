@@ -1,0 +1,195 @@
+{
+  "runs": [
+    {
+      "name": "matched_upgrade_off",
+      "seconds": 57.115813499998694,
+      "status": "ok",
+      "peak_rss_gib": 1.4858169555664062,
+      "peak_private_gib": 1.8857803344726562,
+      "quality_passed": true,
+      "mesh_certified": true,
+      "final_unknowns": [
+        12972,
+        12972
+      ],
+      "gmres_columns": 301,
+      "upgrades": [
+        null,
+        null
+      ],
+      "max_rhs_columns": 256,
+      "execution_options": {
+        "version": 1,
+        "factorization": "compressed",
+        "mesh_strategy": "adaptive",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 8.0,
+        "temporary_directory": "",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "preflight_angle_batch_size": 256,
+      "resource_adjustment": null,
+      "max_sampled_backward_error": 7.414546610005619e-15,
+      "max_operator_sampled_row_error": 1.8841895042968608e-12
+    },
+    {
+      "name": "matched_upgrade_on",
+      "seconds": 44.60392200000024,
+      "status": "ok",
+      "peak_rss_gib": 1.5075950622558594,
+      "peak_private_gib": 1.9186172485351562,
+      "quality_passed": true,
+      "mesh_certified": true,
+      "final_unknowns": [
+        12972,
+        12972
+      ],
+      "gmres_columns": 0,
+      "upgrades": [
+        {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 151389704,
+          "construction_allowance_bytes": 454169112,
+          "available_bytes": 7451598848,
+          "accepted": true,
+          "new_inverse_bytes": 178906696,
+          "tolerance": 1e-10
+        },
+        {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 151966368,
+          "construction_allowance_bytes": 455899104,
+          "available_bytes": 7828893696,
+          "accepted": true,
+          "new_inverse_bytes": 179589736,
+          "tolerance": 1e-10
+        }
+      ],
+      "max_rhs_columns": 256,
+      "execution_options": {
+        "version": 1,
+        "factorization": "compressed",
+        "mesh_strategy": "adaptive",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 8.0,
+        "temporary_directory": "",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "preflight_angle_batch_size": 256,
+      "resource_adjustment": null,
+      "max_sampled_backward_error": 7.414511831762311e-15,
+      "max_operator_sampled_row_error": 1.8841895042968608e-12
+    },
+    {
+      "name": "automatic_small_batch",
+      "seconds": 43.78786089999994,
+      "status": "ok",
+      "peak_rss_gib": 1.3294868469238281,
+      "peak_private_gib": 1.7311515808105469,
+      "quality_passed": true,
+      "mesh_certified": true,
+      "final_unknowns": [
+        12972,
+        12972
+      ],
+      "gmres_columns": 0,
+      "upgrades": [
+        {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 151389704,
+          "construction_allowance_bytes": 454169112,
+          "available_bytes": 2191595110,
+          "accepted": true,
+          "new_inverse_bytes": 178906696,
+          "tolerance": 1e-10
+        },
+        {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 151966368,
+          "construction_allowance_bytes": 455899104,
+          "available_bytes": 2569582182,
+          "accepted": true,
+          "new_inverse_bytes": 179589736,
+          "tolerance": 1e-10
+        }
+      ],
+      "max_rhs_columns": 128,
+      "execution_options": {
+        "version": 1,
+        "factorization": "compressed",
+        "mesh_strategy": "adaptive",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 3.1,
+        "temporary_directory": "",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 128,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "preflight_angle_batch_size": 128,
+      "resource_adjustment": {
+        "requested_angle_batch_size": 256,
+        "angle_batch_size": 128,
+        "released_worker_allowance_bytes": 0,
+        "rejected_batch_sizes": [],
+        "reason": "Retain one factor and solve all angles in smaller admitted batches."
+      },
+      "max_sampled_backward_error": 7.414517982372598e-15,
+      "max_operator_sampled_row_error": 1.8841895042968608e-12
+    }
+  ],
+  "timing_scope": "One serial matched pair, four threads, no validation suite running. Early overlapping diagnostic runs excluded.",
+  "speedup_percent": 21.90617752472131,
+  "extra_peak_rss_mib": 22.30078125,
+  "constrained_peak_rss_reduction_mib": 182.3828125,
+  "upgraded_field_difference": {
+    "VV": {
+      "count": 361,
+      "normalized_max_difference": 9.585586428019704e-12
+    },
+    "HH": {
+      "count": 361,
+      "normalized_max_difference": 8.249549661792536e-12
+    }
+  },
+  "constrained_field_difference": {
+    "VV": {
+      "count": 361,
+      "normalized_max_difference": 3.2116758796797634e-16
+    },
+    "HH": {
+      "count": 361,
+      "normalized_max_difference": 5.630861848640897e-16
+    }
+  }
+}

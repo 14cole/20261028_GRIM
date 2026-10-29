@@ -103,6 +103,9 @@ class CompressedPathTests(unittest.TestCase):
         a=np.diag(np.linspace(1,4,16)).astype(complex)
         op=StreamedOperator(Exact(a),np.arange(16)[:,None],tile=8)
         factor=CompressedFactor(op)
+        # Keep the existing inverse but deny a replacement's construction
+        # reservation, so this still exercises the bounded GMRES fallback.
+        factor.budget=2*factor.factor.bytes
         with mock.patch.object(factor.factor,'apply',side_effect=lambda b,**kw:b.copy()):
             actual=factor.inverse(np.arange(1,17).astype(complex))
         np.testing.assert_allclose(actual,np.linalg.solve(a,np.arange(1,17)),rtol=1e-11,atol=1e-12)
@@ -129,6 +132,7 @@ class CompressedPathTests(unittest.TestCase):
         rng=np.random.RandomState(8);n=120
         a=np.eye(n)*3+(rng.randn(n,n)+1j*rng.randn(n,n))/np.sqrt(n)
         factor=CompressedFactor(StreamedOperator(Exact(a),np.arange(n)[:,None],tile=32))
+        factor.budget=2*factor.factor.bytes
         b=rng.randn(n,21)+1j*rng.randn(n,21)
         with mock.patch.object(factor.factor,'apply',side_effect=lambda v,**kw:v.copy()),                mock.patch.object(compressed_factor,'GMRES_BATCH',8):
             for trans,matrix in ((0,a),(1,a.T),(2,a.conj().T)):

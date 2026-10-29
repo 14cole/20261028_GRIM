@@ -9,6 +9,7 @@ _SESSION = ScopedValue('ghost_2d_assembly_session', default=None)
 class AssemblySession:
     def __init__(self):
         self.pending = None
+        self.n_rhs = 256
         self.reuses = 0
         self.abort_event = None
         self.compressed_partner = None
@@ -91,7 +92,11 @@ def shared_assembly(function):
         if current_session() is not None:
             return function(*args, **kwargs)
         session = AssemblySession()
-        session.abort_event = signature.bind(*args, **kwargs).arguments.get('abort_event')
+        arguments = signature.bind(*args, **kwargs).arguments
+        session.abort_event = arguments.get('abort_event')
+        angles = arguments.get('elevations_deg', arguments.get('incidence_angles_deg'))
+        if angles is not None:
+            session.n_rhs = max(1, len(angles))
         from ghost_backend.twod.polynomial_quadrature import moment_cache_scope
         from ghost_backend.twod.assembly.profiling import profile_scope
         with _SESSION.override(session), moment_cache_scope(), profile_scope() as profile:

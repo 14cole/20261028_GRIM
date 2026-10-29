@@ -103,14 +103,81 @@ def pairable(oracle):
     return not hmatrix.selected(oracle.n) or hmatrix.unsupported(oracle) is not None
 
 
+def admit_tile_fallback(oracle, xy, reason):
+    """Reprice a rejected hierarchical assembly before any tile workers start.
+
+    Sampling is bounded and covers each polarization independently. The tile
+    phase model includes its own metadata, process team and correction buffers;
+    a retained payload cap alone is not a full-process memory admission.
+    """
+    if not reason:
+        return None
+    from ghost_backend.compressed import memory
+    from ghost_backend.compressed.worker_pool import release_idle, retained_bytes
+    from ghost_backend.execution.cpu import current_state, configured_batch_size
+    from ghost_backend.twod.assembly.session import current_session
+    from ghost_backend.twod import solver
+    from ghost_backend.twod.operators import get_assembly_threads
+    checkpoint()
+    state, session = current_state(), current_session()
+    sources = list(getattr(oracle, 'oracles', [oracle]))
+    count = max(1, getattr(session, 'n_rhs', getattr(state, 'n_rhs', 256)))
+    batch = min(configured_batch_size(), count)
+    released = 0
+    plans = []
+    for source in sources:
+        checkpoint()
+        resident = solver._process_rss_bytes() + retained_bytes()
+        limit = solver._solve_memory_limit_gb(resident/memory.GIB)*memory.GIB
+        if resident + 64*memory.MIB > limit:
+            released += release_idle()
+            resident = solver._process_rss_bytes() + retained_bytes()
+            limit = solver._solve_memory_limit_gb(resident/memory.GIB)*memory.GIB
+            if resident + 64*memory.MIB > limit:
+                raise MemoryError('Tile fallback sampling does not fit the remaining solve RAM budget.')
+        resources = dict(getattr(state, 'current_resources', {}))
+        resources.pop('hmatrix_storage', None)
+        resources.setdefault('basis_width', 4)
+        if getattr(source, 'kind', '') == 'thin':
+            resources['formulation'] = 'thin_dielectric_layer'
+        tile = min(512, getattr(source, 'maximum_tile', 512))
+        resources['compressed_storage'] = memory.sample_operator(source, xy, tile, checkpoint)
+        def price():
+            plan = memory.forecast(len(source.mesh.nodes), source.n, count, batch,
+                get_assembly_threads(), storage_budget(), resources)
+            # Account for live residency not already covered by the structural
+            # geometry/worker allowance (for example retained native caches).
+            live = solver._process_rss_bytes() + retained_bytes()
+            extra = max(0, live-plan['process_geometry_bytes'])
+            plan['live_residency_adjustment_bytes'] = extra
+            plan['peak_bytes'] += extra
+            plan['phase_bytes'] = {key: value+extra for key,value in plan['phase_bytes'].items()}
+            return plan, solver._solve_memory_limit_gb(live/memory.GIB)*memory.GIB
+        plan, limit = price()
+        if plan['peak_bytes'] > limit:
+            released += release_idle()
+            plan, limit = price()
+        if plan['peak_bytes'] > limit:
+            raise MemoryError('Hierarchical-to-tile fallback needs {:.3f} GiB; {:.3f} GiB allowed. '
+                'Fallback workers and workspaces were not started.'.format(plan['peak_bytes']/memory.GIB, limit/memory.GIB))
+        plans.append(plan)
+    event = dict(method='tile_fallback_admission', reason=reason, angle_batch_size=batch,
+        released_worker_allowance_bytes=released, forecasts=plans)
+    if state is not None:
+        state.memory_estimates.append(event)
+    return event
+
+
 @timed_stage('compressed_assembly')
 def build(oracle,xy):
     from ghost_backend.compressed.operator import StreamedOperator
     operator,reason=hierarchical(oracle,xy)
     if operator is not None:return operator
+    admission=admit_tile_fallback(oracle,xy,reason)
     operator=StreamedOperator(oracle,xy,tile=min(512,getattr(oracle,'maximum_tile',512)),
         budget=storage_budget(),checkpoint=checkpoint)
     if reason is not None:operator.evidence['hmatrix_fallback']=reason
+    if admission is not None:operator.evidence['fallback_admission']=admission
     if hasattr(oracle,'cached'):oracle.cached=oracle.cached_columns=None
     return operator
 
@@ -142,6 +209,8 @@ def native(mesh,infos,pol,k0,kind,obs_order=8,src_order=8,layer=None):
         other=NativeOracle(mesh,None if kind=='thin' else partner[1],'TM',k0,kind,obs_order,src_order,layer)
         attach(other,mesh,None if kind=='thin' else partner[1],'TM',kind,k0,layer,obs_order,src_order)
         if other.n==oracle.n:
+            admit_tile_fallback(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n),
+                               getattr(oracle,'hmatrix_rejected',None))
             pair=build_pair(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n),
                 tile=min(512,getattr(oracle,'maximum_tile',512)),budget=storage_budget(),
                 checkpoint=checkpoint,spool_directory=temporary_directory())
@@ -319,6 +388,8 @@ def _regional(mesh,infos,pol,obs_order=8,src_order=8):
         for source,values,label in zip(oracle.oracles,(infos,partner[1]),('TE','TM')):
             attach(source,mesh,values,label,'multi_region',obs_order=obs_order,src_order=src_order)
         xy=mr.dof_coordinates(mesh,oracle.oracles[0].layout)
+        admit_tile_fallback(oracle,xy,next((getattr(o,'hmatrix_rejected',None) for o in oracle.oracles
+                                          if getattr(o,'hmatrix_rejected',None)),None))
         pair=build_pair(oracle,xy,tile=512,budget=storage_budget(),checkpoint=checkpoint,spool_directory=temporary_directory())
         pair[0].reserved_partner_bytes=pair[1].bytes
         key=system_key(mesh,partner[1],'compressed_region',obs_order,src_order)
@@ -330,9 +401,11 @@ def _regional(mesh,infos,pol,obs_order=8,src_order=8):
     xy=mr.dof_coordinates(mesh,oracle.layout)
     operator,reason=hierarchical(oracle,xy)
     if operator is not None:return operator,oracle.layout
+    admission=admit_tile_fallback(oracle,xy,reason)
     attach(oracle,mesh,infos,pol,'multi_region',obs_order=obs_order,src_order=src_order)
     operator=StreamedOperator(oracle,xy,tile=512,budget=storage_budget(),checkpoint=checkpoint)
     if reason is not None:operator.evidence['hmatrix_fallback']=reason
+    if admission is not None:operator.evidence['fallback_admission']=admission
     return operator,oracle.layout
 
 

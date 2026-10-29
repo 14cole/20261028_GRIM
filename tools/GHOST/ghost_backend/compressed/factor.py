@@ -23,6 +23,7 @@ REFINEMENT_BACKWARD_ERROR=3e-15
 # needs nine or more, for about 30% more storage; 1e-6 is kept for when it does not fit.
 PRECONDITIONER_TOLERANCE=1e-8
 COMPACT_PRECONDITIONER_TOLERANCE=1e-6
+UPGRADED_PRECONDITIONER_TOLERANCE=1e-10
 
 
 class CompressedFactor:
@@ -93,6 +94,54 @@ class CompressedFactor:
         denominator=np.maximum(norm*np.max(abs(x),axis=0)+np.max(abs(b),axis=0),1e-300)
         return np.max(abs(residual),axis=0)/denominator,denominator
 
+    def _upgrade_preconditioner(self):
+        """One admitted attempt to avoid repeated expensive corrections.
+
+        Keep the old inverse usable until the replacement succeeds. Its bytes
+        are removed from the replacement's payload budget, and live process
+        headroom must also cover construction. A failed optional upgrade never
+        discards the working inverse or relaxes the final acceptance checks.
+        """
+        if (getattr(self, '_upgrade_attempted', False)
+                or self.tolerance <= UPGRADED_PRECONDITIONER_TOLERANCE):
+            return False
+        self._upgrade_attempted = True
+        old = self.factor
+        old_bytes = int(getattr(old, 'bytes', 0))
+        if old_bytes <= 0:
+            return False
+        from ghost_backend.twod.solver import _process_rss_bytes, _solve_memory_limit_gb
+        from ghost_backend.compressed.worker_pool import retained_bytes
+        resident = _process_rss_bytes() + retained_bytes()
+        headroom = _solve_memory_limit_gb(resident/1024**3)*1024**3 - resident
+        construction = max(64*1024**2, 3*old_bytes)
+        event = dict(trigger='more_than_three_refinements', old_inverse_bytes=old_bytes,
+                     construction_allowance_bytes=construction, available_bytes=max(0, int(headroom)),
+                     accepted=False)
+        self.event['preconditioner_upgrade'] = event
+        if self.budget < 3*old_bytes or headroom < construction:
+            event['reason'] = 'replacement and working inverse do not fit the remaining reservation'
+            return False
+        old_tolerance, budget = self.tolerance, self.budget
+        failed = False
+        self.budget = budget - old_bytes
+        try:
+            self._build(UPGRADED_PRECONDITIONER_TOLERANCE)
+        except (MemoryError, HierarchicalRejected, np.linalg.LinAlgError, RuntimeWarning) as exc:
+            event['reason'] = '{}: {}'.format(type(exc).__name__, exc)
+            failed = True
+        except BaseException:
+            self.factor, self.tolerance = old, old_tolerance
+            raise
+        finally:
+            self.budget = budget
+        if failed:
+            self.factor, self.tolerance = old, old_tolerance
+            return False
+        event.update(accepted=True, new_inverse_bytes=int(self.factor.bytes),
+                     tolerance=self.tolerance)
+        return True
+
     def _refine(self,b,trans):
         x=self.factor.apply(b,solve=True,trans=trans)
         previous=np.inf
@@ -103,6 +152,11 @@ class CompressedFactor:
             if not np.any(bad):
                 self.event['max_refinements']=max(self.event['max_refinements'],step)
                 return x,-residual
+            if step >= 3 and self._upgrade_preconditioner():
+                # Restart against the same operator/RHS; the attempted flag
+                # bounds this restart even if the stronger inverse stalls.
+                del x, residual
+                return self._refine(b, trans)
             worst=float(np.max(errors))
             if step==9 or not np.isfinite(worst) or step>1 and worst>previous*1.2:break
             previous=worst;x[:,bad]+=self.factor.apply(residual[:,bad],solve=True,trans=trans)

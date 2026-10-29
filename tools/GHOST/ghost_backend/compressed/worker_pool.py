@@ -38,6 +38,7 @@ class WorkerPool:
         self.payload_bytes = 0
         self.path = None
         self.closed = False
+        self.busy = False
 
     def prepare(self, payload):
         if self.path is not None:
@@ -92,6 +93,19 @@ def retained_bytes():
     resources = run_resources()
     pool = resources.get('compressed_tile_workers') if resources else None
     return pool.reserved_bytes if pool is not None and not pool.closed else 0
+
+
+def release_idle():
+    """Release a run's idle tile team before refusing subsequent work for RAM."""
+    from ghost_backend.twod.preparation import run_resources
+    resources = run_resources()
+    pool = resources.get('compressed_tile_workers') if resources else None
+    if pool is None or pool.closed or pool.busy:
+        return 0
+    released = pool.reserved_bytes
+    pool.close()
+    resources.pop('compressed_tile_workers', None)
+    return released
 
 
 def forecast_bytes(dofs, threads, groups=None):
