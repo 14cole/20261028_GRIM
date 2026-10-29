@@ -1,0 +1,40 @@
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Locally compiled native kernels and build intermediates
+*.dll
+*.so
+*.dylib
+*.pyd
+*.o
+*.obj
+*.egg-info/
+build/
+dist/
+
+# Local secrets, editor state, and transient files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+.vscode/
+.idea/
+*.lock
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Generated solver output beside geometry inputs; validation fixtures are retained
+/tools/GHOST/ghost_backend/geometry/geometries/*_rcs_*.grim
+
+# Audit test scratch and machine-local timing history; measured evidence is retained
+/tools/GHOST/ghost_backend/Codex_audit/implementation_20261028/validation_tmp_*/
+/tools/GHOST/ghost_backend/Codex_audit/implementation_20261028/benchmark_12ft/timing_cache/

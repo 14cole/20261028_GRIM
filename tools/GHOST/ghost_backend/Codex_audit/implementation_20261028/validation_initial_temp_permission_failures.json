@@ -1,0 +1,436 @@
+[
+  {
+    "test": "tests/test_run_controls.py::test_defaults_alias_and_adaptive_order",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002030999999078631
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_local_monostatic-ghost_backend.runs.local_twod_driver]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.026466899999832094
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_hpc_monostatic-ghost_backend.hpc.twod_driver]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.02251350000005914
+  },
+  {
+    "test": "tests/test_run_controls.py::test_saved_worker_profile_and_pool_context_override_launch_defaults",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.05869960000018182
+  },
+  {
+    "test": "tests/test_run_controls.py::test_widget_manual_order_and_legacy_alias",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0023806999997759704
+  },
+  {
+    "test": "tests/test_run_controls.py::test_widget_preserves_saved_diagnostic_and_manual_opt_out",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007021000001259381
+  },
+  {
+    "test": "tests/test_run_controls.py::test_gui_request_policy_visibility_busy_and_mode_isolation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.07506160000002637
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[local-dense-global-True]",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 1.624213100000361,
+    "failure": "tests\\test_run_controls.py:194: in test_script_overrides_reach_real_export\n    summary = run([])\n              ^^^^^^^\ntests\\test_run_controls.py:191: in run\n    assert result.returncode == 0, result.stdout + result.stderr\nE   AssertionError: Traceback (most recent call last):\nE       File \"C:\\Users\\14col\\AppData\\Local\\Packages\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\AC\\Temp\\pytest-of-14col\\pytest-0\\test_script_overrides_reach_re0\\driver.py\", line 60, in <module>\nE         run(globals(), __file__)\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\runs\\local_twod_driver.py\", line 730, in run\nE         main()\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\runs\\execution.py\", line 42, in call\nE         return function(*args, **kwargs)\nE                ^^^^^^^^^^^^^^^^^^^^^^^^^\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\runs\\local_twod_driver.py\", line 485, in main\nE         _freeze_runtime(run_dir)\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\runs\\local_twod_driver.py\", line 431, in _freeze_runtime\nE         runtime_parent = snapshot_backend_runtime(_backend_root(), run_dir)\nE                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\hpc\\runtime_snapshot.py\", line 86, in snapshot_backend_runtime\nE         os.rename(str(staging), str(destination))\nE     PermissionError: [WinError 5] Access is denied: 'C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\\\AC\\\\Temp\\\\pytest-of-14col\\\\pytest-0\\\\test_script_overrides_reach_re0\\\\runs\\\\run_20261028_183847_457208\\\\.runtime-staging-tng76u5h' -> 'C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\\\AC\\\\Temp\\\\pytest-of-14col\\\\pytest-0\\\\test_script_overrides_reach_re0\\\\runs\\\\run_20261028_183847_457208\\\\runtime'\nE     \nE   assert 1 == 0\nE    +  where 1 = CompletedProcess(args=['C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\python.exe', 'C:\\\\Users\\\\14col\\...\\\\pytest-of-14col\\\\\\\\pytest-0\\\\\\\\test_script_overrides_reach_re0\\\\\\\\runs\\\\\\\\run_20261028_183847_457208\\\\\\\\runtime\\'\\n').returncode"
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[hpc-compressed-local-False]",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 1.7622142000000167,
+    "failure": "tests\\test_run_controls.py:194: in test_script_overrides_reach_real_export\n    summary = run([])\n              ^^^^^^^\ntests\\test_run_controls.py:191: in run\n    assert result.returncode == 0, result.stdout + result.stderr\nE   AssertionError: Traceback (most recent call last):\nE       File \"C:\\Users\\14col\\AppData\\Local\\Packages\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\AC\\Temp\\pytest-of-14col\\pytest-0\\test_script_overrides_reach_re1\\driver.py\", line 129, in <module>\nE         run(globals(), __file__)\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\hpc\\twod_driver.py\", line 1246, in run\nE         main()\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\hpc\\twod_driver.py\", line 1232, in main\nE         submit()\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\runs\\execution.py\", line 42, in call\nE         return function(*args, **kwargs)\nE                ^^^^^^^^^^^^^^^^^^^^^^^^^\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\hpc\\twod_driver.py\", line 672, in submit\nE         runtime_parent = snapshot_backend_runtime(_backend_root(), run_dir)\nE                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       File \"C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\hpc\\runtime_snapshot.py\", line 86, in snapshot_backend_runtime\nE         os.rename(str(staging), str(destination))\nE     PermissionError: [WinError 5] Access is denied: 'C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\\\AC\\\\Temp\\\\pytest-of-14col\\\\pytest-0\\\\test_script_overrides_reach_re1\\\\runs\\\\run_20261028_183849_494488\\\\.runtime-staging-6nzwz4qb' -> 'C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{5b52ca39-4cb7-4916-bee7-ef3c1eb99803}\\\\AC\\\\Temp\\\\pytest-of-14col\\\\pytest-0\\\\test_script_overrides_reach_re1\\\\runs\\\\run_20261028_183849_494488\\\\runtime'\nE     \nE   assert 1 == 0\nE    +  where 1 = CompletedProcess(args=['C:\\\\Users\\\\14col\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\python.exe', 'C:\\\\Users\\\\14col\\...\\\\pytest-of-14col\\\\\\\\pytest-0\\\\\\\\test_script_overrides_reach_re1\\\\\\\\runs\\\\\\\\run_20261028_183849_494488\\\\\\\\runtime\\'\\n').returncode"
+  },
+  {
+    "test": "tests/test_factorization_audit_resources.py::test_hmatrix_forecast_keeps_previous_mesh_workers_and_polynomial_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.005872700000054465
+  },
+  {
+    "test": "tests/test_factorization_audit_resources.py::test_storage_refusal_preserves_operator_and_reports_required_bytes",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00158350000037899
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_explicit_large_kernel_tiles_are_accounted_for",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008286299999781477
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_invalid_sample_rejects_before_unchecked_lapack",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.03702690000000075
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_inverse_ceiling_covers_real_tree_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.3012541000002784
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_safety_multiplier_only_changes_uncertain_operator_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00022880000005898182
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_samples_match_known_compressed_storage_without_full_matrix_queries",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.16261720000011337
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_sampling_cancellation_and_metadata_cache_have_no_retained_operators",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004118000001653854
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_scheduler_exposes_disk_capacity_and_ram_separately",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.021135299999968993
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_single_angle_uses_one_rhs_column_and_sweep_batch_is_bounded",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00021450000031109084
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_solver_admission_does_not_reject_only_because_payload_cap_is_large",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.24523950000002515
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_thin_strip_tile_metadata_is_not_mistaken_for_disk_payload",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001729999999042775
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_unused_capacity_and_spooled_payload_are_not_resident_ram",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002710999997361796
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[1-8-4-1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006462000001192791
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[2-8-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011296899999706511
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[8-2-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011280100000021775
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[auto-8-4-4]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011366000000180065
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[auto-2-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0115536999996948
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_result_window_is_bounded_and_consumption_precedes_replacement",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011510299999827112
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_admission_failure_stops_running_sibling_and_joins_before_returning",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01383860000032655
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_external_cancellation_joins_workers_without_publishing_results",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.012250400000084483
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_failed_ledger_and_operator_reservations_do_not_change_accounting",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00043799999957627733
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_paired_far_result_is_charged_atomically",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.03193409999994401
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_local_error_tails_accumulate_repeated_queries_for_paired_oracles",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004862999999204476
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[512]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.012944900000093185
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[1024]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.017711699999836128
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[2048]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01885100000026796
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_far_results_are_admitted_before_whole_wave_completes_and_cap_stays_valid",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04279339999993681
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_block_products_bound_each_gather_and_match_full_complex_matrix[C]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.019026599999961036
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_block_products_bound_each_gather_and_match_full_complex_matrix[F]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.005683899999894493
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_sampled_compression_does_not_gather_full_block_and_retains_accuracy",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.013373400000091351
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_sampled_compression_uses_partial_final_batch[293-135-2048-32]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04966449999983524
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_sampled_compression_uses_partial_final_batch[293-146-2048-32]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.05027360000030967
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_sampled_compression_uses_partial_final_batch[160-45-50-40]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.006006699999943521
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_sampled_compression_still_rejects_insufficient_rank_capacity",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01263939999989816
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_workspace_inverse_matches_old_recursion_without_stacking_full_rhs[0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008160299999872223
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_workspace_inverse_matches_old_recursion_without_stacking_full_rhs[1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.006150600000182749
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_workspace_inverse_matches_old_recursion_without_stacking_full_rhs[2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00496900000007372
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_gmres_basis_is_contiguous_and_never_conjugated_as_a_tensor[0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.006226699999842822
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_gmres_basis_is_contiguous_and_never_conjugated_as_a_tensor[1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0035663999997268547
+  },
+  {
+    "test": "tests/test_bounded_factor_workspaces.py::test_gmres_basis_is_contiguous_and_never_conjugated_as_a_tensor[2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0036038999996890198
+  },
+  {
+    "test": "tests/test_factor_crossover_scope.py::test_scope_installs_choices_and_restores_after_failure",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008215000002564921
+  },
+  {
+    "test": "tests/test_factor_crossover_scope.py::test_explicit_threshold_remains_authoritative",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0012734999995700491
+  },
+  {
+    "test": "tests/test_factor_crossover_scope.py::test_factor_work_records_constructor_and_multiple_checked_batches",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.003907400000116468
+  },
+  {
+    "test": "tests/test_compressed_projection_storage.py::test_parallel_projection_matches_serial_payload_bounds_and_adjoint",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.11203549999981988
+  },
+  {
+    "test": "tests/test_compressed_projection_storage.py::test_disk_retention_releases_payload_and_restores_original_identity_and_bounds",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.056593599999814614
+  },
+  {
+    "test": "tests/test_compressed_projection_storage.py::test_corrupt_retention_discards_partial_restoration_and_removes_file",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.03492180000012013
+  },
+  {
+    "test": "tests/test_compressed_projection_storage.py::test_cancelled_retention_does_not_destroy_source_operator",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.05224920000000566
+  },
+  {
+    "test": "tests/test_compressed_projection_storage.py::test_projection_cancellation_closes_destination_spool",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04442410000001473
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[rectangle]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.30394810000007055
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[reentrant]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.21672179999995933
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[acute]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.20104619999983697
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[gap]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.3387822000004235
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[dielectric]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.2530197999999473
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[mixed]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.2752831999996488
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[sheet]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.19306710000000749
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_rank_accounts_for_speed_and_memory",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001999999999497959
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_planner_forecasts_actual_polygon_mesh_without_coefficients",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04909529999986262
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_auto_numerical_retry_preserves_accuracy_and_explicit_compressed_does_not_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.41198960000019724
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_cancellation_is_never_retried",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.11793489999990925
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_hpc_compressed_choice_and_retry_stay_inside_the_unit_memory_reservation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008642000002510031
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_execution_reservation_survives_nested_profiles_and_restores",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00023969999983819434
+  },
+  {
+    "test": "tests/test_automatic_backend.py::test_automatic_compressed_rejection_uses_an_admitted_dense_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.2245892000000822
+  }
+]

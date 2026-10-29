@@ -1,0 +1,723 @@
+{
+  "original_chord_inches": 11.8717,
+  "target_chord_inches": 144.0,
+  "scale": 12.129686565529788,
+  "kind": "current-code resource forecast; not a timed solve or accuracy certification",
+  "angles_assumed": 361,
+  "threads": 4,
+  "ram_budget_gib": 8.0,
+  "forecasts": [
+    {
+      "geometry": "original",
+      "frequency_ghz": 1.0,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 4.902762365471999,
+          "peak_gb": 0.570091724395752
+        },
+        "compressed": {
+          "cost": 4.911953805855999,
+          "peak_gb": 0.57853764295578
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 1962,
+          "unknowns": 2996,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.570091724395752,
+            "compressed": 0.57853764295578
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 1962,
+          "unknowns": 2996,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.570091724395752,
+            "compressed": 0.57853764295578
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 2996,
+          "nodes": 1968,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 2996,
+          "nodes": 1968,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 1.9012094999998226
+    },
+    {
+      "geometry": "original",
+      "frequency_ghz": 10.0,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 102.02446779274652,
+          "peak_gb": 4.0625990983098745
+        },
+        "compressed": {
+          "cost": 136.985921340876,
+          "peak_gb": 3.871300756931305,
+          "hmatrix": true
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 2,
+          "panels": 2472,
+          "unknowns": 7526,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.447976231575012,
+            "compressed": 3.871300756931305
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 2,
+          "panels": 2472,
+          "unknowns": 7526,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.447976231575012,
+            "compressed": 3.871300756931305
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 3,
+          "panels": 2472,
+          "unknowns": 11284,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 4.0625990983098745,
+            "compressed": 2.456811934709549
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 3,
+          "panels": 2472,
+          "unknowns": 11284,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 4.0625990983098745,
+            "compressed": 2.456811934709549
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 7526,
+          "nodes": 4950,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 7526,
+          "nodes": 4950,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 11284,
+          "nodes": 7422,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 11284,
+          "nodes": 7422,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.4175986999998713
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 0.25,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 39.06950541866666,
+          "peak_gb": 2.93925678730011
+        },
+        "compressed": {
+          "cost": 34.2133999448,
+          "peak_gb": 1.2692447900772095,
+          "hmatrix": true
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 5864,
+          "unknowns": 8910,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.93925678730011,
+            "compressed": 1.2692447900772095
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 5864,
+          "unknowns": 8910,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.93925678730011,
+            "compressed": 1.2692447900772095
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 8910,
+          "nodes": 5870,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 8910,
+          "nodes": 5870,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.4045083999999406
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 0.25,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 13.074022534826668,
+          "peak_gb": 1.0651898384094238
+        },
+        "compressed": {
+          "cost": 13.097282297514667,
+          "peak_gb": 1.0229917168617249
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 2,
+          "panels": 864,
+          "unknowns": 2646,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.745219349861145,
+            "compressed": 0.7671529054641724
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 2,
+          "panels": 864,
+          "unknowns": 2646,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.745219349861145,
+            "compressed": 0.7671529054641724
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 3,
+          "panels": 864,
+          "unknowns": 3964,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.0651898384094238,
+            "compressed": 1.0229917168617249
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 3,
+          "panels": 864,
+          "unknowns": 3964,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.0651898384094238,
+            "compressed": 1.0229917168617249
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 2646,
+          "nodes": 1734,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 2646,
+          "nodes": 1734,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 3964,
+          "nodes": 2598,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 3964,
+          "nodes": 2598,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.13492310000015095
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 0.5,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "selected": "compressed",
+      "candidates": {
+        "dense": {
+          "cost": 147.63413479198405,
+          "peak_gb": 8.47091140691191
+        },
+        "compressed": {
+          "cost": 104.8757505869,
+          "peak_gb": 2.747229188680649,
+          "hmatrix": true
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 11512,
+          "unknowns": 17472,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 8.47091140691191,
+            "compressed": 2.747229188680649
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 11512,
+          "unknowns": 17472,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 8.47091140691191,
+            "compressed": 2.747229188680649
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 17472,
+          "nodes": 11518,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 17472,
+          "nodes": 11518,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.8419269000000895
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 0.5,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 44.4136245528,
+          "peak_gb": 2.360924243927002
+        },
+        "compressed": {
+          "cost": 44.493519805792005,
+          "peak_gb": 3.8126301765441895
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 2,
+          "panels": 1612,
+          "unknowns": 4902,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.3559733629226685,
+            "compressed": 3.119079291820526
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 2,
+          "panels": 1612,
+          "unknowns": 4902,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.3559733629226685,
+            "compressed": 3.119079291820526
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 3,
+          "panels": 1612,
+          "unknowns": 7348,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.360924243927002,
+            "compressed": 3.8126301765441895
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 3,
+          "panels": 1612,
+          "unknowns": 7348,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.360924243927002,
+            "compressed": 3.8126301765441895
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 4902,
+          "nodes": 3230,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 4902,
+          "nodes": 3230,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 7348,
+          "nodes": 4842,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 7348,
+          "nodes": 4842,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.25036679999993794
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 1.0,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "selected": "compressed",
+      "candidates": {
+        "dense": {
+          "cost": 576.496423262084,
+          "peak_gb": 31.002332305535674
+        },
+        "compressed": {
+          "cost": 412.8431960639,
+          "peak_gb": 5.314258448779583,
+          "hmatrix": true
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 22740,
+          "unknowns": 34496,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 31.002332305535674,
+            "compressed": 5.314258448779583
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 22740,
+          "unknowns": 34496,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 31.002332305535674,
+            "compressed": 5.314258448779583
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 34496,
+          "nodes": 22746,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 34496,
+          "nodes": 22746,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 1.7017097000000376
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 1.0,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "selected": "dense",
+      "candidates": {
+        "dense": {
+          "cost": 150.0159569056692,
+          "peak_gb": 5.598463871516287
+        },
+        "compressed": {
+          "cost": 260.7942639438,
+          "peak_gb": 3.0606231838464737,
+          "hmatrix": true
+        }
+      },
+      "meshes": [
+        {
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 2,
+          "panels": 2990,
+          "unknowns": 9082,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 3.289357304573059,
+            "compressed": 2.110043078660965
+          }
+        },
+        {
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 2,
+          "panels": 2990,
+          "unknowns": 9082,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 3.289357304573059,
+            "compressed": 2.110043078660965
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 3,
+          "panels": 2990,
+          "unknowns": 13618,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 5.598463871516287,
+            "compressed": 3.0606231838464737
+          }
+        },
+        {
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 3,
+          "panels": 2990,
+          "unknowns": 13618,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 5.598463871516287,
+            "compressed": 3.0606231838464737
+          }
+        }
+      ],
+      "resource_counts": [
+        {
+          "system_dofs": 9082,
+          "nodes": 5986,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 9082,
+          "nodes": 5986,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 13618,
+          "nodes": 8976,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 13618,
+          "nodes": 8976,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 0.5604043999999249
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 3.0,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "error": "No compatible backend fits the 8.00 GiB solve budget (dense 265.19 GiB, compressed 35.05 GiB). Formulations: multi_region.",
+      "resource_counts": [
+        {
+          "system_dofs": 102896,
+          "nodes": 67864,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 102896,
+          "nodes": 67864,
+          "basis_order": 1,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 5.4646929000000455
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 3.0,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "error": "No compatible backend fits the 8.00 GiB solve budget (dense 40.18 GiB, compressed 13.64 GiB). Formulations: multi_region.",
+      "resource_counts": [
+        {
+          "system_dofs": 26202,
+          "nodes": 17278,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 26202,
+          "nodes": 17278,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 39298,
+          "nodes": 25914,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 39298,
+          "nodes": 25914,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 1.6227991000000657
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 10.0,
+      "mesh_strategy": "local",
+      "certified_candidates": false,
+      "error": "Discretization exceeds the configured panel limit.",
+      "resource_counts": [],
+      "forecast_seconds": 0.5241472999998678
+    },
+    {
+      "geometry": "12ft",
+      "frequency_ghz": 10.0,
+      "mesh_strategy": "adaptive",
+      "certified_candidates": true,
+      "error": "No compatible backend fits the 8.00 GiB solve budget (dense 415.08 GiB, compressed 132.28 GiB). Formulations: multi_region.",
+      "resource_counts": [
+        {
+          "system_dofs": 85962,
+          "nodes": 56694,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 85962,
+          "nodes": 56694,
+          "basis_order": 2,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 128938,
+          "nodes": 85038,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        },
+        {
+          "system_dofs": 128938,
+          "nodes": 85038,
+          "basis_order": 3,
+          "formulation": "multi_region"
+        }
+      ],
+      "forecast_seconds": 5.857185500000014
+    }
+  ]
+}
