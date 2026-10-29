@@ -1,0 +1,776 @@
+[
+  {
+    "test": "tests/test_memory_followups.py::test_duplicate_process_credit_cannot_expand_cohort_capacity",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.003081499999098014
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_threaded_reservations_and_cancellation_release_capacity",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.018651399994269013
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reservation_never_samples_another_requests_workers",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007504000022890978
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_unpriced_request_is_marked_shared_before_allocations",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0011089000036008656
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_public_options_can_be_applied_after_scope_entry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00043960000039078295
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reload_does_not_charge_existing_gui_baseline_again",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005530999987968244
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reload_does_not_compare_private_commit_to_physical_headroom",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00046999999904073775
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reload_still_enforces_each_independent_constraint[live_physical_ram]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00047990000166464597
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reload_still_enforces_each_independent_constraint[live_commit_headroom]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005344000019249506
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_reload_still_enforces_each_independent_constraint[stable_reservation]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000501599999552127
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_phase_credits_only_the_matching_resident_baseline",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005366000041249208
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_phase_prices_measured_payload_above_the_original_forecast",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00046329999895533547
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_workspace_allowance_has_no_sixty_percent_floor[2-8]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007696999964537099
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_workspace_allowance_has_no_sixty_percent_floor[6-4]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005233000047155656
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_workspace_allowance_has_no_sixty_percent_floor[10-0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004345999986981042
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_workspace_allowance_has_no_sixty_percent_floor[12-0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00037209999572951347
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_speculative_mesh_forecast_does_not_change_active_allowance",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.012330999998084735
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_hierarchical_workspace_remains_valid_when_cap_enables_pairing",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00026310000248486176
+  },
+  {
+    "test": "tests/test_memory_followups.py::test_explicit_payload_cap_remains_explicit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004926000037812628
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_explicit_large_kernel_tiles_are_accounted_for",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000777699999161996
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_invalid_sample_rejects_before_unchecked_lapack",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.001888300001155585
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_inverse_ceiling_covers_real_tree_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.10939119999966351
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_safety_multiplier_only_changes_uncertain_operator_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002445999998599291
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_samples_match_known_compressed_storage_without_full_matrix_queries",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.15702239999518497
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_sampling_cancellation_and_metadata_cache_have_no_retained_operators",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004487999976845458
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_scheduler_exposes_disk_capacity_and_ram_separately",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01763809999829391
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_single_angle_uses_one_rhs_column_and_sweep_batch_is_bounded",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00022610000451095402
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_solver_admission_does_not_reject_only_because_payload_cap_is_large",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.21474200000375276
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_thin_strip_tile_metadata_is_not_mistaken_for_disk_payload",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00019530000281520188
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_unused_capacity_and_spooled_payload_are_not_resident_ram",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00020960000256309286
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_cgroup_limit_without_readable_usage_uses_own_resident_memory",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00034050000249408185
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_error_states_required_available_and_safe_limit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002210000020568259
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_explicit_limit_remains_available_for_confirmed_allocations",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0011206999988644384
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_native_fallback_is_used_when_psutil_is_unavailable",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004351999959908426
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_nonfinite_explicit_limit_cannot_disable_safety_gate",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008096999954432249
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_slurm_mem_per_cpu_defaults_to_one_cpu_per_task",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0023295999999390915
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_tightest_host_scheduler_and_cgroup_headroom_wins",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005313999936333857
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_unknown_memory_has_no_historical_32_gb_floor",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007699000052525662
+  },
+  {
+    "test": "tests/test_memory_safety.py::AvailableMemoryDetectionTests::test_windows_global_memory_status_fallback_reports_available_physical",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002927999958046712
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_bor_uses_process_limit_instead_of_fixed_32_gb_gate",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010211000000708736
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_combined_streaming_plan_counts_every_rectangular_mapping",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002294000005349517
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_combined_streaming_plan_rejects_below_total_minimum",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00019520000205375254
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_dense_peak_estimate_multiplies_actual_worker_concurrency",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00010230000043520704
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_dielectric_combines_operator_tables_with_dense_peak",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.005973100000119302
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_dielectric_dense_gate_runs_before_operator_preparation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.007509700000809971
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_direct_bor_combines_resident_tables_with_dense_solve_peak",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.002089200002956204
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_junction_projection_estimate_counts_axis_categories",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008038000014494173
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_estimator_counts_four_contracted_efie_blocks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001286999977310188
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_mode_block_plan_matches_runtime_alignment_and_peak",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00030189999961294234
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_mode_block_rejects_impossible_retained_budget",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003132999991066754
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_rejects_budget_below_one_tile_floor",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00016599999798927456
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_runtime_uses_budget_capped_outer_workers",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.004932099996949546
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_sampling_workers_respect_one_column_floor",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00013760000001639128
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_tile_shape_caps_rows_to_real_element_count",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00018369999452261254
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_streaming_tile_shape_honors_conservative_live_set_budget",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001418999963789247
+  },
+  {
+    "test": "tests/test_memory_safety.py::BorMemoryGateTests::test_total_peak_adds_the_same_scheduler_margin_once",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001320000010309741
+  },
+  {
+    "test": "tests/test_run_controls.py::test_defaults_alias_and_adaptive_order",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003356000015628524
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_local_monostatic-ghost_backend.runs.local_twod_driver]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01411519999965094
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_hpc_monostatic-ghost_backend.hpc.twod_driver]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.035751499999605585
+  },
+  {
+    "test": "tests/test_run_controls.py::test_saved_worker_profile_and_pool_context_override_launch_defaults",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.015650199995434377
+  },
+  {
+    "test": "tests/test_run_controls.py::test_widget_manual_order_and_legacy_alias",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.003144599999359343
+  },
+  {
+    "test": "tests/test_run_controls.py::test_widget_preserves_saved_diagnostic_and_manual_opt_out",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0011073999994550832
+  },
+  {
+    "test": "tests/test_run_controls.py::test_gui_request_policy_visibility_busy_and_mode_isolation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.08372870000312105
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[local-dense-global-True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 4.838763399995514
+  },
+  {
+    "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[hpc-compressed-local-False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 5.934098799996718
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_coarse_construction_rejection_releases_work_before_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00763580000057118
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_coarse_inverse_rebuild_releases_tree_and_preserves_exact_gate",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008912599994800985
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compressed_and_full_complex_fields_all_boundary_families",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 3.762332400001469
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_compression_settings_are_part_of_runtime_provenance",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0020979999972041696
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_direct_scatter_matches_independent_operator_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 31.324753599998076
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_hierarchical_input_validation_does_not_trigger_rebuild",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008961999992607161
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_hierarchical_inverse_and_adjoint_match_dense",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04822209999838378
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_memory_estimate_preserves_auto_fallback_and_strict_savings",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00944069999968633
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_rejected_hierarchy_is_freed_before_dense_fallback",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.4438799999988987
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_strict_hierarchy_rejects_without_full_lu",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00159939999866765
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_sweep_rank_reconstruction_and_qr_failure_fallback",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008622200002719183
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_uncompressible_block_and_cancellation_stop_construction",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0012002000003121793
+  },
+  {
+    "test": "tests/test_solver_compression.py::SolverCompressionTests::test_zero_contrast_layer_skips_operators_and_factorization",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.014670099997601938
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[1-8-4-1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009541000035824254
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[2-8-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01717569999891566
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[8-2-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.013510700002370868
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[auto-8-4-4]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.015042700004414655
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_runner_obeys_explicit_auto_and_scheduler_thread_caps[auto-2-4-2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.015791300000273623
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_result_window_is_bounded_and_consumption_precedes_replacement",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.015878699996392243
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_admission_failure_stops_running_sibling_and_joins_before_returning",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.017188000005262438
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_external_cancellation_joins_workers_without_publishing_results",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.016185000000405125
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_failed_ledger_and_operator_reservations_do_not_change_accounting",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005980000059935264
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_paired_far_result_is_charged_atomically",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.040668000001460314
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_local_error_tails_accumulate_repeated_queries_for_paired_oracles",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007063000011839904
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[512]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.018276299997523893
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[1024]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.016801999998278916
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_near_tail_task_storage_is_local_and_bounded[2048]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.029514399997424334
+  },
+  {
+    "test": "tests/test_hmatrix_resource_bounds.py::test_far_results_are_admitted_before_whole_wave_completes_and_cap_stays_valid",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.061530999999376945
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_checks_handle_fortran_strides_and_nonfinite_indices_in_blocks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.009203600006003398
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_equal_wavenumber_row_union_matches_global_storage_system",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.8001422000015737
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_failed_mixed_factor_is_released_before_double_fallback",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009696999986772425
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_full_global_arrays_are_not_allocated_and_operators_die_before_lu",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.212721900003089
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_memory_gate_uses_phase_maximum_and_same_batch_limit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008747200001380406
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_mixed_adjoint_refinement_matches_double_without_matrix_conjugate",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0014014000043971464
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_plan_counts_compact_allocations_including_equal_k_and_weighted_operators",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 6.658604399999604
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_rectangular_outputs_match_full_coefficients_with_tiles_and_masks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_rectangular_outputs_match_full_coefficients_with_tiles_and_masks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_rectangular_outputs_match_full_coefficients_with_tiles_and_masks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_rectangular_outputs_match_full_coefficients_with_tiles_and_masks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_rectangular_outputs_match_full_coefficients_with_tiles_and_masks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.3913455000001704
+  },
+  {
+    "test": "tests/test_compact_multi_region.py::CompactMultiRegionTests::test_small_angle_batches_keep_all_angles_and_one_factorization",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.22796050000033574
+  }
+]

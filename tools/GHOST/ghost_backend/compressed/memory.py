@@ -221,7 +221,7 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
     model = resources.get('hmatrix_storage')
     from ghost_backend.compressed import hmatrix
     if model is not None and hmatrix.selected(d):
-        return hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb)
+        return hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb, storage_limit)
     sample = resources.get('compressed_storage')
     if sample is None:
         size = min(storage_limit, 16*d*d+96*d)
@@ -265,8 +265,12 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
     phases = dict(assembly=min(storage_limit,operator)+assembly_work+overhead,
                   factorization=resident+inverse_growth+overhead,
                   solve=resident+solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
+    nonstorage = dict(assembly=assembly_work+overhead,
+        factorization=inverse_growth+overhead,
+        solve=solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
     return dict(model='compressed_phase_v2', peak_bytes=int(math.ceil(peak)),
+        nonstorage_phase_bytes=nonstorage, process_baseline_bytes=128*MIB,
         phase_bytes={k:int(v) for k,v in phases.items()}, operator_bytes=int(expected),
         operator_allowance_bytes=int(operator), inverse_ceiling_bytes=int(inverse),
         process_geometry_bytes=int(overhead), rhs_workspace_bytes=int(solve_work),
@@ -283,7 +287,7 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
         safety=float(safety), floor_gb=float(floor_gb), forecast_is_hard_limit=False)
 
 
-def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.):
+def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0., storage_limit=None):
     """Phases of a hierarchical (compressed.hmatrix) solve; both polarizations' operators resident.
 
     The TE assembly builds the TM operator in the same traversal and keeps it
@@ -291,7 +295,7 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.)
     each polarization is assembled alone. The inverse is the model's.
     """
     from ghost_backend.compressed.runtime import hmatrix_storage_budget
-    limit = hmatrix_storage_budget()
+    limit = hmatrix_storage_budget() if storage_limit is None else storage_limit
     operator, inverse, construction = model['operator_bytes'], model['inverse_bytes'], model['inverse_peak_bytes']
     resident = 2*operator if 2*operator + inverse <= limit else operator
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
@@ -310,8 +314,14 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.)
     phases = dict(assembly=resident + (resident//operator)*model['assembly_workspace_bytes'] + overhead,
                   factorization=resident + construction + overhead,
                   solve=resident + inverse + solve_work + correction_work + PROJECTION_CACHE_BYTES + overhead)
+    # Reserve paired assembly workspace even when this particular cap admits
+    # only one operator. Enlarging the cap must not invalidate its own forecast.
+    nonstorage = dict(assembly=2*model['assembly_workspace_bytes']+overhead,
+        factorization=max(0, construction-inverse)+overhead,
+        solve=solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
     return dict(model='compressed_hmatrix_v2', peak_bytes=int(math.ceil(peak)),
+        nonstorage_phase_bytes=nonstorage, process_baseline_bytes=128*MIB,
         medium_wavenumbers=model.get('medium_wavenumbers', []),
         medium_count=model.get('medium_count'), medium_list_truncated=model.get('medium_list_truncated', False),
         attenuation_calibrated=False,

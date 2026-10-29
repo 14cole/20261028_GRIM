@@ -212,7 +212,7 @@ def solve_thin_layer_fields(mesh, k0, incidence_angles_deg, polarization,
         resources['compressed_storage'] = geometry_storage(mesh, None, pol,
             'thin_dielectric_layer', k0, (eps,mu,d), n if B==0 else 2*n)
     required = rcs._estimate_memory_gb(n, False, system_dofs=n if B == 0 else 2*n,
-        n_rhs=len(angles), dense_resources=resources)
+        n_rhs=len(angles), dense_resources=resources, activate_memory_plan=True)
     evidence = {
         'model': 'first_order_isotropic_transmitting_layer',
         'normal_polarization_terms': True,

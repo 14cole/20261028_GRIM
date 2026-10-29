@@ -1,0 +1,4761 @@
+{
+  "polynomial_degree": 3,
+  "linear_node_count": 15849,
+  "mesh_strategy_used": "adaptive",
+  "source_path": "",
+  "segment_count": 1,
+  "panel_count": 5283,
+  "panel_count_min": 5283,
+  "panel_count_max": 5283,
+  "polarizations": [
+    "VV",
+    "HH"
+  ],
+  "polarization_internal": [
+    "TE",
+    "TM"
+  ],
+  "polarization_mapping": {
+    "VV": "TE",
+    "HH": "TM"
+  },
+  "formulation": "co-polarized 2-D BIE/MoM",
+  "formulations": {
+    "VV": "2D closed Robin combined-potential formulation",
+    "HH": "2D closed Robin combined-potential formulation"
+  },
+  "solver_method": "compressed_experimental_cpu",
+  "solver_method_requested": "auto",
+  "residual_norm_max": 1.805040226466485e-13,
+  "constraint_residual_norm_max": 0.0,
+  "condition_est_max": 81189.93315326072,
+  "condition_est_computed": true,
+  "warnings": [],
+  "information": [
+    "6 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+  ],
+  "warning_count": 0,
+  "preflight": {
+    "segment_count": 1,
+    "primitive_count": 8,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+  },
+  "quality_gate": {
+    "passed": true,
+    "channels": {
+      "VV": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.0543878449812946e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 40199.42971780752,
+          "condition_est_gate_value": 40199.42971780752,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "HH": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.805040226466485e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 81189.93315326072,
+          "condition_est_gate_value": 81189.93315326072,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      }
+    },
+    "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+  },
+  "channel_metadata": {
+    "VV": {
+      "source_path": "",
+      "segment_count": 1,
+      "panel_count": 5283,
+      "panel_count_min": 5283,
+      "panel_count_max": 5283,
+      "panel_length_min_m": 3.7807577024651096e-06,
+      "panel_length_max_m": 0.005531946413289024,
+      "mesh_reference_ghz": 15.0,
+      "mesh_reference_ghz_min": 15.0,
+      "mesh_reference_ghz_max": 15.0,
+      "mesh_wavelength_m": 0.019986163866666667,
+      "mesh_wavelength_min_m": 0.019986163866666667,
+      "mesh_wavelength_max_m": 0.019986163866666667,
+      "mesh_max_refractive_index": 1.0,
+      "mesh_material_flags": [],
+      "surface_wave_sampling": [],
+      "polarization_internal": "TE",
+      "polarization_user": "TE",
+      "polarization_aliases": [
+        "TE"
+      ],
+      "polarization_export": "TE",
+      "polarization_export_alias": "VV",
+      "rcs_normalization_mode": "physical",
+      "formulation": "2D closed Robin combined-potential formulation",
+      "solver_method": "compressed_cpu",
+      "solver_method_requested": "experimental_cpu",
+      "residual_norm_max": 1.0543878449812946e-13,
+      "residual_norm_mean": 1.0543878449812942e-13,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "constraint_residual_norm_mean": 0.0,
+      "constraint_residual_applicable": false,
+      "condition_est_max": 40199.42971780752,
+      "condition_est_mean": 40199.42971780752,
+      "condition_est_frequency_scaled_max": 40199.42971780752,
+      "condition_est_computed": true,
+      "condition_estimator": "equilibrated_1norm_compressed_refined_inverse",
+      "thin_layer": [],
+      "acute_corners": {
+        "pairs": 6,
+        "min_angle_deg": 90.0,
+        "self_check": 2.0120583949308997e-14
+      },
+      "warnings": [],
+      "information": [
+        "6 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+      ],
+      "warning_count": 0,
+      "math_backend_real_bessel": "scipy-special",
+      "math_backend_complex_hankel": "scipy-special",
+      "reused_matrix_solve_count": 361,
+      "shared_operator_cache_enabled": true,
+      "shared_operator_cache_hits": 0,
+      "shared_operator_cache_stores": 0,
+      "parallel_elevation_solve_count": 0,
+      "max_parallel_workers_used": 1,
+      "mesh_reference_frequency_used": false,
+      "cfie_alpha": 0.0,
+      "junction_nodes": 0,
+      "junction_constraints": 0,
+      "junction_constraint_candidates": 0,
+      "junction_constraints_applied": false,
+      "junction_constraints_applied_count": 0,
+      "junction_treatment": "none",
+      "junction_panels": 0,
+      "junction_trace_constraints": 0,
+      "junction_flux_constraints": 0,
+      "junction_orientation_conflict_nodes": 0,
+      "linear_node_count": 15849,
+      "linear_element_count": 5283,
+      "shared_node_count": 5283,
+      "split_node_count": 0,
+      "split_boundary_primitive_count": 5283,
+      "multi_signature_node_count": 0,
+      "preflight": {
+        "segment_count": 1,
+        "primitive_count": 8,
+        "dangling_nodes": 0,
+        "high_degree_nodes": 0,
+        "warning_count": 0,
+        "warnings": []
+      },
+      "cpu_factorization_requested": "compressed",
+      "cpu_rhs_compression_requested": "auto",
+      "hierarchical_factors": [],
+      "compressed_factors": [
+        {
+          "unknowns": 15849,
+          "factorizations": 1,
+          "rhs_batches": 2,
+          "max_rhs_columns": 256,
+          "max_backward_error": 2.965436115420995e-15,
+          "max_relative_residual": 1.0543878449812946e-13,
+          "compressed": {
+            "operator": "hmatrix",
+            "unknowns": 15849,
+            "leaf": 128,
+            "eta": 1.0,
+            "tolerance": 1e-12,
+            "retained_bytes": 567435064,
+            "storage_budget": 2966465696,
+            "near_bytes": 224779224,
+            "far_bytes": 308767992,
+            "dense_equivalent_bytes": 4019052816,
+            "near_rows": 128,
+            "interaction_lists": 226,
+            "dense_interaction_lists": 19,
+            "max_rank": 87,
+            "mean_rank": 30.68141592920354,
+            "geometry_queries": 1409,
+            "geometry_coefficients": 54170647,
+            "shared_query_targets": 2,
+            "near_coefficients": 13531155,
+            "coefficient_fraction": 0.21565537744353944,
+            "sampled_rows": 128,
+            "sampled_row_error": 1.3144963990864237e-12,
+            "sample_leaf_count": 128,
+            "sampled_leaf_count": 128,
+            "sampled_leaf_fraction": 1.0,
+            "sample_coverage_limited": false,
+            "sample_row_storage_bytes": 32458752,
+            "sample_row_storage_limit_bytes": 268435456,
+            "operator_error_limit": 1e-11,
+            "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+          },
+          "preconditioners": [
+            {
+              "bytes": 295938216,
+              "max_rank": 148,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 1828200064,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ],
+          "gmres_columns": 0,
+          "max_refinements": 3,
+          "refinement_steps": 15,
+          "max_probe_backward_error": 2.011006539886315e-15,
+          "max_probe_sampled_backward_error": 1.3469096524394183e-14,
+          "sampled_rows": 128,
+          "sweep_compression": {
+            "requested": "auto",
+            "method": "incremental_pivoted_qr",
+            "input_columns": 361,
+            "solved_columns": 361,
+            "accepted_batches": 0,
+            "fallback_batches": 1,
+            "fallback_columns": 0,
+            "max_rhs_error": 0.0,
+            "max_reconstructed_backward_error": 0.0,
+            "retained_basis_columns": 0,
+            "reused_basis_batches": 0,
+            "hint_probe": true,
+            "sampled_basis_attempts": 1,
+            "auto_suspended": "fallback",
+            "hint_recorded": true,
+            "suspended_batches": 1
+          },
+          "max_sampled_backward_error": 9.29920863870276e-14
+        }
+      ],
+      "sweep_compression": [
+        {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        }
+      ],
+      "dense_condition_methods": [
+        "equilibrated_1norm_compressed_refined_inverse"
+      ],
+      "linear_backend": "cpu_hmatrix",
+      "dense_gpu_solve_count": 0,
+      "dense_cpu_solve_count": 2,
+      "dense_factorization_count": 1,
+      "dense_rhs_batch_count": 2,
+      "dense_rhs_column_count": 361,
+      "dense_max_rhs_columns": 256,
+      "dense_mixed_precision_solve_count": 0,
+      "dense_fallback_reasons": [],
+      "dense_gpu_fallback_reasons": [],
+      "dense_gpu_devices": [],
+      "dense_largest_system": 15849,
+      "amplitude_version": 2,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.0543878449812946e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 40199.42971780752,
+          "condition_est_gate_value": 40199.42971780752,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "linear_algebra_execution": [
+        {
+          "matrix_size": 15849,
+          "policy": 4,
+          "requested_threads": 4,
+          "pools": [
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            },
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            }
+          ]
+        }
+      ],
+      "execution_options": {
+        "version": 1,
+        "factorization": "compressed",
+        "mesh_strategy": "local",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 6.0,
+        "temporary_directory": "C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\Codex_audit\\memory_followups_20261029\\scratch",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "polynomial_degree": 3,
+      "execution_wall_seconds": 82.14383510000334,
+      "execution_threads": {
+        "assembly": 4,
+        "blas": 4
+      },
+      "mesh_strategy_used": "adaptive",
+      "mesh_convergence": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.0009803616453207204,
+        "max_abs_db": 0.004093179910249489,
+        "mean_db": 0.00023263523755781334,
+        "median_abs_db": 0.0004143782043719568,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 13,
+        "rms_db_unfloored": 0.024024961265583098,
+        "max_abs_db_unfloored": 0.20292688404727954,
+        "complex_rms_normalized": 8.354921469739378e-06,
+        "complex_max_normalized": 2.8681353640490296e-05,
+        "complex_reference_peak_amplitude": 2300.158167812598,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.158167812598
+        },
+        "phase_sample_count": 13,
+        "phase_rms_deg": 0.000798731776766823,
+        "phase_max_deg": 0.002028122971560636,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2144204286147548e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 37594.807844618255,
+            "condition_est_gate_value": 37594.807844618255,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.0543878449812946e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 40199.42971780752,
+            "condition_est_gate_value": 40199.42971780752,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 4.636747809933646e-05,
+          "complex_rms_normalized": 1.3506916135329038e-05,
+          "max_abs_db": 0.006617206155054151,
+          "rms_db": 0.0015848937148721302,
+          "phase_max_deg": 0.0032787485780950546,
+          "phase_rms_deg": 0.001291263258725562
+        },
+        "estimated_published_complex_max_normalized": 4.636747809933646e-05,
+        "estimated_published_complex_rms_normalized": 1.3506916135329038e-05,
+        "estimated_published_max_abs_db": 0.006617206155054151,
+        "estimated_published_rms_db": 0.0015848937148721302
+      },
+      "mesh_convergence_certified": true,
+      "certified_entry_point": true,
+      "published_mesh": "fine"
+    },
+    "HH": {
+      "source_path": "",
+      "segment_count": 1,
+      "panel_count": 5283,
+      "panel_count_min": 5283,
+      "panel_count_max": 5283,
+      "panel_length_min_m": 3.7807577024651096e-06,
+      "panel_length_max_m": 0.005531946413289024,
+      "mesh_reference_ghz": 15.0,
+      "mesh_reference_ghz_min": 15.0,
+      "mesh_reference_ghz_max": 15.0,
+      "mesh_wavelength_m": 0.019986163866666667,
+      "mesh_wavelength_min_m": 0.019986163866666667,
+      "mesh_wavelength_max_m": 0.019986163866666667,
+      "mesh_max_refractive_index": 1.0,
+      "mesh_material_flags": [],
+      "surface_wave_sampling": [],
+      "polarization_internal": "TM",
+      "polarization_user": "TM",
+      "polarization_aliases": [
+        "TM"
+      ],
+      "polarization_export": "TM",
+      "polarization_export_alias": "HH",
+      "rcs_normalization_mode": "physical",
+      "formulation": "2D closed Robin combined-potential formulation",
+      "solver_method": "compressed_cpu",
+      "solver_method_requested": "experimental_cpu",
+      "residual_norm_max": 1.805040226466485e-13,
+      "residual_norm_mean": 1.805040226466485e-13,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "constraint_residual_norm_mean": 0.0,
+      "constraint_residual_applicable": false,
+      "condition_est_max": 81189.93315326072,
+      "condition_est_mean": 81189.93315326072,
+      "condition_est_frequency_scaled_max": 81189.93315326072,
+      "condition_est_computed": true,
+      "condition_estimator": "equilibrated_1norm_compressed_refined_inverse",
+      "thin_layer": [],
+      "acute_corners": {
+        "pairs": 6,
+        "min_angle_deg": 90.0,
+        "self_check": 2.0120583949308997e-14
+      },
+      "warnings": [],
+      "information": [
+        "6 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+      ],
+      "warning_count": 0,
+      "math_backend_real_bessel": "scipy-special",
+      "math_backend_complex_hankel": "scipy-special",
+      "reused_matrix_solve_count": 361,
+      "shared_operator_cache_enabled": true,
+      "shared_operator_cache_hits": 0,
+      "shared_operator_cache_stores": 0,
+      "parallel_elevation_solve_count": 0,
+      "max_parallel_workers_used": 1,
+      "mesh_reference_frequency_used": false,
+      "cfie_alpha": 0.0,
+      "junction_nodes": 0,
+      "junction_constraints": 0,
+      "junction_constraint_candidates": 0,
+      "junction_constraints_applied": false,
+      "junction_constraints_applied_count": 0,
+      "junction_treatment": "none",
+      "junction_panels": 0,
+      "junction_trace_constraints": 0,
+      "junction_flux_constraints": 0,
+      "junction_orientation_conflict_nodes": 0,
+      "linear_node_count": 15849,
+      "linear_element_count": 5283,
+      "shared_node_count": 5283,
+      "split_node_count": 0,
+      "split_boundary_primitive_count": 5283,
+      "multi_signature_node_count": 0,
+      "preflight": {
+        "segment_count": 1,
+        "primitive_count": 8,
+        "dangling_nodes": 0,
+        "high_degree_nodes": 0,
+        "warning_count": 0,
+        "warnings": []
+      },
+      "cpu_factorization_requested": "compressed",
+      "cpu_rhs_compression_requested": "auto",
+      "hierarchical_factors": [],
+      "compressed_factors": [
+        {
+          "unknowns": 15849,
+          "factorizations": 1,
+          "rhs_batches": 2,
+          "max_rhs_columns": 256,
+          "max_backward_error": 2.982570489276123e-15,
+          "max_relative_residual": 1.805040226466485e-13,
+          "compressed": {
+            "operator": "hmatrix",
+            "unknowns": 15849,
+            "leaf": 128,
+            "eta": 1.0,
+            "tolerance": 1e-12,
+            "retained_bytes": 570830568,
+            "storage_budget": 2966465696,
+            "near_bytes": 224779224,
+            "far_bytes": 312163496,
+            "dense_equivalent_bytes": 4019052816,
+            "near_rows": 128,
+            "interaction_lists": 226,
+            "dense_interaction_lists": 19,
+            "max_rank": 89,
+            "mean_rank": 31.053097345132745,
+            "geometry_queries": 1409,
+            "geometry_coefficients": 54170647,
+            "shared_query_targets": 2,
+            "near_coefficients": 13531155,
+            "coefficient_fraction": 0.21565537744353944,
+            "sampled_rows": 128,
+            "sampled_row_error": 1.4536819216230915e-12,
+            "sample_leaf_count": 128,
+            "sampled_leaf_count": 128,
+            "sampled_leaf_fraction": 1.0,
+            "sample_coverage_limited": false,
+            "sample_row_storage_bytes": 32458752,
+            "sample_row_storage_limit_bytes": 268435456,
+            "operator_error_limit": 1e-11,
+            "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+          },
+          "preconditioners": [
+            {
+              "bytes": 287597304,
+              "max_rank": 143,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 2395635128,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ],
+          "gmres_columns": 0,
+          "max_refinements": 3,
+          "refinement_steps": 14,
+          "max_probe_backward_error": 1.5696977602646411e-16,
+          "max_probe_sampled_backward_error": 2.952576282252363e-14,
+          "sampled_rows": 128,
+          "sweep_compression": {
+            "requested": "auto",
+            "method": "incremental_pivoted_qr",
+            "input_columns": 361,
+            "solved_columns": 361,
+            "accepted_batches": 0,
+            "fallback_batches": 0,
+            "fallback_columns": 0,
+            "max_rhs_error": 0.0,
+            "max_reconstructed_backward_error": 0.0,
+            "retained_basis_columns": 0,
+            "reused_basis_batches": 0,
+            "hint_probe": false,
+            "auto_suspended": "hint",
+            "suspended_batches": 2
+          },
+          "max_sampled_backward_error": 8.47433768971926e-14
+        }
+      ],
+      "sweep_compression": [
+        {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        }
+      ],
+      "dense_condition_methods": [
+        "equilibrated_1norm_compressed_refined_inverse"
+      ],
+      "linear_backend": "cpu_hmatrix",
+      "dense_gpu_solve_count": 0,
+      "dense_cpu_solve_count": 2,
+      "dense_factorization_count": 1,
+      "dense_rhs_batch_count": 2,
+      "dense_rhs_column_count": 361,
+      "dense_max_rhs_columns": 256,
+      "dense_mixed_precision_solve_count": 0,
+      "dense_fallback_reasons": [],
+      "dense_gpu_fallback_reasons": [],
+      "dense_gpu_devices": [],
+      "dense_largest_system": 15849,
+      "amplitude_version": 2,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.805040226466485e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 81189.93315326072,
+          "condition_est_gate_value": 81189.93315326072,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "linear_algebra_execution": [
+        {
+          "matrix_size": 15849,
+          "policy": 4,
+          "requested_threads": 4,
+          "pools": [
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            },
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            }
+          ]
+        }
+      ],
+      "execution_options": {
+        "version": 1,
+        "factorization": "compressed",
+        "mesh_strategy": "local",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 6.0,
+        "temporary_directory": "C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\Codex_audit\\memory_followups_20261029\\scratch",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "polynomial_degree": 3,
+      "execution_wall_seconds": 12.496513599995524,
+      "execution_threads": {
+        "assembly": 4,
+        "blas": 4
+      },
+      "mesh_strategy_used": "adaptive",
+      "mesh_convergence": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.00010865506633868092,
+        "max_abs_db": 0.0003816149280311265,
+        "mean_db": 5.981671213502532e-05,
+        "median_abs_db": 3.386556882034597e-05,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 15,
+        "rms_db_unfloored": 0.0008401841785088031,
+        "max_abs_db_unfloored": 0.0037435155510081586,
+        "complex_rms_normalized": 6.389023743349678e-07,
+        "complex_max_normalized": 1.9555552947158028e-06,
+        "complex_reference_peak_amplitude": 2299.66529911501,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2299.66529911501
+        },
+        "phase_sample_count": 15,
+        "phase_rms_deg": 0.00011483315512100228,
+        "phase_max_deg": 0.00027714256309024004,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2966633158165694e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 98062.97352980309,
+            "condition_est_gate_value": 98062.97352980309,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.805040226466485e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 81189.93315326072,
+            "condition_est_gate_value": 81189.93315326072,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 3.161432630981862e-06,
+          "complex_rms_normalized": 1.0328763495935289e-06,
+          "max_abs_db": 0.0006169346830577498,
+          "rms_db": 0.00017565633310027463,
+          "phase_max_deg": 0.0004480402803004177,
+          "phase_rms_deg": 0.00018564409029962924
+        },
+        "estimated_published_complex_max_normalized": 3.161432630981862e-06,
+        "estimated_published_complex_rms_normalized": 1.0328763495935289e-06,
+        "estimated_published_max_abs_db": 0.0006169346830577498,
+        "estimated_published_rms_db": 0.00017565633310027463
+      },
+      "mesh_convergence_certified": true,
+      "certified_entry_point": true,
+      "published_mesh": "fine"
+    }
+  },
+  "cpu_factorization_requested": "compressed",
+  "compressed_factors": [
+    {
+      "unknowns": 15849,
+      "factorizations": 1,
+      "rhs_batches": 2,
+      "max_rhs_columns": 256,
+      "max_backward_error": 2.965436115420995e-15,
+      "max_relative_residual": 1.0543878449812946e-13,
+      "compressed": {
+        "operator": "hmatrix",
+        "unknowns": 15849,
+        "leaf": 128,
+        "eta": 1.0,
+        "tolerance": 1e-12,
+        "retained_bytes": 567435064,
+        "storage_budget": 2966465696,
+        "near_bytes": 224779224,
+        "far_bytes": 308767992,
+        "dense_equivalent_bytes": 4019052816,
+        "near_rows": 128,
+        "interaction_lists": 226,
+        "dense_interaction_lists": 19,
+        "max_rank": 87,
+        "mean_rank": 30.68141592920354,
+        "geometry_queries": 1409,
+        "geometry_coefficients": 54170647,
+        "shared_query_targets": 2,
+        "near_coefficients": 13531155,
+        "coefficient_fraction": 0.21565537744353944,
+        "sampled_rows": 128,
+        "sampled_row_error": 1.3144963990864237e-12,
+        "sample_leaf_count": 128,
+        "sampled_leaf_count": 128,
+        "sampled_leaf_fraction": 1.0,
+        "sample_coverage_limited": false,
+        "sample_row_storage_bytes": 32458752,
+        "sample_row_storage_limit_bytes": 268435456,
+        "operator_error_limit": 1e-11,
+        "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+      },
+      "preconditioners": [
+        {
+          "bytes": 295938216,
+          "max_rank": 148,
+          "leaves": 128,
+          "accesses": 1962447,
+          "oracle_calls": 128,
+          "max_query_entries": 15376,
+          "relative_inf_error_bound": null,
+          "relative_one_error_bound": null,
+          "storage_budget": 1828200064,
+          "inverse_only": true,
+          "inverse_builder": "hmatrix_range_sampling",
+          "range_blocks": 254,
+          "max_inverse_rank": 2048,
+          "inverse_blas_threads": 1
+        }
+      ],
+      "gmres_columns": 0,
+      "max_refinements": 3,
+      "refinement_steps": 15,
+      "max_probe_backward_error": 2.011006539886315e-15,
+      "max_probe_sampled_backward_error": 1.3469096524394183e-14,
+      "sampled_rows": 128,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": true,
+        "sampled_basis_attempts": 1,
+        "auto_suspended": "fallback",
+        "hint_recorded": true,
+        "suspended_batches": 1
+      },
+      "max_sampled_backward_error": 9.29920863870276e-14
+    },
+    {
+      "unknowns": 15849,
+      "factorizations": 1,
+      "rhs_batches": 2,
+      "max_rhs_columns": 256,
+      "max_backward_error": 2.982570489276123e-15,
+      "max_relative_residual": 1.805040226466485e-13,
+      "compressed": {
+        "operator": "hmatrix",
+        "unknowns": 15849,
+        "leaf": 128,
+        "eta": 1.0,
+        "tolerance": 1e-12,
+        "retained_bytes": 570830568,
+        "storage_budget": 2966465696,
+        "near_bytes": 224779224,
+        "far_bytes": 312163496,
+        "dense_equivalent_bytes": 4019052816,
+        "near_rows": 128,
+        "interaction_lists": 226,
+        "dense_interaction_lists": 19,
+        "max_rank": 89,
+        "mean_rank": 31.053097345132745,
+        "geometry_queries": 1409,
+        "geometry_coefficients": 54170647,
+        "shared_query_targets": 2,
+        "near_coefficients": 13531155,
+        "coefficient_fraction": 0.21565537744353944,
+        "sampled_rows": 128,
+        "sampled_row_error": 1.4536819216230915e-12,
+        "sample_leaf_count": 128,
+        "sampled_leaf_count": 128,
+        "sampled_leaf_fraction": 1.0,
+        "sample_coverage_limited": false,
+        "sample_row_storage_bytes": 32458752,
+        "sample_row_storage_limit_bytes": 268435456,
+        "operator_error_limit": 1e-11,
+        "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+      },
+      "preconditioners": [
+        {
+          "bytes": 287597304,
+          "max_rank": 143,
+          "leaves": 128,
+          "accesses": 1962447,
+          "oracle_calls": 128,
+          "max_query_entries": 15376,
+          "relative_inf_error_bound": null,
+          "relative_one_error_bound": null,
+          "storage_budget": 2395635128,
+          "inverse_only": true,
+          "inverse_builder": "hmatrix_range_sampling",
+          "range_blocks": 254,
+          "max_inverse_rank": 2048,
+          "inverse_blas_threads": 1
+        }
+      ],
+      "gmres_columns": 0,
+      "max_refinements": 3,
+      "refinement_steps": 14,
+      "max_probe_backward_error": 1.5696977602646411e-16,
+      "max_probe_sampled_backward_error": 2.952576282252363e-14,
+      "sampled_rows": 128,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": false,
+        "auto_suspended": "hint",
+        "suspended_batches": 2
+      },
+      "max_sampled_backward_error": 8.47433768971926e-14
+    }
+  ],
+  "cpu_rhs_compression_requested": "auto",
+  "hierarchical_factors": {
+    "VV": [],
+    "HH": []
+  },
+  "sweep_compression": {
+    "VV": [
+      {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": true,
+        "sampled_basis_attempts": 1,
+        "auto_suspended": "fallback",
+        "hint_recorded": true,
+        "suspended_batches": 1
+      }
+    ],
+    "HH": [
+      {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": false,
+        "auto_suspended": "hint",
+        "suspended_batches": 2
+      }
+    ]
+  },
+  "dense_factorization_count": 4,
+  "dense_rhs_batch_count": 8,
+  "dense_rhs_column_count": 1444,
+  "dense_max_rhs_columns": 256,
+  "thin_layer": {
+    "VV": [],
+    "HH": []
+  },
+  "surface_wave_sampling": [],
+  "amplitude_version": 2,
+  "co_solve_shared_discretization": true,
+  "shared_operator_cache_enabled": true,
+  "shared_operator_cache_hits": 0,
+  "shared_operator_cache_stores": 0,
+  "linear_backend": "cpu_hmatrix",
+  "dense_gpu_solve_count": 0,
+  "dense_cpu_solve_count": 4,
+  "dense_gpu_fallback_reasons": [],
+  "dense_gpu_devices": [],
+  "dense_largest_system": 15849,
+  "mesh_convergence_certified": true,
+  "certified_entry_point": true,
+  "survey_mode": false,
+  "published_mesh": "fine",
+  "mesh_convergence": {
+    "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+    "passed": true,
+    "published_mesh": "fine",
+    "channels": {
+      "VV": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.0009803616453207204,
+        "max_abs_db": 0.004093179910249489,
+        "mean_db": 0.00023263523755781334,
+        "median_abs_db": 0.0004143782043719568,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 13,
+        "rms_db_unfloored": 0.024024961265583098,
+        "max_abs_db_unfloored": 0.20292688404727954,
+        "complex_rms_normalized": 8.354921469739378e-06,
+        "complex_max_normalized": 2.8681353640490296e-05,
+        "complex_reference_peak_amplitude": 2300.158167812598,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.158167812598
+        },
+        "phase_sample_count": 13,
+        "phase_rms_deg": 0.000798731776766823,
+        "phase_max_deg": 0.002028122971560636,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2144204286147548e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 37594.807844618255,
+            "condition_est_gate_value": 37594.807844618255,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.0543878449812946e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 40199.42971780752,
+            "condition_est_gate_value": 40199.42971780752,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 4.636747809933646e-05,
+          "complex_rms_normalized": 1.3506916135329038e-05,
+          "max_abs_db": 0.006617206155054151,
+          "rms_db": 0.0015848937148721302,
+          "phase_max_deg": 0.0032787485780950546,
+          "phase_rms_deg": 0.001291263258725562
+        },
+        "estimated_published_complex_max_normalized": 4.636747809933646e-05,
+        "estimated_published_complex_rms_normalized": 1.3506916135329038e-05,
+        "estimated_published_max_abs_db": 0.006617206155054151,
+        "estimated_published_rms_db": 0.0015848937148721302
+      },
+      "HH": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.00010865506633868092,
+        "max_abs_db": 0.0003816149280311265,
+        "mean_db": 5.981671213502532e-05,
+        "median_abs_db": 3.386556882034597e-05,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 15,
+        "rms_db_unfloored": 0.0008401841785088031,
+        "max_abs_db_unfloored": 0.0037435155510081586,
+        "complex_rms_normalized": 6.389023743349678e-07,
+        "complex_max_normalized": 1.9555552947158028e-06,
+        "complex_reference_peak_amplitude": 2299.66529911501,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2299.66529911501
+        },
+        "phase_sample_count": 15,
+        "phase_rms_deg": 0.00011483315512100228,
+        "phase_max_deg": 0.00027714256309024004,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2966633158165694e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 98062.97352980309,
+            "condition_est_gate_value": 98062.97352980309,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.805040226466485e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 81189.93315326072,
+            "condition_est_gate_value": 81189.93315326072,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 3.161432630981862e-06,
+          "complex_rms_normalized": 1.0328763495935289e-06,
+          "max_abs_db": 0.0006169346830577498,
+          "rms_db": 0.00017565633310027463,
+          "phase_max_deg": 0.0004480402803004177,
+          "phase_rms_deg": 0.00018564409029962924
+        },
+        "estimated_published_complex_max_normalized": 3.161432630981862e-06,
+        "estimated_published_complex_rms_normalized": 1.0328763495935289e-06,
+        "estimated_published_max_abs_db": 0.0006169346830577498,
+        "estimated_published_rms_db": 0.00017565633310027463
+      }
+    },
+    "polarizations": {
+      "VV": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.0009803616453207204,
+        "max_abs_db": 0.004093179910249489,
+        "mean_db": 0.00023263523755781334,
+        "median_abs_db": 0.0004143782043719568,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 13,
+        "rms_db_unfloored": 0.024024961265583098,
+        "max_abs_db_unfloored": 0.20292688404727954,
+        "complex_rms_normalized": 8.354921469739378e-06,
+        "complex_max_normalized": 2.8681353640490296e-05,
+        "complex_reference_peak_amplitude": 2300.158167812598,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.158167812598
+        },
+        "phase_sample_count": 13,
+        "phase_rms_deg": 0.000798731776766823,
+        "phase_max_deg": 0.002028122971560636,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2144204286147548e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 37594.807844618255,
+            "condition_est_gate_value": 37594.807844618255,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.0543878449812946e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 40199.42971780752,
+            "condition_est_gate_value": 40199.42971780752,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 4.636747809933646e-05,
+          "complex_rms_normalized": 1.3506916135329038e-05,
+          "max_abs_db": 0.006617206155054151,
+          "rms_db": 0.0015848937148721302,
+          "phase_max_deg": 0.0032787485780950546,
+          "phase_rms_deg": 0.001291263258725562
+        },
+        "estimated_published_complex_max_normalized": 4.636747809933646e-05,
+        "estimated_published_complex_rms_normalized": 1.3506916135329038e-05,
+        "estimated_published_max_abs_db": 0.006617206155054151,
+        "estimated_published_rms_db": 0.0015848937148721302
+      },
+      "HH": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.00010865506633868092,
+        "max_abs_db": 0.0003816149280311265,
+        "mean_db": 5.981671213502532e-05,
+        "median_abs_db": 3.386556882034597e-05,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 15,
+        "rms_db_unfloored": 0.0008401841785088031,
+        "max_abs_db_unfloored": 0.0037435155510081586,
+        "complex_rms_normalized": 6.389023743349678e-07,
+        "complex_max_normalized": 1.9555552947158028e-06,
+        "complex_reference_peak_amplitude": 2299.66529911501,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2299.66529911501
+        },
+        "phase_sample_count": 15,
+        "phase_rms_deg": 0.00011483315512100228,
+        "phase_max_deg": 0.00027714256309024004,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2966633158165694e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 98062.97352980309,
+            "condition_est_gate_value": 98062.97352980309,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.805040226466485e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 81189.93315326072,
+            "condition_est_gate_value": 81189.93315326072,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 3264,
+        "fine_panel_count": 5283,
+        "panel_refinement_ratio": 1.6185661764705883,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.6185661764705883,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.6166419019316491,
+          "complex_max_normalized": 3.161432630981862e-06,
+          "complex_rms_normalized": 1.0328763495935289e-06,
+          "max_abs_db": 0.0006169346830577498,
+          "rms_db": 0.00017565633310027463,
+          "phase_max_deg": 0.0004480402803004177,
+          "phase_rms_deg": 0.00018564409029962924
+        },
+        "estimated_published_complex_max_normalized": 3.161432630981862e-06,
+        "estimated_published_complex_rms_normalized": 1.0328763495935289e-06,
+        "estimated_published_max_abs_db": 0.0006169346830577498,
+        "estimated_published_rms_db": 0.00017565633310027463
+      }
+    },
+    "base_quality_gate": {
+      "passed": true,
+      "channels": {
+        "VV": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2144204286147548e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 37594.807844618255,
+            "condition_est_gate_value": 37594.807844618255,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "HH": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2966633158165694e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 98062.97352980309,
+            "condition_est_gate_value": 98062.97352980309,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        }
+      }
+    },
+    "fine_quality_gate": {
+      "passed": true,
+      "channels": {
+        "VV": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.0543878449812946e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 40199.42971780752,
+            "condition_est_gate_value": 40199.42971780752,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "HH": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.805040226466485e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 81189.93315326072,
+            "condition_est_gate_value": 81189.93315326072,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        }
+      }
+    },
+    "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+    "rms_db": 0.0009803616453207204,
+    "max_abs_db": 0.004093179910249489,
+    "complex_rms_normalized": 8.354921469739378e-06,
+    "complex_max_normalized": 2.8681353640490296e-05,
+    "phase_rms_deg": 0.000798731776766823,
+    "phase_max_deg": 0.002028122971560636,
+    "base_panel_count": 3264.0,
+    "fine_panel_count": 5283.0,
+    "panel_refinement_ratio": 1.6185661764705883,
+    "fine_factor": 1.5,
+    "estimated_published_complex_max_normalized": 4.636747809933646e-05,
+    "estimated_published_complex_rms_normalized": 1.3506916135329038e-05,
+    "estimated_published_max_abs_db": 0.006617206155054151,
+    "estimated_published_rms_db": 0.0015848937148721302
+  },
+  "assembled_system_reuses": 2,
+  "certification_phase_counters": {
+    "base": {
+      "dense_factorization_count": 2,
+      "dense_rhs_batch_count": 4,
+      "dense_rhs_column_count": 722
+    },
+    "fine": {
+      "dense_factorization_count": 2,
+      "dense_rhs_batch_count": 4,
+      "dense_rhs_column_count": 722
+    }
+  },
+  "certification_solve_order": [
+    "base_TE",
+    "base_TM",
+    "fine_TE",
+    "fine_TM"
+  ],
+  "adaptive_mesh": {
+    "used": true,
+    "strategy": "hp",
+    "steps": [
+      {
+        "polynomial_degree": 2,
+        "panels": 1605,
+        "coarsening": 8.0,
+        "nodes": 3210,
+        "seconds": 15.320298200000252,
+        "backend": "compressed",
+        "backend_selection": null,
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 0,
+        "indicators_computed": false
+      },
+      {
+        "polynomial_degree": 3,
+        "panels": 1605,
+        "coarsening": 8.0,
+        "nodes": 4815,
+        "seconds": 22.390640199999325,
+        "backend": "compressed",
+        "backend_selection": null,
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 3,
+        "indicators_computed": true
+      },
+      {
+        "polynomial_degree": 3,
+        "panels": 3264,
+        "coarsening": 5.333333333333333,
+        "nodes": 9792,
+        "seconds": 40.94180970000161,
+        "backend": "compressed",
+        "backend_selection": null,
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 2,
+        "indicators_computed": true
+      },
+      {
+        "polynomial_degree": 3,
+        "panels": 5283,
+        "coarsening": 3.5555555555555554,
+        "nodes": 15849,
+        "seconds": 94.6483606000038,
+        "backend": "compressed",
+        "backend_selection": null,
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 4,
+        "indicators_computed": true
+      }
+    ],
+    "initial_coarsening": 8.0,
+    "elapsed_seconds": 173.3115691999992,
+    "accepted_degree": 3,
+    "final_backend": "compressed",
+    "angle_batch_size": 256,
+    "acceptance_policy": {
+      "fine_factor": 1.5,
+      "rms_limit_db": 0.05,
+      "max_abs_limit_db": 0.25,
+      "complex_rms_limit": 0.001,
+      "complex_max_limit": 0.002,
+      "phase_rms_limit_deg": 0.5,
+      "phase_max_limit_deg": 2.0,
+      "phase_floor_relative": 0.03,
+      "db_floor_relative": 0.03
+    },
+    "polynomial_pair": [],
+    "estimator": "normalized Legendre tail marking; full-field convergence acceptance",
+    "geometry_preserved": true,
+    "fallback": false
+  },
+  "experimental_cpu": {
+    "version": 1,
+    "precision": "double",
+    "device": "cpu",
+    "scope": "experimental_cpu",
+    "batch_size": 256,
+    "cache": {
+      "hits": 0,
+      "stores": 0,
+      "evictions": 0,
+      "bytes": 0,
+      "peak_bytes": 0,
+      "budget_bytes": 67108864
+    },
+    "kernel_tables": [
+      {
+        "used": true,
+        "k_real": 314.37675329275226,
+        "k_imag": 0.0,
+        "degree": 12,
+        "intervals": 2101,
+        "bytes": 2638864,
+        "check_points": 142868,
+        "max_check_relative": 2.784210747764395e-13,
+        "max_tail_relative": 1.3127820849142055e-13,
+        "tolerance": 2e-13,
+        "tolerance_model": "max(2e-13, 8 eps |k| r)",
+        "max_check_to_tolerance": 0.44291679344842827,
+        "build_seconds": 0.12527879999834113,
+        "evaluation_backend": "native_horner",
+        "native_check_relative": 2.7826837193456413e-13,
+        "domain_upper": 3.7701677840695593,
+        "table_upper": 3.7701677840695593,
+        "partial_domain": false
+      }
+    ],
+    "table_budget_bytes": 33554432,
+    "systems": [
+      {
+        "unknowns": 3210,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 3.3495351410119343e-15,
+        "max_relative_residual": 1.6529817664688298e-12,
+        "compressed": {
+          "unknowns": 3210,
+          "tiles": 64,
+          "compressed_tiles": 33,
+          "retained_bytes": 129139072,
+          "max_query_bytes": 3878496,
+          "geometry_queries": 64,
+          "geometry_coefficients": 10304100,
+          "dropped_routes": 0,
+          "row_error_bound": 1.2482783317265899e-15,
+          "storage_budget": 5741433824,
+          "compression": "qr",
+          "reused_admission_tiles": 0
+        },
+        "preconditioners": [
+          {
+            "bytes": 57287960,
+            "max_rank": 137,
+            "leaves": 32,
+            "accesses": 5885310,
+            "oracle_calls": 7174,
+            "max_query_entries": 10201,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 5612294752,
+            "inverse_only": true,
+            "inverse_builder": "aca",
+            "sampled_blocks": 0,
+            "sampled_fallbacks": 0,
+            "sampled_min_dimension": 256,
+            "inverse_blas_threads": 1,
+            "block_products": {
+              "products": 0,
+              "chunks": 0,
+              "teams": 0,
+              "peak_workspace_bytes": 0,
+              "workspace_budget_bytes": 33554432
+            }
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 2,
+        "refinement_steps": 12,
+        "max_probe_backward_error": 1.1241835446081818e-14,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        }
+      },
+      {
+        "unknowns": 3210,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 5.874319923853876e-15,
+        "max_relative_residual": 9.22395216694446e-13,
+        "compressed": {
+          "unknowns": 3210,
+          "tiles": 64,
+          "compressed_tiles": 56,
+          "retained_bytes": 69232640,
+          "max_query_bytes": 3878496,
+          "geometry_queries": 64,
+          "geometry_coefficients": 10304100,
+          "dropped_routes": 0,
+          "row_error_bound": 8.593426653343526e-18,
+          "storage_budget": 5612551808,
+          "compression": "qr",
+          "reused_admission_tiles": 0,
+          "spooled_bytes": 68975584
+        },
+        "preconditioners": [
+          {
+            "bytes": 56838896,
+            "max_rank": 136,
+            "leaves": 32,
+            "accesses": 5974838,
+            "oracle_calls": 7133,
+            "max_query_entries": 10201,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 5672458240,
+            "inverse_only": true,
+            "inverse_builder": "aca",
+            "sampled_blocks": 0,
+            "sampled_fallbacks": 0,
+            "sampled_min_dimension": 256,
+            "inverse_blas_threads": 1,
+            "block_products": {
+              "products": 0,
+              "chunks": 0,
+              "teams": 0,
+              "peak_workspace_bytes": 0,
+              "workspace_budget_bytes": 33554432
+            }
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 2,
+        "refinement_steps": 12,
+        "max_probe_backward_error": 7.067863414969178e-15,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        }
+      },
+      {
+        "unknowns": 4815,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 4.876391920568368e-15,
+        "max_relative_residual": 2.0389137593155667e-12,
+        "compressed": {
+          "unknowns": 4815,
+          "tiles": 256,
+          "compressed_tiles": 78,
+          "retained_bytes": 337402352,
+          "max_query_bytes": 2174424,
+          "geometry_queries": 256,
+          "geometry_coefficients": 23184225,
+          "dropped_routes": 0,
+          "row_error_bound": 9.044930498991874e-16,
+          "storage_budget": 3646711376,
+          "compression": "qr",
+          "reused_admission_tiles": 0,
+          "worker_moment_cache": {
+            "hits": 36,
+            "stores": 24387,
+            "evictions": 0,
+            "workers": 4,
+            "budget_bytes_per_worker": 67108864,
+            "accounted_retained_bytes": 24972288,
+            "peak_accounted_retained_bytes": 24972288,
+            "scope": "shared tile traversal; paired polarizations report the same counters"
+          },
+          "assembly_components": {
+            "worker_coefficients_seconds": 33.315657200015266,
+            "worker_compression_seconds": 4.478285599943774,
+            "worker_prepare_seconds": 3.0298349000076996,
+            "parent_wait_seconds": 10.588885200028017,
+            "semantics": "worker elapsed sums, parallel work may overlap; parent wait includes computation and IPC",
+            "scope": "shared tile traversal; paired polarizations report the same counters",
+            "worker_far_integration_seconds": 22.51019699997414,
+            "worker_far_scatter_seconds": 0.9829395001070225,
+            "worker_near_integration_seconds": 7.585643599988543,
+            "worker_near_scatter_seconds": 0.01579810001567239
+          }
+        },
+        "preconditioners": [
+          {
+            "bytes": 87342152,
+            "max_rank": 144,
+            "leaves": 64,
+            "accesses": 6683314,
+            "oracle_calls": 9881,
+            "max_query_entries": 5776,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 3309309024,
+            "inverse_only": true,
+            "inverse_builder": "aca",
+            "sampled_blocks": 0,
+            "sampled_fallbacks": 0,
+            "sampled_min_dimension": 256,
+            "inverse_blas_threads": 1,
+            "block_products": {
+              "products": 0,
+              "chunks": 0,
+              "teams": 0,
+              "peak_workspace_bytes": 0,
+              "workspace_budget_bytes": 33554432
+            }
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 14,
+        "max_probe_backward_error": 8.394152966682425e-15,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        }
+      },
+      {
+        "unknowns": 4815,
+        "factorizations": 2,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 5.836897587803421e-15,
+        "max_relative_residual": 1.192342393471756e-12,
+        "compressed": {
+          "unknowns": 4815,
+          "tiles": 256,
+          "compressed_tiles": 217,
+          "retained_bytes": 152484336,
+          "max_query_bytes": 2174424,
+          "geometry_queries": 256,
+          "geometry_coefficients": 23184225,
+          "dropped_routes": 0,
+          "row_error_bound": 6.8796525217101814e-18,
+          "storage_budget": 3309694736,
+          "compression": "qr",
+          "reused_admission_tiles": 0,
+          "worker_moment_cache": {
+            "hits": 36,
+            "stores": 24387,
+            "evictions": 0,
+            "workers": 4,
+            "budget_bytes_per_worker": 67108864,
+            "accounted_retained_bytes": 24972288,
+            "peak_accounted_retained_bytes": 24972288,
+            "scope": "shared tile traversal; paired polarizations report the same counters"
+          },
+          "assembly_components": {
+            "worker_coefficients_seconds": 33.315657200015266,
+            "worker_compression_seconds": 4.478285599943774,
+            "worker_prepare_seconds": 3.0298349000076996,
+            "parent_wait_seconds": 10.588885200028017,
+            "semantics": "worker elapsed sums, parallel work may overlap; parent wait includes computation and IPC",
+            "scope": "shared tile traversal; paired polarizations report the same counters",
+            "worker_far_integration_seconds": 22.51019699997414,
+            "worker_far_scatter_seconds": 0.9829395001070225,
+            "worker_near_integration_seconds": 7.585643599988543,
+            "worker_near_scatter_seconds": 0.01579810001567239
+          },
+          "spooled_bytes": 152098624
+        },
+        "preconditioners": [
+          {
+            "bytes": 85780648,
+            "max_rank": 140,
+            "leaves": 64,
+            "accesses": 6457765,
+            "oracle_calls": 9679,
+            "max_query_entries": 5776,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 3472151728,
+            "inverse_only": true,
+            "inverse_builder": "aca",
+            "sampled_blocks": 0,
+            "sampled_fallbacks": 0,
+            "sampled_min_dimension": 256,
+            "inverse_blas_threads": 1,
+            "block_products": {
+              "products": 0,
+              "chunks": 0,
+              "teams": 0,
+              "peak_workspace_bytes": 0,
+              "workspace_budget_bytes": 33554432
+            }
+          },
+          {
+            "bytes": 93110768,
+            "max_rank": 149,
+            "leaves": 64,
+            "accesses": 13256024,
+            "oracle_calls": 20277,
+            "max_query_entries": 5776,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 3386371080,
+            "inverse_only": true,
+            "inverse_builder": "aca",
+            "sampled_blocks": 0,
+            "sampled_fallbacks": 0,
+            "sampled_min_dimension": 256,
+            "inverse_blas_threads": 1,
+            "block_products": {
+              "products": 0,
+              "chunks": 0,
+              "teams": 0,
+              "peak_workspace_bytes": 0,
+              "workspace_budget_bytes": 33554432
+            }
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 4,
+        "refinement_steps": 22,
+        "max_probe_backward_error": 7.564919971695252e-15,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        },
+        "preconditioner_upgrade": {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 85780648,
+          "phase": "field_solve",
+          "construction_allowance_bytes": 257341944,
+          "available_bytes": 3922318752,
+          "accepted": true,
+          "new_inverse_bytes": 93110768,
+          "tolerance": 1e-10
+        }
+      },
+      {
+        "unknowns": 9792,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.9417332511866424e-15,
+        "max_relative_residual": 2.2144204286147548e-13,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 9792,
+          "leaf": 128,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "retained_bytes": 566380456,
+          "storage_budget": 3346360736,
+          "near_bytes": 424329896,
+          "far_bytes": 121100464,
+          "dense_equivalent_bytes": 1534132224,
+          "near_rows": 128,
+          "interaction_lists": 84,
+          "dense_interaction_lists": 161,
+          "max_rank": 86,
+          "mean_rank": 38.95238095238095,
+          "geometry_queries": 789,
+          "geometry_coefficients": 42854878,
+          "shared_query_targets": 2,
+          "near_coefficients": 5537600,
+          "coefficient_fraction": 0.446948468504368,
+          "sampled_rows": 128,
+          "sampled_row_error": 1.3598732107510366e-12,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 20054016,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 178678136,
+            "max_rank": 143,
+            "leaves": 128,
+            "accesses": 749120,
+            "oracle_calls": 128,
+            "max_query_entries": 5929,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 2213295072,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 14,
+        "max_probe_backward_error": 2.9664186417257563e-15,
+        "max_probe_sampled_backward_error": 2.0501337220257816e-14,
+        "sampled_rows": 128,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        },
+        "max_sampled_backward_error": 8.96685912847849e-14
+      },
+      {
+        "unknowns": 9792,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.9681803198402533e-15,
+        "max_relative_residual": 1.2966633158165694e-13,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 9792,
+          "leaf": 128,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "retained_bytes": 566685208,
+          "storage_budget": 3346360736,
+          "near_bytes": 424329896,
+          "far_bytes": 121405216,
+          "dense_equivalent_bytes": 1534132224,
+          "near_rows": 128,
+          "interaction_lists": 84,
+          "dense_interaction_lists": 161,
+          "max_rank": 86,
+          "mean_rank": 39.11904761904762,
+          "geometry_queries": 789,
+          "geometry_coefficients": 42854878,
+          "shared_query_targets": 2,
+          "near_coefficients": 5537600,
+          "coefficient_fraction": 0.446948468504368,
+          "sampled_rows": 128,
+          "sampled_row_error": 1.5630551688191861e-12,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 20054016,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 174447184,
+            "max_rank": 140,
+            "leaves": 128,
+            "accesses": 749120,
+            "oracle_calls": 128,
+            "max_query_entries": 5929,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 2779675528,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 15,
+        "max_probe_backward_error": 2.452107736109036e-15,
+        "max_probe_sampled_backward_error": 1.7825930242507444e-14,
+        "sampled_rows": 128,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        },
+        "max_sampled_backward_error": 7.849592343416138e-14
+      },
+      {
+        "unknowns": 15849,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.965436115420995e-15,
+        "max_relative_residual": 1.0543878449812946e-13,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 15849,
+          "leaf": 128,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "retained_bytes": 567435064,
+          "storage_budget": 2966465696,
+          "near_bytes": 224779224,
+          "far_bytes": 308767992,
+          "dense_equivalent_bytes": 4019052816,
+          "near_rows": 128,
+          "interaction_lists": 226,
+          "dense_interaction_lists": 19,
+          "max_rank": 87,
+          "mean_rank": 30.68141592920354,
+          "geometry_queries": 1409,
+          "geometry_coefficients": 54170647,
+          "shared_query_targets": 2,
+          "near_coefficients": 13531155,
+          "coefficient_fraction": 0.21565537744353944,
+          "sampled_rows": 128,
+          "sampled_row_error": 1.3144963990864237e-12,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 32458752,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 295938216,
+            "max_rank": 148,
+            "leaves": 128,
+            "accesses": 1962447,
+            "oracle_calls": 128,
+            "max_query_entries": 15376,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 1828200064,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 15,
+        "max_probe_backward_error": 2.011006539886315e-15,
+        "max_probe_sampled_backward_error": 1.3469096524394183e-14,
+        "sampled_rows": 128,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        },
+        "max_sampled_backward_error": 9.29920863870276e-14
+      },
+      {
+        "unknowns": 15849,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.982570489276123e-15,
+        "max_relative_residual": 1.805040226466485e-13,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 15849,
+          "leaf": 128,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "retained_bytes": 570830568,
+          "storage_budget": 2966465696,
+          "near_bytes": 224779224,
+          "far_bytes": 312163496,
+          "dense_equivalent_bytes": 4019052816,
+          "near_rows": 128,
+          "interaction_lists": 226,
+          "dense_interaction_lists": 19,
+          "max_rank": 89,
+          "mean_rank": 31.053097345132745,
+          "geometry_queries": 1409,
+          "geometry_coefficients": 54170647,
+          "shared_query_targets": 2,
+          "near_coefficients": 13531155,
+          "coefficient_fraction": 0.21565537744353944,
+          "sampled_rows": 128,
+          "sampled_row_error": 1.4536819216230915e-12,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 32458752,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 287597304,
+            "max_rank": 143,
+            "leaves": 128,
+            "accesses": 1962447,
+            "oracle_calls": 128,
+            "max_query_entries": 15376,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 2395635128,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 14,
+        "max_probe_backward_error": 1.5696977602646411e-16,
+        "max_probe_sampled_backward_error": 2.952576282252363e-14,
+        "sampled_rows": 128,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        },
+        "max_sampled_backward_error": 8.47433768971926e-14
+      }
+    ],
+    "formulations": [
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      }
+    ],
+    "memory_estimates": [
+      {
+        "model": "compressed_phase_v2",
+        "peak_bytes": 963097280,
+        "nonstorage_phase_bytes": {
+          "assembly": 700760064,
+          "factorization": 507707392,
+          "solve": 681176576
+        },
+        "process_baseline_bytes": 134217728,
+        "phase_bytes": {
+          "assembly": 865933824,
+          "factorization": 789628096,
+          "solve": 963097280
+        },
+        "operator_bytes": 165173760,
+        "operator_allowance_bytes": 165173760,
+        "inverse_ceiling_bytes": 116746944,
+        "process_geometry_bytes": 457490432,
+        "rhs_workspace_bytes": 191332352,
+        "gmres_workspace_bytes": 23965184,
+        "projection_cache_bytes": 8388608,
+        "retained_worker_allowance_bytes": 0,
+        "retained_polynomial_operator_bytes": 0,
+        "moment_cache_bytes": 268435456,
+        "assembly_workspace_bytes": 243269632,
+        "tile_metadata_bytes": 81920,
+        "storage_limit_bytes": 5741690880,
+        "temporary_disk_bytes": 165173760,
+        "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+        "storage_method": "small_dense_ceiling",
+        "sampled": false,
+        "samples": 0,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      },
+      {
+        "model": "compressed_phase_v2",
+        "peak_bytes": 867156160,
+        "nonstorage_phase_bytes": {
+          "assembly": 700760064,
+          "factorization": 507707392,
+          "solve": 681176576
+        },
+        "process_baseline_bytes": 134217728,
+        "phase_bytes": {
+          "assembly": 769992704,
+          "factorization": 693686976,
+          "solve": 867156160
+        },
+        "operator_bytes": 69232640,
+        "operator_allowance_bytes": 69232640,
+        "inverse_ceiling_bytes": 116746944,
+        "process_geometry_bytes": 457490432,
+        "rhs_workspace_bytes": 191332352,
+        "gmres_workspace_bytes": 23965184,
+        "projection_cache_bytes": 8388608,
+        "retained_worker_allowance_bytes": 0,
+        "retained_polynomial_operator_bytes": 0,
+        "moment_cache_bytes": 268435456,
+        "assembly_workspace_bytes": 243269632,
+        "tile_metadata_bytes": 81920,
+        "storage_limit_bytes": 5741690880,
+        "temporary_disk_bytes": 69232640,
+        "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+        "storage_method": "assembled_partner_payload",
+        "sampled": false,
+        "samples": 0,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      },
+      {
+        "model": "compressed_phase_v2",
+        "peak_bytes": 3372552496,
+        "nonstorage_phase_bytes": {
+          "assembly": 2724132864,
+          "factorization": 2554099712,
+          "solve": 2795353856
+        },
+        "process_baseline_bytes": 134217728,
+        "phase_bytes": {
+          "assembly": 3095542704,
+          "factorization": 3131298352,
+          "solve": 3372552496
+        },
+        "operator_bytes": 371409840,
+        "operator_allowance_bytes": 371409840,
+        "inverse_ceiling_bytes": 205788800,
+        "process_geometry_bytes": 2480863232,
+        "rhs_workspace_bytes": 270221312,
+        "gmres_workspace_bytes": 35880704,
+        "projection_cache_bytes": 8388608,
+        "retained_worker_allowance_bytes": 2013265920,
+        "retained_polynomial_operator_bytes": 0,
+        "moment_cache_bytes": 268435456,
+        "assembly_workspace_bytes": 243269632,
+        "tile_metadata_bytes": 327680,
+        "storage_limit_bytes": 3647097088,
+        "temporary_disk_bytes": 371409840,
+        "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+        "storage_method": "small_dense_ceiling",
+        "sampled": false,
+        "samples": 0,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      },
+      {
+        "model": "compressed_phase_v2",
+        "peak_bytes": 3176088016,
+        "nonstorage_phase_bytes": {
+          "assembly": 2746593888,
+          "factorization": 2576560736,
+          "solve": 2817814880
+        },
+        "process_baseline_bytes": 134217728,
+        "phase_bytes": {
+          "assembly": 2899078224,
+          "factorization": 2934833872,
+          "solve": 3176088016
+        },
+        "operator_bytes": 152484336,
+        "operator_allowance_bytes": 152484336,
+        "inverse_ceiling_bytes": 205788800,
+        "process_geometry_bytes": 2503324256,
+        "rhs_workspace_bytes": 270221312,
+        "gmres_workspace_bytes": 35880704,
+        "projection_cache_bytes": 8388608,
+        "retained_worker_allowance_bytes": 2035726944,
+        "retained_polynomial_operator_bytes": 0,
+        "moment_cache_bytes": 268435456,
+        "assembly_workspace_bytes": 243269632,
+        "tile_metadata_bytes": 327680,
+        "storage_limit_bytes": 3624636064,
+        "temporary_disk_bytes": 152484336,
+        "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+        "storage_method": "assembled_partner_payload",
+        "sampled": false,
+        "samples": 0,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      },
+      {
+        "model": "compressed_hmatrix_v2",
+        "peak_bytes": 4163362368,
+        "nonstorage_phase_bytes": {
+          "assembly": 2937135712,
+          "factorization": 2683327072,
+          "solve": 3096090208
+        },
+        "process_baseline_bytes": 134217728,
+        "medium_wavenumbers": [
+          {
+            "real": 314.37675329275226,
+            "imag": 0.0,
+            "magnitude": 314.37675329275226
+          }
+        ],
+        "medium_count": 1,
+        "medium_list_truncated": false,
+        "attenuation_calibrated": false,
+        "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+        "phase_bytes": {
+          "assembly": 3709721392,
+          "factorization": 3750599232,
+          "solve": 4163362368
+        },
+        "operator_bytes": 386292840,
+        "operator_allowance_bytes": 386292840,
+        "resident_operator_bytes": 772585680,
+        "inverse_ceiling_bytes": 294686480,
+        "inverse_construction_bytes": 477992720,
+        "process_geometry_bytes": 2500020832,
+        "rhs_workspace_bytes": 514850816,
+        "gmres_workspace_bytes": 72829952,
+        "projection_cache_bytes": 8388608,
+        "moment_cache_bytes": 268435456,
+        "retained_worker_allowance_bytes": 2035726944,
+        "retained_polynomial_operator_bytes": 0,
+        "assembly_workspace_bytes": 218557440,
+        "storage_limit_bytes": 3346360736,
+        "storage_fits": true,
+        "temporary_disk_bytes": 0,
+        "storage_method": "hmatrix_model",
+        "sampled": false,
+        "samples": 0,
+        "coefficients": 37632761,
+        "inverse_rank": 390,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      },
+      {
+        "model": "compressed_hmatrix_v2",
+        "peak_bytes": 5330795752,
+        "nonstorage_phase_bytes": {
+          "assembly": 3239672288,
+          "factorization": 2833167568,
+          "solve": 3475985248
+        },
+        "process_baseline_bytes": 134217728,
+        "medium_wavenumbers": [
+          {
+            "real": 314.37675329275226,
+            "imag": 0.0,
+            "magnitude": 314.37675329275226
+          }
+        ],
+        "medium_count": 1,
+        "medium_list_truncated": false,
+        "attenuation_calibrated": false,
+        "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+        "phase_bytes": {
+          "assembly": 4627163888,
+          "factorization": 4687978072,
+          "solve": 5330795752
+        },
+        "operator_bytes": 693745800,
+        "operator_allowance_bytes": 693745800,
+        "resident_operator_bytes": 1387491600,
+        "inverse_ceiling_bytes": 467318904,
+        "inverse_construction_bytes": 763251432,
+        "process_geometry_bytes": 2537235040,
+        "rhs_workspace_bytes": 812564480,
+        "gmres_workspace_bytes": 117797120,
+        "projection_cache_bytes": 8388608,
+        "moment_cache_bytes": 268435456,
+        "retained_worker_allowance_bytes": 2035726944,
+        "retained_polynomial_operator_bytes": 0,
+        "assembly_workspace_bytes": 351218624,
+        "storage_limit_bytes": 2966465696,
+        "storage_fits": true,
+        "temporary_disk_bytes": 0,
+        "storage_method": "hmatrix_model",
+        "sampled": false,
+        "samples": 0,
+        "coefficients": 64974642,
+        "inverse_rank": 389,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false,
+        "storage_policy": "reservation_minus_phase_workspace"
+      }
+    ],
+    "stage_cost_meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 1605,
+        "unknowns": 3210,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 3210,
+          "panels": 1605,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3210,
+          "operator_matrices": 53,
+          "operator_entries": 20608200,
+          "geometric_near_pairs": 12129,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1052880,
+          "mass_workspace_bytes": 603488,
+          "block_workspace_bytes": 39444480,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262015984,
+          "compressed_storage": {
+            "method": "small_dense_ceiling",
+            "operator_bytes": 165173760,
+            "operator_allowance_bytes": 165173760,
+            "samples": 0,
+            "sampled": false,
+            "seconds": 0.0
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 1605,
+        "unknowns": 3210,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 3210,
+          "panels": 1605,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3210,
+          "operator_matrices": 53,
+          "operator_entries": 20608200,
+          "geometric_near_pairs": 12129,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1052880,
+          "mass_workspace_bytes": 603488,
+          "block_workspace_bytes": 39444480,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262015984,
+          "compressed_storage": {
+            "method": "assembled_partner_payload",
+            "operator_bytes": 69232640,
+            "operator_allowance_bytes": 69232640,
+            "sampled": false,
+            "samples": 0,
+            "reused_assembled_partner": true,
+            "seconds": 0.0
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 1605,
+        "unknowns": 4815,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 4815,
+          "panels": 1605,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 4815,
+          "operator_matrices": 78,
+          "operator_entries": 46368450,
+          "geometric_near_pairs": 12129,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1579320,
+          "mass_workspace_bytes": 1065728,
+          "block_workspace_bytes": 59166720,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 266091328,
+          "compressed_storage": {
+            "method": "small_dense_ceiling",
+            "operator_bytes": 371409840,
+            "operator_allowance_bytes": 371409840,
+            "samples": 0,
+            "sampled": false,
+            "seconds": 0.0
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 1605,
+        "unknowns": 4815,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 4815,
+          "panels": 1605,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 4815,
+          "operator_matrices": 78,
+          "operator_entries": 46368450,
+          "geometric_near_pairs": 12129,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1579320,
+          "mass_workspace_bytes": 1065728,
+          "block_workspace_bytes": 59166720,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 266091328,
+          "compressed_storage": {
+            "method": "assembled_partner_payload",
+            "operator_bytes": 152484336,
+            "operator_allowance_bytes": 152484336,
+            "sampled": false,
+            "samples": 0,
+            "reused_assembled_partner": true,
+            "seconds": 0.0
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 3264,
+        "unknowns": 9792,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 9792,
+          "panels": 3264,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 9792,
+          "operator_matrices": 155,
+          "operator_entries": 191766528,
+          "geometric_near_pairs": 24076,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 3211776,
+          "mass_workspace_bytes": 2167304,
+          "block_workspace_bytes": 120324096,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 702818048,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 386292840,
+            "operator_allowance_bytes": 386292840,
+            "inverse_bytes": 294686480,
+            "inverse_peak_bytes": 477992720,
+            "assembly_workspace_bytes": 218557440,
+            "coefficients": 37632761,
+            "retained_entries": 22671925,
+            "inverse_rank": 390,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 3264,
+        "unknowns": 9792,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 9792,
+          "panels": 3264,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 9792,
+          "operator_matrices": 155,
+          "operator_entries": 191766528,
+          "geometric_near_pairs": 24076,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 3211776,
+          "mass_workspace_bytes": 2167304,
+          "block_workspace_bytes": 120324096,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 702818048,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 386292840,
+            "operator_allowance_bytes": 386292840,
+            "inverse_bytes": 294686480,
+            "inverse_peak_bytes": 477992720,
+            "assembly_workspace_bytes": 218557440,
+            "coefficients": 37632761,
+            "retained_entries": 22671925,
+            "inverse_rank": 390,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 5283,
+        "unknowns": 15849,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 15849,
+          "panels": 5283,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 15849,
+          "operator_matrices": 250,
+          "operator_entries": 502381602,
+          "geometric_near_pairs": 38351,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 5198472,
+          "mass_workspace_bytes": 3507920,
+          "block_workspace_bytes": 194752512,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 1345861568,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 693745800,
+            "operator_allowance_bytes": 693745800,
+            "inverse_bytes": 467318904,
+            "inverse_peak_bytes": 763251432,
+            "assembly_workspace_bytes": 351218624,
+            "coefficients": 64974642,
+            "retained_entries": 40983830,
+            "inverse_rank": 389,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 5283,
+        "unknowns": 15849,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 15849,
+          "panels": 5283,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 15849,
+          "operator_matrices": 250,
+          "operator_entries": 502381602,
+          "geometric_near_pairs": 38351,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 5198472,
+          "mass_workspace_bytes": 3507920,
+          "block_workspace_bytes": 194752512,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 1345861568,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 693745800,
+            "operator_allowance_bytes": 693745800,
+            "inverse_bytes": 467318904,
+            "inverse_peak_bytes": 763251432,
+            "assembly_workspace_bytes": 351218624,
+            "coefficients": 64974642,
+            "retained_entries": 40983830,
+            "inverse_rank": 389,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      }
+    ]
+  },
+  "runtime_profile": {
+    "wall_seconds": 173.3465550999972,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.007755500002531335,
+      "operators": 256.75143910014594,
+      "compressed_coefficients": 10.603081700020994,
+      "compressed_tile_compression": 2.1662767000161693,
+      "compressed_spool_write": 0.23153730007470585,
+      "compressed_assembly": 113.6302649999925,
+      "factorization": 18.968111399997724,
+      "condition_estimation": 16.327194999990752,
+      "excitation": 3.9771510000064154,
+      "linear_solve": 25.29447350000555,
+      "rhs_compression": 25.803633700008504,
+      "far_field": 0.3577635000110604,
+      "compressed_spool_read": 0.8668846000000485,
+      "mesh_certification": 0.008723099999770056,
+      "hmatrix_norms": 2.427601400006097,
+      "hmatrix_validation": 0.3661893999960739,
+      "hmatrix_assembly": 90.41455649999989
+    },
+    "stage_calls": {
+      "compressed_memory_sampling": 4,
+      "operators": 2234,
+      "compressed_coefficients": 36,
+      "compressed_tile_compression": 128,
+      "compressed_spool_write": 320,
+      "compressed_assembly": 8,
+      "factorization": 9,
+      "condition_estimation": 12,
+      "excitation": 16,
+      "linear_solve": 16,
+      "rhs_compression": 16,
+      "far_field": 64,
+      "compressed_spool_read": 2,
+      "mesh_certification": 4,
+      "hmatrix_norms": 4,
+      "hmatrix_validation": 4,
+      "hmatrix_assembly": 2
+    },
+    "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+    "sampled_peak_process_rss_bytes": 2369290240,
+    "initial_process_rss_bytes": 65789952,
+    "memory_semantics": "50 ms process RSS samples, including other jobs; not an exclusive allocation peak",
+    "sampled_peak_process_tree_rss_bytes": 2771881984,
+    "sampled_peak_process_tree_private_bytes": 3371057152,
+    "process_tree_incomplete_samples": 0,
+    "process_tree_memory_semantics": "250 ms parent plus descendant RSS sums; shared pages may be counted more than once; includes other jobs; incomplete snapshots excluded. Private bytes, when available, are Windows private commit, not resident RAM."
+  },
+  "memory_accounting": {
+    "policy": "90_percent_initial_available_with_live_incremental_checks",
+    "initial_available_gib": 16.809635162353516,
+    "initial_available_commit_gib": 14.794963836669922,
+    "baseline_rss_bytes": 65142784,
+    "last_check": {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 6.0,
+      "stable_reservation_gib": 6.0,
+      "available_gib": 15.28512191772461,
+      "available_commit_gib": 12.788074493408203,
+      "owned_numeric_gib": 0.7994732558727264,
+      "credited_resident_gib": 1.1623348891735077,
+      "credited_commit_gib": 1.494434803724289,
+      "limits_gib": {
+        "stable_reservation": 6.0,
+        "explicit_ram_budget": 6.0,
+        "live_physical_ram": 14.766493290662766,
+        "live_commit_headroom": 12.8030129134655
+      }
+    },
+    "checks": [
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.543059825897217,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.208702087402344,
+        "available_commit_gib": 13.839801788330078,
+        "owned_numeric_gib": 0.12553778290748596,
+        "credited_resident_gib": 0.4882582724094391,
+        "credited_commit_gib": 0.8205069601535797,
+        "limits_gib": {
+          "stable_reservation": 3.543059825897217,
+          "live_physical_ram": 14.527738571166992,
+          "live_commit_headroom": 12.360305404663086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.032099321484565735,
+        "admitted": true,
+        "additional_allocation_gib": 0.032099321484565735,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.542638212442398,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.208580017089844,
+        "available_commit_gib": 13.839801788330078,
+        "owned_numeric_gib": 0.1259593963623047,
+        "credited_resident_gib": 0.4886798858642578,
+        "credited_commit_gib": 0.8209285736083984,
+        "limits_gib": {
+          "stable_reservation": 3.542638212442398,
+          "live_physical_ram": 14.527616500854492,
+          "live_commit_headroom": 12.360305404663086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.03167770802974701,
+        "admitted": true,
+        "additional_allocation_gib": 0.03167770802974701,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5422165989875793,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.208396911621094,
+        "available_commit_gib": 13.839801788330078,
+        "owned_numeric_gib": 0.1263810098171234,
+        "credited_resident_gib": 0.48910149931907654,
+        "credited_commit_gib": 0.8213501870632172,
+        "limits_gib": {
+          "stable_reservation": 3.5422165989875793,
+          "live_physical_ram": 14.527433395385742,
+          "live_commit_headroom": 12.360305404663086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.031256094574928284,
+        "admitted": true,
+        "additional_allocation_gib": 0.031256094574928284,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5418936610221863,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.208274841308594,
+        "available_commit_gib": 13.838722229003906,
+        "owned_numeric_gib": 0.12670394778251648,
+        "credited_resident_gib": 0.4894244372844696,
+        "credited_commit_gib": 0.8216731250286102,
+        "limits_gib": {
+          "stable_reservation": 3.5418936610221863,
+          "live_physical_ram": 14.527311325073242,
+          "live_commit_headroom": 12.359225845336914
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.030933156609535217,
+        "admitted": true,
+        "additional_allocation_gib": 0.030933156609535217,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5415886640548706,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.208274841308594,
+        "available_commit_gib": 13.838722229003906,
+        "owned_numeric_gib": 0.12700894474983215,
+        "credited_resident_gib": 0.4897294342517853,
+        "credited_commit_gib": 0.8219781219959259,
+        "limits_gib": {
+          "stable_reservation": 3.5415886640548706,
+          "live_physical_ram": 14.527311325073242,
+          "live_commit_headroom": 12.359225845336914
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.030628159642219543,
+        "admitted": true,
+        "additional_allocation_gib": 0.030628159642219543,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.540238603949547,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.20730972290039,
+        "available_commit_gib": 13.836872100830078,
+        "owned_numeric_gib": 0.12835900485515594,
+        "credited_resident_gib": 0.49107949435710907,
+        "credited_commit_gib": 0.8233281821012497,
+        "limits_gib": {
+          "stable_reservation": 3.540238603949547,
+          "live_physical_ram": 14.526346206665039,
+          "live_commit_headroom": 12.357375717163086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.029278099536895752,
+        "admitted": true,
+        "additional_allocation_gib": 0.029278099536895752,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5399156659841537,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.207256317138672,
+        "available_commit_gib": 13.836872100830078,
+        "owned_numeric_gib": 0.128681942820549,
+        "credited_resident_gib": 0.49140243232250214,
+        "credited_commit_gib": 0.8236511200666428,
+        "limits_gib": {
+          "stable_reservation": 3.5399156659841537,
+          "live_physical_ram": 14.52629280090332,
+          "live_commit_headroom": 12.357375717163086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.028955161571502686,
+        "admitted": true,
+        "additional_allocation_gib": 0.028955161571502686,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.539610669016838,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.207195281982422,
+        "available_commit_gib": 13.836872100830078,
+        "owned_numeric_gib": 0.12898693978786469,
+        "credited_resident_gib": 0.4917074292898178,
+        "credited_commit_gib": 0.8239561170339584,
+        "limits_gib": {
+          "stable_reservation": 3.539610669016838,
+          "live_physical_ram": 14.52623176574707,
+          "live_commit_headroom": 12.357375717163086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02865016460418701,
+        "admitted": true,
+        "additional_allocation_gib": 0.02865016460418701,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5391890555620193,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.207012176513672,
+        "available_commit_gib": 13.836872100830078,
+        "owned_numeric_gib": 0.1294085532426834,
+        "credited_resident_gib": 0.49212904274463654,
+        "credited_commit_gib": 0.8243777304887772,
+        "limits_gib": {
+          "stable_reservation": 3.5391890555620193,
+          "live_physical_ram": 14.52604866027832,
+          "live_commit_headroom": 12.357375717163086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.028228551149368286,
+        "admitted": true,
+        "additional_allocation_gib": 0.028228551149368286,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5387674421072006,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.206829071044922,
+        "available_commit_gib": 13.835758209228516,
+        "owned_numeric_gib": 0.12983016669750214,
+        "credited_resident_gib": 0.49255065619945526,
+        "credited_commit_gib": 0.8247993439435959,
+        "limits_gib": {
+          "stable_reservation": 3.5387674421072006,
+          "live_physical_ram": 14.52586555480957,
+          "live_commit_headroom": 12.356261825561523
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02780693769454956,
+        "admitted": true,
+        "additional_allocation_gib": 0.02780693769454956,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.538256123661995,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.206584930419922,
+        "available_commit_gib": 13.835758209228516,
+        "owned_numeric_gib": 0.13034148514270782,
+        "credited_resident_gib": 0.49306197464466095,
+        "credited_commit_gib": 0.8253106623888016,
+        "limits_gib": {
+          "stable_reservation": 3.538256123661995,
+          "live_physical_ram": 14.52562141418457,
+          "live_commit_headroom": 12.356261825561523
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.027295619249343872,
+        "admitted": true,
+        "additional_allocation_gib": 0.027295619249343872,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5377448052167892,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.206279754638672,
+        "available_commit_gib": 13.834766387939453,
+        "owned_numeric_gib": 0.1308528035879135,
+        "credited_resident_gib": 0.49357329308986664,
+        "credited_commit_gib": 0.8258219808340073,
+        "limits_gib": {
+          "stable_reservation": 3.5377448052167892,
+          "live_physical_ram": 14.52531623840332,
+          "live_commit_headroom": 12.35527000427246
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.026784300804138184,
+        "admitted": true,
+        "additional_allocation_gib": 0.026784300804138184,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.537368044257164,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.206226348876953,
+        "available_commit_gib": 13.834766387939453,
+        "owned_numeric_gib": 0.13122956454753876,
+        "credited_resident_gib": 0.4939500540494919,
+        "credited_commit_gib": 0.8261987417936325,
+        "limits_gib": {
+          "stable_reservation": 3.537368044257164,
+          "live_physical_ram": 14.525262832641602,
+          "live_commit_headroom": 12.35527000427246
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02640753984451294,
+        "admitted": true,
+        "additional_allocation_gib": 0.02640753984451294,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5369912832975388,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.206165313720703,
+        "available_commit_gib": 13.833744049072266,
+        "owned_numeric_gib": 0.131606325507164,
+        "credited_resident_gib": 0.4943268150091171,
+        "credited_commit_gib": 0.8265755027532578,
+        "limits_gib": {
+          "stable_reservation": 3.5369912832975388,
+          "live_physical_ram": 14.525201797485352,
+          "live_commit_headroom": 12.354247665405273
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.026030778884887695,
+        "admitted": true,
+        "additional_allocation_gib": 0.026030778884887695,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.535641223192215,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.205135345458984,
+        "available_commit_gib": 13.832389831542969,
+        "owned_numeric_gib": 0.1329563856124878,
+        "credited_resident_gib": 0.4956768751144409,
+        "credited_commit_gib": 0.8279255628585815,
+        "limits_gib": {
+          "stable_reservation": 3.535641223192215,
+          "live_physical_ram": 14.524171829223633,
+          "live_commit_headroom": 12.352893447875976
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.024680718779563904,
+        "admitted": true,
+        "additional_allocation_gib": 0.024680718779563904,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5352106392383575,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.205013275146484,
+        "available_commit_gib": 13.832389831542969,
+        "owned_numeric_gib": 0.13338696956634521,
+        "credited_resident_gib": 0.49610745906829834,
+        "credited_commit_gib": 0.828356146812439,
+        "limits_gib": {
+          "stable_reservation": 3.5352106392383575,
+          "live_physical_ram": 14.524049758911133,
+          "live_commit_headroom": 12.352893447875976
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.024250134825706482,
+        "admitted": true,
+        "additional_allocation_gib": 0.024250134825706482,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5347800552845,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.204708099365234,
+        "available_commit_gib": 13.831256866455078,
+        "owned_numeric_gib": 0.13381755352020264,
+        "credited_resident_gib": 0.49653804302215576,
+        "credited_commit_gib": 0.8287867307662964,
+        "limits_gib": {
+          "stable_reservation": 3.5347800552845,
+          "live_physical_ram": 14.523744583129883,
+          "live_commit_headroom": 12.351760482788086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02381955087184906,
+        "admitted": true,
+        "additional_allocation_gib": 0.02381955087184906,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.534484028816223,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.204586029052734,
+        "available_commit_gib": 13.831256866455078,
+        "owned_numeric_gib": 0.13411357998847961,
+        "credited_resident_gib": 0.49683406949043274,
+        "credited_commit_gib": 0.8290827572345734,
+        "limits_gib": {
+          "stable_reservation": 3.534484028816223,
+          "live_physical_ram": 14.523622512817383,
+          "live_commit_headroom": 12.351760482788086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.023523524403572083,
+        "admitted": true,
+        "additional_allocation_gib": 0.023523524403572083,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.534196972846985,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.204471588134766,
+        "available_commit_gib": 13.831256866455078,
+        "owned_numeric_gib": 0.1344006359577179,
+        "credited_resident_gib": 0.497121125459671,
+        "credited_commit_gib": 0.8293698132038116,
+        "limits_gib": {
+          "stable_reservation": 3.534196972846985,
+          "live_physical_ram": 14.523508071899414,
+          "live_commit_headroom": 12.351760482788086
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.0232364684343338,
+        "admitted": true,
+        "additional_allocation_gib": 0.0232364684343338,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5337394773960114,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.204349517822266,
+        "available_commit_gib": 13.830154418945312,
+        "owned_numeric_gib": 0.1348581314086914,
+        "credited_resident_gib": 0.49757862091064453,
+        "credited_commit_gib": 0.8298273086547852,
+        "limits_gib": {
+          "stable_reservation": 3.5337394773960114,
+          "live_physical_ram": 14.523386001586914,
+          "live_commit_headroom": 12.35065803527832
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02277897298336029,
+        "admitted": true,
+        "additional_allocation_gib": 0.02277897298336029,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.533281981945038,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.204105377197266,
+        "available_commit_gib": 13.830154418945312,
+        "owned_numeric_gib": 0.13531562685966492,
+        "credited_resident_gib": 0.49803611636161804,
+        "credited_commit_gib": 0.8302848041057587,
+        "limits_gib": {
+          "stable_reservation": 3.533281981945038,
+          "live_physical_ram": 14.523141860961914,
+          "live_commit_headroom": 12.35065803527832
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02232147753238678,
+        "admitted": true,
+        "additional_allocation_gib": 0.02232147753238678,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.531931921839714,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.203079223632812,
+        "available_commit_gib": 13.828739166259766,
+        "owned_numeric_gib": 0.1366656869649887,
+        "credited_resident_gib": 0.49938617646694183,
+        "credited_commit_gib": 0.8316348642110825,
+        "limits_gib": {
+          "stable_reservation": 3.531931921839714,
+          "live_physical_ram": 14.522115707397461,
+          "live_commit_headroom": 12.349242782592773
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.02097141742706299,
+        "admitted": true,
+        "additional_allocation_gib": 0.02097141742706299,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5313308984041214,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.202713012695312,
+        "available_commit_gib": 13.8277587890625,
+        "owned_numeric_gib": 0.13726671040058136,
+        "credited_resident_gib": 0.4999871999025345,
+        "credited_commit_gib": 0.8322358876466751,
+        "limits_gib": {
+          "stable_reservation": 3.5313308984041214,
+          "live_physical_ram": 14.521749496459961,
+          "live_commit_headroom": 12.348262405395507
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.020370393991470337,
+        "admitted": true,
+        "additional_allocation_gib": 0.020370393991470337,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5307298749685287,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.202285766601562,
+        "available_commit_gib": 13.826766967773438,
+        "owned_numeric_gib": 0.137867733836174,
+        "credited_resident_gib": 0.5005882233381271,
+        "credited_commit_gib": 0.8328369110822678,
+        "limits_gib": {
+          "stable_reservation": 3.5307298749685287,
+          "live_physical_ram": 14.521322250366211,
+          "live_commit_headroom": 12.347270584106445
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.019769370555877686,
+        "admitted": true,
+        "additional_allocation_gib": 0.019769370555877686,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5304428189992905,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.202285766601562,
+        "available_commit_gib": 13.826766967773438,
+        "owned_numeric_gib": 0.1381547898054123,
+        "credited_resident_gib": 0.5008752793073654,
+        "credited_commit_gib": 0.833123967051506,
+        "limits_gib": {
+          "stable_reservation": 3.5304428189992905,
+          "live_physical_ram": 14.521322250366211,
+          "live_commit_headroom": 12.347270584106445
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.019482314586639404,
+        "admitted": true,
+        "additional_allocation_gib": 0.019482314586639404,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5301467925310135,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.202163696289062,
+        "available_commit_gib": 13.826766967773438,
+        "owned_numeric_gib": 0.13845081627368927,
+        "credited_resident_gib": 0.5011713057756424,
+        "credited_commit_gib": 0.833419993519783,
+        "limits_gib": {
+          "stable_reservation": 3.5301467925310135,
+          "live_physical_ram": 14.521200180053711,
+          "live_commit_headroom": 12.347270584106445
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.019186288118362427,
+        "admitted": true,
+        "additional_allocation_gib": 0.019186288118362427,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5287967324256897,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.201194763183594,
+        "available_commit_gib": 13.824466705322266,
+        "owned_numeric_gib": 0.13980087637901306,
+        "credited_resident_gib": 0.5025213658809662,
+        "credited_commit_gib": 0.8347700536251068,
+        "limits_gib": {
+          "stable_reservation": 3.5287967324256897,
+          "live_physical_ram": 14.520231246948242,
+          "live_commit_headroom": 12.344970321655273
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.017836228013038635,
+        "admitted": true,
+        "additional_allocation_gib": 0.017836228013038635,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.5283661484718323,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.201133728027344,
+        "available_commit_gib": 13.824466705322266,
+        "owned_numeric_gib": 0.14023146033287048,
+        "credited_resident_gib": 0.5029519498348236,
+        "credited_commit_gib": 0.8352006375789642,
+        "limits_gib": {
+          "stable_reservation": 3.5283661484718323,
+          "live_physical_ram": 14.520170211791992,
+          "live_commit_headroom": 12.344970321655273
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.017405644059181213,
+        "admitted": true,
+        "additional_allocation_gib": 0.017405644059181213,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 3.527935564517975,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.200881958007812,
+        "available_commit_gib": 13.824466705322266,
+        "owned_numeric_gib": 0.1406620442867279,
+        "credited_resident_gib": 0.503382533788681,
+        "credited_commit_gib": 0.8356312215328217,
+        "limits_gib": {
+          "stable_reservation": 3.527935564517975,
+          "live_physical_ram": 14.519918441772461,
+          "live_commit_headroom": 12.344970321655273
+        },
+        "check_units": "additional_allocation_gib",
+        "context": "Compressed spool reload",
+        "required_peak_gib": 0.01697506010532379,
+        "admitted": true,
+        "additional_allocation_gib": 0.01697506010532379,
+        "reserved_usage_after_reload_gib": 2.489039495587349
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.280574798583984,
+        "available_commit_gib": 13.822460174560547,
+        "owned_numeric_gib": 0.1420121043920517,
+        "credited_resident_gib": 0.5047325938940048,
+        "credited_commit_gib": 0.8369812816381454,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.104343876242638,
+          "live_commit_headroom": 13.1799450725317
+        },
+        "context": "Compressed factorization",
+        "required_peak_gib": 2.7332770377397537,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.183147430419922,
+        "available_commit_gib": 13.732707977294922,
+        "owned_numeric_gib": 0.2219015583395958,
+        "credited_resident_gib": 0.5846220478415489,
+        "credited_commit_gib": 0.9168707355856895,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.08680596202612,
+          "live_commit_headroom": 13.170082329213619
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.18517303466797,
+        "available_commit_gib": 13.732711791992188,
+        "owned_numeric_gib": 0.2219015583395958,
+        "credited_resident_gib": 0.5846220478415489,
+        "credited_commit_gib": 0.9168707355856895,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.088831566274166,
+          "live_commit_headroom": 13.170086143910885
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.188636779785156,
+        "available_commit_gib": 13.733474731445312,
+        "owned_numeric_gib": 0.2219015583395958,
+        "credited_resident_gib": 0.5846220478415489,
+        "credited_commit_gib": 0.9168707355856895,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.092295311391354,
+          "live_commit_headroom": 13.17084908336401
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.190662384033203,
+        "available_commit_gib": 13.73348617553711,
+        "owned_numeric_gib": 0.2219015583395958,
+        "credited_resident_gib": 0.5846220478415489,
+        "credited_commit_gib": 0.9168707355856895,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.0943209156394,
+          "live_commit_headroom": 13.170860527455806
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.133472442626953,
+        "available_commit_gib": 13.67734146118164,
+        "owned_numeric_gib": 0.2219015583395958,
+        "credited_resident_gib": 0.5846220478415489,
+        "credited_commit_gib": 0.9168707355856895,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.03713097423315,
+          "live_commit_headroom": 13.114715813100338
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 16.138816833496094,
+        "available_commit_gib": 13.683418273925781,
+        "owned_numeric_gib": 0.2287282645702362,
+        "credited_resident_gib": 0.5914487540721893,
+        "credited_commit_gib": 0.92369744181633,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 15.049302071332932,
+          "live_commit_headroom": 13.127619332075119
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 2.957962468266487,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.243515014648438,
+        "available_commit_gib": 12.734477996826172,
+        "owned_numeric_gib": 1.0552496314048767,
+        "credited_resident_gib": 1.4184545874595642,
+        "credited_commit_gib": 1.7508596777915955,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.98100608587265,
+          "live_commit_headroom": 13.005841290950775
+        },
+        "context": "Compressed factorization",
+        "required_peak_gib": 3.55429270863533,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.075889587402344,
+        "available_commit_gib": 12.576278686523438,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.979787640273571,
+          "live_commit_headroom": 13.014048962295055
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.080318450927734,
+        "available_commit_gib": 12.573867797851562,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.984216503798962,
+          "live_commit_headroom": 13.01163807362318
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.073123931884766,
+        "available_commit_gib": 12.566139221191406,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.977021984755993,
+          "live_commit_headroom": 13.003909496963024
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.064956665039062,
+        "available_commit_gib": 12.565189361572266,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.96885471791029,
+          "live_commit_headroom": 13.002959637343883
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.95645523071289,
+        "available_commit_gib": 12.44964599609375,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.860353283584118,
+          "live_commit_headroom": 12.887416271865368
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.993297576904297,
+        "available_commit_gib": 12.48681640625,
+        "owned_numeric_gib": 1.2216566130518913,
+        "credited_resident_gib": 1.5848615691065788,
+        "credited_commit_gib": 1.91726665943861,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.897195629775524,
+          "live_commit_headroom": 12.924586682021618
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.105115316808224,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.777935028076172,
+        "available_commit_gib": 13.273807525634766,
+        "owned_numeric_gib": 0.527766726911068,
+        "credited_resident_gib": 0.8909716829657555,
+        "credited_commit_gib": 1.2233767732977867,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.987943194806576,
+          "live_commit_headroom": 13.01768791526556
+        },
+        "context": "Compressed factorization",
+        "required_peak_gib": 3.4930177330970764,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.577194213867188,
+        "available_commit_gib": 13.074886322021484,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0534382835030556,
+        "credited_commit_gib": 1.3858433738350868,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.949668981134892,
+          "live_commit_headroom": 12.981233312189579
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.576778411865234,
+        "available_commit_gib": 13.075469970703125,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0534382835030556,
+        "credited_commit_gib": 1.3858433738350868,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.949253179132938,
+          "live_commit_headroom": 12.98181696087122
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.578887939453125,
+        "available_commit_gib": 13.073341369628906,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0534382835030556,
+        "credited_commit_gib": 1.3858433738350868,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.951362706720829,
+          "live_commit_headroom": 12.979688359797
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.578205108642578,
+        "available_commit_gib": 13.073844909667969,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0534382835030556,
+        "credited_commit_gib": 1.3858433738350868,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.950679875910282,
+          "live_commit_headroom": 12.980191899836063
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.46750259399414,
+        "available_commit_gib": 12.96188735961914,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0534382835030556,
+        "credited_commit_gib": 1.3858433738350868,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.839977361261845,
+          "live_commit_headroom": 12.868234349787235
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.505958557128906,
+        "available_commit_gib": 13.004402160644531,
+        "owned_numeric_gib": 0.6902333274483681,
+        "credited_resident_gib": 1.0532170310616493,
+        "credited_commit_gib": 1.3854390159249306,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.878212071955204,
+          "live_commit_headroom": 12.91034479290247
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 3.8774333596229553,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.17824935913086,
+        "available_commit_gib": 12.685081481933594,
+        "owned_numeric_gib": 1.0600924789905548,
+        "credited_resident_gib": 1.423076182603836,
+        "credited_commit_gib": 1.7552981674671173,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.920362025499344,
+          "live_commit_headroom": 12.960883265733719
+        },
+        "context": "Compressed factorization",
+        "required_peak_gib": 4.366019807755947,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.79177474975586,
+        "available_commit_gib": 12.073532104492188,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.809379287064075,
+          "live_commit_headroom": 12.624703688919544
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.800758361816406,
+        "available_commit_gib": 12.074222564697266,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.818362899124622,
+          "live_commit_headroom": 12.625394149124622
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.792266845703125,
+        "available_commit_gib": 12.066768646240234,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.809871383011341,
+          "live_commit_headroom": 12.61794023066759
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.787670135498047,
+        "available_commit_gib": 12.068412780761719,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.805274672806263,
+          "live_commit_headroom": 12.619584365189075
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.603675842285156,
+        "available_commit_gib": 11.884696960449219,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.621280379593372,
+          "live_commit_headroom": 12.435868544876575
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 14.530181884765625,
+        "available_commit_gib": 11.647666931152344,
+        "owned_numeric_gib": 1.3357064202427864,
+        "credited_resident_gib": 1.6985680535435677,
+        "credited_commit_gib": 2.030667968094349,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.547786422073841,
+          "live_commit_headroom": 12.1988385155797
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.490909576416016,
+        "available_commit_gib": 12.633712768554688,
+        "owned_numeric_gib": 0.531627394258976,
+        "credited_resident_gib": 0.8944890275597572,
+        "credited_commit_gib": 1.2265889421105385,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.704435087740421,
+          "live_commit_headroom": 12.380805326998233
+        },
+        "context": "Compressed factorization",
+        "required_peak_gib": 4.366019807755947,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.410858154296875,
+        "available_commit_gib": 12.921878814697266,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.892229527235031,
+          "live_commit_headroom": 12.936817234754562
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.418281555175781,
+        "available_commit_gib": 12.922344207763672,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.899652928113937,
+          "live_commit_headroom": 12.937282627820968
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.4178466796875,
+        "available_commit_gib": 12.91998291015625,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.899218052625656,
+          "live_commit_headroom": 12.934921330213546
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.41925048828125,
+        "available_commit_gib": 12.923675537109375,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.900621861219406,
+          "live_commit_headroom": 12.938613957166671
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.231101989746094,
+        "available_commit_gib": 12.741157531738281,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.71247336268425,
+          "live_commit_headroom": 12.756095951795578
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      },
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 6.0,
+        "stable_reservation_gib": 6.0,
+        "available_gib": 15.28512191772461,
+        "available_commit_gib": 12.788074493408203,
+        "owned_numeric_gib": 0.7994732558727264,
+        "credited_resident_gib": 1.1623348891735077,
+        "credited_commit_gib": 1.494434803724289,
+        "limits_gib": {
+          "stable_reservation": 6.0,
+          "explicit_ram_budget": 6.0,
+          "live_physical_ram": 14.766493290662766,
+          "live_commit_headroom": 12.8030129134655
+        },
+        "context": "Compressed solve",
+        "required_peak_gib": 4.964690424501896,
+        "admitted": true
+      }
+    ],
+    "total_checks": 378,
+    "omitted_earlier_checks": 314,
+    "worker_samples": [
+      {
+        "rss_bytes": 433098752,
+        "private_bytes": 612253696,
+        "unique_resident_bytes": 324608000,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433098752,
+        "private_bytes": 612253696,
+        "unique_resident_bytes": 324608000,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      },
+      {
+        "rss_bytes": 433033216,
+        "private_bytes": 611991552,
+        "unique_resident_bytes": 324476928,
+        "processes": 4,
+        "complete": true,
+        "reservation_bytes": 2035726944
+      }
+    ],
+    "shared_process": false,
+    "cohort_capacity_gib": 13.31546745300293,
+    "ownership": "Weak run-owned references; no parent-process growth credit after request overlap.",
+    "worker_policy": "Scheduler reservations and worker growth allowances remain enforced."
+  },
+  "linear_algebra_execution": [
+    {
+      "matrix_size": 3210,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 3210,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 4815,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 4815,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 9792,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 9792,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 15849,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 15849,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    }
+  ],
+  "execution_options": {
+    "version": 1,
+    "factorization": "compressed",
+    "mesh_strategy": "adaptive",
+    "basis_order": 3,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 6.0,
+    "temporary_directory": "C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\Codex_audit\\memory_followups_20261029\\scratch",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "execution_wall_seconds": 173.37487210000108,
+  "execution_threads": {
+    "assembly": 4,
+    "blas": 4
+  }
+}

@@ -1566,6 +1566,7 @@ def _estimate_memory_gb(
     solver_method: 'str' = 'direct',
     formulation: 'Optional[str]' = None,
     dense_resources=None,
+    activate_memory_plan=False,
 ) -> 'float':
     """
     Estimate peak memory for the dense BIE/MoM solve in GiB (2**30 bytes).
@@ -1578,6 +1579,9 @@ def _estimate_memory_gb(
     n = int(nnodes)
     d = 2*n if system_dofs is None else max(1, int(system_dofs))
     resources = dense_resources or {}
+    if activate_memory_plan:
+        from ghost_backend.execution.memory_budget import record_plan
+        record_plan(None)
     kind = resources.get('formulation', formulation)
     count = max(1, int(n_rhs))
     if resources.get('analytic_zero'):
@@ -1592,14 +1596,14 @@ def _estimate_memory_gb(
     matrix = 16*d*d
     from ghost_backend.linalg.refined_lu import requested_precision
     if factorization == 'compressed':
-        from ghost_backend.compressed.runtime import storage_budget
+        from ghost_backend.compressed.runtime import planned_forecast
         from ghost_backend.linalg.refined_lu import requested_precision
         if requested_precision()!='double':raise ValueError('Compressed factorization requires double precision.')
         if requested == 'gpu':raise ValueError('Compressed factorization requires CPU execution.')
-        from ghost_backend.compressed.memory import forecast
-        plan = forecast(n, d, count, batch, get_assembly_threads(), storage_budget(), resources)
+        plan = planned_forecast(n, d, count, batch, get_assembly_threads(), resources)
         from ghost_backend.execution.memory_budget import record_plan
-        record_plan(plan)
+        if activate_memory_plan:
+            record_plan(plan)
         if dense_resources is not None:
             dense_resources['memory_estimate'] = plan
         state = current_state()
@@ -2474,7 +2478,7 @@ def solve_monostatic_rcs_2d_single_polarization(
                 resources["nodes"], use_cfie=False,
                 n_regions=max(1, resources["n_regions"]),
                 system_dofs=resources["system_dofs"],
-                operator_matrices=resources["operator_matrices"], dense_resources=resources,
+                operator_matrices=resources["operator_matrices"], dense_resources=resources, activate_memory_plan=True,
                 n_rhs=max(1, len(elevations)), solver_method=solver_method,
                 formulation=resources["formulation"])
         est_gb = estimate_system_memory()
@@ -3599,7 +3603,7 @@ def solve_bistatic_rcs_2d_single_polarization(
             system_dofs=resources["system_dofs"],
             operator_matrices=resources["operator_matrices"],
             dense_resources=resources,
-            n_rhs=len(inc_angles),
+            n_rhs=len(inc_angles), activate_memory_plan=True,
         )
 
 
@@ -4446,7 +4450,7 @@ def compute_boundary_densities(
         system_dofs=resources["system_dofs"],
         operator_matrices=resources["operator_matrices"],
         dense_resources=resources,
-        n_rhs=1,
+        n_rhs=1, activate_memory_plan=True,
     )
     memory_limit_gb = _solve_memory_limit_gb()
     if est_gb > memory_limit_gb:

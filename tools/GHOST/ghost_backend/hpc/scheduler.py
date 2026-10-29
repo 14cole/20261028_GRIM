@@ -746,8 +746,7 @@ def _mesh_peak_estimates(solver, base, fine, n_angles, method, safety, floor):
     plus structural inverse and workspace bounds. Actual solves still sample
     and enforce their normal memory, storage and numerical-quality gates.
     """
-    from ghost_backend.compressed.memory import forecast
-    from ghost_backend.compressed.runtime import storage_budget
+    from ghost_backend.compressed.runtime import planned_forecast
     from ghost_backend.execution.cpu import configured_batch_size
     from ghost_backend.twod.operators import get_assembly_threads
     results = []
@@ -759,9 +758,9 @@ def _mesh_peak_estimates(solver, base, fine, n_angles, method, safety, floor):
             n_rhs=max(1, int(n_angles)), solver_method=method, formulation=resources['formulation'])
         memory = None
         if 'memory_estimate' in resources:
-            memory = forecast(resources['nodes'], resources['system_dofs'], max(1, int(n_angles)),
+            memory = planned_forecast(resources['nodes'], resources['system_dofs'], max(1, int(n_angles)),
                 min(configured_batch_size(), max(1, int(n_angles))), get_assembly_threads(),
-                storage_budget(), resources, float(safety), float(floor))
+                resources, float(safety), float(floor))
         results.append((memory['peak_bytes']/1024**3 if memory else floor+safety*estimate, memory))
     peak, memory = max(results, key=lambda value: value[0])
     if memory is not None:
@@ -989,13 +988,12 @@ def unit_peak_gb(
         )
     except Exception:
         dense_gb = (128.0 * fine_nodes * fine_nodes) / (1024.0 ** 3)
-    from ghost_backend.compressed.runtime import enabled as compressed_enabled, storage_budget
+    from ghost_backend.compressed.runtime import enabled as compressed_enabled, planned_forecast
     if compressed_enabled():
-        from ghost_backend.compressed.memory import forecast
         from ghost_backend.execution.cpu import configured_batch_size
         from ghost_backend.twod.operators import get_assembly_threads
-        return forecast(fine_nodes,2*fine_nodes,1000,configured_batch_size(),
-            get_assembly_threads(),storage_budget(),safety=float(safety),floor_gb=float(floor_gb))['peak_bytes']/1024**3
+        return planned_forecast(fine_nodes,2*fine_nodes,1000,configured_batch_size(),
+            get_assembly_threads(),{},safety=float(safety),floor_gb=float(floor_gb))['peak_bytes']/1024**3
     return float(floor_gb) + float(safety) * dense_gb
 
 

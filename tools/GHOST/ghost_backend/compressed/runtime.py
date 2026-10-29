@@ -11,8 +11,7 @@ def enabled():
     return environment_value('GHOST_CPU_FACTORIZATION','dense').strip().lower()=='compressed'
 
 
-# Automatic storage keeps both polarizations' operators and the inverse within this
-# share of the solve memory limit; the rest covers assembly and solve workspaces.
+# Fallback only when no phase workspace forecast is available.
 AUTOMATIC_STORAGE_FRACTION=.6
 # Match the minimum explicit cap; a 2-GiB floor could exceed a small job's
 # entire RAM allocation before assembly workspaces were counted.
@@ -33,9 +32,42 @@ def automatic_storage_bytes():
     from ghost_backend.execution.memory_budget import current
     ledger = current()
     limit = ledger.stable() if ledger is not None else _solve_memory_limit_gb()
+    if ledger is not None and ledger.plan is not None:
+        return planned_storage_bytes(ledger.plan, int(limit*1024**3))
     # A small reservation must never be raised by the payload floor.
     return min(int(limit*1024**3),max(AUTOMATIC_STORAGE_FLOOR,
         int(AUTOMATIC_STORAGE_FRACTION*limit*1024**3)))
+
+
+def planned_storage_bytes(plan, reservation):
+    """Payload remainder after the largest non-overlapping phase workspace."""
+    phases = plan.get('nonstorage_phase_bytes', {})
+    if set(phases) == {'assembly', 'factorization', 'solve'}:
+        return max(0, reservation-max(phases.values()))
+    return min(reservation, max(AUTOMATIC_STORAGE_FLOOR,
+        int(AUTOMATIC_STORAGE_FRACTION*reservation)))
+
+
+def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb=0.):
+    """Price a new mesh without inheriting a previous mesh's payload allowance."""
+    from ghost_backend.compressed.memory import forecast, GIB
+    from ghost_backend.compressed import hmatrix
+    from ghost_backend.execution.memory_budget import current
+    from ghost_backend.twod.solver import _solve_memory_limit_gb
+    ledger = current()
+    reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
+    setting = environment_value('GHOST_COMPRESSED_STORAGE_MIB','2048').strip()
+    hierarchical_plan = resources.get('hmatrix_storage') is not None and hmatrix.selected(d)
+    auto = setting == '0' or hierarchical_plan and setting == '2048'
+    initial = planned_storage_bytes({}, reservation) if auto else storage_budget()
+    plan = forecast(n, d, count, batch, threads, initial, resources, safety, floor_gb)
+    if auto:
+        allowance = planned_storage_bytes(plan, reservation)
+        plan = forecast(n, d, count, batch, threads, allowance, resources, safety, floor_gb)
+        plan['storage_policy'] = 'reservation_minus_phase_workspace'
+    else:
+        plan['storage_policy'] = 'explicit_payload_cap'
+    return plan
 
 
 def storage_budget():
@@ -57,7 +89,7 @@ def hmatrix_storage_budget():
     Any other configured value caps it.
     """
     text=environment_value('GHOST_COMPRESSED_STORAGE_MIB','2048').strip()
-    if text in ('0','2048'):return max(storage_budget(),automatic_storage_bytes())
+    if text in ('0','2048'):return automatic_storage_bytes()
     return storage_budget()
 
 
@@ -149,8 +181,8 @@ def admit_tile_fallback(oracle, xy, reason):
         tile = min(512, getattr(source, 'maximum_tile', 512))
         resources['compressed_storage'] = memory.sample_operator(source, xy, tile, checkpoint)
         def price():
-            plan = memory.forecast(len(source.mesh.nodes), source.n, count, batch,
-                get_assembly_threads(), storage_budget(), resources)
+            plan = planned_forecast(len(source.mesh.nodes), source.n, count, batch,
+                get_assembly_threads(), resources)
             # Account for live residency not already covered by the structural
             # geometry/worker allowance (for example retained native caches).
             live = solver._process_rss_bytes() + retained_bytes()
@@ -158,6 +190,7 @@ def admit_tile_fallback(oracle, xy, reason):
             plan['live_residency_adjustment_bytes'] = extra
             plan['peak_bytes'] += extra
             plan['phase_bytes'] = {key: value+extra for key,value in plan['phase_bytes'].items()}
+            plan['nonstorage_phase_bytes'] = {key: value+extra for key,value in plan['nonstorage_phase_bytes'].items()}
             return plan, solver._solve_memory_limit_gb(live/memory.GIB)*memory.GIB
         plan, limit = price()
         if plan['peak_bytes'] > limit:
@@ -167,6 +200,15 @@ def admit_tile_fallback(oracle, xy, reason):
             raise MemoryError('Hierarchical-to-tile fallback needs {:.3f} GiB; {:.3f} GiB allowed. '
                 'Fallback workers and workspaces were not started.'.format(plan['peak_bytes']/memory.GIB, limit/memory.GIB))
         plans.append(plan)
+    if plans:
+        from ghost_backend.execution.memory_budget import record_plan
+        envelope = dict(plans[0])
+        for field in ('phase_bytes', 'nonstorage_phase_bytes'):
+            envelope[field] = {phase: max(p[field][phase] for p in plans)
+                for phase in ('assembly', 'factorization', 'solve')}
+        envelope['peak_bytes'] = max(p['peak_bytes'] for p in plans)
+        envelope['process_geometry_bytes'] = max(p['process_geometry_bytes'] for p in plans)
+        record_plan(envelope)
     event = dict(method='tile_fallback_admission', reason=reason, angle_batch_size=batch,
         released_worker_allowance_bytes=released, forecasts=plans)
     if state is not None:

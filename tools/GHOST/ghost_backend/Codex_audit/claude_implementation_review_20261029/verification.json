@@ -1,0 +1,74 @@
+{
+  "reload_untracked_baseline": {
+    "stable_gib": 18.0,
+    "owned_payload_gib": 4.0,
+    "process_rss_gib": 8.0,
+    "available_gib": 6.0,
+    "initial_reserve_gib": 2.0,
+    "additional_reload_gib": 2.0,
+    "true_total_after_reload_gib": 10.0,
+    "current_admitted_total_gib": 8.0,
+    "incremental_headroom_gib": 4.0,
+    "error": "Compressed spool reload requires 10.000 GiB total; 8.000 GiB is admitted by live_physical_ram (owned payload 4.000 GiB, available RAM 6.0)."
+  },
+  "reload_commit_mixed_into_ram": {
+    "process_rss_gib": 1.0,
+    "private_commit_gib": 10.0,
+    "additional_reload_gib": 1.0,
+    "physical_total_after_reload_gib": 2.0,
+    "live_physical_headroom_gib": 6.0,
+    "current_required_total_gib": 11.0,
+    "available_commit_gib": 100.0,
+    "error": "Compressed spool reload requires 11.000 GiB total; 6.000 GiB is admitted by live_physical_ram (owned payload 0.000 GiB, available RAM 8.0)."
+  },
+  "phase_existing_baseline": {
+    "predicted_total_gib": 8.3,
+    "already_owned_payload_gib": 4.0,
+    "already_resident_baseline_gib": 0.5,
+    "additional_need_gib": 3.8,
+    "live_additional_headroom_gib": 4.0,
+    "error": "Compressed solve requires 8.300 GiB total; 8.000 GiB is admitted by live_physical_ram (owned payload 4.000 GiB, available RAM 6.0).",
+    "limitation": "Hypothetical phase whose baseline is already resident; not all real forecast overhead is resident."
+  },
+  "shared_process_credit": {
+    "initial_available_gib": 24.0,
+    "initial_ninety_percent_budget_gib": 21.6,
+    "actual_combined_rss_growth_gib": 10.0,
+    "credited_growth_per_request_gib": [
+      10.0,
+      9.0
+    ],
+    "sum_credits_gib": 19.0,
+    "stable_reservations_gib": [
+      12.0,
+      9.600000000000001,
+      8.999999999999998
+    ],
+    "sum_reservations_gib": 30.6,
+    "remaining_available_gib": 14.0,
+    "limitation": "Deterministic overlapping-request accounting counterexample, not an actual OOM or threaded load test."
+  },
+  "workspace_and_floor": {
+    "saved_inlet_solve_nonstorage_gib": 3.1445239260792732,
+    "saved_inlet_factorization_nonstorage_gib": 2.6007108315825462,
+    "floor_counterexample": {
+      "total_budget_gib": 10.0,
+      "workspace_gib": 6.0,
+      "safe_payload_gib": 4.0,
+      "sixty_percent_floor_gib": 6.0,
+      "resulting_total_gib": 12.0
+    },
+    "limitation": "The saved inlet workspace must not be reused as a constant for larger geometries."
+  },
+  "verification": {
+    "status": "passed",
+    "reviewed_commit": "63429ba0cf5d20f49324675e0cdc4b61588f9cfc",
+    "implementation_source_hashes_unchanged": true,
+    "hashes": {
+      "execution/memory_budget.py": "2e051def1670ca30fadaa5c21ee9de309841ba7a145269cd75cd3f7499f9c777",
+      "compressed/memory.py": "34ccb32002f78931b85bfb418796c3984f22862c1af8b25e2a918660fd48eb25",
+      "compressed/runtime.py": "a4ac1b589b7b14f79febf1dd83b0bac3c5434f427d6d992819f22fb54b2164b0",
+      "Claude_audit/review_of_codex_memory_implementation.md": "f28381d2947e60659b5cd753111ec9ee3314cb7b3f35c308e40487ed4e2d721e"
+    }
+  }
+}
