@@ -1,0 +1,211 @@
+{
+  "case": {
+    "name": "capacity_dogleg_15ghz",
+    "geometry": "dogleg",
+    "frequency": 15,
+    "mode": "adaptive"
+  },
+  "options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "initial_forecast": {
+    "requested": "adaptive",
+    "dense_peak_gib": 1.531667709350586,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 34.6191221,
+        "peak_gb": 1.531667709350586
+      },
+      "compressed": {
+        "cost": 34.662252980000005,
+        "peak_gb": 3.291428565979004
+      }
+    },
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 14.807239151000976,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+    "meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "dense_peak_gib": 0.9664726257324219,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.9664726257324219,
+          "compressed": 0.9778028130531311
+        },
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "dense_peak_gib": 0.9664726257324219,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.9664726257324219,
+          "compressed": 0.9778028130531311
+        },
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "dense_peak_gib": 1.531667709350586,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.531667709350586,
+          "compressed": 3.291428565979004
+        },
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "dense_peak_gib": 1.531667709350586,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.531667709350586,
+          "compressed": 3.291428565979004
+        },
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      }
+    ],
+    "mesh_forecast_scope": {
+      "initial_candidate_unknowns_min": 3600,
+      "initial_candidate_unknowns_max": 5400,
+      "final_size_guaranteed": false,
+      "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+    },
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ]
+  },
+  "planning_seconds": 0.4432234000014432,
+  "solve_seconds": 42.58716750000167,
+  "status": "passed",
+  "quality_passed": true,
+  "mesh_certified": true,
+  "actual_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "adaptive",
+    "basis_order": 3,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "adaptive_runs": [
+    {
+      "name": "learned_hint",
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "panels": 2162,
+          "nodes": 4324,
+          "seconds": 17.551519500000722,
+          "backend": "compressed"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 2162,
+          "nodes": 6486,
+          "seconds": 20.688861099999485,
+          "backend": "compressed"
+        }
+      ],
+      "first_two_step_seconds": 38.24038060000021,
+      "solve_seconds": 38.396127299998625,
+      "panel_growth": 1.0,
+      "final_vs_initial_cubic_nodes": 1.0
+    },
+    {
+      "name": "metal_inlet_15ghz_auto",
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "panels": 1454,
+          "nodes": 2908,
+          "seconds": 4.350858599998901,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 1454,
+          "nodes": 4362,
+          "seconds": 5.268743300001006,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 2864,
+          "nodes": 8592,
+          "seconds": 19.212289899998723,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 4765,
+          "nodes": 14295,
+          "seconds": 74.23988999999892,
+          "backend": "dense"
+        }
+      ],
+      "first_two_step_seconds": 9.619601899999907,
+      "solve_seconds": 103.42821580000054,
+      "panel_growth": 3.27716643741403,
+      "final_vs_initial_cubic_nodes": 3.27716643741403
+    },
+    {
+      "name": "narrow_inlet_15ghz_auto",
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "panels": 1605,
+          "nodes": 3210,
+          "seconds": 5.101720000000569,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 1605,
+          "nodes": 4815,
+          "seconds": 6.373548300000039,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 3264,
+          "nodes": 9792,
+          "seconds": 26.252379699999437,
+          "backend": "dense"
+        },
+        {
+          "polynomial_degree": 3,
+          "panels": 5283,
+          "nodes": 15849,
+          "seconds": 74.97620499999903,
+          "backend": "compressed"
+        }
+      ],
+      "first_two_step_seconds": 11.475268300000607,
+      "solve_seconds": 113.05969890000051,
+      "panel_growth": 3.291588785046729,
+      "final_vs_initial_cubic_nodes": 3.291588785046729
+    }
+  ],
+  "inverse_to_full_operator_rank": [
+    {
+      "loss_multiplier": 0.0,
+      "polarization": "TE",
+      "ratio": 1.4244604316546763
+    },
+    {
+      "loss_multiplier": 0.0,
+      "polarization": "TM",
+      "ratio": 1.4055944055944056
+    },
+    {
+      "loss_multiplier": 0.25,
+      "polarization": "TE",
+      "ratio": 3.0
+    },
+    {
+      "loss_multiplier": 0.25,
+      "polarization": "TM",
+      "ratio": 3.125
+    },
+    {
+      "loss_multiplier": 1.0,
+      "polarization": "TE",
+      "ratio": 2.225
+    },
+    {
+      "loss_multiplier": 1.0,
+      "polarization": "TM",
+      "ratio": 2.25
+    }
+  ],
+  "triple_moderate_dielectric": {
+    "initial_unknowns": 17424,
+    "scenario_unknowns": 52272,
+    "one_complex128_dense_matrix_gib": 40.71536636352539,
+    "scope": "Arithmetic scenario only, not a refined mesh forecast or numerical solve."
+  },
+  "direct_multifrequency_probes": [
+    {
+      "entry": "solve_monostatic_rcs_2d",
+      "mesh_strategy": "global",
+      "status": "passed",
+      "frequencies": [
+        0.6,
+        0.8
+      ],
+      "probe_only_starting_tolerance": 1e-10,
+      "events": [
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": false
+        },
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": true
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": false
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": true
+        }
+      ],
+      "distinct_scope_identities": 2,
+      "request_state_discarded": true,
+      "quality_passed": true,
+      "mesh_certified": false
+    },
+    {
+      "entry": "solve_monostatic_rcs_2d_certified",
+      "mesh_strategy": "global",
+      "status": "passed",
+      "frequencies": [
+        0.6,
+        0.8
+      ],
+      "probe_only_starting_tolerance": 1e-10,
+      "events": [
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": false
+        },
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": true
+        },
+        {
+          "scope_identity": "25f29150a91767656f144fc6c5f75fb377e2a3da130fc99ed06fe77b28be8b7d",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.6,
+          "accepted": false
+        },
+        {
+          "scope_identity": "25f29150a91767656f144fc6c5f75fb377e2a3da130fc99ed06fe77b28be8b7d",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.6,
+          "accepted": true
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": false
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": true
+        },
+        {
+          "scope_identity": "c2876156ecb7f0a097fb3741f7a120545e34c34b3c94744e543ce618ddf10c15",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.8,
+          "accepted": false
+        },
+        {
+          "scope_identity": "c2876156ecb7f0a097fb3741f7a120545e34c34b3c94744e543ce618ddf10c15",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.8,
+          "accepted": true
+        }
+      ],
+      "distinct_scope_identities": 4,
+      "request_state_discarded": true,
+      "quality_passed": true,
+      "mesh_certified": true
+    },
+    {
+      "entry": "solve_monostatic_rcs_2d_certified",
+      "mesh_strategy": "adaptive",
+      "status": "passed",
+      "frequencies": [
+        0.6,
+        0.8
+      ],
+      "probe_only_starting_tolerance": 1e-10,
+      "events": [
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": false
+        },
+        {
+          "scope_identity": "c35d6cdb770e291a83075c01b0623159e1f21963a5b09ad9d40063fb83a4e2ac",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.6,
+          "accepted": true
+        },
+        {
+          "scope_identity": "25f29150a91767656f144fc6c5f75fb377e2a3da130fc99ed06fe77b28be8b7d",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.6,
+          "accepted": false
+        },
+        {
+          "scope_identity": "25f29150a91767656f144fc6c5f75fb377e2a3da130fc99ed06fe77b28be8b7d",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.6,
+          "accepted": true
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": false
+        },
+        {
+          "scope_identity": "683ca7c40df6233296e4a3b85ecc00bab9c864ccbe7ccf096021f329aeda581a",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 384,
+          "frequency_ghz": 0.8,
+          "accepted": true
+        },
+        {
+          "scope_identity": "c2876156ecb7f0a097fb3741f7a120545e34c34b3c94744e543ce618ddf10c15",
+          "enabled": true,
+          "records_before": 0,
+          "polarization": "TE",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.8,
+          "accepted": false
+        },
+        {
+          "scope_identity": "c2876156ecb7f0a097fb3741f7a120545e34c34b3c94744e543ce618ddf10c15",
+          "enabled": true,
+          "records_before": 1,
+          "polarization": "TM",
+          "key": [
+            "HMatrixFactor",
+            "NativeOracle",
+            "single_dielectric",
+            "dielectric"
+          ],
+          "unknowns": 576,
+          "frequency_ghz": 0.8,
+          "accepted": true
+        }
+      ],
+      "distinct_scope_identities": 4,
+      "request_state_discarded": true,
+      "quality_passed": true,
+      "mesh_certified": true
+    }
+  ],
+  "probe_development_note": "The first probe incorrectly required exactly two scope identities for global certification. Global certification changes the physical snapshot on its reference refinement, so it correctly creates four independent enabled identities. The probe now checks frequency isolation and within-scope reuse, with separate adaptive certification coverage."
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "dielectric15_compressed_probe",
+    "geometry": "inlet_dielectric",
+    "frequency": 15,
+    "mode": "compressed",
+    "ram": 24
+  },
+  {
+    "name": "metal15_dense_budget_8gib",
+    "geometry": "inlet",
+    "frequency": 15,
+    "mode": "dense",
+    "ram": 8
+  },
+  {
+    "name": "metal15_auto_budget_6gib",
+    "geometry": "inlet",
+    "frequency": 15,
+    "mode": "adaptive",
+    "ram": 6
+  },
+  {
+    "name": "coated15_dense_leaf_1024_experiment",
+    "geometry": "coated_inlet",
+    "frequency": 15,
+    "mode": "adaptive",
+    "experimental_dense_leaf_limit": 1024,
+    "timeout": 480
+  },
+  {
+    "name": "capacity_coated_half_inch_3ghz",
+    "geometry": "coated_inlet",
+    "coating_thickness": 0.5,
+    "frequency": 3,
+    "mode": "adaptive"
+  },
+  {
+    "name": "capacity_coated_one_inch_3ghz",
+    "geometry": "coated_inlet",
+    "coating_thickness": 1.0,
+    "frequency": 3,
+    "mode": "adaptive"
+  },
+  {
+    "name": "capacity_high_contrast_3ghz",
+    "geometry": "inlet_high_contrast",
+    "frequency": 3,
+    "mode": "adaptive"
+  },
+  {
+    "name": "capacity_high_contrast_15ghz",
+    "geometry": "inlet_high_contrast",
+    "frequency": 15,
+    "mode": "adaptive"
+  },
+  {
+    "name": "prototype_local_coarse",
+    "task": "prototype",
+    "timeout": 480
+  }
+]

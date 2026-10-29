@@ -1,0 +1,40 @@
+{
+  "case": {
+    "name": "accuracy_pec_large",
+    "task": "accuracy",
+    "kind": "pec",
+    "radius": 0.4572,
+    "chords": 2048,
+    "modes": [
+      "compressed"
+    ]
+  },
+  "status": "passed",
+  "frequency_ghz": 15.0,
+  "ka": 143.73305160544632,
+  "qualification": "Certified polygon meshes compared against independent circular-wave series; circle chord error remains.",
+  "limits": {
+    "rcs_db": 0.05,
+    "pec_complex_relative": 0.005
+  },
+  "results": [
+    {
+      "mode": "compressed",
+      "seconds": 9.641948600001342,
+      "quality": true,
+      "mesh_certified": true,
+      "polarizations": {
+        "TE": {
+          "max_rcs_error_db": 0.0013454140950204469,
+          "max_complex_relative_error": 0.00022564762850960934,
+          "series_rcs": 1.4362649164323669
+        },
+        "TM": {
+          "max_rcs_error_db": 1.409146435342152e-05,
+          "max_complex_relative_error": 0.00022942144742651814,
+          "series_rcs": 1.4363774281285875
+        }
+      }
+    }
+  ]
+}

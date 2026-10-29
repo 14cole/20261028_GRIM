@@ -1,0 +1,32 @@
+{
+  "case": {
+    "name": "capacity_high_contrast_15ghz",
+    "geometry": "inlet_high_contrast",
+    "frequency": 15,
+    "mode": "adaptive"
+  },
+  "options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "status": "rejected",
+  "error_type": "MemoryError",
+  "error": "No compatible backend fits the 14.66 GiB solve budget (dense 935.84 GiB, compressed 474.48 GiB). Formulations: single_dielectric. Final angle batch: 1.",
+  "elapsed_to_rejection_seconds": 4.76660620000257
+}

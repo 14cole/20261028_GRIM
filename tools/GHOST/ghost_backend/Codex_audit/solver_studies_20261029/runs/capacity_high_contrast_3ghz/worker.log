@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 312, in _forecast_backend
+    ranked=rank_candidates(candidates,budget)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\policy.py", line 115, in rank_candidates
+    raise MemoryError('No compatible backend fits the {:.2f} GiB solve budget ({}).'.format(budget_gib,description))
+MemoryError: No compatible backend fits the 14.83 GiB solve budget (dense 39.32 GiB, compressed 20.92 GiB).
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 193, in _recover_memory_forecast
+    rank_candidates(result['candidates'], result['admission_budget_gib'])
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\policy.py", line 115, in rank_candidates
+    raise MemoryError('No compatible backend fits the {:.2f} GiB solve budget ({}).'.format(budget_gib,description))
+MemoryError: No compatible backend fits the 14.78 GiB solve budget (dense 39.32 GiB, compressed 20.92 GiB).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\Codex_audit\solver_studies_20261029\study.py", line 101, in worker
+    record['initial_forecast'] = select_backend(request,options,certified=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 39, in select_backend
+    return _select_backend(arguments, options, certified, checkpoint)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 109, in _select_backend
+    result = _forecast_backend(arguments, normalized, certified, checkpoint, resource_records)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 315, in _forecast_backend
+    _recover_memory_forecast(result, repricing, arguments, options, checkpoint)
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\selection.py", line 197, in _recover_memory_forecast
+    raise MemoryError('{} Formulations: {}. Final angle batch: {}.'.format(
+MemoryError: No compatible backend fits the 14.78 GiB solve budget (dense 39.32 GiB, compressed 20.92 GiB). Formulations: single_dielectric. Final angle batch: 1.
+{"status": "rejected", "solve_seconds": null, "error": "No compatible backend fits the 14.78 GiB solve budget (dense 39.32 GiB, compressed 20.92 GiB). Formulations: single_dielectric. Final angle batch: 1."}

@@ -1,0 +1,53 @@
+{
+  "case": {
+    "name": "accuracy_coated",
+    "task": "accuracy",
+    "kind": "coated"
+  },
+  "status": "passed",
+  "frequency_ghz": 15.0,
+  "ka": 31.437675329275223,
+  "qualification": "Certified polygon meshes compared against independent circular-wave series; circle chord error remains.",
+  "limits": {
+    "rcs_db": 0.05,
+    "pec_complex_relative": 0.005
+  },
+  "results": [
+    {
+      "mode": "dense",
+      "seconds": 4.422472399997787,
+      "quality": true,
+      "mesh_certified": true,
+      "polarizations": {
+        "TE": {
+          "max_rcs_error_db": 0.0017838819837075158,
+          "max_complex_relative_error": null,
+          "series_rcs": 0.30943446253798373
+        },
+        "TM": {
+          "max_rcs_error_db": 0.00029653845507997506,
+          "max_complex_relative_error": null,
+          "series_rcs": 0.31267440703278165
+        }
+      }
+    },
+    {
+      "mode": "compressed",
+      "seconds": 9.602229799998895,
+      "quality": true,
+      "mesh_certified": true,
+      "polarizations": {
+        "TE": {
+          "max_rcs_error_db": 0.0017838830257472914,
+          "max_complex_relative_error": null,
+          "series_rcs": 0.30943446253798373
+        },
+        "TM": {
+          "max_rcs_error_db": 0.00029654117621084907,
+          "max_complex_relative_error": null,
+          "series_rcs": 0.31267440703278165
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,320 @@
+{
+  "case": {
+    "name": "capacity_coated_inlet_15ghz",
+    "geometry": "coated_inlet",
+    "frequency": 15,
+    "mode": "adaptive"
+  },
+  "options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "initial_forecast": {
+    "requested": "adaptive",
+    "dense_peak_gib": 11.847258293069899,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 550.4945448994557,
+        "peak_gb": 11.847258293069899
+      },
+      "compressed": {
+        "cost": 542.6264695073,
+        "peak_gb": 5.73018291592598,
+        "hmatrix": true
+      }
+    },
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 14.830585098266601,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+    "meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 4588,
+        "unknowns": 13768,
+        "dense_peak_gib": 5.7063309187069535,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 5.7063309187069535,
+          "compressed": 3.784088686108589
+        },
+        "resources": {
+          "nodes": 9176,
+          "panels": 4588,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "multi_region",
+          "system_dofs": 13768,
+          "operator_matrices": 582,
+          "operator_entries": 337016192,
+          "geometric_near_pairs": 58912,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 7340992,
+          "mass_workspace_bytes": 1725096,
+          "block_workspace_bytes": 56426496,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 774197248,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 947222816,
+            "operator_allowance_bytes": 947222816,
+            "inverse_bytes": 887163920,
+            "inverse_peak_bytes": 1479298064,
+            "assembly_workspace_bytes": 597531200,
+            "coefficients": 96368108,
+            "retained_entries": 57146884,
+            "inverse_rank": 896,
+            "density_multiplicity": 1.5004359197907584,
+            "wavenumber": 497.1229917817988,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 497.09814246550775,
+                "imag": -4.970484425907393,
+                "magnitude": 497.1229917817988
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 4588,
+        "unknowns": 13768,
+        "dense_peak_gib": 5.7063309187069535,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 5.7063309187069535,
+          "compressed": 3.784088686108589
+        },
+        "resources": {
+          "nodes": 9176,
+          "panels": 4588,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "multi_region",
+          "system_dofs": 13768,
+          "operator_matrices": 582,
+          "operator_entries": 337016192,
+          "geometric_near_pairs": 58912,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 7340992,
+          "mass_workspace_bytes": 1725096,
+          "block_workspace_bytes": 56426496,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 774197248,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 947222816,
+            "operator_allowance_bytes": 947222816,
+            "inverse_bytes": 887163920,
+            "inverse_peak_bytes": 1479298064,
+            "assembly_workspace_bytes": 597531200,
+            "coefficients": 96368108,
+            "retained_entries": 57146884,
+            "inverse_rank": 896,
+            "density_multiplicity": 1.5004359197907584,
+            "wavenumber": 497.1229917817988,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 497.09814246550775,
+                "imag": -4.970484425907393,
+                "magnitude": 497.1229917817988
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 4588,
+        "unknowns": 20652,
+        "dense_peak_gib": 11.847258293069899,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 11.847258293069899,
+          "compressed": 5.73018291592598
+        },
+        "resources": {
+          "nodes": 13764,
+          "panels": 4588,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "multi_region",
+          "system_dofs": 20652,
+          "operator_matrices": 870,
+          "operator_entries": 758286432,
+          "geometric_near_pairs": 58912,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 11011488,
+          "mass_workspace_bytes": 3046440,
+          "block_workspace_bytes": 84639744,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 1352339456,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1580660568,
+            "operator_allowance_bytes": 1580660568,
+            "inverse_bytes": 1292233328,
+            "inverse_peak_bytes": 2180434544,
+            "assembly_workspace_bytes": 896295616,
+            "coefficients": 155846153,
+            "retained_entries": 95708319,
+            "inverse_rank": 896,
+            "density_multiplicity": 1.5004359197907584,
+            "wavenumber": 497.1229917817988,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 497.09814246550775,
+                "imag": -4.970484425907393,
+                "magnitude": 497.1229917817988
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 4588,
+        "unknowns": 20652,
+        "dense_peak_gib": 11.847258293069899,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 11.847258293069899,
+          "compressed": 5.73018291592598
+        },
+        "resources": {
+          "nodes": 13764,
+          "panels": 4588,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "multi_region",
+          "system_dofs": 20652,
+          "operator_matrices": 870,
+          "operator_entries": 758286432,
+          "geometric_near_pairs": 58912,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 11011488,
+          "mass_workspace_bytes": 3046440,
+          "block_workspace_bytes": 84639744,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 1352339456,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1580660568,
+            "operator_allowance_bytes": 1580660568,
+            "inverse_bytes": 1292233328,
+            "inverse_peak_bytes": 2180434544,
+            "assembly_workspace_bytes": 896295616,
+            "coefficients": 155846153,
+            "retained_entries": 95708319,
+            "inverse_rank": 896,
+            "density_multiplicity": 1.5004359197907584,
+            "wavenumber": 497.1229917817988,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 497.09814246550775,
+                "imag": -4.970484425907393,
+                "magnitude": 497.1229917817988
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      }
+    ],
+    "mesh_forecast_scope": {
+      "initial_candidate_unknowns_min": 13768,
+      "initial_candidate_unknowns_max": 20652,
+      "final_size_guaranteed": false,
+      "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+    },
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ]
+  },
+  "planning_seconds": 0.9851767999971344,
+  "status": "rejected",
+  "error_type": "HierarchicalCapacityRejected",
+  "error": "Off-diagonal rank exceeds 214 (sampled residual 6.97e-06).",
+  "elapsed_to_rejection_seconds": 319.1575277999982
+}

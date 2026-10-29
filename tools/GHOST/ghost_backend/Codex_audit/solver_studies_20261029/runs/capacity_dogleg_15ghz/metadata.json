@@ -1,0 +1,2646 @@
+{
+  "polynomial_degree": 3,
+  "linear_node_count": 10572,
+  "mesh_strategy_used": "adaptive",
+  "source_path": "",
+  "segment_count": 1,
+  "panel_count": 3524,
+  "panel_count_min": 3524,
+  "panel_count_max": 3524,
+  "polarizations": [
+    "VV",
+    "HH"
+  ],
+  "polarization_internal": [
+    "TE",
+    "TM"
+  ],
+  "polarization_mapping": {
+    "VV": "TE",
+    "HH": "TM"
+  },
+  "formulation": "co-polarized 2-D BIE/MoM",
+  "formulations": {
+    "VV": "2D closed Robin combined-potential formulation",
+    "HH": "2D closed Robin combined-potential formulation"
+  },
+  "solver_method": "dense_lu_experimental_cpu",
+  "solver_method_requested": "experimental_cpu",
+  "residual_norm_max": 6.07991693317647e-14,
+  "constraint_residual_norm_max": 0.0,
+  "condition_est_max": 92840.97420650466,
+  "condition_est_computed": true,
+  "warnings": [],
+  "information": [
+    "9 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+  ],
+  "warning_count": 0,
+  "preflight": {
+    "segment_count": 1,
+    "primitive_count": 12,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+  },
+  "quality_gate": {
+    "passed": true,
+    "channels": {
+      "VV": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.2037064855884832e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 53512.49648022569,
+          "condition_est_gate_value": 53512.49648022569,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "HH": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.07991693317647e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 92840.97420650466,
+          "condition_est_gate_value": 92840.97420650466,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      }
+    },
+    "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+  },
+  "channel_metadata": {
+    "VV": {
+      "source_path": "",
+      "segment_count": 1,
+      "panel_count": 3524,
+      "panel_count_min": 3524,
+      "panel_count_max": 3524,
+      "panel_length_min_m": 8.50670116658847e-06,
+      "panel_length_max_m": 0.008362881500673769,
+      "mesh_reference_ghz": 15.0,
+      "mesh_reference_ghz_min": 15.0,
+      "mesh_reference_ghz_max": 15.0,
+      "mesh_wavelength_m": 0.019986163866666667,
+      "mesh_wavelength_min_m": 0.019986163866666667,
+      "mesh_wavelength_max_m": 0.019986163866666667,
+      "mesh_max_refractive_index": 1.0,
+      "mesh_material_flags": [],
+      "surface_wave_sampling": [],
+      "polarization_internal": "TE",
+      "polarization_user": "TE",
+      "polarization_aliases": [
+        "TE"
+      ],
+      "polarization_export": "TE",
+      "polarization_export_alias": "VV",
+      "rcs_normalization_mode": "physical",
+      "formulation": "2D closed Robin combined-potential formulation",
+      "solver_method": "dense_lu",
+      "solver_method_requested": "experimental_cpu",
+      "residual_norm_max": 1.2037064855884832e-15,
+      "residual_norm_mean": 1.2037064855884836e-15,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "constraint_residual_norm_mean": 0.0,
+      "constraint_residual_applicable": false,
+      "condition_est_max": 53512.49648022569,
+      "condition_est_mean": 53512.49648022569,
+      "condition_est_frequency_scaled_max": 53512.49648022569,
+      "condition_est_computed": true,
+      "condition_estimator": "equilibrated_1norm_hierarchical_refined_inverse",
+      "thin_layer": [],
+      "acute_corners": {
+        "pairs": 9,
+        "min_angle_deg": 90.0,
+        "self_check": 1.973875225054972e-14
+      },
+      "warnings": [],
+      "information": [
+        "9 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+      ],
+      "warning_count": 0,
+      "math_backend_real_bessel": "scipy-special",
+      "math_backend_complex_hankel": "scipy-special",
+      "reused_matrix_solve_count": 361,
+      "shared_operator_cache_enabled": true,
+      "shared_operator_cache_hits": 0,
+      "shared_operator_cache_stores": 0,
+      "parallel_elevation_solve_count": 0,
+      "max_parallel_workers_used": 1,
+      "mesh_reference_frequency_used": false,
+      "cfie_alpha": 0.0,
+      "junction_nodes": 0,
+      "junction_constraints": 0,
+      "junction_constraint_candidates": 0,
+      "junction_constraints_applied": false,
+      "junction_constraints_applied_count": 0,
+      "junction_treatment": "none",
+      "junction_panels": 0,
+      "junction_trace_constraints": 0,
+      "junction_flux_constraints": 0,
+      "junction_orientation_conflict_nodes": 0,
+      "linear_node_count": 10572,
+      "linear_element_count": 3524,
+      "shared_node_count": 3524,
+      "split_node_count": 0,
+      "split_boundary_primitive_count": 3524,
+      "multi_signature_node_count": 0,
+      "preflight": {
+        "segment_count": 1,
+        "primitive_count": 12,
+        "dangling_nodes": 0,
+        "high_degree_nodes": 0,
+        "warning_count": 0,
+        "warnings": []
+      },
+      "cpu_factorization_requested": "dense",
+      "cpu_rhs_compression_requested": "auto",
+      "hierarchical_factors": [
+        {
+          "backend": "hodlr",
+          "compression": "randomized",
+          "builds": 1,
+          "tighter_rebuilds": 0,
+          "ordered_copy": true,
+          "ordered_copy_bytes": 1788274944,
+          "leaves": 64,
+          "low_rank_blocks": 126,
+          "max_rank": 151,
+          "max_block_error": 9.995142394938052e-11,
+          "tolerance": 1e-10,
+          "factor_bytes": 207123840,
+          "refinements": 3,
+          "refinement_tolerance": 3e-15,
+          "probe_refinements": 1
+        }
+      ],
+      "compressed_factors": [],
+      "sweep_compression": [
+        {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        }
+      ],
+      "dense_condition_methods": [
+        "equilibrated_1norm_hierarchical_refined_inverse"
+      ],
+      "linear_backend": "cpu_hierarchical",
+      "dense_gpu_solve_count": 0,
+      "dense_cpu_solve_count": 2,
+      "dense_factorization_count": 1,
+      "dense_rhs_batch_count": 2,
+      "dense_rhs_column_count": 361,
+      "dense_max_rhs_columns": 256,
+      "dense_mixed_precision_solve_count": 0,
+      "dense_fallback_reasons": [],
+      "dense_gpu_fallback_reasons": [],
+      "dense_gpu_devices": [],
+      "dense_largest_system": 10572,
+      "amplitude_version": 2,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.2037064855884832e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 53512.49648022569,
+          "condition_est_gate_value": 53512.49648022569,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "linear_algebra_execution": [
+        {
+          "matrix_size": 10572,
+          "policy": 4,
+          "requested_threads": 4,
+          "pools": [
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            },
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            }
+          ]
+        }
+      ],
+      "execution_options": {
+        "version": 1,
+        "factorization": "dense",
+        "mesh_strategy": "local",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 24,
+        "temporary_directory": "",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "polynomial_degree": 3,
+      "execution_wall_seconds": 19.567096099999617,
+      "execution_threads": {
+        "assembly": 4,
+        "blas": 4
+      },
+      "mesh_strategy_used": "adaptive",
+      "mesh_convergence": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.03779683448174252,
+        "max_abs_db": 0.17594043054051767,
+        "mean_db": 0.010003503623175387,
+        "median_abs_db": 0.015661724948907718,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 91,
+        "rms_db_unfloored": 0.996910885282283,
+        "max_abs_db_unfloored": 8.524856913813029,
+        "complex_rms_normalized": 0.00030880139360006155,
+        "complex_max_normalized": 0.0011770400479800742,
+        "complex_reference_peak_amplitude": 2304.659426010524,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2304.659426010524
+        },
+        "phase_sample_count": 91,
+        "phase_rms_deg": 0.4797012415751924,
+        "phase_max_deg": 1.227818063556877,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2064318341515528e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 62469.16423348253,
+            "condition_est_gate_value": 62469.16423348253,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2037064855884832e-15,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 53512.49648022569,
+            "condition_est_gate_value": 53512.49648022569,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0012289281243411446,
+          "complex_rms_normalized": 0.00032241444807431017,
+          "max_abs_db": 0.1836965052047168,
+          "rms_db": 0.039463052243118635,
+          "phase_max_deg": 1.2819446139224933,
+          "phase_rms_deg": 0.5008481640576254
+        },
+        "estimated_published_complex_max_normalized": 0.0012289281243411446,
+        "estimated_published_complex_rms_normalized": 0.00032241444807431017,
+        "estimated_published_max_abs_db": 0.1836965052047168,
+        "estimated_published_rms_db": 0.039463052243118635
+      },
+      "mesh_convergence_certified": true,
+      "certified_entry_point": true,
+      "published_mesh": "fine"
+    },
+    "HH": {
+      "source_path": "",
+      "segment_count": 1,
+      "panel_count": 3524,
+      "panel_count_min": 3524,
+      "panel_count_max": 3524,
+      "panel_length_min_m": 8.50670116658847e-06,
+      "panel_length_max_m": 0.008362881500673769,
+      "mesh_reference_ghz": 15.0,
+      "mesh_reference_ghz_min": 15.0,
+      "mesh_reference_ghz_max": 15.0,
+      "mesh_wavelength_m": 0.019986163866666667,
+      "mesh_wavelength_min_m": 0.019986163866666667,
+      "mesh_wavelength_max_m": 0.019986163866666667,
+      "mesh_max_refractive_index": 1.0,
+      "mesh_material_flags": [],
+      "surface_wave_sampling": [],
+      "polarization_internal": "TM",
+      "polarization_user": "TM",
+      "polarization_aliases": [
+        "TM"
+      ],
+      "polarization_export": "TM",
+      "polarization_export_alias": "HH",
+      "rcs_normalization_mode": "physical",
+      "formulation": "2D closed Robin combined-potential formulation",
+      "solver_method": "dense_lu",
+      "solver_method_requested": "experimental_cpu",
+      "residual_norm_max": 6.07991693317647e-14,
+      "residual_norm_mean": 6.079916933176468e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "constraint_residual_norm_mean": 0.0,
+      "constraint_residual_applicable": false,
+      "condition_est_max": 92840.97420650466,
+      "condition_est_mean": 92840.97420650466,
+      "condition_est_frequency_scaled_max": 92840.97420650466,
+      "condition_est_computed": true,
+      "condition_estimator": "equilibrated_1norm_hierarchical_refined_inverse",
+      "thin_layer": [],
+      "acute_corners": {
+        "pairs": 9,
+        "min_angle_deg": 90.0,
+        "self_check": 1.973875225054972e-14
+      },
+      "warnings": [],
+      "information": [
+        "9 touching panel pair(s) meet at acute corners (smallest 90 deg); their near-singular blocks use the angle-graded touching quadrature."
+      ],
+      "warning_count": 0,
+      "math_backend_real_bessel": "scipy-special",
+      "math_backend_complex_hankel": "scipy-special",
+      "reused_matrix_solve_count": 361,
+      "shared_operator_cache_enabled": true,
+      "shared_operator_cache_hits": 0,
+      "shared_operator_cache_stores": 0,
+      "parallel_elevation_solve_count": 0,
+      "max_parallel_workers_used": 1,
+      "mesh_reference_frequency_used": false,
+      "cfie_alpha": 0.0,
+      "junction_nodes": 0,
+      "junction_constraints": 0,
+      "junction_constraint_candidates": 0,
+      "junction_constraints_applied": false,
+      "junction_constraints_applied_count": 0,
+      "junction_treatment": "none",
+      "junction_panels": 0,
+      "junction_trace_constraints": 0,
+      "junction_flux_constraints": 0,
+      "junction_orientation_conflict_nodes": 0,
+      "linear_node_count": 10572,
+      "linear_element_count": 3524,
+      "shared_node_count": 3524,
+      "split_node_count": 0,
+      "split_boundary_primitive_count": 3524,
+      "multi_signature_node_count": 0,
+      "preflight": {
+        "segment_count": 1,
+        "primitive_count": 12,
+        "dangling_nodes": 0,
+        "high_degree_nodes": 0,
+        "warning_count": 0,
+        "warnings": []
+      },
+      "cpu_factorization_requested": "dense",
+      "cpu_rhs_compression_requested": "auto",
+      "hierarchical_factors": [
+        {
+          "backend": "hodlr",
+          "compression": "randomized",
+          "builds": 1,
+          "tighter_rebuilds": 0,
+          "ordered_copy": true,
+          "ordered_copy_bytes": 1788274944,
+          "leaves": 64,
+          "low_rank_blocks": 126,
+          "max_rank": 148,
+          "max_block_error": 9.250158307377772e-11,
+          "tolerance": 1e-10,
+          "factor_bytes": 203520840,
+          "refinements": 2,
+          "refinement_tolerance": 3e-15,
+          "probe_refinements": 1
+        }
+      ],
+      "compressed_factors": [],
+      "sweep_compression": [
+        {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        }
+      ],
+      "dense_condition_methods": [
+        "equilibrated_1norm_hierarchical_refined_inverse"
+      ],
+      "linear_backend": "cpu_hierarchical",
+      "dense_gpu_solve_count": 0,
+      "dense_cpu_solve_count": 2,
+      "dense_factorization_count": 1,
+      "dense_rhs_batch_count": 2,
+      "dense_rhs_column_count": 361,
+      "dense_max_rhs_columns": 256,
+      "dense_mixed_precision_solve_count": 0,
+      "dense_fallback_reasons": [],
+      "dense_gpu_fallback_reasons": [],
+      "dense_gpu_devices": [],
+      "dense_largest_system": 10572,
+      "amplitude_version": 2,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.07991693317647e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 92840.97420650466,
+          "condition_est_gate_value": 92840.97420650466,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "linear_algebra_execution": [
+        {
+          "matrix_size": 10572,
+          "policy": 4,
+          "requested_threads": 4,
+          "pools": [
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            },
+            {
+              "internal_api": "openblas",
+              "prefix": "libscipy_openblas",
+              "num_threads": 4
+            }
+          ]
+        }
+      ],
+      "execution_options": {
+        "version": 1,
+        "factorization": "dense",
+        "mesh_strategy": "local",
+        "basis_order": 3,
+        "mesh_grading": true,
+        "enforce_mesh_density": true,
+        "compressed_storage_mib": 0,
+        "ram_budget_gib": 24,
+        "temporary_directory": "",
+        "assembly_threads": 4,
+        "blas_threads": 4,
+        "rhs_compression": "auto",
+        "angle_batch_size": 256,
+        "assembly_tile": 0,
+        "far_quadrature_order": 0,
+        "far_grading": true,
+        "dense_residual_storage": "auto",
+        "compressed_far_method": "full"
+      },
+      "polynomial_degree": 3,
+      "execution_wall_seconds": 7.881039199997758,
+      "execution_threads": {
+        "assembly": 4,
+        "blas": 4
+      },
+      "mesh_strategy_used": "adaptive",
+      "mesh_convergence": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.004502216327500042,
+        "max_abs_db": 0.018107723026963285,
+        "mean_db": 0.0025305575405614226,
+        "median_abs_db": 0.0016383796026886444,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 93,
+        "rms_db_unfloored": 0.05556370932386445,
+        "max_abs_db_unfloored": 0.2838155158937923,
+        "complex_rms_normalized": 3.925104269965497e-05,
+        "complex_max_normalized": 0.00017712746201814562,
+        "complex_reference_peak_amplitude": 2300.013232512443,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.013232512443
+        },
+        "phase_sample_count": 93,
+        "phase_rms_deg": 0.03320345314148021,
+        "phase_max_deg": 0.10941143396479154,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.4232209786194496e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 56692.65079168863,
+            "condition_est_gate_value": 56692.65079168863,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 6.07991693317647e-14,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 92840.97420650466,
+            "condition_est_gate_value": 92840.97420650466,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0001849358652161613,
+          "complex_rms_normalized": 4.0981367087806807e-05,
+          "max_abs_db": 0.01890597531817512,
+          "rms_db": 0.004700689901102131,
+          "phase_max_deg": 0.11423467583330901,
+          "phase_rms_deg": 0.03466717845398165
+        },
+        "estimated_published_complex_max_normalized": 0.0001849358652161613,
+        "estimated_published_complex_rms_normalized": 4.0981367087806807e-05,
+        "estimated_published_max_abs_db": 0.01890597531817512,
+        "estimated_published_rms_db": 0.004700689901102131
+      },
+      "mesh_convergence_certified": true,
+      "certified_entry_point": true,
+      "published_mesh": "fine"
+    }
+  },
+  "cpu_factorization_requested": "dense",
+  "compressed_factors": [],
+  "cpu_rhs_compression_requested": "auto",
+  "hierarchical_factors": {
+    "VV": [
+      {
+        "backend": "hodlr",
+        "compression": "randomized",
+        "builds": 1,
+        "tighter_rebuilds": 0,
+        "ordered_copy": true,
+        "ordered_copy_bytes": 1788274944,
+        "leaves": 64,
+        "low_rank_blocks": 126,
+        "max_rank": 151,
+        "max_block_error": 9.995142394938052e-11,
+        "tolerance": 1e-10,
+        "factor_bytes": 207123840,
+        "refinements": 3,
+        "refinement_tolerance": 3e-15,
+        "probe_refinements": 1
+      }
+    ],
+    "HH": [
+      {
+        "backend": "hodlr",
+        "compression": "randomized",
+        "builds": 1,
+        "tighter_rebuilds": 0,
+        "ordered_copy": true,
+        "ordered_copy_bytes": 1788274944,
+        "leaves": 64,
+        "low_rank_blocks": 126,
+        "max_rank": 148,
+        "max_block_error": 9.250158307377772e-11,
+        "tolerance": 1e-10,
+        "factor_bytes": 203520840,
+        "refinements": 2,
+        "refinement_tolerance": 3e-15,
+        "probe_refinements": 1
+      }
+    ]
+  },
+  "sweep_compression": {
+    "VV": [
+      {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": true,
+        "sampled_basis_attempts": 1,
+        "auto_suspended": "fallback",
+        "hint_recorded": true,
+        "suspended_batches": 1
+      }
+    ],
+    "HH": [
+      {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 361,
+        "solved_columns": 361,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "hint_probe": false,
+        "auto_suspended": "hint",
+        "suspended_batches": 2
+      }
+    ]
+  },
+  "dense_factorization_count": 4,
+  "dense_rhs_batch_count": 8,
+  "dense_rhs_column_count": 1444,
+  "dense_max_rhs_columns": 256,
+  "thin_layer": {
+    "VV": [],
+    "HH": []
+  },
+  "surface_wave_sampling": [],
+  "amplitude_version": 2,
+  "co_solve_shared_discretization": true,
+  "shared_operator_cache_enabled": true,
+  "shared_operator_cache_hits": 0,
+  "shared_operator_cache_stores": 0,
+  "linear_backend": "cpu_hierarchical",
+  "dense_gpu_solve_count": 0,
+  "dense_cpu_solve_count": 4,
+  "dense_gpu_fallback_reasons": [],
+  "dense_gpu_devices": [],
+  "dense_largest_system": 10572,
+  "mesh_convergence_certified": true,
+  "certified_entry_point": true,
+  "survey_mode": false,
+  "published_mesh": "fine",
+  "mesh_convergence": {
+    "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+    "passed": true,
+    "published_mesh": "fine",
+    "channels": {
+      "VV": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.03779683448174252,
+        "max_abs_db": 0.17594043054051767,
+        "mean_db": 0.010003503623175387,
+        "median_abs_db": 0.015661724948907718,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 91,
+        "rms_db_unfloored": 0.996910885282283,
+        "max_abs_db_unfloored": 8.524856913813029,
+        "complex_rms_normalized": 0.00030880139360006155,
+        "complex_max_normalized": 0.0011770400479800742,
+        "complex_reference_peak_amplitude": 2304.659426010524,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2304.659426010524
+        },
+        "phase_sample_count": 91,
+        "phase_rms_deg": 0.4797012415751924,
+        "phase_max_deg": 1.227818063556877,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2064318341515528e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 62469.16423348253,
+            "condition_est_gate_value": 62469.16423348253,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2037064855884832e-15,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 53512.49648022569,
+            "condition_est_gate_value": 53512.49648022569,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0012289281243411446,
+          "complex_rms_normalized": 0.00032241444807431017,
+          "max_abs_db": 0.1836965052047168,
+          "rms_db": 0.039463052243118635,
+          "phase_max_deg": 1.2819446139224933,
+          "phase_rms_deg": 0.5008481640576254
+        },
+        "estimated_published_complex_max_normalized": 0.0012289281243411446,
+        "estimated_published_complex_rms_normalized": 0.00032241444807431017,
+        "estimated_published_max_abs_db": 0.1836965052047168,
+        "estimated_published_rms_db": 0.039463052243118635
+      },
+      "HH": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.004502216327500042,
+        "max_abs_db": 0.018107723026963285,
+        "mean_db": 0.0025305575405614226,
+        "median_abs_db": 0.0016383796026886444,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 93,
+        "rms_db_unfloored": 0.05556370932386445,
+        "max_abs_db_unfloored": 0.2838155158937923,
+        "complex_rms_normalized": 3.925104269965497e-05,
+        "complex_max_normalized": 0.00017712746201814562,
+        "complex_reference_peak_amplitude": 2300.013232512443,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.013232512443
+        },
+        "phase_sample_count": 93,
+        "phase_rms_deg": 0.03320345314148021,
+        "phase_max_deg": 0.10941143396479154,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.4232209786194496e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 56692.65079168863,
+            "condition_est_gate_value": 56692.65079168863,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 6.07991693317647e-14,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 92840.97420650466,
+            "condition_est_gate_value": 92840.97420650466,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0001849358652161613,
+          "complex_rms_normalized": 4.0981367087806807e-05,
+          "max_abs_db": 0.01890597531817512,
+          "rms_db": 0.004700689901102131,
+          "phase_max_deg": 0.11423467583330901,
+          "phase_rms_deg": 0.03466717845398165
+        },
+        "estimated_published_complex_max_normalized": 0.0001849358652161613,
+        "estimated_published_complex_rms_normalized": 4.0981367087806807e-05,
+        "estimated_published_max_abs_db": 0.01890597531817512,
+        "estimated_published_rms_db": 0.004700689901102131
+      }
+    },
+    "polarizations": {
+      "VV": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.03779683448174252,
+        "max_abs_db": 0.17594043054051767,
+        "mean_db": 0.010003503623175387,
+        "median_abs_db": 0.015661724948907718,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 91,
+        "rms_db_unfloored": 0.996910885282283,
+        "max_abs_db_unfloored": 8.524856913813029,
+        "complex_rms_normalized": 0.00030880139360006155,
+        "complex_max_normalized": 0.0011770400479800742,
+        "complex_reference_peak_amplitude": 2304.659426010524,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2304.659426010524
+        },
+        "phase_sample_count": 91,
+        "phase_rms_deg": 0.4797012415751924,
+        "phase_max_deg": 1.227818063556877,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2064318341515528e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 62469.16423348253,
+            "condition_est_gate_value": 62469.16423348253,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2037064855884832e-15,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 53512.49648022569,
+            "condition_est_gate_value": 53512.49648022569,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0012289281243411446,
+          "complex_rms_normalized": 0.00032241444807431017,
+          "max_abs_db": 0.1836965052047168,
+          "rms_db": 0.039463052243118635,
+          "phase_max_deg": 1.2819446139224933,
+          "phase_rms_deg": 0.5008481640576254
+        },
+        "estimated_published_complex_max_normalized": 0.0012289281243411446,
+        "estimated_published_complex_rms_normalized": 0.00032241444807431017,
+        "estimated_published_max_abs_db": 0.1836965052047168,
+        "estimated_published_rms_db": 0.039463052243118635
+      },
+      "HH": {
+        "passed": true,
+        "sample_count": 361,
+        "rms_db": 0.004502216327500042,
+        "max_abs_db": 0.018107723026963285,
+        "mean_db": 0.0025305575405614226,
+        "median_abs_db": 0.0016383796026886444,
+        "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+        "db_sample_count_above_floor": 93,
+        "rms_db_unfloored": 0.05556370932386445,
+        "max_abs_db_unfloored": 0.2838155158937923,
+        "complex_rms_normalized": 3.925104269965497e-05,
+        "complex_max_normalized": 0.00017712746201814562,
+        "complex_reference_peak_amplitude": 2300.013232512443,
+        "complex_reference_peak_amplitude_by_frequency": {
+          "15.0": 2300.013232512443
+        },
+        "phase_sample_count": 93,
+        "phase_rms_deg": 0.03320345314148021,
+        "phase_max_deg": 0.10941143396479154,
+        "limits": {
+          "rms_db": 0.05,
+          "max_abs_db": 0.25,
+          "complex_rms_normalized": 0.001,
+          "complex_max_normalized": 0.002,
+          "phase_rms_deg": 0.5,
+          "phase_max_deg": 2.0,
+          "phase_floor_relative": 0.03,
+          "db_floor_relative": 0.03
+        },
+        "violations": [],
+        "reason": "mesh convergence passed",
+        "schema": "ghost.solver.mesh-convergence.v1",
+        "fine_factor": 1.5,
+        "published_mesh": "fine",
+        "geometry_model": "piecewise_linear_input",
+        "geometry_approximation_certified": false,
+        "surface_wave_sampling_checked": false,
+        "base_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.4232209786194496e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 56692.65079168863,
+            "condition_est_gate_value": 56692.65079168863,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 6.07991693317647e-14,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 92840.97420650466,
+            "condition_est_gate_value": 92840.97420650466,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "base_polynomial_degree": 3,
+        "fine_polynomial_degree": 3,
+        "refinement_kind": "mesh",
+        "base_panel_count": 1800,
+        "fine_panel_count": 3524,
+        "panel_refinement_ratio": 1.9577777777777778,
+        "estimated_published_error": {
+          "assumed_order": 1.0,
+          "refinement_ratio": 1.9577777777777778,
+          "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+          "available": true,
+          "factor": 1.0440835266821344,
+          "complex_max_normalized": 0.0001849358652161613,
+          "complex_rms_normalized": 4.0981367087806807e-05,
+          "max_abs_db": 0.01890597531817512,
+          "rms_db": 0.004700689901102131,
+          "phase_max_deg": 0.11423467583330901,
+          "phase_rms_deg": 0.03466717845398165
+        },
+        "estimated_published_complex_max_normalized": 0.0001849358652161613,
+        "estimated_published_complex_rms_normalized": 4.0981367087806807e-05,
+        "estimated_published_max_abs_db": 0.01890597531817512,
+        "estimated_published_rms_db": 0.004700689901102131
+      }
+    },
+    "base_quality_gate": {
+      "passed": true,
+      "channels": {
+        "VV": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 2.2064318341515528e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 62469.16423348253,
+            "condition_est_gate_value": 62469.16423348253,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "HH": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.4232209786194496e-13,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 56692.65079168863,
+            "condition_est_gate_value": 56692.65079168863,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        }
+      }
+    },
+    "fine_quality_gate": {
+      "passed": true,
+      "channels": {
+        "VV": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 1.2037064855884832e-15,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 53512.49648022569,
+            "condition_est_gate_value": 53512.49648022569,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        },
+        "HH": {
+          "passed": true,
+          "thresholds": {
+            "residual_norm_max": 1e-06,
+            "constraint_residual_norm_max": 1e-08,
+            "condition_est_max": 1000000.0,
+            "warnings_max": 10
+          },
+          "values": {
+            "residual_norm_max": 6.07991693317647e-14,
+            "residual_nonfinite_count": 0,
+            "constraint_residual_norm_max": 0.0,
+            "condition_est_max": 92840.97420650466,
+            "condition_est_gate_value": 92840.97420650466,
+            "condition_est_computed": true,
+            "warnings_count": 0
+          },
+          "violations": [],
+          "certification_scope": "discrete_linear_system_residual_and_condition",
+          "mesh_convergence_certified": false,
+          "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+        }
+      }
+    },
+    "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+    "rms_db": 0.03779683448174252,
+    "max_abs_db": 0.17594043054051767,
+    "complex_rms_normalized": 0.00030880139360006155,
+    "complex_max_normalized": 0.0011770400479800742,
+    "phase_rms_deg": 0.4797012415751924,
+    "phase_max_deg": 1.227818063556877,
+    "base_panel_count": 1800.0,
+    "fine_panel_count": 3524.0,
+    "panel_refinement_ratio": 1.9577777777777778,
+    "fine_factor": 1.5,
+    "estimated_published_complex_max_normalized": 0.0012289281243411446,
+    "estimated_published_complex_rms_normalized": 0.00032241444807431017,
+    "estimated_published_max_abs_db": 0.1836965052047168,
+    "estimated_published_rms_db": 0.039463052243118635
+  },
+  "assembled_system_reuses": 2,
+  "certification_phase_counters": {
+    "base": {
+      "dense_factorization_count": 2,
+      "dense_rhs_batch_count": 4,
+      "dense_rhs_column_count": 722
+    },
+    "fine": {
+      "dense_factorization_count": 2,
+      "dense_rhs_batch_count": 4,
+      "dense_rhs_column_count": 722
+    }
+  },
+  "certification_solve_order": [
+    "base_TE",
+    "base_TM",
+    "fine_TE",
+    "fine_TM"
+  ],
+  "adaptive_mesh": {
+    "used": true,
+    "strategy": "hp",
+    "steps": [
+      {
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "coarsening": 8.0,
+        "nodes": 3600,
+        "seconds": 6.369204800001171,
+        "backend": "dense",
+        "backend_selection": {
+          "requested": "adaptive",
+          "dense_peak_gib": 1.531667709350586,
+          "model": "stage_work_v6",
+          "objective": "predicted_solve_completion",
+          "candidates": {
+            "dense": {
+              "cost": 34.6191221,
+              "peak_gb": 1.531667709350586
+            },
+            "compressed": {
+              "cost": 34.662252980000005,
+              "peak_gb": 3.291428565979004
+            }
+          },
+          "exclusions": {},
+          "optimality_guaranteed": false,
+          "admission_budget_gib": 14.80133056640625,
+          "dense_margin_fraction": 0.2,
+          "angle_batch_size": 256,
+          "reason": "Retained request or batch preference after admission on the actual adaptive mesh.",
+          "mesh_forecast_scope": {
+            "initial_candidate_unknowns_min": 3600,
+            "initial_candidate_unknowns_max": 5400,
+            "final_size_guaranteed": false,
+            "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+          },
+          "selected": "dense",
+          "retry_order": [
+            "compressed"
+          ],
+          "planning_seconds": 0.21260439999969094,
+          "forecast_reused": true
+        },
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 0,
+        "indicators_computed": false
+      },
+      {
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "coarsening": 8.0,
+        "nodes": 5400,
+        "seconds": 8.087795799998275,
+        "backend": "dense",
+        "backend_selection": {
+          "requested": "adaptive",
+          "dense_peak_gib": 1.531667709350586,
+          "model": "stage_work_v6",
+          "objective": "predicted_solve_completion",
+          "candidates": {
+            "dense": {
+              "cost": 34.6191221,
+              "peak_gb": 1.531667709350586
+            },
+            "compressed": {
+              "cost": 34.662252980000005,
+              "peak_gb": 3.291428565979004
+            }
+          },
+          "exclusions": {},
+          "optimality_guaranteed": false,
+          "admission_budget_gib": 14.80133056640625,
+          "dense_margin_fraction": 0.2,
+          "angle_batch_size": 256,
+          "reason": "Retained request or batch preference after admission on the actual adaptive mesh.",
+          "mesh_forecast_scope": {
+            "initial_candidate_unknowns_min": 3600,
+            "initial_candidate_unknowns_max": 5400,
+            "final_size_guaranteed": false,
+            "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+          },
+          "selected": "dense",
+          "retry_order": [
+            "compressed"
+          ],
+          "planning_seconds": 0.21260439999969094,
+          "forecast_reused": true
+        },
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 3,
+        "indicators_computed": true
+      },
+      {
+        "polynomial_degree": 3,
+        "panels": 3524,
+        "coarsening": 5.333333333333333,
+        "nodes": 10572,
+        "seconds": 27.758455899998808,
+        "backend": "dense",
+        "backend_selection": {
+          "requested": "adaptive",
+          "dense_peak_gib": 3.6473977202549577,
+          "model": "stage_work_v6",
+          "objective": "predicted_solve_completion",
+          "candidates": {
+            "dense": {
+              "cost": 92.81144850803706,
+              "peak_gb": 3.6473977202549577
+            },
+            "compressed": {
+              "cost": 70.81909991719999,
+              "peak_gb": 2.154722109436989,
+              "hmatrix": true
+            }
+          },
+          "exclusions": {},
+          "optimality_guaranteed": false,
+          "admission_budget_gib": 14.760540390014649,
+          "dense_margin_fraction": 0.2,
+          "angle_batch_size": 256,
+          "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+          "meshes": [
+            {
+              "frequency_ghz": 15.0,
+              "phase": "base",
+              "polarization": "TE",
+              "polynomial_degree": 3,
+              "panels": 3524,
+              "unknowns": 10572,
+              "dense_peak_gib": 3.6473977202549577,
+              "formulation": "multi_region",
+              "backend_peak_gib": {
+                "dense": 3.6473977202549577,
+                "compressed": 2.154722109436989
+              },
+              "resources": {
+                "nodes": 10572,
+                "panels": 3524,
+                "basis_width": 4,
+                "n_regions": 1,
+                "formulation": "multi_region",
+                "system_dofs": 10572,
+                "operator_matrices": 168,
+                "operator_entries": 223534368,
+                "geometric_near_pairs": 26278,
+                "assembly_operator_entries": 0,
+                "operator_map_bytes": 3467616,
+                "mass_workspace_bytes": 2339944,
+                "block_workspace_bytes": 129908736,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 821795776,
+                "hmatrix_storage": {
+                  "method": "hmatrix_model",
+                  "operator_bytes": 443115264,
+                  "operator_allowance_bytes": 443115264,
+                  "inverse_bytes": 318099856,
+                  "inverse_peak_bytes": 516007696,
+                  "assembly_workspace_bytes": 165092352,
+                  "coefficients": 43280549,
+                  "retained_entries": 26098443,
+                  "inverse_rank": 390,
+                  "density_multiplicity": 1.0,
+                  "wavenumber": 314.37675329275226,
+                  "sampled": false,
+                  "samples": 0,
+                  "hmatrix": true,
+                  "medium_wavenumbers": [
+                    {
+                      "real": 314.37675329275226,
+                      "imag": 0.0,
+                      "magnitude": 314.37675329275226
+                    }
+                  ],
+                  "medium_count": 1,
+                  "medium_list_truncated": false,
+                  "attenuation_calibrated": false,
+                  "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                }
+              }
+            },
+            {
+              "frequency_ghz": 15.0,
+              "phase": "base",
+              "polarization": "TM",
+              "polynomial_degree": 3,
+              "panels": 3524,
+              "unknowns": 10572,
+              "dense_peak_gib": 3.6473977202549577,
+              "formulation": "multi_region",
+              "backend_peak_gib": {
+                "dense": 3.6473977202549577,
+                "compressed": 2.154722109436989
+              },
+              "resources": {
+                "nodes": 10572,
+                "panels": 3524,
+                "basis_width": 4,
+                "n_regions": 1,
+                "formulation": "multi_region",
+                "system_dofs": 10572,
+                "operator_matrices": 168,
+                "operator_entries": 223534368,
+                "geometric_near_pairs": 26278,
+                "assembly_operator_entries": 0,
+                "operator_map_bytes": 3467616,
+                "mass_workspace_bytes": 2339944,
+                "block_workspace_bytes": 129908736,
+                "moment_cache_bytes": 268435456,
+                "assembly_workspace_bytes": 821795776,
+                "hmatrix_storage": {
+                  "method": "hmatrix_model",
+                  "operator_bytes": 443115264,
+                  "operator_allowance_bytes": 443115264,
+                  "inverse_bytes": 318099856,
+                  "inverse_peak_bytes": 516007696,
+                  "assembly_workspace_bytes": 165092352,
+                  "coefficients": 43280549,
+                  "retained_entries": 26098443,
+                  "inverse_rank": 390,
+                  "density_multiplicity": 1.0,
+                  "wavenumber": 314.37675329275226,
+                  "sampled": false,
+                  "samples": 0,
+                  "hmatrix": true,
+                  "medium_wavenumbers": [
+                    {
+                      "real": 314.37675329275226,
+                      "imag": 0.0,
+                      "magnitude": 314.37675329275226
+                    }
+                  ],
+                  "medium_count": 1,
+                  "medium_list_truncated": false,
+                  "attenuation_calibrated": false,
+                  "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                }
+              }
+            }
+          ],
+          "mesh_forecast_scope": {
+            "initial_candidate_unknowns_min": 10572,
+            "initial_candidate_unknowns_max": 10572,
+            "final_size_guaranteed": false,
+            "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+          },
+          "selected": "dense",
+          "retry_order": [
+            "compressed"
+          ]
+        },
+        "angle_batch_size": 256,
+        "failed_backends": [],
+        "marked_primitives": 4,
+        "indicators_computed": true
+      }
+    ],
+    "initial_coarsening": 8.0,
+    "elapsed_seconds": 42.22258879999936,
+    "accepted_degree": 3,
+    "final_backend": "dense",
+    "angle_batch_size": 256,
+    "acceptance_policy": {
+      "fine_factor": 1.5,
+      "rms_limit_db": 0.05,
+      "max_abs_limit_db": 0.25,
+      "complex_rms_limit": 0.001,
+      "complex_max_limit": 0.002,
+      "phase_rms_limit_deg": 0.5,
+      "phase_max_limit_deg": 2.0,
+      "phase_floor_relative": 0.03,
+      "db_floor_relative": 0.03
+    },
+    "polynomial_pair": [],
+    "estimator": "normalized Legendre tail marking; full-field convergence acceptance",
+    "geometry_preserved": true,
+    "fallback": false
+  },
+  "experimental_cpu": {
+    "version": 1,
+    "precision": "double",
+    "device": "cpu",
+    "scope": "experimental_cpu",
+    "batch_size": 256,
+    "cache": {
+      "hits": 0,
+      "stores": 0,
+      "evictions": 0,
+      "bytes": 0,
+      "peak_bytes": 0,
+      "budget_bytes": 67108864
+    },
+    "kernel_tables": [
+      {
+        "used": true,
+        "k_real": 314.37675329275226,
+        "k_imag": 0.0,
+        "degree": 12,
+        "intervals": 2101,
+        "bytes": 2638864,
+        "check_points": 142868,
+        "max_check_relative": 2.784210747764395e-13,
+        "max_tail_relative": 1.3127820849142055e-13,
+        "tolerance": 2e-13,
+        "tolerance_model": "max(2e-13, 8 eps |k| r)",
+        "max_check_to_tolerance": 0.44291679344842827,
+        "build_seconds": 0.12410499999896274,
+        "evaluation_backend": "native_horner",
+        "native_check_relative": 2.7826837193456413e-13,
+        "domain_upper": 3.7701677840695593,
+        "table_upper": 3.7701677840695593,
+        "partial_domain": false
+      }
+    ],
+    "table_budget_bytes": 33554432,
+    "systems": [
+      {
+        "unknowns": 3600,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.475488534803166e-15,
+        "max_relative_residual": 1.7054022299929014e-13,
+        "factor_work_seconds": 0.5978405000023486,
+        "factor_variant": "lu",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "lu_direct_batches": 1,
+          "hint_probe": true,
+          "auto_suspended": "fallback",
+          "hint_recorded": true
+        }
+      },
+      {
+        "unknowns": 3600,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.5747762879388144e-15,
+        "max_relative_residual": 1.3345807884484547e-13,
+        "factor_work_seconds": 0.5853587000019616,
+        "factor_variant": "lu",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "lu_direct_batches": 1,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 1
+        }
+      },
+      {
+        "unknowns": 5400,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 5.082407522155781e-15,
+        "max_relative_residual": 2.2064318341515528e-13,
+        "factor_work_seconds": 1.5573474999982864,
+        "factor_variant": "lu",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "lu_direct_batches": 2
+        }
+      },
+      {
+        "unknowns": 5400,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 4.4835900207729606e-15,
+        "max_relative_residual": 1.4232209786194496e-13,
+        "factor_work_seconds": 1.5927206000014849,
+        "factor_variant": "lu",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "lu_direct_batches": 2
+        }
+      },
+      {
+        "unknowns": 10572,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 2.3712397309297065e-17,
+        "max_relative_residual": 1.2037064855884832e-15,
+        "hierarchical": {
+          "backend": "hodlr",
+          "compression": "randomized",
+          "builds": 1,
+          "tighter_rebuilds": 0,
+          "ordered_copy": true,
+          "ordered_copy_bytes": 1788274944,
+          "leaves": 64,
+          "low_rank_blocks": 126,
+          "max_rank": 151,
+          "max_block_error": 9.995142394938052e-11,
+          "tolerance": 1e-10,
+          "factor_bytes": 207123840,
+          "refinements": 3,
+          "refinement_tolerance": 3e-15,
+          "probe_refinements": 1
+        },
+        "factor_work_seconds": 7.975022700000409,
+        "factor_variant": "hodlr",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": true,
+          "sampled_basis_attempts": 1,
+          "auto_suspended": "fallback",
+          "hint_recorded": true,
+          "suspended_batches": 1
+        },
+        "residual_products_reused": 2
+      },
+      {
+        "unknowns": 10572,
+        "factorizations": 1,
+        "rhs_batches": 2,
+        "max_rhs_columns": 256,
+        "max_backward_error": 1.3533612475350039e-15,
+        "max_relative_residual": 6.07991693317647e-14,
+        "hierarchical": {
+          "backend": "hodlr",
+          "compression": "randomized",
+          "builds": 1,
+          "tighter_rebuilds": 0,
+          "ordered_copy": true,
+          "ordered_copy_bytes": 1788274944,
+          "leaves": 64,
+          "low_rank_blocks": 126,
+          "max_rank": 148,
+          "max_block_error": 9.250158307377772e-11,
+          "tolerance": 1e-10,
+          "factor_bytes": 203520840,
+          "refinements": 2,
+          "refinement_tolerance": 3e-15,
+          "probe_refinements": 1
+        },
+        "factor_work_seconds": 6.865178299998661,
+        "factor_variant": "hodlr",
+        "factor_rebuilds": 0,
+        "factor_fallback": false,
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 361,
+          "solved_columns": 361,
+          "accepted_batches": 0,
+          "fallback_batches": 0,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "hint_probe": false,
+          "auto_suspended": "hint",
+          "suspended_batches": 2
+        },
+        "residual_products_reused": 2
+      }
+    ],
+    "formulations": [
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      },
+      {
+        "formulation": "multi_region",
+        "streamed": true,
+        "reason": ""
+      }
+    ],
+    "memory_estimates": [
+      {
+        "method": "paired_polarization_assembly",
+        "partner_matrix_bytes": 207360000,
+        "total_peak_gib": 0.9664726257324219,
+        "admission_limit_gib": 14.793265914916992
+      },
+      {
+        "method": "reused_dense_matrix_admission",
+        "resident_matrix_bytes": 207360000,
+        "total_peak_gib": 0.9664726257324219,
+        "admission_limit_gib": 14.779859161376953
+      },
+      {
+        "method": "paired_polarization_assembly",
+        "partner_matrix_bytes": 466560000,
+        "total_peak_gib": 1.531667709350586,
+        "admission_limit_gib": 14.759246063232423
+      },
+      {
+        "method": "reused_dense_matrix_admission",
+        "resident_matrix_bytes": 466560000,
+        "total_peak_gib": 1.531667709350586,
+        "admission_limit_gib": 14.795808219909668
+      },
+      {
+        "model": "compressed_hmatrix_v2",
+        "peak_bytes": 2313615248,
+        "medium_wavenumbers": [
+          {
+            "real": 314.37675329275226,
+            "imag": 0.0,
+            "magnitude": 314.37675329275226
+          }
+        ],
+        "medium_count": 1,
+        "medium_list_truncated": false,
+        "attenuation_calibrated": false,
+        "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+        "phase_bytes": {
+          "assembly": 1685501440,
+          "factorization": 1871324432,
+          "solve": 2313615248
+        },
+        "operator_bytes": 443115264,
+        "operator_allowance_bytes": 443115264,
+        "resident_operator_bytes": 886230528,
+        "inverse_ceiling_bytes": 318099856,
+        "inverse_construction_bytes": 516007696,
+        "process_geometry_bytes": 469086208,
+        "rhs_workspace_bytes": 553189376,
+        "gmres_workspace_bytes": 78620672,
+        "projection_cache_bytes": 8388608,
+        "moment_cache_bytes": 268435456,
+        "retained_worker_allowance_bytes": 0,
+        "retained_polynomial_operator_bytes": 0,
+        "assembly_workspace_bytes": 165092352,
+        "storage_limit_bytes": 9498689372,
+        "storage_fits": true,
+        "temporary_disk_bytes": 0,
+        "storage_method": "hmatrix_model",
+        "sampled": false,
+        "samples": 0,
+        "coefficients": 43280549,
+        "inverse_rank": 390,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false
+      },
+      {
+        "model": "compressed_hmatrix_v2",
+        "peak_bytes": 2313615248,
+        "medium_wavenumbers": [
+          {
+            "real": 314.37675329275226,
+            "imag": 0.0,
+            "magnitude": 314.37675329275226
+          }
+        ],
+        "medium_count": 1,
+        "medium_list_truncated": false,
+        "attenuation_calibrated": false,
+        "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+        "phase_bytes": {
+          "assembly": 1685501440,
+          "factorization": 1871324432,
+          "solve": 2313615248
+        },
+        "operator_bytes": 443115264,
+        "operator_allowance_bytes": 443115264,
+        "resident_operator_bytes": 886230528,
+        "inverse_ceiling_bytes": 318099856,
+        "inverse_construction_bytes": 516007696,
+        "process_geometry_bytes": 469086208,
+        "rhs_workspace_bytes": 553189376,
+        "gmres_workspace_bytes": 78620672,
+        "projection_cache_bytes": 8388608,
+        "moment_cache_bytes": 268435456,
+        "retained_worker_allowance_bytes": 0,
+        "retained_polynomial_operator_bytes": 0,
+        "assembly_workspace_bytes": 165092352,
+        "storage_limit_bytes": 9497114542,
+        "storage_fits": true,
+        "temporary_disk_bytes": 0,
+        "storage_method": "hmatrix_model",
+        "sampled": false,
+        "samples": 0,
+        "coefficients": 43280549,
+        "inverse_rank": 390,
+        "safety": 1.0,
+        "floor_gb": 0.0,
+        "forecast_is_hard_limit": false
+      },
+      {
+        "method": "paired_polarization_assembly",
+        "partner_matrix_bytes": 1788274944,
+        "total_peak_gib": 3.6473977202549577,
+        "admission_limit_gib": 14.739951324462892
+      },
+      {
+        "method": "reused_dense_matrix_admission",
+        "resident_matrix_bytes": 1788274944,
+        "total_peak_gib": 3.6473977202549577,
+        "admission_limit_gib": 14.883373117446899
+      }
+    ],
+    "stage_cost_meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 3524,
+        "unknowns": 10572,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 10572,
+          "panels": 3524,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 10572,
+          "operator_matrices": 168,
+          "operator_entries": 223534368,
+          "geometric_near_pairs": 26278,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 3467616,
+          "mass_workspace_bytes": 2339944,
+          "block_workspace_bytes": 129908736,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 821795776,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 443115264,
+            "operator_allowance_bytes": 443115264,
+            "inverse_bytes": 318099856,
+            "inverse_peak_bytes": 516007696,
+            "assembly_workspace_bytes": 165092352,
+            "coefficients": 43280549,
+            "retained_entries": 26098443,
+            "inverse_rank": 390,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "actual",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 3524,
+        "unknowns": 10572,
+        "formulation": "multi_region",
+        "resources": {
+          "nodes": 10572,
+          "panels": 3524,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 10572,
+          "operator_matrices": 168,
+          "operator_entries": 223534368,
+          "geometric_near_pairs": 26278,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 3467616,
+          "mass_workspace_bytes": 2339944,
+          "block_workspace_bytes": 129908736,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 821795776,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 443115264,
+            "operator_allowance_bytes": 443115264,
+            "inverse_bytes": 318099856,
+            "inverse_peak_bytes": 516007696,
+            "assembly_workspace_bytes": 165092352,
+            "coefficients": 43280549,
+            "retained_entries": 26098443,
+            "inverse_rank": 390,
+            "density_multiplicity": 1.0,
+            "wavenumber": 314.37675329275226,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              }
+            ],
+            "medium_count": 1,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      }
+    ]
+  },
+  "runtime_profile": {
+    "wall_seconds": 42.23335769999903,
+    "stage_seconds": {
+      "operators": 18.532860100003745,
+      "condition_scaling": 0.1464557999970566,
+      "factorization": 7.96975029999885,
+      "condition_estimation": 1.6035041000031924,
+      "excitation": 2.1777119000034872,
+      "rhs_solve": 8.328451099998347,
+      "linear_solve": 9.165477700000338,
+      "rhs_compression": 9.312539800001105,
+      "far_field": 0.19854950001172256,
+      "mesh_certification": 0.006506500005343696
+    },
+    "stage_calls": {
+      "operators": 3,
+      "condition_scaling": 6,
+      "factorization": 6,
+      "condition_estimation": 6,
+      "excitation": 12,
+      "rhs_solve": 12,
+      "linear_solve": 12,
+      "rhs_compression": 12,
+      "far_field": 48,
+      "mesh_certification": 3
+    },
+    "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+    "sampled_peak_process_rss_bytes": 5793366016,
+    "initial_process_rss_bytes": 92651520,
+    "memory_semantics": "50 ms process RSS samples, including other jobs; not an exclusive allocation peak",
+    "sampled_peak_process_tree_rss_bytes": 5793366016,
+    "sampled_peak_process_tree_private_bytes": 6135541760,
+    "process_tree_incomplete_samples": 0,
+    "process_tree_memory_semantics": "250 ms parent plus descendant RSS sums; shared pages may be counted more than once; includes other jobs; incomplete snapshots excluded. Private bytes, when available, are Windows private commit, not resident RAM."
+  },
+  "linear_algebra_execution": [
+    {
+      "matrix_size": 3600,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 3600,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 5400,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 5400,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 10572,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    },
+    {
+      "matrix_size": 10572,
+      "policy": 4,
+      "requested_threads": 4,
+      "pools": [
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        },
+        {
+          "internal_api": "openblas",
+          "prefix": "libscipy_openblas",
+          "num_threads": 4
+        }
+      ]
+    }
+  ],
+  "execution_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "adaptive",
+    "basis_order": 3,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "execution_wall_seconds": 42.584831300002406,
+  "backend_selection": {
+    "requested": "adaptive",
+    "dense_peak_gib": 1.531667709350586,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 34.6191221,
+        "peak_gb": 1.531667709350586
+      },
+      "compressed": {
+        "cost": 34.662252980000005,
+        "peak_gb": 3.291428565979004
+      }
+    },
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 14.80133056640625,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "reason": "Lowest predicted cost among compatible backends admitted against available RAM.",
+    "meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "dense_peak_gib": 0.9664726257324219,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.9664726257324219,
+          "compressed": 0.9778028130531311
+        },
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 1800,
+        "unknowns": 3600,
+        "dense_peak_gib": 0.9664726257324219,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 0.9664726257324219,
+          "compressed": 0.9778028130531311
+        },
+        "resources": {
+          "nodes": 3600,
+          "panels": 1800,
+          "basis_width": 3,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 3600,
+          "operator_matrices": 59,
+          "operator_entries": 25920000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1180800,
+          "mass_workspace_bytes": 676808,
+          "block_workspace_bytes": 44236800,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 262867616
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "dense_peak_gib": 1.531667709350586,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.531667709350586,
+          "compressed": 3.291428565979004
+        },
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 1800,
+        "unknowns": 5400,
+        "dense_peak_gib": 1.531667709350586,
+        "formulation": "multi_region",
+        "backend_peak_gib": {
+          "dense": 1.531667709350586,
+          "compressed": 3.291428565979004
+        },
+        "resources": {
+          "nodes": 5400,
+          "panels": 1800,
+          "basis_width": 4,
+          "n_regions": 1,
+          "formulation": "multi_region",
+          "system_dofs": 5400,
+          "operator_matrices": 87,
+          "operator_entries": 58320000,
+          "geometric_near_pairs": 13846,
+          "assembly_operator_entries": 0,
+          "operator_map_bytes": 1771200,
+          "mass_workspace_bytes": 1195208,
+          "block_workspace_bytes": 66355200,
+          "moment_cache_bytes": 268435456,
+          "assembly_workspace_bytes": 267519872
+        }
+      }
+    ],
+    "mesh_forecast_scope": {
+      "initial_candidate_unknowns_min": 3600,
+      "initial_candidate_unknowns_max": 5400,
+      "final_size_guaranteed": false,
+      "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+    },
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ],
+    "planning_seconds": 0.21260439999969094
+  },
+  "requested_execution_options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 24,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "execution_threads": {
+    "assembly": 4,
+    "blas": 4
+  }
+}

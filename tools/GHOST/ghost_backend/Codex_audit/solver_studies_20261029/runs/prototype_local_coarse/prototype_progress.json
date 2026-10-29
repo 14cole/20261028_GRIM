@@ -1,0 +1,159 @@
+{
+  "case": {
+    "name": "prototype_local_coarse",
+    "task": "prototype",
+    "timeout": 480
+  },
+  "status": "completed",
+  "scope": "Fixed mesh synthetic RHS; no mesh-converged physical capacity claim.",
+  "restart": 40,
+  "max_iterations_per_rhs": 400,
+  "pols": [
+    {
+      "polarization": "TE",
+      "unknowns": 4096,
+      "operator_bytes": 126315584,
+      "operator_seconds": 16.197315200002777,
+      "reference_inverse_bytes": 41151496,
+      "reference_build_solve_seconds": 0.436158799999248,
+      "schemes": [
+        {
+          "block_width": 128,
+          "coarse": false,
+          "payload_bytes": 8437760,
+          "build_seconds": 0.04429830000299262,
+          "solve_seconds": 9.074703899997985,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 3.312857713276752e-07,
+          "normalized_solution_difference": 3.8531078025584478,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        },
+        {
+          "block_width": 512,
+          "coarse": false,
+          "payload_bytes": 33603584,
+          "build_seconds": 0.0676592999989225,
+          "solve_seconds": 9.447431299999153,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 7.026597950361706e-08,
+          "normalized_solution_difference": 0.8530395848313144,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        },
+        {
+          "block_width": 128,
+          "coarse": true,
+          "payload_bytes": 12697856,
+          "build_seconds": 0.07030449999729171,
+          "solve_seconds": 18.090468900001724,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 4.7208821516165896e-07,
+          "normalized_solution_difference": 3.439010163395816,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        }
+      ]
+    },
+    {
+      "polarization": "TM",
+      "unknowns": 4096,
+      "operator_bytes": 126315584,
+      "operator_seconds": 15.879299000000174,
+      "reference_inverse_bytes": 41254608,
+      "reference_build_solve_seconds": 0.4290965000000142,
+      "schemes": [
+        {
+          "block_width": 128,
+          "coarse": false,
+          "payload_bytes": 8437760,
+          "build_seconds": 0.04543289999855915,
+          "solve_seconds": 9.090466800000286,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 6.0819631091531625e-06,
+          "normalized_solution_difference": 0.7698405759918162,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        },
+        {
+          "block_width": 512,
+          "coarse": false,
+          "payload_bytes": 33603584,
+          "build_seconds": 0.06816629999957513,
+          "solve_seconds": 9.386019100002159,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 3.907227547294599e-09,
+          "normalized_solution_difference": 6.116790394176017e-05,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        },
+        {
+          "block_width": 128,
+          "coarse": true,
+          "payload_bytes": 12697856,
+          "build_seconds": 0.06981639999867184,
+          "solve_seconds": 18.152424800002336,
+          "rhs": [
+            {
+              "info": 10,
+              "iterations": 400
+            },
+            {
+              "info": 10,
+              "iterations": 400
+            }
+          ],
+          "full_row_backward_error": 7.331125647715022e-07,
+          "normalized_solution_difference": 0.01482188177410815,
+          "passed": false,
+          "minimum_krylov_basis_bytes": 2686976
+        }
+      ]
+    }
+  ]
+}
