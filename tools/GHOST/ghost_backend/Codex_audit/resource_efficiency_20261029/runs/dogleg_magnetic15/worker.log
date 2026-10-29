@@ -1,0 +1,95 @@
+Traceback (most recent call last):
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\Codex_audit\resource_efficiency_20261029\study.py", line 35, in worker
+    result=solve_monostatic_rcs_2d_certified(**request,execution_options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\preparation.py", line 115, in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 726, in call
+    return invoke_configured(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 668, in invoke_configured
+    result = invoke()
+             ^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 638, in invoke
+    result=function(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\metrics.py", line 243, in measured
+    result = function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\cpu.py", line 228, in call
+    result = function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 4225, in solve_monostatic_rcs_2d_certified
+    return _run_certified_2d_pair(solve_phase, geometry_snapshot, kwargs,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 3854, in _run_certified_2d_pair
+    return run_certified(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\adaptivity.py", line 96, in run_certified
+    return _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\adaptivity.py", line 318, in _run_certified
+    result = _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\adaptivity.py", line 328, in _run_certified
+    result, fallback_options = reference_solve(True)
+                               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\adaptivity.py", line 134, in reference_solve
+    result = s._run_certified_2d_pair_impl(low_level_solver, geometry_snapshot, solver_kwargs,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 3932, in _run_certified_2d_pair_impl
+    base_result = low_level_solver(**base_kwargs)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 4224, in solve_phase
+    return solve_monostatic_rcs_2d(**kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\preparation.py", line 115, in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 721, in call
+    return invoke_configured(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 668, in invoke_configured
+    result = invoke()
+             ^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 638, in invoke
+    result=function(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\metrics.py", line 238, in measured
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\cpu.py", line 221, in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\assembly\session.py", line 104, in call
+    result = function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 3398, in solve_monostatic_rcs_2d
+    channel_results[export_pol] = solve_monostatic_rcs_2d_single_polarization(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\preparation.py", line 115, in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 721, in call
+    return invoke_configured(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 668, in invoke_configured
+    result = invoke()
+             ^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\options.py", line 638, in invoke
+    result=function(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\metrics.py", line 238, in measured
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\execution\cpu.py", line 221, in call
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\solver.py", line 2417, in solve_monostatic_rcs_2d_single_polarization
+    panels = _build_panels(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\14col\Documents\20261028_GRIM\tools\GHOST\ghost_backend\twod\geometry.py", line 2438, in _build_panels
+    raise ValueError('Discretization exceeds the configured panel limit.')
+ValueError: Discretization exceeds the configured panel limit.
+{"case": {"name": "dogleg_magnetic15", "profile": "auto", "geometry": "dogleg_magnetic", "cap": 12.0, "timeout": 600}, "initial_execution": {"assembly_threads": 8, "blas_reservation": 2}, "status": "failed", "error_type": "ValueError", "error": "Discretization exceeds the configured panel limit.", "phase": "preparing_geometry", "elapsed_seconds": 5.351970400006394, "parent_cpu_seconds": 5.25, "final_rss": 143966208}

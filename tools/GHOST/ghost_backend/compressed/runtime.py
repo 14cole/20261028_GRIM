@@ -72,12 +72,25 @@ def release_obsolete_tile_workers(resources, dofs):
 
 
 def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb=0.,
-                     submission_planning=False):
+                     submission_planning=False, live_residency_bytes=None):
     """Price a new mesh without inheriting a previous mesh's payload allowance."""
     from ghost_backend.compressed.memory import forecast, GIB
     from ghost_backend.compressed import hmatrix
     from ghost_backend.execution.memory_budget import current
     from ghost_backend.twod.solver import _solve_memory_limit_gb
+    def price(storage):
+        plan = forecast(n, d, count, batch, threads, storage, resources, safety, floor_gb)
+        if live_residency_bytes is not None:
+            # Include unexplained live allocations before choosing an automatic
+            # payload cap. Adding them afterward can reject a smaller fitting
+            # storage plan, or omit them from later incremental reload checks.
+            extra = max(0, int(live_residency_bytes)-plan['process_geometry_bytes'])
+            plan['live_residency_adjustment_bytes'] = extra
+            plan['process_geometry_bytes'] += extra
+            plan['peak_bytes'] += extra
+            for field in ('phase_bytes', 'nonstorage_phase_bytes'):
+                plan[field] = {key: value+extra for key,value in plan[field].items()}
+        return plan
     setting = environment_value('GHOST_COMPRESSED_STORAGE_MIB','2048').strip()
     hierarchical_plan = resources.get('hmatrix_storage') is not None and hmatrix.selected(d)
     auto = setting == '0' or hierarchical_plan and setting == '2048'
@@ -86,17 +99,17 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
         # the historical 2-GiB payload forecast for automatic storage; the
         # compute process reprices it against its actual allocation at admission.
         initial = 2048*1024**2 if auto else storage_budget()
-        plan = forecast(n, d, count, batch, threads, initial, resources, safety, floor_gb)
+        plan = price(initial)
         plan['storage_policy'] = 'submission_payload_forecast' if auto else 'explicit_payload_cap'
         return plan
     if auto:
         ledger = current()
         reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
     initial = planned_storage_bytes({}, reservation) if auto else storage_budget()
-    plan = forecast(n, d, count, batch, threads, initial, resources, safety, floor_gb)
+    plan = price(initial)
     if auto:
         allowance = planned_storage_bytes(plan, reservation)
-        plan = forecast(n, d, count, batch, threads, allowance, resources, safety, floor_gb)
+        plan = price(allowance)
         plan['storage_policy'] = 'reservation_minus_phase_workspace'
     else:
         plan['storage_policy'] = 'explicit_payload_cap'
@@ -214,16 +227,9 @@ def admit_tile_fallback(oracle, xy, reason):
         tile = min(512, getattr(source, 'maximum_tile', 512))
         resources['compressed_storage'] = memory.sample_operator(source, xy, tile, checkpoint)
         def price():
-            plan = planned_forecast(len(source.mesh.nodes), source.n, count, batch,
-                get_assembly_threads(), resources)
-            # Account for live residency not already covered by the structural
-            # geometry/worker allowance (for example retained native caches).
             live = solver._process_rss_bytes() + retained_bytes()
-            extra = max(0, live-plan['process_geometry_bytes'])
-            plan['live_residency_adjustment_bytes'] = extra
-            plan['peak_bytes'] += extra
-            plan['phase_bytes'] = {key: value+extra for key,value in plan['phase_bytes'].items()}
-            plan['nonstorage_phase_bytes'] = {key: value+extra for key,value in plan['nonstorage_phase_bytes'].items()}
+            plan = planned_forecast(len(source.mesh.nodes), source.n, count, batch,
+                get_assembly_threads(), resources, live_residency_bytes=live)
             return plan, solver._solve_memory_limit_gb(live/memory.GIB)*memory.GIB
         plan, limit = price()
         if plan['peak_bytes'] > limit:

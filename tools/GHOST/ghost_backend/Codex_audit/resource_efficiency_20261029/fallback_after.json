@@ -1,0 +1,83 @@
+{
+  "status": "admitted",
+  "plan": {
+    "model": "compressed_phase_v2",
+    "peak_bytes": 6442450944,
+    "nonstorage_phase_bytes": {
+      "assembly": 3927085056,
+      "factorization": 3802701824,
+      "solve": 4178500608
+    },
+    "process_baseline_bytes": 134217728,
+    "phase_bytes": {
+      "assembly": 6074568704,
+      "factorization": 6066652160,
+      "solve": 6442450944
+    },
+    "operator_bytes": 2147483648,
+    "operator_allowance_bytes": 2147483648,
+    "inverse_ceiling_bytes": 386412800,
+    "process_geometry_bytes": 3683815424,
+    "rhs_workspace_bytes": 426770432,
+    "gmres_workspace_bytes": 59526144,
+    "projection_cache_bytes": 8388608,
+    "retained_worker_allowance_bytes": 2147483648,
+    "retained_polynomial_operator_bytes": 0,
+    "moment_cache_bytes": 268435456,
+    "assembly_workspace_bytes": 243269632,
+    "tile_metadata_bytes": 327680,
+    "storage_limit_bytes": 2263950336,
+    "temporary_disk_bytes": 2147483648,
+    "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+    "storage_method": "reproduction",
+    "sampled": true,
+    "samples": 1,
+    "safety": 1.0,
+    "floor_gb": 0.0,
+    "forecast_is_hard_limit": false,
+    "live_residency_adjustment_bytes": 1074171904,
+    "storage_policy": "reservation_minus_phase_workspace"
+  },
+  "active_plan": {
+    "model": "compressed_phase_v2",
+    "peak_bytes": 6442450944,
+    "nonstorage_phase_bytes": {
+      "assembly": 3927085056,
+      "factorization": 3802701824,
+      "solve": 4178500608
+    },
+    "process_baseline_bytes": 134217728,
+    "phase_bytes": {
+      "assembly": 6074568704,
+      "factorization": 6066652160,
+      "solve": 6442450944
+    },
+    "operator_bytes": 2147483648,
+    "operator_allowance_bytes": 2147483648,
+    "inverse_ceiling_bytes": 386412800,
+    "process_geometry_bytes": 3683815424,
+    "rhs_workspace_bytes": 426770432,
+    "gmres_workspace_bytes": 59526144,
+    "projection_cache_bytes": 8388608,
+    "retained_worker_allowance_bytes": 2147483648,
+    "retained_polynomial_operator_bytes": 0,
+    "moment_cache_bytes": 268435456,
+    "assembly_workspace_bytes": 243269632,
+    "tile_metadata_bytes": 327680,
+    "storage_limit_bytes": 2263950336,
+    "temporary_disk_bytes": 2147483648,
+    "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+    "storage_method": "reproduction",
+    "sampled": true,
+    "samples": 1,
+    "safety": 1.0,
+    "floor_gb": 0.0,
+    "forecast_is_hard_limit": false,
+    "live_residency_adjustment_bytes": 1074171904,
+    "storage_policy": "reservation_minus_phase_workspace"
+  },
+  "reservation_gib": 6.0,
+  "unadjusted_payload_gib": 3.1084680557250977,
+  "extra_resident_gib": 1.0,
+  "scope": "Synthetic sampled-storage forecast, not proof that an arbitrary numerical factor will fit the reduced cap."
+}

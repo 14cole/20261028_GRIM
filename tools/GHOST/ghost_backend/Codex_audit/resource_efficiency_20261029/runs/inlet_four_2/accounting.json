@@ -1,0 +1,2351 @@
+{
+  "policy": "90_percent_initial_available_with_live_incremental_checks",
+  "initial_available_gib": 16.609161376953125,
+  "initial_available_commit_gib": 14.658699035644531,
+  "baseline_rss_bytes": 61931520,
+  "last_check": {
+    "binding_constraint": "stable_reservation",
+    "limit_gib": 12.0,
+    "stable_reservation_gib": 12.0,
+    "available_gib": 15.538459777832031,
+    "reservation_constraints_gib": {
+      "explicit_ram_budget": 12.0,
+      "initial_physical_ram": 14.948245239257814,
+      "initial_commit_headroom": 13.192829132080078,
+      "cohort_remaining_reservation": 13.192829132080078
+    },
+    "reservation_binding_constraint": "explicit_ram_budget",
+    "available_commit_gib": 13.373149871826172,
+    "system_commit": {
+      "limit_bytes": 35544027136,
+      "committed_bytes": 21184716800,
+      "peak_committed_bytes": 33889693696
+    },
+    "owned_numeric_gib": 0.6549041196703911,
+    "credited_resident_gib": 0.7125823423266411,
+    "owned_worker_resident_gib": 0.0,
+    "owned_worker_commit_gib": 0.0,
+    "credited_commit_gib": 0.7799041196703911,
+    "limits_gib": {
+      "stable_reservation": 12.0,
+      "explicit_ram_budget": 12.0,
+      "live_physical_ram": 14.59012598246336,
+      "live_commit_headroom": 12.68718408793211
+    }
+  },
+  "checks": [
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.57310914248228,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03714370727539,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.731842041015625,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20799574016,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10004697740077972,
+      "credited_resident_gib": 0.4537457078695297,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7905720323324203,
+      "limits_gib": {
+        "stable_reservation": 9.57310914248228,
+        "live_physical_ram": 14.376227569580077,
+        "live_commit_headroom": 12.265972137451172
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.029429644346237183,
+      "admitted": true,
+      "additional_allocation_gib": 0.029429644346237183,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.572897993028164,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03714370727539,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.730854034423828,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20799574016,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10025812685489655,
+      "credited_resident_gib": 0.45395685732364655,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7907831817865372,
+      "limits_gib": {
+        "stable_reservation": 9.572897993028164,
+        "live_physical_ram": 14.376227569580077,
+        "live_commit_headroom": 12.264984130859375
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02921849489212036,
+      "admitted": true,
+      "additional_allocation_gib": 0.02921849489212036,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.572686843574047,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03702163696289,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.730854034423828,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20800634880,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10046927630901337,
+      "credited_resident_gib": 0.45416800677776337,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.790994331240654,
+      "limits_gib": {
+        "stable_reservation": 9.572686843574047,
+        "live_physical_ram": 14.376105499267577,
+        "live_commit_headroom": 12.264984130859375
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02900734543800354,
+      "admitted": true,
+      "additional_allocation_gib": 0.02900734543800354,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.572491936385632,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03702163696289,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.730854034423828,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20800634880,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.1006641834974289,
+      "credited_resident_gib": 0.4543629139661789,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7911892384290695,
+      "limits_gib": {
+        "stable_reservation": 9.572491936385632,
+        "live_physical_ram": 14.376105499267577,
+        "live_commit_headroom": 12.264984130859375
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.028812438249588013,
+      "admitted": true,
+      "additional_allocation_gib": 0.028812438249588013,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.572297029197216,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03702163696289,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.730854034423828,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20800634880,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10085909068584442,
+      "credited_resident_gib": 0.4545578211545944,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.791384145617485,
+      "limits_gib": {
+        "stable_reservation": 9.572297029197216,
+        "live_physical_ram": 14.376105499267577,
+        "live_commit_headroom": 12.264984130859375
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.028617531061172485,
+      "admitted": true,
+      "additional_allocation_gib": 0.028617531061172485,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.5711864605546,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.036243438720703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.729682922363281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20801892352,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.1019696593284607,
+      "credited_resident_gib": 0.4556683897972107,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7924947142601013,
+      "limits_gib": {
+        "stable_reservation": 9.5711864605546,
+        "live_physical_ram": 14.37532730102539,
+        "live_commit_headroom": 12.263813018798828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.027506962418556213,
+      "admitted": true,
+      "additional_allocation_gib": 0.027506962418556213,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.570853494107723,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.036182403564453,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.729682922363281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20801892352,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10230262577533722,
+      "credited_resident_gib": 0.4560013562440872,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7928276807069778,
+      "limits_gib": {
+        "stable_reservation": 9.570853494107723,
+        "live_physical_ram": 14.37526626586914,
+        "live_commit_headroom": 12.263813018798828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.027173995971679688,
+      "admitted": true,
+      "additional_allocation_gib": 0.027173995971679688,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.570520527660847,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.036060333251953,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.729682922363281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20801892352,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10263559222221375,
+      "credited_resident_gib": 0.45633432269096375,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7931606471538544,
+      "limits_gib": {
+        "stable_reservation": 9.570520527660847,
+        "live_physical_ram": 14.37514419555664,
+        "live_commit_headroom": 12.263813018798828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02684102952480316,
+      "admitted": true,
+      "additional_allocation_gib": 0.02684102952480316,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.570292718708515,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035999298095703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.72860336303711,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20801892352,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10286340117454529,
+      "credited_resident_gib": 0.4565621316432953,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7933884561061859,
+      "limits_gib": {
+        "stable_reservation": 9.570292718708515,
+        "live_physical_ram": 14.37508316040039,
+        "live_commit_headroom": 12.262733459472656
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02661322057247162,
+      "admitted": true,
+      "additional_allocation_gib": 0.02661322057247162,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.570064909756184,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035816192626953,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.72860336303711,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20803051520,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10309121012687683,
+      "credited_resident_gib": 0.45678994059562683,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7936162650585175,
+      "limits_gib": {
+        "stable_reservation": 9.570064909756184,
+        "live_physical_ram": 14.37490005493164,
+        "live_commit_headroom": 12.262733459472656
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.026385411620140076,
+      "admitted": true,
+      "additional_allocation_gib": 0.026385411620140076,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56960929185152,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035511016845703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.72860336303711,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20803051520,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10354682803153992,
+      "credited_resident_gib": 0.4572455585002899,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7940718829631805,
+      "limits_gib": {
+        "stable_reservation": 9.56960929185152,
+        "live_physical_ram": 14.37459487915039,
+        "live_commit_headroom": 12.262733459472656
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02592979371547699,
+      "admitted": true,
+      "additional_allocation_gib": 0.02592979371547699,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.569153673946857,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035266876220703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.7275390625,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20804194304,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.104002445936203,
+      "credited_resident_gib": 0.457701176404953,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7945275008678436,
+      "limits_gib": {
+        "stable_reservation": 9.569153673946857,
+        "live_physical_ram": 14.37435073852539,
+        "live_commit_headroom": 12.261669158935547
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.025474175810813904,
+      "admitted": true,
+      "additional_allocation_gib": 0.025474175810813904,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.568860776722431,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035205841064453,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.7275390625,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20804194304,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10429534316062927,
+      "credited_resident_gib": 0.4579940736293793,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7948203980922699,
+      "limits_gib": {
+        "stable_reservation": 9.568860776722431,
+        "live_physical_ram": 14.37428970336914,
+        "live_commit_headroom": 12.261669158935547
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.025181278586387634,
+      "admitted": true,
+      "additional_allocation_gib": 0.025181278586387634,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.568567879498005,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.035144805908203,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.7275390625,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20804194304,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10458824038505554,
+      "credited_resident_gib": 0.45828697085380554,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7951132953166962,
+      "limits_gib": {
+        "stable_reservation": 9.568567879498005,
+        "live_physical_ram": 14.37422866821289,
+        "live_commit_headroom": 12.261669158935547
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.024888381361961365,
+      "admitted": true,
+      "additional_allocation_gib": 0.024888381361961365,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56746543198824,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03436279296875,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.725757598876953,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20806107136,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10569068789482117,
+      "credited_resident_gib": 0.45938941836357117,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7962157428264618,
+      "limits_gib": {
+        "stable_reservation": 9.56746543198824,
+        "live_physical_ram": 14.373446655273437,
+        "live_commit_headroom": 12.2598876953125
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02378593385219574,
+      "admitted": true,
+      "additional_allocation_gib": 0.02378593385219574,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.566937558352947,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.033935546875,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.725757598876953,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20806107136,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10621856153011322,
+      "credited_resident_gib": 0.4599172919988632,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7967436164617538,
+      "limits_gib": {
+        "stable_reservation": 9.566937558352947,
+        "live_physical_ram": 14.373019409179687,
+        "live_commit_headroom": 12.2598876953125
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.023258060216903687,
+      "admitted": true,
+      "additional_allocation_gib": 0.023258060216903687,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.566409684717655,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.0335693359375,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.724685668945312,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20807258112,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10674643516540527,
+      "credited_resident_gib": 0.4604451656341553,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7972714900970459,
+      "limits_gib": {
+        "stable_reservation": 9.566409684717655,
+        "live_physical_ram": 14.372653198242187,
+        "live_commit_headroom": 12.25881576538086
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.022730186581611633,
+      "admitted": true,
+      "additional_allocation_gib": 0.022730186581611633,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.565938659012318,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03326416015625,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.724685668945312,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20807258112,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.1072174608707428,
+      "credited_resident_gib": 0.4609161913394928,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7977425158023834,
+      "limits_gib": {
+        "stable_reservation": 9.565938659012318,
+        "live_physical_ram": 14.372348022460937,
+        "live_commit_headroom": 12.25881576538086
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.02225916087627411,
+      "admitted": true,
+      "additional_allocation_gib": 0.02225916087627411,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.564832158386707,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.032482147216797,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.723533630371094,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20808495104,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10832396149635315,
+      "credited_resident_gib": 0.46202269196510315,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7988490164279938,
+      "limits_gib": {
+        "stable_reservation": 9.564832158386707,
+        "live_physical_ram": 14.371566009521484,
+        "live_commit_headroom": 12.25766372680664
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.021152660250663757,
+      "admitted": true,
+      "additional_allocation_gib": 0.021152660250663757,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56462100893259,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.032360076904297,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.723533630371094,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20808495104,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10853511095046997,
+      "credited_resident_gib": 0.46223384141921997,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7990601658821106,
+      "limits_gib": {
+        "stable_reservation": 9.56462100893259,
+        "live_physical_ram": 14.371443939208984,
+        "live_commit_headroom": 12.25766372680664
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.020941510796546936,
+      "admitted": true,
+      "additional_allocation_gib": 0.020941510796546936,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.564409859478474,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.032360076904297,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.722496032714844,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20808495104,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10874626040458679,
+      "credited_resident_gib": 0.4624449908733368,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.7992713153362274,
+      "limits_gib": {
+        "stable_reservation": 9.564409859478474,
+        "live_physical_ram": 14.371443939208984,
+        "live_commit_headroom": 12.25662612915039
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.020730361342430115,
+      "admitted": true,
+      "additional_allocation_gib": 0.020730361342430115,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.563299290835857,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03158187866211,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.721382141113281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20810805248,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.10985682904720306,
+      "credited_resident_gib": 0.46355555951595306,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8003818839788437,
+      "limits_gib": {
+        "stable_reservation": 9.563299290835857,
+        "live_physical_ram": 14.370665740966796,
+        "live_commit_headroom": 12.255512237548828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.019619792699813843,
+      "admitted": true,
+      "additional_allocation_gib": 0.019619792699813843,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56308775395155,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03152084350586,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.721382141113281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20810805248,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11006836593151093,
+      "credited_resident_gib": 0.4637670964002609,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8005934208631516,
+      "limits_gib": {
+        "stable_reservation": 9.56308775395155,
+        "live_physical_ram": 14.370604705810546,
+        "live_commit_headroom": 12.255512237548828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.01940825581550598,
+      "admitted": true,
+      "additional_allocation_gib": 0.01940825581550598,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.562876217067242,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03145980834961,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.721382141113281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20810805248,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11027990281581879,
+      "credited_resident_gib": 0.4639786332845688,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8008049577474594,
+      "limits_gib": {
+        "stable_reservation": 9.562876217067242,
+        "live_physical_ram": 14.370543670654296,
+        "live_commit_headroom": 12.255512237548828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.01919671893119812,
+      "admitted": true,
+      "additional_allocation_gib": 0.01919671893119812,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.562729768455029,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03139877319336,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.721382141113281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20810805248,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11042635142803192,
+      "credited_resident_gib": 0.4641250818967819,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8009514063596725,
+      "limits_gib": {
+        "stable_reservation": 9.562729768455029,
+        "live_physical_ram": 14.370482635498046,
+        "live_commit_headroom": 12.255512237548828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.019050270318984985,
+      "admitted": true,
+      "additional_allocation_gib": 0.019050270318984985,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.562583319842815,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.03133773803711,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.721382141113281,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20810805248,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11057280004024506,
+      "credited_resident_gib": 0.46427153050899506,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8010978549718857,
+      "limits_gib": {
+        "stable_reservation": 9.562583319842815,
+        "live_physical_ram": 14.370421600341796,
+        "live_commit_headroom": 12.255512237548828
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.01890382170677185,
+      "admitted": true,
+      "additional_allocation_gib": 0.01890382170677185,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.5614727512002,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.030624389648438,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.720172882080078,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20812103680,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11168336868286133,
+      "credited_resident_gib": 0.46538209915161133,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.802208423614502,
+      "limits_gib": {
+        "stable_reservation": 9.5614727512002,
+        "live_physical_ram": 14.369708251953124,
+        "live_commit_headroom": 12.254302978515625
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.01779325306415558,
+      "admitted": true,
+      "additional_allocation_gib": 0.01779325306415558,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56094390898943,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.030258178710938,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.720172882080078,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20812103680,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11221221089363098,
+      "credited_resident_gib": 0.465910941362381,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8027372658252716,
+      "limits_gib": {
+        "stable_reservation": 9.56094390898943,
+        "live_physical_ram": 14.369342041015624,
+        "live_commit_headroom": 12.254302978515625
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.017264410853385925,
+      "admitted": true,
+      "additional_allocation_gib": 0.017264410853385925,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 9.56041506677866,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.029891967773438,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.718948364257812,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20813418496,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.11274105310440063,
+      "credited_resident_gib": 0.46643978357315063,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8032661080360413,
+      "limits_gib": {
+        "stable_reservation": 9.56041506677866,
+        "live_physical_ram": 14.368975830078124,
+        "live_commit_headroom": 12.25307846069336
+      },
+      "check_units": "additional_allocation_gib",
+      "context": "Compressed spool reload",
+      "required_peak_gib": 0.016735568642616272,
+      "admitted": true,
+      "additional_allocation_gib": 0.016735568642616272,
+      "reserved_usage_after_reload_gib": 2.4563205018639565
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.105579376220703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.717979431152344,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20814458880,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.1138516217470169,
+      "credited_resident_gib": 0.4675503522157669,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8043766766786575,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.912213590741157,
+        "live_commit_headroom": 13.056486204266548
+      },
+      "context": "Compressed factorization",
+      "required_peak_gib": 2.674484111368656,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.02452850341797,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.637950897216797,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20900388864,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.1821790188550949,
+      "credited_resident_gib": 0.5358777493238449,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8727040737867355,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.8994901150465,
+        "live_commit_headroom": 13.04478506743908
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.02334976196289,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.6346435546875,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20903940096,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.18863776326179504,
+      "credited_resident_gib": 0.542336493730545,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8791628181934357,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.904770117998122,
+        "live_commit_headroom": 13.047936469316483
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.012901306152344,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.626251220703125,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20912951296,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.18863776326179504,
+      "credited_resident_gib": 0.542336493730545,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8791628181934357,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.894321662187576,
+        "live_commit_headroom": 13.039544135332108
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.01156234741211,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.627071380615234,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20912070656,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.18863776326179504,
+      "credited_resident_gib": 0.542336493730545,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8791628181934357,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.892982703447341,
+        "live_commit_headroom": 13.040364295244217
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.964366912841797,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.572940826416016,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20970192896,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.18863776326179504,
+      "credited_resident_gib": 0.542336493730545,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8791628181934357,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.845787268877029,
+        "live_commit_headroom": 12.986233741044998
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.971824645996094,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.581161499023438,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20961366016,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.18863776326179504,
+      "credited_resident_gib": 0.542336493730545,
+      "owned_worker_resident_gib": 0.2960205078125,
+      "owned_worker_commit_gib": 0.5655250549316406,
+      "credited_commit_gib": 0.8791628181934357,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.853245002031326,
+        "live_commit_headroom": 12.99445441365242
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.8813584819436073,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.80245590209961,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.65890884399414,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20877885440,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6180502027273178,
+      "credited_resident_gib": 0.6757284253835678,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7430502027273178,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.817268189787864,
+        "live_commit_headroom": 12.936089143157005
+      },
+      "context": "Compressed factorization",
+      "required_peak_gib": 1.3698207885026932,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.681804656982422,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.53902816772461,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21006606336,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.83175393640995,
+        "live_commit_headroom": 12.951345458626747
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.691265106201172,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.540077209472656,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21005479936,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.8412143856287,
+        "live_commit_headroom": 12.952394500374794
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.674243927001953,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.53570556640625,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21010173952,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.82419320642948,
+        "live_commit_headroom": 12.948022857308388
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.687110900878906,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.536392211914062,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21009436672,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.837060180306434,
+        "live_commit_headroom": 12.9487095028162
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.584266662597656,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.437881469726562,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21115211776,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.734215942025184,
+        "live_commit_headroom": 12.8501987606287
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.604034423828125,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.460899353027344,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21090308096,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.7531871944665909,
+      "credited_resident_gib": 0.8108654171228409,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.8781871944665909,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.753983703255653,
+        "live_commit_headroom": 12.873216643929482
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 16.123355865478516,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.977672576904297,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20535615488,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.30929917842149734,
+      "credited_resident_gib": 0.36697740107774734,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.43429917842149734,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.82941712886095,
+        "live_commit_headroom": 12.946101851761341
+      },
+      "context": "Compressed factorization",
+      "required_peak_gib": 1.3698207885026932,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.96270751953125,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.812053680419922,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20713447424,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.801391352713107,
+        "live_commit_headroom": 12.91310552507639
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.954978942871094,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.809375762939453,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20716322816,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.793662776052951,
+        "live_commit_headroom": 12.91042760759592
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.945178985595703,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.800434112548828,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20725923840,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.78386281877756,
+        "live_commit_headroom": 12.901485957205296
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.942520141601562,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.801658630371094,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20724609024,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.78120397478342,
+        "live_commit_headroom": 12.902710475027561
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.850200653076172,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.701835632324219,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20831793152,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.68888448625803,
+        "live_commit_headroom": 12.802887476980686
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.878490447998047,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.725223541259766,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20806680576,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.44192174822092056,
+      "credited_resident_gib": 0.49959997087717056,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5669217482209206,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.717174281179904,
+        "live_commit_headroom": 12.826275385916233
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 1.7119290381669998,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.51174545288086,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.33297348022461,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21227855872,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.8486483842134476,
+      "credited_resident_gib": 0.9063266068696976,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.9736483842134476,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.757155922055244,
+        "live_commit_headroom": 12.840751960873604
+      },
+      "context": "Compressed factorization",
+      "required_peak_gib": 2.1109978780150414,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.282405853271484,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.107051849365234,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21470437376,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.764931474626064,
+        "live_commit_headroom": 12.851945482194424
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.2823486328125,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.108161926269531,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21469245440,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.76487425416708,
+        "live_commit_headroom": 12.85305555909872
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.275108337402344,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.10068130493164,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21477277696,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.757633958756923,
+        "live_commit_headroom": 12.84557493776083
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.271781921386719,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.101566314697266,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21476327424,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.754307542741298,
+        "live_commit_headroom": 12.846459947526455
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.108749389648438,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 12.936710357666016,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21653340160,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.591275011003017,
+        "live_commit_headroom": 12.681603990495205
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.152061462402344,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 12.978641510009766,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21608316928,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 1.0857635363936424,
+      "credited_resident_gib": 1.1434417590498924,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 1.2107635363936424,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.634587083756923,
+        "live_commit_headroom": 12.723535142838955
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.926883697509766,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.759719848632812,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 20769640448,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.4255090728402138,
+      "credited_resident_gib": 0.4831872954964638,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.5505090728402138,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.749154855310916,
+        "live_commit_headroom": 12.844359017908573
+      },
+      "context": "Compressed factorization",
+      "required_peak_gib": 2.1109978780150414,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.67605972290039,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.49972915649414,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21048803328,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.727725927531718,
+        "live_commit_headroom": 12.813763372600079
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.675182342529297,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.501266479492188,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21047152640,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.726848547160625,
+        "live_commit_headroom": 12.815300695598125
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.663291931152344,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.494728088378906,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21054173184,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.714958135783672,
+        "live_commit_headroom": 12.808762304484844
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.671123504638672,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.495384216308594,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21053468672,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.72278970927,
+        "live_commit_headroom": 12.809418432414532
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.501304626464844,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.336654663085938,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21223903232,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.552970831096172,
+        "live_commit_headroom": 12.650688879191875
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    },
+    {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 12.0,
+      "stable_reservation_gib": 12.0,
+      "available_gib": 15.538459777832031,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 12.0,
+        "initial_physical_ram": 14.948245239257814,
+        "initial_commit_headroom": 13.192829132080078,
+        "cohort_remaining_reservation": 13.192829132080078
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": 13.373149871826172,
+      "system_commit": {
+        "limit_bytes": 35544027136,
+        "committed_bytes": 21184716800,
+        "peak_committed_bytes": 33889693696
+      },
+      "owned_numeric_gib": 0.6549041196703911,
+      "credited_resident_gib": 0.7125823423266411,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "credited_commit_gib": 0.7799041196703911,
+      "limits_gib": {
+        "stable_reservation": 12.0,
+        "explicit_ram_budget": 12.0,
+        "live_physical_ram": 14.59012598246336,
+        "live_commit_headroom": 12.68718408793211
+      },
+      "context": "Compressed solve",
+      "required_peak_gib": 2.6548109725117683,
+      "admitted": true
+    }
+  ],
+  "total_checks": 378,
+  "omitted_earlier_checks": 314,
+  "worker_samples": [
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    },
+    {
+      "rss_bytes": 426319872,
+      "private_bytes": 607227904,
+      "unique_resident_bytes": 317849600,
+      "processes": 4,
+      "complete": true,
+      "reservation_bytes": 2033615512
+    }
+  ],
+  "shared_process": false,
+  "cohort_capacity_gib": 13.192829132080078,
+  "initial_system_commit": {
+    "limit_bytes": 35544027136,
+    "committed_bytes": 19804368896,
+    "peak_committed_bytes": 33889693696
+  },
+  "commit_capacity_changes": [],
+  "commit_policy": "Expand only after observed system backing-limit growth; initial physical/user/scheduler caps and live checks still apply.",
+  "ownership": "Weak run-owned references; no parent-process growth credit after request overlap.",
+  "worker_policy": "Scheduler reservations and worker growth allowances remain enforced."
+}

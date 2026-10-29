@@ -1,5 +1,7 @@
 # Memory calibration and implementation — 29 October 2026
 
+User clarification after the implementation: **90% of available RAM is a soft utilization goal, not a required threshold or acceptance criterion.** Prioritize reliable solves, accurate allocation estimates, avoidance of false memory refusals, and useful headroom for the system. A lower measured utilization is not itself a failure, and reaching a particular percentage does not justify additional complexity or weaker checks. The measurements below remain unchanged. This clarification records intent; it does not alter the current reserve policy or explicit user/scheduler caps.
+
 Implements the recommendations in [the review of Claude's audit](../claude_followups_review_20261029/README.md), starting from `b233c192fa779be738f2e418172e84a5fc3460aa`. Scope: compressed 2D CPU memory accounting, worker lifecycle, HPC submission forecasts and evidence calibration. Compressed remains the default; dense remains an override.
 
 ## Findings and decisions

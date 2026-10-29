@@ -1,0 +1,56 @@
+{
+  "model": "compressed_hmatrix_v2",
+  "peak_bytes": 10245153104,
+  "nonstorage_phase_bytes": {
+    "assembly": 4903956608,
+    "factorization": 2015290528,
+    "solve": 1732100608
+  },
+  "process_baseline_bytes": 134217728,
+  "medium_wavenumbers": [
+    {
+      "real": 314.37675329275226,
+      "imag": 0.0,
+      "magnitude": 314.37675329275226
+    },
+    {
+      "real": 628.761365758743,
+      "imag": -3.1437282375525077,
+      "magnitude": 628.7692248337472
+    }
+  ],
+  "medium_count": 2,
+  "medium_list_truncated": false,
+  "attenuation_calibrated": false,
+  "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+  "phase_bytes": {
+    "assembly": 10245153104,
+    "factorization": 9633998256,
+    "solve": 9350808336
+  },
+  "operator_bytes": 2670598248,
+  "operator_allowance_bytes": 2670598248,
+  "resident_operator_bytes": 5341196496,
+  "inverse_ceiling_bytes": 2277511232,
+  "inverse_construction_bytes": 3822443744,
+  "process_geometry_bytes": 470358016,
+  "rhs_workspace_bytes": 1093173248,
+  "gmres_workspace_bytes": 160180736,
+  "projection_cache_bytes": 8388608,
+  "moment_cache_bytes": 268435456,
+  "retained_worker_allowance_bytes": 0,
+  "retained_polynomial_operator_bytes": 0,
+  "assembly_workspace_bytes": 2216799296,
+  "storage_limit_bytes": 7980945280,
+  "storage_fits": true,
+  "temporary_disk_bytes": 0,
+  "storage_method": "hmatrix_model",
+  "sampled": false,
+  "samples": 0,
+  "coefficients": 276688800,
+  "inverse_rank": 1493,
+  "safety": 1.0,
+  "floor_gb": 0.0,
+  "forecast_is_hard_limit": false,
+  "storage_policy": "reservation_minus_phase_workspace"
+}

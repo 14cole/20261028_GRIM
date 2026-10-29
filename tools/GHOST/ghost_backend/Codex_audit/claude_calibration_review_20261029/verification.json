@@ -1,0 +1,58 @@
+{
+  "reviewed_commit": "50d2c64820def24fe9e993cbeef794074fc79998",
+  "verified_changed_source_files": 9,
+  "source_mismatches": [],
+  "verified_historical_files": 85,
+  "historical_mismatches": [],
+  "unique_tests": 621,
+  "reports": 735,
+  "certified_runs": 9,
+  "timing": {
+    "first_run_seconds": 124.0222103000051,
+    "old_ab_mean_seconds": 156.6112339499923,
+    "new_ab_mean_seconds": 156.81760019999638,
+    "ab_difference_percent": 0.13176976184861022,
+    "historical_difference_percent": 26.27676411439175,
+    "identical_geometry_requests": true,
+    "option_differences": {
+      "temporary_directory": [
+        "C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\Codex_audit\\memory_implementation_20261029\\scratch",
+        "C:\\Users\\14col\\Documents\\20261028_GRIM\\tools\\GHOST\\ghost_backend\\Codex_audit\\memory_calibration_20261029\\scratch"
+      ]
+    },
+    "qualification": "Cross-session harness/instrumentation differs; background sampler time is not an exclusive wall-time charge."
+  },
+  "pressure": {
+    "initial_available_ram_gib": 16.763221740722656,
+    "initial_available_commit_gib": 15.013763427734375,
+    "inferred_additional_commit_for_physical_binding_gib": 1.7494583129882812,
+    "minimum_observed_limit_gib": 33.10295486450195,
+    "maximum_observed_limit_gib": 33.10295486450195,
+    "hold_commit_ratio_range": [
+      0.9512157599541171,
+      0.9533163066286491
+    ],
+    "qualification": "Extra capacity is arithmetic conditional on this snapshot, not a tested pagefile configuration."
+  },
+  "workers": [
+    {
+      "name": "ab_new_1",
+      "sampled_busy_private_gib": 0.6473922729492188,
+      "sum_individual_lifetime_private_peaks_gib": 0.7043113708496094,
+      "worker_allowance_gib": 1.893952026963234
+    },
+    {
+      "name": "profile_2",
+      "sampled_busy_private_gib": 0.3502349853515625,
+      "sum_individual_lifetime_private_peaks_gib": 0.3635749816894531,
+      "worker_allowance_gib": 0.946976013481617
+    },
+    {
+      "name": "profile_narrow_8",
+      "sampled_busy_private_gib": 1.2842521667480469,
+      "sum_individual_lifetime_private_peaks_gib": 1.4336509704589844,
+      "worker_allowance_gib": 3.7918369472026825
+    }
+  ],
+  "scope": "Read-only verification of saved evidence and source hashes; no new solves, regression suite or OS changes."
+}

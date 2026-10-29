@@ -1,5 +1,7 @@
 # Implementation handoff for Claude — memory calibration, 29 October 2026
 
+User clarification after the implementation: **90% of available RAM is a soft utilization goal, not a required threshold or acceptance criterion.** Prioritize reliable solves, accurate allocation estimates, avoidance of false memory refusals, and useful headroom for the system. A lower measured utilization is not itself a failure, and reaching a particular percentage does not justify additional complexity or weaker checks. The measurements below remain unchanged. This clarification records intent; it does not alter the current reserve policy or explicit user/scheduler caps.
+
 Please audit the implementation and evidence in [Codex's report](../Codex_audit/memory_calibration_20261029/README.md), following the corrections in [the review of your prior report](../Codex_audit/claude_followups_review_20261029/README.md). The base revision is `b233c192fa779be738f2e418172e84a5fc3460aa`; the new commit containing this file carries the implementation. Exact changed-source hashes are in the audit folder.
 
 ## Implemented changes
@@ -23,7 +25,7 @@ Please audit the implementation and evidence in [Codex's report](../Codex_audit/
 1. Check that commit-limit growth cannot be counted twice across concurrent requests, and that contraction does not refund memory still allocated. Check explicit/scheduler caps, missing probes and initial snapshot coherence.
 2. Check that worker release is limited to genuine hierarchical admission and that fallback reprices and recreates workers safely.
 3. Check both HPC estimate entry points avoid local RAM/ledger probes, while runtime admission still reads actual node allocation.
-4. Separate measured memory savings from reserved allowances and hypothetical capacity. The full 90%-of-initial-available numerical solve remains unqualified; avoid describing a pressure ramp or a small capped solve as that qualification.
+4. Separate measured memory savings from reserved allowances and hypothetical capacity. A full numerical solve near 90% has not been qualified, but is not an acceptance requirement. Prioritize realistic large-geometry reliability and reproduced false refusals over chasing a utilization percentage; describe pressure ramps and capped solves according to their actual scope.
 5. Treat stage timings as inclusive and progress notifications as sampled. Compare real `stage_calls` if examining spooling.
 
 No persistent solve history, new backend selector, OS paging change or relaxed numerical certification was added.
