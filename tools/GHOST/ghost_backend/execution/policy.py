@@ -100,7 +100,7 @@ def available_candidates(candidates):
     return {mode:dict(c) for mode,c in candidates.items()}
 
 
-def rank_candidates(candidates, budget_gib, margin=.2):
+def rank_candidates(candidates, budget_gib, margin=.2, *, diagnostics=None, prefer_dense=True):
     available=available_candidates(candidates)
     if not available:
         raise RuntimeError('No compatible solver backend is available.')
@@ -108,14 +108,36 @@ def rank_candidates(candidates, budget_gib, margin=.2):
         if mode not in BACKENDS or any(not math.isfinite(float(c[k])) or c[k] <= 0 for k in ('cost','peak_gb')):
             raise ValueError('Invalid automatic backend forecast.')
     fitting=[m for m,c in available.items() if c['peak_gb'] <= (1-margin)*budget_gib]
+    margin_used=bool(fitting)
     if not fitting:
         fitting=[m for m,c in available.items() if c['peak_gb'] <= budget_gib]
     if not fitting:
         description=', '.join('{} {:.2f} GiB'.format(m,c['peak_gb']) for m,c in available.items())
         raise MemoryError('No compatible backend fits the {:.2f} GiB solve budget ({}).'.format(budget_gib,description))
     ranked=sorted(fitting,key=lambda m:(available[m]['cost'],BACKENDS.index(m)))
-    if 'dense' in ranked and available.get('compressed',{}).get('hmatrix'):
-        # The hierarchical compressed backend serves systems dense storage
-        # cannot hold; where dense is admitted, its result is kept unchanged.
+    cost_winner=ranked[0]
+    dense_preference=prefer_dense and 'dense' in ranked and bool(available.get('compressed',{}).get('hmatrix'))
+    if dense_preference:
+        # Keep the conservative cold-start preference unless the caller has
+        # qualified paired timing evidence. Memory admission is always first.
         ranked.remove('dense');ranked.insert(0,'dense')
+    if diagnostics is not None:
+        diagnostics.clear()
+        diagnostics.update(cost_winner=cost_winner, selected=ranked[0], admitted=list(fitting),
+            budget_gib=budget_gib, margin_fraction=margin, margin_applied=margin_used,
+            excluded={m:('exceeds_budget' if c['peak_gb']>budget_gib else 'outside_memory_margin')
+                      for m,c in available.items() if m not in fitting},
+            dense_preference_applied=dense_preference,
+            dense_preference_enabled=prefer_dense,
+            preference_changed_winner=ranked[0]!=cost_winner)
     return ranked
+
+
+def ranking_reason(decision):
+    """Describe the actual policy, independently of the source of its costs."""
+    if decision['preference_changed_winner']:
+        return ('Dense-first policy selected dense over the lower-cost compressed candidate; '
+                'both are admitted by the memory policy.')
+    if decision['dense_preference_applied']:
+        return 'Dense-first policy and lowest candidate cost agree; memory admission retained.'
+    return 'Selected the lowest-cost candidate in the memory-admitted set.'

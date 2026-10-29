@@ -1,0 +1,3232 @@
+{
+  "completed_cases": 13,
+  "planned_cases": 13,
+  "runs": [
+    {
+      "name": "dielectric15_r0_dense",
+      "case": {
+        "name": "dielectric15_r0_dense",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "dense",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 181.03659219999827,
+      "error": null,
+      "peak_rss_gib": 5.852214813232422,
+      "peak_private_gib": 6.148319244384766,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 41.987859100001515,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 138.89434859999892,
+          "backend": "dense",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [],
+      "dense_factors": {
+        "VV": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 2,
+            "tighter_rebuilds": 1,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 128,
+            "low_rank_blocks": 254,
+            "max_rank": 389,
+            "max_block_error": 9.816025456746338e-13,
+            "tolerance": 1e-12,
+            "factor_bytes": 716500040,
+            "refinements": 2,
+            "refinement_tolerance": 3e-14,
+            "probe_refinements": 0,
+            "coarse_rejection": "Exact-matrix residual refinement did not converge."
+          }
+        ],
+        "HH": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 128,
+            "low_rank_blocks": 254,
+            "max_rank": 359,
+            "max_block_error": 9.756528462765542e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 646578152,
+            "refinements": 6,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 0
+          }
+        ]
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 5.521694183349609,
+        "operators": 4.774269104003906,
+        "factorization": 5.395843505859375,
+        "condition_estimation": 5.352085113525391,
+        "rhs_compression": 5.416801452636719,
+        "rhs_solve": 5.787891387939453,
+        "linear_solve": 2.822032928466797,
+        "excitation": 5.620170593261719,
+        "far_field": 5.583778381347656
+      }
+    },
+    {
+      "name": "dielectric15_r0_mixed",
+      "case": {
+        "name": "dielectric15_r0_mixed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 1
+      },
+      "status": "passed",
+      "seconds": 145.10738689999562,
+      "error": null,
+      "peak_rss_gib": 4.67724609375,
+      "peak_private_gib": 4.982624053955078,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 41.77053020000312,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 8.67753086052835,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 63.48245878836431,
+                "peak_gb": 8.67753086052835
+              },
+              "compressed": {
+                "cost": 868.7113689987999,
+                "peak_gb": 6.624628126621246,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 11616,
+              "initial_candidate_unknowns_max": 17424,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.3534265000052983,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 0,
+              "selected": "dense",
+              "after_steps": 1
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 102.82902620000095,
+          "backend": "compressed",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 8.67753086052835,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 63.48245878836431,
+                "peak_gb": 8.67753086052835
+              },
+              "compressed": {
+                "cost": 868.7113689987999,
+                "peak_gb": 6.624628126621246,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 11616,
+              "initial_candidate_unknowns_max": 17424,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "compressed",
+            "retry_order": [
+              "dense"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.3534265000052983,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 1,
+              "selected": "compressed",
+              "after_steps": 1
+            }
+          }
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 617992224,
+              "max_rank": 334,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 5046053932,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            },
+            {
+              "bytes": 704712800,
+              "max_rank": 379,
+              "leaves": 128,
+              "accesses": 4743712,
+              "oracle_calls": 256,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 4428061708,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 17424,
+            "reference_inverse_bytes": 704712800,
+            "predicted_inverse_bytes": 704712800,
+            "payload_allowance_bytes": 1409425600,
+            "construction_allowance_bytes": 2114138400,
+            "available_bytes": 11260063744,
+            "accepted": true,
+            "inverse_bytes": 709133856,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 709133856,
+              "max_rank": 382,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 1409425600,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 2.7169151306152344,
+        "operators": 3.116344451904297,
+        "factorization": 4.627536773681641,
+        "condition_estimation": 3.4677696228027344,
+        "linear_solve": 4.0148468017578125,
+        "rhs_solve": 2.9008522033691406,
+        "excitation": 2.6280593872070312,
+        "hmatrix_assembly": 3.4381370544433594,
+        "hmatrix_norms": 2.7802352905273438,
+        "hmatrix_validation": 2.7889328002929688,
+        "rhs_compression": 3.723552703857422
+      }
+    },
+    {
+      "name": "dielectric15_r0_compressed",
+      "case": {
+        "name": "dielectric15_r0_compressed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 161.14940109999588,
+      "error": null,
+      "peak_rss_gib": 3.9872055053710938,
+      "peak_private_gib": 4.3546600341796875,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 70.16191690000414,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 90.82780210000055,
+          "backend": "compressed",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 11616,
+            "reference_inverse_bytes": 474631184,
+            "predicted_inverse_bytes": 1067920164,
+            "payload_allowance_bytes": 2135840328,
+            "construction_allowance_bytes": 3203760492,
+            "available_bytes": 9921581056,
+            "accepted": true,
+            "inverse_bytes": 704712800,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 704712800,
+              "max_rank": 379,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 2135840328,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 17424,
+            "reference_inverse_bytes": 704712800,
+            "predicted_inverse_bytes": 704712800,
+            "payload_allowance_bytes": 1409425600,
+            "construction_allowance_bytes": 2114138400,
+            "available_bytes": 11267342336,
+            "accepted": true,
+            "inverse_bytes": 709133856,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 709133856,
+              "max_rank": 382,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 1409425600,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 3.5650672912597656,
+        "operators": 3.1508407592773438,
+        "hmatrix_assembly": 3.4385643005371094,
+        "hmatrix_norms": 2.7826156616210938,
+        "factorization": 3.5271453857421875,
+        "condition_estimation": 3.4222030639648438,
+        "excitation": 2.4597320556640625,
+        "linear_solve": 3.9872055053710938,
+        "hmatrix_validation": 2.8320960998535156,
+        "rhs_compression": 3.774364471435547,
+        "mesh_certification": 2.268077850341797
+      }
+    },
+    {
+      "name": "dielectric15_r1_compressed",
+      "case": {
+        "name": "dielectric15_r1_compressed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 160.97752420000324,
+      "error": null,
+      "peak_rss_gib": 3.9887161254882812,
+      "peak_private_gib": 4.356239318847656,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 70.06675209999958,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 90.75042969999777,
+          "backend": "compressed",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 11616,
+            "reference_inverse_bytes": 474631184,
+            "predicted_inverse_bytes": 1067920164,
+            "payload_allowance_bytes": 2135840328,
+            "construction_allowance_bytes": 3203760492,
+            "available_bytes": 9921056768,
+            "accepted": true,
+            "inverse_bytes": 704712800,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 704712800,
+              "max_rank": 379,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 2135840328,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 17424,
+            "reference_inverse_bytes": 704712800,
+            "predicted_inverse_bytes": 704712800,
+            "payload_allowance_bytes": 1409425600,
+            "construction_allowance_bytes": 2114138400,
+            "available_bytes": 11266183168,
+            "accepted": true,
+            "inverse_bytes": 709133856,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 709133856,
+              "max_rank": 382,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 1409425600,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 1.5045623779296875,
+        "operators": 3.251415252685547,
+        "hmatrix_assembly": 3.4407997131347656,
+        "hmatrix_norms": 2.797351837158203,
+        "factorization": 3.52899169921875,
+        "condition_estimation": 3.442798614501953,
+        "excitation": 2.4329910278320312,
+        "linear_solve": 3.9887161254882812,
+        "far_field": 2.7223587036132812,
+        "rhs_compression": 3.4906349182128906
+      }
+    },
+    {
+      "name": "dielectric15_r1_mixed",
+      "case": {
+        "name": "dielectric15_r1_mixed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 1
+      },
+      "status": "passed",
+      "seconds": 145.0550243999969,
+      "error": null,
+      "peak_rss_gib": 4.678070068359375,
+      "peak_private_gib": 4.988552093505859,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 41.866769100000965,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 8.67753086052835,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 63.48245878836431,
+                "peak_gb": 8.67753086052835
+              },
+              "compressed": {
+                "cost": 868.7113689987999,
+                "peak_gb": 6.624628126621246,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 11616,
+              "initial_candidate_unknowns_max": 17424,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.3463266000035219,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 0,
+              "selected": "dense",
+              "after_steps": 1
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 102.68269290000171,
+          "backend": "compressed",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 8.67753086052835,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 63.48245878836431,
+                "peak_gb": 8.67753086052835
+              },
+              "compressed": {
+                "cost": 868.7113689987999,
+                "peak_gb": 6.624628126621246,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 11616,
+              "initial_candidate_unknowns_max": 17424,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "compressed",
+            "retry_order": [
+              "dense"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.3463266000035219,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 1,
+              "selected": "compressed",
+              "after_steps": 1
+            }
+          }
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 617992224,
+              "max_rank": 334,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 5046053932,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            },
+            {
+              "bytes": 704712800,
+              "max_rank": 379,
+              "leaves": 128,
+              "accesses": 4743712,
+              "oracle_calls": 256,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 4428061708,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 17424,
+          "preconditioner_hint": {
+            "source": "validated_field_solve_in_same_single_frequency_request",
+            "reference_unknowns": 17424,
+            "reference_inverse_bytes": 704712800,
+            "predicted_inverse_bytes": 704712800,
+            "payload_allowance_bytes": 1409425600,
+            "construction_allowance_bytes": 2114138400,
+            "available_bytes": 11262029824,
+            "accepted": true,
+            "inverse_bytes": 709133856,
+            "tolerance": 1e-10
+          },
+          "preconditioners": [
+            {
+              "bytes": 709133856,
+              "max_rank": 382,
+              "leaves": 128,
+              "accesses": 2371856,
+              "oracle_calls": 128,
+              "max_query_entries": 18769,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 1409425600,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 3.867694854736328,
+        "operators": 3.2486495971679688,
+        "factorization": 4.63531494140625,
+        "condition_estimation": 4.673305511474609,
+        "excitation": 3.513751983642578,
+        "rhs_solve": 2.853912353515625,
+        "rhs_compression": 2.6423912048339844,
+        "hmatrix_assembly": 3.4365806579589844,
+        "hmatrix_norms": 2.7905807495117188,
+        "linear_solve": 3.952869415283203
+      }
+    },
+    {
+      "name": "dielectric15_r1_dense",
+      "case": {
+        "name": "dielectric15_r1_dense",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "dense",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 181.05546909999975,
+      "error": null,
+      "peak_rss_gib": 5.816623687744141,
+      "peak_private_gib": 6.131263732910156,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 5808,
+          "panels": 2904,
+          "seconds": 41.944689600000856,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 8712,
+          "panels": 2904,
+          "seconds": 138.9596848000001,
+          "backend": "dense",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [],
+      "dense_factors": {
+        "VV": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 2,
+            "tighter_rebuilds": 1,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 128,
+            "low_rank_blocks": 254,
+            "max_rank": 389,
+            "max_block_error": 9.816025456746338e-13,
+            "tolerance": 1e-12,
+            "factor_bytes": 716500040,
+            "refinements": 2,
+            "refinement_tolerance": 3e-14,
+            "probe_refinements": 0,
+            "coarse_rejection": "Exact-matrix residual refinement did not converge."
+          }
+        ],
+        "HH": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 128,
+            "low_rank_blocks": 254,
+            "max_rank": 359,
+            "max_block_error": 9.756528462765542e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 646578152,
+            "refinements": 6,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 0
+          }
+        ]
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 4.743865966796875,
+        "operators": 4.772838592529297,
+        "factorization": 5.397979736328125,
+        "condition_estimation": 5.4376373291015625,
+        "excitation": 5.353080749511719,
+        "rhs_solve": 5.835395812988281,
+        "linear_solve": 2.713184356689453,
+        "rhs_compression": 5.617225646972656
+      }
+    },
+    {
+      "name": "narrow15_r0_dense",
+      "case": {
+        "name": "narrow15_r0_dense",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "dense",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 115.27775779999502,
+      "error": null,
+      "peak_rss_gib": 8.486900329589844,
+      "peak_private_gib": 8.77396011352539,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 5.270296800001233,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 6.414657199995418,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 25.55092169999989,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 77.86722040000313,
+          "backend": "dense",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [],
+      "dense_factors": {
+        "VV": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 64,
+            "low_rank_blocks": 126,
+            "max_rank": 151,
+            "max_block_error": 7.237589817534508e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 320475808,
+            "refinements": 3,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 1
+          }
+        ],
+        "HH": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": true,
+            "ordered_copy_bytes": 4019052816,
+            "leaves": 64,
+            "low_rank_blocks": 126,
+            "max_rank": 148,
+            "max_block_error": 9.321223266348567e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 314820144,
+            "refinements": 3,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 1
+          }
+        ]
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 4.682613372802734,
+        "operators": 7.776317596435547,
+        "linear_solve": 4.635734558105469,
+        "condition_estimation": 8.088027954101562,
+        "factorization": 8.047527313232422,
+        "excitation": 8.10971450805664,
+        "condition_scaling": 7.747951507568359,
+        "rhs_solve": 8.4869384765625,
+        "rhs_compression": 8.415546417236328,
+        "far_field": 8.426437377929688
+      }
+    },
+    {
+      "name": "narrow15_r0_mixed",
+      "case": {
+        "name": "narrow15_r0_mixed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 3
+      },
+      "status": "passed",
+      "seconds": 112.86617519999709,
+      "error": null,
+      "peak_rss_gib": 4.683010101318359,
+      "peak_private_gib": 4.975914001464844,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 5.282783200003905,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.3267965614795685,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 27.481133691249997,
+                "peak_gb": 1.3267965614795685
+              },
+              "compressed": {
+                "cost": 27.51542573605,
+                "peak_gb": 3.1409342736005783
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 3210,
+              "initial_candidate_unknowns_max": 4815,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.19038279999949737,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 0,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 6.380643199998303,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.3267965614795685,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 27.481133691249997,
+                "peak_gb": 1.3267965614795685
+              },
+              "compressed": {
+                "cost": 27.51542573605,
+                "peak_gb": 3.1409342736005783
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 3210,
+              "initial_candidate_unknowns_max": 4815,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.19038279999949737,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 1,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 25.92214470000181,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 3.7212257385253906,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 79.47343780590933,
+                "peak_gb": 3.7212257385253906
+              },
+              "compressed": {
+                "cost": 62.34284984899999,
+                "peak_gb": 1.9815149009227753,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 3264,
+                "unknowns": 9792,
+                "dense_peak_gib": 3.7212257385253906,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7212257385253906,
+                  "compressed": 1.9815149009227753
+                },
+                "resources": {
+                  "nodes": 9792,
+                  "panels": 3264,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 9792,
+                  "operator_matrices": 155,
+                  "operator_entries": 191766528,
+                  "geometric_near_pairs": 24076,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3211776,
+                  "mass_workspace_bytes": 2167304,
+                  "block_workspace_bytes": 120324096,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 702818048,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 386292840,
+                    "operator_allowance_bytes": 386292840,
+                    "inverse_bytes": 294686480,
+                    "inverse_peak_bytes": 477992720,
+                    "assembly_workspace_bytes": 218557440,
+                    "coefficients": 37632761,
+                    "retained_entries": 22671925,
+                    "inverse_rank": 390,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              },
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 3264,
+                "unknowns": 9792,
+                "dense_peak_gib": 3.7212257385253906,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7212257385253906,
+                  "compressed": 1.9815149009227753
+                },
+                "resources": {
+                  "nodes": 9792,
+                  "panels": 3264,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 9792,
+                  "operator_matrices": 155,
+                  "operator_entries": 191766528,
+                  "geometric_near_pairs": 24076,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3211776,
+                  "mass_workspace_bytes": 2167304,
+                  "block_workspace_bytes": 120324096,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 702818048,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 386292840,
+                    "operator_allowance_bytes": 386292840,
+                    "inverse_bytes": 294686480,
+                    "inverse_peak_bytes": 477992720,
+                    "assembly_workspace_bytes": 218557440,
+                    "coefficients": 37632761,
+                    "retained_entries": 22671925,
+                    "inverse_rank": 390,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 9792,
+              "initial_candidate_unknowns_max": 9792,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "compressed",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": true
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "audit_transition": {
+              "step": 2,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 74.92674189999525,
+          "backend": "compressed",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 7.316956365481019,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 208.12369111329824,
+                "peak_gb": 7.316956365481019
+              },
+              "compressed": {
+                "cost": 106.30776824345,
+                "peak_gb": 3.068771965801716,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 5283,
+                "unknowns": 15849,
+                "dense_peak_gib": 7.316956365481019,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 7.316956365481019,
+                  "compressed": 3.068771965801716
+                },
+                "resources": {
+                  "nodes": 15849,
+                  "panels": 5283,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 15849,
+                  "operator_matrices": 250,
+                  "operator_entries": 502381602,
+                  "geometric_near_pairs": 38351,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5198472,
+                  "mass_workspace_bytes": 3507920,
+                  "block_workspace_bytes": 194752512,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 1345861568,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 693745800,
+                    "operator_allowance_bytes": 693745800,
+                    "inverse_bytes": 467318904,
+                    "inverse_peak_bytes": 763251432,
+                    "assembly_workspace_bytes": 351218624,
+                    "coefficients": 64974642,
+                    "retained_entries": 40983830,
+                    "inverse_rank": 389,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              },
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 5283,
+                "unknowns": 15849,
+                "dense_peak_gib": 7.316956365481019,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 7.316956365481019,
+                  "compressed": 3.068771965801716
+                },
+                "resources": {
+                  "nodes": 15849,
+                  "panels": 5283,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 15849,
+                  "operator_matrices": 250,
+                  "operator_entries": 502381602,
+                  "geometric_near_pairs": 38351,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5198472,
+                  "mass_workspace_bytes": 3507920,
+                  "block_workspace_bytes": 194752512,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 1345861568,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 693745800,
+                    "operator_allowance_bytes": 693745800,
+                    "inverse_bytes": 467318904,
+                    "inverse_peak_bytes": 763251432,
+                    "assembly_workspace_bytes": 351218624,
+                    "coefficients": 64974642,
+                    "retained_entries": 40983830,
+                    "inverse_rank": 389,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 15849,
+              "initial_candidate_unknowns_max": 15849,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "compressed",
+            "retry_order": [
+              "dense"
+            ],
+            "ranking": {
+              "cost_winner": "compressed",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": true
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "audit_transition": {
+              "step": 3,
+              "selected": "compressed",
+              "after_steps": 3
+            }
+          }
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 295938216,
+              "max_rank": 148,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 6592675500,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 287597304,
+              "max_rank": 143,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 7160110564,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 4.598930358886719,
+        "operators": 3.08319091796875,
+        "linear_solve": 4.682914733886719,
+        "excitation": 4.501800537109375,
+        "factorization": 4.4785919189453125,
+        "rhs_solve": 4.636035919189453,
+        "condition_estimation": 3.0609283447265625,
+        "far_field": 3.2535362243652344,
+        "compressed_assembly": 0.218658447265625,
+        "hmatrix_assembly": 1.4483261108398438,
+        "hmatrix_norms": 1.3943328857421875
+      }
+    },
+    {
+      "name": "narrow15_r0_compressed",
+      "case": {
+        "name": "narrow15_r0_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 137.90510979999817,
+      "error": null,
+      "peak_rss_gib": 2.5774765014648438,
+      "peak_private_gib": 3.143016815185547,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 12.784411900000123,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 18.00679880000098,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 32.625476200002595,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 74.3077587000007,
+          "backend": "compressed",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 295938216,
+              "max_rank": 148,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 6592675500,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 287597304,
+              "max_rank": 143,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 7160110564,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 1.2251777648925781,
+        "operators": 1.9854507446289062,
+        "compressed_spool_write": 0.7458267211914062,
+        "factorization": 2.0224342346191406,
+        "condition_estimation": 2.0432205200195312,
+        "linear_solve": 2.5757789611816406,
+        "rhs_compression": 1.6392326354980469,
+        "compressed_assembly": 0.9037017822265625,
+        "compressed_spool_read": 0.54083251953125,
+        "excitation": 2.341197967529297,
+        "hmatrix_assembly": 1.8400344848632812,
+        "hmatrix_norms": 1.774749755859375,
+        "far_field": 2.0231781005859375,
+        "hmatrix_validation": 1.7881431579589844
+      }
+    },
+    {
+      "name": "narrow15_r1_compressed",
+      "case": {
+        "name": "narrow15_r1_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 137.51583430000028,
+      "error": null,
+      "peak_rss_gib": 2.5756149291992188,
+      "peak_private_gib": 3.1444320678710938,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 12.759240999999747,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 17.887597700006154,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 32.483213800005615,
+          "backend": "compressed",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 74.20908239999699,
+          "backend": "compressed",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 295938216,
+              "max_rank": 148,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 6592675500,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 287597304,
+              "max_rank": 143,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 7160110564,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 2.391162872314453,
+        "operators": 1.9620513916015625,
+        "compressed_spool_write": 0.8758697509765625,
+        "compressed_tile_compression": 0.23234176635742188,
+        "factorization": 2.0009193420410156,
+        "condition_estimation": 2.0476951599121094,
+        "linear_solve": 2.5898895263671875,
+        "compressed_assembly": 0.9252166748046875,
+        "rhs_compression": 1.869110107421875,
+        "hmatrix_assembly": 1.6827964782714844,
+        "hmatrix_norms": 1.7766304016113281,
+        "excitation": 2.1320648193359375,
+        "far_field": 1.7728729248046875,
+        "hmatrix_validation": 1.7835731506347656
+      }
+    },
+    {
+      "name": "narrow15_r1_mixed",
+      "case": {
+        "name": "narrow15_r1_mixed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 3
+      },
+      "status": "passed",
+      "seconds": 113.07581749999372,
+      "error": null,
+      "peak_rss_gib": 4.729988098144531,
+      "peak_private_gib": 5.024623870849609,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 5.257415000000037,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.3267965614795685,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 27.481133691249997,
+                "peak_gb": 1.3267965614795685
+              },
+              "compressed": {
+                "cost": 27.51542573605,
+                "peak_gb": 3.1409342736005783
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 3210,
+              "initial_candidate_unknowns_max": 4815,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.1959671000004164,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 0,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 6.431950800004415,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.3267965614795685,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 27.481133691249997,
+                "peak_gb": 1.3267965614795685
+              },
+              "compressed": {
+                "cost": 27.51542573605,
+                "peak_gb": 3.1409342736005783
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 3210,
+              "initial_candidate_unknowns_max": 4815,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "planning_seconds": 0.1959671000004164,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            },
+            "audit_transition": {
+              "step": 1,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 26.044367800001055,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 3.7212257385253906,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 79.47343780590933,
+                "peak_gb": 3.7212257385253906
+              },
+              "compressed": {
+                "cost": 62.34284984899999,
+                "peak_gb": 1.9815149009227753,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 3264,
+                "unknowns": 9792,
+                "dense_peak_gib": 3.7212257385253906,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7212257385253906,
+                  "compressed": 1.9815149009227753
+                },
+                "resources": {
+                  "nodes": 9792,
+                  "panels": 3264,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 9792,
+                  "operator_matrices": 155,
+                  "operator_entries": 191766528,
+                  "geometric_near_pairs": 24076,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3211776,
+                  "mass_workspace_bytes": 2167304,
+                  "block_workspace_bytes": 120324096,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 702818048,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 386292840,
+                    "operator_allowance_bytes": 386292840,
+                    "inverse_bytes": 294686480,
+                    "inverse_peak_bytes": 477992720,
+                    "assembly_workspace_bytes": 218557440,
+                    "coefficients": 37632761,
+                    "retained_entries": 22671925,
+                    "inverse_rank": 390,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              },
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 3264,
+                "unknowns": 9792,
+                "dense_peak_gib": 3.7212257385253906,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7212257385253906,
+                  "compressed": 1.9815149009227753
+                },
+                "resources": {
+                  "nodes": 9792,
+                  "panels": 3264,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 9792,
+                  "operator_matrices": 155,
+                  "operator_entries": 191766528,
+                  "geometric_near_pairs": 24076,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3211776,
+                  "mass_workspace_bytes": 2167304,
+                  "block_workspace_bytes": 120324096,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 702818048,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 386292840,
+                    "operator_allowance_bytes": 386292840,
+                    "inverse_bytes": 294686480,
+                    "inverse_peak_bytes": 477992720,
+                    "assembly_workspace_bytes": 218557440,
+                    "coefficients": 37632761,
+                    "retained_entries": 22671925,
+                    "inverse_rank": 390,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 9792,
+              "initial_candidate_unknowns_max": 9792,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "compressed",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": true
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "audit_transition": {
+              "step": 2,
+              "selected": "dense",
+              "after_steps": 3
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 74.9826780000003,
+          "backend": "compressed",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 7.316956365481019,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 208.12369111329824,
+                "peak_gb": 7.316956365481019
+              },
+              "compressed": {
+                "cost": 106.30776824345,
+                "peak_gb": 3.068771965801716,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 5283,
+                "unknowns": 15849,
+                "dense_peak_gib": 7.316956365481019,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 7.316956365481019,
+                  "compressed": 3.068771965801716
+                },
+                "resources": {
+                  "nodes": 15849,
+                  "panels": 5283,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 15849,
+                  "operator_matrices": 250,
+                  "operator_entries": 502381602,
+                  "geometric_near_pairs": 38351,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5198472,
+                  "mass_workspace_bytes": 3507920,
+                  "block_workspace_bytes": 194752512,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 1345861568,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 693745800,
+                    "operator_allowance_bytes": 693745800,
+                    "inverse_bytes": 467318904,
+                    "inverse_peak_bytes": 763251432,
+                    "assembly_workspace_bytes": 351218624,
+                    "coefficients": 64974642,
+                    "retained_entries": 40983830,
+                    "inverse_rank": 389,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              },
+              {
+                "frequency_ghz": 15.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 5283,
+                "unknowns": 15849,
+                "dense_peak_gib": 7.316956365481019,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 7.316956365481019,
+                  "compressed": 3.068771965801716
+                },
+                "resources": {
+                  "nodes": 15849,
+                  "panels": 5283,
+                  "basis_width": 4,
+                  "n_regions": 1,
+                  "formulation": "multi_region",
+                  "system_dofs": 15849,
+                  "operator_matrices": 250,
+                  "operator_entries": 502381602,
+                  "geometric_near_pairs": 38351,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5198472,
+                  "mass_workspace_bytes": 3507920,
+                  "block_workspace_bytes": 194752512,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 1345861568,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 693745800,
+                    "operator_allowance_bytes": 693745800,
+                    "inverse_bytes": 467318904,
+                    "inverse_peak_bytes": 763251432,
+                    "assembly_workspace_bytes": 351218624,
+                    "coefficients": 64974642,
+                    "retained_entries": 40983830,
+                    "inverse_rank": 389,
+                    "density_multiplicity": 1.0,
+                    "wavenumber": 314.37675329275226,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 314.37675329275226,
+                        "imag": 0.0,
+                        "magnitude": 314.37675329275226
+                      }
+                    ],
+                    "medium_count": 1,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 15849,
+              "initial_candidate_unknowns_max": 15849,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "compressed",
+            "retry_order": [
+              "dense"
+            ],
+            "ranking": {
+              "cost_winner": "compressed",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": true
+            },
+            "reason": "Audit-only prescribed transition among admitted candidates.",
+            "audit_transition": {
+              "step": 3,
+              "selected": "compressed",
+              "after_steps": 3
+            }
+          }
+        }
+      ],
+      "final_compressed_factors": [
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 295938216,
+              "max_rank": 148,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 6592675500,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        },
+        {
+          "unknowns": 15849,
+          "preconditioner_hint": null,
+          "preconditioners": [
+            {
+              "bytes": 287597304,
+              "max_rank": 143,
+              "leaves": 128,
+              "accesses": 1962447,
+              "oracle_calls": 128,
+              "max_query_entries": 15376,
+              "relative_inf_error_bound": null,
+              "relative_one_error_bound": null,
+              "storage_budget": 7160110564,
+              "inverse_only": true,
+              "inverse_builder": "hmatrix_range_sampling",
+              "range_blocks": 254,
+              "max_inverse_rank": 2048,
+              "inverse_blas_threads": 1
+            }
+          ]
+        }
+      ],
+      "dense_factors": {
+        "VV": [],
+        "HH": []
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 3.4588699340820312,
+        "operators": 3.0997772216796875,
+        "factorization": 4.477779388427734,
+        "rhs_compression": 0.6115188598632812,
+        "excitation": 4.502906799316406,
+        "linear_solve": 4.681613922119141,
+        "rhs_solve": 4.634735107421875,
+        "condition_scaling": 1.6392936706542969,
+        "compressed_assembly": 0.21639633178710938,
+        "hmatrix_assembly": 1.446380615234375,
+        "hmatrix_norms": 1.3913497924804688,
+        "condition_estimation": 1.6713371276855469,
+        "far_field": 1.88671875
+      }
+    },
+    {
+      "name": "narrow15_r1_dense",
+      "case": {
+        "name": "narrow15_r1_dense",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "dense",
+        "ram": 12
+      },
+      "status": "passed",
+      "seconds": 115.693325500004,
+      "error": null,
+      "peak_rss_gib": 8.547382354736328,
+      "peak_private_gib": 8.834388732910156,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 3210,
+          "panels": 1605,
+          "seconds": 5.214691000001039,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4815,
+          "panels": 1605,
+          "seconds": 6.388231699995231,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 9792,
+          "panels": 3264,
+          "seconds": 25.95746419999341,
+          "backend": "dense",
+          "backend_selection": null
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 15849,
+          "panels": 5283,
+          "seconds": 77.96828370000003,
+          "backend": "dense",
+          "backend_selection": null
+        }
+      ],
+      "final_compressed_factors": [],
+      "dense_factors": {
+        "VV": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": false,
+            "ordered_copy_bytes": 0,
+            "leaves": 64,
+            "low_rank_blocks": 126,
+            "max_rank": 151,
+            "max_block_error": 7.237589817534508e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 320475808,
+            "refinements": 3,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 1
+          }
+        ],
+        "HH": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": true,
+            "ordered_copy_bytes": 4019052816,
+            "leaves": 64,
+            "low_rank_blocks": 126,
+            "max_rank": 148,
+            "max_block_error": 9.321223266348567e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 314820144,
+            "refinements": 3,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 1
+          }
+        ]
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 4.711616516113281,
+        "operators": 7.777370452880859,
+        "factorization": 8.038570404052734,
+        "far_field": 0.6296653747558594,
+        "excitation": 8.131256103515625,
+        "rhs_compression": 8.24658203125,
+        "linear_solve": 4.682178497314453,
+        "rhs_solve": 8.46810531616211,
+        "condition_estimation": 8.063610076904297,
+        "mesh_certification": 0.26859283447265625
+      }
+    },
+    {
+      "name": "coated3_condition_diagnostic",
+      "case": {
+        "name": "coated3_condition_diagnostic",
+        "geometry": "coated_inlet",
+        "frequency": 3,
+        "mode": "adaptive",
+        "ram": 12,
+        "diagnose_condition": true
+      },
+      "status": "diagnostic",
+      "seconds": 42.35450900000433,
+      "error": null,
+      "peak_rss_gib": 5.559906005859375,
+      "peak_private_gib": 6.049289703369141,
+      "quality_gate_passed": true,
+      "mesh_certified": true,
+      "steps": [
+        {
+          "polynomial_degree": 2,
+          "nodes": 1850,
+          "panels": 925,
+          "seconds": 4.352375900001789,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.1236739456653595,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 23.990943259463336,
+                "peak_gb": 1.1236739456653595
+              },
+              "compressed": {
+                "cost": 24.01662638061533,
+                "peak_gb": 2.9799958914518356
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 2778,
+              "initial_candidate_unknowns_max": 4167,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Retained request or batch preference after memory admission. Underlying forecast: Reused the admitted request forecast. Selected the lowest-cost candidate in the memory-admitted set.",
+            "planning_seconds": 0.11453959999926155,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 2775,
+          "panels": 925,
+          "seconds": 4.0461578000031295,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 1.1236739456653595,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 23.990943259463336,
+                "peak_gb": 1.1236739456653595
+              },
+              "compressed": {
+                "cost": 24.01662638061533,
+                "peak_gb": 2.9799958914518356
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 4,
+              "polynomial_degrees": [
+                2,
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 2778,
+              "initial_candidate_unknowns_max": 4167,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Retained request or batch preference after memory admission. Underlying forecast: Reused the admitted request forecast. Selected the lowest-cost candidate in the memory-admitted set.",
+            "planning_seconds": 0.11453959999926155,
+            "forecast_reused": true,
+            "selection_context": "retained_request_or_batch_preference",
+            "selection_override": {
+              "source": "request_or_batch",
+              "selected": "dense",
+              "previous_selected": "dense",
+              "changed": false
+            }
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 4473,
+          "panels": 1491,
+          "seconds": 10.348625500002527,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 2.043538600206375,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 42.03141922672732,
+                "peak_gb": 2.043538600206375
+              },
+              "compressed": {
+                "cost": 42.07688028938332,
+                "peak_gb": 3.6444092839956284
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 3.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 1491,
+                "unknowns": 6663,
+                "dense_peak_gib": 2.043538600206375,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 2.043538600206375,
+                  "compressed": 3.6444092839956284
+                },
+                "resources": {
+                  "nodes": 4473,
+                  "panels": 1491,
+                  "basis_width": 4,
+                  "n_regions": 2,
+                  "formulation": "multi_region",
+                  "system_dofs": 6663,
+                  "operator_matrices": 286,
+                  "operator_entries": 78791598,
+                  "geometric_near_pairs": 22871,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3576168,
+                  "mass_workspace_bytes": 990032,
+                  "block_workspace_bytes": 28053504,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 274240960
+                }
+              },
+              {
+                "frequency_ghz": 3.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 1491,
+                "unknowns": 6663,
+                "dense_peak_gib": 2.043538600206375,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 2.043538600206375,
+                  "compressed": 3.6444092839956284
+                },
+                "resources": {
+                  "nodes": 4473,
+                  "panels": 1491,
+                  "basis_width": 4,
+                  "n_regions": 2,
+                  "formulation": "multi_region",
+                  "system_dofs": 6663,
+                  "operator_matrices": 286,
+                  "operator_entries": 78791598,
+                  "geometric_near_pairs": 22871,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 3576168,
+                  "mass_workspace_bytes": 990032,
+                  "block_workspace_bytes": 28053504,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 274240960
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 6663,
+              "initial_candidate_unknowns_max": 6663,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "dense",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": false,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": false
+            },
+            "reason": "Selected the lowest-cost candidate in the memory-admitted set."
+          }
+        },
+        {
+          "polynomial_degree": 3,
+          "nodes": 7341,
+          "panels": 2447,
+          "seconds": 23.31981540000561,
+          "backend": "dense",
+          "backend_selection": {
+            "requested": "adaptive",
+            "dense_peak_gib": 3.7620851220563054,
+            "model": "stage_work_v6",
+            "objective": "predicted_solve_completion",
+            "candidates": {
+              "dense": {
+                "cost": 108.7568753077557,
+                "peak_gb": 3.7620851220563054
+              },
+              "compressed": {
+                "cost": 54.33890467234999,
+                "peak_gb": 2.076445408165455,
+                "hmatrix": true
+              }
+            },
+            "cost_source": "stage_work_prior",
+            "exclusions": {},
+            "optimality_guaranteed": false,
+            "admission_budget_gib": 12.0,
+            "dense_margin_fraction": 0.2,
+            "angle_batch_size": 256,
+            "meshes": [
+              {
+                "frequency_ghz": 3.0,
+                "phase": "base",
+                "polarization": "TE",
+                "polynomial_degree": 3,
+                "panels": 2447,
+                "unknowns": 10773,
+                "dense_peak_gib": 3.7620851220563054,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7620851220563054,
+                  "compressed": 2.076445408165455
+                },
+                "resources": {
+                  "nodes": 7341,
+                  "panels": 2447,
+                  "basis_width": 4,
+                  "n_regions": 2,
+                  "formulation": "multi_region",
+                  "system_dofs": 10773,
+                  "operator_matrices": 452,
+                  "operator_entries": 205283682,
+                  "geometric_near_pairs": 35945,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5861352,
+                  "mass_workspace_bytes": 1624816,
+                  "block_workspace_bytes": 48033792,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 405607104,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 446476824,
+                    "operator_allowance_bytes": 446476824,
+                    "inverse_bytes": 235807256,
+                    "inverse_peak_bytes": 346467512,
+                    "assembly_workspace_bytes": 123334272,
+                    "coefficients": 36757044,
+                    "retained_entries": 27011881,
+                    "inverse_rank": 214,
+                    "density_multiplicity": 1.4675112382509194,
+                    "wavenumber": 99.42459835635975,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 62.875350658550445,
+                        "imag": 0.0,
+                        "magnitude": 62.875350658550445
+                      },
+                      {
+                        "real": 99.41962849310154,
+                        "imag": -0.9940968851814784,
+                        "magnitude": 99.42459835635975
+                      }
+                    ],
+                    "medium_count": 2,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              },
+              {
+                "frequency_ghz": 3.0,
+                "phase": "base",
+                "polarization": "TM",
+                "polynomial_degree": 3,
+                "panels": 2447,
+                "unknowns": 10773,
+                "dense_peak_gib": 3.7620851220563054,
+                "formulation": "multi_region",
+                "backend_peak_gib": {
+                  "dense": 3.7620851220563054,
+                  "compressed": 2.076445408165455
+                },
+                "resources": {
+                  "nodes": 7341,
+                  "panels": 2447,
+                  "basis_width": 4,
+                  "n_regions": 2,
+                  "formulation": "multi_region",
+                  "system_dofs": 10773,
+                  "operator_matrices": 452,
+                  "operator_entries": 205283682,
+                  "geometric_near_pairs": 35945,
+                  "assembly_operator_entries": 0,
+                  "operator_map_bytes": 5861352,
+                  "mass_workspace_bytes": 1624816,
+                  "block_workspace_bytes": 48033792,
+                  "moment_cache_bytes": 268435456,
+                  "assembly_workspace_bytes": 405607104,
+                  "hmatrix_storage": {
+                    "method": "hmatrix_model",
+                    "operator_bytes": 446476824,
+                    "operator_allowance_bytes": 446476824,
+                    "inverse_bytes": 235807256,
+                    "inverse_peak_bytes": 346467512,
+                    "assembly_workspace_bytes": 123334272,
+                    "coefficients": 36757044,
+                    "retained_entries": 27011881,
+                    "inverse_rank": 214,
+                    "density_multiplicity": 1.4675112382509194,
+                    "wavenumber": 99.42459835635975,
+                    "sampled": false,
+                    "samples": 0,
+                    "hmatrix": true,
+                    "medium_wavenumbers": [
+                      {
+                        "real": 62.875350658550445,
+                        "imag": 0.0,
+                        "magnitude": 62.875350658550445
+                      },
+                      {
+                        "real": 99.41962849310154,
+                        "imag": -0.9940968851814784,
+                        "magnitude": 99.42459835635975
+                      }
+                    ],
+                    "medium_count": 2,
+                    "medium_list_truncated": false,
+                    "attenuation_calibrated": false,
+                    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+                  }
+                }
+              }
+            ],
+            "cost_scope": {
+              "kind": "aggregate_forecast_meshes",
+              "systems": 2,
+              "polynomial_degrees": [
+                3
+              ]
+            },
+            "mesh_forecast_scope": {
+              "initial_candidate_unknowns_min": 10773,
+              "initial_candidate_unknowns_max": 10773,
+              "final_size_guaranteed": false,
+              "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+            },
+            "selected": "dense",
+            "retry_order": [
+              "compressed"
+            ],
+            "ranking": {
+              "cost_winner": "compressed",
+              "selected": "dense",
+              "admitted": [
+                "dense",
+                "compressed"
+              ],
+              "budget_gib": 12.0,
+              "margin_fraction": 0.2,
+              "margin_applied": true,
+              "excluded": {},
+              "dense_preference_applied": true,
+              "dense_preference_enabled": true,
+              "preference_changed_winner": true
+            },
+            "reason": "Dense-first policy selected dense over the lower-cost compressed candidate; both are admitted by the memory policy."
+          }
+        }
+      ],
+      "final_compressed_factors": [],
+      "dense_factors": {
+        "VV": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": true,
+            "ordered_copy_bytes": 1856920464,
+            "leaves": 55,
+            "low_rank_blocks": 108,
+            "max_rank": 178,
+            "max_block_error": 8.868104574869756e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 252428672,
+            "refinements": 2,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 0
+          }
+        ],
+        "HH": [
+          {
+            "backend": "hodlr",
+            "compression": "randomized",
+            "builds": 1,
+            "tighter_rebuilds": 0,
+            "ordered_copy": true,
+            "ordered_copy_bytes": 1856920464,
+            "leaves": 56,
+            "low_rank_blocks": 110,
+            "max_rank": 165,
+            "max_block_error": 9.48257897168829e-11,
+            "tolerance": 1e-10,
+            "factor_bytes": 237257760,
+            "refinements": 2,
+            "refinement_tolerance": 3e-15,
+            "probe_refinements": 0
+          }
+        ]
+      },
+      "inclusive_sampled_stage_peak_gib": {
+        "preparing_geometry": 3.9309310913085938,
+        "operators": 3.438159942626953,
+        "rhs_solve": 4.048091888427734,
+        "factorization": 5.512664794921875,
+        "rhs_compression": 0.9186286926269531,
+        "condition_estimation": 3.8266639709472656,
+        "linear_solve": 2.2353172302246094,
+        "excitation": 3.8467445373535156
+      }
+    }
+  ],
+  "comparisons": {
+    "dielectric15": {
+      "dense": {
+        "count": 2,
+        "seconds": [
+          181.03659219999827,
+          181.05546909999975
+        ],
+        "median_seconds": 181.046030649999,
+        "peak_rss_gib": [
+          5.852214813232422,
+          5.816623687744141
+        ],
+        "max_normalized_field_difference": 0.0
+      },
+      "mixed": {
+        "count": 2,
+        "seconds": [
+          145.10738689999562,
+          145.0550243999969
+        ],
+        "median_seconds": 145.08120564999626,
+        "peak_rss_gib": [
+          4.67724609375,
+          4.678070068359375
+        ],
+        "max_normalized_field_difference": 2.583909849327783e-08
+      },
+      "compressed": {
+        "count": 2,
+        "seconds": [
+          161.14940109999588,
+          160.97752420000324
+        ],
+        "median_seconds": 161.06346264999956,
+        "peak_rss_gib": [
+          3.9872055053710938,
+          3.9887161254882812
+        ],
+        "max_normalized_field_difference": 2.583909849327783e-08
+      }
+    },
+    "narrow15": {
+      "dense": {
+        "count": 2,
+        "seconds": [
+          115.27775779999502,
+          115.693325500004
+        ],
+        "median_seconds": 115.4855416499995,
+        "peak_rss_gib": [
+          8.486900329589844,
+          8.547382354736328
+        ],
+        "max_normalized_field_difference": 0.0
+      },
+      "mixed": {
+        "count": 2,
+        "seconds": [
+          112.86617519999709,
+          113.07581749999372
+        ],
+        "median_seconds": 112.9709963499954,
+        "peak_rss_gib": [
+          4.683010101318359,
+          4.729988098144531
+        ],
+        "max_normalized_field_difference": 8.375606038227424e-13
+      },
+      "compressed": {
+        "count": 2,
+        "seconds": [
+          137.90510979999817,
+          137.51583430000028
+        ],
+        "median_seconds": 137.71047204999923,
+        "peak_rss_gib": [
+          2.5774765014648438,
+          2.5756149291992188
+        ],
+        "max_normalized_field_difference": 8.375606038227424e-13
+      }
+    }
+  },
+  "notes": [
+    "Mixed is an audit-only prescribed transition among memory-admitted candidates.",
+    "The condition diagnostic is uncertified; its relaxed gate is not a production change.",
+    "Sampled inclusive stage peaks are not additive or isolated allocation measurements."
+  ]
+}

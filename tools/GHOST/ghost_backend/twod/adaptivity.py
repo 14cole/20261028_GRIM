@@ -180,7 +180,8 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                                                        common['frequencies_ghz'])
             if prior is not None:
                 selection = dict(prior, forecast_reused=True,
-                    reason='Reused the admitted request forecast of this candidate mesh.')
+                    selection_context='reused_request_forecast',
+                    reason='Reused the admitted request forecast. '+prior.get('reason',''))
                 selection.pop('meshes', None)
                 if 'admission_budget_gib' not in selection:
                     # A batch plan carries its candidates' peaks, not the live
@@ -199,7 +200,11 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                 # concurrency choice, after admission on this actual mesh.
                 selection = dict(selection, selected=preferred,
                     retry_order=[mode for mode in admitted if mode != preferred],
-                    reason='Retained request or batch preference after admission on the actual adaptive mesh.')
+                    selection_context='retained_request_or_batch_preference',
+                    selection_override=dict(source='request_or_batch', selected=preferred,
+                        previous_selected=selection['selected'],changed=preferred!=selection['selected']),
+                    reason=('Retained request or batch preference after memory admission. '
+                            'Underlying forecast: '+selection.get('reason','')))
             selected_options['factorization'] = selection['selected']
             selected_options['angle_batch_size'] = min(selected_options['angle_batch_size'],
                 selection.get('angle_batch_size', selected_options['angle_batch_size']))

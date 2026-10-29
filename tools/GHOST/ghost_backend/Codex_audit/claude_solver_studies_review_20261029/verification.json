@@ -1,0 +1,192 @@
+{
+  "evidence_files_verified": 344,
+  "metal_steps": [
+    {
+      "shape": "metal15",
+      "step": 3,
+      "unknowns": 8592,
+      "predicted_ratio": 1.224657130961561,
+      "measured_seconds": {
+        "dense": [
+          19.446992299999692,
+          19.399666300003446,
+          19.357736599999043
+        ],
+        "compressed": [
+          28.712606099998084,
+          28.733203499999945,
+          28.680130999997345
+        ]
+      },
+      "median_seconds": {
+        "dense": 19.399666300003446,
+        "compressed": 28.712606099998084
+      },
+      "measured_ratio": 0.6756497906334159,
+      "selected": "dense",
+      "reason": "Lowest predicted cost among compatible backends admitted against available RAM."
+    },
+    {
+      "shape": "metal15",
+      "step": 4,
+      "unknowns": 14295,
+      "predicted_ratio": 1.948304430581625,
+      "measured_seconds": {
+        "dense": [
+          56.91428749999977,
+          56.99506459999975,
+          57.005057000002125
+        ],
+        "compressed": [
+          68.17124729999705,
+          68.09085079999932,
+          68.02025010000216
+        ]
+      },
+      "median_seconds": {
+        "dense": 56.99506459999975,
+        "compressed": 68.09085079999932
+      },
+      "measured_ratio": 0.8370443889357353,
+      "selected": "dense",
+      "reason": "Lowest predicted cost among compatible backends admitted against available RAM."
+    },
+    {
+      "shape": "narrow15",
+      "step": 3,
+      "unknowns": 9792,
+      "predicted_ratio": 1.2747803155999633,
+      "measured_seconds": {
+        "dense": [
+          25.723358200000803,
+          25.812802000000374
+        ],
+        "compressed": [
+          33.63016169999901,
+          33.22025510000094
+        ]
+      },
+      "median_seconds": {
+        "dense": 25.76808010000059,
+        "compressed": 33.425208399999974
+      },
+      "measured_ratio": 0.7709175599336161,
+      "selected": "dense",
+      "reason": "Lowest predicted cost among compatible backends admitted against available RAM."
+    },
+    {
+      "shape": "narrow15",
+      "step": 4,
+      "unknowns": 15849,
+      "predicted_ratio": 1.9577467813705278,
+      "measured_seconds": {
+        "dense": [
+          77.1113957000016,
+          76.79529779999939
+        ],
+        "compressed": [
+          75.90323290000015,
+          75.47414430000208
+        ]
+      },
+      "median_seconds": {
+        "dense": 76.95334675000049,
+        "compressed": 75.68868860000111
+      },
+      "measured_ratio": 1.0167086809586943,
+      "selected": "dense",
+      "reason": "Lowest predicted cost among compatible backends admitted against available RAM."
+    }
+  ],
+  "dielectric": {
+    "reused_scope": {
+      "initial_candidate_unknowns_min": 11616,
+      "initial_candidate_unknowns_max": 17424,
+      "final_size_guaranteed": false,
+      "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+    },
+    "aggregate_predicted_ratio": 0.07307658337835338,
+    "recomputed_individual_mesh_priors": [
+      {
+        "degree": 2,
+        "costs": {
+          "dense": 19.47004799266621,
+          "compressed": 338.75591437969996
+        },
+        "ratio": 0.057475152952880686
+      },
+      {
+        "degree": 3,
+        "costs": {
+          "dense": 44.0124107956981,
+          "compressed": 529.9554546191
+        },
+        "ratio": 0.0830492646355184
+      }
+    ],
+    "measured_steps": {
+      "dense": [
+        41.45890189999773,
+        109.1375134000009
+      ],
+      "compressed": [
+        70.10947900000247,
+        91.69428759999937
+      ]
+    },
+    "final_compressed_hints": [
+      {
+        "source": "validated_field_solve_in_same_single_frequency_request",
+        "reference_unknowns": 11616,
+        "reference_inverse_bytes": 474631184,
+        "predicted_inverse_bytes": 1067920164,
+        "payload_allowance_bytes": 2135840328,
+        "construction_allowance_bytes": 3203760492,
+        "available_bytes": 13319199129,
+        "accepted": true,
+        "inverse_bytes": 704712800,
+        "tolerance": 1e-10
+      },
+      {
+        "source": "validated_field_solve_in_same_single_frequency_request",
+        "reference_unknowns": 17424,
+        "reference_inverse_bytes": 704712800,
+        "predicted_inverse_bytes": 704712800,
+        "payload_allowance_bytes": 1409425600,
+        "construction_allowance_bytes": 2114138400,
+        "available_bytes": 14546335334,
+        "accepted": true,
+        "inverse_bytes": 709133856,
+        "tolerance": 1e-10
+      }
+    ],
+    "arithmetic_mixed_seconds": 133.1531894999971,
+    "arithmetic_only_not_observed": true
+  },
+  "ranking_probe": {
+    "hmatrix_order": [
+      "dense",
+      "compressed"
+    ],
+    "without_hmatrix_order": [
+      "compressed",
+      "dense"
+    ],
+    "injected_timing_adjustment": {
+      "selected": "dense",
+      "reason": "Ranked using repeated timings for this exact request and execution host; RAM admission retained.",
+      "timing_model": "identical_request_host_median_v1"
+    },
+    "scope": "Synthetic unit-sized ranking probe, not a solver performance measurement."
+  },
+  "source_hashes": {
+    "execution/policy.py": "2b5b7d85a237ce390d58cbe8e80a2edad84da926fb08177208a41bd0a632bada",
+    "execution/selection.py": "24994932a2206226f010909ca7e91a3863049d8848042458bf420d014405b5e3",
+    "execution/timing_history.py": "966a51a7ef47d64d90f0a1bb550579894a51542c78790f18c6eb5abf13346bba",
+    "twod/adaptivity.py": "ae473a863d14a3cc347972eccd1d569eb9acd167371112d7b26c651510b16023",
+    "compressed/preconditioner_hints.py": "8c1bf7722867ad63cf66820f9d40519c03c5d337e618fcaa6e8e28fc8041ccac"
+  },
+  "reviewed_report_sha256": "0cf6320aab5c025ef76ba3b8b9d82a8aaf63a5b750f99e5a97b0828025e97ed7",
+  "numerical_solves_rerun": false,
+  "production_changes": false
+}

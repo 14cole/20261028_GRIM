@@ -230,20 +230,34 @@ def adjust(selection,key,batch=False,entries=None):
         from ghost_backend.execution.stage_timing import predict
         measured,stages=predict(key,selection,entries,MAX_AGE)
     if len(measured)<2:return selection
+    if candidates.get('compressed',{}).get('hmatrix') and nearby is None and stages is None:
+        # Exact digests historically omit reservations. Two exact medians
+        # alone must not defeat the cold-start preference. Reuse the stricter
+        # family/mesh/reservation, repeatability and uncertainty checks even
+        # for an identical request before permitting that policy override.
+        guarded,evidence=_nearby_costs(key,selection,entries)
+        if evidence is not None:
+            measured,nearby=guarded,evidence
+    qualified=nearby is not None or stages is not None
     ratios=[t/candidates[m]['cost'] for m,t in measured.items()]
     scale=statistics.median(ratios)
     revised={m:dict(c,prior_cost=c['cost'],cost=measured.get(m,c['cost']*scale),
                     timing_evidence=('matched_stage_rates' if stages else 'nearby_stable_median' if nearby else 'measured_median') if m in measured else 'scaled_prior')
              for m,c in candidates.items()}
-    from ghost_backend.execution.policy import rank_candidates
+    from ghost_backend.execution.policy import rank_candidates, ranking_reason
     budget=(candidates[selection['selected']]['peak_gb'] if batch else selection['admission_budget_gib'])
-    ranked=rank_candidates(revised,budget,margin=0. if batch else .2)
+    decision={}
+    ranked=rank_candidates(revised,budget,margin=0. if batch else .2,diagnostics=decision,
+                           prefer_dense=not qualified)
     result=dict(selection,selected=ranked[0],retry_order=ranked[1:],candidates=revised,
                 timing_model='matched_stage_rates_v1' if stages else 'nearby_request_host_paired_v1' if nearby else 'identical_request_host_median_v1',measured_backends=sorted(measured),
                 prior_selected_backend=selection['selected'],batch_plan_revised=bool(batch and ranked[0]!=selection['selected']),
-                reason=('Ranked using matched solver-stage measurements and bounded work scaling; uncertainty and RAM guards retained.' if stages else
-                        'Ranked using stable paired timings for a nearby workload on this host; uncertainty and RAM guards retained.'
-                        if nearby else 'Ranked using repeated timings for this exact request and execution host; RAM admission retained.'))
+                ranking=decision,reason=ranking_reason(decision),
+                cost_source=('matched_solver_stages' if stages else 'nearby_paired_timings'
+                             if nearby else 'exact_request_repeated_timings'),
+                qualified_timing_preference=qualified)
+    if qualified:
+        result['reason']+=' Stable paired timing evidence replaces the cold-start dense preference.'
     if nearby:result['nearby_timing_evidence']=nearby
     if stages:result['stage_timing_evidence']=stages
     return result

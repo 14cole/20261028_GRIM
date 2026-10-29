@@ -5,7 +5,7 @@ import json
 import hashlib
 from ghost_backend.execution.options import execution_scope, validate_options
 from ghost_backend.execution.runtime import ScopedValue
-from ghost_backend.execution.policy import MODEL, BACKENDS, relative_cost, rank_candidates, work_threads
+from ghost_backend.execution.policy import MODEL, BACKENDS, relative_cost, rank_candidates, ranking_reason, work_threads
 
 _BATCH_SELECTION = ScopedValue('ghost_batch_backend_selection', default=None)
 _REQUEST_SELECTION = ScopedValue('ghost_request_backend_selection', default=None)
@@ -153,15 +153,17 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
     result['admission_budget_gib'] = budget
     result['angle_batch_size'] = options['angle_batch_size']
     describe_mesh_scope(result)
+    decision = {}
     try:
-        ranked = rank_candidates(result['candidates'], budget)
+        ranked = rank_candidates(result['candidates'], budget, diagnostics=decision)
     except MemoryError:
         if not recover:
             raise
         _recover_memory_forecast(result, resource_records, arguments, options, checkpoint)
         return
     result.update(selected=ranked[0], retry_order=ranked[1:], admission_budget_gib=budget,
-                  dense_peak_gib=max(record['dense_peak_gib'] for record in result['meshes']))
+                  dense_peak_gib=max(record['dense_peak_gib'] for record in result['meshes']),
+                  ranking=decision, reason=ranking_reason(decision),cost_source='stage_work_prior')
 
 
 def _recover_memory_forecast(result, resource_records, arguments, options, checkpoint=None):
@@ -212,6 +214,10 @@ def describe_batch_adjustment(result, n_angles):
 
 
 def describe_mesh_scope(result):
+    result['cost_scope'] = dict(kind='aggregate_forecast_meshes',
+        systems=len(result['meshes']),
+        polynomial_degrees=sorted({r['polynomial_degree'] for r in result['meshes']
+                                   if 'polynomial_degree' in r}))
     sizes = [r['unknowns'] for r in result['meshes'] if 'unknowns' in r]
     if sizes:
         result['mesh_forecast_scope'] = dict(initial_candidate_unknowns_min=min(sizes),
@@ -302,17 +308,19 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
     candidates={m:c for m,c in candidates.items() if m not in exclusions}
     result = dict(requested='adaptive', dense_peak_gib=peak,
         model=MODEL,objective='predicted_solve_completion',candidates=candidates,
+        cost_source='stage_work_prior',
         exclusions=exclusions,optimality_guaranteed=False,
         admission_budget_gib=budget, dense_margin_fraction=.2,
         angle_batch_size=options['angle_batch_size'],
-        reason='Lowest predicted cost among compatible backends admitted against available RAM.',
         meshes=records)
     describe_mesh_scope(result)
+    decision={}
     try:
-        ranked=rank_candidates(candidates,budget)
+        ranked=rank_candidates(candidates,budget,diagnostics=decision)
     except MemoryError:
         repricing = [(r['resources'], dict(options, basis_order=r['polynomial_degree'])) for r in records]
         _recover_memory_forecast(result, repricing, arguments, options, checkpoint)
     else:
-        result.update(selected=ranked[0], retry_order=ranked[1:])
+        result.update(selected=ranked[0], retry_order=ranked[1:],
+                      ranking=decision,reason=ranking_reason(decision))
     return result

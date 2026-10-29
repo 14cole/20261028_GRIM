@@ -1,0 +1,333 @@
+{
+  "case": {
+    "name": "dielectric15_r0_mixed",
+    "geometry": "inlet_dielectric",
+    "frequency": 15,
+    "mode": "adaptive",
+    "ram": 12,
+    "switch_after_steps": 1
+  },
+  "options": {
+    "version": 1,
+    "factorization": "adaptive",
+    "mesh_strategy": "adaptive",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 12,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  },
+  "initial_forecast": {
+    "requested": "adaptive",
+    "dense_peak_gib": 8.67753086052835,
+    "model": "stage_work_v6",
+    "objective": "predicted_solve_completion",
+    "candidates": {
+      "dense": {
+        "cost": 63.48245878836431,
+        "peak_gb": 8.67753086052835
+      },
+      "compressed": {
+        "cost": 868.7113689987999,
+        "peak_gb": 6.624628126621246,
+        "hmatrix": true
+      }
+    },
+    "cost_source": "stage_work_prior",
+    "exclusions": {},
+    "optimality_guaranteed": false,
+    "admission_budget_gib": 12.0,
+    "dense_margin_fraction": 0.2,
+    "angle_batch_size": 256,
+    "meshes": [
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TE",
+        "polynomial_degree": 2,
+        "panels": 2904,
+        "unknowns": 11616,
+        "dense_peak_gib": 4.26472625695169,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 4.26472625695169,
+          "compressed": 4.423611089587212
+        },
+        "resources": {
+          "nodes": 5808,
+          "panels": 2904,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 11616,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1105234888,
+            "operator_allowance_bytes": 1105234888,
+            "inverse_bytes": 1267081248,
+            "inverse_peak_bytes": 2099530272,
+            "assembly_workspace_bytes": 832541952,
+            "coefficients": 112303665,
+            "retained_entries": 68128421,
+            "inverse_rank": 1493,
+            "density_multiplicity": 2.0,
+            "wavenumber": 628.7692248337472,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 628.761365758743,
+                "imag": -3.1437282375525077,
+                "magnitude": 628.7692248337472
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "base",
+        "polarization": "TM",
+        "polynomial_degree": 2,
+        "panels": 2904,
+        "unknowns": 11616,
+        "dense_peak_gib": 4.26472625695169,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 4.26472625695169,
+          "compressed": 4.423611089587212
+        },
+        "resources": {
+          "nodes": 5808,
+          "panels": 2904,
+          "basis_width": 3,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 11616,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1105234888,
+            "operator_allowance_bytes": 1105234888,
+            "inverse_bytes": 1267081248,
+            "inverse_peak_bytes": 2099530272,
+            "assembly_workspace_bytes": 832541952,
+            "coefficients": 112303665,
+            "retained_entries": 68128421,
+            "inverse_rank": 1493,
+            "density_multiplicity": 2.0,
+            "wavenumber": 628.7692248337472,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 628.761365758743,
+                "imag": -3.1437282375525077,
+                "magnitude": 628.7692248337472
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TE",
+        "polynomial_degree": 3,
+        "panels": 2904,
+        "unknowns": 17424,
+        "dense_peak_gib": 8.67753086052835,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 8.67753086052835,
+          "compressed": 6.624628126621246
+        },
+        "resources": {
+          "nodes": 8712,
+          "panels": 2904,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 17424,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1775781144,
+            "operator_allowance_bytes": 1775781144,
+            "inverse_bytes": 1855246096,
+            "inverse_peak_bytes": 3103919632,
+            "assembly_workspace_bytes": 1249509888,
+            "coefficients": 185505192,
+            "retained_entries": 108389356,
+            "inverse_rank": 1493,
+            "density_multiplicity": 2.0,
+            "wavenumber": 628.7692248337472,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 628.761365758743,
+                "imag": -3.1437282375525077,
+                "magnitude": 628.7692248337472
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      },
+      {
+        "frequency_ghz": 15.0,
+        "phase": "fine",
+        "polarization": "TM",
+        "polynomial_degree": 3,
+        "panels": 2904,
+        "unknowns": 17424,
+        "dense_peak_gib": 8.67753086052835,
+        "formulation": "single_dielectric",
+        "backend_peak_gib": {
+          "dense": 8.67753086052835,
+          "compressed": 6.624628126621246
+        },
+        "resources": {
+          "nodes": 8712,
+          "panels": 2904,
+          "basis_width": 4,
+          "n_regions": 2,
+          "formulation": "single_dielectric",
+          "system_dofs": 17424,
+          "operator_matrices": 2,
+          "hmatrix_storage": {
+            "method": "hmatrix_model",
+            "operator_bytes": 1775781144,
+            "operator_allowance_bytes": 1775781144,
+            "inverse_bytes": 1855246096,
+            "inverse_peak_bytes": 3103919632,
+            "assembly_workspace_bytes": 1249509888,
+            "coefficients": 185505192,
+            "retained_entries": 108389356,
+            "inverse_rank": 1493,
+            "density_multiplicity": 2.0,
+            "wavenumber": 628.7692248337472,
+            "sampled": false,
+            "samples": 0,
+            "hmatrix": true,
+            "medium_wavenumbers": [
+              {
+                "real": 314.37675329275226,
+                "imag": 0.0,
+                "magnitude": 314.37675329275226
+              },
+              {
+                "real": 628.761365758743,
+                "imag": -3.1437282375525077,
+                "magnitude": 628.7692248337472
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+          }
+        }
+      }
+    ],
+    "cost_scope": {
+      "kind": "aggregate_forecast_meshes",
+      "systems": 4,
+      "polynomial_degrees": [
+        2,
+        3
+      ]
+    },
+    "mesh_forecast_scope": {
+      "initial_candidate_unknowns_min": 11616,
+      "initial_candidate_unknowns_max": 17424,
+      "final_size_guaranteed": false,
+      "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+    },
+    "selected": "dense",
+    "retry_order": [
+      "compressed"
+    ],
+    "ranking": {
+      "cost_winner": "dense",
+      "selected": "dense",
+      "admitted": [
+        "dense",
+        "compressed"
+      ],
+      "budget_gib": 12.0,
+      "margin_fraction": 0.2,
+      "margin_applied": true,
+      "excluded": {},
+      "dense_preference_applied": true,
+      "preference_changed_winner": false
+    },
+    "reason": "Dense-first policy and lowest candidate cost agree; memory admission retained."
+  },
+  "planning_seconds": 0.5719108999983291,
+  "solve_seconds": 145.10738689999562,
+  "status": "passed",
+  "quality_passed": true,
+  "mesh_certified": true,
+  "actual_options": {
+    "version": 1,
+    "factorization": "compressed",
+    "mesh_strategy": "adaptive",
+    "basis_order": 3,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": 12,
+    "temporary_directory": "",
+    "assembly_threads": 4,
+    "blas_threads": 4,
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+  }
+}
