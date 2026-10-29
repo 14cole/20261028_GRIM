@@ -186,7 +186,7 @@ assert study_template()['cases']
             if solver == "2d":
                 self.assertEqual(config["lu_precision"], "double")
                 self.assertEqual(config['solver_method'], 'auto')
-                self.assertEqual(config['execution_options']['factorization'], 'adaptive')
+                self.assertEqual(config['execution_options']['factorization'], 'compressed')
             if execution is not None:
                 env['GHOST_CPU_FACTORIZATION'] = 'invalid-host-setting'
                 env['GHOST_COMPRESSED_STORAGE_MIB'] = 'not-a-number'
@@ -210,7 +210,8 @@ assert study_template()['cases']
             metadata_text = json.dumps(audit)
             self.assertIn('"runtime_profile"', metadata_text)
             if solver == "2d":
-                self.assertIn('"backend_selection"', metadata_text)
+                self.assertEqual(audit['metadata']['execution_options']['factorization'], 'compressed')
+                self.assertNotIn('backend_selection', audit['metadata'])
             if certified:
                 metadata = audit["metadata"]
                 if solver == "2d":

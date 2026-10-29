@@ -805,7 +805,7 @@ def submit():
             else _solver._solve_memory_limit_gb()
         )
         source = ("MAX_SOLVE_GB" if MAX_SOLVE_GB
-                  else f"{_solver._detect_available_gb():.0f} GB detected here")
+                  else f"{(_solver._detect_available_gb() or 0):.0f} GiB detected here")
         print(f"  Solve ceiling : {ceiling:.1f} GB per solve ({source})")
         if max(peaks) > ceiling:
             print("  [warn] the heaviest planned unit exceeds that ceiling. It "

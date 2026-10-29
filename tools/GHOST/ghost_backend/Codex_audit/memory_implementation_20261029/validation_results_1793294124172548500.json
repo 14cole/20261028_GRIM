@@ -1,0 +1,99 @@
+[
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_fallback_only_when_every_probe_fails",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007273000010172836
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_local_bor_driver_sizes_units_on_logical_cpus",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011477000000013504
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_native_windows_probe_matches_installed_memory",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008845999982440844
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_psutil_total_replaces_the_fixed_fallback",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006814999942434952
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_scheduler_unit_is_gib",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 8.080000407062471e-05
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_slurm_allocation_stays_authoritative",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006862000009277835
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_windows_probe_without_psutil",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007435000006807968
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::MemoryDetectionTests::test_workstation_budget_is_capped_by_available_memory",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0012751000031130388
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_a_pool_that_never_completes_stops_with_every_unit_reported",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002657000004546717
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_crashed_worker_is_recorded_and_the_sweep_continues",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 3.5652212999993935
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_fixed_order_admission_recovers_too",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00016150000010384247
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_innocent_casualties_retry_alone_and_crasher_fails",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00016560000221943483
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_pool_without_rebuild_reports_and_raises",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00014509999891743064
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_rebuild_does_not_hang_on_a_payload_stuck_in_the_call_queue",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.5414872999972431
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::DispatcherCrashTests::test_refused_submission_is_requeued_without_reclaiming",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00014240000018617138
+  },
+  {
+    "test": "tests/test_audit_fixes_drivers.py::LocalBorDriverCrashTests::test_crashed_unit_is_failed_and_the_others_are_written",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 0.0478547000020626,
+    "failure": "tests\\test_audit_fixes_drivers.py:440: in test_crashed_unit_is_failed_and_the_others_are_written\n    self.assertEqual(len(runs), 1, output)\nE   AssertionError: 0 != 1 : Traceback (most recent call last):\nE     File \"<string>\", line 4, in <module>\nE   ModuleNotFoundError: No module named 'ghost_backend'"
+  }
+]

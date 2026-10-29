@@ -51,7 +51,7 @@ def test_default_automatic_request_reaches_fresh_headless_worker(tmp_path, densi
     run([])
     directory=latest_run_dir(tmp_path/'runs')
     manifest=json.loads((directory/'manifest.json').read_text())
-    assert manifest['solver_config']['execution_options']['factorization']=='adaptive'
+    assert manifest['solver_config']['execution_options']['factorization']=='compressed'
     assert manifest['solver_config']['solver_method']=='auto'
     # The saved profile remains authoritative in a fresh compute process.
     env['GHOST_CPU_FACTORIZATION']='invalid-launch-value'
@@ -59,7 +59,7 @@ def test_default_automatic_request_reaches_fresh_headless_worker(tmp_path, densi
     # can import the legacy planner hooks.
     env['PYTHONPATH']=os.pathsep.join((str(directory/'runtime'), env['PYTHONPATH']))
     output=run(['--worker',str(directory),'0','0'])
-    assert 'Auto batch:' in output
+    assert 'Auto batch:' not in output
     assert run_status(directory)['attestation_verified']
     results=list((directory/'results').rglob('*.grim'))
     assert len(results)==2
@@ -67,18 +67,16 @@ def test_default_automatic_request_reaches_fresh_headless_worker(tmp_path, densi
     for path in results:
         with np.load(path,allow_pickle=False) as archive:
             m=json.loads(str(archive['solver_metadata_json'].reshape(()).item()))['metadata']
-        assert m['backend_selection']['selected']=='dense'
-        assert m['backend_selection']['objective']=='predicted_batch_completion'
+        assert m['execution_options']['factorization']=='compressed'
+        assert 'backend_selection' not in m
         assert m['mesh_convergence_certified']
         degrees.append(m['polynomial_degree'])
         if m['adaptive_mesh']['used']:
             assert m['polynomial_degree'] == 3
-            assert all(step['backend_selection']['admission_budget_gib'] <=
-                       m['execution_memory_reservation_gib'] for step in m['adaptive_mesh']['steps'])
+            assert all(step['backend']=='compressed' and step['backend_selection'] is None
+                       for step in m['adaptive_mesh']['steps'])
     # -1000: the base frequency's reference mesh stays below the hp admission
     # size (MIN_AUTOMATIC_REFERENCE_PANELS) and the higher one crosses it.
     assert sorted(degrees)==({24:[1,1],-1000:[1,3],-2800:[3,3]}[density])
-    timings=json.loads((tmp_path/'timings'/'timings-v1.json').read_text())
-    assert len(timings)==2
-    assert all(len(entry['dense'])==1 for entry in timings.values())
+    assert not (tmp_path/'timings'/'timings-v1.json').exists()
     assert not list((tmp_path/'timings').glob('*.tmp'))

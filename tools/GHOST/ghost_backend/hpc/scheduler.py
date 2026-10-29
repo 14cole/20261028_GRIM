@@ -267,7 +267,7 @@ def detect_available_memory_gb() -> 'Optional[float]':
                     break
         except (OSError, ValueError, IndexError):
             available = None
-    if available is None or available <= 0:
+    if available is None:
         return None
     return float(available) / BYTES_PER_GIB
 
@@ -277,7 +277,7 @@ def local_memory_budget_gb(headroom: 'float') -> 'Tuple[float, float, Optional[f
 
     The budget is ``headroom`` x installed memory, capped by 90% of what is
     available at start (the same fraction a solve's own memory gate allows),
-    and never below 1 GiB.
+    without a floor that could exceed known available RAM.
     """
 
     installed = detect_memory_gb()
@@ -285,7 +285,7 @@ def local_memory_budget_gb(headroom: 'float') -> 'Tuple[float, float, Optional[f
     budget = installed * float(headroom)
     if available is not None:
         budget = min(budget, 0.9 * available)
-    return max(1.0, budget), installed, available
+    return max(0.0, budget), installed, available
 
 
 @contextmanager

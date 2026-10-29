@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "peak_phase_components_gib": {
+    "process_geometry_excluding_workers": 0.4581737518310547,
+    "retained_workers": 1.8939519599080086,
+    "resident_operators": 1.0150432735681534,
+    "retained_inverse": 0.3891957327723503,
+    "angle_batch_workspace": 0.6856231689453125,
+    "gmres_workspace": 0.09896254539489746,
+    "projection_cache": 0.0078125
+  },
+  "total_peak_gib": 4.548762932419777,
+  "process_geometry_including_workers_gib": 2.3521257117390633,
+  "hmatrix_refresh_requeries_storage_allowance": false,
+  "batch_recovery": {
+    "reduced": 64,
+    "later_ample_budget": 64,
+    "fresh_request": 256
+  },
+  "limitations": [
+    "Controlled accounting checks; no new timing, full solve or 90%-RAM stress trial.",
+    "Forecast components alone do not measure actual per-component peak residency."
+  ],
+  "hashes": {
+    "Claude_audit/review_of_codex_recovery_and_memory_audit.md": "2139d1f3dd9a148d932ac6f105fb173d799fb8e2a57d9edb139f1a70db0dfaed",
+    "compressed/memory.py": "34ccb32002f78931b85bfb418796c3984f22862c1af8b25e2a918660fd48eb25",
+    "compressed/hmatrix_factor.py": "52cffa663e6d22f4fb27968c270289dc3c4253c4af8367c16f5d6bb6409857d0",
+    "compressed/worker_pool.py": "77905767eff0b63ecb3c98e7ac72145a4a2c09960f25b346125c119334095ed9",
+    "execution/angle_batch.py": "5f9a2cf440e5c80df82d447674cdb17b3288fc3a099b9bd9c0e8a1df84ceacfd",
+    "execution/options.py": "15987604de37ab1255a2f37fd0821ba6f0e571764810cb4302f7dddb2f1e9690",
+    "twod/solver.py": "add2e685373197275eb837c482c68477fa44f4dda1c8834949f6d862f80bea85",
+    "Codex_audit/memory_estimation_20261029/live_summary.json": "e4584f8037059ef6e57aeb1d66b640e0fc5a44a13bc07c0c01ff6c260a9cfafc"
+  }
+}

@@ -8,23 +8,33 @@ from ghost_backend.execution.metrics import timed_stage
 
 class SpooledOperator(StreamedOperator):
     """Keep finalized compressed tiles on disk until this polarization is needed."""
+    @property
+    def resident_bytes(self):
+        return self.bytes if getattr(self,'loaded',False) else max(0,
+            self.bytes-getattr(self,'spool_bytes',0)+getattr(self,'loaded_bytes',0))
+
     def __init__(self,*args,**kwargs):
         directory=Path(kwargs.pop('directory')).resolve()
         assemble=kwargs.pop('assemble',True)
         super().__init__(*args,assemble=False,**kwargs)
+        self.reload_storage_budget=self.budget
         fd,path=tempfile.mkstemp(prefix='ghost-tm-',suffix='.bin',dir=str(directory))
         self.path=Path(path).resolve()
         if self.path.parent!=directory:
             os.close(fd);raise RuntimeError('Unexpected spool location.')
         self.file=os.fdopen(fd,'w+b');self.records={};self.spool_bytes=0
-        self.loaded=False
+        self.loaded=False;self.loaded_bytes=0
         if assemble:
             try:self.assemble_tiles(args[0])
             except BaseException:
                 self.close();raise
     @timed_stage('compressed_spool_write')
     def store_tile(self,compressed):
-        super().store_tile(compressed)
+        # The retained cap prices RAM, not finalized payload already on disk.
+        budget=self.budget
+        self.budget=budget+self.spool_bytes
+        try:super().store_tile(compressed)
+        finally:self.budget=budget
         i,j=compressed[:2]
         payload=self.tiles.pop((i,j));records=[]
         for value in payload:
@@ -38,9 +48,18 @@ class SpooledOperator(StreamedOperator):
         if self.loaded:return
         if self.file is None:raise ValueError('Compressed spool is closed.')
         try:
+            from ghost_backend.execution.memory_budget import admit_reload
+            from ghost_backend.compressed.runtime import storage_budget
+            self.checkpoint()
+            allowance=min(self.reload_storage_budget,storage_budget())
+            if self.bytes>allowance:
+                raise MemoryError('Compressed spool reload exceeds retained-storage cap: '
+                    '{} bytes required, {} bytes allowed.'.format(self.bytes,allowance))
+            admit_reload(self.spool_bytes)
             self.file.flush()
             for key,records in self.records.items():
                 self.checkpoint();payload=[]
+                admit_reload(self.spool_bytes-self.loaded_bytes)
                 for record in records:
                     if record is None:payload.append(None);continue
                     shape,offset,count,digest=record;self.file.seek(offset)
@@ -49,10 +68,11 @@ class SpooledOperator(StreamedOperator):
                     if hashlib.sha256(value.tobytes()).digest()!=digest:raise IOError('Compressed spool checksum mismatch.')
                     payload.append(value.reshape(shape))
                 self.tiles[key]=tuple(payload)
+                self.loaded_bytes+=sum(a.nbytes for a in payload if a is not None)
         except BaseException:
 
 
-            self.tiles.clear();self.records.clear();self.close()
+            self.tiles.clear();self.loaded_bytes=0;self.records.clear();self.close()
             raise
         self.records.clear();self.loaded=True;self.close()
         self.evidence['spooled_bytes']=self.spool_bytes
@@ -82,7 +102,8 @@ class SpooledOperator(StreamedOperator):
 def _store(operators,budget,index):
     def store(compressed):
         target=operators[index]
-        target.budget=budget-operators[1-index].bytes
+        from ghost_backend.execution.memory_budget import payload_bytes
+        target.budget=budget-payload_bytes(operators[1-index])
         target.store_tile(compressed)
     return store
 

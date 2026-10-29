@@ -126,7 +126,7 @@ class ExecutionOptionsTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {'GHOST_CPU_FACTORIZATION': 'dense'}):
             record = setup_record()
         self.assertEqual((record['solver_method'], record['lu_precision']), ('auto', 'double'))
-        self.assertEqual(record['execution_options']['factorization'], 'adaptive')
+        self.assertEqual(record['execution_options']['factorization'], 'compressed')
         bistatic = two_d_request([.6], [0.], 'meters', False, 'tight', 'bistatic', [30.])
         self.assertEqual(bistatic['execution_options']['factorization'], 'dense')
         for args in (([], [0.], 'meters', True, 'standard', 'monostatic', []),

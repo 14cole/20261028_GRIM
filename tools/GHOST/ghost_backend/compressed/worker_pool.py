@@ -41,6 +41,30 @@ class WorkerPool:
         self.path = None
         self.closed = False
         self.busy = False
+        from ghost_backend.execution.memory_budget import register
+        register(self,'workers')
+
+    def memory_snapshot(self):
+        """Owned workers only; USS credit avoids shared-page double counting.
+
+        Current residency is evidence, not a substitute for remaining buffer
+        and cache growth in the forecast. Missing samples receive no credit.
+        """
+        result=dict(rss_bytes=0,private_bytes=0,unique_resident_bytes=0,
+                    processes=0,complete=True,reservation_bytes=self.reserved_bytes if not self.closed else 0)
+        if self.closed:
+            return result
+        try:
+            import psutil
+            for process in list((getattr(self.executor,'_processes',None) or {}).values()):
+                info=psutil.Process(process.pid).memory_full_info()
+                result['processes']+=1
+                result['rss_bytes']+=int(info.rss)
+                result['private_bytes']+=int(getattr(info,'private',0))
+                result['unique_resident_bytes']+=int(getattr(info,'uss',0))
+        except Exception:
+            result.update(complete=False,unique_resident_bytes=0,private_bytes=0)
+        return result
 
     def prepare(self, payload):
         if self.closed:

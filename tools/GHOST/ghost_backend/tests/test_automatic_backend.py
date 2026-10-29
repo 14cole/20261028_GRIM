@@ -20,11 +20,14 @@ from test_experimental_cpu import fields
 def test_default_auto_matches_reference_on_arbitrary_geometry(case):
     args=(fixture(case,64),[1.],[0.,37.,90.])
     reference=solver.solve_monostatic_rcs_2d(*args,geometry_units='meters',solver_method='direct')
-    result=solver.solve_monostatic_rcs_2d(*args,geometry_units='meters')
+    with patch('ghost_backend.execution.selection.select_backend', side_effect=AssertionError('backend picker used')), \
+         patch('ghost_backend.execution.timing_history.read', side_effect=AssertionError('history read')), \
+         patch('ghost_backend.execution.timing_history.record', side_effect=AssertionError('history written')):
+        result=solver.solve_monostatic_rcs_2d(*args,geometry_units='meters')
     meta=result['metadata']
     assert meta['solver_method_requested']=='auto'
-    assert meta['backend_selection']['selected']=='dense'
-    assert not meta['backend_selection']['optimality_guaranteed']
+    assert meta['execution_options']['factorization']=='compressed'
+    assert 'backend_selection' not in meta
     for pol in ('VV','HH'):
         np.testing.assert_allclose(fields(result,pol),fields(reference,pol),rtol=3e-9,atol=1e-12)
     assert current_options() is None
@@ -54,7 +57,8 @@ def test_auto_numerical_retry_preserves_accuracy_and_explicit_compressed_does_no
     choice=dict(requested='adaptive',selected='compressed',retry_order=['dense'],reason='test fixture')
     with patch('ghost_backend.execution.selection.select_backend',return_value=choice), \
          patch('ghost_backend.compressed.factor.CompressedFactor.solve',side_effect=BackendNumericalError('injected convergence failure')):
-        result=solver.solve_monostatic_rcs_2d(*args,geometry_units='meters')
+        result=solver.solve_monostatic_rcs_2d(*args,geometry_units='meters',
+            execution_options=dict(factorization='adaptive'))
         with pytest.raises(BackendNumericalError):
             solver.solve_monostatic_rcs_2d(*args,geometry_units='meters',
                                            execution_options=dict(factorization='compressed'))
@@ -98,6 +102,7 @@ def test_automatic_compressed_rejection_uses_an_admitted_dense_retry():
     choice=dict(requested='adaptive',selected='compressed',retry_order=['dense'],reason='test fixture')
     with patch('ghost_backend.execution.selection.select_backend',return_value=choice), \
          patch('ghost_backend.compressed.factor.CompressedFactor.solve',side_effect=HierarchicalRejected('error bound')):
-        result=solver.solve_monostatic_rcs_2d(fixture('rectangle',48),[1.],[0.],geometry_units='meters')
+        result=solver.solve_monostatic_rcs_2d(fixture('rectangle',48),[1.],[0.],geometry_units='meters',
+            execution_options=dict(factorization='adaptive'))
     assert result['metadata']['backend_selection']['selected']=='dense'
     assert result['metadata']['backend_selection']['failed_attempts'][0]['backend']=='compressed'

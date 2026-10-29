@@ -37,7 +37,8 @@ def configured_batch_size():
         raise ValueError('GHOST_CPU_ANGLE_BATCH_SIZE must be a positive integer.')
     if size < 1 or size > BATCH_SIZE:
         raise ValueError('GHOST_CPU_ANGLE_BATCH_SIZE must be between 1 and {}.'.format(BATCH_SIZE))
-    return size
+    from ghost_backend.execution.angle_batch import limit
+    return min(size, limit())
 
 
 def current_state():
@@ -124,7 +125,7 @@ class CPUState:
         from ghost_backend.linalg.refined_lu import requested_precision
         return dict(version=1, precision=requested_precision() if self.kernel_only else "double",
                     device="cpu", scope="kernel_tables" if self.kernel_only else "experimental_cpu",
-                    batch_size=self.batch_size, cache=dict(self.cache_stats),
+                    batch_size=min(self.batch_size, configured_batch_size()), cache=dict(self.cache_stats),
                     kernel_tables=list(self.table_events),
                     table_budget_bytes=TABLE_BYTES, systems=list(self.systems),
                     formulations=list(self.formulations), memory_estimates=list(self.memory_estimates),

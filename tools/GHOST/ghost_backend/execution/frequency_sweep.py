@@ -70,9 +70,13 @@ def _compute(payload):
         # Each frequency's modal/near workers share this process's CPU grant.
         arguments['workers'] = min(int(arguments.get('workers') or payload['cpus']), payload['cpus'])
         arguments['bor_options'] = payload['options']
+    worker_options = {} if is_bor else payload['options']
+    if not is_bor and 'angle_batch_size' in payload:
+        worker_options = dict(worker_options, angle_batch_size=min(
+            int(worker_options.get('angle_batch_size', 256)), payload['angle_batch_size']))
     with preparation_scope(), sweep_mesh_scope(payload['frequencies']), compact_samples(), \
             linear_precision(payload['precision']), \
-            execution_scope({} if is_bor else payload['options'], limit_blas=True,
+            execution_scope(worker_options, limit_blas=True,
                             assembly_threads=payload['cpus'], memory_budget_gib=payload['memory_gib']), \
             batch_selection_scope(payload['selection']):
         result = getattr(solver, payload['solver'])(**arguments)
@@ -154,6 +158,10 @@ def _plan(arguments, options, certified, frequencies, workers, budget, cores):
         mode = options['factorization']
         mode = selection['selected'] if mode == 'adaptive' else ('compressed' if mode == 'compressed' else 'dense')
         candidate = selection['candidates'][mode]
+        if candidate['peak_gb'] > budget:
+            # A forecast may admit only the other backend. Fixed requests stay
+            # fixed; retry this unit in the parent after the pool drains.
+            continue
         # The ordinary memory gate uses an admission margin; leave that margin
         # inside the worker reservation too, and price the worker separately.
         memory = float(candidate['peak_gb']) * 1.25
@@ -161,6 +169,8 @@ def _plan(arguments, options, certified, frequencies, workers, budget, cores):
                          if selection['candidates'][m]['peak_gb'] <= candidate['peak_gb']])
         records.append(dict(frequency=frequency, cpus=cpus, memory_gib=memory,
                             cost=float(candidate['cost']),
+                            angle_batch_size=min(options['angle_batch_size'],
+                                selection.get('angle_batch_size', options['angle_batch_size'])),
                             selection=selection if options['factorization'] == 'adaptive' else None))
     return sorted(records, key=lambda r: (-r['cost'], r['frequency']))
 

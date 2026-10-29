@@ -1,0 +1,959 @@
+{
+  "reproductions": {
+    "initial_24_gib_available": {
+      "solve_limit_gib": 21.6,
+      "storage_limit_gib": 12.959999999962747
+    },
+    "resident_4_gib": {
+      "resident_operator_gib": 4,
+      "available_gib": 20,
+      "fixed_initial_storage_inverse_room_gib": 8.959999999962747,
+      "live_solve_limit_without_credit_gib": 18.0,
+      "live_solve_limit_with_credit_gib": 22.0,
+      "storage_limit_gib": 10.799999999813735,
+      "CompressedFactor": {
+        "inverse_budget_gib": 6.7999999998137355
+      },
+      "HMatrixFactor": {
+        "inverse_budget_gib": 6.7999999998137355
+      }
+    },
+    "resident_8_gib": {
+      "resident_operator_gib": 8,
+      "available_gib": 16,
+      "fixed_initial_storage_inverse_room_gib": 4.959999999962747,
+      "live_solve_limit_without_credit_gib": 14.4,
+      "live_solve_limit_with_credit_gib": 22.4,
+      "storage_limit_gib": 8.639999999664724,
+      "CompressedFactor": {
+        "inverse_budget_gib": 0.6399999996647239
+      },
+      "HMatrixFactor": {
+        "inverse_budget_gib": 0.6399999996647239
+      }
+    },
+    "resident_10_gib": {
+      "resident_operator_gib": 10,
+      "available_gib": 14,
+      "fixed_initial_storage_inverse_room_gib": 2.959999999962747,
+      "live_solve_limit_without_credit_gib": 12.6,
+      "live_solve_limit_with_credit_gib": 22.6,
+      "storage_limit_gib": 7.559999999590218,
+      "CompressedFactor": {
+        "error": "No compressed inverse storage remains."
+      },
+      "HMatrixFactor": {
+        "error": "No compressed inverse storage remains."
+      }
+    },
+    "readmission_example": {
+      "total_predicted_peak_gib": 18,
+      "already_resident_gib": 8,
+      "remaining_available_gib": 16,
+      "current_limit_gib": 14.4,
+      "additional_needed_gib": 10,
+      "initial_budget_gib": 21.6,
+      "current_total_peak_comparison": "reject",
+      "proposed_incremental_comparison": "admit: 10 <= 14.4 and 18 <= 21.6",
+      "note": "Arithmetic reproduction of gate semantics; not a full solver reproduction."
+    },
+    "known_zero_available_with_explicit_12_gib_cap": 12.0,
+    "local_driver_32_installed_31.0_available": {
+      "budget_gib": 24.0,
+      "target_gib": 27.900000000000002
+    },
+    "local_driver_32_installed_24.0_available": {
+      "budget_gib": 21.6,
+      "target_gib": 21.6
+    },
+    "local_driver_32_installed_0.25_available": {
+      "budget_gib": 1.0,
+      "target_gib": 0.225
+    },
+    "local_driver_32_installed_0.0_available": {
+      "budget_gib": 1.0,
+      "target_gib": 0.0
+    },
+    "local_driver_actual_zero_probe": {
+      "detected_available_gib": null,
+      "budget_gib": 24.0,
+      "note": "The current scheduler maps a successful zero reading to unknown, bypassing the live availability clamp."
+    }
+  },
+  "spool_accounting": {
+    "operator_bytes": 70208,
+    "partner_charged_bytes": 70208,
+    "partner_spooled_payload_bytes": 65536,
+    "partner_numeric_metadata_bytes": 4672,
+    "partner_payload_arrays_resident": 0,
+    "factor_inverse_allowance_bytes": 908160,
+    "note": "The retained-storage cap charges disk payload too. This is a conservative policy, not an RSS measurement. Reload must be readmitted before removing this charge.",
+    "reload_numerically_verified": true
+  },
+  "historical": [
+    {
+      "study": "solver_studies_20261029",
+      "run": "capacity_dogleg_15ghz",
+      "status": "passed",
+      "case": {
+        "name": "capacity_dogleg_15ghz",
+        "geometry": "dogleg",
+        "frequency": 15,
+        "mode": "adaptive"
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 2.154722109436989,
+      "observed_tree_rss_gib": 5.4006805419921875,
+      "observed_tree_private_commit_gib": 5.715656280517578,
+      "forecast_over_observed_rss": 0.3989723318539706,
+      "observed_private_over_forecast": 2.65261875556242,
+      "maximum_phase_gib": {
+        "assembly": 1.5697455406188965,
+        "factorization": 1.742806687951088,
+        "solve": 2.154722109436989
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.528751373291016,
+      "available_minimum_gib": 11.1551513671875,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "dielectric15_compressed_probe",
+      "status": "passed",
+      "case": {
+        "name": "dielectric15_compressed_probe",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 24
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 6.624628126621246,
+      "observed_tree_rss_gib": 3.9868202209472656,
+      "observed_tree_private_commit_gib": 4.354118347167969,
+      "forecast_over_observed_rss": 1.6616320173692807,
+      "observed_private_over_forecast": 0.6572623042297011,
+      "maximum_phase_gib": {
+        "assembly": 6.061271235346794,
+        "factorization": 6.624628126621246,
+        "solve": 6.418977081775665
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.568870544433594,
+      "available_minimum_gib": 12.571468353271484,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r0_off",
+      "status": "passed",
+      "case": {
+        "name": "hint_r0_off",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": true,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.5198173522949219,
+      "observed_tree_private_commit_gib": 1.9181251525878906,
+      "forecast_over_observed_rss": 2.71836403315295,
+      "observed_private_over_forecast": 0.46427780897051735,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.625572204589844,
+      "available_minimum_gib": 15.121063232421875,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r0_on",
+      "status": "passed",
+      "case": {
+        "name": "hint_r0_on",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": false,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.4821701049804688,
+      "observed_tree_private_commit_gib": 1.8863143920898438,
+      "forecast_over_observed_rss": 2.7874107118728477,
+      "observed_private_over_forecast": 0.4565780871010694,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.624427795410156,
+      "available_minimum_gib": 15.101966857910156,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r1_off",
+      "status": "passed",
+      "case": {
+        "name": "hint_r1_off",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": true,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.5114097595214844,
+      "observed_tree_private_commit_gib": 1.9149818420410156,
+      "forecast_over_observed_rss": 2.7334856093216424,
+      "observed_private_over_forecast": 0.46351697783723694,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.574012756347656,
+      "available_minimum_gib": 15.046272277832031,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r1_on",
+      "status": "passed",
+      "case": {
+        "name": "hint_r1_on",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": false,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.4887428283691406,
+      "observed_tree_private_commit_gib": 1.8875694274902344,
+      "forecast_over_observed_rss": 2.7751044362484465,
+      "observed_private_over_forecast": 0.4568818655511292,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.577667236328125,
+      "available_minimum_gib": 15.097816467285156,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r2_off",
+      "status": "passed",
+      "case": {
+        "name": "hint_r2_off",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": true,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.5170745849609375,
+      "observed_tree_private_commit_gib": 1.9152107238769531,
+      "forecast_over_observed_rss": 2.7232786498408315,
+      "observed_private_over_forecast": 0.4635723781624758,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.544757843017578,
+      "available_minimum_gib": 15.05373764038086,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "hint_r2_on",
+      "status": "passed",
+      "case": {
+        "name": "hint_r2_on",
+        "geometry": "inlet_high_contrast",
+        "frequency": 1,
+        "mode": "compressed",
+        "disable_hint": false,
+        "ram": 8
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.131416827440262,
+      "observed_tree_rss_gib": 1.5120277404785156,
+      "observed_tree_private_commit_gib": 1.9102401733398438,
+      "forecast_over_observed_rss": 2.7323684062388836,
+      "observed_private_over_forecast": 0.46236926776603854,
+      "maximum_phase_gib": {
+        "assembly": 3.745340645313263,
+        "factorization": 4.0634280145168304,
+        "solve": 4.131416827440262
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.568992614746094,
+      "available_minimum_gib": 15.06781005859375,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_auto_budget_6gib",
+      "status": "passed",
+      "case": {
+        "name": "metal15_auto_budget_6gib",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 6
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 2.6548109725117683,
+      "observed_tree_rss_gib": 3.7017059326171875,
+      "observed_tree_private_commit_gib": 3.9991226196289062,
+      "forecast_over_observed_rss": 0.7171858113091005,
+      "observed_private_over_forecast": 1.5063681222641845,
+      "maximum_phase_gib": {
+        "assembly": 1.9818655401468277,
+        "factorization": 2.1109978780150414,
+        "solve": 2.6548109725117683
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.693729400634766,
+      "available_minimum_gib": 12.987110137939453,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r0_adaptive",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r0_adaptive",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 2.6548109725117683,
+      "observed_tree_rss_gib": 9.658557891845703,
+      "observed_tree_private_commit_gib": 9.976150512695312,
+      "forecast_over_observed_rss": 0.27486618626090226,
+      "observed_private_over_forecast": 3.75776302568792,
+      "maximum_phase_gib": {
+        "assembly": 1.9818655401468277,
+        "factorization": 2.1109978780150414,
+        "solve": 2.6548109725117683
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.543983459472656,
+      "available_minimum_gib": 6.916172027587891,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r0_compressed",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r0_compressed",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.548762112855911,
+      "observed_tree_rss_gib": 2.254547119140625,
+      "observed_tree_private_commit_gib": 2.8218536376953125,
+      "forecast_over_observed_rss": 2.017594608796547,
+      "observed_private_over_forecast": 0.6203563887678509,
+      "maximum_phase_gib": {
+        "assembly": 3.8758166804909706,
+        "factorization": 4.004949018359184,
+        "solve": 4.548762112855911
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.562549591064453,
+      "available_minimum_gib": 14.310848236083984,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r1_adaptive",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r1_adaptive",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 2.6548109725117683,
+      "observed_tree_rss_gib": 9.66055679321289,
+      "observed_tree_private_commit_gib": 9.977481842041016,
+      "forecast_over_observed_rss": 0.27480931268650366,
+      "observed_private_over_forecast": 3.758264503706313,
+      "maximum_phase_gib": {
+        "assembly": 1.9818655401468277,
+        "factorization": 2.1109978780150414,
+        "solve": 2.6548109725117683
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.552940368652344,
+      "available_minimum_gib": 6.900962829589844,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r1_compressed",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r1_compressed",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.548762112855911,
+      "observed_tree_rss_gib": 2.2833251953125,
+      "observed_tree_private_commit_gib": 2.8474807739257812,
+      "forecast_over_observed_rss": 1.9921656898431235,
+      "observed_private_over_forecast": 0.6259902591692157,
+      "maximum_phase_gib": {
+        "assembly": 3.8758166804909706,
+        "factorization": 4.004949018359184,
+        "solve": 4.548762112855911
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.57406234741211,
+      "available_minimum_gib": 14.379684448242188,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r2_adaptive",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r2_adaptive",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 2.6548109725117683,
+      "observed_tree_rss_gib": 9.662940979003906,
+      "observed_tree_private_commit_gib": 9.969425201416016,
+      "forecast_over_observed_rss": 0.2747415076093569,
+      "observed_private_over_forecast": 3.755229771400164,
+      "maximum_phase_gib": {
+        "assembly": 1.9818655401468277,
+        "factorization": 2.1109978780150414,
+        "solve": 2.6548109725117683
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.559165954589844,
+      "available_minimum_gib": 6.899028778076172,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "metal15_r2_compressed",
+      "status": "passed",
+      "case": {
+        "name": "metal15_r2_compressed",
+        "geometry": "inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.548762112855911,
+      "observed_tree_rss_gib": 2.2792587280273438,
+      "observed_tree_private_commit_gib": 2.842876434326172,
+      "forecast_over_observed_rss": 1.9957199491752218,
+      "observed_private_over_forecast": 0.6249780410128526,
+      "maximum_phase_gib": {
+        "assembly": 3.8758166804909706,
+        "factorization": 4.004949018359184,
+        "solve": 4.548762112855911
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.548503875732422,
+      "available_minimum_gib": 14.356155395507812,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "narrow15_r0_adaptive",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r0_adaptive",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 3.068771965801716,
+      "observed_tree_rss_gib": 8.494705200195312,
+      "observed_tree_private_commit_gib": 8.78359603881836,
+      "forecast_over_observed_rss": 0.3612570293470759,
+      "observed_private_over_forecast": 2.8622511339071255,
+      "maximum_phase_gib": {
+        "assembly": 2.4134637266397476,
+        "factorization": 2.470101349055767,
+        "solve": 3.068771965801716
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.535160064697266,
+      "available_minimum_gib": 8.062129974365234,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "narrow15_r0_compressed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r0_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.964689552783966,
+      "observed_tree_rss_gib": 2.609661102294922,
+      "observed_tree_private_commit_gib": 3.1686859130859375,
+      "forecast_over_observed_rss": 1.9024269275493453,
+      "observed_private_over_forecast": 0.6382445225218738,
+      "maximum_phase_gib": {
+        "assembly": 4.309381313621998,
+        "factorization": 4.366018936038017,
+        "solve": 4.964689552783966
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.545063018798828,
+      "available_minimum_gib": 14.026622772216797,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "narrow15_r1_adaptive",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r1_adaptive",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 3.068771965801716,
+      "observed_tree_rss_gib": 8.519500732421875,
+      "observed_tree_private_commit_gib": 8.806419372558594,
+      "forecast_over_observed_rss": 0.36020561089022207,
+      "observed_private_over_forecast": 2.869688419568809,
+      "maximum_phase_gib": {
+        "assembly": 2.4134637266397476,
+        "factorization": 2.470101349055767,
+        "solve": 3.068771965801716
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.541919708251953,
+      "available_minimum_gib": 8.030418395996094,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "solver_studies_20261029",
+      "run": "narrow15_r1_compressed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r1_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.964689552783966,
+      "observed_tree_rss_gib": 2.6125640869140625,
+      "observed_tree_private_commit_gib": 3.171722412109375,
+      "forecast_over_observed_rss": 1.900313021085815,
+      "observed_private_over_forecast": 0.6388561416354465,
+      "maximum_phase_gib": {
+        "assembly": 4.309381313621998,
+        "factorization": 4.366018936038017,
+        "solve": 4.964689552783966
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.538219451904297,
+      "available_minimum_gib": 14.130203247070312,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "coated3_condition_diagnostic",
+      "status": "diagnostic",
+      "case": {
+        "name": "coated3_condition_diagnostic",
+        "geometry": "coated_inlet",
+        "frequency": 3,
+        "mode": "adaptive",
+        "ram": 12,
+        "diagnose_condition": true
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 3.6444092839956284,
+      "observed_tree_rss_gib": 5.559906005859375,
+      "observed_tree_private_commit_gib": 6.049289703369141,
+      "forecast_over_observed_rss": 0.655480376854379,
+      "observed_private_over_forecast": 1.659882091162074,
+      "maximum_phase_gib": {
+        "assembly": 3.197230741381645,
+        "factorization": 3.3470252603292465,
+        "solve": 3.6444092839956284
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.56157684326172,
+      "available_minimum_gib": 10.972923278808594,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "dielectric15_r0_compressed",
+      "status": "passed",
+      "case": {
+        "name": "dielectric15_r0_compressed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 6.624628126621246,
+      "observed_tree_rss_gib": 3.9872055053710938,
+      "observed_tree_private_commit_gib": 4.3546600341796875,
+      "forecast_over_observed_rss": 1.661471453552451,
+      "observed_private_over_forecast": 0.6573440728967667,
+      "maximum_phase_gib": {
+        "assembly": 6.061271235346794,
+        "factorization": 6.624628126621246,
+        "solve": 6.418977081775665
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.39761734008789,
+      "available_minimum_gib": 12.379425048828125,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "dielectric15_r0_mixed",
+      "status": "passed",
+      "case": {
+        "name": "dielectric15_r0_mixed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 1
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 6.624628126621246,
+      "observed_tree_rss_gib": 4.67724609375,
+      "observed_tree_private_commit_gib": 4.982624053955078,
+      "forecast_over_observed_rss": 1.4163522709385439,
+      "observed_private_over_forecast": 0.7521364156173943,
+      "maximum_phase_gib": {
+        "assembly": 6.061271235346794,
+        "factorization": 6.624628126621246,
+        "solve": 6.418977081775665
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.398616790771484,
+      "available_minimum_gib": 11.701156616210938,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "dielectric15_r1_compressed",
+      "status": "passed",
+      "case": {
+        "name": "dielectric15_r1_compressed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 6.624628126621246,
+      "observed_tree_rss_gib": 3.9887161254882812,
+      "observed_tree_private_commit_gib": 4.356239318847656,
+      "forecast_over_observed_rss": 1.6608422154410118,
+      "observed_private_over_forecast": 0.6575824688697606,
+      "maximum_phase_gib": {
+        "assembly": 6.061271235346794,
+        "factorization": 6.624628126621246,
+        "solve": 6.418977081775665
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.36178207397461,
+      "available_minimum_gib": 12.304977416992188,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "dielectric15_r1_mixed",
+      "status": "passed",
+      "case": {
+        "name": "dielectric15_r1_mixed",
+        "geometry": "inlet_dielectric",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 1
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 6.624628126621246,
+      "observed_tree_rss_gib": 4.678070068359375,
+      "observed_tree_private_commit_gib": 4.988552093505859,
+      "forecast_over_observed_rss": 1.4161028009023686,
+      "observed_private_over_forecast": 0.7530312642696468,
+      "maximum_phase_gib": {
+        "assembly": 6.061271235346794,
+        "factorization": 6.624628126621246,
+        "solve": 6.418977081775665
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.28807830810547,
+      "available_minimum_gib": 11.613945007324219,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "narrow15_r0_compressed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r0_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.964689552783966,
+      "observed_tree_rss_gib": 2.5774765014648438,
+      "observed_tree_private_commit_gib": 3.143016815185547,
+      "forecast_over_observed_rss": 1.9261822755561147,
+      "observed_private_over_forecast": 0.6330741895881666,
+      "maximum_phase_gib": {
+        "assembly": 4.309381313621998,
+        "factorization": 4.366018936038017,
+        "solve": 4.964689552783966
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.518463134765625,
+      "available_minimum_gib": 13.93436050415039,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "narrow15_r0_mixed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r0_mixed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 3
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 3.068771965801716,
+      "observed_tree_rss_gib": 4.683010101318359,
+      "observed_tree_private_commit_gib": 4.975914001464844,
+      "forecast_over_observed_rss": 0.6552990276356219,
+      "observed_private_over_forecast": 1.621467498046857,
+      "maximum_phase_gib": {
+        "assembly": 2.4134637266397476,
+        "factorization": 2.470101349055767,
+        "solve": 3.068771965801716
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.543289184570312,
+      "available_minimum_gib": 11.760078430175781,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "narrow15_r1_compressed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r1_compressed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "compressed",
+        "ram": 12
+      },
+      "comparable_fixed_compressed": true,
+      "comparison_warning": null,
+      "forecast_peak_gib": 4.964689552783966,
+      "observed_tree_rss_gib": 2.5756149291992188,
+      "observed_tree_private_commit_gib": 3.1444320678710938,
+      "forecast_over_observed_rss": 1.9275744586274515,
+      "observed_private_over_forecast": 0.6333592532704977,
+      "maximum_phase_gib": {
+        "assembly": 4.309381313621998,
+        "factorization": 4.366018936038017,
+        "solve": 4.964689552783966
+      },
+      "models": [
+        "compressed_hmatrix_v2",
+        "compressed_phase_v2"
+      ],
+      "available_start_gib": 16.401432037353516,
+      "available_minimum_gib": 13.930686950683594,
+      "monitor_stop_reason": null
+    },
+    {
+      "study": "automatic_selection_20261029",
+      "run": "narrow15_r1_mixed",
+      "status": "passed",
+      "case": {
+        "name": "narrow15_r1_mixed",
+        "geometry": "narrow_inlet",
+        "frequency": 15,
+        "mode": "adaptive",
+        "ram": 12,
+        "switch_after_steps": 3
+      },
+      "comparable_fixed_compressed": false,
+      "comparison_warning": "Candidate compressed forecasts may describe an unexecuted backend; do not use this ratio to calibrate execution.",
+      "forecast_peak_gib": 3.068771965801716,
+      "observed_tree_rss_gib": 4.729988098144531,
+      "observed_tree_private_commit_gib": 5.024623870849609,
+      "forecast_over_observed_rss": 0.6487906316308759,
+      "observed_private_over_forecast": 1.6373402542918916,
+      "maximum_phase_gib": {
+        "assembly": 2.4134637266397476,
+        "factorization": 2.470101349055767,
+        "solve": 3.068771965801716
+      },
+      "models": [
+        "compressed_hmatrix_v2"
+      ],
+      "available_start_gib": 16.401748657226562,
+      "available_minimum_gib": 11.680522918701172,
+      "monitor_stop_reason": null
+    }
+  ],
+  "limitations": [
+    "Synthetic budget probes allocate no large arrays and do not establish numerical feasibility.",
+    "Historical maximum forecast and whole-run RSS peak need not occur in the same phase.",
+    "RSS and Windows private commit are different quantities; neither ratio is an error bound.",
+    "No 90%-RAM stress run or new large-geometry solve was performed by this script."
+  ]
+}

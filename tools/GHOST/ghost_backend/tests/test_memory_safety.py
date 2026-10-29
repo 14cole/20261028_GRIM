@@ -86,12 +86,12 @@ class AvailableMemoryDetectionTests(unittest.TestCase):
     def test_unknown_memory_has_no_historical_32_gb_floor(self):
         with (
             mock.patch.dict(os.environ, {"GHOST_MAX_SOLVE_GB": ""}, clear=False),
-            mock.patch.object(rcs, "_detect_available_gb", return_value=0.0),
+            mock.patch.object(rcs, "_detect_available_gb", return_value=None),
         ):
             self.assertEqual(rcs._solve_memory_limit_gb(), 0.0)
 
     def test_explicit_limit_remains_available_for_confirmed_allocations(self):
-        with mock.patch.dict(
+        with mock.patch.object(rcs, '_detect_available_gb', return_value=None), mock.patch.dict(
             os.environ, {"GHOST_MAX_SOLVE_GB": "48"}, clear=False
         ):
             self.assertEqual(rcs._solve_memory_limit_gb(), 48.0)

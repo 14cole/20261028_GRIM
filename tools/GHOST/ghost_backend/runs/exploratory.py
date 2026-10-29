@@ -15,7 +15,7 @@ def _integer(value, name, positive=False):
 
 def select_exploratory_mesh(snapshot, frequency_ghz, *, mesh_mode='certification_base',
                             geometry_units='inches', material_base_dir=None,
-                            factorization='adaptive', ram_budget_gib=None,
+                            factorization='compressed', ram_budget_gib=None,
                             panels_per_wavelength=None,
                             basis_order=None, mesh_grading=True,
                             execution_overrides=None):

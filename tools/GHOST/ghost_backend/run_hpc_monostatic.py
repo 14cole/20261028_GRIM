@@ -29,8 +29,8 @@ MESH_CERTIFICATION = True        # Recommended. False: Survey — mesh convergen
 ACCURACY_TARGET = "standard"     # "standard" | "tight"
 
 # --- Advanced numerical controls (recommended defaults below) ---------------
-FACTORIZATION = "adaptive"       # adaptive (Automatic) | dense | compressed
-# Automatic selects dense or compressed for the problem and memory budget.
+FACTORIZATION = "compressed"     # compressed (default) | dense (manual override)
+# Compressed is the lower-memory default; choose dense explicitly to override.
 # Dense uses LU / hierarchical internally, with LU fallback. Legacy "auto"
 # remains an alias for dense; it is NOT the adaptive dense/compressed selector.
 # "hierarchical" remains supported for saved profiles and diagnostic runs.

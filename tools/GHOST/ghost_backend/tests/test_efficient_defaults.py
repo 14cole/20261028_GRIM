@@ -55,7 +55,7 @@ class EfficientDefaultsTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {}, clear=True), mock.patch.object(os, 'cpu_count', return_value=8):
             profile = efficient_defaults()
             self.assertEqual((profile['factorization'], profile['compressed_storage_mib'],
-                              profile['assembly_threads'], profile['blas_threads']), ('adaptive',0,'auto','auto'))
+                              profile['assembly_threads'], profile['blas_threads']), ('compressed',0,'auto','auto'))
             self.assertEqual((profile['rhs_compression'], profile['angle_batch_size']), ('auto',256))
             self.assertIsNone(profile['ram_budget_gib'])
             self.assertEqual(from_environment(profile), profile)

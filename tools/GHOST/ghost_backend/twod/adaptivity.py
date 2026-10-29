@@ -10,6 +10,7 @@ from functools import lru_cache
 import numpy as np
 from ghost_backend.execution.runtime import ScopedValue
 from ghost_backend.execution.options import current_options, execution_scope, automatic_backend_requested
+from ghost_backend.execution.angle_batch import limit as angle_batch_limit
 from ghost_backend.twod.basis import abscissae
 
 _INDICATORS = ScopedValue('ghost_hp_indicators', None)
@@ -132,6 +133,8 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
         with execution_scope(fallback_options):
             result = s._run_certified_2d_pair_impl(low_level_solver, geometry_snapshot, solver_kwargs,
                 policy, progress_callback, shared_discretization_caches)
+            from ghost_backend.execution.cpu import configured_batch_size
+            fallback_options['angle_batch_size'] = configured_batch_size()
         return result, fallback_options
 
     if not eligible:
@@ -239,7 +242,9 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
                           coarsening=snapshot['_2d_hp_coarsening'],
                           nodes=metadata.get('linear_node_count'), seconds=time.perf_counter()-before,
                           backend=selected_options['factorization'], backend_selection=selection,
-                          angle_batch_size=selected_options['angle_batch_size'],
+                          angle_batch_size=min(selected_options['angle_batch_size'],
+                              metadata.get('execution_options', {}).get('angle_batch_size', 256),
+                              angle_batch_limit()),
                           failed_backends=failures, marked_primitives=len(indicators.marked()),
                           indicators_computed=degree > 2))
         return result, indicators

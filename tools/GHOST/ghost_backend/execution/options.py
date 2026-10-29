@@ -39,7 +39,7 @@ AUTOMATIC_STORAGE_MIB = 0
 # effective_assembly_threads): the physical cores available to this process,
 # bounded by the scheduler's per-solve CPU allocation when one is set (batch
 # workers, whose per-unit counts the drivers compute).
-EFFICIENT_DEFAULTS = dict(DEFAULTS, factorization='adaptive', mesh_strategy='adaptive',
+EFFICIENT_DEFAULTS = dict(DEFAULTS, factorization='compressed', mesh_strategy='adaptive',
                           compressed_storage_mib=AUTOMATIC_STORAGE_MIB, assembly_threads='auto', blas_threads='auto')
 # SMT siblings add no assembly throughput, tile parallelism saturates, and
 # every thread is priced 128 MiB of workspace in the memory forecasts, so
@@ -260,7 +260,7 @@ def automatic_options(ram_budget_gib=None):
 def automatic_run(scattering='monostatic', ram_budget_gib=None):
     """Solver method, LU precision and execution settings for a 2D run.
 
-    Adaptive meshing and backend selection are monostatic capabilities, so a
+    Adaptive meshing and compressed execution are monostatic capabilities, so a
     bistatic run uses dense factorization on the reference mesh.
     """
     options = automatic_options(ram_budget_gib)
@@ -541,7 +541,7 @@ def configured_execution(function):
                 # Explicit old profiles and launch overrides retain their meaning.
                 base=from_environment()
                 if not os.environ.get('GHOST_CPU_FACTORIZATION','').strip():
-                    base['factorization']='adaptive'
+                    base['factorization']='compressed' if requested_precision()=='double' else 'dense'
                 if requested is None and not os.environ.get('GHOST_ASSEMBLY_THREADS','').strip():
                     # A bare automatic request runs on the host's physical cores,
                     # as the GUI and batch profiles do (the former one-thread
@@ -571,7 +571,11 @@ def configured_execution(function):
                          precision=requested_precision(),
                          scattering='bistatic' if 'bistatic' in function.__name__ else 'monostatic')
         timing_key=None
-        if _PUBLIC_DEPTH.get()==1 and 'monostatic' in function.__name__:
+        # Historical timing-based backend/factor selection is retained only for
+        # explicitly requested legacy adaptive profiles. Fixed modes do not read
+        # or write timing history and cannot silently change the user's backend.
+        if (_PUBLIC_DEPTH.get()==1 and 'monostatic' in function.__name__
+                and value['factorization'] == 'adaptive'):
             from ghost_backend.execution.timing_history import request_key
             try:
                 with execution_scope(value):
@@ -651,6 +655,8 @@ def configured_execution(function):
         if events is None:
             events = []
         event_start = len(events)
+        from ghost_backend.execution import angle_batch
+        batch_event_start = len(angle_batch.events())
         from ghost_backend.compressed.preconditioner_hints import scope as inverse_hint_scope
         hint_scope = inverse_hint_scope(bound.arguments.get('frequencies_ghz', ()),
             bound.arguments.get('geometry_snapshot'), bound.arguments.get('material_base_dir'),
@@ -662,6 +668,10 @@ def configured_execution(function):
             result = invoke()
             if isinstance(result, dict):
                 metadata = result.setdefault('metadata', {})
+                from ghost_backend.execution.memory_budget import report as memory_report
+                accounting = memory_report() if _PUBLIC_DEPTH.get()==1 else None
+                if accounting is not None:
+                    metadata['memory_accounting'] = accounting
                 metadata['linear_algebra_execution'] = list(events[event_start:])
                 if _FACTOR_EVIDENCE.get():
                     metadata['measured_factor_choices']=dict(_FACTOR_EVIDENCE.get())
@@ -681,6 +691,10 @@ def configured_execution(function):
                         selection = dict(selection, initial_selection=selection['selected'],
                             selected=actual['factorization'],
                             reason='Backend reselected on the adaptive mesh; see adaptive_mesh steps for admission evidence.')
+                if angle_batch.limit() < actual['angle_batch_size']:
+                    actual['angle_batch_size'] = angle_batch.limit()
+                if len(angle_batch.events()) > batch_event_start:
+                    metadata['angle_batch_recovery'] = list(angle_batch.events()[batch_event_start:])
                 metadata['execution_options'] = actual
                 result['metadata'].setdefault('polynomial_degree', value['basis_order'])
                 result['metadata']['execution_wall_seconds']=time.perf_counter()-execution_start
@@ -706,7 +720,9 @@ def configured_execution(function):
             with _PUBLIC_DEPTH.override(_PUBLIC_DEPTH.get()+1):
                 return invoke_configured(*args,**kwargs)
         from ghost_backend.linalg.crossover import scope
-        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}):
+        from ghost_backend.execution.angle_batch import scope as batch_scope
+        from ghost_backend.execution.memory_budget import scope as memory_scope
+        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope():
             return invoke_configured(*args,**kwargs)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))

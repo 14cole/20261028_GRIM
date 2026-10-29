@@ -39,6 +39,7 @@ class RetainedOperatorSpool:
         except BaseException:
             self.close();raise
         operator.tiles.clear()
+        operator.spooled_payload_bytes=self.disk_bytes
         operator.evidence['polynomial_spooled_bytes']=self.disk_bytes
 
     @timed_stage('compressed_polynomial_spool_read')
@@ -46,8 +47,12 @@ class RetainedOperatorSpool:
         operator=self.operator
         if operator is None or self.file is None:raise OSError('Retained polynomial spool is closed.')
         try:
+            from ghost_backend.execution.memory_budget import admit_reload
+            operator.checkpoint()
+            admit_reload(self.disk_bytes)
             for key,records in self.records:
                 operator.checkpoint();payload=[]
+                admit_reload(operator.spooled_payload_bytes)
                 for record in records:
                     if record is None:payload.append(None);continue
                     shape,offset,count,digest=record;self.file.seek(offset)
@@ -57,8 +62,9 @@ class RetainedOperatorSpool:
                         raise OSError('Retained polynomial spool checksum mismatch.')
                     payload.append(value.reshape(shape))
                 operator.tiles[key]=tuple(payload)
+                operator.spooled_payload_bytes-=sum(a.nbytes for a in payload if a is not None)
         except BaseException:
-            operator.tiles.clear();self.close();raise
+            operator.tiles.clear();operator.spooled_payload_bytes=self.disk_bytes;self.close();raise
         self.operator=None;self.close()
         return operator
 

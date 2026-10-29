@@ -875,6 +875,8 @@ class HMatrixOperator:
         self.entries = self.calls = self.max_entries = 0
         self.oracle = oracle
         self.bytes = 0
+        from ghost_backend.execution.memory_budget import register
+        register(self)
         if assemble:
             _assemble(oracle, [self])
 

@@ -112,6 +112,7 @@ def worker(case, directory):
     from ghost_backend.execution.options import validate_options
     from ghost_backend.execution.selection import select_backend
     from ghost_backend.execution.metrics import progress_listener
+    from ghost_backend.execution.diagnostics import diagnostic_scope, mark_uncertified
     from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
     if case.get('disable_hint'):
         from ghost_backend.compressed import preconditioner_hints
@@ -131,19 +132,23 @@ def worker(case, directory):
         record['initial_forecast'] = select_backend(request,options,certified=True)
         record['planning_seconds'] = time.perf_counter()-started
         started = time.perf_counter()
-        with progress_listener(event):
+        relaxed = dict(condition_est_max=1e99) if case.get('diagnose_condition') else {}
+        with diagnostic_scope(relaxed), progress_listener(event):
             result = solve_monostatic_rcs_2d_certified(**request,solver_method='experimental_cpu',execution_options=options)
         record['solve_seconds'] = time.perf_counter()-started
         metadata = result['metadata']
+        if relaxed:
+            metadata = mark_uncertified(metadata, relaxed)
         save(directory / 'metadata.json', metadata)
         np.savez(directory / 'fields.npz',**{p:np.asarray([complex(r['rcs_amp_real'],r['rcs_amp_imag']) for r in rows])
             for p,rows in result['co_solved_samples'].items()})
         record.update(status='passed',quality_passed=metadata['quality_gate']['passed'],
             mesh_certified=metadata['mesh_convergence_certified'],actual_options=metadata['execution_options'])
-        assert record['quality_passed'] and record['mesh_certified']
         if case.get('diagnose_condition'):
             record.update(status='diagnostic',uncertified=True,
                 note='Audit-only condition threshold relaxed; original gates saved. Not a certified capacity result.')
+        else:
+            assert record['quality_passed'] and record['mesh_certified']
     except Exception as exc:
         record.update(status='rejected',error_type=type(exc).__name__,error=str(exc),
                       elapsed_to_rejection_seconds=time.perf_counter()-started)

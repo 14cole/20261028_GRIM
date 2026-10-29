@@ -85,8 +85,8 @@ def test_saved_worker_profile_and_pool_context_override_launch_defaults(tmp_path
 def test_widget_manual_order_and_legacy_alias(app):
     widget = TwoDOptionsWidget()
     try:
-        assert widget.factorization.count() == 3
-        assert widget.factorization.currentText() == 'Automatic'
+        assert widget.factorization.count() == 2
+        assert widget.factorization.currentData() == 'compressed'
         assert not widget.factorization.isEnabled()
         assert widget.order.currentText() == 'Automatic'
         assert not widget.order.isEnabled()
@@ -112,15 +112,21 @@ def test_widget_preserves_saved_diagnostic_and_manual_opt_out(app):
         assert 'diagnostic' in widget.factorization.currentText()
         assert 'Hierarchical' in run_control_summary(run_control_options(widget.value()), True)
         widget.factorization_override.setChecked(False)
-        assert widget.value()['factorization'] == 'adaptive'
+        assert widget.value()['factorization'] == 'compressed'
         assert not widget.factorization.isEnabled()
         widget.set_value(dict(factorization='compressed'))
         assert widget.factorization.findData('hierarchical') == -1
         assert widget.value()['factorization'] == 'compressed'
-        assert widget.factorization.isEnabled()
+        assert not widget.factorization.isEnabled()
         widget.set_value({})
-        assert widget.value()['factorization'] == 'adaptive'
+        assert widget.value()['factorization'] == 'compressed'
         assert not widget.factorization_override.isChecked()
+        widget.set_value(dict(factorization='adaptive'))
+        assert widget.value()['factorization'] == 'adaptive'
+        assert 'legacy' in widget.factorization.currentText()
+        assert widget.factorization_override.isChecked()
+        widget.factorization_override.setChecked(False)
+        assert widget.value()['factorization'] == 'compressed'
     finally:
         widget.close()
 

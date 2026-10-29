@@ -86,9 +86,10 @@ class PipelineGUI(unittest.TestCase):
                 self.assertFalse(hasattr(tab,removed),removed)
             record=tab._capture_run_setup()
             self.assertEqual((record['solver_method'],record['execution_options']['factorization'],
-                              record['execution_options']['mesh_strategy']),('auto','adaptive','adaptive'))
+                              record['execution_options']['mesh_strategy']),('auto','compressed','adaptive'))
             note=RunSetupMixin._run_setup_summary(None,fixture('pec',24),'',setup_record())
-            self.assertIn('Planned backend: dense',note)
+            self.assertNotIn('Planned backend:',note)
+            self.assertIn('Geometry and material checks passed.', note)
             tab.cmb_scatter_mode.setCurrentIndex(tab.cmb_scatter_mode.findData('bistatic'))
             tab.edit_obs_angles.setText('0, 90')
             record=tab._capture_run_setup()

@@ -1,0 +1,116 @@
+[
+  {
+    "test": "tests/test_compressed_recovery.py::test_default_recovers_before_assembly_without_picker_or_dense_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.2640599999940605
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_refined_mesh_rechecks_memory_and_records_effective_batches",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.4135364999965532
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_oversized_operator_stops_at_one_and_restores_request_state",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00808839999808697
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_cancellation_during_recovery_stops_before_assembly",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.007924199999251869
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00039790000300854445
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00028870000096503645
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fixed_worker_plan_carries_smaller_batch_and_defers_wrong_backend_fit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003108999953838065
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[64]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.2878280000004452
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.2619597999946564
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_diagnostic_derivative_clears_nested_certification_and_preserves_measurements",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001823999991756864
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_diagnostic_scope_prevents_history_before_export_and_restores",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003764000066439621
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_audit_worker_exports_diagnostic_flags_before_writing[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.015155599998252
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_audit_worker_exports_diagnostic_flags_before_writing[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010315700004866812
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_certification_refines_without_backend_picker_or_history[None]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.41438819999893894
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_certification_refines_without_backend_picker_or_history[dense]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.38756390000344254
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_default_compressed_failure_does_not_silently_allocate_dense[MemoryError]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.10850789999676635
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_default_compressed_failure_does_not_silently_allocate_dense[BackendNumericalError]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.10863830000016605
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_launch_dense_override_and_partial_profile_default",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.24487000000226544
+  },
+  {
+    "test": "tests/test_compressed_defaults.py::test_mixed_precision_preserves_supported_default_and_rejects_explicit_compressed",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.10311639999417821
+  }
+]

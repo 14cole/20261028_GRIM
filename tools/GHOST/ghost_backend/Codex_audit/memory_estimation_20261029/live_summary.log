@@ -1,0 +1,84 @@
+{
+  "result": {
+    "status": "passed",
+    "seconds": 123.05321130000084,
+    "quality_passed": true,
+    "mesh_certified": true,
+    "relative_max_field_differences": {
+      "VV": 0.0,
+      "HH": 0.0
+    },
+    "reference": "Codex_audit\\solver_studies_20261029\\runs\\metal15_r1_compressed\\fields.npz",
+    "reference_comparison": "max abs field difference / max(1, max abs reference)"
+  },
+  "peak_tree_rss_gib": 2.2823448181152344,
+  "peak_tree_private_commit_gib": 2.8462753295898438,
+  "host_available_start_gib": 16.42824935913086,
+  "host_available_minimum_gib": 14.215415954589844,
+  "maximum_forecast_gib": 4.548762932419777,
+  "peak_forecast_components": {
+    "model": "compressed_hmatrix_v2",
+    "peak_bytes": 4884197008,
+    "medium_wavenumbers": [
+      {
+        "real": 314.37675329275226,
+        "imag": 0.0,
+        "magnitude": 314.37675329275226
+      }
+    ],
+    "medium_count": 1,
+    "medium_list_truncated": false,
+    "attenuation_calibrated": false,
+    "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+    "phase_bytes": {
+      "assembly": 4161627352,
+      "factorization": 4300282144,
+      "solve": 4884197008
+    },
+    "operator_bytes": 544947208,
+    "operator_allowance_bytes": 544947208,
+    "resident_operator_bytes": 1089894416,
+    "inverse_ceiling_bytes": 417895736,
+    "inverse_construction_bytes": 684811976,
+    "process_geometry_bytes": 2525575752,
+    "rhs_workspace_bytes": 736182272,
+    "gmres_workspace_bytes": 106260224,
+    "projection_cache_bytes": 8388608,
+    "moment_cache_bytes": 268435456,
+    "retained_worker_allowance_bytes": 2033615432,
+    "retained_polynomial_operator_bytes": 0,
+    "assembly_workspace_bytes": 273078592,
+    "storage_limit_bytes": 9239275929,
+    "storage_fits": true,
+    "temporary_disk_bytes": 0,
+    "storage_method": "hmatrix_model",
+    "sampled": false,
+    "samples": 0,
+    "coefficients": 51902108,
+    "inverse_rank": 389,
+    "safety": 1.0,
+    "floor_gb": 0.0,
+    "forecast_is_hard_limit": false
+  },
+  "largest_inverse_ceiling_gib": 0.3891957327723503,
+  "largest_measured_inverse_gib": 0.23711515218019485,
+  "automatic_storage_first_gib": 8.82686096150428,
+  "automatic_storage_minimum_gib": 8.090452194213867,
+  "automatic_storage_maximum_gib": 8.828927077353,
+  "storage_read_count": 35,
+  "factor_build_count": 8,
+  "limitations": [
+    "Stage events use periodically sampled tree metrics, so phase boundaries are approximate.",
+    "Live host availability also responds to unrelated applications.",
+    "This run had ample headroom and does not validate behavior at 90% utilization."
+  ]
+}
+Factors:
+at 9.27 s: operator/inverse/allowance GiB: 0.0935 0.0459 8.5972
+at 10.95 s: operator/inverse/allowance GiB: 0.0596 0.0454 8.7127
+at 21.79 s: operator/inverse/allowance GiB: 0.2559 0.07 8.0836
+at 25.87 s: operator/inverse/allowance GiB: 0.1139 0.0748 8.4609
+at 47.01 s: operator/inverse/allowance GiB: 0.3088 0.1351 7.6409
+at 52.95 s: operator/inverse/allowance GiB: 0.3093 0.1326 8.1191
+at 109.71 s: operator/inverse/allowance GiB: 0.4231 0.2371 7.2418
+at 119.18 s: operator/inverse/allowance GiB: 0.4255 0.2294 7.8897

@@ -228,6 +228,10 @@ class TileWriter:
 
 
 class StreamedOperator:
+    @property
+    def resident_bytes(self):
+        return max(0,self.bytes-getattr(self,'spooled_payload_bytes',0))
+
     def __init__(self,oracle,coordinates,tile=128,tolerance=1e-14,budget=512*1024**2,checkpoint=None,compression='qr',assemble=True):
         if not isinstance(tile,(int,np.integer)) or not 1 <= tile <= 1024:
             raise ValueError('Tile size must be an integer in 1..1024.')
@@ -239,6 +243,8 @@ class StreamedOperator:
         if oracle.n<=0 or coordinates.ndim!=2 or coordinates.shape[0]!=oracle.n or not coordinates.shape[1] or not np.all(np.isfinite(coordinates)):
             raise ValueError('Coordinates must be finite and match the nonempty system.')
         self.n=oracle.n;self.bytes=0;self.tiles={};self.checkpoint=checkpoint or (lambda:None)
+        from ghost_backend.execution.memory_budget import register
+        register(self)
         self.coordinates=coordinates.copy();self.shape=(self.n,self.n)
         self.entries=self.calls=self.max_entries=0
         self.row_error=np.zeros(self.n);self.row_norm=np.zeros(self.n)

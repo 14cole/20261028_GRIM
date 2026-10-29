@@ -264,6 +264,8 @@ def adjust(selection,key,batch=False,entries=None):
 
 
 def _clean_success(metadata,mode):
+    if metadata.get('diagnostic_only') or metadata.get('uncertified'):
+        return False
     selection=metadata.get('backend_selection',{})
     if (selection.get('failed_attempts') or selection.get('selected',mode)!=mode or
         metadata.get('dense_fallback_reasons')):return False
@@ -288,6 +290,9 @@ def _clean_success(metadata,mode):
 
 
 def record(key,mode,seconds,metadata):
+    from ghost_backend.execution.diagnostics import active as diagnostic_active
+    if diagnostic_active():
+        return
     if (key is None or mode not in ('dense','compressed') or not math.isfinite(seconds) or seconds<=0 or
         seconds>MAX_AGE or not metadata.get('quality_gate',{}).get('passed') or
         not _clean_success(metadata,mode)):return

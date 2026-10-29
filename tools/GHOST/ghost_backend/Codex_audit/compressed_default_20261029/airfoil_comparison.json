@@ -1,0 +1,3719 @@
+{
+  "source": "trials\\airfoil_matrix_20261027_full\\summary.csv",
+  "matching_fields": [
+    "frequency_ghz",
+    "mesh_strategy",
+    "basis_order",
+    "mesh_grading"
+  ],
+  "filter": "Trial rows, status ok in both modes, same panel count. References and failed runs excluded.",
+  "limitation": "Operational success is not independent accuracy certification; retain original accuracy flags.",
+  "summary": {
+    "solve_wall_seconds": {
+      "matched_pairs": 92,
+      "dense_faster": 80,
+      "max_dense_saving_seconds": 14.53745770000387,
+      "median_dense_saving_seconds": 5.197706800012384,
+      "five_minute_savings": 0,
+      "aggregate_dense_saving_seconds": 502.1011769000761
+    },
+    "worker_wall_seconds": {
+      "matched_pairs": 92,
+      "dense_faster": 80,
+      "max_dense_saving_seconds": 14.536924499989254,
+      "median_dense_saving_seconds": 5.199592400000256,
+      "five_minute_savings": 0,
+      "aggregate_dense_saving_seconds": 501.2380599000462
+    },
+    "process_wall_seconds": {
+      "matched_pairs": 92,
+      "dense_faster": 80,
+      "max_dense_saving_seconds": 15.10899999999674,
+      "median_dense_saving_seconds": 5.062500000014552,
+      "five_minute_savings": 0,
+      "aggregate_dense_saving_seconds": 496.2260000001115
+    }
+  },
+  "pairs": [
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f09_adaptive_p2_corners0_dense",
+      "compressed_id": "f09_adaptive_p2_corners0_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.29958059999626,
+          "compressed": 42.83703830000013,
+          "dense_saving_seconds": 14.53745770000387
+        },
+        "worker_wall_seconds": {
+          "dense": 28.34409230000165,
+          "compressed": 42.8810167999909,
+          "dense_saving_seconds": 14.536924499989254
+        },
+        "process_wall_seconds": {
+          "dense": 29.312999999994645,
+          "compressed": 44.421999999991385,
+          "dense_saving_seconds": 15.10899999999674
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f09_adaptive_p1_corners0_dense",
+      "compressed_id": "f09_adaptive_p1_corners0_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.802171000003,
+          "compressed": 42.780224400004954,
+          "dense_saving_seconds": 13.978053400001954
+        },
+        "worker_wall_seconds": {
+          "dense": 28.847083100001328,
+          "compressed": 42.82640849999734,
+          "dense_saving_seconds": 13.979325399996014
+        },
+        "process_wall_seconds": {
+          "dense": 30.281000000002678,
+          "compressed": 44.40600000000268,
+          "dense_saving_seconds": 14.125
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f10_adaptive_p2_corners0_dense",
+      "compressed_id": "f10_adaptive_p2_corners0_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 33.274751299992204,
+          "compressed": 47.19320150000567,
+          "dense_saving_seconds": 13.918450200013467
+        },
+        "worker_wall_seconds": {
+          "dense": 33.317961899985676,
+          "compressed": 47.23924609999813,
+          "dense_saving_seconds": 13.921284200012451
+        },
+        "process_wall_seconds": {
+          "dense": 34.32799999999406,
+          "compressed": 48.40600000000268,
+          "dense_saving_seconds": 14.078000000008615
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f09_adaptive_p3_corners0_dense",
+      "compressed_id": "f09_adaptive_p3_corners0_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.953882200003136,
+          "compressed": 42.64469950000057,
+          "dense_saving_seconds": 13.690817299997434
+        },
+        "worker_wall_seconds": {
+          "dense": 29.00203240000701,
+          "compressed": 42.69228960000328,
+          "dense_saving_seconds": 13.690257199996267
+        },
+        "process_wall_seconds": {
+          "dense": 30.28200000000652,
+          "compressed": 43.40600000000268,
+          "dense_saving_seconds": 13.123999999996158
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f10_adaptive_p3_corners0_dense",
+      "compressed_id": "f10_adaptive_p3_corners0_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 33.705415699994774,
+          "compressed": 47.13919240000541,
+          "dense_saving_seconds": 13.43377670001064
+        },
+        "worker_wall_seconds": {
+          "dense": 33.748035399999935,
+          "compressed": 47.18101089999254,
+          "dense_saving_seconds": 13.432975499992608
+        },
+        "process_wall_seconds": {
+          "dense": 35.328000000008615,
+          "compressed": 48.4369999999908,
+          "dense_saving_seconds": 13.108999999982188
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f10_adaptive_p1_corners0_dense",
+      "compressed_id": "f10_adaptive_p1_corners0_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 34.02376080000249,
+          "compressed": 47.39761030000227,
+          "dense_saving_seconds": 13.373849499999778
+        },
+        "worker_wall_seconds": {
+          "dense": 34.0666002999933,
+          "compressed": 47.44085159999668,
+          "dense_saving_seconds": 13.37425130000338
+        },
+        "process_wall_seconds": {
+          "dense": 35.328999999997905,
+          "compressed": 48.437000000005355,
+          "dense_saving_seconds": 13.10800000000745
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f09_adaptive_p1_corners1_dense",
+      "compressed_id": "f09_adaptive_p1_corners1_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.347990299997036,
+          "compressed": 41.67550300000585,
+          "dense_saving_seconds": 13.32751270000881
+        },
+        "worker_wall_seconds": {
+          "dense": 28.393345800010138,
+          "compressed": 41.7208810000011,
+          "dense_saving_seconds": 13.327535199990962
+        },
+        "process_wall_seconds": {
+          "dense": 29.264999999999418,
+          "compressed": 43.40600000000268,
+          "dense_saving_seconds": 14.14100000000326
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f09_adaptive_p2_corners1_dense",
+      "compressed_id": "f09_adaptive_p2_corners1_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.29854639999394,
+          "compressed": 41.46982250000292,
+          "dense_saving_seconds": 13.171276100008981
+        },
+        "worker_wall_seconds": {
+          "dense": 28.345429900000454,
+          "compressed": 41.51408799999626,
+          "dense_saving_seconds": 13.16865809999581
+        },
+        "process_wall_seconds": {
+          "dense": 29.280999999988126,
+          "compressed": 42.38999999999942,
+          "dense_saving_seconds": 13.109000000011292
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f10_adaptive_p3_corners1_dense",
+      "compressed_id": "f10_adaptive_p3_corners1_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 33.62108850000368,
+          "compressed": 46.51708579999104,
+          "dense_saving_seconds": 12.895997299987357
+        },
+        "worker_wall_seconds": {
+          "dense": 33.66773159999866,
+          "compressed": 46.56343819999893,
+          "dense_saving_seconds": 12.895706600000267
+        },
+        "process_wall_seconds": {
+          "dense": 35.312999999994645,
+          "compressed": 47.39100000000326,
+          "dense_saving_seconds": 12.078000000008615
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f10_adaptive_p1_corners1_dense",
+      "compressed_id": "f10_adaptive_p1_corners1_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 33.80170640000142,
+          "compressed": 46.60761960000673,
+          "dense_saving_seconds": 12.805913200005307
+        },
+        "worker_wall_seconds": {
+          "dense": 33.8485428999993,
+          "compressed": 46.65251660000649,
+          "dense_saving_seconds": 12.803973700007191
+        },
+        "process_wall_seconds": {
+          "dense": 35.328999999997905,
+          "compressed": 47.45299999999406,
+          "dense_saving_seconds": 12.123999999996158
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "10",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f10_adaptive_p2_corners1_dense",
+      "compressed_id": "f10_adaptive_p2_corners1_compressed",
+      "panel_count": 2472,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 34.038727099992684,
+          "compressed": 46.607832199995755,
+          "dense_saving_seconds": 12.569105100003071
+        },
+        "worker_wall_seconds": {
+          "dense": 34.0827755999926,
+          "compressed": 46.651702299990575,
+          "dense_saving_seconds": 12.568926699997974
+        },
+        "process_wall_seconds": {
+          "dense": 35.32799999999406,
+          "compressed": 47.437000000005355,
+          "dense_saving_seconds": 12.109000000011292
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "9",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f09_adaptive_p3_corners1_dense",
+      "compressed_id": "f09_adaptive_p3_corners1_compressed",
+      "panel_count": 2244,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 29.104113399997004,
+          "compressed": 41.47248189999664,
+          "dense_saving_seconds": 12.368368499999633
+        },
+        "worker_wall_seconds": {
+          "dense": 29.149262199993245,
+          "compressed": 41.516900399990845,
+          "dense_saving_seconds": 12.3676381999976
+        },
+        "process_wall_seconds": {
+          "dense": 30.296000000002095,
+          "compressed": 42.39100000000326,
+          "dense_saving_seconds": 12.095000000001164
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f06_adaptive_p3_corners1_dense",
+      "compressed_id": "f06_adaptive_p3_corners1_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 19.637843599994085,
+          "compressed": 30.921237299990025,
+          "dense_saving_seconds": 11.28339369999594
+        },
+        "worker_wall_seconds": {
+          "dense": 19.687635100010084,
+          "compressed": 30.969514400014305,
+          "dense_saving_seconds": 11.28187930000422
+        },
+        "process_wall_seconds": {
+          "dense": 21.202999999994063,
+          "compressed": 32.32799999999406,
+          "dense_saving_seconds": 11.125
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f06_adaptive_p2_corners1_dense",
+      "compressed_id": "f06_adaptive_p2_corners1_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.805749499995727,
+          "compressed": 31.146804200005135,
+          "dense_saving_seconds": 10.341054700009408
+        },
+        "worker_wall_seconds": {
+          "dense": 20.859681300004013,
+          "compressed": 31.19496700000309,
+          "dense_saving_seconds": 10.335285699999076
+        },
+        "process_wall_seconds": {
+          "dense": 22.202999999994063,
+          "compressed": 32.312000000005355,
+          "dense_saving_seconds": 10.109000000011292
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f06_adaptive_p1_corners0_dense",
+      "compressed_id": "f06_adaptive_p1_corners0_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.668806700006826,
+          "compressed": 30.866056800005026,
+          "dense_saving_seconds": 10.1972500999982
+        },
+        "worker_wall_seconds": {
+          "dense": 20.722143099992536,
+          "compressed": 30.917314700011048,
+          "dense_saving_seconds": 10.195171600018512
+        },
+        "process_wall_seconds": {
+          "dense": 22.218000000008033,
+          "compressed": 32.3130000000092,
+          "dense_saving_seconds": 10.095000000001164
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f06_adaptive_p1_corners1_dense",
+      "compressed_id": "f06_adaptive_p1_corners1_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.737823399991612,
+          "compressed": 30.928901300008874,
+          "dense_saving_seconds": 10.191077900017262
+        },
+        "worker_wall_seconds": {
+          "dense": 20.786983700003475,
+          "compressed": 30.98134939999727,
+          "dense_saving_seconds": 10.194365699993796
+        },
+        "process_wall_seconds": {
+          "dense": 22.235000000000582,
+          "compressed": 32.32799999999406,
+          "dense_saving_seconds": 10.09299999999348
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f06_adaptive_p3_corners0_dense",
+      "compressed_id": "f06_adaptive_p3_corners0_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.814003000006778,
+          "compressed": 30.93683570000576,
+          "dense_saving_seconds": 10.12283269999898
+        },
+        "worker_wall_seconds": {
+          "dense": 20.863890900000115,
+          "compressed": 30.98411479999777,
+          "dense_saving_seconds": 10.120223899997654
+        },
+        "process_wall_seconds": {
+          "dense": 22.21799999999348,
+          "compressed": 32.35899999999674,
+          "dense_saving_seconds": 10.14100000000326
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f05_adaptive_p3_corners0_dense",
+      "compressed_id": "f05_adaptive_p3_corners0_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.145527700005914,
+          "compressed": 23.16324770000938,
+          "dense_saving_seconds": 10.017720000003465
+        },
+        "worker_wall_seconds": {
+          "dense": 13.191573499992955,
+          "compressed": 23.20781980000902,
+          "dense_saving_seconds": 10.016246300016064
+        },
+        "process_wall_seconds": {
+          "dense": 14.14100000000326,
+          "compressed": 24.218999999997322,
+          "dense_saving_seconds": 10.077999999994063
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f05_adaptive_p2_corners0_dense",
+      "compressed_id": "f05_adaptive_p2_corners0_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.126972700003535,
+          "compressed": 23.092130699995323,
+          "dense_saving_seconds": 9.965157999991789
+        },
+        "worker_wall_seconds": {
+          "dense": 13.174629799992545,
+          "compressed": 23.139796100003878,
+          "dense_saving_seconds": 9.965166300011333
+        },
+        "process_wall_seconds": {
+          "dense": 14.125,
+          "compressed": 24.203000000008615,
+          "dense_saving_seconds": 10.078000000008615
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "6",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f06_adaptive_p2_corners0_dense",
+      "compressed_id": "f06_adaptive_p2_corners0_compressed",
+      "panel_count": 1612,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.94614270000602,
+          "compressed": 30.60229270000127,
+          "dense_saving_seconds": 9.65614999999525
+        },
+        "worker_wall_seconds": {
+          "dense": 20.99748429999454,
+          "compressed": 30.651937899994664,
+          "dense_saving_seconds": 9.654453600000124
+        },
+        "process_wall_seconds": {
+          "dense": 22.202999999994063,
+          "compressed": 32.312000000005355,
+          "dense_saving_seconds": 10.109000000011292
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f05_adaptive_p1_corners1_dense",
+      "compressed_id": "f05_adaptive_p1_corners1_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.598196999999345,
+          "compressed": 23.20104580000043,
+          "dense_saving_seconds": 9.602848800001084
+        },
+        "worker_wall_seconds": {
+          "dense": 13.644356099990546,
+          "compressed": 23.24611459999869,
+          "dense_saving_seconds": 9.601758500008145
+        },
+        "process_wall_seconds": {
+          "dense": 15.139999999999418,
+          "compressed": 24.218999999997322,
+          "dense_saving_seconds": 9.078999999997905
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f05_adaptive_p1_corners0_dense",
+      "compressed_id": "f05_adaptive_p1_corners0_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.545072299995809,
+          "compressed": 23.0497064999945,
+          "dense_saving_seconds": 9.50463419999869
+        },
+        "worker_wall_seconds": {
+          "dense": 13.594070399994962,
+          "compressed": 23.097787799997604,
+          "dense_saving_seconds": 9.503717400002643
+        },
+        "process_wall_seconds": {
+          "dense": 15.139999999999418,
+          "compressed": 24.202999999994063,
+          "dense_saving_seconds": 9.062999999994645
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f05_adaptive_p2_corners1_dense",
+      "compressed_id": "f05_adaptive_p2_corners1_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.75654649999342,
+          "compressed": 23.20795540000836,
+          "dense_saving_seconds": 9.45140890001494
+        },
+        "worker_wall_seconds": {
+          "dense": 13.800668500000029,
+          "compressed": 23.256275499996264,
+          "dense_saving_seconds": 9.455606999996235
+        },
+        "process_wall_seconds": {
+          "dense": 15.139999999999418,
+          "compressed": 24.218999999997322,
+          "dense_saving_seconds": 9.078999999997905
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f05_adaptive_p3_corners1_dense",
+      "compressed_id": "f05_adaptive_p3_corners1_compressed",
+      "panel_count": 1322,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 13.747170599992387,
+          "compressed": 23.178224699993734,
+          "dense_saving_seconds": 9.431054100001347
+        },
+        "worker_wall_seconds": {
+          "dense": 13.795045300008496,
+          "compressed": 23.228722800005926,
+          "dense_saving_seconds": 9.43367749999743
+        },
+        "process_wall_seconds": {
+          "dense": 15.125,
+          "compressed": 24.218999999997322,
+          "dense_saving_seconds": 9.093999999997322
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f04_adaptive_p2_corners1_dense",
+      "compressed_id": "f04_adaptive_p2_corners1_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.306087799996021,
+          "compressed": 17.777104099994176,
+          "dense_saving_seconds": 8.471016299998155
+        },
+        "worker_wall_seconds": {
+          "dense": 9.36195150000276,
+          "compressed": 17.821990999989794,
+          "dense_saving_seconds": 8.460039499987033
+        },
+        "process_wall_seconds": {
+          "dense": 10.156999999991967,
+          "compressed": 19.313000000009197,
+          "dense_saving_seconds": 9.15600000001723
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f04_adaptive_p3_corners0_dense",
+      "compressed_id": "f04_adaptive_p3_corners0_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.389456400007475,
+          "compressed": 17.817938199994387,
+          "dense_saving_seconds": 8.428481799986912
+        },
+        "worker_wall_seconds": {
+          "dense": 9.44545179999841,
+          "compressed": 17.863182400004007,
+          "dense_saving_seconds": 8.417730600005598
+        },
+        "process_wall_seconds": {
+          "dense": 10.156000000002678,
+          "compressed": 19.281000000002678,
+          "dense_saving_seconds": 9.125
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f04_adaptive_p1_corners1_dense",
+      "compressed_id": "f04_adaptive_p1_corners1_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.484065099997679,
+          "compressed": 17.869742100010626,
+          "dense_saving_seconds": 8.385677000012947
+        },
+        "worker_wall_seconds": {
+          "dense": 9.540776399997412,
+          "compressed": 17.916423899994697,
+          "dense_saving_seconds": 8.375647499997285
+        },
+        "process_wall_seconds": {
+          "dense": 11.171999999991385,
+          "compressed": 19.327999999994063,
+          "dense_saving_seconds": 8.156000000002678
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f04_adaptive_p2_corners0_dense",
+      "compressed_id": "f04_adaptive_p2_corners0_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.560279400000582,
+          "compressed": 17.754398199991556,
+          "dense_saving_seconds": 8.194118799990974
+        },
+        "worker_wall_seconds": {
+          "dense": 9.60576960000617,
+          "compressed": 17.80064790000324,
+          "dense_saving_seconds": 8.194878299997072
+        },
+        "process_wall_seconds": {
+          "dense": 11.139999999999418,
+          "compressed": 19.327999999994063,
+          "dense_saving_seconds": 8.187999999994645
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f04_adaptive_p3_corners1_dense",
+      "compressed_id": "f04_adaptive_p3_corners1_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.519149900006596,
+          "compressed": 17.70894560001034,
+          "dense_saving_seconds": 8.189795700003742
+        },
+        "worker_wall_seconds": {
+          "dense": 9.564131899998756,
+          "compressed": 17.756399899997632,
+          "dense_saving_seconds": 8.192267999998876
+        },
+        "process_wall_seconds": {
+          "dense": 11.171000000002095,
+          "compressed": 19.26600000000326,
+          "dense_saving_seconds": 8.095000000001164
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f07_adaptive_p1_corners0_dense",
+      "compressed_id": "f07_adaptive_p1_corners0_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 26.982486599998083,
+          "compressed": 35.01097960000334,
+          "dense_saving_seconds": 8.028493000005255
+        },
+        "worker_wall_seconds": {
+          "dense": 27.030998100002762,
+          "compressed": 35.05999750000774,
+          "dense_saving_seconds": 8.028999400004977
+        },
+        "process_wall_seconds": {
+          "dense": 28.264999999999418,
+          "compressed": 36.34399999999732,
+          "dense_saving_seconds": 8.078999999997905
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f07_adaptive_p3_corners0_dense",
+      "compressed_id": "f07_adaptive_p3_corners0_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 26.85231109999586,
+          "compressed": 34.790585299997474,
+          "dense_saving_seconds": 7.938274200001615
+        },
+        "worker_wall_seconds": {
+          "dense": 26.897151600001962,
+          "compressed": 34.83755900000688,
+          "dense_saving_seconds": 7.940407400004915
+        },
+        "process_wall_seconds": {
+          "dense": 28.281000000002678,
+          "compressed": 36.328000000008615,
+          "dense_saving_seconds": 8.047000000005937
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f07_adaptive_p1_corners1_dense",
+      "compressed_id": "f07_adaptive_p1_corners1_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 26.552882200005115,
+          "compressed": 34.23883940000087,
+          "dense_saving_seconds": 7.685957199995755
+        },
+        "worker_wall_seconds": {
+          "dense": 26.598821699997643,
+          "compressed": 34.28672669999651,
+          "dense_saving_seconds": 7.687904999998864
+        },
+        "process_wall_seconds": {
+          "dense": 28.280999999988126,
+          "compressed": 35.312999999994645,
+          "dense_saving_seconds": 7.032000000006519
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f03_adaptive_p3_corners0_dense",
+      "compressed_id": "f03_adaptive_p3_corners0_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.213684099988313,
+          "compressed": 13.481406999999308,
+          "dense_saving_seconds": 7.267722900010995
+        },
+        "worker_wall_seconds": {
+          "dense": 6.25808529999631,
+          "compressed": 13.534136599992053,
+          "dense_saving_seconds": 7.276051299995743
+        },
+        "process_wall_seconds": {
+          "dense": 7.0939999999973224,
+          "compressed": 14.235000000000582,
+          "dense_saving_seconds": 7.14100000000326
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f03_adaptive_p2_corners1_dense",
+      "compressed_id": "f03_adaptive_p2_corners1_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.3305910999915795,
+          "compressed": 13.460301400002209,
+          "dense_saving_seconds": 7.129710300010629
+        },
+        "worker_wall_seconds": {
+          "dense": 6.374931000013021,
+          "compressed": 13.513554999997723,
+          "dense_saving_seconds": 7.138623999984702
+        },
+        "process_wall_seconds": {
+          "dense": 7.0939999999973224,
+          "compressed": 14.264999999999418,
+          "dense_saving_seconds": 7.1710000000020955
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f03_adaptive_p3_corners1_dense",
+      "compressed_id": "f03_adaptive_p3_corners1_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.279685600005905,
+          "compressed": 13.396153299996513,
+          "dense_saving_seconds": 7.116467699990608
+        },
+        "worker_wall_seconds": {
+          "dense": 6.325118199994904,
+          "compressed": 13.450526899992838,
+          "dense_saving_seconds": 7.125408699997934
+        },
+        "process_wall_seconds": {
+          "dense": 7.110000000000582,
+          "compressed": 14.219000000011874,
+          "dense_saving_seconds": 7.109000000011292
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f03_adaptive_p1_corners0_dense",
+      "compressed_id": "f03_adaptive_p1_corners0_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.318303300009575,
+          "compressed": 13.379063100001076,
+          "dense_saving_seconds": 7.0607597999915015
+        },
+        "worker_wall_seconds": {
+          "dense": 6.360145200000261,
+          "compressed": 13.432750399995712,
+          "dense_saving_seconds": 7.072605199995451
+        },
+        "process_wall_seconds": {
+          "dense": 7.078000000008615,
+          "compressed": 14.186999999990803,
+          "dense_saving_seconds": 7.1089999999821885
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f03_adaptive_p2_corners0_dense",
+      "compressed_id": "f03_adaptive_p2_corners0_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.28292290000536,
+          "compressed": 13.336278600007063,
+          "dense_saving_seconds": 7.053355700001703
+        },
+        "worker_wall_seconds": {
+          "dense": 6.326735200011171,
+          "compressed": 13.390986400001566,
+          "dense_saving_seconds": 7.0642511999903945
+        },
+        "process_wall_seconds": {
+          "dense": 7.139999999999418,
+          "compressed": 14.23399999999674,
+          "dense_saving_seconds": 7.0939999999973224
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f04_adaptive_p1_corners0_dense",
+      "compressed_id": "f04_adaptive_p1_corners0_compressed",
+      "panel_count": 1090,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 10.726154800009681,
+          "compressed": 17.761385599995265,
+          "dense_saving_seconds": 7.035230799985584
+        },
+        "worker_wall_seconds": {
+          "dense": 11.738433799997438,
+          "compressed": 17.80879319999076,
+          "dense_saving_seconds": 6.070359399993322
+        },
+        "process_wall_seconds": {
+          "dense": 15.202999999994063,
+          "compressed": 19.297000000005937,
+          "dense_saving_seconds": 4.094000000011874
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f03_adaptive_p1_corners1_dense",
+      "compressed_id": "f03_adaptive_p1_corners1_compressed",
+      "panel_count": 864,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 6.350301700003911,
+          "compressed": 13.346336299990071,
+          "dense_saving_seconds": 6.99603459998616
+        },
+        "worker_wall_seconds": {
+          "dense": 6.393985200003954,
+          "compressed": 13.390407700004289,
+          "dense_saving_seconds": 6.996422500000335
+        },
+        "process_wall_seconds": {
+          "dense": 7.10899999999674,
+          "compressed": 14.218999999997322,
+          "dense_saving_seconds": 7.110000000000582
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f07_adaptive_p2_corners0_dense",
+      "compressed_id": "f07_adaptive_p2_corners0_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 27.95984789999784,
+          "compressed": 34.81802069999685,
+          "dense_saving_seconds": 6.858172799999011
+        },
+        "worker_wall_seconds": {
+          "dense": 28.009124799995334,
+          "compressed": 34.86399650000385,
+          "dense_saving_seconds": 6.854871700008516
+        },
+        "process_wall_seconds": {
+          "dense": 29.281000000002678,
+          "compressed": 36.32799999999406,
+          "dense_saving_seconds": 7.046999999991385
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f07_adaptive_p2_corners1_dense",
+      "compressed_id": "f07_adaptive_p2_corners1_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 27.35751299999538,
+          "compressed": 34.03130210000381,
+          "dense_saving_seconds": 6.673789100008435
+        },
+        "worker_wall_seconds": {
+          "dense": 27.404892599995947,
+          "compressed": 34.07772560000012,
+          "dense_saving_seconds": 6.672833000004175
+        },
+        "process_wall_seconds": {
+          "dense": 28.297000000005937,
+          "compressed": 35.32799999999406,
+          "dense_saving_seconds": 7.030999999988126
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "7",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f07_adaptive_p3_corners1_dense",
+      "compressed_id": "f07_adaptive_p3_corners1_compressed",
+      "panel_count": 1848,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 28.184450900007505,
+          "compressed": 34.12470040000335,
+          "dense_saving_seconds": 5.9402494999958435
+        },
+        "worker_wall_seconds": {
+          "dense": 28.23021160000644,
+          "compressed": 34.171512800006894,
+          "dense_saving_seconds": 5.941301200000453
+        },
+        "process_wall_seconds": {
+          "dense": 29.281000000002678,
+          "compressed": 35.32799999999406,
+          "dense_saving_seconds": 6.046999999991385
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f08_adaptive_p3_corners0_dense",
+      "compressed_id": "f08_adaptive_p3_corners0_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 31.006830500002252,
+          "compressed": 36.775247900004615,
+          "dense_saving_seconds": 5.768417400002363
+        },
+        "worker_wall_seconds": {
+          "dense": 31.055281399996602,
+          "compressed": 36.82260590000078,
+          "dense_saving_seconds": 5.767324500004179
+        },
+        "process_wall_seconds": {
+          "dense": 32.312999999994645,
+          "compressed": 38.375,
+          "dense_saving_seconds": 6.062000000005355
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f08_adaptive_p2_corners0_dense",
+      "compressed_id": "f08_adaptive_p2_corners0_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 31.10841229998914,
+          "compressed": 36.84326689998852,
+          "dense_saving_seconds": 5.73485459999938
+        },
+        "worker_wall_seconds": {
+          "dense": 31.154977700003656,
+          "compressed": 36.892366500003845,
+          "dense_saving_seconds": 5.73738880000019
+        },
+        "process_wall_seconds": {
+          "dense": 32.312000000005355,
+          "compressed": 38.34399999999732,
+          "dense_saving_seconds": 6.031999999991967
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f08_adaptive_p1_corners0_dense",
+      "compressed_id": "f08_adaptive_p1_corners0_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 30.988638199996785,
+          "compressed": 36.55524620000506,
+          "dense_saving_seconds": 5.566608000008273
+        },
+        "worker_wall_seconds": {
+          "dense": 31.03396000000066,
+          "compressed": 36.60014399999636,
+          "dense_saving_seconds": 5.566183999995701
+        },
+        "process_wall_seconds": {
+          "dense": 32.3119999999908,
+          "compressed": 37.344000000011874,
+          "dense_saving_seconds": 5.032000000021071
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f08_adaptive_p1_corners1_dense",
+      "compressed_id": "f08_adaptive_p1_corners1_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 31.157221299989033,
+          "compressed": 36.36715120000008,
+          "dense_saving_seconds": 5.209929900011048
+        },
+        "worker_wall_seconds": {
+          "dense": 31.20133579999674,
+          "compressed": 36.41524849999405,
+          "dense_saving_seconds": 5.213912699997309
+        },
+        "process_wall_seconds": {
+          "dense": 32.296000000002095,
+          "compressed": 37.312000000005355,
+          "dense_saving_seconds": 5.01600000000326
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f08_adaptive_p3_corners1_dense",
+      "compressed_id": "f08_adaptive_p3_corners1_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 31.1047816999926,
+          "compressed": 36.29026540000632,
+          "dense_saving_seconds": 5.1854837000137195
+        },
+        "worker_wall_seconds": {
+          "dense": 31.15154839999741,
+          "compressed": 36.33682050000061,
+          "dense_saving_seconds": 5.185272100003203
+        },
+        "process_wall_seconds": {
+          "dense": 32.312000000005355,
+          "compressed": 37.34399999999732,
+          "dense_saving_seconds": 5.031999999991967
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f04_local_p1_corners1_dense",
+      "compressed_id": "f04_local_p1_corners1_compressed",
+      "panel_count": 7540,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 21.548638000007486,
+          "compressed": 26.702606500010006,
+          "dense_saving_seconds": 5.15396850000252
+        },
+        "worker_wall_seconds": {
+          "dense": 21.59327409999969,
+          "compressed": 26.759520600011456,
+          "dense_saving_seconds": 5.166246500011766
+        },
+        "process_wall_seconds": {
+          "dense": 22.343999999997322,
+          "compressed": 27.437000000005355,
+          "dense_saving_seconds": 5.093000000008033
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "8",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f08_adaptive_p2_corners1_dense",
+      "compressed_id": "f08_adaptive_p2_corners1_compressed",
+      "panel_count": 1936,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 31.125232399994275,
+          "compressed": 36.254690000001574,
+          "dense_saving_seconds": 5.129457600007299
+        },
+        "worker_wall_seconds": {
+          "dense": 31.17097599999397,
+          "compressed": 36.305376599993906,
+          "dense_saving_seconds": 5.134400599999935
+        },
+        "process_wall_seconds": {
+          "dense": 32.3119999999908,
+          "compressed": 37.36000000000058,
+          "dense_saving_seconds": 5.048000000009779
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_adaptive_p2_corners0_dense",
+      "compressed_id": "f02_adaptive_p2_corners0_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 4.077480399995693,
+          "compressed": 9.106194299994968,
+          "dense_saving_seconds": 5.028713899999275
+        },
+        "worker_wall_seconds": {
+          "dense": 4.122968099996797,
+          "compressed": 9.151044999991427,
+          "dense_saving_seconds": 5.02807689999463
+        },
+        "process_wall_seconds": {
+          "dense": 5.061999999990803,
+          "compressed": 10.09299999999348,
+          "dense_saving_seconds": 5.0310000000026776
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f04_global_p1_corners1_dense",
+      "compressed_id": "f04_global_p1_corners1_compressed",
+      "panel_count": 7540,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 21.584749899993767,
+          "compressed": 26.551581599997007,
+          "dense_saving_seconds": 4.96683170000324
+        },
+        "worker_wall_seconds": {
+          "dense": 21.643323600001168,
+          "compressed": 26.61202119999507,
+          "dense_saving_seconds": 4.968697599993902
+        },
+        "process_wall_seconds": {
+          "dense": 22.327999999994063,
+          "compressed": 27.375,
+          "dense_saving_seconds": 5.047000000005937
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_adaptive_p2_corners1_dense",
+      "compressed_id": "f02_adaptive_p2_corners1_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 4.080440499994438,
+          "compressed": 8.63410229999863,
+          "dense_saving_seconds": 4.553661800004193
+        },
+        "worker_wall_seconds": {
+          "dense": 4.126231000002008,
+          "compressed": 8.677168199996231,
+          "dense_saving_seconds": 4.550937199994223
+        },
+        "process_wall_seconds": {
+          "dense": 5.062000000005355,
+          "compressed": 10.14100000000326,
+          "dense_saving_seconds": 5.0789999999979045
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f04_global_p1_corners0_dense",
+      "compressed_id": "f04_global_p1_corners0_compressed",
+      "panel_count": 7502,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 21.341158299997915,
+          "compressed": 25.765560200001346,
+          "dense_saving_seconds": 4.424401900003431
+        },
+        "worker_wall_seconds": {
+          "dense": 21.386498799998662,
+          "compressed": 25.819913900006213,
+          "dense_saving_seconds": 4.433415100007551
+        },
+        "process_wall_seconds": {
+          "dense": 22.344000000011874,
+          "compressed": 27.39100000000326,
+          "dense_saving_seconds": 5.046999999991385
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_local_p1_corners1_dense",
+      "compressed_id": "f01_local_p1_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 3.1656778000033228,
+          "compressed": 7.503128900003503,
+          "dense_saving_seconds": 4.33745110000018
+        },
+        "worker_wall_seconds": {
+          "dense": 3.2094136999949114,
+          "compressed": 7.567930499993963,
+          "dense_saving_seconds": 4.358516799999052
+        },
+        "process_wall_seconds": {
+          "dense": 4.046999999991385,
+          "compressed": 9.109000000011292,
+          "dense_saving_seconds": 5.062000000019907
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_adaptive_p1_corners1_dense",
+      "compressed_id": "f02_adaptive_p1_corners1_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 3.962285300003714,
+          "compressed": 8.296670299998368,
+          "dense_saving_seconds": 4.334384999994654
+        },
+        "worker_wall_seconds": {
+          "dense": 4.0059780000010505,
+          "compressed": 8.350261599989608,
+          "dense_saving_seconds": 4.344283599988557
+        },
+        "process_wall_seconds": {
+          "dense": 5.077999999994063,
+          "compressed": 9.14100000000326,
+          "dense_saving_seconds": 4.063000000009197
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_adaptive_p1_corners0_dense",
+      "compressed_id": "f02_adaptive_p1_corners0_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 4.018321900002775,
+          "compressed": 8.3440064000024,
+          "dense_saving_seconds": 4.325684499999625
+        },
+        "worker_wall_seconds": {
+          "dense": 4.072283699992113,
+          "compressed": 8.398330199997872,
+          "dense_saving_seconds": 4.326046500005759
+        },
+        "process_wall_seconds": {
+          "dense": 5.0789999999979045,
+          "compressed": 9.14100000000326,
+          "dense_saving_seconds": 4.062000000005355
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_adaptive_p3_corners1_dense",
+      "compressed_id": "f02_adaptive_p3_corners1_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 4.096717799999169,
+          "compressed": 8.335489300006884,
+          "dense_saving_seconds": 4.238771500007715
+        },
+        "worker_wall_seconds": {
+          "dense": 4.154070799995679,
+          "compressed": 8.380473500001244,
+          "dense_saving_seconds": 4.226402700005565
+        },
+        "process_wall_seconds": {
+          "dense": 5.0939999999973224,
+          "compressed": 9.14100000000326,
+          "dense_saving_seconds": 4.047000000005937
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_adaptive_p3_corners0_dense",
+      "compressed_id": "f02_adaptive_p3_corners0_compressed",
+      "panel_count": 638,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 4.215833700000076,
+          "compressed": 8.453682299994398,
+          "dense_saving_seconds": 4.237848599994322
+        },
+        "worker_wall_seconds": {
+          "dense": 4.265736100001959,
+          "compressed": 8.496530700009316,
+          "dense_saving_seconds": 4.230794600007357
+        },
+        "process_wall_seconds": {
+          "dense": 5.077999999994063,
+          "compressed": 10.14100000000326,
+          "dense_saving_seconds": 5.063000000009197
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_local_p1_corners0_dense",
+      "compressed_id": "f01_local_p1_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 3.02024650000385,
+          "compressed": 7.197157199989306,
+          "dense_saving_seconds": 4.176910699985456
+        },
+        "worker_wall_seconds": {
+          "dense": 3.0608801000053063,
+          "compressed": 7.244794500002172,
+          "dense_saving_seconds": 4.1839143999968655
+        },
+        "process_wall_seconds": {
+          "dense": 4.047000000005937,
+          "compressed": 8.110000000000582,
+          "dense_saving_seconds": 4.062999999994645
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_global_p1_corners1_dense",
+      "compressed_id": "f01_global_p1_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 3.089772899998934,
+          "compressed": 7.1829269000008935,
+          "dense_saving_seconds": 4.0931540000019595
+        },
+        "worker_wall_seconds": {
+          "dense": 3.132589000000735,
+          "compressed": 7.23778900000616,
+          "dense_saving_seconds": 4.105200000005425
+        },
+        "process_wall_seconds": {
+          "dense": 4.062000000005355,
+          "compressed": 8.110000000000582,
+          "dense_saving_seconds": 4.047999999995227
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_global_p1_corners0_dense",
+      "compressed_id": "f01_global_p1_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 3.0976551000057952,
+          "compressed": 7.019612899995991,
+          "dense_saving_seconds": 3.921957799990196
+        },
+        "worker_wall_seconds": {
+          "dense": 3.1409251000004588,
+          "compressed": 7.07317650000914,
+          "dense_saving_seconds": 3.9322514000086812
+        },
+        "process_wall_seconds": {
+          "dense": 4.062999999994645,
+          "compressed": 8.10899999999674,
+          "dense_saving_seconds": 4.0460000000020955
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_local_p2_corners0_dense",
+      "compressed_id": "f01_local_p2_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.18268209999951,
+          "compressed": 12.996332700000494,
+          "dense_saving_seconds": 3.813650600000983
+        },
+        "worker_wall_seconds": {
+          "dense": 9.225369400010095,
+          "compressed": 13.040071900002658,
+          "dense_saving_seconds": 3.8147024999925634
+        },
+        "process_wall_seconds": {
+          "dense": 10.139999999999418,
+          "compressed": 14.202999999994063,
+          "dense_saving_seconds": 4.062999999994645
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "4",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f04_local_p1_corners0_dense",
+      "compressed_id": "f04_local_p1_corners0_compressed",
+      "panel_count": 7502,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 22.155815399994026,
+          "compressed": 25.618372299999464,
+          "dense_saving_seconds": 3.4625569000054384
+        },
+        "worker_wall_seconds": {
+          "dense": 22.202241899998626,
+          "compressed": 25.67372809999506,
+          "dense_saving_seconds": 3.471486199996434
+        },
+        "process_wall_seconds": {
+          "dense": 23.437000000005355,
+          "compressed": 26.406000000002678,
+          "dense_saving_seconds": 2.9689999999973224
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_local_p1_corners0_dense",
+      "compressed_id": "f02_local_p1_corners0_compressed",
+      "panel_count": 3766,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.601968999995734,
+          "compressed": 13.00151659999392,
+          "dense_saving_seconds": 3.3995475999981863
+        },
+        "worker_wall_seconds": {
+          "dense": 9.643911600011052,
+          "compressed": 13.0425358999928,
+          "dense_saving_seconds": 3.3986242999817478
+        },
+        "process_wall_seconds": {
+          "dense": 11.172000000005937,
+          "compressed": 14.187000000005355,
+          "dense_saving_seconds": 3.014999999999418
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_local_p1_corners1_dense",
+      "compressed_id": "f02_local_p1_corners1_compressed",
+      "panel_count": 3802,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.77831690000312,
+          "compressed": 13.176049200003035,
+          "dense_saving_seconds": 3.397732299999916
+        },
+        "worker_wall_seconds": {
+          "dense": 9.818680699987453,
+          "compressed": 13.230829499996617,
+          "dense_saving_seconds": 3.412148800009163
+        },
+        "process_wall_seconds": {
+          "dense": 11.203000000008615,
+          "compressed": 14.202999999994063,
+          "dense_saving_seconds": 2.999999999985448
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_global_p1_corners1_dense",
+      "compressed_id": "f02_global_p1_corners1_compressed",
+      "panel_count": 3802,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.82724959999905,
+          "compressed": 13.182628199996543,
+          "dense_saving_seconds": 3.3553785999974934
+        },
+        "worker_wall_seconds": {
+          "dense": 9.868649600000936,
+          "compressed": 13.224961999992956,
+          "dense_saving_seconds": 3.356312399992021
+        },
+        "process_wall_seconds": {
+          "dense": 11.172000000005937,
+          "compressed": 14.25,
+          "dense_saving_seconds": 3.077999999994063
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_global_p1_corners0_dense",
+      "compressed_id": "f02_global_p1_corners0_compressed",
+      "panel_count": 3766,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.586304299999028,
+          "compressed": 12.916558500000974,
+          "dense_saving_seconds": 3.3302542000019457
+        },
+        "worker_wall_seconds": {
+          "dense": 9.62817609999911,
+          "compressed": 12.971594300004654,
+          "dense_saving_seconds": 3.3434182000055443
+        },
+        "process_wall_seconds": {
+          "dense": 11.15700000000652,
+          "compressed": 14.203000000008615,
+          "dense_saving_seconds": 3.0460000000020955
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "global",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_global_p2_corners0_dense",
+      "compressed_id": "f02_global_p2_corners0_compressed",
+      "panel_count": 3766,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.012423799998942,
+          "compressed": 23.32884760000161,
+          "dense_saving_seconds": 3.316423800002667
+        },
+        "worker_wall_seconds": {
+          "dense": 20.06656039999507,
+          "compressed": 23.370627099997364,
+          "dense_saving_seconds": 3.304066700002295
+        },
+        "process_wall_seconds": {
+          "dense": 21.343999999997322,
+          "compressed": 24.375,
+          "dense_saving_seconds": 3.0310000000026776
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "global",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_global_p2_corners1_dense",
+      "compressed_id": "f02_global_p2_corners1_compressed",
+      "panel_count": 3802,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.508013500002562,
+          "compressed": 23.62071869999636,
+          "dense_saving_seconds": 3.1127051999937976
+        },
+        "worker_wall_seconds": {
+          "dense": 20.566013500007102,
+          "compressed": 23.663695899987943,
+          "dense_saving_seconds": 3.0976823999808403
+        },
+        "process_wall_seconds": {
+          "dense": 21.297000000005937,
+          "compressed": 24.327999999994063,
+          "dense_saving_seconds": 3.0309999999881256
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_global_p2_corners0_dense",
+      "compressed_id": "f01_global_p2_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.131757299997844,
+          "compressed": 12.185540099992068,
+          "dense_saving_seconds": 3.0537827999942238
+        },
+        "worker_wall_seconds": {
+          "dense": 9.172681900003226,
+          "compressed": 12.23944059999485,
+          "dense_saving_seconds": 3.066758699991624
+        },
+        "process_wall_seconds": {
+          "dense": 10.171999999991385,
+          "compressed": 13.188000000009197,
+          "dense_saving_seconds": 3.0160000000178115
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_adaptive_p2_corners0_dense",
+      "compressed_id": "f01_adaptive_p2_corners0_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.48018410000077,
+          "compressed": 5.471449400007259,
+          "dense_saving_seconds": 2.9912653000064893
+        },
+        "worker_wall_seconds": {
+          "dense": 2.520827400003327,
+          "compressed": 5.5140165000048,
+          "dense_saving_seconds": 2.993189100001473
+        },
+        "process_wall_seconds": {
+          "dense": 4.047000000005937,
+          "compressed": 7.0939999999973224,
+          "dense_saving_seconds": 3.0469999999913853
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_adaptive_p3_corners0_dense",
+      "compressed_id": "f01_adaptive_p3_corners0_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.4854171000042697,
+          "compressed": 5.476407200010726,
+          "dense_saving_seconds": 2.9909901000064565
+        },
+        "worker_wall_seconds": {
+          "dense": 2.527742299993406,
+          "compressed": 5.517879300008644,
+          "dense_saving_seconds": 2.9901370000152383
+        },
+        "process_wall_seconds": {
+          "dense": 4.062000000005355,
+          "compressed": 7.109000000011292,
+          "dense_saving_seconds": 3.047000000005937
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_adaptive_p1_corners0_dense",
+      "compressed_id": "f01_adaptive_p1_corners0_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.492374399997061,
+          "compressed": 5.478117000006023,
+          "dense_saving_seconds": 2.9857426000089617
+        },
+        "worker_wall_seconds": {
+          "dense": 2.5354258000006666,
+          "compressed": 5.519973599992227,
+          "dense_saving_seconds": 2.98454779999156
+        },
+        "process_wall_seconds": {
+          "dense": 4.062000000005355,
+          "compressed": 7.10899999999674,
+          "dense_saving_seconds": 3.0469999999913853
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_adaptive_p3_corners1_dense",
+      "compressed_id": "f01_adaptive_p3_corners1_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.420690300001297,
+          "compressed": 5.400370600007591,
+          "dense_saving_seconds": 2.9796803000062937
+        },
+        "worker_wall_seconds": {
+          "dense": 2.4671581000002334,
+          "compressed": 5.441918700002134,
+          "dense_saving_seconds": 2.9747606000019005
+        },
+        "process_wall_seconds": {
+          "dense": 4.046999999991385,
+          "compressed": 6.0939999999973224,
+          "dense_saving_seconds": 2.047000000005937
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "local",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f02_local_p2_corners1_dense",
+      "compressed_id": "f02_local_p2_corners1_compressed",
+      "panel_count": 3802,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.750955099996645,
+          "compressed": 23.714508999997634,
+          "dense_saving_seconds": 2.9635539000009885
+        },
+        "worker_wall_seconds": {
+          "dense": 20.794755499999155,
+          "compressed": 23.767464200005634,
+          "dense_saving_seconds": 2.9727087000064785
+        },
+        "process_wall_seconds": {
+          "dense": 22.375,
+          "compressed": 25.359000000011292,
+          "dense_saving_seconds": 2.9840000000112923
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_adaptive_p1_corners1_dense",
+      "compressed_id": "f01_adaptive_p1_corners1_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.429863099998329,
+          "compressed": 5.370297999994364,
+          "dense_saving_seconds": 2.940434899996035
+        },
+        "worker_wall_seconds": {
+          "dense": 2.47163929999806,
+          "compressed": 5.422798300001887,
+          "dense_saving_seconds": 2.951159000003827
+        },
+        "process_wall_seconds": {
+          "dense": 4.046999999991385,
+          "compressed": 6.077999999994063,
+          "dense_saving_seconds": 2.0310000000026776
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "adaptive",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_adaptive_p2_corners1_dense",
+      "compressed_id": "f01_adaptive_p2_corners1_compressed",
+      "panel_count": 414,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 2.4639418000006117,
+          "compressed": 5.395028800005093,
+          "dense_saving_seconds": 2.9310870000044815
+        },
+        "worker_wall_seconds": {
+          "dense": 2.505778199993074,
+          "compressed": 5.437899700002163,
+          "dense_saving_seconds": 2.9321215000090888
+        },
+        "process_wall_seconds": {
+          "dense": 4.046999999991385,
+          "compressed": 6.077999999994063,
+          "dense_saving_seconds": 2.0310000000026776
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_global_p2_corners1_dense",
+      "compressed_id": "f01_global_p2_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 9.566698099995847,
+          "compressed": 12.389041200003703,
+          "dense_saving_seconds": 2.8223431000078563
+        },
+        "worker_wall_seconds": {
+          "dense": 9.60949809999147,
+          "compressed": 12.442462799997884,
+          "dense_saving_seconds": 2.832964700006414
+        },
+        "process_wall_seconds": {
+          "dense": 11.139999999999418,
+          "compressed": 13.218999999997322,
+          "dense_saving_seconds": 2.0789999999979045
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "2",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_local_p2_corners1_dense",
+      "compressed_id": "f01_local_p2_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 10.09911359999387,
+          "compressed": 12.586248499996145,
+          "dense_saving_seconds": 2.4871349000022747
+        },
+        "worker_wall_seconds": {
+          "dense": 10.162859200005187,
+          "compressed": 12.629058399994392,
+          "dense_saving_seconds": 2.4661991999892052
+        },
+        "process_wall_seconds": {
+          "dense": 11.10899999999674,
+          "compressed": 14.203000000008615,
+          "dense_saving_seconds": 3.0940000000118744
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "2",
+        "mesh_strategy": "local",
+        "basis_order": "2",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f02_local_p2_corners0_dense",
+      "compressed_id": "f02_local_p2_corners0_compressed",
+      "panel_count": 3766,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.824197800000547,
+          "compressed": 23.201596900005825,
+          "dense_saving_seconds": 2.3773991000052774
+        },
+        "worker_wall_seconds": {
+          "dense": 20.866581599999336,
+          "compressed": 23.253120800000033,
+          "dense_saving_seconds": 2.3865392000006977
+        },
+        "process_wall_seconds": {
+          "dense": 22.343999999997322,
+          "compressed": 24.375,
+          "dense_saving_seconds": 2.0310000000026776
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f03_local_p1_corners0_dense",
+      "compressed_id": "f03_local_p1_corners0_compressed",
+      "panel_count": 5666,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 22.17020930000581,
+          "compressed": 19.983267399991746,
+          "dense_saving_seconds": -2.1869419000140624
+        },
+        "worker_wall_seconds": {
+          "dense": 22.22473230000469,
+          "compressed": 20.037418100007926,
+          "dense_saving_seconds": -2.187314199996763
+        },
+        "process_wall_seconds": {
+          "dense": 23.405999999988126,
+          "compressed": 21.343999999997322,
+          "dense_saving_seconds": -2.061999999990803
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f03_global_p1_corners0_dense",
+      "compressed_id": "f03_global_p1_corners0_compressed",
+      "panel_count": 5666,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 22.149572599999374,
+          "compressed": 19.946560399999726,
+          "dense_saving_seconds": -2.203012199999648
+        },
+        "worker_wall_seconds": {
+          "dense": 22.202696199994534,
+          "compressed": 20.000075800009654,
+          "dense_saving_seconds": -2.2026203999848804
+        },
+        "process_wall_seconds": {
+          "dense": 23.35899999999674,
+          "compressed": 21.26600000000326,
+          "dense_saving_seconds": -2.0929999999934807
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f03_local_p1_corners1_dense",
+      "compressed_id": "f03_local_p1_corners1_compressed",
+      "panel_count": 5702,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 22.427157400001306,
+          "compressed": 20.141194000010728,
+          "dense_saving_seconds": -2.285963399990578
+        },
+        "worker_wall_seconds": {
+          "dense": 22.48187400000461,
+          "compressed": 20.194385599999805,
+          "dense_saving_seconds": -2.287488400004804
+        },
+        "process_wall_seconds": {
+          "dense": 23.422000000005937,
+          "compressed": 21.281999999991967,
+          "dense_saving_seconds": -2.14000000001397
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "3",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f03_global_p1_corners1_dense",
+      "compressed_id": "f03_global_p1_corners1_compressed",
+      "panel_count": 5702,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 22.563020700006746,
+          "compressed": 20.130548699991778,
+          "dense_saving_seconds": -2.432472000014968
+        },
+        "worker_wall_seconds": {
+          "dense": 22.605983700006618,
+          "compressed": 20.172375599999214,
+          "dense_saving_seconds": -2.4336081000074046
+        },
+        "process_wall_seconds": {
+          "dense": 23.39100000000326,
+          "compressed": 21.327999999994063,
+          "dense_saving_seconds": -2.063000000009197
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_global_p3_corners0_dense",
+      "compressed_id": "f01_global_p3_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.21962970000459,
+          "compressed": 17.647606200000155,
+          "dense_saving_seconds": -2.572023500004434
+        },
+        "worker_wall_seconds": {
+          "dense": 20.262136399993324,
+          "compressed": 17.6893182000058,
+          "dense_saving_seconds": -2.5728181999875233
+        },
+        "process_wall_seconds": {
+          "dense": 21.343999999997322,
+          "compressed": 19.26600000000326,
+          "dense_saving_seconds": -2.077999999994063
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "3",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f01_local_p3_corners0_dense",
+      "compressed_id": "f01_local_p3_corners0_compressed",
+      "panel_count": 1926,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 20.43622669999604,
+          "compressed": 17.634015100004035,
+          "dense_saving_seconds": -2.802211599992006
+        },
+        "worker_wall_seconds": {
+          "dense": 20.489131199996336,
+          "compressed": 17.677452100004302,
+          "dense_saving_seconds": -2.811679099992034
+        },
+        "process_wall_seconds": {
+          "dense": 21.359000000011292,
+          "compressed": 19.264999999999418,
+          "dense_saving_seconds": -2.0940000000118744
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "global",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_global_p3_corners1_dense",
+      "compressed_id": "f01_global_p3_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 21.19884969999839,
+          "compressed": 18.234039499991923,
+          "dense_saving_seconds": -2.964810200006468
+        },
+        "worker_wall_seconds": {
+          "dense": 21.2542761000077,
+          "compressed": 18.288114200011478,
+          "dense_saving_seconds": -2.966161899996223
+        },
+        "process_wall_seconds": {
+          "dense": 22.35899999999674,
+          "compressed": 19.264999999999418,
+          "dense_saving_seconds": -3.0939999999973224
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "1",
+        "mesh_strategy": "local",
+        "basis_order": "3",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f01_local_p3_corners1_dense",
+      "compressed_id": "f01_local_p3_corners1_compressed",
+      "panel_count": 1962,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 21.417457800009288,
+          "compressed": 18.167828499994357,
+          "dense_saving_seconds": -3.2496293000149308
+        },
+        "worker_wall_seconds": {
+          "dense": 21.471509099996183,
+          "compressed": 18.2104193999985,
+          "dense_saving_seconds": -3.261089699997683
+        },
+        "process_wall_seconds": {
+          "dense": 22.327999999994063,
+          "compressed": 19.327999999994063,
+          "dense_saving_seconds": -3.0
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f05_global_p1_corners0_dense",
+      "compressed_id": "f05_global_p1_corners0_compressed",
+      "panel_count": 9408,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 52.167388600006234,
+          "compressed": 43.4278772000107,
+          "dense_saving_seconds": -8.739511399995536
+        },
+        "worker_wall_seconds": {
+          "dense": 52.214824000009685,
+          "compressed": 43.485708700012765,
+          "dense_saving_seconds": -8.72911529999692
+        },
+        "process_wall_seconds": {
+          "dense": 52.89099999998871,
+          "compressed": 44.65699999999197,
+          "dense_saving_seconds": -8.23399999999674
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "False"
+      },
+      "dense_id": "f05_local_p1_corners0_dense",
+      "compressed_id": "f05_local_p1_corners0_compressed",
+      "panel_count": 9408,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 52.446349100006046,
+          "compressed": 43.35683589999098,
+          "dense_saving_seconds": -9.089513200015062
+        },
+        "worker_wall_seconds": {
+          "dense": 52.49397909999243,
+          "compressed": 43.402907499999856,
+          "dense_saving_seconds": -9.091071599992574
+        },
+        "process_wall_seconds": {
+          "dense": 53.82799999999406,
+          "compressed": 44.70299999999406,
+          "dense_saving_seconds": -9.125
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "global",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f05_global_p1_corners1_dense",
+      "compressed_id": "f05_global_p1_corners1_compressed",
+      "panel_count": 9448,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 52.22782499999448,
+          "compressed": 40.94252419999975,
+          "dense_saving_seconds": -11.28530079999473
+        },
+        "worker_wall_seconds": {
+          "dense": 52.27607429999625,
+          "compressed": 40.98955100000603,
+          "dense_saving_seconds": -11.286523299990222
+        },
+        "process_wall_seconds": {
+          "dense": 53.85899999999674,
+          "compressed": 42.34399999999732,
+          "dense_saving_seconds": -11.514999999999418
+        }
+      }
+    },
+    {
+      "case": {
+        "frequency_ghz": "5",
+        "mesh_strategy": "local",
+        "basis_order": "1",
+        "mesh_grading": "True"
+      },
+      "dense_id": "f05_local_p1_corners1_dense",
+      "compressed_id": "f05_local_p1_corners1_compressed",
+      "panel_count": 9448,
+      "accuracy_status": {
+        "dense": "reference_unavailable",
+        "compressed": "reference_unavailable"
+      },
+      "defects": {
+        "dense": "",
+        "compressed": ""
+      },
+      "actual_factorization": {
+        "dense": "dense",
+        "compressed": "compressed"
+      },
+      "times": {
+        "solve_wall_seconds": {
+          "dense": 52.45776269999624,
+          "compressed": 40.98170570000366,
+          "dense_saving_seconds": -11.47605699999258
+        },
+        "worker_wall_seconds": {
+          "dense": 52.506299300002865,
+          "compressed": 41.029443100007484,
+          "dense_saving_seconds": -11.476856199995382
+        },
+        "process_wall_seconds": {
+          "dense": 53.84399999999732,
+          "compressed": 42.625,
+          "dense_saving_seconds": -11.218999999997322
+        }
+      }
+    }
+  ]
+}

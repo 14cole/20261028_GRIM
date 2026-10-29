@@ -4,6 +4,24 @@ from functools import lru_cache
 from types import SimpleNamespace
 
 
+def windows_available_commit_bytes():
+    """Additional process commit capacity; None means unavailable, zero is real."""
+    if os.name != 'nt':
+        return None
+    try:
+        import ctypes
+        class Status(ctypes.Structure):
+            _fields_ = [('length',ctypes.c_ulong),('load',ctypes.c_ulong)] + [
+                (name,ctypes.c_ulonglong) for name in ('total_phys','available_phys',
+                'total_commit','available_commit','total_virtual','available_virtual','reserved')]
+        status=Status();status.length=ctypes.sizeof(status)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+            return int(status.available_commit)
+    except (AttributeError,OSError):
+        pass
+    return None
+
+
 @lru_cache(maxsize=1)
 def _windows_api():
     if os.name != 'nt':

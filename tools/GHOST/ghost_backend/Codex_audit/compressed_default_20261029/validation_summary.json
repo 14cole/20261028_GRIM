@@ -1,0 +1,1017 @@
+{
+  "status": "passed",
+  "latest_unique_test_phase_results": 138,
+  "test_files": {
+    "tests/test_adaptive_polynomial.py": 14,
+    "tests/test_automatic_backend.py": 14,
+    "tests/test_automatic_hpc.py": 4,
+    "tests/test_bor_execution_config.py": 4,
+    "tests/test_bor_run_setup.py": 4,
+    "tests/test_compressed_defaults.py": 6,
+    "tests/test_efficient_defaults.py": 4,
+    "tests/test_execution_options.py": 12,
+    "tests/test_exploratory_runs.py": 19,
+    "tests/test_fresh_sweeps.py": 10,
+    "tests/test_hpc_solver_options.py": 8,
+    "tests/test_parallel_frequency_sweep.py": 11,
+    "tests/test_pipeline_gui.py": 5,
+    "tests/test_pipeline_performance.py": 14,
+    "tests/test_run_controls.py": 9
+  },
+  "results": [
+    {
+      "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_automatic_run_certifies_and_backends_preserve_pec_and_mixed_fields",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 1.9404286999997566,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_automatic_run_matches_each_scattering_capability",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00015020000137155876,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_drivers_resolve_to_the_automatic_profile",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.013303399995493237,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_preset_and_launch_overrides_do_not_change_serialized_v1_defaults",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0009990999969886616,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_blas_limit_is_applied_and_restored_after_failure",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.013375399998039939,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_certification_reports_phases_and_spools_in_selected_directory",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.14196519999677548,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_fresh_interpreter_uses_serialized_profile_with_qt_blocked",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.6188751000008779,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.004592000004777219,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_live_metrics_keep_reporting_during_a_blocking_stage",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.5012739000012516,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profile_budget_respects_available_memory_and_nested_options",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0004254000014043413,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 3.6790249999976368,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_run_request_is_automatic_and_ignores_environment",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.003982300004281569,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_saved_profile_overrides_launch_environment_and_restores_scope",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0007349000006797723,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_scheduler_allocation_limits_assembly_and_auto_is_deterministic",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0014785000021220185,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_threads_and_tiled_workers_receive_independent_profiles",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0016662999987602234,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_uncaptured_driver_keeps_environment_memory_override",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.000723700002708938,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_defaults_alias_and_adaptive_order",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00017669999942881986,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_local_monostatic-ghost_backend.runs.local_twod_driver]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.014036000000487547,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_script_controls_capture_and_old_script_defaults[run_hpc_monostatic-ghost_backend.hpc.twod_driver]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.02337769999576267,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_saved_worker_profile_and_pool_context_override_launch_defaults",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.006285000003117602,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_widget_manual_order_and_legacy_alias",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.002275400001963135,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_widget_preserves_saved_diagnostic_and_manual_opt_out",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0007251999995787628,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_gui_request_policy_visibility_busy_and_mode_isolation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.05559569999604719,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[local-dense-global-True]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 4.246180599999207,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_run_controls.py::test_script_overrides_reach_real_export[hpc-compressed-local-False]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.090021500000148,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[rectangle]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.17591179999726592,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[reentrant]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.18571589999919524,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[acute]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.17483869999705348,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[gap]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.28803460000199266,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[dielectric]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.2291661999988719,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[mixed]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.2536063999941689,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_default_auto_matches_reference_on_arbitrary_geometry[sheet]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.17549480000161566,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_rank_accounts_for_speed_and_memory",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00021220000053290278,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_planner_forecasts_actual_polygon_mesh_without_coefficients",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.04236719999607885,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_auto_numerical_retry_preserves_accuracy_and_explicit_compressed_does_not_retry",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.4087186000033398,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_cancellation_is_never_retried",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.08211060000030557,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_hpc_compressed_choice_and_retry_stay_inside_the_unit_memory_reservation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0002334000018890947,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_execution_reservation_survives_nested_profiles_and_restores",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00023630000214325264,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_backend.py::test_automatic_compressed_rejection_uses_an_admitted_dense_retry",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.18207580000307644,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_automatic_hpc.py::test_default_automatic_request_reaches_fresh_headless_worker[24-False]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.530987300000561,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_automatic_hpc.py::test_default_automatic_request_reaches_fresh_headless_worker[24-True]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.533936399995582,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_automatic_hpc.py::test_default_automatic_request_reaches_fresh_headless_worker[-1000-False]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.914649799997278,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_automatic_hpc.py::test_default_automatic_request_reaches_fresh_headless_worker[-2800-False]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 6.04417839999951,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_automatic_batch_choice_reaches_fresh_worker",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.142368599998008,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_automatic_manifest_overrides_legacy_environment_selection",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.057838099994115,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_freddy_and_assembly_apis_need_no_gui",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.2812460000059218,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_freddy_coating_2d_automatic_tight_worker",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.308052200001839,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_freddy_coating_bor_tight_worker",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 6.994328200002201,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_invalid_options_fail_before_bundle_creation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.005484300003445242,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_saved_automatic_profile_reaches_worker_despite_host_environment",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.085944099999324,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_hpc_solver_options.py::HeadlessSolverOptionsTests::test_thin_dielectric_2d_automatic_survey_worker",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 5.215114899998298,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_fixed_count_bypasses_floor_only_in_exploratory_scope",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0011387999984435737,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_density_and_order_preserve_primitives_without_adaptation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00044519999937620014,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_grading_is_explicit_and_defaults_stay_enabled",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0009200999993481673,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs0]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0001351000028080307,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs1]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00012789999891538173,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs2]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 9.470000077271834e-05,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs3]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 9.73999995039776e-05,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs4]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00014579999697161838,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs5]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00010859999747481197,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs6]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 9.449999924981967e-05,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs7]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00012590000551426783,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[geometry]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00012689999857684597,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[certification_base]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0006556000007549301,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[certification_fine]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0006456999981310219,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_high_order_presets_keep_their_order_without_forced_grading",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.002063699997961521,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[dense]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.07132650000130525,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[adaptive]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.09426769999845419,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[compressed]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.08244359999662265,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_exploratory_runs.py::test_driver_exports_each_frequency_even_when_quality_gate_fails",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.13955069999792613,
+      "report": "validation_results_1793285800995753600.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_certification_refines_without_backend_picker_or_history[None]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.5327872999987449,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_certification_refines_without_backend_picker_or_history[dense]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.4029311999984202,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_default_compressed_failure_does_not_silently_allocate_dense[MemoryError]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.10795420000067679,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_default_compressed_failure_does_not_silently_allocate_dense[BackendNumericalError]",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.10936740000033751,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_launch_dense_override_and_partial_profile_default",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.252197800000431,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_bor_repeated_runs_keep_duplicates_and_recompute",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.004166000006080139,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_cancel_then_restart_does_not_resume",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.009297500000684522,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_large_retained_results_fail_without_publishing_partial_result",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0005951999992248602,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_repeated_parallel_runs_recompute_and_preserve_requested_order",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0028626000057556666,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_repeated_sequential_runs_recompute_every_frequency",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0009934999980032444,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_report_uses_total_fresh_wall_time",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0004014999940409325,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_retained_results_reduce_later_solve_memory",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0005857999931322411,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::FreshSweepTests::test_worker_returns_fields_without_writing_checkpoint",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.006945200002519414,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::SpawnedFreshFieldsTests::test_spawned_bor_recomputes_with_matching_complex_fields",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 3.6931638000023668,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_fresh_sweeps.py::SpawnedFreshFieldsTests::test_spawned_fresh_fields_match_sequential_without_checkpoint_files",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 2.6527916000050027,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_auto_keeps_tiny_sweeps_in_process",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.040687599997909274,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_cancel_keeps_workers_completed_checkpoint_files",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.014358300002641045,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_cpu_and_memory_limits_decline_parallelism",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.021265000003040768,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_disk_failure_preserves_all_completed_samples",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0029074000049149618,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_oversized_frequency_does_not_disable_two_smaller_workers",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.033150600000226405,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_parallel_completion_merges_request_order_and_resumes",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.030533999997715,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_unsaved_limit_stops_new_admissions_and_returns_ordered_partial",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0024068999991868623,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::ParallelFrequencyTests::test_worker_preserves_full_mesh_scope_and_allocation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.014745199994649738,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::SpawnedNumericalContractTests::test_real_spawned_sweep_keeps_fixed_reference_mesh_and_fields",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 1.5323616000023321,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::CheckpointPreparationLifecycleTests::test_direct_api_shares_resources_and_closes_once_on_success_or_cancel",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.038062200001149904,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_parallel_frequency_sweep.py::CheckpointPreparationLifecycleTests::test_existing_outer_scope_keeps_resource_ownership",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.024701200003619306,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_gui.py::PipelineGUI::test_automatic_request_and_actual_preflight",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.06982060000154888,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_pipeline_gui.py::PipelineGUI::test_normals_use_collections_and_bound_labels",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.029664699999557342,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_pipeline_gui.py::PipelineGUI::test_real_desktop_sweep_recomputes_and_ignores_legacy_directory",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.782546900001762,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_pipeline_gui.py::PipelineGUI::test_validation_checks_crossings_and_cancels_without_widgets",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00030620000325143337,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_pipeline_gui.py::PipelineGUI::test_worker_validation_and_stale_result_discard",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.06329369999730261,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_adaptive_fields_match_dense_and_restore_settings",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.39570309999544406,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_backend_selection_forecasts_fine_mesh_and_preserves_explicit_choice",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.8515065999963554,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_cancelled_sweep_reuses_only_completed_matching_frequencies",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.16868480000266572,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_certified_sweep_loads_one_material_library",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.275514299995848,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_checkpoint_roundtrip_corruption_and_certification",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.02976239999406971,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_failed_local_certificate_retries_global_without_leaking_scope",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00029399999766610563,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_frequency_merge_reports_mixed_backend_and_mesh_decisions",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0001897000038297847,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_hpc_planner_defers_adaptive_choice_until_node_allocation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.015109100000699982,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_local_material_sizing_reduces_only_unprotected_remote_segments",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.01609230000030948,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_material_file_change_invalidates_checkpoint_and_captured_preparation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0739640000028885,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_preparation_is_shared_per_run_but_invalidated_between_runs",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0028205999988131225,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_sampled_tile_basis_verifies_full_matrix_and_skips_useless_q",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.007484000001568347,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_sparse_candidates_and_cooperative_cancellation",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.011668099999951664,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_spatial_candidates_match_brute_force_including_tolerance",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.014727800000400748,
+      "report": "validation_results_1793285918514678100.json"
+    },
+    {
+      "test": "tests/test_compressed_defaults.py::test_mixed_precision_preserves_supported_default_and_rejects_explicit_compressed",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.10413539999717614,
+      "report": "validation_results_1793286265801703500.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_admitted_whole_request_backend_preference_is_retained",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.18134079999435926,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_aggressive_convergence_rejection_retries_conservative_controller_once",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0013624999992316589,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_aggressive_policy_requires_resolved_wavelength_requests",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00033209999673999846,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_cancellation_and_unrelated_errors_do_not_trigger_conservative_retry",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0014824000027147122,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_candidate_reduces_unknowns_and_preserves_input",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.4205772999994224,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_default_and_invalid_degree",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00016599999798927456,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_failed_comparison_refines_and_then_uses_reference",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.7618078000014066,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_fixed_panel_override_is_preserved",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.12900850000005448,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_frequency_sweep_forecasts_each_side_of_size_crossover",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.37244749999808846,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_ineligible_conservative_retry_readmits_the_reference_pair",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.001476800003729295,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_known_numerical_failures_retry_only_the_aggressive_candidate",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.003686800002469681,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_mixed_high_frequency_keeps_previously_successful_conservative_path",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 10.780087599996477,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_planner_has_same_polynomial_mesh_as_execution",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.20371130000421545,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_adaptive_polynomial.py::AdaptivePolynomialTests::test_small_model_keeps_reference_method_automatically",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.36423569999897154,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_invalid_recipe_cannot_change_solver_or_numeric_contract",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00023150000197347254,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_preflight_is_geometry_only_and_cancellable",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.05095989999972517,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_radar_recipe_preserves_attitude_and_rejects_mismatch",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.0005531999995582737,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_recipe_driver_coordinate_mapping",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.01035260000207927,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_dispatch_rejects_wrong_assembly_or_precision",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.01502489999984391,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_local_and_hpc_staged_profile_loads_in_fresh_process",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.583552600000985,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_portable_bundle_accepts_profile_and_rejects_conflicts",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 0.00016000000323401764,
+      "report": "validation_results_1793286160115515800.json"
+    },
+    {
+      "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_public_compressed_preview_and_survey_keep_profile",
+      "phase": "call",
+      "outcome": "passed",
+      "seconds": 2.70963070000289,
+      "report": "validation_results_1793286160115515800.json"
+    }
+  ],
+  "runs": [
+    {
+      "report": "validation_results_1793285800995753600.json",
+      "records": 105,
+      "failed": 9
+    },
+    {
+      "report": "validation_results_1793285918514678100.json",
+      "records": 73,
+      "failed": 1
+    },
+    {
+      "report": "validation_results_1793286160115515800.json",
+      "records": 33,
+      "failed": 0
+    },
+    {
+      "report": "validation_results_1793286265801703500.json",
+      "records": 66,
+      "failed": 0
+    }
+  ],
+  "notes": [
+    "Latest observed result per test/phase; earlier stale-default assertion failures are preserved in the run reports and all were rerun successfully.",
+    "Final public-wrapper simplification checked with 36 passing tests plus 30 passing subtests.",
+    "Initial test command naming an absent BoR test file collected no tests; corrected filenames passed.",
+    "Tests use small representative geometries; no new full-size performance benchmarks were run for this default-policy change."
+  ]
+}

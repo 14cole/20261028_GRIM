@@ -95,7 +95,7 @@ def configure(settings, *, script):
 # Internal scheduling constants.
 # Fraction of detected RAM the scheduler may reserve for solves; a workstation
 # keeps room for its desktop and page cache.
-_MEMORY_HEADROOM = 0.75
+_MEMORY_HEADROOM = 0.90
 # Dense: whole-estimate margin. Compressed: sampled operator margin only.
 _MEMORY_SAFETY = 1.35
 _MAX_PANELS = 100_000
@@ -568,6 +568,8 @@ def main() -> 'None':
     budget_gb, memory_gb, available_gb = hpc_scheduler.local_memory_budget_gb(
         _MEMORY_HEADROOM
     )
+    if budget_gb <= 0:
+        raise MemoryError('No RAM is currently available for the local solve reservation.')
     worker_cap = max(1, cores - 1) if WORKERS is None else int(WORKERS)
     pool_size = max(1, min(cores, worker_cap, len(ordered)))
     from ghost_backend.runs.batch import apply_batch_choices

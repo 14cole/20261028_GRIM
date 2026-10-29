@@ -1,0 +1,440 @@
+[
+  {
+    "test": "tests/test_request_memory_budget.py::test_own_operator_does_not_shrink_storage_or_reject_fitting_inverse[CompressedFactor]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0027167000007466413
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_own_operator_does_not_shrink_storage_or_reject_fitting_inverse[HMatrixFactor]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.001058100002410356
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_external_pressure_still_refuses_and_reports_binding_constraint",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005823000028613023
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_unrelated_process_growth_never_receives_ownership_credit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004465000019990839
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_paged_or_unmaterialized_payload_cannot_get_full_resident_credit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00883849999809172
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_explicit_and_parent_caps_survive_resident_credit_and_nested_scopes",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005024999991292134
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_zero_unknown_and_small_allowance_are_distinct[None-12.0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00044409999827621505
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_zero_unknown_and_small_allowance_are_distinct[0.0-0.0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004441999990376644
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_zero_unknown_and_small_allowance_are_distinct[0.25-0.225]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004365999993751757
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_zero_outside_request_cannot_be_overridden_by_explicit_cap",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001852000059443526
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_commit_pressure_refuses_despite_free_physical_ram",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00046180000208551064
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_phase_guard_rechecks_pressure_after_main_admission",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004341999956523068
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_simultaneous_request_reservations_do_not_spend_the_same_free_ram",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008044999995036051
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_ownership_and_headroom_at_near_limit_reservations[0.7]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00045729999692412093
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_ownership_and_headroom_at_near_limit_reservations[0.8]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004543000031844713
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_ownership_and_headroom_at_near_limit_reservations[0.85]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004800000024260953
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_ownership_and_headroom_at_near_limit_reservations[0.9]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00046740000107092783
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_local_budget_uses_available_ninety_percent_without_a_one_gib_floor",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.013310000002093147
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_worker_credit_uses_unique_residency_not_reserved_or_shared_pages",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003578000032575801
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_direct_frequency_sweep_resets_batch_only_between_independent_systems",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00021009999909438193
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_spooled_partner_ledger_excludes_disk_and_reload_rechecks_pressure",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011415400003897958
+  },
+  {
+    "test": "tests/test_request_memory_budget.py::test_memory_evidence_is_bounded_for_long_sweeps",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0016362000023946166
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_default_recovers_before_assembly_without_picker_or_dense_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.24588139999832492
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_refined_mesh_rechecks_memory_and_records_effective_batches",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.3993703000014648
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_oversized_operator_stops_at_one_and_restores_request_state",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008590099998400547
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_cancellation_during_recovery_stops_before_assembly",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008627199997135904
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00032159999682335183
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002817999993567355
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fixed_worker_plan_carries_smaller_batch_and_defers_wrong_backend_fit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00031039999885251746
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[64]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.2941122999982326
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.299823600005766
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_blas_limit_is_applied_and_restored_after_failure",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.013972799999464769
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_certification_reports_phases_and_spools_in_selected_directory",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.15535059999820078
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_fresh_interpreter_uses_serialized_profile_with_qt_blocked",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.6195275999998557
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_invalid_profiles_reject",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.005045100006100256
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_live_metrics_keep_reporting_during_a_blocking_stage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.544039000000339
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profile_budget_respects_available_memory_and_nested_options",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005224999986239709
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_profiles_preserve_material_fields_and_report_execution",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 3.6837808000054793
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_run_request_is_automatic_and_ignores_environment",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_run_request_is_automatic_and_ignores_environment",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_run_request_is_automatic_and_ignores_environment",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_run_request_is_automatic_and_ignores_environment",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0035418999977991916
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_saved_profile_overrides_launch_environment_and_restores_scope",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007499000057578087
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_scheduler_allocation_limits_assembly_and_auto_is_deterministic",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0015013000011094846
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_threads_and_tiled_workers_receive_independent_profiles",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0016589000006206334
+  },
+  {
+    "test": "tests/test_execution_options.py::ExecutionOptionsTests::test_uncaptured_driver_keeps_environment_memory_override",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006682000021100976
+  }
+]

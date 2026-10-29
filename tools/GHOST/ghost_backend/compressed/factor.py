@@ -37,11 +37,15 @@ class CompressedFactor:
         self.matrix_inf=max(float(np.max(operator.row_norm-operator.row_error)),0.)
         self.relative_residual=np.empty(0)
         self.factor=None;self.reported=0
+        from ghost_backend.execution.memory_budget import register
+        register(self,'factor')
         allowance = storage_budget() if storage_budget_bytes is None else int(storage_budget_bytes)
         self.budget=allowance-operator.bytes-getattr(operator,'reserved_partner_bytes',0)
         from ghost_backend.twod.assembly.polynomial_pair import retained_bytes as polynomial_retained_bytes
         self.budget-=polynomial_retained_bytes('compressed')
-        if self.budget<=0:raise MemoryError('No compressed inverse storage remains.')
+        if self.budget<=0:raise MemoryError('No compressed inverse storage remains: '
+            '{} bytes allowance, {} operator bytes, {} partner bytes.'.format(
+                allowance,operator.bytes,getattr(operator,'reserved_partner_bytes',0)))
         self.event=dict(unknowns=operator.n,factorizations=0,rhs_batches=0,max_rhs_columns=0,
             max_backward_error=0.,max_relative_residual=0.,compressed=operator.evidence,
             preconditioners=[],gmres_columns=0,max_refinements=0,refinement_steps=0)
@@ -55,6 +59,8 @@ class CompressedFactor:
             finally:self._solve_phase = 'field_solve'
 
     def _fresh_build(self):
+        from ghost_backend.execution.memory_budget import admit_phase
+        admit_phase('factorization')
         from ghost_backend.compressed.preconditioner_hints import try_build
         if try_build(self):return
         rejected=False
@@ -256,6 +262,8 @@ class CompressedFactor:
             x[:,active]+=self.factor.apply(work,solve=True,trans=trans)
 
     def inverse(self,rhs,trans=0,return_residual=False,limit=SOLVE_BACKWARD_ERROR_LIMIT):
+        from ghost_backend.execution.memory_budget import admit_phase
+        admit_phase('solve')
         if trans not in (0,1,2):raise ValueError('Invalid transpose mode.')
         b=np.asarray(rhs,complex);vector=b.ndim==1
         if vector:b=b[:,None]

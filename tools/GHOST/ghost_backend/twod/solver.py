@@ -1457,7 +1457,7 @@ def _cgroup_available_bytes() -> 'Optional[int]':
     return None
 
 
-def _detect_available_gb() -> 'float':
+def _detect_available_gb() -> 'Optional[float]':
     """Return the tightest available-memory bound in GiB (2**30 bytes).
 
     Use psutil or native Windows/POSIX probes, then apply scheduler and cgroup
@@ -1483,7 +1483,7 @@ def _detect_available_gb() -> 'float':
     if cgroup_available is not None:
         bounds.append(max(0, cgroup_available))
     if not bounds:
-        return 0.0
+        return None
     return float(min(bounds)) / _BYTES_PER_GIB
 
 
@@ -1493,6 +1493,12 @@ _MEMORY_LIMIT_FRACTION = 0.9
 def _solve_memory_limit_gb(resident_gb=0.0) -> 'float':
     """Per-solve admission limit in GiB (see ``_detect_available_gb``)."""
     from ghost_backend.execution.options import allocated_memory_budget
+    if not math.isfinite(resident_gb) or resident_gb < 0:
+        raise ValueError('Resident matrix credit must be finite and nonnegative.')
+    from ghost_backend.execution.memory_budget import current
+    ledger = current()
+    if ledger is not None:
+        return ledger.limit(resident_gb)
     limit=_configured_solve_memory_limit_gb(resident_gb)
     allocation=allocated_memory_budget()
     return min(limit,allocation) if allocation is not None else limit
@@ -1508,10 +1514,10 @@ def _configured_solve_memory_limit_gb(resident_gb=0.0) -> 'float':
         except ValueError:
             value = 0.0
         if math.isfinite(value) and value > 0.0:
-            available = _detect_available_gb() if current_options() is not None else 0.0
-            return min(value, _MEMORY_LIMIT_FRACTION * available + resident_gb) if available > 0 else value
+            available = _detect_available_gb()
+            return min(value, _MEMORY_LIMIT_FRACTION * available + resident_gb) if available is not None else value
     detected = _detect_available_gb()
-    return _MEMORY_LIMIT_FRACTION * detected + resident_gb if detected > 0.0 else 0.0
+    return _MEMORY_LIMIT_FRACTION * detected + resident_gb if detected is not None else 0.0
 
 
 def _memory_gate_message(
@@ -1530,11 +1536,16 @@ def _memory_gate_message(
     """
 
     available_gb = _detect_available_gb()
-    if available_gb > 0.0:
+    if available_gb is not None:
         availability = f"{available_gb:.2f} {unit} is currently available"
     else:
         availability = "available memory could not be detected"
     detail_text = f" {details.strip()}" if details.strip() else ""
+    from ghost_backend.execution.memory_budget import current
+    ledger = current()
+    if ledger is not None and ledger.last:
+        detail_text += ' Binding constraint: {}. Owned numeric payload: {:.2f} GiB.'.format(
+            ledger.last['binding_constraint'], ledger.last['owned_numeric_gib'])
     return (
         f"{context} requires an estimated {required_gb:.2f} {unit}, but "
         f"{availability}; the safe allocation limit is {limit_gb:.2f} {unit}."
@@ -1587,6 +1598,8 @@ def _estimate_memory_gb(
         if requested == 'gpu':raise ValueError('Compressed factorization requires CPU execution.')
         from ghost_backend.compressed.memory import forecast
         plan = forecast(n, d, count, batch, get_assembly_threads(), storage_budget(), resources)
+        from ghost_backend.execution.memory_budget import record_plan
+        record_plan(plan)
         if dense_resources is not None:
             dense_resources['memory_estimate'] = plan
         state = current_state()
@@ -2456,19 +2469,31 @@ def solve_monostatic_rcs_2d_single_polarization(
             assembly=current_session()
             if assembly is not None:
                 assembly.compressed_partner=(mesh,_build_linear_coupled_infos(mesh,materials,freq_ghz,'TM',k0))
-        est_gb = _estimate_memory_gb(
-            resources["nodes"],
-            use_cfie=False,
-            n_regions=max(1, resources["n_regions"]),
-            system_dofs=resources["system_dofs"],
-            operator_matrices=resources["operator_matrices"],
-            dense_resources=resources,
-            n_rhs=max(1, len(elevations)),
-            solver_method=solver_method, formulation=resources["formulation"],
-        )
+        def estimate_system_memory():
+            return _estimate_memory_gb(
+                resources["nodes"], use_cfie=False,
+                n_regions=max(1, resources["n_regions"]),
+                system_dofs=resources["system_dofs"],
+                operator_matrices=resources["operator_matrices"], dense_resources=resources,
+                n_rhs=max(1, len(elevations)), solver_method=solver_method,
+                formulation=resources["formulation"])
+        est_gb = estimate_system_memory()
         from ghost_backend.twod.assembly.session import reusable_dense_bytes, plan_paired_assembly
         resident_bytes=reusable_dense_bytes(mesh,coupled_infos,pol,resources['formulation'],resources['system_dofs'])
-        memory_limit_gb = _solve_memory_limit_gb(resident_bytes/1024**3) if resident_bytes else _solve_memory_limit_gb()
+        def available_system_memory():
+            return _solve_memory_limit_gb(resident_bytes/1024**3) if resident_bytes else _solve_memory_limit_gb()
+        memory_limit_gb = available_system_memory()
+        from ghost_backend.execution.angle_batch import recover as recover_angle_batch
+        from ghost_backend.execution.cpu import configured_batch_size
+        initial_batch = configured_batch_size()
+        est_gb, memory_limit_gb = recover_angle_batch(est_gb, memory_limit_gb,
+            estimate_system_memory, available_system_memory, check_abort, max(1, len(elevations)),
+            frequency_ghz=float(freq_ghz), polarization=pol, system_dofs=resources['system_dofs'],
+            polynomial_degree=resources.get('basis_width', 2)-1)
+        if est_gb <= memory_limit_gb and configured_batch_size() < initial_batch and progress_callback is not None:
+            progress_callback(done_steps, total_steps,
+                'Memory recovery: solving up to {} angles per batch; all requested angles are retained.'.format(
+                    configured_batch_size()))
         if resident_bytes:
             from ghost_backend.execution.cpu import current_state
             state=current_state()
@@ -2489,7 +2514,8 @@ def solve_monostatic_rcs_2d_single_polarization(
                     f"The {resources['formulation']} 2-D solve",
                     (
                         f"Planned system: {resources['system_dofs']} DOFs "
-                        f"across {resources['n_regions']} region(s)."
+                        f"across {resources['n_regions']} region(s). "
+                        f"Current angle batch: {configured_batch_size()}."
                     ),
                     (
                         "Reduce panel count or frequency, set an appropriate "
@@ -3230,7 +3256,11 @@ def _frequency_local_co_solve(solve, kwargs):
                 if progress is not None:
                     progress(index * 1000 + int(1000 * done / max(total, 1)),
                              1000 * len(frequencies), message)
-            yield solve(frequencies_ghz=[frequency], progress_callback=report, **kwargs)
+            # Independent frequency systems may retry the requested batch;
+            # refinement and both polarizations still share reductions within it.
+            from ghost_backend.execution.angle_batch import scope as batch_scope
+            with batch_scope():
+                yield solve(frequencies_ghz=[frequency], progress_callback=report, **kwargs)
     return _merge_frequency_results(completed(), frequencies)
 
 

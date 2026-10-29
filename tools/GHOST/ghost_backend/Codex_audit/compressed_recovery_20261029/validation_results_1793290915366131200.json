@@ -1,0 +1,266 @@
+[
+  {
+    "test": "tests/test_compressed_recovery.py::test_default_recovers_before_assembly_without_picker_or_dense_retry",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.26506659999722615
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_refined_mesh_rechecks_memory_and_records_effective_batches",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.4157316000055289
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_oversized_operator_stops_at_one_and_restores_request_state",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00799649999680696
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_cancellation_during_recovery_stops_before_assembly",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.007828900001186412
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003158000035909936
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_recovery_releases_only_idle_workers_and_reprices_live_budget[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002845999988494441
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fixed_worker_plan_carries_smaller_batch_and_defers_wrong_backend_fit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003699000008055009
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[64]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.2631442999991123
+  },
+  {
+    "test": "tests/test_compressed_recovery.py::test_fresh_worker_respects_forecast_batch_and_its_own_reservation[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.2635718000019551
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_diagnostic_derivative_clears_nested_certification_and_preserves_measurements",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001883000004454516
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_diagnostic_scope_prevents_history_before_export_and_restores",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002925999942817725
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_audit_worker_exports_diagnostic_flags_before_writing[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.012364700000034645
+  },
+  {
+    "test": "tests/test_diagnostic_exports.py::test_audit_worker_exports_diagnostic_flags_before_writing[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.007591499997943174
+  },
+  {
+    "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_automatic_run_certifies_and_backends_preserve_pec_and_mixed_fields",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 1.9449158999996143
+  },
+  {
+    "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_automatic_run_matches_each_scattering_capability",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001536999989184551
+  },
+  {
+    "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_drivers_resolve_to_the_automatic_profile",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.01359750000119675
+  },
+  {
+    "test": "tests/test_efficient_defaults.py::EfficientDefaultsTests::test_preset_and_launch_overrides_do_not_change_serialized_v1_defaults",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0010718999983510002
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_fixed_count_bypasses_floor_only_in_exploratory_scope",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009615000017220154
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_density_and_order_preserve_primitives_without_adaptation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000382099999114871
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_grading_is_explicit_and_defaults_stay_enabled",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000796799999079667
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00012289999722270295
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00011790000280598179
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs2]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 9.270000009564683e-05
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs3]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 8.309999975608662e-05
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs4]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000145500001963228
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs5]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 9.619999764254317e-05
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs6]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 8.259999594883993e-05
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_invalid_controls_are_not_silently_ignored[kwargs7]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00011109999468317255
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[geometry]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001081000009435229
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[certification_base]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006228999991435558
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_legacy_modes_still_select_one_candidate[certification_fine]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005156999977771193
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_high_order_presets_keep_their_order_without_forced_grading",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.002040100000158418
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[dense]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.05852790000062669
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[adaptive]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.15870749999885447
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_real_single_mesh_solve_keeps_deliberately_coarse_count[compressed]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.06758489999629091
+  },
+  {
+    "test": "tests/test_exploratory_runs.py::test_driver_exports_each_frequency_even_when_quality_gate_fails",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.11444800000026589
+  },
+  {
+    "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_dispatch_rejects_wrong_assembly_or_precision",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.03454700000293087
+  },
+  {
+    "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_local_and_hpc_staged_profile_loads_in_fresh_process",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.5650299999979325
+  },
+  {
+    "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_portable_bundle_accepts_profile_and_rejects_conflicts",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00015840000560274348
+  },
+  {
+    "test": "tests/test_bor_execution_config.py::BorExecutionConfigTests::test_public_compressed_preview_and_survey_keep_profile",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 2.596633199995267
+  },
+  {
+    "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_invalid_recipe_cannot_change_solver_or_numeric_contract",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002342000007047318
+  },
+  {
+    "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_preflight_is_geometry_only_and_cancellable",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010279100002662744
+  },
+  {
+    "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_radar_recipe_preserves_attitude_and_rejects_mismatch",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005233999982010573
+  },
+  {
+    "test": "tests/test_bor_run_setup.py::BorRunSetupTests::test_recipe_driver_coordinate_mapping",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010338899999624118
+  }
+]

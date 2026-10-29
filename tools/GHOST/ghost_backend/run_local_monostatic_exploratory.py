@@ -43,7 +43,7 @@ MAX_PANELS = 100_000  # resource cap, never a convergence target
 
 
 
-FACTORIZATION = "adaptive"  # adaptive, dense, hierarchical, auto, compressed
+FACTORIZATION = "compressed"  # compressed (default), dense (manual override)
 ANGLE_BATCH_SIZE = 256  # 1..256; larger batches reuse the factor across more angles
 TEMPORARY_DIRECTORY = ""  # empty=system temp; otherwise an existing absolute path
 

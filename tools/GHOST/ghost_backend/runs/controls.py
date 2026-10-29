@@ -3,7 +3,7 @@ from ghost_backend.execution.options import automatic_options, validate_options
 
 
 DRIVER_CONTROL_DEFAULTS = {
-    'FACTORIZATION': 'adaptive',
+    'FACTORIZATION': 'compressed',
     'MESH_STRATEGY': 'adaptive',
     'BASIS_ORDER': 1,
     'MESH_GRADING': True,
@@ -13,12 +13,14 @@ CONTROL_FIELDS = {
     'BASIS_ORDER': 'basis_order', 'MESH_GRADING': 'mesh_grading',
 }
 FACTORIZATION_LABELS = {
-    'adaptive': 'Automatic',
-    'dense': 'Dense',
-    'compressed': 'Compressed (lower memory)',
+    'compressed': 'Compressed (default, lower memory)',
+    'dense': 'Dense (manual override)',
 }
 # Accepted by APIs, drivers, and saved profiles, but not offered for new GUI runs.
-DIAGNOSTIC_FACTORIZATION_LABELS = {'hierarchical': 'Hierarchical (diagnostic)'}
+DIAGNOSTIC_FACTORIZATION_LABELS = {
+    'hierarchical': 'Hierarchical (diagnostic)',
+    'adaptive': 'Automatic backend (legacy)',
+}
 
 
 def run_control_options(controls=None, ram_budget_gib=None):

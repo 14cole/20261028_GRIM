@@ -1,0 +1,167 @@
+{
+  "scope": "Controlled forecast injection, 1 GiB admission budget, real small-geometry numerical solves. Not a capacity benchmark.",
+  "reports": {
+    "default_compressed": {
+      "status": "memory_rejected",
+      "message": "The multi_region 2-D solve requires an estimated 2.66 GiB, but 16.43 GiB is currently available; the safe allocation limit is 1.00 GiB. Planned system: 40 DOFs across 1 region(s). Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "seconds": 0.0768506000022171,
+      "idle_release_calls": 0,
+      "estimates": [
+        {
+          "mode": "compressed",
+          "batch": 256,
+          "n_rhs": 361,
+          "estimated_gib": 2.66
+        }
+      ]
+    },
+    "manual_compressed_batch64": {
+      "status": "solved",
+      "factorization": "compressed",
+      "batch": 64,
+      "sample_counts": {
+        "VV": 361,
+        "HH": 361
+      },
+      "adjustment": null,
+      "seconds": 0.1070562999957474,
+      "idle_release_calls": 0,
+      "estimates": [
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        },
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        }
+      ]
+    },
+    "legacy_automatic": {
+      "status": "solved",
+      "factorization": "compressed",
+      "batch": 64,
+      "sample_counts": {
+        "VV": 361,
+        "HH": 361
+      },
+      "adjustment": {
+        "requested_angle_batch_size": 256,
+        "angle_batch_size": 64,
+        "released_worker_allowance_bytes": 0,
+        "rejected_batch_sizes": [
+          128
+        ],
+        "reason": "Retain one factor and solve all angles in smaller admitted batches.",
+        "requested_angle_batches": 2,
+        "effective_angle_batches": 6,
+        "batch_count_scope": "per system and polarization",
+        "predicted_extra_seconds": null,
+        "notice": "Memory recovery: using 64 angles per batch (6 batches instead of 2 per system). All angles are retained and the factor is reused; extra passes may take longer."
+      },
+      "seconds": 0.19206909999775235,
+      "idle_release_calls": 1,
+      "estimates": [
+        {
+          "mode": "dense",
+          "batch": 256,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 256,
+          "n_rhs": 361,
+          "estimated_gib": 2.66
+        },
+        {
+          "mode": "dense",
+          "batch": 256,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 256,
+          "n_rhs": 361,
+          "estimated_gib": 2.66
+        },
+        {
+          "mode": "dense",
+          "batch": 128,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 128,
+          "n_rhs": 361,
+          "estimated_gib": 1.3800000000000001
+        },
+        {
+          "mode": "dense",
+          "batch": 128,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 128,
+          "n_rhs": 361,
+          "estimated_gib": 1.3800000000000001
+        },
+        {
+          "mode": "dense",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        },
+        {
+          "mode": "dense",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 4.0
+        },
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        },
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        },
+        {
+          "mode": "compressed",
+          "batch": 64,
+          "n_rhs": 361,
+          "estimated_gib": 0.74
+        }
+      ]
+    }
+  },
+  "maximum_absolute_field_difference": {
+    "VV": 0.0,
+    "HH": 0.0
+  },
+  "diagnostic_artifact": {
+    "result_status": "diagnostic",
+    "result_uncertified": true,
+    "metadata_quality_gate_passed": true,
+    "metadata_mesh_certified": true
+  },
+  "assertions_passed": true
+}

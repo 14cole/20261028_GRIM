@@ -1,6 +1,7 @@
 """Explicit compressed CPU path: bounded geometry assembly and strict rejection."""
 from ghost_backend.execution.options import temporary_directory
 from ghost_backend.execution.options import environment_value
+from ghost_backend.execution.memory_budget import payload_bytes
 import os,tempfile,time
 import numpy as np
 from ghost_backend.execution.metrics import timed_stage
@@ -29,7 +30,12 @@ def automatic_storage_bytes():
     needs the sizing rule without the GHOST_COMPRESSED_STORAGE_MIB lookup.
     """
     from ghost_backend.twod.solver import _solve_memory_limit_gb
-    return max(AUTOMATIC_STORAGE_FLOOR,int(AUTOMATIC_STORAGE_FRACTION*_solve_memory_limit_gb()*1024**3))
+    from ghost_backend.execution.memory_budget import current
+    ledger = current()
+    limit = ledger.stable() if ledger is not None else _solve_memory_limit_gb()
+    # A small reservation must never be raised by the payload floor.
+    return min(int(limit*1024**3),max(AUTOMATIC_STORAGE_FLOOR,
+        int(AUTOMATIC_STORAGE_FRACTION*limit*1024**3)))
 
 
 def storage_budget():
@@ -209,7 +215,7 @@ def native(mesh,infos,pol,k0,kind,obs_order=8,src_order=8,layer=None):
         if other.n==oracle.n:
             pair,reason=hierarchical(PairedNativeOracle(oracle,other),coordinates(mesh,oracle.n))
             if pair is not None:
-                pair[0].reserved_partner_bytes=pair[1].bytes
+                pair[0].reserved_partner_bytes=payload_bytes(pair[1])
                 key=(system_key(mesh,partner[1] if kind!='thin' else [],'compressed_'+kind,obs_order,src_order),layer)
                 session.save(key,'TE',pair[1]);session.compressed_partner=None
                 return pair[0],oracle
@@ -223,7 +229,7 @@ def native(mesh,infos,pol,k0,kind,obs_order=8,src_order=8,layer=None):
                 tile=min(512,getattr(oracle,'maximum_tile',512)),budget=storage_budget(),
                 checkpoint=checkpoint,spool_directory=temporary_directory())
             record_paired_admission(pair,admission)
-            pair[0].reserved_partner_bytes=pair[1].bytes
+            pair[0].reserved_partner_bytes=payload_bytes(pair[1])
             key=(system_key(mesh,partner[1] if kind!='thin' else [],'compressed_'+kind,obs_order,src_order),layer)
             session.save(key,'TE',pair[1]);session.compressed_partner=None
             oracle.cached=oracle.cached_columns=other.cached=other.cached_columns=None
@@ -387,7 +393,7 @@ def _regional(mesh,infos,pol,obs_order=8,src_order=8):
             xy=mr.dof_coordinates(mesh,oracle.oracles[0].layout)
             pair,reason=hierarchical(oracle,xy)
             if pair is not None:
-                pair[0].reserved_partner_bytes=pair[1].bytes
+                pair[0].reserved_partner_bytes=payload_bytes(pair[1])
                 key=system_key(mesh,partner[1],'compressed_region',obs_order,src_order)
                 session.save(key,'TE',(pair[1],oracle.oracles[1].layout))
                 session.compressed_partner=None
@@ -405,7 +411,7 @@ def _regional(mesh,infos,pol,obs_order=8,src_order=8):
                                           if getattr(o,'hmatrix_rejected',None)),None))
         pair=build_pair(oracle,xy,tile=512,budget=storage_budget(),checkpoint=checkpoint,spool_directory=temporary_directory())
         record_paired_admission(pair,admission)
-        pair[0].reserved_partner_bytes=pair[1].bytes
+        pair[0].reserved_partner_bytes=payload_bytes(pair[1])
         key=system_key(mesh,partner[1],'compressed_region',obs_order,src_order)
         session.save(key,'TE',(pair[1],oracle.oracles[1].layout))
         session.compressed_partner=None

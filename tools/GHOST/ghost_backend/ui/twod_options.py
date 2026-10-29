@@ -17,10 +17,10 @@ class TwoDOptionsWidget(QWidget):
         for key, label in FACTORIZATION_LABELS.items():
             self.factorization.addItem(label, key)
         self.factorization.setToolTip(
-            'Automatic chooses dense or compressed for the problem and memory budget. '
-            'Dense can use hierarchical factorization internally, with LU fallback. '
-            'Compressed uses less memory for larger problems.')
-        self.factorization_override = QCheckBox('Choose a solver manually (advanced)')
+            'Compressed is the default and uses less memory for larger problems. '
+            'Choose Dense explicitly when needed; it can use hierarchical '
+            'factorization internally, with LU fallback.')
+        self.factorization_override = QCheckBox('Override compressed solver (advanced)')
         form.addRow(self.factorization_override)
         form.addRow('Solver', self.factorization)
         self.factorization.setEnabled(False)
@@ -51,7 +51,7 @@ class TwoDOptionsWidget(QWidget):
     def _sync_factorization(self, manual):
         self.factorization.setEnabled(manual)
         if not manual:
-            self.factorization.setCurrentIndex(self.factorization.findData('adaptive'))
+            self.factorization.setCurrentIndex(self.factorization.findData('compressed'))
         self.changed.emit()
 
     def _sync(self, *_):
@@ -85,9 +85,9 @@ class TwoDOptionsWidget(QWidget):
         self.factorization.setCurrentIndex(self.factorization.findData(value['factorization']))
         self.factorization.blockSignals(blocked)
         blocked = self.factorization_override.blockSignals(True)
-        self.factorization_override.setChecked(mode != 'adaptive')
+        self.factorization_override.setChecked(mode != 'compressed')
         self.factorization_override.blockSignals(blocked)
-        self.factorization.setEnabled(mode != 'adaptive')
+        self.factorization.setEnabled(mode != 'compressed')
         self.mesh.setCurrentIndex(self.mesh.findData(value['mesh_strategy']))
         self._manual_order = value['basis_order']
         self.order.setCurrentIndex(self.order.findData(value['basis_order']))
