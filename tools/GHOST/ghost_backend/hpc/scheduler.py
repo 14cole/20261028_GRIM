@@ -755,12 +755,13 @@ def _mesh_peak_estimates(solver, base, fine, n_angles, method, safety, floor):
         estimate = solver._estimate_memory_gb(resources['nodes'], False,
             n_regions=max(1, resources['n_regions']), system_dofs=resources['system_dofs'],
             operator_matrices=resources['operator_matrices'], dense_resources=resources,
-            n_rhs=max(1, int(n_angles)), solver_method=method, formulation=resources['formulation'])
+            n_rhs=max(1, int(n_angles)), solver_method=method, formulation=resources['formulation'],
+            submission_planning=True)
         memory = None
         if 'memory_estimate' in resources:
             memory = planned_forecast(resources['nodes'], resources['system_dofs'], max(1, int(n_angles)),
                 min(configured_batch_size(), max(1, int(n_angles))), get_assembly_threads(),
-                resources, float(safety), float(floor))
+                resources, float(safety), float(floor), submission_planning=True)
         results.append((memory['peak_bytes']/1024**3 if memory else floor+safety*estimate, memory))
     peak, memory = max(results, key=lambda value: value[0])
     if memory is not None:
@@ -983,7 +984,7 @@ def unit_peak_gb(
 
         dense_gb = float(
             rcs_solver._estimate_memory_gb(
-                fine_nodes, use_cfie=False, n_regions=max(1, int(n_regions))
+                fine_nodes, use_cfie=False, n_regions=max(1, int(n_regions)), submission_planning=True
             )
         )
     except Exception:
@@ -993,7 +994,8 @@ def unit_peak_gb(
         from ghost_backend.execution.cpu import configured_batch_size
         from ghost_backend.twod.operators import get_assembly_threads
         return planned_forecast(fine_nodes,2*fine_nodes,1000,configured_batch_size(),
-            get_assembly_threads(),{},safety=float(safety),floor_gb=float(floor_gb))['peak_bytes']/1024**3
+            get_assembly_threads(),{},safety=float(safety),floor_gb=float(floor_gb),
+            submission_planning=True)['peak_bytes']/1024**3
     return float(floor_gb) + float(safety) * dense_gb
 
 

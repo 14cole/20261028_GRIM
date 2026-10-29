@@ -4,6 +4,44 @@ from functools import lru_cache
 from types import SimpleNamespace
 
 
+@lru_cache(maxsize=1)
+def _windows_performance_api():
+    if os.name != 'nt':
+        return None
+    try:
+        import ctypes
+        from ctypes import wintypes
+        class Performance(ctypes.Structure):
+            _fields_ = [('cb', wintypes.DWORD)] + [(name, ctypes.c_size_t) for name in (
+                'CommitTotal', 'CommitLimit', 'CommitPeak', 'PhysicalTotal', 'PhysicalAvailable',
+                'SystemCache', 'KernelTotal', 'KernelPaged', 'KernelNonpaged', 'PageSize')] + [
+                (name, wintypes.DWORD) for name in ('HandleCount', 'ProcessCount', 'ThreadCount')]
+        api = ctypes.WinDLL('psapi', use_last_error=True)
+        api.GetPerformanceInfo.argtypes = [ctypes.POINTER(Performance), wintypes.DWORD]
+        api.GetPerformanceInfo.restype = wintypes.BOOL
+        return ctypes, Performance, api
+    except (AttributeError, OSError):
+        return None
+
+
+def windows_system_commit():
+    """Observed system commitment and current backing limit, in bytes.
+
+    CommitLimit is a soft OS limit: paging-file growth can raise it. This
+    observation never predicts growth or changes an operating-system setting.
+    """
+    api = _windows_performance_api()
+    if api is None:
+        return None
+    ctypes, Performance, library = api
+    data = Performance(); data.cb = ctypes.sizeof(data)
+    if not library.GetPerformanceInfo(ctypes.byref(data), data.cb) or data.PageSize <= 0:
+        return None
+    return dict(limit_bytes=int(data.CommitLimit)*int(data.PageSize),
+        committed_bytes=int(data.CommitTotal)*int(data.PageSize),
+        peak_committed_bytes=int(data.CommitPeak)*int(data.PageSize))
+
+
 def windows_available_commit_bytes():
     """Additional process commit capacity; None means unavailable, zero is real."""
     if os.name != 'nt':

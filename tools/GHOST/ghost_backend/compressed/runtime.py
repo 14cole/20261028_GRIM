@@ -48,17 +48,50 @@ def planned_storage_bytes(plan, reservation):
         int(AUTOMATIC_STORAGE_FRACTION*reservation)))
 
 
-def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb=0.):
+def release_obsolete_tile_workers(resources, dofs):
+    """Release an idle tile team when the admitted mesh uses hierarchical assembly.
+
+    Hierarchical assembly uses threads in this process, so retaining the old
+    spawned tile team only consumes RAM/commit. A later tile fallback or mesh
+    recreates its team through the existing admission and worker lifecycle.
+    Call only for an actual mesh admission, never speculative planning.
+    """
+    from ghost_backend.compressed import hmatrix
+    if not resources.get('hmatrix_storage') or not hmatrix.selected(dofs) or hmatrix.configuration_unsupported():
+        return 0
+    from ghost_backend.compressed.worker_pool import release_idle
+    released = release_idle()
+    if released:
+        from ghost_backend.execution.cpu import current_state
+        state = current_state()
+        if state is not None:
+            state.memory_estimates.append(dict(method='released_idle_tile_workers',
+                released_allowance_bytes=released, system_dofs=int(dofs),
+                reason='admitted hierarchical mesh no longer uses the tile process team'))
+    return released
+
+
+def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb=0.,
+                     submission_planning=False):
     """Price a new mesh without inheriting a previous mesh's payload allowance."""
     from ghost_backend.compressed.memory import forecast, GIB
     from ghost_backend.compressed import hmatrix
     from ghost_backend.execution.memory_budget import current
     from ghost_backend.twod.solver import _solve_memory_limit_gb
-    ledger = current()
-    reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
     setting = environment_value('GHOST_COMPRESSED_STORAGE_MIB','2048').strip()
     hierarchical_plan = resources.get('hmatrix_storage') is not None and hmatrix.selected(d)
     auto = setting == '0' or hierarchical_plan and setting == '2048'
+    if submission_planning:
+        # The submitting host does not own the eventual node allocation. Keep
+        # the historical 2-GiB payload forecast for automatic storage; the
+        # compute process reprices it against its actual allocation at admission.
+        initial = 2048*1024**2 if auto else storage_budget()
+        plan = forecast(n, d, count, batch, threads, initial, resources, safety, floor_gb)
+        plan['storage_policy'] = 'submission_payload_forecast' if auto else 'explicit_payload_cap'
+        return plan
+    if auto:
+        ledger = current()
+        reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
     initial = planned_storage_bytes({}, reservation) if auto else storage_budget()
     plan = forecast(n, d, count, batch, threads, initial, resources, safety, floor_gb)
     if auto:

@@ -1567,6 +1567,7 @@ def _estimate_memory_gb(
     formulation: 'Optional[str]' = None,
     dense_resources=None,
     activate_memory_plan=False,
+    submission_planning=False,
 ) -> 'float':
     """
     Estimate peak memory for the dense BIE/MoM solve in GiB (2**30 bytes).
@@ -1579,6 +1580,8 @@ def _estimate_memory_gb(
     n = int(nnodes)
     d = 2*n if system_dofs is None else max(1, int(system_dofs))
     resources = dense_resources or {}
+    if activate_memory_plan and submission_planning:
+        raise ValueError('A submission forecast cannot activate a solve memory plan.')
     if activate_memory_plan:
         from ghost_backend.execution.memory_budget import record_plan
         record_plan(None)
@@ -1596,11 +1599,14 @@ def _estimate_memory_gb(
     matrix = 16*d*d
     from ghost_backend.linalg.refined_lu import requested_precision
     if factorization == 'compressed':
-        from ghost_backend.compressed.runtime import planned_forecast
+        from ghost_backend.compressed.runtime import planned_forecast, release_obsolete_tile_workers
         from ghost_backend.linalg.refined_lu import requested_precision
         if requested_precision()!='double':raise ValueError('Compressed factorization requires double precision.')
         if requested == 'gpu':raise ValueError('Compressed factorization requires CPU execution.')
-        plan = planned_forecast(n, d, count, batch, get_assembly_threads(), resources)
+        if activate_memory_plan:
+            release_obsolete_tile_workers(resources, d)
+        plan = planned_forecast(n, d, count, batch, get_assembly_threads(), resources,
+            submission_planning=submission_planning)
         from ghost_backend.execution.memory_budget import record_plan
         if activate_memory_plan:
             record_plan(plan)

@@ -1,0 +1,435 @@
+[
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_os_backing_growth_expands_only_to_fixed_initial_physical_limit",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006960999889997765
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_freed_commit_or_own_allocations_do_not_create_capacity",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006505999917862937
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_committed_payload_does_not_consume_new_capacity_twice",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007364000048255548
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_growth_keeps_explicit_parent_and_original_caps",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009544999920763075
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_external_pressure_still_refuses_after_os_growth[physical]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000523299997439608
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_external_pressure_still_refuses_after_os_growth[commit]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.010011699996539392
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_growth_is_shared_once_across_overlapping_requests",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006006000039633363
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_threads_cannot_each_spend_the_same_backing_limit_increase",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0015396000089822337
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_contraction_does_not_lend_already_promised_bytes_to_a_peer",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005228999943938106
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_missing_system_limit_never_authorizes_extra_capacity[None-42.0]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00046299998939502984
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_missing_system_limit_never_authorizes_extra_capacity[32.0-None]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004962000093655661
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_known_zero_and_unknown_physical_remain_conservative",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009408999903826043
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_automatic_payload_tracks_verified_growth_without_exceeding_workspace_remainder",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004087999986950308
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_windows_performance_probe_converts_pages_and_handles_failure",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00027829999453388155
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_initial_allowance_uses_the_lower_of_process_and_system_headroom",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00043060000461991876
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_submission_forecast_ignores_head_host_and_live_request[0]",
+    "phase": "call",
+    "outcome": "failed",
+    "seconds": 0.01476649999676738,
+    "failure": "tests\\test_commit_capacity_growth.py:188: in test_submission_forecast_ignores_head_host_and_live_request\n    assert unit_peak_gb(100, 1, 1.5) > 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nhpc\\scheduler.py:996: in unit_peak_gb\n    return planned_forecast(fine_nodes,2*fine_nodes,1000,configured_batch_size(),\ncompressed\\runtime.py:93: in planned_forecast\n    ledger = current()\n             ^^^^^^^^^\nC:\\Users\\14col\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\unittest\\mock.py:1108: in __call__\n    return self._mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nC:\\Users\\14col\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\unittest\\mock.py:1112: in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nC:\\Users\\14col\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\unittest\\mock.py:1167: in _execute_mock_call\n    raise effect\nE   AssertionError: head-host ledger read"
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_submission_forecast_ignores_head_host_and_live_request[2048]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005435000057332218
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_submission_forecast_ignores_head_host_and_live_request[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005881999968551099
+  },
+  {
+    "test": "tests/test_commit_capacity_growth.py::test_submission_cannot_activate_runtime_plan",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00013129999570082873
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_idle_team_is_closed_before_pricing_hierarchical_workspace",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002742000069702044
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_useful_or_busy_workers_are_preserved[busy]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0002514000079827383
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_useful_or_busy_workers_are_preserved[not_selected]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003456999984337017
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_useful_or_busy_workers_are_preserved[no_model]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00022969998826738447
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_useful_or_busy_workers_are_preserved[unsupported]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00024169999232981354
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_speculative_forecast_never_releases_but_real_admission_does",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007373999978881329
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_hierarchical_forecast_removes_only_the_released_worker_allowance",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007729000062681735
+  },
+  {
+    "test": "tests/test_idle_worker_transition.py::test_later_tile_mesh_recreates_a_released_team",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00020149999181739986
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[1]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009512999968137592
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[8]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007073000015225261
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[16]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0008163000020431355
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[64]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007777999999234453
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_forecast_covers_observed_gmres_basis_and_work[256]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00069860000803601
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[success]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00048129999777302146
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[memory]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0004415000003064051
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[rank]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005327999970177189
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_preserves_working_inverse_and_budget_on_failure[cancel]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005196999991312623
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_upgrade_refuses_without_construction_headroom",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005424999981187284
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_slow_refinement_restarts_once_with_stronger_inverse",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0005324999947333708
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_batch_recovery_reprices_and_keeps_every_angle",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0007904999947641045
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_batch_recovery_does_not_admit_an_oversized_operator",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0012683000095421448
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_worker_release_never_closes_a_busy_pool",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00027010000485461205
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_tile_fallback_is_repriced_before_building_workers[False]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009799999970709905
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_tile_fallback_is_repriced_before_building_workers[True]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0012035000108880922
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[rank]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.000784799995017238
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[sampled row error]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006527000077767298
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_rejected_hmatrix_releases_failed_arrays_before_tile_admission[storage]",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0006961999897612259
+  },
+  {
+    "test": "tests/test_large_geometry_resources.py::test_sweep_reprices_common_batch_before_ranking_incompatible_peaks",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.004016600010800175
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_adaptive_fields_match_dense_and_restore_settings",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.5253440999949817
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_backend_selection_forecasts_fine_mesh_and_preserves_explicit_choice",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.8316443000076106
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_cancelled_sweep_reuses_only_completed_matching_frequencies",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.10042419999081176
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_certified_sweep_loads_one_material_library",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.2569783000071766
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_checkpoint_roundtrip_corruption_and_certification",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008530799997970462
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_failed_local_certificate_retries_global_without_leaking_scope",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00037120000342838466
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_frequency_merge_reports_mixed_backend_and_mesh_decisions",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001866000093286857
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_hpc_planner_defers_adaptive_choice_until_node_allocation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011946599988732487
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_local_material_sizing_reduces_only_unprotected_remote_segments",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011237099999561906
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_material_file_change_invalidates_checkpoint_and_captured_preparation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.04267079998680856
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_preparation_is_shared_per_run_but_invalidated_between_runs",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.002803400013362989
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_sampled_tile_basis_verifies_full_matrix_and_skips_useless_q",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.009229699993738905
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_sparse_candidates_and_cooperative_cancellation",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.011459700006525964
+  },
+  {
+    "test": "tests/test_pipeline_performance.py::PipelinePerformanceTests::test_spatial_candidates_match_brute_force_including_tolerance",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.014310200000181794
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_explicit_large_kernel_tiles_are_accounted_for",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00018590000399854034
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_invalid_sample_rejects_before_unchecked_lapack",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0009398999973200262
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_inverse_ceiling_covers_real_tree_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.06220999998913612
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_safety_multiplier_only_changes_uncertain_operator_storage",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0001799000019673258
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_samples_match_known_compressed_storage_without_full_matrix_queries",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.15182430000277236
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_sampling_cancellation_and_metadata_cache_have_no_retained_operators",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.0003690000012284145
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_scheduler_exposes_disk_capacity_and_ram_separately",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.008963000000221655
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_single_angle_uses_one_rhs_column_and_sweep_batch_is_bounded",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00017269999079871923
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_solver_admission_does_not_reject_only_because_payload_cap_is_large",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.16468070000701118
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_thin_strip_tile_metadata_is_not_mistaken_for_disk_payload",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00015419999544974416
+  },
+  {
+    "test": "tests/test_compressed_memory.py::CompressedMemoryTests::test_unused_capacity_and_spooled_payload_are_not_resident_ram",
+    "phase": "call",
+    "outcome": "passed",
+    "seconds": 0.00015669999993406236
+  }
+]

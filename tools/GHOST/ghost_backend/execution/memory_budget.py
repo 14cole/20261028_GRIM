@@ -1,6 +1,7 @@
 """Request-owned RAM accounting; payload, residency and reservations are distinct.
 
-The initial 90% allowance is stable. Live checks price additional allocations
+The initial physical allowance is stable. Verified OS commit-limit growth can
+expand a commit-limited reservation within that physical allowance. Live checks price additional allocations
 against remaining physical/commit headroom. Weak registrations never keep a
 finished operator or factor alive. Scheduler reservations remain hard caps.
 """
@@ -35,15 +36,22 @@ def payload_bytes(value):
 class MemoryBudget:
     def __init__(self):
         from ghost_backend.twod.solver import _detect_available_gb
-        from ghost_backend.execution.memory import windows_available_commit_bytes
+        from ghost_backend.execution.memory import windows_available_commit_bytes, windows_system_commit
         self.initial_available = _detect_available_gb()
         commit = windows_available_commit_bytes()
         self.initial_commit = None if commit is None else commit/GIB
+        self.initial_system_commit = windows_system_commit()
+        if self.initial_commit is not None and self.initial_system_commit is not None:
+            system_available = max(0, self.initial_system_commit['limit_bytes']-
+                self.initial_system_commit['committed_bytes'])/GIB
+            self.initial_commit = min(self.initial_commit, system_available)
+        self.last_system_commit = self.initial_system_commit
         self.baseline_rss, self.baseline_private = process_memory()
         self.objects = {}
         self.plan = None
         self.ceiling = None
         self.reservation_limits = {}
+        self.initial_caps = None
         self.events = []
         self.check_count = 0
         self.last = {}
@@ -119,33 +127,66 @@ class MemoryBudget:
                     if self.initial_commit is not None:
                         hardware.append(.9*self.initial_commit)
                     self.cohort = dict(capacity=min(hardware) if hardware else None,
+                        initial_physical_capacity=None if self.initial_available is None else .9*self.initial_available,
+                        initial_commit=self.initial_commit, initial_system_commit=self.initial_system_commit,
+                        system_commit=self.initial_system_commit, commit_capacity_changes=[],
                         physical_reserve=.1*(self.initial_available or 0.),
                         commit_reserve=.1*(self.initial_commit or 0.))
                 _REQUESTS.add(self)
 
     def stable(self):
+        from ghost_backend.execution.memory import windows_system_commit
         caps = self.caps()
         self.enrol()
         with _LOCK:
+            observation = windows_system_commit()
+            if observation is not None:
+                self.last_system_commit = observation
+                group = self.cohort
+                original = group['initial_system_commit']
+                if (original is not None and group['initial_commit'] is not None
+                        and group['initial_physical_capacity'] is not None):
+                    # Only growth of the actual OS backing limit creates new
+                    # capacity. Freeing other apps' memory or our own arrays
+                    # cannot enlarge the group's reservations.
+                    delta = (observation['limit_bytes']-original['limit_bytes'])/GIB
+                    commit_allowance = max(0., group['initial_commit']+delta)
+                    capacity = min(group['initial_physical_capacity'], .9*commit_allowance)
+                    if capacity != group['capacity']:
+                        group['commit_capacity_changes'].append(dict(previous_gib=group['capacity'],
+                            capacity_gib=capacity, system_commit=dict(observation)))
+                        del group['commit_capacity_changes'][:-16]
+                    group.update(capacity=capacity, system_commit=observation,
+                        commit_reserve=.1*commit_allowance)
             # An unknown host probe can still use a subsequently supplied cap.
             if self.cohort['capacity'] is None:
                 self.cohort['capacity'] = min(caps.values(), default=0.)
-            if self.ceiling is not None:
-                return min([self.ceiling]+list(caps.values()))
-            initial = dict(caps)
+            if self.initial_caps is None:
+                self.initial_caps = dict(caps)
+            initial = dict(self.initial_caps)
+            for key, value in caps.items():
+                initial[key] = min(initial.get(key, value), value)
             if self.initial_available is not None:
                 initial['initial_physical_ram'] = .9*self.initial_available
             if self.initial_commit is not None:
-                initial['initial_commit_headroom'] = .9*self.initial_commit
-            ceiling = min(initial.values()) if initial else 0.
+                delta = 0.
+                observed = self.last_system_commit
+                if observed is not None and self.initial_system_commit is not None and self.initial_available is not None:
+                    delta = (observed['limit_bytes']-self.initial_system_commit['limit_bytes'])/GIB
+                name = 'verified_system_commit_capacity' if delta else 'initial_commit_headroom'
+                initial[name] = .9*max(0., self.initial_commit+delta)
             # Keep the aggregate reservation fixed for the overlapping cohort.
             # Materialized pages do not create new reservation capacity, and
             # admission never samples or mutates another request's telemetry.
             reserved = sum(other.ceiling or 0. for other in _REQUESTS if other is not self)
             initial['cohort_remaining_reservation'] = max(0., self.cohort['capacity']-reserved)
             self.reservation_limits = initial
-            self.ceiling = max(0., min(ceiling, initial['cohort_remaining_reservation']))
-        return min([self.ceiling]+list(caps.values()))
+            admitted = max(0., min(initial.values()))
+            # Keep previously promised bytes reserved after a cap tightens or
+            # the OS backing limit contracts. They may already be allocated;
+            # lowering the held reservation would let a peer spend them again.
+            self.ceiling = max(self.ceiling or 0., admitted)
+        return admitted
 
     def baseline_credit(self):
         # Only the interpreter baseline explicitly present in the forecast is
@@ -189,6 +230,7 @@ class MemoryBudget:
             reservation_constraints_gib=reservation_constraints,
             reservation_binding_constraint=min(reservation_constraints, key=reservation_constraints.get),
             available_commit_gib=None if commit is None else commit/GIB,
+            system_commit=self.last_system_commit,
             owned_numeric_gib=numeric, credited_resident_gib=physical,
             owned_worker_resident_gib=self.worker_ownership[0],
             owned_worker_commit_gib=self.worker_ownership[1],
@@ -310,5 +352,8 @@ def report():
         total_checks=state.check_count, omitted_earlier_checks=max(0,state.check_count-len(state.events)),
         worker_samples=list(state.worker_samples),
         shared_process=state.shared_process, cohort_capacity_gib=state.cohort['capacity'],
+        initial_system_commit=state.initial_system_commit,
+        commit_capacity_changes=list(state.cohort['commit_capacity_changes']),
+        commit_policy='Expand only after observed system backing-limit growth; initial physical/user/scheduler caps and live checks still apply.',
         ownership='Weak run-owned references; no parent-process growth credit after request overlap.',
         worker_policy='Scheduler reservations and worker growth allowances remain enforced.')

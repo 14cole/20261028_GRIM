@@ -1,0 +1,242 @@
+{
+  "reviewed_commit": "b233c192fa779be738f2e418172e84a5fc3460aa",
+  "saved_source_hashes_match": true,
+  "timing_and_spooling": [
+    {
+      "case": "inlet15",
+      "records": [
+        {
+          "evidence_folder": "memory_implementation_20261029",
+          "seconds": 124.0222103000051,
+          "spool_write_calls": 320,
+          "spool_write_seconds": 0.15332509988365928,
+          "spool_read_calls": 2,
+          "spool_read_seconds": 0.7885903999995207,
+          "spool_write_progress_notifications": 5,
+          "stage_seconds": {
+            "compressed_memory_sampling": 0.006739599994034506,
+            "operators": 165.81803889997536,
+            "compressed_coefficients": 7.765795399987837,
+            "compressed_tile_compression": 1.3733913000614848,
+            "compressed_spool_write": 0.15332509988365928,
+            "compressed_assembly": 80.95760029999656,
+            "factorization": 15.031862499999988,
+            "condition_estimation": 13.05182400000922,
+            "excitation": 3.1056141999724787,
+            "linear_solve": 14.965404899987334,
+            "rhs_compression": 15.390505299976212,
+            "far_field": 0.27437660000578035,
+            "compressed_spool_read": 0.7885903999995207,
+            "mesh_certification": 0.007679199996346142,
+            "hmatrix_norms": 1.6237125999978161,
+            "hmatrix_validation": 0.2915779000031762,
+            "hmatrix_assembly": 64.04040679999889
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 64,
+          "maximum_saved_worker_uss_gib": 0.3003578186035156,
+          "maximum_saved_worker_private_gib": 0.5709724426269531
+        },
+        {
+          "evidence_folder": "memory_followups_20261029",
+          "seconds": 155.8186648999981,
+          "spool_write_calls": 320,
+          "spool_write_seconds": 0.17306930006452603,
+          "spool_read_calls": 2,
+          "spool_read_seconds": 0.8306939999965834,
+          "spool_write_progress_notifications": 11,
+          "stage_seconds": {
+            "compressed_memory_sampling": 0.006493099994258955,
+            "operators": 216.61807729996508,
+            "compressed_coefficients": 9.39510980000341,
+            "compressed_tile_compression": 1.7224692000527284,
+            "compressed_spool_write": 0.17306930006452603,
+            "compressed_assembly": 102.7853443000131,
+            "factorization": 17.481043100000534,
+            "condition_estimation": 15.745909600009327,
+            "excitation": 3.764687999988382,
+            "linear_solve": 19.902976100012893,
+            "rhs_compression": 20.36331759998575,
+            "far_field": 0.3514802000281634,
+            "compressed_spool_read": 0.8306939999965834,
+            "mesh_certification": 0.007967800003825687,
+            "hmatrix_norms": 2.1450127999996766,
+            "hmatrix_validation": 0.3697137000053772,
+            "hmatrix_assembly": 82.26021729999775
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 16,
+          "maximum_saved_worker_uss_gib": 0.29814910888671875,
+          "maximum_saved_worker_private_gib": 0.5669746398925781
+        }
+      ],
+      "slowdown_percent": 25.6377099900724
+    },
+    {
+      "case": "narrow15",
+      "records": [
+        {
+          "evidence_folder": "memory_implementation_20261029",
+          "seconds": 138.64456570000038,
+          "spool_write_calls": 320,
+          "spool_write_seconds": 0.18828709994704695,
+          "spool_read_calls": 2,
+          "spool_read_seconds": 0.827933499997016,
+          "spool_write_progress_notifications": 3,
+          "stage_seconds": {
+            "compressed_memory_sampling": 0.007083999997121282,
+            "operators": 191.90072469999723,
+            "compressed_coefficients": 8.60501870000735,
+            "compressed_tile_compression": 1.7505965000527794,
+            "compressed_spool_write": 0.18828709994704695,
+            "compressed_assembly": 88.56724409999879,
+            "factorization": 17.205112799994822,
+            "condition_estimation": 13.609013700013747,
+            "excitation": 3.516445200002636,
+            "linear_solve": 19.361324299992702,
+            "rhs_compression": 19.8654463999992,
+            "far_field": 0.30704619999596616,
+            "compressed_spool_read": 0.827933499997016,
+            "mesh_certification": 0.007547400004114024,
+            "hmatrix_norms": 1.7873887000023387,
+            "hmatrix_validation": 0.33129290000215406,
+            "hmatrix_assembly": 69.72053210000013
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 64,
+          "maximum_saved_worker_uss_gib": 0.3063240051269531,
+          "maximum_saved_worker_private_gib": 0.5753707885742188
+        },
+        {
+          "evidence_folder": "memory_followups_20261029",
+          "seconds": 173.4054321999938,
+          "spool_write_calls": 320,
+          "spool_write_seconds": 0.23153730007470585,
+          "spool_read_calls": 2,
+          "spool_read_seconds": 0.8668846000000485,
+          "spool_write_progress_notifications": 5,
+          "stage_seconds": {
+            "compressed_memory_sampling": 0.007755500002531335,
+            "operators": 256.75143910014594,
+            "compressed_coefficients": 10.603081700020994,
+            "compressed_tile_compression": 2.1662767000161693,
+            "compressed_spool_write": 0.23153730007470585,
+            "compressed_assembly": 113.6302649999925,
+            "factorization": 18.968111399997724,
+            "condition_estimation": 16.327194999990752,
+            "excitation": 3.9771510000064154,
+            "linear_solve": 25.29447350000555,
+            "rhs_compression": 25.803633700008504,
+            "far_field": 0.3577635000110604,
+            "compressed_spool_read": 0.8668846000000485,
+            "mesh_certification": 0.008723099999770056,
+            "hmatrix_norms": 2.427601400006097,
+            "hmatrix_validation": 0.3661893999960739,
+            "hmatrix_assembly": 90.41455649999989
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 16,
+          "maximum_saved_worker_uss_gib": 0.30231475830078125,
+          "maximum_saved_worker_private_gib": 0.5702056884765625
+        }
+      ],
+      "slowdown_percent": 25.071928585509152
+    },
+    {
+      "case": "dielectric15",
+      "records": [
+        {
+          "evidence_folder": "memory_implementation_20261029",
+          "seconds": 162.90311600000132,
+          "spool_write_calls": 0,
+          "spool_write_seconds": 0,
+          "spool_read_calls": 0,
+          "spool_read_seconds": 0,
+          "spool_write_progress_notifications": 0,
+          "stage_seconds": {
+            "operators": 125.29927919982583,
+            "hmatrix_norms": 3.9423020999965956,
+            "hmatrix_validation": 0.5078757000082987,
+            "hmatrix_assembly": 82.16660709999996,
+            "factorization": 48.65716149999207,
+            "condition_estimation": 38.98836489998939,
+            "excitation": 1.723262600004091,
+            "linear_solve": 17.172186600015266,
+            "rhs_compression": 17.569559300005494,
+            "far_field": 0.2879949000052875,
+            "mesh_certification": 0.00455589999910444
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 0,
+          "maximum_saved_worker_uss_gib": 0.0,
+          "maximum_saved_worker_private_gib": 0.0
+        },
+        {
+          "evidence_folder": "memory_followups_20261029",
+          "seconds": 191.98407579999912,
+          "spool_write_calls": 0,
+          "spool_write_seconds": 0,
+          "spool_read_calls": 0,
+          "spool_read_seconds": 0,
+          "spool_write_progress_notifications": 0,
+          "stage_seconds": {
+            "operators": 159.71387680009502,
+            "hmatrix_norms": 4.699004900001455,
+            "hmatrix_validation": 0.5420352000001003,
+            "hmatrix_assembly": 97.45065109999996,
+            "factorization": 54.55200550000154,
+            "condition_estimation": 42.770698299995274,
+            "excitation": 1.9587161000017659,
+            "linear_solve": 23.08351149999362,
+            "rhs_compression": 23.49353919998248,
+            "far_field": 0.30440249999810476,
+            "mesh_certification": 0.004357700003311038
+          },
+          "stage_semantics": "inclusive elapsed; parallel/nested stages may overlap",
+          "retained_worker_samples": 0,
+          "maximum_saved_worker_uss_gib": 0.0,
+          "maximum_saved_worker_private_gib": 0.0
+        }
+      ],
+      "slowdown_percent": 17.851690326167578
+    }
+  ],
+  "previous_test_phase_results": 467,
+  "current_test_phase_results": 391,
+  "previous_only_test_files": [
+    "tests/test_adaptive_polynomial.py",
+    "tests/test_automatic_hpc.py",
+    "tests/test_bor_execution_config.py",
+    "tests/test_bor_run_setup.py",
+    "tests/test_diagnostic_exports.py",
+    "tests/test_exploratory_runs.py",
+    "tests/test_factor_timing.py",
+    "tests/test_hpc_solver_options.py",
+    "tests/test_large_geometry_followups.py",
+    "tests/test_large_geometry_resources.py",
+    "tests/test_nearby_timing_history.py",
+    "tests/test_pipeline_gui.py",
+    "tests/test_pipeline_performance.py",
+    "tests/test_selection_explanations.py"
+  ],
+  "current_only_test_files": [
+    "tests/test_compact_multi_region.py",
+    "tests/test_memory_followups.py",
+    "tests/test_solver_compression.py",
+    "tests/test_stage_cost_model.py",
+    "tests/test_thin_layer_geometry_qualification.py",
+    "tests/test_thin_layer_physical_qualification.py",
+    "tests/test_thin_sheet.py"
+  ],
+  "hashes": {
+    "Claude_audit/review_of_codex_memory_followups.md": "99de6a59e3572fc5d91e5a11ce6ec4c10f3aec3b644c719ed7fa183b8fdc7827",
+    "execution/memory_budget.py": "ffdcb1b5397f078bb64f1fb5d1aea1ab5189ea3c945e7f4dc52f5911e1d312d4",
+    "execution/metrics.py": "913eb4f80d128011312ccd3c41508d4ddadbc6da944166ba4b70350cd7c30055",
+    "compressed/memory.py": "a66703262518774d52c49bd7da742f60c2526a18bdf7b5c3f04c10e32b084ba1",
+    "compressed/runtime.py": "e714fc2129bdfb8ddf7b96893dcd1a74c1184ee0e3a4d874e64960c4b1324bff",
+    "compressed/worker_pool.py": "d16aede1892ba398114a034cd79755bf541c77c0e5562af6c3cfaa0501589cad",
+    "compressed/tile_processes.py": "1c071c111ece29c531f016a4d7cf778751d0d5837c484f2a0a824cd1d9d50b47",
+    "ui/solver.py": "736644723a119852f7fe020af04869e3c30536703e23f3aacf6b543a48ee504e"
+  },
+  "scope": "Saved evidence and source inspection; no new solver runs or regression suite."
+}

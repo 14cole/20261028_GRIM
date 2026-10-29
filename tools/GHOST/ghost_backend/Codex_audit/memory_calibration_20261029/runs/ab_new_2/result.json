@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "wall_seconds": 156.3895504999964,
+  "parent_cpu_seconds": 349.453125,
+  "sampled_family_cpu_seconds": 384.046875,
+  "field_max_absolute_errors": {
+    "VV": 0.0,
+    "HH": 0.0
+  },
+  "certified": true,
+  "instrumentation": {
+    "limit_calls": 388,
+    "limit_seconds": 0.9689924001431791,
+    "worker_snapshot_calls": 305,
+    "worker_snapshot_seconds": 0.8421052000776399
+  },
+  "sampler_calls": 584,
+  "sampler_seconds": 6.962030900205718,
+  "worker_peaks": {
+    "worker_rss": 504868864,
+    "worker_uss": 398729216,
+    "worker_private": 704954368,
+    "worker_peak_private_sum": 755154944,
+    "retained_allowance": 2033615504,
+    "payload_bytes": 2543698
+  },
+  "lifecycle": [
+    {
+      "event": "prepare",
+      "workers": 4,
+      "generation": 1,
+      "payload_bytes": 2543698
+    },
+    {
+      "event": "close",
+      "workers": 4,
+      "generation": 1,
+      "payload_bytes": 2543698
+    }
+  ]
+}

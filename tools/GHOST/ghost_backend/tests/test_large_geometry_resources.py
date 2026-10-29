@@ -153,8 +153,10 @@ def test_tile_fallback_is_repriced_before_building_workers(fits):
     from ghost_backend.compressed.runtime import admit_tile_fallback
     source=SimpleNamespace(n=10,mesh=SimpleNamespace(nodes=list(range(10))))
     sample=dict(operator_bytes=100,operator_allowance_bytes=100,method='test',samples=1,sampled=True)
-    plan=dict(peak_bytes=memory.GIB*(.5 if fits else 2),process_geometry_bytes=100,
-              phase_bytes={'assembly':memory.GIB*(.5 if fits else 2)})
+    peak=memory.GIB*(.5 if fits else 2)
+    plan=dict(peak_bytes=peak,process_geometry_bytes=100,
+              phase_bytes={phase:peak for phase in ('assembly','factorization','solve')},
+              nonstorage_phase_bytes={phase:100 for phase in ('assembly','factorization','solve')})
     with execution_scope(validate_options(dict(ram_budget_gib=1))), \
          mock.patch('ghost_backend.compressed.memory.sample_operator',return_value=sample), \
          mock.patch('ghost_backend.compressed.memory.forecast',side_effect=lambda *a,**k:dict(plan)), \
@@ -162,12 +164,16 @@ def test_tile_fallback_is_repriced_before_building_workers(fits):
          mock.patch('ghost_backend.twod.solver._solve_memory_limit_gb',return_value=1.), \
          mock.patch('ghost_backend.compressed.worker_pool.retained_bytes',return_value=0), \
          mock.patch('ghost_backend.compressed.worker_pool.release_idle',return_value=0), \
+         mock.patch('ghost_backend.execution.memory_budget.record_plan') as active_plan, \
          mock.patch('ghost_backend.compressed.worker_pool.acquire') as workers:
         if fits:
             assert admit_tile_fallback(source,np.zeros((10,2)),'rank')['forecasts'][0]['peak_bytes']==memory.GIB*.5
+            assert active_plan.call_args[0][0]['phase_bytes']==plan['phase_bytes']
+            assert active_plan.call_args[0][0]['nonstorage_phase_bytes']==plan['nonstorage_phase_bytes']
         else:
             with pytest.raises(MemoryError,match='Hierarchical-to-tile fallback'):
                 admit_tile_fallback(source,np.zeros((10,2)),'rank')
+            active_plan.assert_not_called()
         workers.assert_not_called()
 
 

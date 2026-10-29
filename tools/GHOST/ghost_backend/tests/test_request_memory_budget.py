@@ -30,6 +30,7 @@ def simulated(available=24.,cap=None,commit=None):
     with patch.object(solver,'_detect_available_gb',side_effect=lambda:state['available']), \
          patch.object(mb,'process_memory',side_effect=lambda:(state['rss'],state['private'])), \
          patch('ghost_backend.execution.memory.windows_available_commit_bytes',side_effect=lambda:state['commit']), \
+         patch('ghost_backend.execution.memory.windows_system_commit',return_value=None), \
          execution_scope(dict(factorization='compressed',compressed_storage_mib=0,ram_budget_gib=cap)):
         with mb.scope() as ledger:
             yield state,ledger
