@@ -7,8 +7,12 @@ __pycache__/
 .venv/
 venv/
 
-# Locally compiled native kernels and build intermediates
+# Native build intermediates; validated Windows libraries are shipped
 *.dll
+!/tools/GHOST/ghost_backend/twod/assembly/native/ghost_far.dll
+!/tools/GHOST/ghost_backend/twod/assembly/native/ghost_near.dll
+!/tools/GHOST/ghost_backend/twod/assembly/native/ghost_table.dll
+!/tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.windows-amd64.dll
 *.so
 *.dylib
 *.pyd
@@ -41,3 +45,6 @@ Thumbs.db
 **/*_Audit/
 **/trials/
 **/scratch/
+
+# Development suites are maintained outside this distribution
+**/tests/

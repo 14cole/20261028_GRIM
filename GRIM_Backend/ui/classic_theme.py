@@ -10,9 +10,6 @@ To remove the Windows Classic theme entirely:
    of ``build_qss`` in ``GRIM_Backend/ui/theme.py``.
 4. Delete the ``classic_qss_overrides`` import and the ``if`` block after
    ``apply_host_theme`` in ``GRIM_Backend/integrations/freddy.py``.
-5. Drop ``"Windows Classic"`` from the palette-name list in
-   ``GRIM_Backend/tests/test_gui_shell.py``.
-6. Delete ``GRIM_Backend/tests/test_classic_theme.py``.
 
 Nothing else in the application references this module. A palette opts in by
 carrying ``"ui_style": "classic"``; every other palette is unaffected.

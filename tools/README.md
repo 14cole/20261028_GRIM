@@ -1,7 +1,7 @@
 # Bundled tools
 
 GRIM is the application host. Each computational tool remains a self-contained
-subtree here so its standalone scripts, tests, examples, and documentation do
+subtree here so its standalone scripts, examples, and documentation do
 not become mixed into the GRIM plotting implementation.
 
 - `GHOST/` is the complete 2-D, BoR, and feature-physics tool embedded in the

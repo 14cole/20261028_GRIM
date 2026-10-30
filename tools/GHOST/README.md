@@ -1,7 +1,7 @@
 # GHOST solver and feature workflows
 
 For wheel installation, clean source archives and release checks, see
-[distribution and testing](DISTRIBUTION.md).
+[distribution and installation](DISTRIBUTION.md).
 
 Open `Launch_GHOST_GUI.bat` to start GHOST. The top level contains the launcher,
 Markdown guides, and one `ghost_backend` folder.
@@ -20,8 +20,7 @@ BOR controls include a bounded coefficient cache for compressed solves. See
 | `ghost_backend/ui/` | Desktop geometry and solver controls. |
 | `ghost_backend/data_tools/` | Dataset subtraction, joining, renaming, conversion, and their GUI/CLI. |
 | `ghost_backend/geometry/` | Geometry loading, materials, mesh checks, rotation, sample geometries, and placement CSV templates. |
-| `ghost_backend/validation/` | Material and geometry validation studies with their fixtures. |
-| `ghost_backend/tests/` | Solver tests and performance benchmarks. |
+| `ghost_backend/validation/` | Analytical references and runtime feature-comparison services. |
 
 Only `run_gui.py` and the four local/HPC run scripts are directly inside
 `ghost_backend`. Native source, libraries, and build tools are under
@@ -295,16 +294,6 @@ See:
   boundaries, regions, materials, winding, and units.
 - [BoR conventions](BOR_PERFORMANCE.md#geometry-and-angle-conventions) for BoR geometry, polarization,
   phasor, loss, and RCS conventions.
-- [ghost_backend/validation/non_bor_feature_validation/README.md](ghost_backend/validation/non_bor_feature_validation/README.md) for point and
-  line-feature dataset and placement requirements.
-- [ghost_backend/validation/non_bor_feature_validation/README.md](ghost_backend/validation/non_bor_feature_validation/README.md)
-  for the independent four-artifact clean/featured validation ladder and
-  manifest-driven complex-field gates.
-- [ghost_backend/validation/non_bor_line_reconstruction/README.md](ghost_backend/validation/non_bor_line_reconstruction/README.md)
-  for the checked-in finite-plate, door-outline, and folded-panel line tests.
-- [ghost_backend/validation/non_bor_curved_feature_placement/README.md](ghost_backend/validation/non_bor_curved_feature_placement/README.md)
-  for the triaxial-ellipsoid point/line regression and shared-facet normal-tie
-  controls.
 
 ## Feature assembly service
 
@@ -323,7 +312,7 @@ The integrated tab supports editable placements, point rows/circles/polyline
 patterns, line paths, explicit surface projection and normal derivation,
 body-only baselines, exact stored-grid subsets, and body/feature/total response
 comparison. Newly selected BoR bodies can generate their own bounded-error
-shadow mesh. See the [Assembly workflow guide](ghost_backend/validation/non_bor_feature_validation/README.md).
+shadow mesh. The integrated [Assembly workflow guide](../../GRIM_Backend/docs/ASSEMBLY_WORKFLOW.md) describes the user workflow.
 The 2-D `amplitude_version` is advisory during subtraction and line loading.
 Operations record convention assumptions without inferring a field conversion.
 Feature responses need no "delta" tag or declaration: any response with the
@@ -352,23 +341,11 @@ For `validated` libraries this is now an evidence-binding and integrity tool:
 it consumes the full-wave validator report, re-hashes all four case artifacts,
 and proves that the assembled prediction used the exact response. Team review
 is still required because software cannot establish external-solver
-independence or mesh convergence. See
-[ghost_backend/validation/non_bor_feature_validation/README.md](ghost_backend/validation/non_bor_feature_validation/README.md) for the exact
-manifest fields, headless settings, reduced-order limitations, and required
-independent full-wave evidence.
+independence or mesh convergence. The supplied ghost_backend/validation/reconstruction.py compares independent full-wave evidence; use its --help for the supported input format.
 
 Use `python ghost_backend/data_tools/run_cli.py subtract OPN FRD Deltas` for
 OPN-FRD 2-D feature responses (written with standard tags). General joins and dataset conversion use the same
 CLI. See [the CLI command definitions](ghost_backend/data_tools/run_cli.py).
-
-## Tests
-
-From this folder:
-
-```powershell
-py -m pip install -e ".[test,gui]"
-py ghost_backend/tests/run_suite.py
-```
 
 ## Material and IBC files
 

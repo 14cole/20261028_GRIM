@@ -10,7 +10,7 @@ an optional new surface-material row; existing geometries need no conversion.
 
 ## Start with a complete example
 
-The [material example folder](ghost_backend/validation/material_examples/README.md)
+The [material example folder](ghost_backend/geometry/geometries/material_examples/README.md)
 contains ready-to-load `.geo` files for every boundary type and each supported
 material definition form. All examples in that folder use **meters** and can
 start at **1 GHz** in the **2D** solver. The tabulated examples cover 0.8-1.2 GHz.
@@ -18,20 +18,20 @@ These are illustrative inputs, not measured materials or certified results.
 
 | Boundary or material | Complete example | Key assignment |
 |---|---|---|
-| TYPE 1, free impedance sheet | [Impedance card](ghost_backend/validation/material_examples/type1_impedance_sheet.geo) | `1 0 10 0 0`; constant sheet impedance |
-| TYPE 1, thin dielectric layer | [Thin strip](ghost_backend/validation/material_examples/type1_thin_dielectric.geo) | `1 80 10 0 0`; `thin_dielectric` row |
-| TYPE 2, ideal conductor | [PEC square](ghost_backend/validation/material_examples/type2_pec.geo) | `2 0 0 0 0` |
-| TYPE 2, opaque impedance boundary | [IBC square](ghost_backend/validation/material_examples/type2_ibc.geo) | `2 0 10 0 0` |
-| TYPE 3, bulk dielectric in air | [Dielectric square](ghost_backend/validation/material_examples/type3_bulk_dielectric.geo) | `3 0 0 1 0` |
-| TYPE 3, isotropic magnetic dielectric | [Epsilon and mu example](ghost_backend/validation/material_examples/type3_magnetic_dielectric.geo) | Same TYPE 3; non-unit complex permeability |
-| TYPE 4, explicit dielectric coating on PEC | [PEC-backed coating](ghost_backend/validation/material_examples/type4_pec_backed_coating.geo) | Outer TYPE 3 plus inner `4 0 0 1 0` |
-| TYPE 4, explicit coating on impedance backing | [IBC-backed coating](ghost_backend/validation/material_examples/type4_ibc_backed_coating.geo) | Outer TYPE 3 plus inner `4 0 30 1 0` |
-| TYPE 5, two bulk dielectrics | [Dielectric core and shell](ghost_backend/validation/material_examples/type5_two_dielectrics.geo) | Outer TYPE 3 plus inner `5 0 0 1 2` |
-| Spatial impedance tapers | [Linear](ghost_backend/validation/material_examples/type1_linear_taper.geo), [cosine](ghost_backend/validation/material_examples/type1_cosine_taper.geo), [exponential](ghost_backend/validation/material_examples/type1_exp_taper.geo) | TYPE 1; one taper per segment |
-| Frequency-dependent impedance | [CSV IBC](ghost_backend/validation/material_examples/type2_csv_ibc.geo) | TYPE 2 and `40 surface_impedance.csv` |
-| Frequency-dependent dielectric | [CSV bulk material](ghost_backend/validation/material_examples/type3_csv_dielectric.geo) | TYPE 3 and `50 radome_material.csv` |
-| Frequency-dependent thin layer | [CSV thin layer](ghost_backend/validation/material_examples/type1_csv_thin_dielectric.geo) | `10 thin_dielectric 0.0005 50` plus dielectric CSV |
-| FREDDY-collapsed PEC-backed coating | [2D outer-envelope example](ghost_backend/validation/pec_backed_ibc/example/2d_outer_envelope.geo) | Existing TYPE 2 plus nominal IBC CSV; this separate example uses **inches** |
+| TYPE 1, free impedance sheet | [Impedance card](ghost_backend/geometry/geometries/material_examples/type1_impedance_sheet.geo) | `1 0 10 0 0`; constant sheet impedance |
+| TYPE 1, thin dielectric layer | [Thin strip](ghost_backend/geometry/geometries/material_examples/type1_thin_dielectric.geo) | `1 80 10 0 0`; `thin_dielectric` row |
+| TYPE 2, ideal conductor | [PEC square](ghost_backend/geometry/geometries/material_examples/type2_pec.geo) | `2 0 0 0 0` |
+| TYPE 2, opaque impedance boundary | [IBC square](ghost_backend/geometry/geometries/material_examples/type2_ibc.geo) | `2 0 10 0 0` |
+| TYPE 3, bulk dielectric in air | [Dielectric square](ghost_backend/geometry/geometries/material_examples/type3_bulk_dielectric.geo) | `3 0 0 1 0` |
+| TYPE 3, isotropic magnetic dielectric | [Epsilon and mu example](ghost_backend/geometry/geometries/material_examples/type3_magnetic_dielectric.geo) | Same TYPE 3; non-unit complex permeability |
+| TYPE 4, explicit dielectric coating on PEC | [PEC-backed coating](ghost_backend/geometry/geometries/material_examples/type4_pec_backed_coating.geo) | Outer TYPE 3 plus inner `4 0 0 1 0` |
+| TYPE 4, explicit coating on impedance backing | [IBC-backed coating](ghost_backend/geometry/geometries/material_examples/type4_ibc_backed_coating.geo) | Outer TYPE 3 plus inner `4 0 30 1 0` |
+| TYPE 5, two bulk dielectrics | [Dielectric core and shell](ghost_backend/geometry/geometries/material_examples/type5_two_dielectrics.geo) | Outer TYPE 3 plus inner `5 0 0 1 2` |
+| Spatial impedance tapers | [Linear](ghost_backend/geometry/geometries/material_examples/type1_linear_taper.geo), [cosine](ghost_backend/geometry/geometries/material_examples/type1_cosine_taper.geo), [exponential](ghost_backend/geometry/geometries/material_examples/type1_exp_taper.geo) | TYPE 1; one taper per segment |
+| Frequency-dependent impedance | [CSV IBC](ghost_backend/geometry/geometries/material_examples/type2_csv_ibc.geo) | TYPE 2 and `40 surface_impedance.csv` |
+| Frequency-dependent dielectric | [CSV bulk material](ghost_backend/geometry/geometries/material_examples/type3_csv_dielectric.geo) | TYPE 3 and `50 radome_material.csv` |
+| Frequency-dependent thin layer | [CSV thin layer](ghost_backend/geometry/geometries/material_examples/type1_csv_thin_dielectric.geo) | `10 thin_dielectric 0.0005 50` plus dielectric CSV |
+| FREDDY-collapsed PEC-backed coating | [2D outer-envelope example](ghost_backend/geometry/geometries/coating_examples/2d_outer_envelope.geo) | Existing TYPE 2 plus nominal IBC CSV; this separate example uses **inches** |
 
 Load a geometry through GHOST Geometry, set its coordinate units, then select
 2D, 1 GHz and a few observation angles (for example 12, 48 and 86 degrees).
@@ -337,7 +337,7 @@ Dielectrics:
 1 2.5 -0.04 1.3 -0.02
 ```
 
-The [complete magnetic example](ghost_backend/validation/material_examples/type3_magnetic_dielectric.geo)
+The [complete magnetic example](ghost_backend/geometry/geometries/material_examples/type3_magnetic_dielectric.geo)
 uses that row. Setting `mu_real=1` and `mu_imag=0` gives the usual nonmagnetic
 material. These are scalar isotropic definitions; tensor anisotropy is not
 represented by extra columns.
@@ -384,7 +384,7 @@ IBCS_Resistances:
 
 For a complete opaque TYPE 2 example, change the PEC square above to
 `properties: 2 0 10 0 0` and add the flag 10 row under `IBCS_Resistances:`.
-The [ready-to-load IBC square](ghost_backend/validation/material_examples/type2_ibc.geo)
+The [ready-to-load IBC square](ghost_backend/geometry/geometries/material_examples/type2_ibc.geo)
 already makes those assignments. Its header remains `Segment: ibc_body 2`.
 
 For a complete transmitting TYPE 1 sheet, coordinates in meters:
@@ -465,7 +465,7 @@ piecewise-constant coefficient inside the Galerkin weak integral.
 For a stack **already collapsed by FREDDY**, use a single TYPE 2 outer-envelope
 boundary and its nominal PEC-backed IBC CSV instead of the explicit layer
 example below. Both 2D and BoR support that scalar-IBC route. See
-[the collapsed-coating workflow](ghost_backend/validation/pec_backed_ibc/README.md).
+[the collapsed-coating workflow](#type-2-a-pec-backed-stack-collapsed-by-freddy).
 
 The outer TYPE 3 boundary points into air. The inner TYPE 4 boundary points
 from the conductor into dielectric flag 1. Both square contours are clockwise.
@@ -517,7 +517,7 @@ IBCS_Resistances:
 Dielectrics:
 ```
 
-The [complete 2D example and its sidecar](ghost_backend/validation/pec_backed_ibc/README.md)
+The [2D outer-envelope example](ghost_backend/geometry/geometries/coating_examples/2d_outer_envelope.geo)
 use inches: a 2-inch PEC core plus 0.03-inch coating is represented at the
 2.03-inch outer envelope. Do not retain explicit coating interfaces or a
 coincident PEC contour after collapsing the stack. The assignment operation

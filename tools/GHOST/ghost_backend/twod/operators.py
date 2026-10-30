@@ -1987,8 +1987,7 @@ def _assembly_tile_size(nelems: 'int', bytes_per_entry: 'int') -> 'int':
 # each bound, length ratios 1..0.1 and orientations 0..pi. The first table holds
 # for arg k from 0 to -45 degrees; strongly attenuating media (arg k below -45
 # degrees, sampled to -89) use the second. Outside the tables (ratio below 3,
-# |k| L above 3) the order is not reduced. test_regression_fixes_2d_operators keeps
-# the check.
+# |k| L above 3) the order is not reduced.
 _FAR_ORDER_TABLE = (
     (0.15, ((7, 6, 5), (7, 6, 5), (8, 7, 6))),
     (0.50, ((7, 6, 5), (7, 6, 6), (8, 7, 6))),
@@ -2054,7 +2053,7 @@ def _graded_far_order(kl_max: 'float', ratio_min: 'float', cap: 'int', degree: '
 # arg k from 0 to -90 degrees, length ratios down to 0.001 and all orientations
 # at a separation of three panel lengths: worst block errors 1.5e-14 (degree 1
 # at 8 points), 3.7e-14 and 4.6e-14 (degrees 2 and 3 at 9 points), against 1e-12
-# promised (test_performance_updates and test_regression_fixes_2d_operators).
+# promised by the quadrature error bound.
 _W_FAR_FLOOR = {1: 8, 2: 9, 3: 9}
 
 

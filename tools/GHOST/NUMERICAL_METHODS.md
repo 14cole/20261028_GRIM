@@ -947,11 +947,6 @@ Normal solves do not perform speculative extra backend solves for calibration.
 
 Earlier component benchmarks were measured separately from complete solves;
 their speedups are not claims of the same improvement in complete solve time.
-The published [measurement summary](../../experiments/solver_review_20261002/results.json)
-records the later airfoil and subtraction comparisons, their scope and the
-status of research prototypes. Local baseline copies and raw benchmark logs
-are not part of the published repository.
-
 The subsequent 2-D sweep improvements retain admission-sampled compressed
 tiles within a 32 MiB run cache. Reuse requires identical geometry, evaluated
 materials, polarization, quadrature settings and row/column DOF lists. Cached
@@ -1049,10 +1044,7 @@ optimizations, that narrow-gap subtraction was unchanged in VV and changed
 by at most 8.04e-11 of its feature peak in HH. These are observed comparisons,
 not error bounds for other geometries or individual deep nulls. The standard
 coupons have frequency-designed remote backing, so their three frequencies
-do not constitute a sweep of one fixed coupon. The published
-[results](../../experiments/solver_review_20261002/results.json) and
-[subtraction plot](../../experiments/solver_review_20261002/subtraction_comparison.png)
-record this evidence; the production subtraction workflow is unchanged.
+do not constitute a sweep of one fixed coupon.
 
 Same-frequency quadratic/cubic assembly reuse remains a small dense research
 prototype: its setup-inclusive comparison measured a 27.1% reduction, but
@@ -1101,17 +1093,3 @@ material side for conductor surfaces. Invalid incidence is rejected before
 operator construction. Dielectric IDs 900000 and above are reserved for
 solver-owned virtual sheet regions; user dielectric IDs must be 1–899999.
 This prevents a material definition from being silently interpreted as air.
-
-## Running tests
-
-Install the `test` and (for desktop coverage) `gui` extras, then run
-`python ghost_backend/tests/run_suite.py`. This runs the headless suite together
-and Qt-related modules in separate interpreters, continues after a failed group,
-and exits nonzero if any group fails. This separates Qt module lifetimes from
-numerical workers and completed successfully on Windows. The root cause of the
-original order-dependent native abort has not been proven.
-
-The new audit regressions cover the exact narrow cylinder-resonance inputs,
-sheet segmentation/orientation, compressed/dense coefficients, conservative
-mesh references, BOR storage and planning, mode retries, and grouped FFT
-coefficients and complex fields.

@@ -40,8 +40,8 @@ FREDDY is available as the **FREDDY** tab in the main GRIM window. From the
 repository root, install the integrated application and run it with:
 
 ```text
-py -3 -m pip install -e .
-grim
+Setup_GRIM.bat
+Launch_GRIM.bat
 ```
 
 The embedded tab and standalone window use the same authoritative code in
@@ -382,7 +382,7 @@ GHOST coating check supplies TE/TM approximation-error charts and maps, with
 the original report under Run details. It remains a planar scalar-IBC check,
 not finite-body RCS certification.
 
-See [Workflow shortcuts](../../WORKFLOW_GUIDE.md) for view definitions and the
+See [Workflow shortcuts](../../GRIM_Backend/docs/README.md) for view definitions and the
 file-selection workflow. Frequency overlays above 5,000 points retain extrema
 while reducing display points only; exported values and band metrics are intact.
 
@@ -418,7 +418,7 @@ are rebuilt after loading without rescoring completed combinations. Recovery
 files are limited to 512 MiB of scores; larger grids can still run with the
 optional recovery field cleared.
 Saved candidates receive separate project and output destinations. See the
-[workflow guide](../../WORKFLOW_GUIDE.md) for examples. Material Mix retains its
+[workflow guide](../../GRIM_Backend/docs/README.md) for examples. Material Mix retains its
 separate recipe-search behavior.
 
 Inverse Design now separates **Setup** and **Results**. Results opens after a
@@ -571,34 +571,3 @@ The predicted or optimized effective properties still depend on the selected
 mixing law and its morphology assumptions. Performance optimization does not
 remove that limitation; validate a promising recipe with measured mixture
 data before treating the result as a manufactured-material specification.
-
-### Public-data validation pack
-
-`materials/validation/nist_bam_pdms` contains unmodified, checksum-verified
-NIST broadband BaM/PDMS source tables, deterministic conversion to FREDDY's Hz
-and negative-loss-imaginary convention, and solver-level forward/inverse
-Maxwell-Garnett regressions. Rebuild and validate it from the repository root:
-
-```text
-py -3 tools/FREDDY/tools/convert_nist_bam_pdms.py
-py -3 tools/FREDDY/tools/validate_material_mix.py
-```
-
-The converted files can also be selected directly in the Material Mix tab as
-normal FREDDY material inputs or targets. See
-`materials/validation/nist_bam_pdms/README.md` for provenance, exclusions, and
-the numerical acceptance limits.
-
-## Tests
-
-From the `tools/FREDDY` directory:
-
-```text
-py -3 -m unittest discover -s tests -v
-```
-
-The regression suite covers CSV sign/units, reference slab and sheet cases,
-TE/TM power conservation, causal negative-index branches, layer ordering,
-scalar/vector equivalence, stable thick-loss transmission, phase wrapping,
-effective-medium formulas, deterministic public-data conversion, and measured
-forward/inverse material-mix validation.

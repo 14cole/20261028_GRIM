@@ -71,7 +71,7 @@ echo The GHOST tab inside GRIM uses GRIM's own environment: run Setup_GRIM.bat
 echo in the repository root, then Launch_GRIM.bat. To use this launcher on its
 echo own, create the shared environment from the repository root with:
 echo     py.exe -3 -m venv .venv
-echo     .venv\Scripts\python.exe -m pip install -r "GRIM_Backend\offline packages\requirements.txt"
+echo     .venv\Scripts\python.exe -m pip install -r "requirements.txt"
 echo.
 pause
 exit /b 1

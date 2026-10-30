@@ -1,0 +1,68 @@
+{
+  "platform": "Windows x64",
+  "instruction_baseline": "x86-64/SSE2",
+  "bor_openmp": true,
+  "libraries": [
+    {
+      "path": "ghost_backend/twod/assembly/native/ghost_table.dll",
+      "bytes": 24871,
+      "sha256": "cf6144a802fac9787ed58b797069b8b97176cf192584c2e088e92a80d7ca628a",
+      "source": "ghost_backend/twod/assembly/native/table.c",
+      "source_sha256": "a17488f440f356795c4cfa7ed40431677e401bab918ada66ded4da8c6e3c1725",
+      "required_exports": [
+        "ghost_table_eval"
+      ]
+    },
+    {
+      "path": "ghost_backend/twod/assembly/native/ghost_far.dll",
+      "bytes": 68536,
+      "sha256": "aa1bfa7c4eab8de6063818768c586efd03d2c8ce290159f2b473fe7ac27959ff",
+      "source": "ghost_backend/twod/assembly/native/far.c",
+      "source_sha256": "ccbe2dea5c78aa1fda68a158884e8c9121b4448a3ea1e1f416a54d71cd79649b",
+      "required_exports": [
+        "ghost_far_block",
+        "ghost_scatter_columns",
+        "ghost_scatter_tile",
+        "ghost_scatter_has_fused"
+      ]
+    },
+    {
+      "path": "ghost_backend/twod/assembly/native/ghost_near.dll",
+      "bytes": 68526,
+      "sha256": "8e65a4e613ee3bf83e5b53c9bb6bffdede3fb86b0cb87f5c021a727837e40cb2",
+      "source": "ghost_backend/twod/assembly/native/near.c",
+      "source_sha256": "370eda53b346f07b9c6d5eb8f031814d65522fc6498d4128c4c5c6312303b617",
+      "required_exports": [
+        "ghost_near_box_arguments",
+        "ghost_near_box_blocks",
+        "ghost_thin_analytic",
+        "ghost_thin_squares",
+        "ghost_thin_remainder",
+        "ghost_thin_contract",
+        "ghost_near_has_fused"
+      ]
+    },
+    {
+      "path": "ghost_backend/bor/native/bor_stream_kernel.windows-amd64.dll",
+      "bytes": 448835,
+      "sha256": "f3668662feb457c341b8fc41d44b733659615e6ec010f9298f9a004f0c9ca07b",
+      "source": "ghost_backend/bor/native/bor_stream_kernel.c",
+      "source_sha256": "abd752ec1fb93bd501b390abbd723411c0b59d368ab0e460b4c3547d593556da",
+      "required_exports": [
+        "sample_g",
+        "sample_mfie",
+        "sample_ibc",
+        "near_mfie",
+        "near_brackets",
+        "near_brackets_stable",
+        "near_green",
+        "sample_g_pairs",
+        "sample_brackets_pairs",
+        "trig_moments",
+        "parity_moments",
+        "near_green_rule",
+        "near_brackets_rule"
+      ]
+    }
+  ]
+}

@@ -199,7 +199,7 @@ def _verify_run_provenance(manifest):
             describe_source_mismatch(recorded, _solver_source_inventory())
             if recorded else
             "this run predates per-file inventories, so the differing file "
-            "cannot be named -- run tests/diagnose_provenance.py"
+            "cannot be named; use a complete, matching solver distribution"
         )
         raise RuntimeError(
             "Solver source/native artifacts differ from the HPC run manifest; "

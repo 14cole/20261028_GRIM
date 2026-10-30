@@ -218,8 +218,8 @@ def _verify_run_provenance(context):
         )
         if not context.get("solver_source_inventory"):
             detail = ("this run predates per-file inventories, so the "
-                      "differing file cannot be named -- run "
-                      "tests/diagnose_provenance.py for what is checked")
+                      "differing file cannot be named; use a complete, "
+                      "matching solver distribution")
         raise RuntimeError(
             "Solver source/native artifacts differ from the HPC run manifest; "
             "no cached or new field will be used from this mixed source state. "

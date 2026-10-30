@@ -106,68 +106,17 @@ The [vehicle assembly guide](ASSEMBLY_WORKFLOW.md) describes the Body, Points,
 Line features, and Build workflow, including direct feature authoring and reusable
 assembly recipes.
 
-For the Windows distribution, extract your 64-bit embedded Python
-(Python 3.14.6 for the intended release) into `GRIM_Backend/python_env`, then
-double-click **Setup_GRIM.bat** in the root folder. It downloads compatible
-wheels and their dependencies into `GRIM_Backend/offline packages`, creates
-an isolated environment, and checks it before activation. Afterward, use the
-root **Launch_GRIM.bat**. No separately installed Python or pip is needed.
-For computers without internet, supply matching wheels and use
-`GRIM_Backend/Setup_GRIM_Offline.bat`. Both setup paths use the same launcher.
-This repository provides the setup skeleton; the runtime and wheels are
-supplied on the release computer. Setup detects the supplied interpreter
-instead of requiring this development computer's Python version.
-The [setup instructions](../offline%20packages/README.txt) include
-the optional manual wheel download command. Keep the sibling `tools` directory in the
-distribution for FREDDY and GHOST.
+## Installation and launch
 
-Before distributing an offline release, use the optional root
-**Validate_GRIM.bat** to exercise file round trips, operations, plotting, and
-the application window with the supplied runtime. The
-[release validation guide](RELEASE_VALIDATION.md) explains the acceptance
-manifest and export of a folder containing the exact validated wheels.
-The [architecture guide](ARCHITECTURE.md) describes the shared dataset,
-plot-preparation, workspace, and operation-history services.
+Use 64-bit x64 Python 3.11 or later. From the repository root, run
+Setup_GRIM.bat to create the shared .venv and install requirements.txt,
+then open Launch_GRIM.bat. The initial dependency installation requires
+internet access. Python and third-party wheels are not bundled.
 
-## Running from a development checkout
-
-GRIM is not a pip package: there is no `pyproject.toml`, no editable install,
-and no `grim` console script. A checkout runs straight from the source tree in
-either of two ways.
-
-1. With the same embedded runtime as the distribution: extract the embedded
-   Python into `GRIM_Backend/python_env`, double-click **Setup_GRIM.bat**, then
-   use **Launch_GRIM.bat** (or the offline pair in `GRIM_Backend`). Setup
-   accepts any 64-bit CPython 3.11 or newer in `python_env`, so a development
-   interpreter can stand in for the release runtime.
-2. With any Python 3.11 or newer that already has the packages from
-   [requirements.txt](../offline%20packages/requirements.txt) installed
-   (NumPy, SciPy, Matplotlib, PySide6, psutil, and pywin32 for PowerPoint
-   export). Run the entry point script directly from the repository root:
-
-   ```powershell
-   python GRIM_Backend/run_gui.py
-   ```
-
-   `run_gui.py`, `run_headless.py` (`GRIM_Backend.scripting.cli`),
-   `run_diagnostics.py` (`GRIM_Backend.execution.diagnostics`), and
-   `run_image_imprinter.py` (`GRIM_Backend.reports.image_imprinter`) each put
-   the repository root on `sys.path` when run as a script, so nothing needs to
-   be installed. Keep the sibling `tools` directory next to `GRIM_Backend` so
-   the FREDDY and GHOST tabs find their files.
-
-Run the test suite from the repository root with `pytest` installed in that
-Python:
-
-```powershell
-python -m pytest GRIM_Backend/tests -q -p no:cacheprovider --basetemp=<scratch dir>
-```
-
-`--basetemp` gives the run its own writable temporary directory (pytest's
-default per-user temp root is not writable on every machine, and two runs must
-not share one). `-p no:cacheprovider` stops pytest from writing
-`.pytest_cache`. The suite takes several minutes; tests of the Windows batch
-launchers skip on other platforms.
+With dependencies already installed, run python GRIM_Backend/run_gui.py.
+Keep the sibling tools directory beside GRIM_Backend so the FREDDY and
+GHOST tabs can find their authoritative implementations and native libraries.
+PowerPoint export requires Microsoft PowerPoint on Windows.
 
 ## Reading and comparing complex returns
 
@@ -1325,7 +1274,7 @@ The slide preview and PNG export use GRIM's normal NumPy/Matplotlib/PySide
 dependencies; neither requires `python-pptx`, PowerPoint, or a template.
 PowerPoint export currently requires Windows, desktop Microsoft PowerPoint, and
 the `pywin32` COM bridge. The distribution's setup installs `pywin32` from
-[requirements.txt](../offline%20packages/requirements.txt); a development
+[requirements.txt](../../requirements.txt); a development
 interpreter that lacks it needs:
 
 ```powershell
@@ -1372,7 +1321,7 @@ frequency/angle grids and resources in the driver's CONFIG block; 2D solver
 settings are automatic. BoR drivers also accept a validated JSON
 configuration.
 
-The [HPC guide](../../tools/GHOST/HPC.md) covers submission, scheduling,
+The [HPC guide](../../tools/GHOST/RUN_PROFILES.md) covers submission, scheduling,
 resuming interrupted runs, and the bundle CLI for packaging portable BoR
 inputs on Windows and staging them on Linux. Use cluster tools to monitor and manage
 jobs. Transfer completed `.grim` files locally, then open or drop them into
@@ -1709,14 +1658,6 @@ coordinate/index queries are in [`examples/`](../examples/README.md). Each scrip
 has a hard-coded settings block near the top and takes no command-line options.
 The examples use the same validated loaders and numerical paths as GRIM rather
 than duplicating file or plot parsing logic.
-
-## Tests
-
-From the repository root:
-
-```powershell
-py -m unittest discover -s GRIM_Backend/tests -p "test*.py" -v
-```
 
 ### Settings simplification
 

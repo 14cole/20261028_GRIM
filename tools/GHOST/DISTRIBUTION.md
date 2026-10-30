@@ -1,120 +1,47 @@
-# GHOST 0.1.1 distribution and testing
+# GHOST distribution and native libraries
 
-This release contains the 2-D and body-of-revolution solvers, the round-11/12
-accuracy and storage changes, and mesh-allocation guards added during independent
-review. Both fixed and adaptive 2-D meshing and the BoR resource preview reject
-oversized meshes before allocating their panel coordinates. BoR counting and
-meshing share an allocation-free grading plan.
+The repository includes runtime code, user resources, launchers, and four
+validated Windows x64 DLLs:
 
-## Install
+- ghost_backend/twod/assembly/native/ghost_table.dll
+- ghost_backend/twod/assembly/native/ghost_far.dll
+- ghost_backend/twod/assembly/native/ghost_near.dll
+- ghost_backend/bor/native/bor_stream_kernel.windows-amd64.dll
 
-Use Python 3.10 or later in a virtual environment. From the distribution folder:
+Keep these files beside their Python wrappers. Windows x64 users need no
+compiler. The shared root Setup_GRIM.bat installs the Python dependencies;
+use Launch_GRIM.bat or the standalone Launch_GHOST_GUI.bat afterward.
+The native libraries preserve the existing double-precision arithmetic and
+use a portable x64 instruction baseline. Checksums and source identities are
+recorded in NATIVE_LIBRARIES.json.
 
-```console
-python -m pip install ghost_em2d-0.1.1-py3-none-any.whl
-```
+Run python scripts/check_speed_paths.py from this folder to report available
+native kernels and optimized BLAS. A missing or incompatible native library
+uses the NumPy fallback and is reported as a slow path.
 
-NumPy, SciPy and psutil are required. Their supported version ranges are declared
-in the wheel. Qt and matplotlib are optional desktop dependencies; install the
-`gui` extra when using the desktop interface. Configured solves use the CPU.
+## Other platforms or rebuilding
 
-The default wheel is platform-independent and contains no prebuilt native
-binaries. Both solvers have NumPy fallbacks. The optional BoR and 2-D C sources
-and build scripts are included, together with example geometries and placement
-templates. A separate native wheel can include these accelerators for Windows
-or Linux; installing that wheel requires no compiler on the recipient machine
-and adds no Python dependencies. Existing binaries in a development checkout
-are never redistributed by the release builder.
+The supplied DLLs are for Windows x64. Other systems can use the Python
+fallbacks or compile matching libraries from the retained C sources:
 
-## Source and tests
+    python ghost_backend/twod/assembly/native/build.py
+    python ghost_backend/bor/native/build_kernel.py
 
-Extract `ghost-em2d-0.1.1-source.zip` for the complete clean `GHOST` folder,
-including fixtures, documentation and release tools. It excludes tests, audit
-archives, bytecode, caches, generated solver outputs and native binaries.
-The standard `.tar.gz` source distribution is also provided for package builders.
+The builders support Windows and Linux, require a C99 compiler, and load-check
+all required exports before replacing a library. The BoR build enables OpenMP
+when supported. Restart Python workers after rebuilding a loaded library.
 
-For automated tests, use the repository checkout and run from its `tools/GHOST` folder:
+## Optional Python packages
 
-```console
-python -m pip install ".[test,gui]"
-python ghost_backend/tests/run_suite.py
-```
+For package-based installation, the default build is portable and excludes
+platform binaries. It differs from running this repository directly, which
+uses the bundled DLLs. A native wheel can be built on the target platform:
 
-The test runner isolates Qt module lifetimes from numerical workers. For the
-qualified headless solver subset, install `.[test]` and run
-`python scripts/check_headless.py`. Run `scripts/check_installation.py` with the
-installed environment's Python from an unrelated working directory to check
-wheel resources and 2-D/BoR analytic reference cases. It deliberately refuses
-imports from a source checkout. `scripts/check_speed_paths.py` checks the
-checkout it belongs to instead: whether the native BoR samplers, the 2-D native
-libraries and an optimized BLAS work on this machine, and whether a setting
-switches a fast path off; it exits with status 1 when anything would fall back.
+    python -m pip install "setuptools>=68" wheel
+    python scripts/build_distribution.py --native --output ../native-distributions
 
-Tests that exercise the separate GRIM or FREDDY projects explicitly skip when
-those companion checkouts are absent. GHOST's own solver and file-format tests
-remain available. Companion integration was also tested in the development
-workspace where those projects are present.
-
-Rebuild the artifacts with an environment containing `setuptools>=68` and `wheel`:
-
-```console
-python scripts/build_distribution.py --output ../distributions
-```
-
-The default build emits a portable wheel, standard source distribution,
-source/test ZIP, and a SHA-256 manifest. It checks required wheel resources and
-excludes platform binaries and generated data. The ZIP has stable member
-metadata for reproducible source checksums.
-
-## Optional native releases
-
-On a release machine with a C99 compiler, use:
-
-```console
-python scripts/build_distribution.py --native --output ../native-distributions
-```
-
-This compiles the 2-D table and far-field kernels and the BoR streaming kernel
-from the staged sources. Each library must load and export every required
-entry point in a fresh Python process before it is packaged. The manifest
-records library checksums and exports. Library rebuilds use temporary files
-and only replace an existing library after this check succeeds.
-
-Use `--compiler /path/to/gcc` to select a compiler, or let the builders use
-`CC`, PATH, or the standard Windows MSYS2 UCRT64 installation. Compiler and
-OpenMP runtimes are linked statically on Windows. `--no-openmp` builds the BoR
-kernel without OpenMP; this reduces its internal parallelism but can simplify
-Linux deployment where an OpenMP runtime is unavailable. The 2-D native kernels
-keep their existing Python-managed threading.
-
-Build separately on Windows and Linux, using the target Python architecture.
-For example, a 64-bit Windows release emits
-`ghost_em2d-0.1.1-py3-none-win_amd64.whl`, while an x86-64 Linux release emits
-`ghost_em2d-0.1.1-py3-none-linux_x86_64.whl`. These ctypes libraries have no
-CPython extension ABI dependency. The native wheel is marked as platform
-specific and retains the package's Python version requirement. Its source ZIP
-and standard source distribution remain free of binaries.
-
-Linux wheels use a conservative platform tag, not a `manylinux` compatibility
-claim. Build on the oldest supported target system and validate its system C
-and, when enabled, OpenMP runtime requirements on the recipient baseline.
-Use the installed wheel's environment to run `scripts/check_installation.py`
-from an unrelated directory before distributing it. Separate platform builds
-and recipient smoke checks are necessary; a successful Windows build does not
-validate a Linux binary. Recipients can install the native wheel offline with
-the same approved NumPy, SciPy and psutil wheels used by the portable release.
-
-## Numerical scope
-
-Mesh certification and resource admission remain necessary for production inputs.
-The quadrature rescue retains its convergence check; unresolved cases still raise
-an error. BoR impedance grading currently covers closed conductor snapshots,
-with four fixed refinement levels. Partial/banded material junctions and sheets
-retain their existing discretization. The 2-D contrast threshold and added levels
-improve the tested junctions but do not establish accuracy for arbitrary corners,
-open ends or triple junctions. See `NUMERICAL_METHODS.md` and
-`GEOMETRY_INPUT_CHEATSHEET.md` for the supported inputs and limitations.
-
-GPU support is limited to low-level diagnostics. No real CuPy hardware execution
-is claimed by this release. Validation for this release was performed on Windows;
-Linux native compilation and numerical smoke checks require a Linux release host.
+This builds native libraries from staged C sources and produces a
+platform-tagged wheel. A Windows x64 wheel includes all four DLLs. Linux wheels
+include their Linux equivalents. Standard source packages remain portable.
+The package builder retains the analytical cylinder/sphere references,
+feature-comparison services, native sources, sample geometries and templates.

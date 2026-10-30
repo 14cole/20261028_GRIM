@@ -1,1 +1,0 @@
-"""FREDDY regression tests."""

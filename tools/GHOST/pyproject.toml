@@ -11,7 +11,6 @@ requires-python = ">=3.10"
 dependencies = ["numpy>=2.0,<3", "scipy>=1.14,<2", "psutil>=5.9"]
 
 [project.optional-dependencies]
-test = ["pytest>=8,<10"]
 gui = ["PySide6>=6.6,<7", "matplotlib>=3.8,<4"]
 
 [tool.setuptools]
@@ -20,16 +19,13 @@ include-package-data = false
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ghost_backend*"]
-exclude = ["ghost_backend.tests*", "ghost_backend.*.tests*", "ghost_backend.validation.gap_feature_isolation*", "ghost_backend.trials*", "ghost_backend.scratch*"]
+exclude = ["ghost_backend.tests*", "ghost_backend.*.tests*", "ghost_backend.validation.*", "ghost_backend.trials*", "ghost_backend.scratch*"]
 namespaces = true
 
 [tool.setuptools.package-data]
 "ghost_backend.twod.assembly.native" = ["*.c"]
 "ghost_backend.bor.native" = ["*.c"]
-"ghost_backend.geometry" = ["geometries/*.geo", "geometries/BOR/*.geo", "templates/*.csv"]
+"ghost_backend.geometry" = ["geometries/*.geo", "geometries/BOR/*.geo", "geometries/material_examples/*.geo", "geometries/material_examples/*.csv", "geometries/material_examples/*.md", "geometries/coating_examples/*.geo", "geometries/coating_examples/*.csv", "templates/*.csv"]
 
 [tool.setuptools.exclude-package-data]
 "*" = ["*.dll", "*.so", "*.dylib"]
-
-[tool.pytest.ini_options]
-testpaths = ["ghost_backend/tests"]
