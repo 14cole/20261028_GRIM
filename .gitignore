@@ -35,6 +35,9 @@ Thumbs.db
 # Generated solver output beside geometry inputs; validation fixtures are retained
 /tools/GHOST/ghost_backend/geometry/geometries/*_rcs_*.grim
 
-# Audit test scratch and machine-local timing history; measured evidence is retained
-/tools/GHOST/ghost_backend/Codex_audit/implementation_20261028/validation_tmp_*/
-/tools/GHOST/ghost_backend/Codex_audit/implementation_20261028/benchmark_12ft/timing_cache/
+# Local development output
+**/audit_*/
+**/*_audit/
+**/*_Audit/
+**/trials/
+**/scratch/

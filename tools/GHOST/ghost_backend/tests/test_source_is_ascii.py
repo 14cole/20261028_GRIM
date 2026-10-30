@@ -2,8 +2,8 @@
 """
 Every maintained package and test Python source file must be pure ASCII.
 
-Audit and trial directories are evidence archives, not shipped package source.
-Their historical snapshots must retain the exact bytes that were measured.
+Local trial and scratch directories are not maintained package source.
+They may contain temporary copies or generated experimental files.
 They are excluded consistently with the package-layout copy boundary; live
 production source, launchers and regression tests remain covered.
 
@@ -39,7 +39,7 @@ REPO = Path(__file__).resolve().parent.parent
 
 def maintained_source(path):
     relative = path.relative_to(REPO)
-    return relative.parts[0] not in {'Codex_audit', 'Claude_audit', 'trials', 'scratch'}
+    return relative.parts[0] not in {'trials', 'scratch'}
 
 
 def main():
@@ -108,8 +108,7 @@ class SourceEncodingTests(unittest.TestCase):
         for name in ('run_gui.py', 'geometry/material_columns.py', 'tests/test_run_controls.py',
                      'twod/trials/example.py'):
             self.assertTrue(maintained_source(REPO/name))
-        for name in ('Codex_audit/before/operator.py', 'Claude_audit/probe.py',
-                     'trials/old/source.py', 'scratch/copy.py'):
+        for name in ('trials/old/source.py', 'scratch/copy.py'):
             self.assertFalse(maintained_source(REPO/name))
 
     def test_python_sources_are_ascii(self):

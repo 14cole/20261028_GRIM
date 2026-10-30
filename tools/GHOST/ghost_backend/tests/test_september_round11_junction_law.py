@@ -1,4 +1,4 @@
-"""Round 11: 2D junction grading keyed on the PEC flag, not on the evaluated law (Codex's review of round 10, finding 2)."""
+"""Round 11: 2D junction grading keyed on the PEC flag, not on the evaluated law (boundary-law regression)."""
 from pathlib import Path
 import sys
 import tempfile
@@ -42,7 +42,7 @@ class JunctionLawTests(unittest.TestCase):
         return _amplitudes(result), result['metadata']['panel_count']
 
     def test_a_zero_ohm_law_is_the_pec_flag(self):
-        # Codex's reproduction: flag 2 carrying 0 ohms was left ungraded (104 panels,
+        # The reproduction: flag 2 carrying 0 ohms was left ungraded (104 panels,
         # 0.97 % TM error against 0.24 %, fields 1.04 % apart from the flag-0 input).
         zero = ['2', 'constant', '0', '0', '0', '0']
         flagged, panels_flagged = self._solve(_halves(104, 0, []), 'TM')

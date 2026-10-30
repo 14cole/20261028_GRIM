@@ -23,7 +23,7 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {'__pycache__', '.pytest_cache', '.git', 'build', 'dist', 'results', 'generated', 'tests'}
+SKIP_DIRS = {'__pycache__', '.pytest_cache', '.git', 'build', 'dist', 'results', 'generated', 'tests', 'trials', 'scratch'}
 SKIP_SUFFIXES = {'.pyc', '.pyo', '.dll', '.so', '.dylib', '.grim', '.lock'}
 
 

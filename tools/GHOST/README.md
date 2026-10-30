@@ -34,7 +34,7 @@ configurations keep their selected destinations.
 Use the [backend folder map](#ghost-solver-and-feature-workflows) to find solvers, data I/O,
 geometry operations, feature assembly, and run management.
 
-2D monostatic runs default to adaptive factorization, adaptive meshing, corner
+2D monostatic runs default to compressed factorization, adaptive meshing, corner
 grading, and mesh certification. Threads and memory admission remain automatic,
 and completed frequencies are checkpointed for resume. The solver tab shows the
 selected policy beside the run options. Its collapsed **Advanced / Tools**
@@ -45,7 +45,7 @@ Both monostatic scripts expose the same choices in their CONFIG blocks:
 
 | Setting | Recommended default | Alternatives and behavior |
 | --- | --- | --- |
-| `FACTORIZATION` | `"adaptive"` | Chooses dense or compressed. Advanced choices: `"dense"`, `"hierarchical"`, `"compressed"`. Dense may use hierarchical factorization internally, with LU fallback. Legacy `"auto"` maps to dense; it does not mean adaptive. |
+| `FACTORIZATION` | `"compressed"` | Dense is a manual override. Legacy `"adaptive"` uses compressed; `"auto"` maps to dense. Dense may use hierarchical factorization internally, with LU fallback. |
 | `MESH_STRATEGY` | `"adaptive"` | Adaptive certification selects polynomial meshes. `"local"` and `"global"` use the manual order. |
 | `BASIS_ORDER` | `1` | Choose 1, 2, or 3 for local/global meshes. Ignored for adaptive meshes; the GUI displays **Automatic**. |
 | `MESH_GRADING` | `True` | Grades corners, open ends, and material junctions. |
@@ -290,8 +290,6 @@ feature-surface workflow.
 
 See:
 
-- [AUDIT_FIXES_2026-09-22.md](AUDIT_FIXES_2026-09-22.md) for the 22 September
-  speed, memory and accuracy fixes, what changes in results, and their verification.
 - [driver configuration](#local-and-hpc-drivers) for local/cluster operation and resource controls.
 - [GEOMETRY_INPUT_CHEATSHEET.md](GEOMETRY_INPUT_CHEATSHEET.md) for `.geo`
   boundaries, regions, materials, winding, and units.

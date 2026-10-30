@@ -206,13 +206,13 @@ class BorPlanningTests(unittest.TestCase):
             self.assertEqual(dispatch._resolve_direct_factorization(dict(supplied, assembly='auto')), 'compressed')
 
     def test_automatic_plans_go_from_tables_to_streaming_before_compression(self):
-        # Codex's round-5 reproduction: the far tables (1.46 GB; the core-to-outer
+        # The round-5 reproduction: the far tables (1.46 GB; the core-to-outer
         # operators are derived from the outer-to-core ones, not stored) are below
         # the coated solver's former 2 GB streaming threshold. Since A-BF-9
         # (16 Oct 2026) the coated solver streams every automatic call, so its own
         # decision is the dense streamed plan (2.30 GB gate); tables (3.01 GB gate)
         # are an explicit request. Round 6 sent limits below the table gate to
-        # compression; Codex's round-6 review measured that at 18.2 minutes against
+        # compression; The round-6 review measured that at 18.2 minutes against
         # 3.4 for the dense streamed plan, which still fits them.
         frequency = 12.*td.C0/(2*np.pi*RADIUS)
         outer, core = bor.sphere_generatrix(RADIUS, 130), bor.sphere_generatrix(.07, 91)
@@ -274,7 +274,7 @@ class BorPlanningTests(unittest.TestCase):
                 self.assertEqual(gated[:len(gates)], gates)
                 self.assertEqual(started[0], gates[-1])  # every rejection preceded preparation
 
-        # An explicit assembly with the factorization left automatic (Codex's
+        # An explicit assembly with the factorization left automatic (The
         # round-7 review): it is never exchanged for the other dense assembly,
         # but 'auto' still authorizes compression, as it always has.
         del started[:], gated[:]
@@ -297,7 +297,7 @@ class BorPlanningTests(unittest.TestCase):
             self.assertEqual(dispatch.resolve_automatic_plan(dict(supplied, assembly='streaming')), ('compressed', None))
 
     def test_single_precision_keeps_its_memory_diagnostic(self):
-        # Codex's round-6 reproduction. Compression needs double precision, so
+        # The round-6 reproduction. Compression needs double precision, so
         # the round-6 fallback turned this memory rejection into a ValueError.
         arguments = dict(points=bor.sphere_generatrix(RADIUS, 24), freq_hz=5e8, thetas_deg=[0., 60.],
                          n_modes=6, workers=1)
@@ -379,7 +379,7 @@ class BorPlanningTests(unittest.TestCase):
             self.assertEqual(len(result['automatic_factorization_fallback']['rejections']), 1)
 
     def test_requirements_from_an_obsolete_mode_cap_are_not_reported(self):
-        # Codex's round-7 scenario: tables are rejected at cap 24, the streamed
+        # The round-7 scenario: tables are rejected at cap 24, the streamed
         # plan is admitted there but needs cap 36, where it and compression are
         # rejected. Cap 24 is known not to converge, so its 3.0 GB is no advice.
         calls = []
@@ -452,7 +452,7 @@ class BorSnapshotPlanTests(unittest.TestCase):
         # four). The preview prices its tables at 3.21 GB (3.19 GB for 130/91 at
         # four points; 8.59 GB before round 10 gave it the run-time model) and a
         # streamed plan at 2.48 GB; every limit in between used to mean
-        # compression, which Codex and I measured at 18 minutes against 2 to 3
+        # compression, which measurements showed at 18 minutes against 2 to 3
         # for streaming.
         from ghost_backend.runs.bor_setup import resource_summary
         def coated(outer, core):
@@ -530,9 +530,9 @@ class BorSnapshotPlanTests(unittest.TestCase):
         self.assertLessEqual(forecast, 2.45)
 
     def test_single_precision_snapshot_streams_instead_of_failing_admission(self):
-        # Codex's round-8 reproduction, single precision. The chooser returned
+        # The round-8 reproduction, single precision. The chooser returned
         # before pricing, the solve ran tables and its gate rejected them,
-        # although the streamed plan is admitted.  Codex used 135/95 elements;
+        # although the streamed plan is admitted.  The fixture used 135/95 elements;
         # with the reverse cross operators derived instead of stored (and three
         # far Gauss points) their tables are the smaller plan, so this uses
         # 200/140 elements, whose 1.95 GB of far tables keep the solve's own
@@ -573,7 +573,7 @@ class BorSnapshotPlanTests(unittest.TestCase):
             self.assertEqual(gates, [])
 
     def test_run_setup_summary_resolves_its_plan_under_the_callers_options(self):
-        # Codex's round-8 reproduction: 181 aspects in batches of 256 cost more
+        # The round-8 reproduction: 181 aspects in batches of 256 cost more
         # than in the default batches of 64. Resolved under the defaults, the
         # summary announced a streamed dense plan (forecast over the limit) for a
         # solve that chooses compression.

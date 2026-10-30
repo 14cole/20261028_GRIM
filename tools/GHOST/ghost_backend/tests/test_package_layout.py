@@ -94,7 +94,7 @@ class PackageLayoutTests(unittest.TestCase):
             copied = Path(temporary) / "ghost_backend"
             shutil.copytree(str(BACKEND), str(copied),
                             ignore=shutil.ignore_patterns('__pycache__', '*.pyc',
-                                'Codex_audit', 'Claude_audit', 'trials', 'scratch'))
+                                'trials', 'scratch'))
             self.assertFalse((copied / 'cpu_checked_lu.py').exists())
             script = '''
 import importlib, pathlib, pkgutil, sys

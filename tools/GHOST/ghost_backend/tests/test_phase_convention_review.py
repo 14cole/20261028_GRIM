@@ -75,7 +75,8 @@ def test_source_distribution_excludes_tests_and_audits(tmp_path):
     release=importlib.util.module_from_spec(spec)
     spec.loader.exec_module(release)
     for name in ('README.md','ghost_backend/solver.py','ghost_backend/tests/test_solver.py',
-                 'AUDIT_FIXES.md','audit_run/check.py','Local_Audit/results.py'):
+                 'AUDIT_FIXES.md','audit_run/check.py','Local_Audit/results.py',
+                 'ghost_backend/trials/result.json','ghost_backend/scratch/copy.py'):
         target=tmp_path/name
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_text('test')

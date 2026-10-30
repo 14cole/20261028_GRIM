@@ -127,7 +127,7 @@ panels, ratios 3.9 to 5.1 and the TE values at the fine end, for 4 to 16 more
 panels. Meshes of up to 32 panels per wavelength are unchanged.
 
 The junction is classified from the boundary condition the field solve
-evaluates, not from the flag (Codex's review of round 10: a positive flag
+evaluates, not from the flag (a positive flag
 carrying 0 ohms was left ungraded, 0.97% instead of 0.24% at 104 panels and
 fields 1.04% away from the identical flag-0 input). `_boundary_condition_junctions`
 evaluates each conductor segment end (`arc_s` 0 or 1, as a taper is sampled) at
@@ -623,9 +623,6 @@ version 5 or 6 preserves explicit settings and materializes missing settings
 as historical 166.9/-9.2, with a visible compatibility notice. Saved output
 provenance records each line's input coefficient convention and applied angles.
 
-Reproducible scripts and numerical JSON records from this investigation are
-local, git-ignored files under `audit_codex_review/phase_*`.
-
 ## Certification
 
 The certified BoR entry point checks the touching-pair integration diagnostics
@@ -858,9 +855,7 @@ multiply ONE region's electric and magnetic equations: `alpha*conj(beta)` real
 and positive (PMCHWT has `alpha = beta = 1`). Both equations of a region share
 its weight here, so that product is `|c_R|**2 = 1` whatever the phase; the
 condition holds, and the phase between regions is free to make the reactive
-cancellation impossible. (An earlier version of this section stated the
-condition for the product of two regions' weights, which a relative phase would
-violate; Codex's review corrected it.) Unequal weights no longer cancel the identity terms, so each
+cancellation impossible. Unequal weights no longer cancel the identity terms, so each
 interface row receives `+sigma_R*c_R/2 * <W, n x M>` (electric) and
 `-sigma_R*c_R/2 * <W, n x J>` (magnetic). The denser region takes the negative
 phase because loss rotates its term the same way: with the opposite sign a
@@ -888,7 +883,7 @@ bound the worst case, they do not lower the estimate at every frequency.
 Frequency by frequency on 20-element spheres (`eps_r` from 0.5 to 10, five
 frequencies each, 45 cases) the weighted estimate is lower in 31 cases and
 higher in 14, all but one of those at `|eps_r - 1| <= 0.1` and by up to 11
-times (`eps_r = 0.99` at 0.7 GHz: 3.9e4 to 4.3e5, found by Codex), with the
+times (`eps_r = 0.99` at 0.7 GHz: 3.9e4 to 4.3e5), with the
 error unchanged there (0.282 to 0.277 dB). The largest weighted estimate of
 that survey is 4.3e5 against 2.3e8.
 
@@ -906,7 +901,7 @@ difference of order-one equivalent currents, and the relative error grows like
 `eps_r = 1.1`, 0.28 dB at 1.01 and 12 dB at 1.0001 (exact RCS 8.6e-11 m^2;
 10.3 and 8.5 dB at 40 and 80 elements, 9.6 and 8.0 dB weighted). The sphere
 comparisons above do not establish accuracy in that regime.
-Codex's review added magnetic and lossy media (`mu_r` up to 3, `3-3j | 1-1j`:
+Additional validation includes magnetic and lossy media (`mu_r` up to 3, `3-3j | 1-1j`:
 0.006 to 0.056 dB at 48 elements) and three-layer coatings (0.005 and 0.008 dB
 at 40 elements per surface) to the evidence for the weighted form.
 

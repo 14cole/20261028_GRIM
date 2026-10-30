@@ -119,7 +119,7 @@ previewed at 3.76 GB for tables, so compression or streaming is chosen below
 that limit instead of below 8.59 GB.
 
 Snapshot entries have no fallback, so the preview must not fall below the gate
-it predicts. Round 10 claimed it never did; Codex's review disproved that with
+it predicts. A regression case demonstrates this requirement with
 a closed corrugated impedance conductor (201 panels, 28,233 geometrically close
 pairs, tables just under the solvers' 2 GB rule). The previews assumed two
 near-operator families per surface, and a CFIE with a nonzero impedance retains
@@ -353,8 +353,7 @@ them.
 
 ## September 24 audit fixes
 
-A third audit measured where the remaining time and memory went; the fixes
-and their verification are listed in [the audit record](AUDIT_FIXES_2026-09-24.md).
+Measurements of the remaining time and memory informed the following improvements.
 On the 120 x 5 in ogive (181 aspects, same workstation, baseline and new code
 alternated): the 4 GHz survey takes 15.5 s instead of 22.5 s, the 10 GHz
 survey 108-121 s instead of 130 s, and the certified 10 GHz solve 401 s

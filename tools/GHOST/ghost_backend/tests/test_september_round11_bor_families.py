@@ -1,4 +1,4 @@
-"""Round 11: the BoR previews assumed two near-operator families per surface (Codex's review of round 10, finding 1)."""
+"""Round 11: the BoR previews assumed two near-operator families per surface (operator-family regression)."""
 from pathlib import Path
 import sys
 import unittest
@@ -19,7 +19,7 @@ def _chain(name, kind, points, ibc=0):
 
 
 def _corrugated(folds):
-    """Codex's closed axis-to-axis corrugated conductor: many geometrically close panels."""
+    """The closed axis-to-axis corrugated conductor: many geometrically close panels."""
     points = [[0., .1], [.1, .1]]
     for index in range(2*folds):
         level = .1-.2*(index+1)/(2*folds)
@@ -106,7 +106,7 @@ class NearOperatorFamilyTests(unittest.TestCase):
                         self.assertLess(preview['estimated_peak_gb'], gates[0][1]+.25)
 
     def test_automatic_snapshot_call_is_admitted_where_the_old_preview_chose_tables(self):
-        # Codex's reproduction: 201 panels, cap 20, tables just under the solvers' 2 GB
+        # The reproduction: 201 panels, cap 20, tables just under the solvers' 2 GB
         # rule. The preview priced the table plan at 4.239 GB, its gate asks 4.277 GB;
         # at any limit in between the chooser imposed tables and the solve was
         # rejected, although the streamed plan needs 2.92 GB.

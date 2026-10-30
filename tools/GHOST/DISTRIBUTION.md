@@ -29,11 +29,11 @@ are never redistributed by the release builder.
 ## Source and tests
 
 Extract `ghost-em2d-0.1.1-source.zip` for the complete clean `GHOST` folder,
-including tests, fixtures, documentation and release tools. It excludes audit
+including fixtures, documentation and release tools. It excludes tests, audit
 archives, bytecode, caches, generated solver outputs and native binaries.
 The standard `.tar.gz` source distribution is also provided for package builders.
 
-From the extracted `GHOST` folder:
+For automated tests, use the repository checkout and run from its `tools/GHOST` folder:
 
 ```console
 python -m pip install ".[test,gui]"

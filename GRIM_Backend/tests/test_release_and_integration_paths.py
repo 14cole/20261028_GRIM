@@ -10,8 +10,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_audit_folders_are_recognized():
-    assert release._is_audit_folder("Claude_Audit")
-    assert release._is_audit_folder("Codex_Audit")
+    assert release._is_audit_folder("Local_Audit")
+    assert release._is_audit_folder("Development_Audit")
     assert release._is_audit_folder("audit_2026-10-06")
     assert not release._is_audit_folder("assembly")
     assert not release._is_audit_folder("audit.py")
