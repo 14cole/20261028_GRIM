@@ -9,7 +9,7 @@ import unicodedata
 
 def _key(label):
     text = unicodedata.normalize("NFKC", str(label)).casefold().strip()
-    text = text.replace("ε", "eps").replace("μ", "mu").replace("ω", "ohm")
+    text = text.replace("\u03b5", "eps").replace("\u03bc", "mu").replace("\u03c9", "ohm")
     return re.sub(r"[\s_.\-\[\]()/]+", "", text)
 
 

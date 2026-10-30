@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Every Python source file must be pure ASCII.
+Every maintained package and test Python source file must be pure ASCII.
+
+Audit and trial directories are evidence archives, not shipped package source.
+Their historical snapshots must retain the exact bytes that were measured.
+They are excluded consistently with the package-layout copy boundary; live
+production source, launchers and regression tests remain covered.
 
 A UTF-8 source file that passes through a Windows editor, an FTP client in
 text mode, or any tool that re-encodes on save comes out the other side in a
@@ -32,6 +37,11 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 
+def maintained_source(path):
+    relative = path.relative_to(REPO)
+    return relative.parts[0] not in {'Codex_audit', 'Claude_audit', 'trials', 'scratch'}
+
+
 def main():
     offenders = []
     scanned = 0
@@ -58,7 +68,7 @@ def main():
         ]
     for path in sorted(paths):
         # A tracked file may be intentionally deleted in the current change.
-        if not path.is_file():
+        if not path.is_file() or not maintained_source(path):
             continue
         scanned += 1
         raw = path.read_bytes()
@@ -94,6 +104,14 @@ def main():
 
 
 class SourceEncodingTests(unittest.TestCase):
+    def test_scope_preserves_production_and_tests_but_not_historical_evidence(self):
+        for name in ('run_gui.py', 'geometry/material_columns.py', 'tests/test_run_controls.py',
+                     'twod/trials/example.py'):
+            self.assertTrue(maintained_source(REPO/name))
+        for name in ('Codex_audit/before/operator.py', 'Claude_audit/probe.py',
+                     'trials/old/source.py', 'scratch/copy.py'):
+            self.assertFalse(maintained_source(REPO/name))
+
     def test_python_sources_are_ascii(self):
         self.assertEqual(main(), 0)
 

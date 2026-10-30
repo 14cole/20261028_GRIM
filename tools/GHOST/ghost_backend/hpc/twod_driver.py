@@ -820,7 +820,7 @@ def submit():
         print(f"                  {idle} of {n_slots} slot(s) have no planned "
               "work -- fewer units than nodes, so those tasks exit at once")
     if not MESH_CERTIFICATION:
-        print("  Certification : Survey — mesh convergence not checked")
+        print("  Certification : Survey \u2014 mesh convergence not checked")
         print("                  Downstream use remains enabled; the user owns the")
         print("                  mesh-resolution decision.")
     print(f"  Slurm scripts : {len(slurm_paths)} files in {run_dir}")

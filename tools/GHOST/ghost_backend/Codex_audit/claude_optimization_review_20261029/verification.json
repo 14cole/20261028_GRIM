@@ -1,0 +1,98 @@
+{
+  "source_matches_reviewed_followup": {
+    "execution/memory_budget.py": true,
+    "compressed/worker_pool.py": true,
+    "twod/assembly/polynomial_pair.py": true,
+    "tests/test_incremental_worker_memory.py": true,
+    "tests/test_polynomial_pair.py": true,
+    "tests/test_junction_pair_fallback.py": true
+  },
+  "cases": [
+    {
+      "name": "worker_private_suppresses_recheck",
+      "synthetic": true,
+      "inputs_gib": {
+        "available": 8,
+        "reservation": 3.5,
+        "numeric": 0.5,
+        "parent_rss_growth": 3,
+        "parent_private_growth": 1,
+        "worker_rss": 1,
+        "worker_private": 1.5,
+        "worker_unique": 0.1,
+        "modeled_overhead": 0,
+        "additional": 0.2
+      },
+      "normal": {
+        "status": "refused",
+        "error": "Compressed spool reload requires 0.200 GiB additional allocation; 0.000 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.500 GiB, available RAM 8).",
+        "limit_gib": 0.0,
+        "refined": false
+      },
+      "detailed": {
+        "status": "accepted",
+        "limit_gib": 0.40000000037252903,
+        "refined": true
+      },
+      "false_refusal": true
+    },
+    {
+      "name": "modeled_overhead_suppresses_recheck",
+      "synthetic": true,
+      "inputs_gib": {
+        "available": 8,
+        "reservation": 3.5,
+        "numeric": 0.5,
+        "parent_rss_growth": 3,
+        "parent_private_growth": 1,
+        "worker_rss": 1,
+        "worker_private": 0.2,
+        "worker_unique": 0.1,
+        "modeled_overhead": 1.5,
+        "additional": 0.2
+      },
+      "normal": {
+        "status": "refused",
+        "error": "Compressed spool reload requires 0.200 GiB additional allocation; 0.000 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.500 GiB, available RAM 8).",
+        "limit_gib": 0.0,
+        "refined": false
+      },
+      "detailed": {
+        "status": "accepted",
+        "limit_gib": 0.40000000037252903,
+        "refined": true
+      },
+      "false_refusal": true
+    },
+    {
+      "name": "genuine_capacity_failure_control",
+      "synthetic": true,
+      "inputs_gib": {
+        "available": 8,
+        "reservation": 3.5,
+        "numeric": 0.5,
+        "parent_rss_growth": 3,
+        "parent_private_growth": 1,
+        "worker_rss": 1,
+        "worker_private": 1.5,
+        "worker_unique": 1,
+        "modeled_overhead": 0,
+        "additional": 0.2
+      },
+      "normal": {
+        "status": "refused",
+        "error": "Compressed spool reload requires 0.200 GiB additional allocation; 0.000 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.500 GiB, available RAM 8).",
+        "limit_gib": 0.0,
+        "refined": false
+      },
+      "detailed": {
+        "status": "refused",
+        "error": "Compressed spool reload requires 0.200 GiB additional allocation; 0.000 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.500 GiB, available RAM 8).",
+        "limit_gib": 0.0,
+        "refined": true
+      },
+      "false_refusal": false
+    }
+  ],
+  "scope": "Read-only source review and synthetic accounting calls; no production edits, full suite or end-to-end trials."
+}

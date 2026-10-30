@@ -1,0 +1,489 @@
+{
+  "rows": [
+    {
+      "name": "profile_before_2",
+      "arm": "before",
+      "solve_seconds": 120.2619238999905,
+      "factorization_seconds": 20.27263070002664,
+      "worker_query_seconds": 3.4841209000442177,
+      "worker_full_calls": 766,
+      "worker_incremental_calls": 0,
+      "peak_tree_private_gib": 2.6557540893554688
+    },
+    {
+      "name": "profile_after_2",
+      "arm": "after",
+      "solve_seconds": 116.89191900000151,
+      "factorization_seconds": 17.97124369998346,
+      "worker_query_seconds": 0.22041369999351446,
+      "worker_full_calls": 16,
+      "worker_incremental_calls": 749,
+      "peak_tree_private_gib": 2.6942825317382812
+    },
+    {
+      "name": "profile_before_3",
+      "arm": "before",
+      "solve_seconds": 120.35349249999854,
+      "factorization_seconds": 20.264551100000972,
+      "worker_query_seconds": 3.4939457001019036,
+      "worker_full_calls": 766,
+      "worker_incremental_calls": 0,
+      "peak_tree_private_gib": 2.683116912841797
+    },
+    {
+      "name": "profile_after_3",
+      "arm": "after",
+      "solve_seconds": 117.32451379999111,
+      "factorization_seconds": 17.938980899954913,
+      "worker_query_seconds": 0.21708390038111247,
+      "worker_full_calls": 16,
+      "worker_incremental_calls": 749,
+      "peak_tree_private_gib": 2.701343536376953
+    }
+  ],
+  "means": {
+    "before": {
+      "solve_seconds": 120.30770819999452,
+      "factorization_seconds": 20.268590900013805,
+      "worker_query_seconds": 3.4890333000730607
+    },
+    "after": {
+      "solve_seconds": 117.10821639999631,
+      "factorization_seconds": 17.955112299969187,
+      "worker_query_seconds": 0.21874880018731346
+    }
+  },
+  "bitwise_fields_equal": {
+    "profile_before_2": {
+      "VV": true,
+      "HH": true
+    },
+    "profile_after_2": {
+      "VV": true,
+      "HH": true
+    },
+    "profile_before_3": {
+      "VV": true,
+      "HH": true
+    },
+    "profile_after_3": {
+      "VV": true,
+      "HH": true
+    }
+  },
+  "saved_seconds": 3.1994917999982135,
+  "speed_improvement_percent": 2.6594237791310205,
+  "worker_query_reduction_percent": 93.73038944103133,
+  "source_hashes_unchanged": true,
+  "qualification": [
+    {
+      "name": "dogleg_dielectric15",
+      "status": "passed",
+      "seconds": 366.13312539999606,
+      "certified": true,
+      "nodes": 10779,
+      "error": null,
+      "phase": null,
+      "stop_reason": null,
+      "peak_tree_private_gib": 6.830005645751953,
+      "normal_exit": true
+    },
+    {
+      "name": "coated_inlet15",
+      "status": "stopped",
+      "seconds": null,
+      "certified": false,
+      "nodes": null,
+      "error": null,
+      "phase": null,
+      "stop_reason": "time guard",
+      "peak_tree_private_gib": 4.200099945068359,
+      "normal_exit": false
+    },
+    {
+      "name": "dogleg_magnetic15",
+      "status": "failed",
+      "seconds": 5.320106300001498,
+      "certified": false,
+      "nodes": null,
+      "error": "Discretization exceeds the configured panel limit. Earlier adaptive attempt (coarsening 4): Adaptive refinement exceeded the execution reservation: The single_dielectric 2-D solve requires an estimated 837.66 GiB, but 15.90 GiB is currently available; the safe allocation limit is 12.00 GiB. Planned system: 320104 DOFs across 2 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Earlier adaptive attempt (coarsening 8): Adaptive refinement exceeded the execution reservation: The single_dielectric 2-D solve requires an estimated 420.43 GiB, but 16.05 GiB is currently available; the safe allocation limit is 12.00 GiB. Planned system: 160068 DOFs across 2 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch.",
+      "phase": "preparing_geometry",
+      "stop_reason": null,
+      "peak_tree_private_gib": 0.594818115234375,
+      "normal_exit": true
+    },
+    {
+      "name": "inlet_tight_cap",
+      "status": "stopped",
+      "seconds": null,
+      "certified": false,
+      "nodes": null,
+      "error": null,
+      "phase": null,
+      "stop_reason": "time guard",
+      "peak_tree_private_gib": 1.8683433532714844,
+      "normal_exit": false
+    }
+  ],
+  "concurrency": [
+    {
+      "status": "passed",
+      "serial": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 6.252965399995446,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 148,
+            "reused": 328,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 9.438882100002957,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 267,
+            "reused": 544,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422
+        }
+      ],
+      "parallel": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 8.55573129998811,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 476,
+            "reused": 0,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725,
+          "relative_field_errors": {
+            "VV": 0.0,
+            "HH": 4.9455538709532435e-16
+          }
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 12.029004399999394,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 811,
+            "reused": 0,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422,
+          "relative_field_errors": {
+            "VV": 3.3754350577074657e-15,
+            "HH": 4.273022393310121e-15
+          }
+        }
+      ],
+      "serial_wall_seconds": 15.693346300002304,
+      "parallel_wall_seconds": 12.03152720000071,
+      "all_request_reservations_released": true,
+      "note": "Two real solves in one process; caps are 4 GiB each. This does not emulate an externally memory-starved host."
+    },
+    {
+      "status": "passed",
+      "serial": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 6.261454500010586,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 148,
+            "reused": 328,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 9.516482699997141,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 267,
+            "reused": 544,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422
+        }
+      ],
+      "parallel": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 8.530229800002417,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 476,
+            "reused": 0,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725,
+          "relative_field_errors": {
+            "VV": 0.0,
+            "HH": 0.0
+          }
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 11.889066899995669,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 811,
+            "reused": 0,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422,
+          "relative_field_errors": {
+            "VV": 0.0,
+            "HH": 0.0
+          }
+        }
+      ],
+      "serial_wall_seconds": 15.779325199997402,
+      "parallel_wall_seconds": 11.891984300003969,
+      "all_request_reservations_released": true,
+      "note": "Two real solves in one process; caps are 4 GiB each. This does not emulate an externally memory-starved host."
+    },
+    {
+      "status": "passed",
+      "serial": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 6.379915700003039,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 148,
+            "reused": 328,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 9.574665199994342,
+          "certified": true,
+          "shared_process": false,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 267,
+            "reused": 544,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422
+        }
+      ],
+      "parallel": [
+        {
+          "shape": "inlet",
+          "frequency": 3.0,
+          "seconds": 8.482030799990753,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 476,
+            "reused": 0,
+            "admitted": 476,
+            "refused": 0
+          },
+          "nodes": 1725,
+          "relative_field_errors": {
+            "VV": 0.0,
+            "HH": 4.9455538709532435e-16
+          }
+        },
+        {
+          "shape": "dogleg_dielectric",
+          "frequency": 1.0,
+          "seconds": 11.987755599999218,
+          "certified": true,
+          "shared_process": true,
+          "reservation_gib": 4.0,
+          "construction_checks": {
+            "live": 811,
+            "reused": 0,
+            "admitted": 811,
+            "refused": 0
+          },
+          "nodes": 1422,
+          "relative_field_errors": {
+            "VV": 2.72656943847337e-15,
+            "HH": 3.69484658287295e-15
+          }
+        }
+      ],
+      "serial_wall_seconds": 15.95595940000203,
+      "parallel_wall_seconds": 11.990379399998346,
+      "all_request_reservations_released": true,
+      "note": "Two real solves in one process; caps are 4 GiB each. This does not emulate an externally memory-starved host."
+    }
+  ],
+  "initial_concurrency_attempt": "An intermittent Windows PermissionError creating parallel output folders prevented a request from reaching the barrier. The repeated failure captured both exceptions. The harness now creates all output folders serially before launching threads; the solver needed no concurrency fix.",
+  "limitation": "The comparison control is the pushed implementation, not the older pre-construction solver. It does not independently measure total overhead versus no construction safeguards.",
+  "final_boundary_confirmation": {
+    "case": {
+      "name": "profile_final",
+      "geometry": "inlet",
+      "profile": "auto",
+      "frequency": 15,
+      "cap": 12,
+      "timeout": 600
+    },
+    "initial_execution": {
+      "assembly_threads": 8,
+      "blas_reservation": 2
+    },
+    "solve_seconds": 117.24303680000594,
+    "status": "passed",
+    "certified": true,
+    "linear_node_count": 14295,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.006822100025601685,
+      "operators": 216.40245689995936,
+      "compressed_coefficients": 3.78650420003396,
+      "compressed_tile_compression": 1.6380753000703407,
+      "compressed_spool_write": 0.17532870009017643,
+      "compressed_assembly": 68.80991350002296,
+      "factorization": 17.95059740000579,
+      "condition_estimation": 14.395981199981179,
+      "excitation": 3.3632119000394596,
+      "linear_solve": 16.248437900008867,
+      "rhs_compression": 16.691711200022837,
+      "far_field": 0.31024930004787166,
+      "compressed_spool_read": 0.28285039999173023,
+      "mesh_certification": 0.008465000006253831,
+      "hmatrix_norms": 1.7057331999967573,
+      "hmatrix_validation": 0.3112151000095764,
+      "hmatrix_assembly": 58.077048399994965
+    },
+    "elapsed_seconds": 117.2495881000068,
+    "parent_cpu_seconds": 344.90625,
+    "final_rss": 185225216
+  },
+  "final_concurrent_confirmation": {
+    "status": "passed",
+    "serial": [
+      {
+        "shape": "inlet",
+        "frequency": 3.0,
+        "seconds": 6.319175900003756,
+        "certified": true,
+        "shared_process": false,
+        "reservation_gib": 4.0,
+        "construction_checks": {
+          "live": 148,
+          "reused": 328,
+          "admitted": 476,
+          "refused": 0
+        },
+        "nodes": 1725
+      },
+      {
+        "shape": "dogleg_dielectric",
+        "frequency": 1.0,
+        "seconds": 9.480103599998984,
+        "certified": true,
+        "shared_process": false,
+        "reservation_gib": 4.0,
+        "construction_checks": {
+          "live": 267,
+          "reused": 544,
+          "admitted": 811,
+          "refused": 0
+        },
+        "nodes": 1422
+      }
+    ],
+    "parallel": [
+      {
+        "shape": "inlet",
+        "frequency": 3.0,
+        "seconds": 8.591067899993504,
+        "certified": true,
+        "shared_process": true,
+        "reservation_gib": 4.0,
+        "construction_checks": {
+          "live": 476,
+          "reused": 0,
+          "admitted": 476,
+          "refused": 0
+        },
+        "nodes": 1725,
+        "relative_field_errors": {
+          "VV": 0.0,
+          "HH": 0.0
+        }
+      },
+      {
+        "shape": "dogleg_dielectric",
+        "frequency": 1.0,
+        "seconds": 11.739252500003204,
+        "certified": true,
+        "shared_process": true,
+        "reservation_gib": 4.0,
+        "construction_checks": {
+          "live": 811,
+          "reused": 0,
+          "admitted": 811,
+          "refused": 0
+        },
+        "nodes": 1422,
+        "relative_field_errors": {
+          "VV": 0.0,
+          "HH": 0.0
+        }
+      }
+    ],
+    "serial_wall_seconds": 15.800543099991046,
+    "parallel_wall_seconds": 11.74205410000286,
+    "all_request_reservations_released": true,
+    "note": "Two real solves in one process; caps are 4 GiB each. This does not emulate an externally memory-starved host."
+  },
+  "final_boundary_confirmation_bitwise_fields_equal": true
+}

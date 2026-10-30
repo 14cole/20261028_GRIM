@@ -77,7 +77,7 @@ class CsvContractTests(unittest.TestCase):
                     np.testing.assert_array_equal(ghost.eps_values, [3.2-.15j])
                     np.testing.assert_array_equal(ghost.eps_values, freddy.eps_r)
                     np.testing.assert_array_equal(ghost.mu_values, freddy.mu_r)
-                    path.write_text('Reactance (ohms),Freq (' + unit + '),Resistance [Ω]\n'
+                    path.write_text('Reactance (ohms),Freq (' + unit + '),Resistance [\u03a9]\n'
                                     '-4,' + str(frequency) + ',20\n', encoding='utf-8')
                     ibc = _load_impedance_csv(path)
                     np.testing.assert_array_equal(ibc.freqs_ghz, [1.])

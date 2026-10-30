@@ -159,6 +159,12 @@ def prolongation(coarse, fine, coarse_layout, fine_layout):
             or coarse_layout['dof_map'].keys() != fine_layout['dof_map'].keys()
             or couplings(coarse, coarse_layout) != couplings(fine, fine_layout)):
         raise ValueError('Polynomial pair has incompatible Galerkin layouts.')
+    if coarse_layout.get('combined_junctions') or fine_layout.get('combined_junctions'):
+        # S/K' retain independent endpoint densities, while D/W replace the
+        # slave endpoint by its master. That replacement does not commute with
+        # interpolation at the new interior nodes: R3 P != P R2. One shared P
+        # therefore cannot project both representations correctly.
+        raise ValueError('Polynomial pair requires independent assembly at combined material junctions.')
     local = values(abscissae(3), 2)
     node_rows = {}
     for old, new in zip(coarse.elements, fine.elements):

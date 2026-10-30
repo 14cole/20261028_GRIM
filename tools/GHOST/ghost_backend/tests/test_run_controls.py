@@ -30,7 +30,7 @@ def test_defaults_alias_and_adaptive_order():
         assert options == automatic_options()
         assert 'Automatic' in run_control_summary(options, True)
         assert 'single P1 reference' in run_control_summary(options, False)
-        assert 'Survey — mesh convergence not checked' in run_control_summary(options, False)
+        assert 'Survey \u2014 mesh convergence not checked' in run_control_summary(options, False)
     with pytest.raises(ValueError):
         run_control_options(dict(basis_order=4))
     with pytest.raises(ValueError):
@@ -142,7 +142,7 @@ def test_gui_request_policy_visibility_busy_and_mode_isolation(app):
         assert 'P2' in tab.lbl_run_policy.text()
         assert 'Compressed' in tab.lbl_run_policy.text()
         tab.chk_mesh_certification.setChecked(False)
-        assert 'Survey — mesh convergence not checked' in tab.lbl_run_policy.text()
+        assert 'Survey \u2014 mesh convergence not checked' in tab.lbl_run_policy.text()
         tab._set_solving_state(True)
         assert not tab.twod_options_widget.isEnabled()
         tab._set_solving_state(False)

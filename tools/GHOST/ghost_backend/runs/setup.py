@@ -151,7 +151,7 @@ class RunSetupMixin:
         return (f"{result['segment_count']} segments; {result['primitive_count']} primitives. "
                 + geometry_dimensions(snapshot,value['units']) + '\n'
                 + f"{len(value['frequencies_ghz'])} frequencies \u00d7 {len(value['angles_deg'])} incident angles; {count} samples per channel, VV + HH. "
-                + ('Base/fine mesh comparison' if value['mesh_certification'] else 'Survey — mesh convergence not checked')
+                + ('Base/fine mesh comparison' if value['mesh_certification'] else 'Survey \u2014 mesh convergence not checked')
                 + f"; {value['accuracy']} target.\n"
                 + selection_note
                 + ('Warnings: ' + '; '.join(warnings) if warnings else 'Geometry and material checks passed.')

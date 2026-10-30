@@ -75,8 +75,9 @@ class MemoryBudget:
         with self.object_lock:
             self.objects[id(value)] = (weakref.ref(value), kind)
 
-    def owned(self):
+    def owned(self, incremental=False):
         numeric = worker_physical = worker_commit = 0
+        self.worker_charge_is_bound = False
         self.worker_snapshot_complete = True
         with self.object_lock:
             objects = list(self.objects.items())
@@ -86,13 +87,17 @@ class MemoryBudget:
                 with self.object_lock:
                     self.objects.pop(key, None)
             elif kind == 'workers':
-                sample=value.memory_snapshot()
+                probe = getattr(value, 'incremental_memory_snapshot', None) if incremental else None
+                sample = probe() if probe is not None else value.memory_snapshot()
                 self.worker_snapshot_complete = self.worker_snapshot_complete and sample['complete']
                 self.worker_samples.append(sample)
                 if len(self.worker_samples)>16:
                     del self.worker_samples[:-16]
                 if sample['complete']:
-                    worker_physical+=sample['unique_resident_bytes']
+                    self.worker_charge_is_bound = self.worker_charge_is_bound or probe is not None
+                    # A cheap live RSS reading is a conservative charge, not
+                    # proof of unique residency. Only full snapshots earn credit.
+                    worker_physical+=sample['rss_bytes'] if probe is not None else sample['unique_resident_bytes']
                     worker_commit+=sample['private_bytes']
             elif kind == 'factor':
                 inverses = {id(item): item for item in (getattr(value, 'factor', None),
@@ -109,7 +114,7 @@ class MemoryBudget:
             committed = min(numeric, max(0, private-self.baseline_private)) if (
                 not self.shared_process and private is not None and self.baseline_private is not None) else 0
         self.worker_ownership = (worker_physical/GIB, worker_commit/GIB)
-        return numeric/GIB, (physical+worker_physical)/GIB, (committed+worker_commit)/GIB
+        return numeric/GIB, (physical+(0 if incremental else worker_physical))/GIB, (committed+(0 if incremental else worker_commit))/GIB
 
     def caps(self):
         from ghost_backend.execution.options import allocated_memory_budget, environment_value
@@ -212,12 +217,12 @@ class MemoryBudget:
                 return 0., 0.
         return min(baseline, self.baseline_rss)/GIB, min(baseline, self.baseline_private or 0)/GIB
 
-    def limit(self, resident_hint=0.):
+    def limit(self, resident_hint=0., incremental=False):
         self.construction_lease = None
         from ghost_backend.twod.solver import _detect_available_gb
         from ghost_backend.execution.memory import windows_available_commit_bytes
         stable = self.stable()
-        numeric, physical, committed = self.owned()
+        numeric, physical, committed = self.owned(incremental=incremental)
         available = _detect_available_gb()
         commit = windows_available_commit_bytes()
         baseline_physical, baseline_commit = self.baseline_credit()
@@ -250,6 +255,7 @@ class MemoryBudget:
             owned_numeric_gib=numeric, credited_resident_gib=physical,
             owned_worker_resident_gib=self.worker_ownership[0],
             owned_worker_commit_gib=self.worker_ownership[1],
+            worker_measurement='live_incremental_charge' if incremental else 'unique_residency_credit',
             credited_commit_gib=committed, limits_gib=limits)
         return max(0., limits[reason])
 
@@ -276,9 +282,9 @@ class MemoryBudget:
     def require(self, total_gib, context):
         self._check(total_gib, self.limit(), context)
 
-    def require_reload(self, additional_bytes, context='Compressed spool reload'):
+    def require_reload(self, additional_bytes, context='Compressed spool reload', exact_workers=False):
         """Check new physical/commit allocations separately from total ownership."""
-        self.limit()
+        self.limit(incremental=not exact_workers)
         numeric = self.last['owned_numeric_gib']
         overhead = (self.plan or {}).get('process_geometry_bytes', 0)/GIB
         worker_physical, worker_commit = self.worker_ownership
@@ -303,8 +309,16 @@ class MemoryBudget:
             limits['live_commit_headroom'] = max(0., commit-max(
                 self.cohort['commit_reserve'], .1*(self.initial_commit or 0.))-all_pending)
         reason = min(limits, key=limits.get)
+        if (extra > limits[reason] and reason == 'stable_reservation'
+                and self.worker_charge_is_bound and not exact_workers):
+            # RSS includes shared pages. Before refusing on that upper bound,
+            # pay for a unique-residency reading and refresh all live limits.
+            # Parent RSS growth can dominate even when worker commit or the
+            # modeled overhead exceeds worker RSS, so do not shortcut on those.
+            return self.require_reload(additional_bytes, context, exact_workers=True)
         self.last.update(binding_constraint=reason, limit_gib=limits[reason],
-            limits_gib=limits, check_units='additional_allocation_gib')
+            limits_gib=limits, check_units='additional_allocation_gib',
+            worker_charge_refined=exact_workers)
         self._check(extra, limits[reason], context,
             additional_allocation_gib=extra, reserved_usage_after_reload_gib=resident+extra)
 
@@ -484,6 +498,10 @@ def report():
             idle_worker_identity_required=True, complete_worker_sample_required=True),
         omitted_earlier_checks=max(0,state.check_count-state.summarized_checks-len(state.events)),
         worker_samples=list(state.worker_samples),
+        worker_samples_note=('The last 16 samples may mix full and incremental readings. '
+            'When residency_credit_eligible is false, unique_resident_bytes=0 means '
+            'not measured for credit, not zero unique RAM. Calibrate residency only '
+            'from complete samples with residency_credit_eligible=true.'),
         shared_process=state.shared_process, cohort_capacity_gib=state.cohort['capacity'],
         initial_system_commit=state.initial_system_commit,
         commit_capacity_changes=list(state.cohort['commit_capacity_changes']),

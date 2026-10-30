@@ -974,7 +974,7 @@ class SolverTab(RunSetupMixin, QWidget):
         )
         self.chk_mesh_certification.setToolTip(
             "Recommended: compare discretizations and publish the refined result only when both channels pass. "
-            "When disabled: Survey — mesh convergence not checked; residual and condition checks remain."
+            "When disabled: Survey \u2014 mesh convergence not checked; residual and condition checks remain."
         )
         self.chk_mesh_certification.setChecked(True)
 

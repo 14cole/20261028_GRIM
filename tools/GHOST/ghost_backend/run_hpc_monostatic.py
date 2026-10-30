@@ -25,7 +25,7 @@ FREQUENCIES_GHZ = [2.0, 4.0, 6.0, 8.0, 10.0]
 AZIMUTHS_DEG    = [0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 180.0]
 
 GEOMETRY_UNITS = "inches"         # "inches" | "meters"
-MESH_CERTIFICATION = True        # Recommended. False: Survey — mesh convergence not checked.
+MESH_CERTIFICATION = True        # Recommended. False: Survey \u2014 mesh convergence not checked.
 ACCURACY_TARGET = "standard"     # "standard" | "tight"
 
 # --- Advanced numerical controls (recommended defaults below) ---------------

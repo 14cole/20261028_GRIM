@@ -57,4 +57,4 @@ def run_control_summary(options, mesh_certification):
     return ('Factorization: {}. Mesh: {}. Corner grading: {}. {}.'.format(
         factor, mesh_label, 'On' if options['mesh_grading'] else 'Off',
         'Mesh certification: On (compare meshes)' if mesh_certification else
-        'Survey — mesh convergence not checked'))
+        'Survey \u2014 mesh convergence not checked'))

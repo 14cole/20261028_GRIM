@@ -67,6 +67,10 @@ class PolynomialPairTests(unittest.TestCase):
                 fine = pp.cubic_mesh(coarse)
                 for pol in ('TE', 'TM'):
                     old, new = mr.build_layout(coarse, infos, pol), mr.build_layout(fine, infos, pol)
+                    if case == 'junction':
+                        with self.assertRaisesRegex(ValueError, 'combined material junctions'):
+                            pp.prolongation(coarse, fine, old, new)
+                        continue
                     p = pp.prolongation(coarse, fine, old, new)
                     np.testing.assert_allclose(p @ np.ones(p.shape[1]), 1., atol=4e-15)
                     # Every density component has the same physical polynomial,
@@ -89,6 +93,17 @@ class PolynomialPairTests(unittest.TestCase):
                     with self.subTest(case=case, pol=pol):
                         a2, l2 = assemble_multi(coarse, infos, pol, 8, 8)
                         a3, l3 = assemble_multi(fine, infos, pol, 8, 8)
+                        if case == 'junction':
+                            # The incompatible map must fall back without
+                            # changing either independently assembled system.
+                            with pp.polynomial_pair_scope(3) as pair:
+                                self.assertIsNone(pp.prepare(coarse, infos, pol))
+                                self.assertIn('combined material junctions', pair.evidence[-1]['reason'])
+                                for mesh, expected in ((coarse, a2), (fine, a3)):
+                                    actual, _ = mr.assemble_system(mesh, infos, pol, 8, 8)
+                                    np.testing.assert_array_equal(actual, expected)
+                                self.assertFalse(pair.pending)
+                            continue
                         p = pp.prolongation(coarse, fine, l2, l3)
                         projected = pp.project_dense(a3, p)
                         relative = np.linalg.norm(projected-a2)/max(np.linalg.norm(a2), 1e-300)

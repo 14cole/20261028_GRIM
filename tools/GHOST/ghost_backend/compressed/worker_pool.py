@@ -50,18 +50,35 @@ class WorkerPool:
         Current residency is evidence, not a substitute for remaining buffer
         and cache growth in the forecast. Missing samples receive no credit.
         """
+        return self._memory_snapshot(incremental=False)
+
+    def incremental_memory_snapshot(self):
+        """Live RSS/private charge for extra allocations, never residency credit.
+
+        Windows memory_info includes private commit without the costly working
+        set walk used for USS. RSS conservatively includes shared pages. Other
+        platforms keep the full probe when private commit is unavailable.
+        """
+        return self._memory_snapshot(incremental=True)
+
+    def _memory_snapshot(self, incremental):
         result=dict(rss_bytes=0,private_bytes=0,unique_resident_bytes=0,
+                    residency_credit_eligible=not incremental,
                     processes=0,complete=True,reservation_bytes=self.reserved_bytes if not self.closed else 0)
         if self.closed:
             return result
         try:
             import psutil
             for process in list((getattr(self.executor,'_processes',None) or {}).values()):
-                info=psutil.Process(process.pid).memory_full_info()
+                worker=psutil.Process(process.pid)
+                info=worker.memory_info() if incremental else worker.memory_full_info()
+                if incremental and not hasattr(info, 'private'):
+                    info=worker.memory_full_info()
                 result['processes']+=1
                 result['rss_bytes']+=int(info.rss)
                 result['private_bytes']+=int(getattr(info,'private',0))
-                result['unique_resident_bytes']+=int(getattr(info,'uss',0))
+                if not incremental:
+                    result['unique_resident_bytes']+=int(getattr(info,'uss',0))
         except Exception:
             result.update(complete=False,unique_resident_bytes=0,private_bytes=0)
         return result
