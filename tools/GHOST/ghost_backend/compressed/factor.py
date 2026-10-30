@@ -139,6 +139,7 @@ class CompressedFactor:
         old_tolerance, budget = self.tolerance, self.budget
         failed = False
         self.budget = budget - old_bytes
+        self._construction_previous = old
         try:
             self._build(UPGRADED_PRECONDITIONER_TOLERANCE)
         except (MemoryError, HierarchicalRejected, np.linalg.LinAlgError, RuntimeWarning) as exc:
@@ -149,6 +150,7 @@ class CompressedFactor:
             raise
         finally:
             self.budget = budget
+            self._construction_previous = None
         if failed:
             self.factor, self.tolerance = old, old_tolerance
             return False

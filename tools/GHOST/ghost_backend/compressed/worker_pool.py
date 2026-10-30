@@ -66,6 +66,24 @@ class WorkerPool:
             result.update(complete=False,unique_resident_bytes=0,private_bytes=0)
         return result
 
+    def construction_observation_key(self):
+        """Cheap identity for an idle team; active work must be sampled live.
+
+        Every prepared traversal changes generation. Worker replacement,
+        closure and payload changes also invalidate a previous observation.
+        This method never probes an OS process or grants residency credit.
+        """
+        if self.busy:
+            return None
+        processes = getattr(self.executor, '_processes', None) or {}
+        try:
+            pids = [process.pid for process in list(processes.values())]
+            if any(pid is None for pid in pids):
+                return None
+            return (self.closed, self.generation, self.workers, self.payload_bytes, tuple(sorted(pids)))
+        except (RuntimeError, AttributeError, TypeError):
+            return None
+
     def prepare(self, payload):
         if self.closed:
             raise RuntimeError('Cannot prepare a closed tile-worker pool.')

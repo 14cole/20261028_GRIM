@@ -296,19 +296,22 @@ def compress_sampled(block, threshold, maximum_rank, rng, start=SAMPLE_COLUMNS):
     projected block then sets the rank.  Returns ``(u, v, error)``, ``error``
     the missed-norm estimate.
     """
+    from ghost_backend.compressed.construction import workspace, product_bytes, MIB
     m, n = block.shape
     limit = min(int(maximum_rank), min(m, n)//2)
     q = np.empty((m, 0), dtype=np.complex128)
     width = max(1, min(int(start), n, max(limit, 1)))
     while True:
         block.checkpoint()
-        y = block.matmul(rng.standard_normal((n, width)) + 1j*rng.standard_normal((n, width)))
+        with workspace(block, 'sample products', 48*n*width+product_bytes(block, width), q):
+            y = block.matmul(rng.standard_normal((n, width)) + 1j*rng.standard_normal((n, width)))
         # What projection can resolve: rounding of the raw samples.
-        floor = 64*np.finfo(float).eps*float(np.max(np.linalg.norm(y, axis=0)))
-        if q.shape[1]:
-            for _ in range(2):
-                y -= q @ (q.conj().T @ y)
-        error = float(np.max(np.linalg.norm(y, axis=0)))/np.sqrt(2.)
+        with workspace(block, 'sample projection', q.nbytes+32*(m+q.shape[1])*width, q, y):
+            floor = 64*np.finfo(float).eps*float(np.max(np.linalg.norm(y, axis=0)))
+            if q.shape[1]:
+                for _ in range(2):
+                    y -= q @ (q.conj().T @ y)
+            error = float(np.max(np.linalg.norm(y, axis=0)))/np.sqrt(2.)
         if error <= max(threshold, floor):
             break
         remaining = limit - q.shape[1]
@@ -319,25 +322,33 @@ def compress_sampled(block, threshold, maximum_rank, rng, start=SAMPLE_COLUMNS):
         # so exhausting capacity never weakens the residual acceptance check.
         # Normalizing a residual far below its raw samples amplifies their
         # rounding: orthogonalize the new directions once more.
-        extension = la.qr(y[:, :min(width, remaining)], mode='economic', check_finite=False)[0]
-        if q.shape[1]:
-            extension -= q @ (q.conj().T @ extension)
-            extension = la.qr(extension, mode='economic', check_finite=False)[0]
-        q = np.hstack((q, extension))
+        with workspace(block, 'range extension', 4*y.nbytes+2*q.nbytes+16*width*width+MIB, q, y):
+            extension = la.qr(y[:, :min(width, remaining)], mode='economic', check_finite=False)[0]
+            if q.shape[1]:
+                extension -= q @ (q.conj().T @ extension)
+                extension = la.qr(extension, mode='economic', check_finite=False)[0]
+            q = np.hstack((q, extension))
+        del extension, y
         width = min(SAMPLE_COLUMNS, n)
     if not q.shape[1]:
         return q, np.empty((0, n), q.dtype), error
-    projected = block.project(q)
+    del y
+    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):
+        projected = block.project(q)
     # The wide SVD through the QR of its tall adjoint (projected = r^H w^H):
     # LAPACK's wide path took 1.6 to 2 times as long on these shapes.
-    w, r = la.qr(projected.conj().T, mode='economic', check_finite=False)
+    k = q.shape[1]
+    with workspace(block, 'projected QR', 4*projected.nbytes+32*k*k+MIB, q, projected):
+        w, r = la.qr(projected.conj().T, mode='economic', check_finite=False)
     projected = None
-    try:
-        u, s, zh = la.svd(r.conj().T, full_matrices=False, check_finite=False)
-    except np.linalg.LinAlgError:
-        u, s, zh = la.svd(r.conj().T, full_matrices=False, check_finite=False, lapack_driver='gesvd')
+    with workspace(block, 'projected SVD', 16*16*k*k+MIB, q, w, r):
+        try:
+            u, s, zh = la.svd(r.conj().T, full_matrices=False, check_finite=False)
+        except np.linalg.LinAlgError:
+            u, s, zh = la.svd(r.conj().T, full_matrices=False, check_finite=False, lapack_driver='gesvd')
     rank = int(np.count_nonzero(s > threshold))
-    return q @ u[:, :rank], s[:rank, None]*(zh[:rank] @ w.conj().T), error
+    with workspace(block, 'inverse block output', 16*(m*rank+2*n*rank+n*k), q, w, r, u, s, zh):
+        return q @ u[:, :rank], s[:rank, None]*(zh[:rank] @ w.conj().T), error
 
 
 class Node:

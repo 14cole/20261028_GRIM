@@ -8,6 +8,7 @@ native far assembly for operator evaluation, with the requested LU precision
 and linear method left unchanged.
 """
 from ghost_backend.execution.options import environment_value
+from ghost_backend.execution.failure import invoke as invoke_with_failure_evidence
 from collections import OrderedDict
 from contextlib import contextmanager
 from functools import wraps
@@ -170,7 +171,7 @@ def _run_with_kernel_tables(function, signature, args, kwargs):
     with _STATE.override(state):
         try:
             state.checkpoint()
-            result = function(*args, **kwargs)
+            result = invoke_with_failure_evidence(function, args, kwargs)
             state.checkpoint()
             if isinstance(result, dict):
                 result.setdefault('metadata', {})[KERNEL_REPORT_KEY] = state.report()
@@ -192,7 +193,7 @@ def kernel_tables(function):
     @wraps(function)
     def call(*args, **kwargs):
         if _kernel_tables_unavailable():
-            return function(*args, **kwargs)
+            return invoke_with_failure_evidence(function, args, kwargs)
         return _run_with_kernel_tables(function, signature, args, kwargs)
     return call
 
@@ -212,20 +213,20 @@ def experimental_monostatic(function):
         method = str(bound.arguments.get("solver_method", "direct")).strip().lower()
         if method != EXPERIMENTAL_METHOD:
             if _kernel_tables_unavailable():
-                return function(*args, **kwargs)
+                return invoke_with_failure_evidence(function, args, kwargs)
             return _run_with_kernel_tables(function, signature, args, kwargs)
         from ghost_backend.linalg.refined_lu import requested_precision
         if requested_precision() != "double":
             raise ValueError("Experimental CPU requires double LU precision.")
         if _STATE.get() is not None:
-            return function(*args, **kwargs)
+            return invoke_with_failure_evidence(function, args, kwargs)
         state = CPUState(bound.arguments.get("abort_event"), bound.arguments.get("progress_callback"))
         angles = bound.arguments.get('elevations_deg', bound.arguments.get('incidence_angles_deg'))
         if angles is not None:
             state.n_rhs = max(1, len(angles))
         with _STATE.override(state):
             state.checkpoint()
-            result = function(*args, **kwargs)
+            result = invoke_with_failure_evidence(function, args, kwargs)
             state.checkpoint()
             metadata = result.setdefault("metadata", {})
             metadata["solver_method_requested"] = EXPERIMENTAL_METHOD
@@ -257,7 +258,7 @@ def bistatic_kernels(function):
     @wraps(function)
     def call(*args, **kwargs):
         if _kernel_tables_unavailable():
-            return function(*args, **kwargs)
+            return invoke_with_failure_evidence(function, args, kwargs)
         return _run_with_kernel_tables(function, signature, args, kwargs)
     return call
 

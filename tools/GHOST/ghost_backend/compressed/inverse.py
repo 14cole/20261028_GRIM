@@ -135,7 +135,9 @@ class CompressedSystem:
 
         access=PreparedAccess(oracle) if hasattr(oracle,'_get') else oracle
         from ghost_backend.compressed.block_products import product_scope
-        with product_scope(enabled=self.builder=='randomized' and self.inverse_only,
+        from ghost_backend.compressed.construction import Construction
+        self.construction = Construction(self)
+        with self.construction.track(), product_scope(enabled=self.builder=='randomized' and self.inverse_only,
                            blas_threads=self.inverse_threads) as products:
             self.root=self.build(access,self.permutation)
         self.evidence=dict(bytes=self.bytes,max_rank=max(self.ranks or [0]),leaves=self.leaves,
@@ -148,22 +150,30 @@ class CompressedSystem:
             sampled_min_dimension=SAMPLED_MIN_DIMENSION,
             inverse_blas_threads=self.inverse_threads or 'configured')
         self.evidence['block_products']=dict(products.evidence)
+        self.evidence['construction']=dict(self.construction.evidence)
         if self.inverse_only:
             self.evidence['relative_inf_error_bound']=None
             self.evidence['relative_one_error_bound']=None
 
     def reserve(self,count):
+        self.check_storage(count)
+        self.bytes+=count
+    def check_storage(self,count):
         if self.bytes+count>self.budget:
             raise MemoryError('Compressed inverse exceeded its retained-storage cap.')
-        self.bytes+=count
-    def factor(self,a):
+    def factor(self,a,input_counted=False):
         self.checkpoint()
-        self.reserve(a.nbytes+8*len(a))
-        if not np.all(np.isfinite(a)):
-            raise ValueError('Nonfinite compressed factor.')
-        with warnings.catch_warnings():
-            warnings.simplefilter('error')
-            return la.lu_factor(np.array(a,order='F'),overwrite_a=True,check_finite=False)
+        size=a.nbytes+8*len(a)
+        self.check_storage(size)
+        live=() if input_counted else (a,)
+        with self.construction.step('leaf or correction LU',2*a.nbytes+8*len(a)+1024**2,*live):
+            if not np.all(np.isfinite(a)):
+                raise ValueError('Nonfinite compressed factor.')
+            with warnings.catch_warnings():
+                warnings.simplefilter('error')
+                result=la.lu_factor(np.array(a,order='F'),overwrite_a=True,check_finite=False)
+            self.reserve(size)
+        return result
     def inspect_block(self,oracle,rows,cols,u,v):
         width=max(1,min(32,(16*1024**2)//max(16*len(cols),1)))
         for start in range(0,len(rows),width):
@@ -177,60 +187,86 @@ class CompressedSystem:
             self.column_error[cols]+=np.sum(abs(original),axis=0)
     def compress_block(self,oracle,rows,cols):
         block=Block(oracle,rows,cols,self.checkpoint)
+        block.construction=self.construction
         # Randomized construction is only an inverse approximation. The
         # authoritative operator and all its coefficient error bounds remain
         # unchanged, and every field/probe solve is still checked against it.
         # Small blocks retain ACA to avoid a wide QR where a few rows suffice.
         if self.inverse_only and self.builder=='randomized' and block.planned and min(block.shape)>=SAMPLED_MIN_DIMENSION:
             rng=np.random.default_rng((hf.SAMPLE_SEED,len(rows),len(cols),int(rows[0]),int(cols[0])))
-            probes=rng.standard_normal((len(cols),ERROR_PROBES))+1j*rng.standard_normal((len(cols),ERROR_PROBES))
-            image=block.matmul(probes)
-            norm=float(np.linalg.norm(image))/np.sqrt(2*ERROR_PROBES)
+            from ghost_backend.compressed.construction import product_bytes
+            with self.construction.step('tile norm probes',48*len(cols)*ERROR_PROBES+product_bytes(block,ERROR_PROBES)):
+                probes=rng.standard_normal((len(cols),ERROR_PROBES))+1j*rng.standard_normal((len(cols),ERROR_PROBES))
+                image=block.matmul(probes)
+                norm=float(np.linalg.norm(image))/np.sqrt(2*ERROR_PROBES)
+            del probes,image
             try:
                 u,v,_=hf.compress_sampled(block,max(norm,1e-300)*self.tolerance*.25,256,rng)
-                error,_=block.error(u,v)
+                with self.construction.step('tile compression error',64*1024**2+64*(len(rows)+len(cols))*ERROR_PROBES,u,v):
+                    error,_=block.error(u,v)
                 if error<=self.tolerance:
                     self.sampled_blocks+=1
                     return u,v,error
             except hf.HierarchicalRejected:
                 pass
+            u=v=None
             self.sampled_fallbacks+=1
-        return hf.compress(block,tolerance=self.tolerance)
+        rank=min(256,min(len(rows),len(cols))//2)
+        # ACA preallocates its rank capacity. Cover balancing QR and its
+        # bounded exact/probed error checks while both factors are alive.
+        workspace=16*(6*(len(rows)+len(cols))*rank+4*rank*rank)+64*1024**2
+        with self.construction.step('ACA block',workspace):
+            return hf.compress(block,tolerance=self.tolerance)
     def build(self,oracle,ids):
         self.checkpoint()
         node=Node();node.n=len(ids);node.leaf=len(ids)<=self.leaf;node.checkpoint=self.checkpoint
         if not node.leaf:
             mid=len(ids)//2;left,right=ids[:mid],ids[mid:]
+            before=self.bytes
             try:
                 node.u12,node.v12,_=self.compress_block(oracle,left,right)
+                self.reserve(node.u12.nbytes+node.v12.nbytes)
                 node.u21,node.v21,_=self.compress_block(oracle,right,left)
+                self.reserve(node.u21.nbytes+node.v21.nbytes)
             except hf.HierarchicalRejected:
                 if len(ids)>512:raise
                 node.leaf=True
+                self.bytes=before
                 for name in ('u12','u21','v12','v21'):
                     if hasattr(node,name):delattr(node,name)
         if node.leaf:
+            raw_bytes=len(ids)**2*16
+            self.check_storage(raw_bytes+8*len(ids))
+            with self.construction.step('leaf coefficients',2*raw_bytes):
+                raw=oracle.get(ids,ids)
             if self.inverse_only:
                 self.leaves+=1
-                node.lu=self.factor(oracle.get(ids,ids))
+                node.lu=self.factor(raw)
                 return node
-            self.reserve(len(ids)**2*16)
-            node.raw=oracle.get(ids,ids)
+            self.reserve(raw_bytes)
+            node.raw=raw
             self.row_norm[ids]+=np.sum(abs(node.raw),axis=1)
             self.column_norm[ids]+=np.sum(abs(node.raw),axis=0)
             self.leaves+=1
-            node.lu=self.factor(node.raw)
+            node.lu=self.factor(node.raw,input_counted=True)
             return node
-        self.reserve(sum(v.nbytes for v in (node.u12,node.v12,node.u21,node.v21)))
         if not self.inverse_only:
-            self.inspect_block(oracle,left,right,node.u12,node.v12)
-            self.inspect_block(oracle,right,left,node.u21,node.v21)
+            with self.construction.step('operator error check',64*1024**2):
+                self.inspect_block(oracle,left,right,node.u12,node.v12)
+                self.inspect_block(oracle,right,left,node.u21,node.v21)
         node.left,node.right=self.build(oracle,left),self.build(oracle,right)
-        self.reserve(node.u12.nbytes+node.u21.nbytes)
-        node.e1,node.e2=node.left.solve(node.u12),node.right.solve(node.u21)
+        for name,child,u in (('e1',node.left,node.u12),('e2',node.right,node.u21)):
+            self.check_storage(u.nbytes)
+            # Normal inverse recursion reuses the full destination; children
+            # finish before the parent correction workspace is allocated.
+            with self.construction.step('inverse child product',8*u.nbytes+1024**2):
+                setattr(node,name,child.solve(u))
+                self.reserve(u.nbytes)
         r,s=node.u12.shape[1],node.u21.shape[1];self.ranks.extend((r,s))
-        small=np.eye(r+s,dtype=complex)
-        small[:r,r:]=node.v12 @ node.e2;small[r:,:r]=node.v21 @ node.e1
+        self.check_storage(16*(r+s)**2+8*(r+s))
+        with self.construction.step('Woodbury correction',16*((r+s)**2+2*r*s)):
+            small=np.eye(r+s,dtype=complex)
+            small[:r,r:]=node.v12 @ node.e2;small[r:,:r]=node.v21 @ node.e1
         node.lu=self.factor(small) if r+s else None
         if self.inverse_only:
             self.bytes-=node.u12.nbytes+node.u21.nbytes

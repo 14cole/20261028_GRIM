@@ -32,7 +32,8 @@ class PackageLayoutTests(unittest.TestCase):
         self.assertFalse((BACKEND / 'solver').exists())
         self.assertEqual({p.name for p in BACKEND.iterdir() if p.is_file()}, {
             'run_gui.py', 'run_local_monostatic.py', 'run_local_bor.py',
-            'run_hpc_monostatic.py', 'run_hpc_bor_monostatic.py'})
+            'run_hpc_monostatic.py', 'run_hpc_bor_monostatic.py',
+            'run_local_monostatic_exploratory.py', 'airfoil.geo'})
         for category in ('twod', 'bor', 'data_tools', 'geometry', 'validation', 'tests'):
             self.assertTrue((BACKEND / category).is_dir())
         launcher = (ghost / 'Launch_GHOST_GUI.bat').read_text()
@@ -92,7 +93,8 @@ class PackageLayoutTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             copied = Path(temporary) / "ghost_backend"
             shutil.copytree(str(BACKEND), str(copied),
-                            ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+                            ignore=shutil.ignore_patterns('__pycache__', '*.pyc',
+                                'Codex_audit', 'Claude_audit', 'trials', 'scratch'))
             self.assertFalse((copied / 'cpu_checked_lu.py').exists())
             script = '''
 import importlib, pathlib, pkgutil, sys

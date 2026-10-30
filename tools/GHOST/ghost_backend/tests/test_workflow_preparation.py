@@ -49,6 +49,7 @@ class CheckpointPreflightTests(unittest.TestCase):
 
     def test_partial_checkpoint_preflight_only_forecasts_missing_frequency(self):
         value = two_d_request([.6, .8], [0.], 'meters', True, 'standard', 'monostatic', [])
+        value['execution_options']['factorization'] = 'adaptive'
         selection = dict(selected='dense', dense_peak_gib=.1, admission_budget_gib=1.)
         with preparation_scope(), mock.patch('ghost_backend.execution.selection.select_backend',
                 return_value=selection) as forecast:

@@ -12,6 +12,7 @@ from ghost_backend.execution.runtime import ScopedValue
 from ghost_backend.execution.options import current_options, execution_scope, automatic_backend_requested
 from ghost_backend.execution.angle_batch import limit as angle_batch_limit
 from ghost_backend.twod.basis import abscissae
+from ghost_backend.execution.failure import adaptive_failure
 
 _INDICATORS = ScopedValue('ghost_hp_indicators', None)
 
@@ -141,7 +142,12 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
         # The initial request was planned on this reference path already. A
         # conservative retry can instead arrive from an admitted HP8 mesh;
         # admit the larger P1 pair again if HP4 cannot repay its own cost.
-        result, fallback_options = reference_solve(forced_initial_coarsening)
+        try:
+            result, fallback_options = reference_solve(forced_initial_coarsening)
+        except Exception as exc:
+            if forced_initial_coarsening and not isinstance(exc, InterruptedError):
+                adaptive_failure(exc, initial_coarsening, reason, [], 'ineligible_reference_fallback')
+            raise
         result['metadata']['adaptive_mesh'] = dict(used=False, reason=reason)
         if forced_initial_coarsening:
             result['metadata']['adaptive_mesh'].update(strategy='hp', fallback=True, steps=[],
@@ -228,7 +234,11 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
             except (MemoryError, BackendNumericalError, np.linalg.LinAlgError) as exc:
                 from ghost_backend.twod.assembly.polynomial_pair import discard_backend
                 discard_backend(mode)
-                if index == len(modes)-1: raise
+                if index == len(modes)-1:
+                    steps.append(dict(polynomial_degree=degree, coarsening=snapshot['_2d_hp_coarsening'],
+                        backend=mode, seconds=time.perf_counter()-before, status='failed',
+                        error_type=type(exc).__name__, reason=str(exc)))
+                    raise
                 failures.append(dict(backend=mode, reason=str(exc)))
             import gc
             gc.collect()
@@ -300,6 +310,7 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
         reason = 'Adaptive refinement exceeded the execution reservation: ' + str(exc)
     except (BackendNumericalError, np.linalg.LinAlgError) as exc:
         if initial_coarsening <= HP_COARSENING:
+            adaptive_failure(exc, initial_coarsening, str(exc), steps, 'numerical_failure')
             raise
         reason = 'Adaptive candidate numerical failure: ' + str(exc)
     except ValueError as exc:
@@ -315,9 +326,14 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
             progress_callback(0, 1, 'Adaptive candidate rejected; retrying conservative polynomial mesh')
         rejected = dict(from_coarsening=initial_coarsening, to_coarsening=HP_COARSENING,
                         reason=reason, seconds=time.perf_counter()-start, completed_steps=len(steps))
-        result = _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
-            mesh_convergence_policy, progress_callback, shared_discretization_caches,
-            initial_coarsening=HP_COARSENING)
+        try:
+            result = _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
+                mesh_convergence_policy, progress_callback, shared_discretization_caches,
+                initial_coarsening=HP_COARSENING)
+        except Exception as exc:
+            if not isinstance(exc, InterruptedError):
+                adaptive_failure(exc, initial_coarsening, reason, steps, 'conservative_retry')
+            raise
         adaptation = result['metadata']['adaptive_mesh']
         adaptation['steps'] = steps + adaptation.get('steps', [])
         adaptation['conservative_retry'] = rejected
@@ -325,7 +341,12 @@ def _run_certified(low_level_solver, geometry_snapshot, solver_kwargs,
         adaptation['elapsed_seconds'] = time.perf_counter()-start
         return result
     if progress_callback is not None: progress_callback(0, 1, 'Adaptive candidate rejected; checking the reference mesh')
-    result, fallback_options = reference_solve(True)
+    try:
+        result, fallback_options = reference_solve(True)
+    except Exception as exc:
+        if not isinstance(exc, InterruptedError):
+            adaptive_failure(exc, initial_coarsening, reason, steps, 'reference_fallback')
+        raise
     result['metadata']['adaptive_mesh'] = dict(used=False, strategy='hp', steps=steps, fallback=True, reason=reason,
         initial_coarsening=initial_coarsening,
         final_backend=fallback_options['factorization'],

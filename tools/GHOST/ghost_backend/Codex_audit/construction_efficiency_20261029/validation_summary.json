@@ -1,0 +1,84 @@
+{
+  "collected_before_final_idle_worker_refinement": 2767,
+  "collected_ids_observed_in_broad_campaign": 2767,
+  "unobserved_ids": [],
+  "full_suite_clean": false,
+  "record_summaries": {
+    "full_suite_part1_results.json": {
+      "rows": 2829,
+      "outcomes": {
+        "passed": 2826,
+        "failed": 2,
+        "skipped": 1
+      },
+      "unique_test_ids": 2119,
+      "failures": [
+        "tests/test_batch_presets.py::BatchPresetTests::test_both_drivers_use_the_automatic_profile_without_json_configuration",
+        "tests/test_bor_modal_preparation.py::RetainedPreparationTests::test_automatic_cap_retry_reuses_context_and_solved_mode_fields"
+      ]
+    },
+    "full_suite_part2_results.json": {
+      "rows": 1045,
+      "outcomes": {
+        "passed": 1036,
+        "skipped": 1,
+        "failed": 8
+      },
+      "unique_test_ids": 676,
+      "failures": [
+        "tests/test_package_layout.py::PackageLayoutTests::test_top_level_contains_launcher_guides_and_categorized_backend",
+        "tests/test_polynomial_pair.py::PolynomialPairTests::test_projected_matrix_matches_independent_galerkin_assembly",
+        "tests/test_polynomial_pair.py::PolynomialPairTests::test_projected_matrix_matches_independent_galerkin_assembly",
+        "tests/test_september_audit_implementation.py::ExecutionTests::test_physical_mode_resume_matches_a_fresh_larger_cap",
+        "tests/test_solver_matrix_pipeline.py::MatrixPipelineTests::test_default_cpu_cancels_between_batches_and_releases_pending_system",
+        "tests/test_solver_pipeline_optimization.py::ForecastReuseTests::test_setup_forecasts_frequency_units_reused_by_execution_requests",
+        "tests/test_source_is_ascii.py::SourceEncodingTests::test_python_sources_are_ascii",
+        "tests/test_workflow_preparation.py::CheckpointPreflightTests::test_partial_checkpoint_preflight_only_forecasts_missing_frequency"
+      ]
+    },
+    "final_recheck_results.json": {
+      "rows": 271,
+      "outcomes": {
+        "passed": 271
+      },
+      "unique_test_ids": 170,
+      "failures": []
+    },
+    "idle_worker_validation_results.json": {
+      "rows": 134,
+      "outcomes": {
+        "passed": 134
+      },
+      "unique_test_ids": 134,
+      "failures": []
+    }
+  },
+  "final_corrected_fixture_run": {
+    "passed": 170,
+    "subtests_passed": 101,
+    "seconds": 52.19
+  },
+  "final_affected_path_run": {
+    "passed": 134,
+    "seconds": 9.19
+  },
+  "scope_note": "Broad campaign predates the final idle-worker refinement; its affected paths were then validated by 134 passing tests and four end-to-end trial runs.",
+  "remaining_failures": [
+    {
+      "test": "tests/test_polynomial_pair.py::PolynomialPairTests::test_projected_matrix_matches_independent_galerkin_assembly",
+      "evidence": "Identical junction TE/TM matrices and errors with pre-task and current modules.",
+      "preexisting_before_this_task": true,
+      "relative_errors": {
+        "TE": 0.036577517161071174,
+        "TM": 0.05581068957032725
+      }
+    },
+    {
+      "test": "tests/test_source_is_ascii.py",
+      "evidence": "Existing Unicode in source and historical audit snapshots. All attempted encoding changes were reverted byte-for-byte.",
+      "original_source_bytes_preserved": true
+    }
+  ],
+  "skipped_note": "The broad resumed run reports one pre-existing skipped test. See raw results for its identity.",
+  "duplicate_note": "Do not sum row counts as unique cases: unittest subtests and repeated files create repeated IDs."
+}

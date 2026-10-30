@@ -257,7 +257,7 @@ class HierarchicalSolveTests(unittest.TestCase):
 class HierarchicalLargeSolveTests(unittest.TestCase):
     def test_system_dense_cannot_fit_solves_within_cap(self):
         # 10,000 panels: dense LU/HODLR is forecast above 4 GiB, so a 2.5-GiB
-        # solve cap refuses it; the automatic policy solves it with the
+        # solve cap refuses it; the compressed default solves it with the
         # hierarchical backend and matches the analytic PEC cylinder.
         from ghost_backend.validation.cylinder import sigma_pec_cylinder
         radius, frequency = .5, 6.
@@ -270,7 +270,8 @@ class HierarchicalLargeSolveTests(unittest.TestCase):
                                                 solver_method='experimental_cpu')
             result = rcs.solve_monostatic_rcs_2d(snapshot, [frequency], [0.], geometry_units='meters')
         metadata = result['metadata']
-        self.assertEqual(metadata['backend_selection']['selected'], 'compressed')
+        self.assertEqual(metadata['execution_options']['factorization'], 'compressed')
+        self.assertNotIn('backend_selection', metadata)
         events = metadata['compressed_factors']
         self.assertTrue(events and all(e['compressed']['operator'] == 'hmatrix' for e in events))
         self.assertLess(metadata['runtime_profile']['sampled_peak_process_rss_bytes'], 2.5*1024**3)

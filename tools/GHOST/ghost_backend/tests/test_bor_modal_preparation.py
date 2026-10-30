@@ -81,8 +81,8 @@ class RetainedPreparationTests(unittest.TestCase):
                       bor_options=dict(factorization='dense'))
         reference = bor.solve_bor(points,n_modes=16,**common)
         original = bor._bor_mode_limits
-        def initial_small(k,radius,angles,n_modes):
-            return (2,1) if n_modes is None else original(k,radius,angles,n_modes)
+        def initial_small(k,radius,angles,n_modes,**kwargs):
+            return (2,1) if n_modes is None else original(k,radius,angles,n_modes,**kwargs)
         with mock.patch.object(bor,'_bor_mode_limits',side_effect=initial_small):
             actual = bor.solve_bor(points,**common)
         self.assertGreater(actual['numerical_preparation']['reused_surface_contexts'],0)

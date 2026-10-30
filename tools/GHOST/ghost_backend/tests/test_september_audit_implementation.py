@@ -207,8 +207,8 @@ class ExecutionTests(unittest.TestCase):
         limits = bor._bor_mode_limits
         assembled = []
         original = bor.BorPecSolver.assemble_mode
-        def small_cap(k,rho,thetas,n_modes):
-            cap,floor = limits(k,rho,thetas,n_modes)
+        def small_cap(k,rho,thetas,n_modes,**kwargs):
+            cap,floor = limits(k,rho,thetas,n_modes,**kwargs)
             return (1 if n_modes is None else cap),floor
         def record(solver,m,cap,**kwargs):
             assembled.append(m)

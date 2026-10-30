@@ -1148,6 +1148,21 @@ class HMatrixOperator:
                     selected.setdefault(key, []).append((row, pieces))
         return selected
 
+    def range_workspace_bytes(self, r0, r1, c0, c1, width, adjoint=False):
+        """Bound output and per-level product temporaries, without coefficient copies."""
+        selected = self._within(r0, r1, c0, c1)
+        peak = 0
+        for items in selected.values():
+            # Price all tasks in a level, including results waiting for reduction.
+            elements = 0
+            for row, pieces in items:
+                height = row.stop-row.start
+                rank = row.u.shape[1] if row.v is not None else 0
+                span = sum(b-a for _, a, b in pieces)
+                elements += (4*span+3*height+3*rank) if adjoint else (4*height+3*rank)
+            peak = max(peak, elements)
+        return 16*int(width)*(peak+(c1-c0 if adjoint else r1-r0))
+
     def range_matmul(self, r0, r1, c0, c1, x, adjoint=False):
         """``H[r0:r1, c0:c1] @ x`` (or its adjoint applied to ``x``) in permuted numbering."""
         selected = self._within(r0, r1, c0, c1)
@@ -1168,9 +1183,9 @@ class HMatrixOperator:
             row, pieces = item
             y = x[row.start - r0:row.stop - r0]
             if row.v is None:
-                return [(a, b, row.u[:, o:o + b - a].conj().T @ y) for o, a, b in pieces]
-            t = row.u.conj().T @ y
-            return [(a, b, row.v[:, o:o + b - a].conj().T @ t) for o, a, b in pieces]
+                return [(a, b, (row.u[:, o:o + b - a].T @ y.conj()).conj()) for o, a, b in pieces]
+            t = (row.u.T @ y.conj()).conj()
+            return [(a, b, (row.v[:, o:o + b - a].T @ t.conj()).conj()) for o, a, b in pieces]
         for key in sorted(selected):
             for parts in self._map(visit, selected[key]):
                 for a, b, value in parts:

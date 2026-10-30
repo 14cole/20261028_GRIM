@@ -164,7 +164,7 @@ class ForecastReuseTests(unittest.TestCase):
         from ghost_backend.runs.quality import accuracy_target_policy
         record = two_d_request([.6, .8], [0., 90.], 'meters', False, 'standard', 'monostatic', [])
         record['execution_options'] = validate_options(dict(record['execution_options'],
-            assembly_threads=1, blas_threads=1, mesh_strategy='global'))
+            assembly_threads=1, blas_threads=1, mesh_strategy='global', factorization='adaptive'))
         snapshot = fixture('pec', 24)
         with preparation_scope(), mock.patch.object(solver, '_solve_memory_limit_gb', return_value=10.), \
                 mock.patch.object(selection, '_forecast_backend', wraps=selection._forecast_backend) as forecast:

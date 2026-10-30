@@ -20,7 +20,7 @@ def scope(frequencies, geometry=None, material_base_dir=None, geometry_units=Non
     if _CURRENT.get() is not None and _CURRENT.get()['identity'] == identity:
         yield
         return
-    state = dict(identity=identity, enabled=len(frequencies) == 1, entries={}, lock=threading.RLock())
+    state = dict(identity=identity, enabled=len(frequencies) == 1, entries={}, observations={}, lock=threading.RLock())
     with _CURRENT.override(state):
         yield
 
@@ -40,6 +40,7 @@ def _key(factor):
 
 def remember(factor):
     """Called only after a field inverse passes physical and sample-row gates."""
+    observe_storage(factor)
     from ghost_backend.compressed.factor import UPGRADED_PRECONDITIONER_TOLERANCE
     key = _key(factor)
     if key is None or factor.tolerance > UPGRADED_PRECONDITIONER_TOLERANCE:
@@ -49,6 +50,55 @@ def remember(factor):
         if key not in state['entries'] and len(state['entries']) >= 16:
             return
         state['entries'][key] = dict(unknowns=factor.a.n, bytes=int(factor.factor.bytes))
+
+
+def observe_storage(factor):
+    """Shadow comparison only; never changes budgets, ranks or admission.
+
+    Keep only the latest validated observation per existing request identity
+    and polarization. No matrices, files or history survive this scope.
+    """
+    key = _key(factor)
+    plan = getattr(factor, 'storage_forecast', {})
+    if key is None or plan.get('model') != 'compressed_hmatrix_v2':
+        return
+    generation = factor.event.get('factorizations', 0)
+    if getattr(factor, '_storage_observed_generation', None) == generation:
+        return
+    expected = [plan.get('operator_bytes', 0), plan.get('inverse_ceiling_bytes', 0)]
+    measured = [factor.a.bytes, factor.factor.bytes]
+    if any(not math.isfinite(v) or v <= 0 for v in expected+measured):
+        return
+    state = _CURRENT.get()
+    with state['lock']:
+        observations = state['observations']
+        previous = observations.get(key)
+        ratios = [a/b for a,b in zip(measured,expected)]
+        event = dict(mode='shadow_only', forecast_discount_applied=False,
+            unknowns=factor.a.n, operator_forecast_bytes=expected[0], inverse_forecast_bytes=expected[1],
+            operator_actual_bytes=measured[0], inverse_actual_bytes=measured[1],
+            storage_ratios=ratios, construction=dict(factor.factor.evidence.get('construction', {})),
+            construction_forecast_bytes=plan.get('inverse_construction_bytes'),
+            peak_note='Construction samples are checkpoint observations, not a measured peak guarantee.')
+        accounted = event['construction'].get('peak_accounted_build_bytes')
+        forecast = event['construction_forecast_bytes']
+        if (isinstance(accounted, (int, float)) and isinstance(forecast, (int, float))
+                and math.isfinite(accounted) and math.isfinite(forecast) and accounted >= 0 and forecast > 0):
+            event['construction_comparison'] = dict(kind='accounted_allowance_not_measured_peak',
+                accounted_to_forecast_ratio=accounted/forecast,
+                accounted_exceeds_forecast=accounted > forecast,
+                forecast_discount_applied=False)
+        if previous is not None and previous['unknowns'] < factor.a.n:
+            scales = [min(1., 1.5*ratio) for ratio in previous['ratios']]
+            proposed = [int(math.ceil(size*scale)) for size,scale in zip(expected,scales)]
+            event['previous_mesh_proposal'] = dict(reference_unknowns=previous['unknowns'],
+                margin=1.5, operator_bytes=proposed[0], inverse_bytes=proposed[1],
+                storage_underpredicted=[actual>estimate for actual,estimate in zip(measured,proposed)],
+                workspace_discount_applied=False)
+        if key in observations or len(observations) < 16:
+            observations[key] = dict(unknowns=factor.a.n, ratios=ratios)
+        factor.event['memory_forecast_observation'] = event
+        factor._storage_observed_generation = generation
 
 
 def discard(factor):

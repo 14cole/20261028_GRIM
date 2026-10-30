@@ -91,7 +91,7 @@ class MatrixPipelineTests(unittest.TestCase):
             self.assertTrue(gate['passed'])
             self.assertGreater(gate['fine_panel_count'], gate['base_panel_count'])
 
-    def test_default_cpu_cancels_between_batches_and_releases_pending_system(self):
+    def test_dense_override_cancels_between_batches_and_releases_pending_system(self):
         event = threading.Event()
         original = DenseFactor.solve
         def cancel(factor, rhs):
@@ -102,7 +102,8 @@ class MatrixPipelineTests(unittest.TestCase):
              mock.patch.object(DenseFactor, 'solve', cancel):
             with self.assertRaises(InterruptedError):
                 rcs.solve_monostatic_rcs_2d(fixture('lossy', 24), [.6], list(range(20)),
-                    geometry_units='meters', abort_event=event)
+                    geometry_units='meters', abort_event=event,
+                    execution_options=dict(factorization='dense'))
         self.assertIsNone(sessions.current_session())
 
     def test_multifrequency_bistatic_preserves_grid(self):

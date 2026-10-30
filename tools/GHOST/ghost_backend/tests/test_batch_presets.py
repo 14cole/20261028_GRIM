@@ -67,7 +67,7 @@ class BatchPresetTests(unittest.TestCase):
                                  'ACCURACY_TARGET', 'MAX_SOLVE_GB'} <= names)
         profile = driver_options(dict(MAX_SOLVE_GB=24))
         self.assertEqual((profile['factorization'], profile['mesh_strategy'], profile['ram_budget_gib']),
-                         ('adaptive', 'adaptive', 24.))
+                         ('compressed', 'adaptive', 24.))
         self.assertIsNone(driver_options(dict(MAX_SOLVE_GB=None))['ram_budget_gib'])
 
     def test_portable_requests_reject_two_dimensional_solves(self):

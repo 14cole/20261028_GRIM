@@ -42,6 +42,9 @@ class _RangeBlock:
         return self.operator.range_matmul(self.r0, self.r1, self.c0, self.c1, np.asarray(basis, complex),
                                           adjoint=True).conj().T
 
+    def product_workspace(self, width, adjoint=False):
+        return self.operator.range_workspace_bytes(self.r0, self.r1, self.c0, self.c1, width, adjoint)
+
 
 def _span(positions):
     start = int(positions[0])
@@ -74,22 +77,28 @@ class HMatrixSystem(CompressedSystem):
             raise ValueError('Inverse and operator trees differ.')
         self.reserve(self.permutation.nbytes)
         from ghost_backend.execution.options import single_thread_blas
-        with single_thread_blas(), operator.product_scope():
+        from ghost_backend.compressed.construction import Construction
+        self.construction = Construction(self)
+        with self.construction.track(), single_thread_blas(), operator.product_scope():
             self.root = self.build(PreparedAccess(operator), self.permutation)
         self.evidence = dict(bytes=self.bytes, max_rank=max(self.ranks or [0]), leaves=self.leaves,
             accesses=operator.entries, oracle_calls=operator.calls, max_query_entries=operator.max_entries,
             relative_inf_error_bound=None, relative_one_error_bound=None, storage_budget=budget,
             inverse_only=True, inverse_builder=self.builder, range_blocks=self.range_blocks,
-            max_inverse_rank=MAX_INVERSE_RANK, inverse_blas_threads=1)
+            max_inverse_rank=MAX_INVERSE_RANK, inverse_blas_threads=1,
+            construction=dict(self.construction.evidence))
 
     def compress_block(self, oracle, rows, cols):
         operator = self.operator
         r0, r1 = _span(operator.position[np.asarray(rows, np.int64)])
         c0, c1 = _span(operator.position[np.asarray(cols, np.int64)])
         block = _RangeBlock(operator, r0, r1, c0, c1, self.checkpoint)
+        block.construction = self.construction
         rng = np.random.default_rng((hf.SAMPLE_SEED, r1 - r0, c1 - c0, r0, c0))
-        probes = rng.standard_normal((c1 - c0, PROBES)) + 1j*rng.standard_normal((c1 - c0, PROBES))
-        norm = float(np.linalg.norm(block.matmul(probes)))/np.sqrt(2*PROBES)
+        with self.construction.step('norm probes', 48*(c1-c0)*PROBES+block.product_workspace(PROBES)):
+            probes = rng.standard_normal((c1 - c0, PROBES)) + 1j*rng.standard_normal((c1 - c0, PROBES))
+            norm = float(np.linalg.norm(block.matmul(probes)))/np.sqrt(2*PROBES)
+        del probes
         u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)
         self.range_blocks += 1
         self.ranks.append(u.shape[1])
@@ -100,6 +109,9 @@ class HMatrixFactor(CompressedFactor):
     """CompressedFactor for ``HMatrixOperator`` with the exact sample-row gate."""
 
     def __init__(self, operator, *args, storage_budget_bytes=None, **kwargs):
+        from ghost_backend.execution.memory_budget import current
+        ledger = current()
+        self.storage_forecast = dict(ledger.plan or {}) if ledger is not None else {}
         if storage_budget_bytes is None:
             from ghost_backend.compressed.runtime import hmatrix_storage_budget
             storage_budget_bytes = hmatrix_storage_budget()

@@ -110,9 +110,17 @@ class ExperimentalCPU(unittest.TestCase):
 
     def test_concurrent_reference_and_experimental_are_isolated(self):
         s = fixture('lossy', 24)
+        from ghost_backend.execution.options import memory_allocation_scope
+        barrier = threading.Barrier(2)
+        def reserved_solve(snapshot, method):
+            # Both jobs need explicit shares: an unreserved request can claim
+            # the entire cohort and legitimately leave the other no allowance.
+            with memory_allocation_scope(1.):
+                barrier.wait(timeout=10)
+                return solve(snapshot, method, [0., 73., 180.])
         with ThreadPoolExecutor(max_workers=2) as pool:
-            ref = pool.submit(solve, s, 'direct', [0., 73., 180.])
-            exp = pool.submit(solve, copy.deepcopy(s), 'experimental_cpu', [0., 73., 180.])
+            ref = pool.submit(reserved_solve, s, 'direct')
+            exp = pool.submit(reserved_solve, copy.deepcopy(s), 'experimental_cpu')
             a, b = exp.result(), ref.result()
         self.assert_fields(a, b)
         self.assertNotIn('experimental_cpu', b['metadata'])
