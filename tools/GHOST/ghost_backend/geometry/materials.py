@@ -44,9 +44,12 @@ def segment_type_options():
 def choose_thin_layer(parent, dielectric_options):
     """Return a typed surface-material row (without its flag), or None."""
     try:
-        from PySide6.QtWidgets import QComboBox, QDialog, QDialogButtonBox, QDoubleSpinBox, QFormLayout, QLabel
+        from PySide6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QLabel
     except ImportError:
-        from PySide2.QtWidgets import QComboBox, QDialog, QDialogButtonBox, QDoubleSpinBox, QFormLayout, QLabel
+        from PySide2.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QLabel
+    from ghost_backend.ui.table_editors import (
+        ScrollSafeComboBox as QComboBox, ScrollSafeDoubleSpinBox as QDoubleSpinBox,
+    )
     dialog = QDialog(parent)
     dialog.setWindowTitle("Thin dielectric layer in air (2D)")
     layout = QFormLayout(dialog)
@@ -78,10 +81,11 @@ def choose_thin_layer(parent, dielectric_options):
 def show_material_guide(parent):
     try:
         from PySide6.QtCore import Qt
-        from PySide6.QtWidgets import QComboBox, QDialog, QDialogButtonBox, QLabel, QVBoxLayout
+        from PySide6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QVBoxLayout
     except ImportError:
         from PySide2.QtCore import Qt
-        from PySide2.QtWidgets import QComboBox, QDialog, QDialogButtonBox, QLabel, QVBoxLayout
+        from PySide2.QtWidgets import QDialog, QDialogButtonBox, QLabel, QVBoxLayout
+    from ghost_backend.ui.table_editors import ScrollSafeComboBox as QComboBox
     dialog = QDialog(parent)
     dialog.setWindowTitle("Material models and boundary sides")
     dialog.resize(560, 300)

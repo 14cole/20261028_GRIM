@@ -66,25 +66,6 @@ def validate_material_coverage(snapshot, library, frequencies, checkpoint=None):
 
 
 class RunSetupMixin:
-    def _build_run_setup_controls(self, form):
-        try:
-            from PySide6.QtWidgets import QLabel, QPushButton
-        except ImportError:
-            from PySide2.QtWidgets import QLabel, QPushButton
-        self.run_setup_notice = QLabel()
-        self.run_setup_notice.setWordWrap(True)
-        form.addRow(self.run_setup_notice)
-        self.run_output_notice = QLabel('Output: automatic unique GRIM file after solving.')
-        self.run_output_notice.setWordWrap(True)
-        self.run_preflight_button = QPushButton('Check geometry and run setup')
-        self.run_preflight_button.clicked.connect(self._check_run_setup)
-        form.addRow(self.run_preflight_button)
-        self.cmb_units.currentTextChanged.connect(self._update_run_dimensions)
-        self.edit_geo_path.textChanged.connect(self._update_run_dimensions)
-
-    def _setup_busy(self):
-        return self._job_is_active()
-
     def _capture_run_setup(self):
         solver = self.cmb_solver_kind
         is_bor = solver.currentData() == 'bor'
@@ -157,17 +138,6 @@ class RunSetupMixin:
                 + ('Warnings: ' + '; '.join(warnings) if warnings else 'Geometry and material checks passed.')
                 + '\nSolver quality and convergence are evaluated during the run.')
 
-    def _check_run_setup(self):
-        if self._setup_busy(): return
-        try:
-            value = self._capture_run_setup()
-            snapshot,_,base_dir = self._load_geometry_for_solver()
-            self._start_setup_check(snapshot,base_dir,value)
-            self._update_run_dimensions()
-            self._update_run_output_note()
-        except Exception as exc:
-            self.run_setup_notice.setText(f'Correct before running: {exc}')
-
     def _update_run_output_note(self):
         if not self.chk_export_after_solve.isChecked():
             self.run_output_notice.setText('Output: retained in GHOST; use Export Last Result when ready.')
@@ -191,44 +161,3 @@ class RunSetupMixin:
             note+=' Bistatic runs write a separate file for each incident angle.'
         self.run_output_notice.setText(note)
         self.run_output_notice.setToolTip(details)
-
-    def _start_setup_check(self, snapshot, base_dir, value):
-        from ghost_backend.ui.solver import _SolveWorker, QThread
-        import threading
-        self._abort_event=threading.Event()
-        self._solve_run_serial += 1
-        run_id=self._solve_run_serial
-        self._active_solve_run_id=run_id
-        self._pending_solve_context=None
-        self._set_solving_state(True)
-        self.run_setup_notice.setText('Checking the current geometry and setup\u2026')
-        thread=QThread(self)
-        is_bor = value['schema'] == 'grim.bor-run-setup'
-        worker=_SolveWorker(snapshot,'',base_dir,value['frequencies_ghz'],value['aspects_deg'] if is_bor else value['angles_deg'],value['units'],DEFAULT_QUALITY,
-                            abort_event=self._abort_event,preflight_setup=value,preflight_only=True,
-                            execution_options=value.get('execution_options'), solver_method=value.get('solver_method', 'direct'),
-                            lu_precision=value.get('lu_precision', 'double'), solver_kind='bor' if is_bor else '2d',
-                            bor_options=value.get('bor_options'))
-        worker.moveToThread(thread)
-        thread.started.connect(worker.run)
-        worker.progress.connect(self._on_solver_progress)
-        worker.setup_checked.connect(self.run_setup_notice.setText)
-        worker.telemetry.connect(self._on_execution_progress)
-        worker.finished.connect(self._setup_check_finished)
-        worker.error.connect(self._setup_check_failed)
-        worker.canceled.connect(self._on_solver_canceled)
-        for signal in (worker.finished,worker.error,worker.canceled):
-            signal.connect(thread.quit)
-            signal.connect(worker.deleteLater)
-        thread.finished.connect(thread.deleteLater)
-        thread.finished.connect(lambda: self._on_solver_thread_finished(run_id))
-        self._solve_thread,self._solve_worker=thread,worker
-        thread.start()
-
-    def _setup_check_finished(self, *_):
-        self._set_solving_state(False)
-        self.lbl_status.setText('Setup check complete. Review the summary, then run. Geometry and materials are checked again when solving.')
-
-    def _setup_check_failed(self, message):
-        self._set_solving_state(False)
-        self.run_setup_notice.setText('Correct before running: '+message)

@@ -1,5 +1,6 @@
 """Desktop controls for BOR execution, separate from 2D profiles."""
-from PySide6.QtWidgets import QGroupBox, QFormLayout, QComboBox, QSpinBox
+from PySide6.QtWidgets import QGroupBox, QFormLayout
+from ghost_backend.ui.table_editors import ScrollSafeComboBox as QComboBox, ScrollSafeSpinBox as QSpinBox
 from ghost_backend.bor.options import validate_options
 
 

@@ -19,7 +19,7 @@ try:
     from PySide6.QtWidgets import (
         QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel,
         QLineEdit, QMessageBox, QPushButton, QSplitter, QTableView,
-        QVBoxLayout, QWidget, QComboBox, QCheckBox,
+        QVBoxLayout, QWidget, QCheckBox,
         QProgressBar, QSizePolicy, QToolButton, QScrollArea, QFrame,
     )
 except ImportError:
@@ -29,7 +29,7 @@ except ImportError:
     from PySide2.QtWidgets import (  # type: ignore
         QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel,
         QLineEdit, QMessageBox, QPushButton, QSplitter, QTableView,
-        QVBoxLayout, QWidget, QComboBox, QCheckBox,
+        QVBoxLayout, QWidget, QCheckBox,
         QProgressBar, QSizePolicy, QToolButton, QScrollArea, QFrame,
     )
 
@@ -70,6 +70,7 @@ from ghost_backend.runs.quality import (
     validate_mesh_convergence_policy,
 )
 from ghost_backend.ui.result_table import ResultRows, SolverResultsTableModel, plot_groups
+from ghost_backend.ui.table_editors import ScrollSafeComboBox as QComboBox
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -406,7 +407,6 @@ class MplCanvas(FigureCanvas):
 class _SolveWorker(QObject):
     telemetry = Signal(object)
     progress = Signal(int, str)
-    setup_checked = Signal(str)
     finished = Signal(object, str)
     canceled = Signal(str)
     error = Signal(str)
@@ -430,7 +430,6 @@ class _SolveWorker(QObject):
         lu_precision: 'str' = "double",
         solver_method: 'str' = "direct",
         preflight_setup=None,
-        preflight_only=False,
         execution_options=None,
         bor_options=None,
         checkpoint_directory=None,
@@ -462,7 +461,6 @@ class _SolveWorker(QObject):
         self.recovery_context = copy.deepcopy(recovery_context or {})
         self.recovery = None
         self.preflight_setup = preflight_setup
-        self.preflight_only = preflight_only
         self.cfie_alpha = float(cfie_alpha)
         self.abort_event = abort_event
         self.scattering_mode = str(scattering_mode)
@@ -611,7 +609,7 @@ class _SolveWorker(QObject):
     def _execute_run(self):
         from ghost_backend.execution.metrics import progress_listener
         from ghost_backend.twod.preparation import preparation_scope, sweep_mesh_scope
-        if self.recovery_root and not self.preflight_only:
+        if self.recovery_root:
             from ghost_backend.execution.recovery import RecoveryRun
             arguments = self._bor_arguments() if self.solver_kind=='bor' else self._monostatic_2d_arguments(self.snapshot, self._on_progress)
             if self.scattering_mode=='bistatic':
@@ -637,14 +635,10 @@ class _SolveWorker(QObject):
                     if self.abort_event is not None and self.abort_event.is_set():
                         raise InterruptedError('Setup check canceled.')
                 planning = {'output_frequency_count':1} if self.recovery is not None and self.solver_kind=='bor' else {}
-                summary = RunSetupMixin._run_setup_summary(None, self.snapshot, self.base_dir,
+                RunSetupMixin._run_setup_summary(None, self.snapshot, self.base_dir,
                     self.preflight_setup, checkpoint, **planning)
                 if self.abort_event is not None and self.abort_event.is_set():
                     raise InterruptedError('Setup check canceled.')
-                self.setup_checked.emit(summary)
-                if self.preflight_only:
-                    self.finished.emit({}, self.source_path)
-                    return
             if self.solver_kind == "bor":
                 result = self._run_bor()
             else:
@@ -1081,7 +1075,7 @@ class SolverTab(RunSetupMixin, QWidget):
 
         options_form.addRow("Solver", self.cmb_solver_kind)
         options_form.addRow("Solver units", self.cmb_units)
-        self.lbl_run_dimensions = QLabel('Check geometry to display physical dimensions.')
+        self.lbl_run_dimensions = QLabel('Load geometry to display physical dimensions.')
         self.lbl_run_dimensions.setWordWrap(True)
         self.cmb_accuracy_target = QComboBox()
         self.cmb_accuracy_target.addItem("Standard", "standard")
@@ -1091,6 +1085,17 @@ class SolverTab(RunSetupMixin, QWidget):
             "These are numerical tolerances, not a guarantee about a reduced "
             "material model."
         )
+        self.btn_one_shot = QPushButton('Use one-shot preset (no mesh certification)')
+        self.btn_one_shot.setToolTip(
+            '2D monostatic: use the accelerated CPU method, compressed factorization, '
+            'and a single P1 reference mesh per frequency, for both VV and HH. '
+            'Skips base/fine mesh comparisons. Residual and condition checks remain. '
+            'This is a fast starting point; the fastest factorization depends on the geometry. '
+            'Re-enable mesh certification below for a checked solve.')
+        self.btn_one_shot.clicked.connect(self._use_one_shot_preset)
+        tools_form.addRow(self.btn_one_shot)
+        tools_form.addRow(self.chk_mesh_certification)
+        tools_form.addRow('Accuracy target', self.cmb_accuracy_target)
         from ghost_backend.ui.bor_options import BorOptionsWidget
         self.bor_options_widget = BorOptionsWidget()
         self.bor_options_widget.setVisible(False)
@@ -1129,13 +1134,14 @@ class SolverTab(RunSetupMixin, QWidget):
         options_form.addRow(self.lbl_bor_radar_frame)
         options_form.addRow("Scattering Mode", self.cmb_scatter_mode)
         options_form.addRow(self.lbl_obs_angles, self.edit_obs_angles)
-        options_form.addRow(self.chk_mesh_certification)
-        options_form.addRow("Accuracy target", self.cmb_accuracy_target)
-        options_form.addRow(self.lbl_run_policy)
+        tools_form.addRow(self.lbl_run_policy)
         options_form.addRow(self.lbl_cfie_alpha, self.edit_cfie_alpha)
         options_form.addRow(self.bor_options_widget)
-        options_form.addRow(self.lbl_run_dimensions)
-        self._build_run_setup_controls(options_form)
+        tools_form.addRow(self.lbl_run_dimensions)
+        self.run_output_notice = QLabel('Output: automatic unique GRIM file after solving.')
+        self.run_output_notice.setWordWrap(True)
+        self.cmb_units.currentTextChanged.connect(self._update_run_dimensions)
+        self.edit_geo_path.textChanged.connect(self._update_run_dimensions)
         layout.addWidget(options_group)
 
         output_group = QGroupBox("Output")
@@ -1566,7 +1572,6 @@ class SolverTab(RunSetupMixin, QWidget):
         self.edit_obs_angles.setVisible(is_bistatic)
         self.btn_run.setEnabled(not busy)
         self.btn_recover.setEnabled(not busy)
-        self.run_preflight_button.setEnabled(not busy)
         self._sync_export_state()
         self.btn_currents.setEnabled(not busy and not is_bor)
         self.btn_browse_geo.setEnabled(not busy)
@@ -1584,7 +1589,9 @@ class SolverTab(RunSetupMixin, QWidget):
         self._update_mode_enables()
         self.chk_export_after_solve.setEnabled(not busy)
         self.chk_mesh_certification.setEnabled(not busy)
-        self.cmb_accuracy_target.setEnabled(not busy)
+        self.cmb_accuracy_target.setEnabled(not busy and self.chk_mesh_certification.isChecked())
+        self.btn_one_shot.setVisible(not is_bor and not is_bistatic)
+        self.btn_one_shot.setEnabled(not busy and not is_bor and not is_bistatic)
         self.bor_options_widget.setEnabled(not busy and is_bor)
         self.twod_options_widget.setVisible(not is_bor and not is_bistatic)
         self.twod_options_widget.setEnabled(not busy and not is_bor and not is_bistatic)
@@ -1621,6 +1628,17 @@ class SolverTab(RunSetupMixin, QWidget):
         options = (run_control_options(self.twod_options_widget.value()) if scattering == 'monostatic'
                    else automatic_run(scattering)['execution_options'])
         self.lbl_run_policy.setText(run_control_summary(options, self.chk_mesh_certification.isChecked()))
+        self.cmb_accuracy_target.setEnabled(
+            not self._job_is_active() and self.chk_mesh_certification.isChecked())
+
+    def _use_one_shot_preset(self):
+        if (self._job_is_active() or self.cmb_solver_kind.currentData() != '2d'
+                or self.cmb_scatter_mode.currentData() != 'monostatic'):
+            return
+        self.twod_options_widget.set_value(dict(
+            factorization='compressed', mesh_strategy='adaptive', basis_order=1, mesh_grading=True))
+        self.chk_mesh_certification.setChecked(False)
+        self._update_run_policy()
 
     def _on_scatter_mode_changed(self, _index: 'int' = 0) -> 'None':
         is_bistatic = (self.cmb_scatter_mode.currentData() == "bistatic")
@@ -2104,7 +2122,6 @@ class SolverTab(RunSetupMixin, QWidget):
 
         thread.started.connect(worker.run)
         worker.progress.connect(self._on_solver_progress)
-        worker.setup_checked.connect(self.run_setup_notice.setText)
         worker.telemetry.connect(self._on_execution_progress)
         worker.finished.connect(self._on_solver_finished)
         worker.canceled.connect(self._on_solver_canceled)

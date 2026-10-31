@@ -7,20 +7,25 @@ from typing import Any, Dict, List, Optional, Tuple
 try:
     from PySide6.QtCore import QObject, QThread, Qt, Signal, Slot
     from PySide6.QtWidgets import (
-        QAbstractItemView, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog,
+        QAbstractItemView, QCheckBox, QFileDialog,
         QFormLayout, QFrame, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QProgressBar,
-        QPushButton, QScrollArea, QSizePolicy, QSpinBox, QTableWidget, QTableWidgetItem, QVBoxLayout,
+        QPushButton, QScrollArea, QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
         QWidget,
     )
 except ImportError:
     from PySide2.QtCore import QObject, QThread, Qt, Signal, Slot  # type: ignore
     from PySide2.QtWidgets import (  # type: ignore
-        QAbstractItemView, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog,
+        QAbstractItemView, QCheckBox, QFileDialog,
         QFormLayout, QFrame, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QProgressBar,
-        QPushButton, QScrollArea, QSizePolicy, QSpinBox, QTableWidget, QTableWidgetItem, QVBoxLayout,
+        QPushButton, QScrollArea, QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
         QWidget,
     )
 
+from ghost_backend.ui.table_editors import (
+    ScrollSafeComboBox as QComboBox,
+    ScrollSafeSpinBox as QSpinBox,
+    ScrollSafeDoubleSpinBox as QDoubleSpinBox,
+)
 from ghost_backend.assembly.expand_wing_sections import (
     expand_wing_sections,
     read_path_points,

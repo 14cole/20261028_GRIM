@@ -1,6 +1,7 @@
 """Advanced 2-D monostatic controls; numerical policy stays in runs.controls."""
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QCheckBox, QComboBox, QFormLayout, QWidget
+from PySide6.QtWidgets import QCheckBox, QFormLayout, QWidget
+from ghost_backend.ui.table_editors import ScrollSafeComboBox as QComboBox
 
 from ghost_backend.runs.controls import (FACTORIZATION_LABELS, DIAGNOSTIC_FACTORIZATION_LABELS,
                                         run_control_options)

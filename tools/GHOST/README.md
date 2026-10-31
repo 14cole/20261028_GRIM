@@ -35,10 +35,24 @@ geometry operations, feature assembly, and run management.
 
 2D monostatic runs default to compressed factorization, adaptive meshing, corner
 grading, and mesh certification. Threads and memory admission remain automatic,
-and completed frequencies are checkpointed for resume. The solver tab shows the
-selected policy beside the run options. Its collapsed **Advanced / Tools**
-section provides numerical overrides, the accuracy/performance report, and the
-boundary-density plot.
+and completed frequencies are checkpointed for resume. The collapsed
+**Advanced / Tools** section contains mesh certification, the accuracy target,
+numerical overrides, the selected policy, the accuracy/performance report, and
+the boundary-density plot. Geometry and material checks run automatically when
+**Run Solver** is pressed.
+
+For a single-mesh 2D monostatic solve, open **Advanced / Tools**, click
+**Use one-shot preset (no mesh certification)**, then **Run Solver**. The preset
+uses accelerated CPU execution, compressed factorization, and one P1 reference
+mesh per frequency for both VV and HH. It skips mesh refinement comparisons;
+residual and condition checks remain, and the result is marked uncertified.
+The fastest factorization depends on the geometry; Dense remains a manual
+override. Recheck **Certify mesh convergence** to return to a certified solve.
+The accuracy target is disabled while certification is off.
+
+Mouse-wheel scrolling over GHOST dropdowns and numeric fields does not change
+settings, even when focused. Use clicks, typing, or keyboard arrows to edit;
+opened dropdown lists retain normal scrolling.
 
 Both monostatic scripts expose the same choices in their CONFIG blocks:
 

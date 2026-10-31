@@ -51,7 +51,7 @@ def run_control_summary(options, mesh_certification):
     mesh = options['mesh_strategy']
     if mesh == 'adaptive':
         mesh_label = ('Adaptive; polynomial order: Automatic' if mesh_certification else
-                      'Adaptive selection; single P1 reference mesh (no refinement)')
+                      'Single P1 reference mesh (no refinement)')
     else:
         mesh_label = '{}; polynomial order: P{}'.format(mesh.capitalize(), options['basis_order'])
     return ('Factorization: {}. Mesh: {}. Corner grading: {}. {}.'.format(
