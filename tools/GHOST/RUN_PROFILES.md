@@ -14,26 +14,40 @@ setup. You choose the physical problem; the solver chooses how to compute it.
 | Mesh certification | On: solve base and fine meshes and publish the fine result only if both channels converge. Off: solve one mesh, marked `mesh_convergence_certified=false`. |
 | Accuracy target | Standard, or tight (1% maximum complex change) for the base/fine comparison. The dB and phase changes are compared where the pattern is above -30 dB of its peak (deep nulls are judged by the complex change). |
 
+Turning certification off runs a single mesh. It can take longer than an
+adaptive certified run when that single mesh contains more unknowns.
+
 ## What is automatic
 
 Monostatic runs:
 
-- **Backend.** Dense or compressed Galerkin, ranked by predicted work for the
-  geometry, materials and angle count, and admitted against available RAM
-  (90% of currently available memory). Compressed solves may keep up to 60%
-  of that limit (at least 2 GiB) for both polarizations' operators and the
-  preconditioner. The work model separates assembly, compression,
-  factorization and angle solves. Clean, repeated measurements can calibrate
-  nearby frequencies with compatible meshes and execution settings; ordinary
-  runs do not launch extra solves for calibration.
+- **Backend.** Compressed Galerkin is the monostatic default. Dense is a
+  manual override; automatic runs do not select it from predicted timings.
+  Within compressed solving, the planner prices operator storage, inverse
+  construction, assembly workspace and angle batches. Retained storage uses
+  the remaining reservation after phase workspace, without a 2-GiB minimum.
+  Paired hierarchical assembly is used only when the active plan admits it;
+  otherwise the polarizations are assembled separately. Eligible smaller
+  systems may use hierarchical assembly when the tile forecast exceeds the
+  reservation and the hierarchical forecast is lower. A reusable polarization
+  partner retains its existing representation when it is repriced.
+- **Memory.** The current reservation starts from 90% of available physical
+  RAM, subject to explicit user and scheduler limits and live physical/commit
+  checks. It remains tied to that initial physical allowance; verified growth
+  in the operating system's commit limit does not remove the physical cap.
+  Assembly sample growth receives incremental checks across concurrent tasks.
+  Forecasts are estimates, not guarantees of completion for every geometry.
 - **Mesh.** An adaptive polynomial mesh: a quadratic candidate with a cubic
   accuracy check, local refinement when the comparison fails, and a global
   linear mesh as the final fallback.
 - **Numerics.** Double-precision LU, automatic incident-field basis reuse, and
-  up to 256 angles per batch.
+  up to 256 angles per batch. Large hierarchical interaction lists start from
+  a cheaper compression proposal; the probe checks, backtracking and error
+  thresholds remain unchanged. Small dense blocks inside the compressed inverse
+  can avoid unnecessary mesh retries; they do not select the dense backend.
 - **Threads.** Assembly threads default to the physical cores of the solving
   machine (at most 16), or the per-unit allocation a batch driver computed for
-  a scheduled solve. Large compressed operators are
+  a scheduled solve. Compressed tile operators are
   assembled in worker processes instead: up to eight (half the host cores) for
   a desktop solve, the CPU reservation for a scheduled solve, fewer when
   memory is short, and none inside batch worker processes. Factorization and
@@ -98,7 +112,7 @@ python tools/GHOST/ghost_backend/run_local_monostatic_exploratory.py
 ```
 
 The current configuration uses a global P1 mesh at 20 panels per controlling wavelength,
-with corner grading off and automatic RAM-aware backend selection. Choose
+with corner grading off and compressed factorization by default. Choose
 panels per wavelength, P1/P2/P3 interpolation, optional grading and factorization.
 CPU counts, memory admission, incident-field compression and compressed storage
 use automatic backend defaults. Frequency and azimuth sweeps use the configured

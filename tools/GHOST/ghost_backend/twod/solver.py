@@ -2051,6 +2051,15 @@ def _dense_formulation_resources(
         robin_layout if robin_layout is not None else locals().get('layout'))
     if model is not None:
         result['hmatrix_storage'] = model
+    elif not storage.get('analytic_zero') and 2048 <= system_dofs < 8192:
+        from ghost_backend.execution.options import environment_value
+        # Preserve an explicit threshold override, including disabling H-matrix
+        # assembly. This alternative is priced only under actual memory pressure.
+        if not environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip():
+            candidate = hmatrix_storage(mesh, infos, formulation, system_dofs,
+                robin_layout if robin_layout is not None else locals().get('layout'), pressure_candidate=True)
+            if candidate is not None:
+                result['hmatrix_pressure_candidate'] = candidate
     from ghost_backend.compressed.runtime import enabled as compressed_enabled
     if sample_compression and compressed_enabled() and not storage.get('analytic_zero') and model is None:
         from ghost_backend.compressed.memory import geometry_storage

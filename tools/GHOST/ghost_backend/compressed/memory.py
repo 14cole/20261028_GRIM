@@ -127,7 +127,7 @@ def sample_operator(oracle, coordinates, tile=512, checkpoint=None, pilot_identi
         tile=tile, groups=groups, bands=bands, sampled=True)
 
 
-def hmatrix_storage(mesh, infos, formulation, system_dofs, layout=None):
+def hmatrix_storage(mesh, infos, formulation, system_dofs, layout=None, pressure_candidate=False):
     """Geometry-only hierarchical forecast for a system above its threshold, or None.
 
     Thin layers with a magnetic contrast (twice the nodes) keep the tile
@@ -135,7 +135,9 @@ def hmatrix_storage(mesh, infos, formulation, system_dofs, layout=None):
     """
     from ghost_backend.compressed import hmatrix
     from ghost_backend.compressed.runtime import coordinates
-    if not system_dofs or not hmatrix.selected(system_dofs) or hmatrix.configuration_unsupported() is not None:
+    if not system_dofs or hmatrix.configuration_unsupported() is not None:
+        return None
+    if not hmatrix.selected(system_dofs) and not pressure_candidate:
         return None
     if formulation == 'thin_dielectric_layer' and system_dofs != len(mesh.nodes):
         return None
@@ -220,7 +222,7 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
     resources = resources or {}
     model = resources.get('hmatrix_storage')
     from ghost_backend.compressed import hmatrix
-    if model is not None and hmatrix.selected(d):
+    if model is not None and (hmatrix.selected(d) or resources.get('memory_pressure_hmatrix')):
         return hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb, storage_limit)
     sample = resources.get('compressed_storage')
     if sample is None:
@@ -297,7 +299,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
     from ghost_backend.compressed.runtime import hmatrix_storage_budget
     limit = hmatrix_storage_budget() if storage_limit is None else storage_limit
     operator, inverse, construction = model['operator_bytes'], model['inverse_bytes'], model['inverse_peak_bytes']
-    resident = 2*operator if 2*operator + inverse <= limit else operator
+    paired = 2*operator + inverse <= limit
+    resident = 2*operator if paired else operator
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
     moment_cache = resources.get('moment_cache_bytes', MOMENT_CACHE_BYTES if resources.get('basis_width', 2) > 2 else 0)
     # A previous tile-based mesh can leave run-owned workers and polynomial
@@ -321,6 +324,7 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
         solve=solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
     return dict(model='compressed_hmatrix_v2', peak_bytes=int(math.ceil(peak)),
+        system_dofs=int(d), paired_assembly=bool(paired),
         nonstorage_phase_bytes=nonstorage, process_baseline_bytes=128*MIB,
         medium_wavenumbers=model.get('medium_wavenumbers', []),
         medium_count=model.get('medium_count'), medium_list_truncated=model.get('medium_list_truncated', False),
@@ -335,6 +339,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
         retained_worker_allowance_bytes=int(worker_bytes),
         retained_polynomial_operator_bytes=int(polynomial_bytes),
         assembly_workspace_bytes=int(model['assembly_workspace_bytes']),
+        assembly_sample_workspace_bytes=int(model.get('assembly_sample_workspace_bytes', 0)),
+        adaptive_sample_growth_admitted=bool(model.get('adaptive_sample_growth_admitted', False)),
         storage_limit_bytes=int(limit), storage_fits=bool(operator + inverse <= limit),
         temporary_disk_bytes=0, storage_method=model['method'], sampled=False, samples=0,
         coefficients=int(model['coefficients']), inverse_rank=int(model['inverse_rank']),

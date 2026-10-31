@@ -97,6 +97,7 @@ class Node(hf.Node):
         return np.vstack((first,second))
 
 class CompressedSystem:
+    DENSE_FALLBACK_LIMIT = 512
     def __init__(self,oracle,coordinates,tolerance=1e-12,leaf=128,budget=512*1024**2,checkpoint=None,inverse_only=False):
         self.inverse_only=bool(inverse_only)
         if not isinstance(leaf,(int,np.integer)) or not 1<=leaf<=512:
@@ -126,6 +127,7 @@ class CompressedSystem:
             raise ValueError('GHOST_COMPRESSED_INVERSE_THREADS must be configured or an integer within the CPU allocation and configured BLAS cap.')
         self.inverse_threads=None if threads=='configured' else int(threads)
         self.bytes=0;self.ranks=[];self.leaves=0
+        self.dense_fallbacks=0;self.largest_dense_fallback=0
         self.sampled_blocks=0;self.sampled_fallbacks=0
         self.row_norm=np.zeros(oracle.n);self.row_error=np.zeros(oracle.n)
         self.column_norm=np.zeros(oracle.n);self.column_error=np.zeros(oracle.n)
@@ -145,6 +147,8 @@ class CompressedSystem:
             relative_inf_error_bound=float(self.row_error.max()/max(self.row_norm.max(),1e-300)),
             relative_one_error_bound=float(self.column_error.max()/max(self.column_norm.max(),1e-300)),
             storage_budget=budget,inverse_only=self.inverse_only)
+        self.evidence.update(dense_fallbacks=self.dense_fallbacks,
+            largest_dense_fallback=self.largest_dense_fallback,dense_fallback_limit=self.DENSE_FALLBACK_LIMIT)
         self.evidence.update(inverse_builder=self.builder if self.inverse_only else 'aca',
             sampled_blocks=self.sampled_blocks,sampled_fallbacks=self.sampled_fallbacks,
             sampled_min_dimension=SAMPLED_MIN_DIMENSION,
@@ -229,7 +233,9 @@ class CompressedSystem:
                 node.u21,node.v21,_=self.compress_block(oracle,right,left)
                 self.reserve(node.u21.nbytes+node.v21.nbytes)
             except hf.HierarchicalRejected:
-                if len(ids)>512:raise
+                if len(ids)>self.DENSE_FALLBACK_LIMIT:raise
+                self.dense_fallbacks+=1
+                self.largest_dense_fallback=max(self.largest_dense_fallback,len(ids))
                 node.leaf=True
                 self.bytes=before
                 for name in ('u12','u21','v12','v21'):

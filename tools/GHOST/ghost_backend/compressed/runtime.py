@@ -78,6 +78,12 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
     from ghost_backend.compressed import hmatrix
     from ghost_backend.execution.memory_budget import current
     from ghost_backend.twod.solver import _solve_memory_limit_gb
+    if (resources.get('hmatrix_pressure_candidate') is not None
+            and resources.get('compressed_storage', {}).get('hmatrix')):
+        # The identity-checked TM partner already exists. Reprice its actual
+        # representation even if a fresh tile forecast would now fit.
+        resources = dict(resources, hmatrix_storage=resources['hmatrix_pressure_candidate'],
+            memory_pressure_hmatrix=True)
     def price(storage):
         plan = forecast(n, d, count, batch, threads, storage, resources, safety, floor_gb)
         if live_residency_bytes is not None:
@@ -92,7 +98,8 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
                 plan[field] = {key: value+extra for key,value in plan[field].items()}
         return plan
     setting = environment_value('GHOST_COMPRESSED_STORAGE_MIB','2048').strip()
-    hierarchical_plan = resources.get('hmatrix_storage') is not None and hmatrix.selected(d)
+    hierarchical_plan = resources.get('hmatrix_storage') is not None and (
+        hmatrix.selected(d) or resources.get('memory_pressure_hmatrix'))
     auto = setting == '0' or hierarchical_plan and setting == '2048'
     if submission_planning:
         # The submitting host does not own the eventual node allocation. Keep
@@ -113,6 +120,23 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
         plan['storage_policy'] = 'reservation_minus_phase_workspace'
     else:
         plan['storage_policy'] = 'explicit_payload_cap'
+    if resources.get('memory_pressure_hmatrix'):
+        plan['memory_pressure_hmatrix'] = True
+    candidate = resources.get('hmatrix_pressure_candidate')
+    if (candidate is not None and not hierarchical_plan and not submission_planning
+            and not environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip()):
+        ledger = current()
+        capacity = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
+        if plan['peak_bytes'] > capacity:
+            alternative = dict(resources, hmatrix_storage=candidate, memory_pressure_hmatrix=True)
+            alternative.pop('hmatrix_pressure_candidate', None)
+            other = planned_forecast(n, d, count, batch, threads, alternative, safety, floor_gb,
+                live_residency_bytes=live_residency_bytes)
+            if other.get('storage_fits', True) and other['peak_bytes'] < plan['peak_bytes']:
+                other['representation_reason'] = 'Tile forecast exceeds reservation at the requested angle batch.'
+                other['tile_alternative_peak_bytes'] = plan['peak_bytes']
+                other['memory_pressure_hmatrix'] = True
+                return other
     return plan
 
 
@@ -152,6 +176,20 @@ def coordinates(mesh,n):
     return np.tile(xy,(n//len(mesh.nodes),1))
 
 
+def hierarchical_selected(n):
+    """Normal threshold, or a same-system compressed plan under memory pressure."""
+    from ghost_backend.compressed import hmatrix
+    if hmatrix.selected(n):
+        return True
+    if environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip():
+        return False
+    from ghost_backend.execution.memory_budget import current
+    ledger = current()
+    plan = ledger.plan if ledger is not None else None
+    return bool(plan and plan.get('model') == 'compressed_hmatrix_v2'
+        and plan.get('system_dofs') == n and plan.get('memory_pressure_hmatrix'))
+
+
 def hierarchical(oracle,xy):
     """(operator, None) above the hierarchical threshold, else (None, fallback reason or None).
 
@@ -160,11 +198,21 @@ def hierarchical(oracle,xy):
     assembly is rejected (measured error, rank or storage).
     """
     from ghost_backend.compressed import hmatrix
-    if not hmatrix.selected(oracle.n):return None,None
+    if not hierarchical_selected(oracle.n):return None,None
     reason=hmatrix.unsupported(oracle)
     if reason is not None:return None,reason
     sources=getattr(oracle,'oracles',None)
     mesh=sources[0].mesh if sources else oracle.mesh
+    if sources:
+        from ghost_backend.execution.memory_budget import current
+        ledger = current()
+        plan = ledger.plan if ledger is not None else None
+        if (plan and plan.get('model') == 'compressed_hmatrix_v2'
+                and plan.get('system_dofs') == oracle.n
+                and plan.get('paired_assembly') is False):
+            # Returning without marking rejection preserves the caller's
+            # single-polarization H-matrix path and its normal admission.
+            return None, 'Memory plan selects separate hierarchical polarizations.'
     try:
         if sources:
             # Both polarizations from one kernel traversal; (TE, TM) operators.
@@ -184,7 +232,7 @@ def hierarchical(oracle,xy):
 def pairable(oracle):
     """Shared TE/TM tile traversal only where the tile operator will be built."""
     from ghost_backend.compressed import hmatrix
-    return not hmatrix.selected(oracle.n) or hmatrix.unsupported(oracle) is not None
+    return not hierarchical_selected(oracle.n) or hmatrix.unsupported(oracle) is not None
 
 
 def admit_tile_fallback(oracle, xy, reason):
@@ -355,7 +403,7 @@ def _projected_regional(mesh,infos,pol,obs_order,src_order):
            for values,label in ((infos,'TE'),(partner[1],'TM'))]
     if any(plan is None for plan in plans):return None
     from ghost_backend.compressed import hmatrix
-    if hmatrix.selected(len(plans[0]['fine_mesh'].nodes)):
+    if hierarchical_selected(len(plans[0]['fine_mesh'].nodes)):
         # Projection consumes tile operators; assemble the coarse system directly.
         owner.evidence.append(dict(backend='compressed',action='independent_assembly',
             reason='hierarchical operator selected for the fine polynomial system'))

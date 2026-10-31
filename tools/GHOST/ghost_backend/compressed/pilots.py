@@ -120,4 +120,5 @@ def assembled_partner(mesh, infos, pol, kind, dofs):
         return None
     return dict(method='assembled_partner_payload', operator_bytes=operator.bytes,
                 operator_allowance_bytes=operator.bytes, sampled=False, samples=0,
+                hmatrix=operator.evidence.get('operator') == 'hmatrix',
                 reused_assembled_partner=True, seconds=0.)

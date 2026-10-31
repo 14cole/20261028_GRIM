@@ -19,7 +19,7 @@ import ghost_backend.linalg.hierarchical as hf
 from ghost_backend.compressed.inverse import CompressedSystem
 from ghost_backend.compressed.factor import (CompressedFactor, SOLVE_BACKWARD_ERROR_LIMIT,
                                              CONDITION_PROBE_BACKWARD_ERROR_LIMIT)
-from ghost_backend.compressed.hmatrix import HMatrixRejected
+from ghost_backend.compressed.hmatrix import HMatrixRejected, DENSE_FALLBACK_LIMIT as HMATRIX_DENSE_FALLBACK_LIMIT
 from ghost_backend.execution.metrics import timed_stage
 
 # Hierarchical inverse ranks of electrically large 2-D bodies exceed the 256
@@ -55,6 +55,9 @@ def _span(positions):
 
 class HMatrixSystem(CompressedSystem):
     """CompressedSystem whose off-diagonal blocks come from range products."""
+    # The retained operator permits a 16-MiB complex query. Other coefficient
+    # oracles have different caps and retain the base class's smaller fallback.
+    DENSE_FALLBACK_LIMIT = HMATRIX_DENSE_FALLBACK_LIMIT
     def __init__(self, operator, coordinates, tolerance, budget, checkpoint):
         # CompressedSystem's construction. BLAS stays on one thread (as for
         # its ACA builder): range products run on a thread team instead, and
@@ -71,6 +74,7 @@ class HMatrixSystem(CompressedSystem):
         self.tolerance, self.leaf = tolerance, operator.leaf
         self.builder, self.inverse_threads = 'hmatrix_range_sampling', None
         self.bytes = 0; self.ranks = []; self.leaves = 0
+        self.dense_fallbacks = 0; self.largest_dense_fallback = 0
         self.sampled_blocks = self.sampled_fallbacks = 0
         self.permutation = hf.spatial_order(np.asarray(coordinates, float), np.arange(operator.n), self.leaf)
         if not np.array_equal(self.permutation, operator.order):
@@ -87,6 +91,8 @@ class HMatrixSystem(CompressedSystem):
             inverse_only=True, inverse_builder=self.builder, range_blocks=self.range_blocks,
             max_inverse_rank=MAX_INVERSE_RANK, inverse_blas_threads=1,
             construction=dict(self.construction.evidence))
+        self.evidence.update(dense_fallbacks=self.dense_fallbacks,
+            largest_dense_fallback=self.largest_dense_fallback,dense_fallback_limit=self.DENSE_FALLBACK_LIMIT)
 
     def compress_block(self, oracle, rows, cols):
         operator = self.operator

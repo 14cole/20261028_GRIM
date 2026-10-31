@@ -45,6 +45,10 @@ SAMPLE_MIN_ROWS = 64
 SAMPLE_BYTES = 256 * 1024**2
 # The coefficient oracles cap one query at 16 MiB of 24-byte entries.
 QUERY_ENTRIES = (16 * 1024**2) // 24
+# Queries of the retained operator contain complex coefficients without the
+# native oracle's extra error array. The inverse fallback shares this cap.
+DENSE_QUERY_BYTES = 16 * 1024**2
+DENSE_FALLBACK_LIMIT = math.isqrt(DENSE_QUERY_BYTES // 16)
 PROBES = 6
 # Interaction lists whose expected rank stores more than this share of
 # their coefficients are evaluated exactly instead.
@@ -53,6 +57,7 @@ DENSE_LIST_ENTRIES = 1 << 20
 # Lists of one level compressed first to calibrate the level's rank guess.
 PILOT_LISTS = 8
 MAX_PASSES = 64
+LARGE_LIST_MIN_DIMENSION = 8192
 # Combined adjoint-result allowance across all active workers, instead of a
 # complete tree's block contributions. One oversized row per worker may exceed
 # its share; each such output is at most one n-by-RHS complex array.
@@ -376,6 +381,21 @@ def _solve(matrix, rhs):
     return la.lstsq(matrix, rhs, cond=1e-14, lapack_driver='gelsy', check_finite=False)[0]
 
 
+def _cross_allocation(count):
+    """Reserve new sample workspace across concurrent assembly tasks."""
+    from contextlib import nullcontext
+    from ghost_backend.execution.memory_budget import current, construction_allocation
+    if current() is None:
+        return nullcontext()
+    return construction_allocation(int(count), 'Hierarchical compression samples')
+
+
+def _initial_skeleton_factor(m, n):
+    # Large lists can greatly oversample a low-rank result. Start coarser only
+    # there; fresh probes, tightening/backtracking and acceptance stay unchanged.
+    return 8. if min(m, n) >= LARGE_LIST_MIN_DIMENSION else .5
+
+
 def cross_approximation(rows, columns, shape, tolerance, start_rank, rng, max_rank=None):
     """Sampled column skeleton of implicit blocks: ``rows(I)``/``columns(J)`` evaluate them.
 
@@ -403,7 +423,8 @@ def cross_approximation(rows, columns, shape, tolerance, start_rank, rng, max_ra
     first = _spread(min(m, max(8, int(1.25*start_rank) + 16)), m)
     sampled[first] = True
     index = first
-    values = rows(first)
+    with _cross_allocation(16*len(tolerance)*len(first)*n):
+        values = rows(first)
     count = len(values)
     have = np.zeros(n, bool)
     known = [dict() for _ in range(count)]
@@ -413,18 +434,27 @@ def cross_approximation(rows, columns, shape, tolerance, start_rank, rng, max_ra
     # Skeleton threshold per column of the sampled rows; it halves whenever a
     # failed pass did not add columns or nearly met the target (a skeleton
     # too coarse for the target).
-    factor, previous_skeleton = .5, -1
+    factor, previous_skeleton = _initial_skeleton_factor(m, n), -1
     for _ in range(MAX_PASSES):
-        stacked = np.vstack([value/t for value, t in zip(values, tolerance)])
         width = 0 if skeleton is None else len(skeleton)
         sketch = max(2*width, width + 64, int(1.5*start_rank) + 32)
-        if stacked.shape[0] > 2*sketch:
-            # Column selection needs the sampled rows' span, not every row.
-            omega = (rng.standard_normal((sketch, stacked.shape[0])) +
-                     1j*rng.standard_normal((sketch, stacked.shape[0])))/math.sqrt(2*sketch)
-            stacked = omega @ stacked
-        skeleton = _leading_columns(stacked, factor*unit*math.sqrt(len(index)), skeleton)
-        stacked = omega = None
+        sample_bytes = sum(value.nbytes for value in values)
+        sample_rows = sum(len(value) for value in values)
+        # Scaling plus stacking copies, QR work, and the optional complex
+        # Gaussian sketch. This is live incremental workspace, not retained
+        # rank storage; hold the reservation until column selection finishes.
+        workspace = 4*sample_bytes
+        if sample_rows > 2*sketch:
+            workspace += 64*sketch*sample_rows + 32*sketch*n
+        with _cross_allocation(workspace):
+            stacked = np.vstack([value/t for value, t in zip(values, tolerance)])
+            if stacked.shape[0] > 2*sketch:
+                # Column selection needs the sampled rows' span, not every row.
+                omega = (rng.standard_normal((sketch, stacked.shape[0])) +
+                         1j*rng.standard_normal((sketch, stacked.shape[0])))/math.sqrt(2*sketch)
+                stacked = omega @ stacked
+            skeleton = _leading_columns(stacked, factor*unit*math.sqrt(len(index)), skeleton)
+            stacked = omega = None
         if len(skeleton) > limit:
             raise HMatrixRejected('Interaction list rank exceeds {}.'.format(limit))
         missing = skeleton[~have[skeleton]]
@@ -496,10 +526,11 @@ def cross_approximation(rows, columns, shape, tolerance, start_rank, rng, max_ra
         sampled[probes] = True
         add = extra[~sampled[extra]]
         sampled[add] = True
-        added = rows(add) if len(add) else [None]*count
-        index = np.r_[index, probes, add].astype(np.int64)
-        values = [np.vstack([x for x in (value, probe, more) if x is not None])
-                  for value, probe, more in zip(values, probe_values, added)]
+        with _cross_allocation(16*count*n*(len(index)+len(probes)+2*len(add))):
+            added = rows(add) if len(add) else [None]*count
+            index = np.r_[index, probes, add].astype(np.int64)
+            values = [np.vstack([x for x in (value, probe, more) if x is not None])
+                      for value, probe, more in zip(values, probe_values, added)]
     else:
         raise HMatrixRejected('Cross approximation did not converge in {} passes.'.format(MAX_PASSES))
     return [recompress(basis, _solve(inverse, value), t/2) for basis, inverse, value, t
@@ -723,6 +754,18 @@ def _assemble(oracle, targets):
         target._evidence(near_entries)
 
 
+VALIDATION_CHUNK_BYTES = 8 * 1024**2
+
+
+def _sample_row_norm(values, checkpoint):
+    result = np.empty(len(values))
+    step = max(1, VALIDATION_CHUNK_BYTES // max(1, values.shape[1]*values.dtype.itemsize))
+    for start in range(0, len(values), step):
+        checkpoint()
+        result[start:start+step] = np.sum(abs(values[start:start+step]), axis=1)
+    return result
+
+
 def _sample(oracle, targets, count):
     first = targets[0]
     tree, n = first.tree, first.n
@@ -759,7 +802,7 @@ def _sample(oracle, targets, count):
         count(queries)
     _run([lambda check, s=s: part(s, check) for s in starts], store_sample, first.checkpoint)
     for target in targets:
-        target.sample_norm = np.sum(abs(target.sample_values), axis=1) + target.sample_tail
+        target.sample_norm = _sample_row_norm(target.sample_values, target.checkpoint) + target.sample_tail
 
 
 # Forecast ranks (calibration: PEC, coated and airfoil systems at 10 GHz,
@@ -808,29 +851,43 @@ def forecast_storage(coordinates, radius, wavenumber, leaf=None, eta=ETA):
     operator = 16*(near_entries + far_entries + samples*n) + metadata
     # Inverse (compressed.inverse tree): per node v12, v21, e1, e2 and a
     # 2r Woodbury LU; leaves keep LU factors of their diagonal blocks.
-    inverse = peak = 0
+    peak = 0
     inverse_rank = 0
-    pending = [0]
-    while pending:
-        c = pending.pop()
+    def inverse_storage(c):
+        nonlocal peak, inverse_rank
         size = tree.size(c)
         if tree.leaf(c):
-            inverse += 16*size*size + 8*size
-            continue
+            return 16*size*size + 8*size
         slope = FORECAST_INVERSE_SLOPE[0 if c == 0 else 1]
         rank = min(size//2, int(math.ceil(density*(FORECAST_INVERSE_BASE + slope*k*tree.diameter[c]))))
         inverse_rank = max(inverse_rank, rank)
-        inverse += 32*size*rank + 16*(2*rank)**2 + 8*2*rank
+        retained = 32*size*rank + 16*(2*rank)**2 + 8*2*rank
         # Construction also holds u12/u21 and the range sampler's workspace.
         peak = max(peak, 48*size*rank)
-        pending.extend((tree.left[c], tree.right[c]))
+        retained += inverse_storage(tree.left[c]) + inverse_storage(tree.right[c])
+        if size <= DENSE_FALLBACK_LIMIT:
+            retained = max(retained, 16*size*size + 8*size)
+            peak = max(peak, 64*size*size + 8*size + 1024**2)
+        return retained
+    inverse = inverse_storage(0)
     top_lists.sort(reverse=True)
     from ghost_backend.compressed.operator import _thread_budget
     threads = max(1, _thread_budget())
     # Concurrent list compressions hold samples, skeleton rows and fits.
-    workspace = sum(16*4*(m + w)*rank for _, m, w, rank in top_lists[:threads])
+    workspaces, samples_work = [], []
+    for _, m, w, rank in top_lists:
+        # Assembly compresses the transpose (w by m). Price the initial
+        # sample copies as well as retained-rank fits. Adaptive sample growth
+        # is admitted separately from actual array sizes at runtime.
+        rows = min(w, max(8, int(1.25*rank)+16))
+        sample_work = 64*rows*m
+        samples_work.append(sample_work)
+        workspaces.append(max(64*(m+w)*rank, sample_work))
+    workspace = sum(sorted(workspaces, reverse=True)[:threads])
     return dict(method='hmatrix_model', operator_bytes=int(operator), operator_allowance_bytes=int(operator),
                 inverse_bytes=int(inverse), inverse_peak_bytes=int(inverse + peak), assembly_workspace_bytes=int(workspace),
+                assembly_sample_workspace_bytes=int(sum(sorted(samples_work, reverse=True)[:threads])),
+                adaptive_sample_growth_admitted=True,
                 coefficients=int(near_entries + samples*n + FORECAST_FETCH_RATIO*far_entries),
                 retained_entries=int(near_entries + far_entries), inverse_rank=int(inverse_rank),
                 density_multiplicity=float(density), wavenumber=float(k),
@@ -979,8 +1036,15 @@ class HMatrixOperator:
 
     @timed_stage('hmatrix_validation')
     def _validate(self):
-        approximate = self._get_positions(self.sample_rows, np.arange(self.n))
-        difference = np.sum(abs(self.sample_values - approximate), axis=1)
+        columns = np.arange(self.n)
+        difference = np.empty(len(self.sample_rows))
+        step = max(1, VALIDATION_CHUNK_BYTES // max(1, 16*self.n))
+        for start in range(0, len(self.sample_rows), step):
+            self.checkpoint()
+            stop = start + step
+            approximate = self._get_positions(self.sample_rows[start:stop], columns)
+            difference[start:stop] = np.sum(abs(self.sample_values[start:stop] - approximate), axis=1)
+            del approximate
         norm = max(float(self.row_norm.max()), float(self.sample_norm.max()))
         self.operator_norm = norm
         self.sampled_row_errors = (difference + self.sample_tail)/norm
@@ -1094,7 +1158,7 @@ class HMatrixOperator:
         return self._get(rows, cols)
 
     def _get(self, rows, cols, row_plan=None, col_plan=None):
-        if len(rows)*len(cols)*16 > 16*1024**2:
+        if len(rows)*len(cols)*16 > DENSE_QUERY_BYTES:
             raise MemoryError('Coefficient query exceeds the 16 MiB workspace limit.')
         self.entries += len(rows)*len(cols); self.calls += 1
         self.max_entries = max(self.max_entries, len(rows)*len(cols))
