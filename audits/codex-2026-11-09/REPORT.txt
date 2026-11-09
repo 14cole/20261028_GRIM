@@ -1,0 +1,220 @@
+Independent cross-examination of Claude's GHOST 2D/BOR audit
+Repository: https://github.com/14cole/20261028_GRIM
+Main reviewed: f207c61529c706b9f98990ffa23c0b878f3590e0
+Audit reviewed: f5c2f4cdcc7254af2ffa759b3e1da144e097b564
+Branch: claude/festive-keller-nj5bje
+Audit: SOLVER_AUDIT_2D_BOR.md (included as CLAUDE_AUDIT.md)
+https://github.com/14cole/20261028_GRIM/blob/f5c2f4cdcc7254af2ffa759b3e1da144e097b564/SOLVER_AUDIT_2D_BOR.md
+
+Overall disposition
+
+The principal correctness and robustness findings are supported. C-1, C-2,
+C-3, C-4, C-5, R-1, the controlled R-2 race, and R-3a now have independent
+runtime evidence. Several performance opportunities also reproduced, but
+their gains are workload-dependent. Do not treat the proposed fixes as
+validated production changes or add their individual savings together.
+
+Every one of the 54 atomic findings has a disposition in coverage.csv.
+Grouping headings C-6, R-3 and M-3 are not counted as separate findings.
+The results directory contains 127 standalone case records plus composite
+correctness, robustness, profiling and microbenchmark results. Most standalone
+records contain a co-polarized solve; this count is not a count of assertions.
+
+Environment and measurement method
+
+Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, gcc 14.2.0; four-CPU cgroup
+quota and 16 GiB cgroup memory. Timed case processes were pinned to four allowed
+CPUs. OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1 were set before imports;
+explicit auto profiles and BLAS comparisons may change these limits.
+All shipped Linux native C sources were built with their supplied builders
+and passed the builders' export/load checks. Windows DLLs were not executed.
+
+Performance comparisons ran sequentially, in fresh processes. The principal
+native/fallback, W-rule, coarse-near and BLAS comparisons have three repetitions.
+Other timing measurements are explicitly single cases, not confidence intervals.
+Profiled runs are separate from unprofiled timing comparisons. Inclusive stage
+and cProfile sums overlap and must not be added as exclusive CPU costs.
+
+run_case.py's cpu field is PARENT process CPU time. It excludes child-process
+CPU. rss_peak is parent ru_maxrss. For compressed-worker memory comparisons,
+use metadata.runtime_profile.sampled_peak_process_tree_rss_bytes, sampled at
+250ms, which may miss brief peaks and double-count shared pages. Earlier chat
+figures of 0.66/0.91 GB for 5120/6144 compressed were parent-only; corrected tree
+peaks are 1.168/1.492 GB. GB and GiB are explicitly distinguished below.
+
+Highest-priority findings for Claude
+
+1. C-1: fix the TE open-TYPE 2 guard across mixed scenes.
+   Independent certified runs gave a 3.0667 dB VV discrepancy between an open
+   strip+dielectric and its thin-plate comparison. Both certified. The open
+   result's published VV maximum dB error estimate was 0.007628 dB.
+   Retain valid TYPE 2/3/4 junction behavior. Do not merely broaden a degree
+   count without testing partial coatings, sheet mixtures and touching ends.
+
+2. C-2: reject nonfinite solutions, but preserve a valid zero RHS.
+   A zero 3x3 system returned three NaNs and zero backward/residual metrics.
+   The proposed np.where expression in audit line 74 assigns infinity to the
+   valid A=I,b=0 solution because ri=den=0. Handle this case explicitly.
+   np.fmax ignores NaNs; it is not an invalid-result detector.
+
+3. C-3: remove global-RNG dependence without a process-global reseeding race.
+   Actual compressed 1200-unknown two-circle runs changed global RNG state;
+   seeds 1..6 produced condition estimates 1503.679 or 1471.679 in this fixture.
+   Dense runs were stable and preserved the RNG. Claude's 3.4x spread was not
+   recreated, and estimator spread is not proof of underestimation relative
+   to an exact condition number. No gate-threshold crossing was demonstrated.
+
+4. C-4: fix modal extension convergence scaling.
+   Radius 0.1 m cone-cylinder, 3 GHz, N=37 per primitive, mode_tol=1e-13: automatic
+   selection failed at pair (0,3), order 192, relative change 0.000185. Explicit
+   cap 31 succeeded with 20 modes. A neighboring N=36 case succeeded both ways.
+   An initial smaller-radius fixture did not trigger extension; both attempts
+   are retained so absence of failure is not mistaken for a refutation.
+
+5. C-5: broaden the documented exposure and preserve wavelength safeguards.
+   N=-1 bypasses the positive-N density floor with enforce_mesh_density=True;
+   a 10x10 square at wavelength 1 retained panels with |k|L=2pi. The claim that
+   enforcement always guarantees |k|L<=1.57 is false. Lossy meshing uses |n|,
+   resolving the original report's uncertainty about Re(k) versus |k|.
+   Touching S relative error at 150deg rose to 0.4066 at |k|L=20, versus ~1.8e-13
+   at |k|L=3. Far-pair errors depend strongly on orientation; our particular far
+   pair did not recreate Claude's worst-case far-column numbers.
+
+6. R-1/R-2/R-3a: retain reproducible concurrency and recovery tests.
+   Three concurrent direct solves reproduced zero-GiB reservation failures.
+   Controlled overlap in the actual HierarchicalFactor._lu left a permanent
+   warnings error filter. This is an instrumented race reproduction, not an
+   uninstrumented large-BOR demonstration; Python warning-context semantics
+   vary by version. An isolated frequency-worker self-SIGKILL propagated
+   BrokenProcessPool through the real compute_parallel path.
+
+7. R-3g: the mixed closed/open TM resonance concern reproduced.
+   At ka 2.4048255577 the condition estimate reached 3.098e7. The only reported
+   warning concerned dangling endpoints; the formulation was the SLP Robin
+   path. The absence of a closed-obstacle combined formulation is confirmed.
+
+Measured performance
+
+Comparison                         Baseline         Alternative       Result
+2D 1200 native vs fallback           2.392 s native    6.306 s fallback    fallback 2.64x
+BOR 60 native vs fallback            2.607 s native   13.302 s fallback    fallback 5.10x
+IBC 1600 uniform far 8 vs 6            3.936 s            2.902 s           26.3% saved
+BOR 120 fine vs coarse+fine probes   5.628 s            4.877 s           13.35% saved
+Native S-only H1 skip               49.13 ns/sample   43.99 ns/sample    10.5% saved
+BOR 60 BLAS 1 vs 4                     1.994 s            2.269 s           four slower
+
+The uniform 6 experiment must remove the redundant max(...,obs_order,src_order)
+floor as well as lowering W_FAR_FLOOR. Lowering the constant alone did not
+change the effective eight-point rule. Relative field difference was 7.63e-12
+in the tested electrically large IBC case. Independent 6-vs 48-point W-block
+checks were ~1e-14 at |k|L=1, but 3.9e-10 at |k|L=3: do not use 6 globally.
+The coarse-near experiment changed fields by 3.1e-14 relative. The native
+S-only experiment was bitwise identical for the tested blocks.
+
+The sliver experiment increased 1200-panel IBC time 2.447 s to 6.181 s.
+The lossy-table grid accepted 7/36 cases at degree 12 and 30/36 at degree 16.
+The DCT-I benchmark reproduced the unfavorable 1184/1312/1888 sample sizes.
+A thin-coat profile spent 5.76 s in near integration of 8.78 s operator assembly,
+with 3.07 s in direct Hankel evaluation. BOR profiling confirmed 3116 near-rule
+calls. These profiles support hotspots, not the unimplemented S-3/S-4/S-6/S-7
+optimization gains. EFIE reverse-pair work currently supports an independent
+reciprocity diagnostic; preserve that diagnostic when exploiting symmetry.
+
+Performance claims requiring qualification
+
+- S-9: auto versus off RHS compression gave no clear total-time improvement
+  in the independent 181-angle sphere fixture. Exact cone probe productivity
+  counts require the original geometry/options.
+- S-11: 600-element BOR took 21.83 s at 1 GB budget, 23.01 s at .25 GB and 23.24 s at .06 GB.
+  Smaller budgets lowered parent peak memory 1.62 GB to 1.12-1.14 GB, but did not
+  improve speed. The stored fields were identical. No universal .25 GB optimum.
+- S-13: 260642 bistatic samples used 289 MB/.499 s in normal storage versus
+  102 MB/.569 s compact, in fresh processes. Memory savings reproduced; the
+  reported 4x runtime benefit did not. Timings are single-run observations.
+- S-16: two frequency workers each receive a CPU share. A two-worker cap alone
+  does not establish idle cores; it is not equivalent to two execution threads.
+- N-1: no blanket 5-11x slowdown. Results depend on electrical size and backend.
+  Automatic was slower on some small fixtures but faster at 5120/6144. Below
+  8192 it can also save meaningful memory. Parent-only CPU cannot establish
+  total CPU ratios once tile worker processes are involved.
+
+Memory findings
+
+Dense runtime estimate versus measured parent peak, in GiB:
+5120:1.001 versus 1.320;6144:1.356 versus 1.852;8448:2.383 versus 3.389.
+The original report's 1.28/1.32 ratios did not prove a 1.35 margin violation.
+This independent 6144 result does: ratio 1.366. Runtime pair admission separately
+adds the partner matrix, but the event named total_peak_gib logs the estimate
+WITHOUT that partner. Correct both forecasting and misleading telemetry.
+
+Compressed first forecasts versus sampled process-tree peak, in decimal GB:
+5120:2.994 versus 1.168;6144:3.259 versus 1.492;8448:1.183 versus .946.
+This supports over-reservation and the backend-threshold discontinuity. It
+is not sufficient to replace conservative budgets by observed mean RSS.
+Correct workers priced but never launched before reducing safety reserves.
+
+The BOR planning baseline was about 2.10 GB in the independent serial 60-element
+case, not an invariant 2.8 GB floor. Options and worker allocations matter.
+An isolated 6000x6000 synthetic low-rank kernel factorization added 1.190 matrix
+units for HODLR versus 1.023 for LU, supporting the omitted ordered-copy cost.
+The material-specific 3.5/2.4 multipliers remain unverified exact measurements.
+
+Physics and numerical baseline
+
+At ka 3, PEC/IBC/dielectric/sheet/coated sphere errors at 60 elements were
+0.00613/0.01002/0.00299/0.01037/0.00466 dB, respectively, with approximately
+second-order convergence across 30/60/120 elements. References used separate
+analytic Mie routines in the repository, not the BEM assembly. These are
+independent formulations, but not an external independently authored library.
+2D sheet reference coefficients were separately implemented from interface
+matching in analyze.py.
+
+2D 360-panel PEC complex errors across ka .001,1.841,2.405,3.832,5.52,10 were
+3.6e-9 to 9.3e-6. At ka 3, normal-contrast materials converged consistently;
+annulus and two-layer complex errors at 240 panels per interface were 6.33e-5
+and 3.38e-5. Weak contrast epsilon 1.0001 reproduced 0.06454 dB at ka 5.
+Reactive BOR Z=50-200j degraded from 0.00846 dB at ka .01 to 0.08325 dB at ka 1e-4;
+Z=37 ohm did not show the same degradation. The exact .11 dB claim differs.
+
+Native/fallback 2D matrix differences were 4.11e-16 and 8.01e-17 relative.
+BOR near Green kernels versus explicitly integrated 3D Green function agreed
+within 4.2e-15 at gaps from .1 to 1e-7; native/fallback differences stayed below
+9e-16. Units, translations, rotations and co-/single-polarization agreement
+were about 1e-15 to 8e-15; frequency ordering was exact in the tested case.
+Checkpoint round-trip was exact. Six repeated dense solves plateaued in RSS,
+with no accumulating Python threads, file descriptors or children.
+
+Additional smoke coverage included P2/P3, mixed precision, BOR tables,
+single-precision tables, compressed BOR, workers 1/2, 12000 2D panels and
+600 BOR elements. BOR tables/compressed fields agreed with streaming at
+~1.7e-15/~3.2e-15; single-precision tables differed by 3.8e-9 relative.
+These are smoke tests, not exhaustive qualification of every option.
+
+What remains unproved, rather than silently omitted
+
+coverage.csv identifies every item and its evidence. The narrow-resonance
+C-6a hypothesis was not reproduced on three epsilon 16 disk cases; they agreed
+with enlarged internal-index caps within ~2e-9 dB. C-6c/d remain error-accounting
+or acceptance-scale risks without a demonstrated wrong released solution.
+The exact C-6h kernel-level reduction-order example was not reproduced;
+our worker/budget field comparisons were identical. Exact S-3 sample counts,
+S-6 quantization gains, S-7 symmetry gains, the specific S-9 cone probe counts,
+and M-3c material multipliers lack matching original benchmark fixtures.
+The source mechanisms were reviewed and are distinguished from measurements.
+
+Windows execution, Windows commit-charge accounting, shipped Windows DLL
+behavior, actual SLURM/HPC end-to-end deployment, exhaustive narrow-resonance
+searches, all junction topologies and every spill/checkpoint failure path
+remain outside executed coverage. Linux tests cannot establish those results.
+The original audit's entire numerical grid was not recreated cell for cell.
+This is a complete disposition of its 54 findings with substantial independent
+reproduction, not a claim that every possible solver behavior is verified.
+
+Requested response from Claude
+
+For each disputed or qualified row, accept it or provide a pinned executable
+fixture and raw output that changes the conclusion. Preserve the complete
+audit harness in the repository. Prioritize C-1/C-2, then C-4 and concurrency
+fixes; validate geometry junctions and zero-RHS behavior before merging fixes.
+Keep numerical optimization changes separate from correctness fixes and add
+regression matrices across electrical size, loss, geometry and basis order.
