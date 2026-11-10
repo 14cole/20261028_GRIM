@@ -49,6 +49,7 @@ _ACTIVE = ScopedValue('ghost_execution_options', default=None)
 _ASSEMBLY_ALLOCATION = ScopedValue('ghost_assembly_allocation', default=None)
 _MEMORY_ALLOCATION = ScopedValue('ghost_memory_allocation', default=None)
 _BLAS_LOCK = threading.RLock()
+_BLAS_HOLD = threading.local()
 _BLAS_EVENTS = ScopedValue('ghost_blas_events', default=None)
 _PUBLIC_DEPTH = ScopedValue('ghost_public_execution_depth',default=0)
 _AUTOMATIC_REQUEST = ScopedValue('ghost_automatic_backend_request', default=False)
@@ -456,6 +457,27 @@ def temporary_directory():
 
 
 @contextmanager
+def _held_blas_lock():
+    """Hold ``_BLAS_LOCK`` and record that this thread does."""
+    with _BLAS_LOCK:
+        _BLAS_HOLD.depth = getattr(_BLAS_HOLD, 'depth', 0) + 1
+        try:
+            yield
+        finally:
+            _BLAS_HOLD.depth -= 1
+
+
+def blas_lock_held():
+    """True while the calling thread holds the process BLAS lock.
+
+    A solve needs that lock for its linear algebra.  A thread that holds it,
+    for example from ``execution_scope(limit_blas=True)`` around a public
+    solve, must therefore never wait for another solve to finish.
+    """
+    return getattr(_BLAS_HOLD, 'depth', 0) > 0
+
+
+@contextmanager
 def execution_scope(value, limit_blas=False, assembly_threads=None, memory_budget_gib=None):
     """Restore settings after completion or failure; optionally control native BLAS."""
     checked = validate_options(value)
@@ -478,7 +500,7 @@ def execution_scope(value, limit_blas=False, assembly_threads=None, memory_budge
         import numpy
         import scipy.linalg
         from ghost_backend.execution.thread_control import threadpool_limits
-        with _BLAS_LOCK:
+        with _held_blas_lock():
             with threadpool_limits(limits=blas_thread_reservation(checked), user_api='blas'):
                 yield checked
 
@@ -499,7 +521,7 @@ def linear_algebra_threads(matrix_size=None):
         desired = int(setting)
     target = min(desired, allocated_cpu_budget())
     from ghost_backend.execution.thread_control import threadpool_info, threadpool_limits
-    with _BLAS_LOCK:
+    with _held_blas_lock():
         with threadpool_limits(limits=target, user_api='blas'):
             events = _BLAS_EVENTS.get()
             if events is not None:
@@ -722,7 +744,7 @@ def configured_execution(function):
         from ghost_backend.linalg.crossover import scope
         from ghost_backend.execution.angle_batch import scope as batch_scope
         from ghost_backend.execution.memory_budget import scope as memory_scope
-        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope():
+        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope(kwargs.get('abort_event')):
             return invoke_configured(*args,**kwargs)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))

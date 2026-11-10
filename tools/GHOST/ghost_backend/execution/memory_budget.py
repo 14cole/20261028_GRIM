@@ -17,6 +17,8 @@ _STATE = ScopedValue('ghost_request_memory', default=None)
 _CONSTRUCTION_GROUP = ScopedValue('ghost_construction_allocation', default=None)
 _LOCK = threading.RLock()
 _REQUESTS = weakref.WeakSet()
+# Requests wait here for a reservation another request of the process holds.
+_TURN = threading.Condition(_LOCK)
 
 
 def process_memory():
@@ -205,7 +207,10 @@ class MemoryBudget:
             # Keep previously promised bytes reserved after a cap tightens or
             # the OS backing limit contracts. They may already be allocated;
             # lowering the held reservation would let a peer spend them again.
+            first = self.ceiling is None
             self.ceiling = max(self.ceiling or 0., admitted)
+            if first:
+                _TURN.notify_all()   # a capped reservation may leave room for a waiter
         return admitted
 
     def baseline_credit(self):
@@ -390,21 +395,55 @@ class MemoryBudget:
         return dict(live_check=True, process_sample=self.last_process_sample)
 
 
+def _reservation_exhausted():
+    """Another request of this process holds, or is about to take, every byte.
+
+    The first request of a cohort reserves the whole capacity unless a cap
+    limits it, so a request that overlapped it used to be admitted with a
+    0 GiB limit and failed with a MemoryError naming gigabytes of free RAM.
+    Call with _LOCK held.
+    """
+    others = list(_REQUESTS)
+    if not others:
+        return False
+    if any(other.ceiling is None for other in others):
+        return True   # enrolled, reservation not taken yet: its size is unknown
+    capacity = others[0].cohort['capacity']
+    return capacity is not None and capacity-sum(other.ceiling for other in others) <= 0.
+
+
 @contextmanager
-def scope():
+def scope(abort_event=None):
     if _STATE.get() is not None:
         yield _STATE.get()
         return
-    state = MemoryBudget()
-    # Enrol immediately so allocations made before the first forecast cannot
-    # later be attributed exclusively to another overlapping request.
-    state.enrol()
+    from ghost_backend.execution.options import blas_lock_held
+    # Lock order: reservation first, BLAS lock second.  A running solve takes
+    # the BLAS lock for its linear algebra, so a caller that already holds it
+    # (an outer execution_scope(limit_blas=True)) must not wait here: the two
+    # would block each other for good.  Such a caller keeps the former
+    # behaviour, immediate admission against what the cohort has left.
+    may_wait = not blas_lock_held()
+    with _TURN:
+        # Wait before sampling this request's baseline.  Requests whose caps
+        # leave room for each other still overlap; the aggregate reservation
+        # is never exceeded either way.
+        while may_wait and _reservation_exhausted():
+            if abort_event is not None and abort_event.is_set():
+                raise InterruptedError('Solve aborted while waiting for another solve of this process '
+                                       'to release its memory reservation.')
+            _TURN.wait(.2)
+        state = MemoryBudget()
+        # Enrol immediately so allocations made before the first forecast cannot
+        # later be attributed exclusively to another overlapping request.
+        state.enrol()
     with _STATE.override(state):
         try:
             yield state
         finally:
-            with _LOCK:
+            with _TURN:
                 _REQUESTS.discard(state)
+                _TURN.notify_all()
 
 
 def current():

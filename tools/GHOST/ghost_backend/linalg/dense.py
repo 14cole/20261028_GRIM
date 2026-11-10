@@ -291,6 +291,10 @@ class DenseFactor:
             den = self.matrix_inf * np.max(np.abs(candidate), axis=0) + np.max(np.abs(b), axis=0)
             errors = np.divide(ri, den, out=np.zeros_like(ri), where=den > 0)
             errors[(den <= 0) & (ri > 0)] = np.inf
+            # A nonfinite candidate makes ri and den NaN: neither comparison
+            # above holds, and the column would be reported as exact.  A zero
+            # RHS with a zero solution (ri = den = 0) stays a valid 0.
+            errors[~(np.isfinite(ri) & np.isfinite(den))] = np.inf
             return residual, float(np.max(errors))
         residual, error = metrics(x, inner_residual)
         inner_residual = None
@@ -304,6 +308,9 @@ class DenseFactor:
                 break
             x, residual, error = candidate, updated, candidate_error
             steps += 1
+        if first_nonfinite(x) is not None:
+            raise RuntimeError('{} returned a nonfinite solution: the matrix is singular to working '
+                               'precision or contains nonfinite coefficients.'.format(self.label))
         if not np.isfinite(error) or error > rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX:
             raise RuntimeError('{} normwise backward error {} exceeds the release limit {}.'.format(
                 self.label, error, rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX))

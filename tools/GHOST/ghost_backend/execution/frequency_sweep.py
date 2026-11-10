@@ -11,6 +11,7 @@ import os
 import queue
 import time
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
+from concurrent.futures.process import BrokenProcessPool
 
 
 WORKER_GIB = .5
@@ -252,6 +253,7 @@ def compute_parallel(solve, arguments, directory, store, options, precision, cer
     completed = set(existing)
     unsaved, warnings, profiles = {}, [], []
     peak_workers, peak_reserved, retained = 0, 0., 0
+    lost_workers = 0
     failed = True
     executor = ProcessPoolExecutor(max_workers=workers, mp_context=context,
                                    initializer=_initialize, initargs=(stop, messages))
@@ -281,8 +283,18 @@ def compute_parallel(solve, arguments, directory, store, options, precision, cer
                 # Workers import only the backend, never replay a GUI __main__.
                 from ghost_backend.compressed.tile_processes import _without_main_module
                 from ghost_backend.execution.runtime import single_thread_worker_environment
-                with _without_main_module(), single_thread_worker_environment():
-                    future = executor.submit(_compute, payload)
+                try:
+                    with _without_main_module(), single_thread_worker_environment():
+                        future = executor.submit(_compute, payload)
+                except BrokenProcessPool:
+                    # The pool noticed a dead worker before this unit was
+                    # queued.  Nothing more can be submitted: leave this unit
+                    # and every pending one to the parent, and collect what
+                    # the units already running report (see below).
+                    deferred.add(record['frequency'])
+                    lost_workers += 1
+                    pending.clear()
+                    break
                 running[future] = record
                 pending.remove(record)
                 used += record['memory_gib']
@@ -306,6 +318,18 @@ def compute_parallel(solve, arguments, directory, store, options, precision, cer
                     # full reservation after every worker has drained.
                     fractions.pop(record['frequency'], None)
                     deferred.add(record['frequency'])
+                    continue
+                except BrokenProcessPool:
+                    # A worker process died (on Linux typically the kernel's
+                    # out-of-memory killer, which raises no MemoryError).  The
+                    # pool is unusable, and every unit still running in it
+                    # reports the same error.  Keep the frequencies that
+                    # completed and leave the rest to the parent's sequential
+                    # path, exactly as a deferred MemoryError does.
+                    fractions.pop(record['frequency'], None)
+                    deferred.add(record['frequency'])
+                    lost_workers += 1
+                    pending.clear()
                     continue
                 frequency = value['frequency']
                 completed.add(frequency)
@@ -344,4 +368,5 @@ def compute_parallel(solve, arguments, directory, store, options, precision, cer
                 pending=[f for f in frequencies if f not in completed],
                 details=dict(mode='parallel', workers=workers, maximum_active_workers=peak_workers,
                              cpu_budget=cores, memory_budget_gib=budget,
-                             peak_reserved_gib=peak_reserved, interpreter_reservation_gib=workers*WORKER_GIB))
+                             peak_reserved_gib=peak_reserved, interpreter_reservation_gib=workers*WORKER_GIB,
+                             units_lost_to_worker_failure=lost_workers))

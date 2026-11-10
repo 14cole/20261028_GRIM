@@ -2389,6 +2389,20 @@ def _build_panels(
             if n_prop > 0 or sagitta > FACET_ADVISORY_SAGITTA_FRACTION * min_wavelength:
                 local_wavelength = _segment_material_wavelength(
                     geometry_snapshot, seg, materials, mesh_frequencies)
+        if (n_prop < 0 and -n_prop < MIN_EXPLICIT_PANELS_PER_WAVELENGTH
+                and option('enforce_mesh_density', True)):
+            # A negative N asks for |N| panels per wavelength directly; it was
+            # exempt from the gross floor below, so N=-1 meshed one panel per
+            # wavelength (|k|L = 2 pi), outside every calibrated quadrature
+            # rule, and the uncertified gate still passed.
+            raise ValueError(
+                f"Segment '{name}' N={n_prop} requests {-n_prop} panel(s) per "
+                f"wavelength, below the gross {MIN_EXPLICIT_PANELS_PER_WAVELENGTH}-"
+                "panels-per-wavelength safety floor. Use "
+                f"N=-{MIN_EXPLICIT_PANELS_PER_WAVELENGTH} or denser, or N=0 for "
+                "automatic material-wavelength meshing. Production results "
+                "still require base/fine mesh convergence."
+            )
         if n_prop > 0 and min_wavelength > EPS and option('enforce_mesh_density', True):
             # The gross floor of an explicit count uses the media this segment
             # touches: a distant high-index rod must not force an unrelated

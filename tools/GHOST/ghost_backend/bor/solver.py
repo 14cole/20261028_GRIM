@@ -5162,7 +5162,7 @@ def _converged_disjoint_batch(gp, gq, pairs, k, m_max, kinds,
         states.append(dict(index=index, e=e, f=f, gap=gap, graded=graded, zero_mfie=zero_mfie,
                            n=requested_order if graded else max(2, requested_order // 2)))
 
-    def evaluate(group):
+    def evaluate(group, m_high=m_max, start=mode_start):
         output = [None]*len(group)
         for zero in (False, True):
             selected = [(i, st) for i, st in enumerate(group) if st['zero_mfie'] == zero]
@@ -5173,21 +5173,33 @@ def _converged_disjoint_batch(gp, gq, pairs, k, m_max, kinds,
                 [(gp, st['e'], gq, st['f'],
                   _gap_graded_points(gp, st['e'], gq, st['f'], st['n']) if st['graded']
                   else _regular_cell_points(st['n'])) for _, st in selected],
-                k, m_max, wanted, signed, mode_start)
+                k, m_high, wanted, signed, start)
             for (i, _), value in zip(selected, blocks):
                 if zero:
                     # Preserve the independent-family analytic zero when
                     # families share traversal. Relative refinement of its
                     # floating-point cancellation residue cannot converge.
-                    width = 2*m_max+1 if signed else m_max+1-mode_start
+                    width = 2*m_high+1 if signed else m_high+1-start
                     value['mfie'] = np.zeros((4,width,2,2),complex)
                 output[i] = value
         return output
 
-    def block_error(fine, coarse):
+    if mode_start and states:
+        # An extension band holds only the modes above an earlier cap.  For a
+        # pair near a graded axis tip those blocks are rounding noise next to
+        # the pair's low modes (1e-22 against 1e-8), and a test relative to the
+        # band alone compares noise with noise and never converges.  A build
+        # from mode 0 scales each component by its largest mode; the lowest two
+        # modes give the extension the same kind of reference.
+        for st, low in zip(states, evaluate(states, m_high=min(1, m_max), start=0)):
+            st['reference'] = {kind: np.max(np.abs(low[kind]), axis=(1, 2, 3)) for kind in kinds}
+
+    def block_error(fine, coarse, reference=None):
         errors = []
         for kind in kinds:
             scale = np.max(np.abs(fine[kind]), axis=(1, 2, 3))
+            if reference is not None:
+                scale = np.maximum(scale, reference[kind])
             floor = max(float(np.max(scale)) * 1e-8, 1e-280)
             error = np.max(np.abs(fine[kind] - coarse[kind]), axis=(1, 2, 3))
             errors.append(float(np.max(error / np.maximum(scale, floor))))
@@ -5209,7 +5221,7 @@ def _converged_disjoint_batch(gp, gq, pairs, k, m_max, kinds,
             states[i]['n'] = states[i]['n_fine']
         worst = 0.
         for i, coarse in zip(probe, coarse_probe):
-            error = block_error(fine_all[i], coarse)
+            error = block_error(fine_all[i], coarse, states[i].get('reference'))
             worst = max(worst, error)
             if not (math.isfinite(error) and error <= rtol):
                 worst = math.inf
@@ -5227,7 +5239,7 @@ def _converged_disjoint_batch(gp, gq, pairs, k, m_max, kinds,
             st['n'] = max(requested_order, min(2 * st['n'], max_order))
         still = []
         for st, fine in zip(active, evaluate(active)):
-            error = block_error(fine, st['coarse'])
+            error = block_error(fine, st['coarse'], st.get('reference'))
             if math.isfinite(error) and error <= rtol:
                 results[st['index']] = (fine, st['n'], error)
                 continue

@@ -8,7 +8,6 @@ backend's operator oracles, which cannot form a block.
 from ghost_backend.execution.options import environment_value
 from ghost_backend.execution.errors import BackendNumericalError
 import os
-import warnings
 import numpy as np
 import scipy.linalg as la
 from ghost_backend.linalg.workspace import matrix_inf_norm
@@ -46,7 +45,13 @@ def automatic_hierarchical(n):
         from ghost_backend.linalg.crossover import chosen
         measured=chosen(n)
         if measured is not None:return measured=='hodlr'
-    threshold = int(raw) if raw else HIERARCHICAL_MIN_UNKNOWNS
+    try:
+        threshold = int(raw) if raw else HIERARCHICAL_MIN_UNKNOWNS
+    except ValueError:
+        raise ValueError('GHOST_HIERARCHICAL_MIN_UNKNOWNS must be an integer number of unknowns '
+                         '(0 keeps LU); got {!r}.'.format(raw)) from None
+    if threshold < 0:
+        raise ValueError('GHOST_HIERARCHICAL_MIN_UNKNOWNS must not be negative; got {!r}.'.format(raw))
     return threshold > 0 and int(n) >= threshold
 
 
@@ -485,9 +490,8 @@ class HierarchicalFactor:
 
     def _lu(self, matrix):
         self._reserve(matrix.nbytes + 8*len(matrix))
-        with warnings.catch_warnings():
-            warnings.simplefilter('error')
-            return la.lu_factor(np.asarray(matrix, order='F'), overwrite_a=True, check_finite=False)
+        from ghost_backend.linalg.workspace import strict_lu_factor
+        return strict_lu_factor(np.asarray(matrix, order='F'))
 
     def _build(self, ids):
         self.checkpoint()

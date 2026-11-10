@@ -240,3 +240,29 @@ def equilibrated_scaling_and_norm_1(a_mat, max_block_bytes=16 * 1024 * 1024, row
     for value in _ordered_blocks(column_pass, starts, threads, 16*n*block_columns):
         norm_a = max(norm_a, value)
     return row_scale, col_scale, norm_a
+
+
+def strict_lu_factor(matrix):
+    """``scipy.linalg.lu_factor`` in place on an F-ordered array, raising on a zero pivot.
+
+    SciPy reports an exactly singular factor with a warning.  Turning that
+    warning into an error through ``warnings.catch_warnings`` edits the
+    process-wide filter list, which is not thread-safe: a warning raised in
+    another thread meanwhile becomes an exception, and two overlapping blocks
+    can leave the error filter installed for the rest of the process.  LAPACK's
+    own status carries the same information without global state.
+    """
+    from scipy.linalg import get_lapack_funcs
+    a = np.asarray(matrix, order='F')
+    if a.ndim != 2 or a.shape[0] != a.shape[1]:
+        raise ValueError('LU needs a square matrix.')
+    if not a.size:
+        return a, np.empty(0, dtype=np.int32)
+    getrf, = get_lapack_funcs(('getrf',), (a,))
+    lu, piv, info = getrf(a, overwrite_a=True)
+    if info < 0:
+        raise ValueError('Illegal value in argument {} of LAPACK getrf.'.format(-info))
+    if info > 0:
+        raise np.linalg.LinAlgError('Diagonal number {} is exactly zero. Singular matrix.'.format(info))
+    return lu, piv
+

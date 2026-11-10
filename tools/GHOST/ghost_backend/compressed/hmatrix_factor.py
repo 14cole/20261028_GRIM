@@ -185,7 +185,8 @@ class HMatrixFactor(CompressedFactor):
         self.diagnostics.pop('condition_balance_blocks')
         rows, columns, _ = self.a.equilibrate()
         rows, columns, norm = self.a.balanced_scaling(rows, columns, blocks)
-        from scipy.sparse.linalg import LinearOperator, onenormest
+        from scipy.sparse.linalg import LinearOperator
+        from ghost_backend.linalg.onenorm import onenormest
         probe = CONDITION_PROBE_BACKWARD_ERROR_LIMIT
         inverse = LinearOperator(self.a.shape,
             matvec=lambda z: columns*self.inverse(rows*np.asarray(z).reshape(-1), limit=probe),

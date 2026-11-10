@@ -545,3 +545,41 @@ Junction pairs of two surfaces use a refined rule checked against a deeper one.
 Results report `near_quadrature.efie_near_block_asymmetry_max`, the
 reciprocity defect of the retained EFIE near blocks (a free lower bound on
 their quadrature error), and warn above 1e-3.
+
+## November 2026 audit changes
+
+Default BoR results are unchanged by the audit: the near angular rule still
+publishes its fine level. The automatic mode-cap extension no longer fails
+with "near meridian quadrature did not converge" at tight `mode_tol` (see
+NUMERICAL_METHODS.md, "November 2026 audit changes").
+
+`GHOST_BOR_NEAR_PUBLISH=coarse` is an experiment, off by default and not
+qualified. It publishes the coarse level of an accepted chunk and evaluates
+the fine level on the probed points only (every fourth; 1.375 instead of 1.75
+coarse units per point). It was the default for one revision of the audit
+branch and was withdrawn after review: a probe bounds only the probed points.
+For `k = 80`, 93 modes and two point pairs that share one layout, the probes
+agreed to 1.2e-9 while the coarse value of an unprobed pair was 3.2e-7 from the
+exact kernel, sixteen times `NEAR_ANGULAR_RTOL = 2e-8`; the fine level is
+9e-14 there. The regression script
+[development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/regression/test_s5_bor_near_publish.py) holds that
+case for the native and the NumPy path.
+
+What the experiment measured, for whoever qualifies it later
+([development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/calibration/bor_near_publish.py), two mode workers,
+single runs): largest coarse/fine discrepancy at any probe, operator time fine
+and coarse, largest RCS change. None of these bodies exceeds `ka = 30`.
+
+| Body | Probe discrepancy | Operators (s) | RCS change |
+|---|---|---|---|
+| PEC sphere, ka 3 / 10 / 30 | 1.6e-12 / 8.0e-12 / 1.3e-10 | 1.95 to 1.74 / 5.33 to 4.44 / 23.1 to 19.8 | 3e-14 / 6e-14 / 3e-14 |
+| Impedance sphere 100-150j, ka 6 | 1.9e-12 | 6.45 to 5.58 | 3e-14 |
+| Dielectric 4-0.2j and 4-4j, ka 3 | 1.6e-12, 1.7e-12 | 3.81 to 3.48, 3.81 to 3.65 | 3e-14, 8e-14 |
+| Coated PEC sphere, ka 3 | 1.7e-12 | 6.55 to 5.84 | 1e-13 |
+| PEC cone-cylinder, 6 GHz | 8.6e-12 | 10.8 to 8.9 | 1e-13 |
+| PEC ogive, 4 GHz | 2.0e-12 | 6.22 to 5.85 | 2e-13 |
+| PEC finite cylinder, 5 GHz | 1.5e-12 | 7.08 to 6.24 | 8e-14 |
+
+A default would need a bound that covers every published point: a per-point
+comparison, or a calibrated limit on `k rho` and mode count inside which the
+coarse orders are proven sufficient.
