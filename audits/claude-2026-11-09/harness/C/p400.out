@@ -1,0 +1,119 @@
+wall 263.9039089679718 maxrss MB 1855.59375 children MB 79.53515625
+bor_execution_options {'version': 1, 'angle_batch_size': 64, 'rhs_compression': 'auto', 'factorization': 'dense', 'compressed_storage_mib': 0, 'compression_tile': 'auto', 'tile_cache_mib': 16, 'near_backend': 'auto', 'stream_spill': 'auto', 'far_compression': 'auto', 'quadrature_check': 'off', 'near_refinement': 0}
+per_frequency [{'modal_execution': {'version': 1, 'angle_batch_size': 64, 'rhs_compression': 'auto', 'factorization': 'dense', 'compressed_storage_mib': 0, 'compression_tile': 'auto', 'tile_cache_mib': 16, 'near_backend': 'auto', 'stream_spill': 'auto', 'far_compression': 'auto', 'quadrature_check': 'off', 'near_refinement': 0, 'systems': [{'factorizations': 1, 'rhs_batches': 1, 'max_rhs_columns': 8, 'max_backward_error': 5.015529022562446e-15, 'max_relative_residual': 1.9684494377101753e-14, 'refinement_steps': 0, 'residual_storage': 'memory', 'backend': 'mirror', 'mirror_halves': [399, 399], 'sweep_compression': {'requested': 'auto', 'method': 'incremental_pivoted_qr', 'input_columns': 8, 'solved_columns': 8, 'accepted_batches': 0, 'fallback_batches': 0, 'fallback_columns': 0, 'max_rhs_error': 0.0, 'max_reconstructed_backward_error': 0.0, 'retained_basis_columns': 0, 'reused_basis_batches': 0, 'hint_probe': False, 'auto_suspended': 'hint', 'suspended_batches': 1}, 'mode': 0}, {'factorizations': 1, 'rhs_batches': 1, 'max_rhs_columns': 8, 'max_backward_error': 7.847982825062816e-15, 'max_relative_residual': 1.9193746741823176e-14, 'refinement_steps': 0, 'residual_storage': 'memory', 'backend': 'mirror', 'mirror_halves': [400, 400], 'sweep_compression': {'requested': 'auto', 'method': 'incremental_pivoted_qr', 'input_columns': 8, 'solved_columns': 8, 'accepted_batches': 0, 'fallback_batches': 1, 'fallback_columns': 0, 'max_rhs_error': 0.0, 'max_reconstructed_backward_error': 0.0, 'retained_
+[('HH', 0.0, -14.9762), ('HH', 30.0, -14.9764), ('HH', 60.0, -14.9764), ('HH', 90.0, -14.9764), ('VV', 0.0, -14.9762), ('VV', 30.0, -14.9763), ('VV', 60.0, -14.9764), ('VV', 90.0, -14.9763)]
+Mon Nov  9 22:10:44 2026    p400.prof
+
+         2309027 function calls (2269094 primitive calls) in 263.889 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1757 to 60 due to restriction <60>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+4118/4105    1.044    0.000  800.490    0.195 /usr/local/lib/python3.13/threading.py:641(wait)
+      167    0.037    0.000  439.200    2.630 /usr/local/lib/python3.13/concurrent/futures/process.py:406(wait_result_broken_or_wakeup)
+        8    0.000    0.000  334.220   41.778 /usr/local/lib/python3.13/threading.py:1059(join)
+        8    0.004    0.000  334.220   41.777 {method 'join' of '_thread._ThreadHandle' objects}
+  4328/23    4.844    0.001  309.875   13.473 /usr/local/lib/python3.13/threading.py:327(wait)
+21558/110  204.187    0.009  264.094    2.401 {method 'acquire' of '_thread.lock' objects}
+      4/2    0.000    0.000  263.605  131.802 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py:238(_run_configured)
+      3/1    0.000    0.000  263.597  263.597 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:234(measured)
+        1    0.000    0.000  263.597  263.597 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:145(finish)
+        1    0.000    0.000  263.424  263.424 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:114(poll)
+      2/1    0.000    0.000  263.424  263.424 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py:52(call)
+      4/1    0.000    0.000  263.424  263.424 /usr/local/lib/python3.13/contextlib.py:82(inner)
+      4/1    0.000    0.000  263.424  263.424 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py:304(wrapped)
+      2/1    0.000    0.000  263.400  263.400 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/dispatch.py:2053(solve_monostatic_rcs_bor)
+        1    0.000    0.000  263.392  263.392 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:4216(solve_bor)
+        1    0.000    0.000  263.364  263.364 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:3359(_mode_sweep)
+        1    0.000    0.000  263.364  263.364 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:2918(_mode_sweep_impl)
+   164/70    0.011    0.000  253.687    3.624 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:171(measured)
+        1    0.000    0.000  253.181  253.181 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:4411(prepare)
+        1    0.000    0.000  192.598  192.598 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:2372(prepare_operators)
+      192    0.004    0.000  127.150    0.662 /usr/local/lib/python3.13/concurrent/futures/_base.py:430(result)
+       51    0.024    0.000  125.994    2.470 /usr/local/lib/python3.13/concurrent/futures/_base.py:618(result_iterator)
+       50    0.001    0.000  120.413    2.408 /usr/local/lib/python3.13/concurrent/futures/_base.py:315(_result_or_cancel)
+      426    0.007    0.000   86.236    0.202 /usr/local/lib/python3.13/multiprocessing/connection.py:1160(wait)
+      426    0.069    0.000   86.050    0.202 /usr/local/lib/python3.13/selectors.py:385(select)
+    105/3    0.048    0.000   71.036   23.679 /usr/local/lib/python3.13/concurrent/futures/thread.py:54(run)
+        2    0.000    0.000   70.626   35.313 /usr/local/lib/python3.13/concurrent/futures/_base.py:652(__exit__)
+        2    0.000    0.000   70.626   35.313 /usr/local/lib/python3.13/concurrent/futures/thread.py:220(shutdown)
+      7/2    0.000    0.000   70.562   35.281 /usr/local/lib/python3.13/concurrent/futures/thread.py:70(_worker)
+    58/48    0.333    0.006   70.270    1.464 {method 'get' of '_queue.SimpleQueue' objects}
+      426    2.856    0.007   65.816    0.154 {method 'poll' of 'select.poll' objects}
+        1    0.000    0.000   60.582   60.582 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:1468(enable_streaming)
+        1    0.000    0.000   60.517   60.517 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:1654(__init__)
+      111    0.000    0.000   60.510    0.545 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:1749(_ensure)
+        1    0.000    0.000   60.509   60.509 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:1801(_build_range)
+        1    0.000    0.000   60.509   60.509 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:1798(_run_build_tiles)
+        1    0.000    0.000   60.509   60.509 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:481(_run_tiles)
+  184/111    0.002    0.000   21.250    0.191 /usr/local/lib/python3.13/multiprocessing/connection.py:187(send_bytes)
+  184/111    0.001    0.000   19.295    0.174 /usr/local/lib/python3.13/multiprocessing/connection.py:411(_send_bytes)
+  272/198    0.005    0.000   19.293    0.097 /usr/local/lib/python3.13/multiprocessing/connection.py:386(_send)
+  282/208    0.206    0.001   16.924    0.081 {built-in method posix.write}
+    55/15    0.002    0.000   16.267    1.084 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/factor.py:143(__init__)
+     4108    0.131    0.000   11.701    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:59(sample_memory)
+     2789    0.012    0.000   10.625    0.004 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:683(_iter_near_pairs)
+     55/2    0.023    0.000   10.620    5.310 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:3185(scoped_solve_am)
+     55/2    0.012    0.000   10.620    5.310 {method 'run' of '_contextvars.Context' objects}
+     55/2    0.027    0.000   10.620    5.310 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:3186(run)
+     55/2    0.022    0.000   10.620    5.310 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:3081(solve_am)
+    55/39    0.004    0.000   10.158    0.260 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/factor.py:205(_condition)
+       92    0.007    0.000    9.787    0.106 /usr/local/lib/python3.13/multiprocessing/connection.py:251(recv)
+5247/1454   15.532    0.003    8.718    0.006 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:528(_project_half_grid)
+    40/27    0.010    0.000    6.519    0.241 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:1956(_sample_G)
+       55    0.030    0.001    5.574    0.101 /usr/local/lib/python3.13/site-packages/scipy/sparse/linalg/_onenormest.py:11(onenormest)
+       55    0.004    0.000    5.232    0.095 /usr/local/lib/python3.13/site-packages/scipy/sparse/linalg/_onenormest.py:324(_onenormest_core)
+      220    0.009    0.000    5.198    0.024 /usr/local/lib/python3.13/site-packages/scipy/sparse/linalg/_interface.py:337(matmat)
+      934    0.045    0.000    4.801    0.005 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:78(_sample_process_tree)
+   218/34    0.044    0.000    4.557    0.134 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:222(measured)
+    55/39    0.037    0.001    4.224    0.108 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:599(_deterministic_onenormest)
+      934    0.170    0.000    4.067    0.004 /usr/local/lib/python3.13/site-packages/psutil/__init__.py:951(children)
+    15303    0.169    0.000    3.846    0.000 /usr/local/lib/python3.13/site-packages/psutil/_common.py:367(wrapper)
+
+
+Mon Nov  9 22:10:44 2026    p400.prof
+
+         2309027 function calls (2269094 primitive calls) in 263.889 seconds
+
+   Ordered by: internal time
+   List reduced from 1757 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+21558/110  204.187    0.009  264.094    2.401 {method 'acquire' of '_thread.lock' objects}
+5247/1454   15.532    0.003    8.718    0.006 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:528(_project_half_grid)
+  4328/23    4.844    0.001  309.875   13.473 /usr/local/lib/python3.13/threading.py:327(wait)
+ 1099/790    3.442    0.003    3.763    0.005 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:323(sample)
+  240/175    3.216    0.013    3.183    0.018 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:63(_contract_test_side)
+  400/343    3.135    0.008    3.102    0.009 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:78(_contract_source_group)
+1478/1363    2.999    0.002    2.908    0.002 {built-in method numpy.zeros}
+      426    2.856    0.007   65.816    0.154 {method 'poll' of 'select.poll' objects}
+   121447    1.658    0.000    1.748    0.000 {method 'read' of '_io.BufferedReader' objects}
+  494/460    1.316    0.003    1.378    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/factor.py:95(solve)
+  851/779    1.171    0.001    1.346    0.002 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:311(sample)
+4118/4105    1.044    0.000  800.490    0.195 /usr/local/lib/python3.13/threading.py:641(wait)
+135801/135800    0.983    0.000    0.993    0.000 {built-in method _io.open}
+  220/176    0.733    0.003    0.694    0.004 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:367(_unpack_upper_into)
+       50    0.729    0.015    0.981    0.020 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:269(_add_band_to_store)
+     1496    0.722    0.000    0.722    0.000 {built-in method posix.read}
+    55/44    0.664    0.012    0.734    0.017 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:2103(add_blocks)
+    55/22    0.646    0.012    0.268    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/factor.py:52(__init__)
+1907/1848    0.607    0.000    0.988    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:556(_half_grid_tables)
+     90/5    0.564    0.006    0.118    0.024 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:434(_banded_stream)
+     90/6    0.541    0.006    0.109    0.018 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/kernels.py:632(banded_modal_kernels)
+    50/29    0.497    0.010    0.698    0.024 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:240(_bracket_band)
+    55/45    0.486    0.009    0.551    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:283(_symmetrize_efie_mode)
+       40    0.457    0.011    0.503    0.013 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:343(_add_band_to_packed)
+    40/25    0.428    0.011    0.423    0.017 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:168(_efie_band)
+    55/22    0.426    0.008    0.173    0.008 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py:4442(assemble)
+     8458    0.408    0.000    0.408    0.000 {method 'release' of '_thread.lock' objects}
+    54/53    0.398    0.007    0.529    0.010 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/factor.py:289(errors)
+11301/11142    0.374    0.000    0.385    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+      934    0.336    0.000    2.041    0.002 /usr/local/lib/python3.13/site-packages/psutil/_pslinux.py:1562(ppid_map)
+    58/48    0.333    0.006   70.270    1.464 {method 'get' of '_queue.SimpleQueue' objects}
+     6483    0.313    0.000    0.313    0.000 {built-in method numpy.empty}
+20492/20352    0.263    0.000    0.685    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/streaming.py:682(_dp)
+    55/50    0.250    0.005    0.610    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/workspace.py:37(checked_matrix_norms)
+   135830    0.219    0.000    0.225    0.000 {method '__exit__' of '_io._IOBase' objects}
+
+

@@ -1,0 +1,18 @@
+solve_monostatic_rcs_2d [auto]               TE: dB error vs thin-plate ref [ 2.73 -5.39 -1.21 -2.65 -0.96]  max complex rel 1.85e+00
+solve_monostatic_rcs_2d [auto]               TM: dB error vs thin-plate ref [-0.03  0.1  -0.03  0.09 -0.02]  max complex rel 4.36e-03
+      gate passed=True mesh_certified=False est_published_max_db=None complex_max=None warnings=['Geometry contains 2 dangling endpoint node(s).'] t=0s
+solve_monostatic_rcs_2d [direct]             TE: dB error vs thin-plate ref [ 2.73 -5.39 -1.21 -2.65 -0.96]  max complex rel 1.85e+00
+solve_monostatic_rcs_2d [direct]             TM: dB error vs thin-plate ref [-0.03  0.1  -0.03  0.09 -0.02]  max complex rel 4.36e-03
+      gate passed=True mesh_certified=False est_published_max_db=None complex_max=None warnings=['Geometry contains 2 dangling endpoint node(s).'] t=0s
+solve_monostatic_rcs_2d_survey               TE: dB error vs thin-plate ref [ 2.73 -5.39 -1.21 -2.65 -0.96]  max complex rel 1.85e+00
+solve_monostatic_rcs_2d_survey               TM: dB error vs thin-plate ref [-0.03  0.1  -0.03  0.09 -0.02]  max complex rel 4.36e-03
+      gate passed=True mesh_certified=False est_published_max_db=None complex_max=None warnings=['Geometry contains 2 dangling endpoint node(s).', 'SURVEY MODE: VV and HH were solved on the base mesh only; no mesh-conv'] t=0s
+solve_monostatic_rcs_2d_certified [auto]     TE: dB error vs thin-plate ref [ 2.73 -5.39 -1.21 -2.64 -0.97]  max complex rel 1.85e+00
+solve_monostatic_rcs_2d_certified [auto]     TM: dB error vs thin-plate ref [-0.04  0.11 -0.03  0.09 -0.02]  max complex rel 4.61e-03
+      gate passed=True mesh_certified=True est_published_max_db=0.011792532753569888 complex_max=0.0004981661014286874 warnings=['Geometry contains 2 dangling endpoint node(s).'] t=1s
+solve_monostatic_rcs_2d_certified [direct]   TE: dB error vs thin-plate ref [ 2.73 -5.39 -1.21 -2.64 -0.97]  max complex rel 1.85e+00
+solve_monostatic_rcs_2d_certified [direct]   TM: dB error vs thin-plate ref [-0.04  0.11 -0.03  0.09 -0.02]  max complex rel 4.61e-03
+      gate passed=True mesh_certified=True est_published_max_db=0.011792532753511506 complex_max=0.000498166101429239 warnings=['Geometry contains 2 dangling endpoint node(s).'] t=1s
+solve_bistatic_rcs_2d_certified              TE: dB error vs thin-plate ref [ 2.73  2.04 -2.59 -0.02 -8.59]  max complex rel 3.75e-01
+solve_bistatic_rcs_2d_certified              TM: dB error vs thin-plate ref [-0.04  0.02 -0.03 -0.01  0.01]  max complex rel 1.84e-03
+      gate passed=True mesh_certified=True est_published_max_db=0.0335051641078961 complex_max=0.0003302736119129074 warnings=['Geometry contains 2 dangling endpoint node(s).'] t=1s

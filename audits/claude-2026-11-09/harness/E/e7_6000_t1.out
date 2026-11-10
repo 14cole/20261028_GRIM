@@ -1,0 +1,102 @@
+### assemble wall 2.90s cpu 1.42s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      796    0.467    0.001    0.474    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+      448    0.376    0.001    0.376    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:275(values)
+      597    0.289    0.000    0.318    0.001 /tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/E/e5_lib.py
+      405    0.205    0.001    0.205    0.001 {built-in method builtins.abs}
+      379    0.178    0.000    0.202    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_basic.py:1606(lstsq)
+     5324    0.159    0.000    0.159    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+      597    0.123    0.000    0.471    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:316(__call__)
+      120    0.111    0.001    1.659    0.014 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:399(cross_approximation)
+      120    0.070    0.001    0.308    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:540(recompress)
+
+
+32 120 bytes/dense 0.16400302777777778
+### factor(no cond) wall 4.06s cpu 2.00s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      544    0.614    0.001    0.617    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+      126    0.529    0.004    2.964    0.024 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:288(compress_sampled)
+     3344    0.176    0.000    0.176    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1240(<genexpr>)
+      484    0.158    0.000    0.212    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1246(visit)
+     1670    0.150    0.000    0.231    0.000 /usr/local/lib/python3.13/site-packages/psutil/_pslinux.py:306(virtual_memory)
+      642    0.147    0.000    0.149    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+  642/126    0.146    0.000    0.349    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+     8358    0.127    0.000    0.129    0.000 {built-in method _io.open}
+     1424    0.108    0.000    0.108    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1238(<genexpr>)
+
+
+### solve 16 rhs wall 0.19s cpu 0.14s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      368    0.082    0.000    0.082    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+    254/2    0.045    0.000    0.081    0.041 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+      254    0.021    0.000    0.022    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+       33    0.008    0.000    0.008    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+      150    0.007    0.000    0.007    0.000 {built-in method builtins.hasattr}
+        2    0.006    0.003    0.088    0.044 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/inverse.py:281(apply)
+       14    0.003    0.000    0.003    0.000 {built-in method builtins.abs}
+        1    0.003    0.003    0.181    0.181 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/factor.py:161(_refine)
+      254    0.002    0.000    0.027    0.000 /usr/local/lib/python3.13/site-packages/scipy/_lib/_util.py:1149(wrapper)
+
+
+### matmul 16 rhs x10 wall 0.53s cpu 0.32s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1840    0.486    0.000    0.486    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+       10    0.015    0.002    0.528    0.053 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1073(matmul)
+       50    0.008    0.000    0.504    0.010 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1280(_map)
+      360    0.006    0.000    0.006    0.000 {built-in method builtins.min}
+      120    0.005    0.000    0.008    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/options.py:177(_usable_logical_cpus)
+       10    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+      120    0.001    0.000    0.001    0.000 {built-in method posix.cpu_count}
+     1840    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+       10    0.001    0.000    0.001    0.000 {built-in method numpy.zeros}
+
+
+### matmul 1 rhs x10 wall 0.10s cpu 0.08s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1840    0.090    0.000    0.090    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+       50    0.002    0.000    0.096    0.002 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1280(_map)
+       10    0.002    0.000    0.099    0.010 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1073(matmul)
+      120    0.001    0.000    0.001    0.000 {built-in method posix.cpu_count}
+      120    0.001    0.000    0.003    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/options.py:177(_usable_logical_cpus)
+     1840    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+      240    0.000    0.000    0.001    0.000 <frozen os>:712(__getitem__)
+     1890    0.000    0.000    0.000    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:920(<lambda>)
+      240    0.000    0.000    0.001    0.000 <frozen _collections_abc>:808(get)
+
+
+### precond apply x10 wall 0.53s cpu 0.29s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  1270/10    0.312    0.000    0.516    0.052 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+     1270    0.123    0.000    0.129    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+     1270    0.026    0.000    0.180    0.000 /usr/local/lib/python3.13/site-packages/scipy/_lib/_util.py:1149(wrapper)
+      630    0.010    0.000    0.010    0.000 /usr/local/lib/python3.13/site-packages/numpy/_core/shape_base.py:78(atleast_2d)
+       10    0.009    0.001    0.526    0.053 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/inverse.py:281(apply)
+     3810    0.009    0.000    0.009    0.000 /usr/local/lib/python3.13/enum.py:200(__get__)
+      630    0.007    0.000    0.018    0.000 /usr/local/lib/python3.13/site-packages/numpy/_core/shape_base.py:218(vstack)
+     1270    0.006    0.000    0.006    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/blas.py:395(getter)
+     1270    0.005    0.000    0.185    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:134(lu_solve)
+
+
+### factor+cond wall 4.05s cpu 2.58s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      544    0.509    0.001    0.514    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+      126    0.410    0.003    2.224    0.018 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:288(compress_sampled)
+      328    0.292    0.001    0.292    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:275(values)
+ 1658/134    0.203    0.000    0.453    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+     5798    0.203    0.000    0.203    0.000 {method 'conj' of 'numpy.ndarray' objects}
+     1658    0.147    0.000    0.150    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+      306    0.126    0.000    0.126    0.000 {built-in method builtins.abs}
+      484    0.124    0.000    0.166    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1246(visit)
+     2724    0.118    0.000    0.118    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+
+
+dense LU+solve wall 14.83 cpu 9.44
+dense matmul x10 wall 2.648 cpu 1.573
+{'unknowns': 6000, 'factorizations': 1, 'rhs_batches': 1, 'max_rhs_columns': 16, 'max_backward_error': 7.726663128508397e-16, 'max_relative_residual': 5.164644073716946e-16, 'compressed': {'operator': 'hmatrix', 'unknowns': 6000, 'leaf': 128, 'eta': 1.0, 'tolerance': 1e-12, 'retained_bytes': 94465744, 'storage_budget': 8589934592, 'near_bytes': 45243040, 'far_bytes': 42533632, 'dense_equivalent_bytes': 576000000, 'near_rows': 64, 'interaction_lists': 120, 'dense_interaction_lists': 0, 'max_rank': 32, 'mean_rank': 15.333333333333334, 'geometry_queries': 597, 'geometry_coefficients': 7938269, 'shared_query_targets': 1, 'near_coefficients': 2812498, 'coefficient_fraction': 0.22050747222222222, 'sampled_rows': 64, 'sampled_row_error': 5.572820087765474e-13, 'sample_leaf_count': 64, 'sampled_leaf_count': 64, 'sampled_leaf_fraction': 1.0, 'sample_coverage_limited': False, 'sample_row_storage_bytes': 6144000, 'sample_row_storage_limit_bytes': 268435456, 'operator_error_limit': 1e-11, 'error_semantics': 'measured on exactly evaluated sample rows; not a deterministic bound'}, 'preconditioners': [{'bytes': 45907624, 'max_rank': 92, 'leaves': 64, 'accesses': 562512, 'oracle_calls': 64, 'max_query_entries': 8836, 'relative_inf_error_bound': None, 'relative_one_error_bound': None, 'storage_budget': 8495468848, 'inverse_only': True, 'inverse_builder': 'hmatrix_range_sampling', 'range_blocks': 126, 'max_inverse_rank': 2048, 'inverse_blas_threads': 1, 'construction': {'checks': 1670, 'live_checks': 1670, 'reused_observations': 0, 'largest_increment_bytes': 92946432, 'peak_accounted_build_bytes': 107970432, 'sampled_process_growth_bytes': 56274944, 'process_samples_exclusive': False, 'forecast_discount_applied': False}, 'dense_fallbacks': 0, 'largest_dense_fallback': 0, 'dense_fallback_limit': 1024}], 'gmres_columns': 0, 'max_refinements': 1, 'refinement_steps': 1, 'max_sampled_backward_error': 5.3031075113171444e-15, 'sampled_rows': 64}

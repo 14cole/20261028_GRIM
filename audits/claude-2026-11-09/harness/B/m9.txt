@@ -1,0 +1,13 @@
+TE diel+open TYPE2 strip           np=98 form=2D multi-region indirect formulation (layered coat warnings=1 |B|= [ 2.7403  1.2231  6.9556  1.7469 10.0268]
+     W: Geometry contains 2 dangling endpoint node(s).
+TE diel+thin closed plate t=w/200  np=126 form=2D multi-region indirect formulation (layered coat warnings=0 |B|= [ 2.0058  2.2799  8.036   2.3728 11.2476]
+TE diel+thin closed plate t=w/800  np=126 form=2D multi-region indirect formulation (layered coat warnings=0 |B|= [ 2.0024  2.2753  7.9955  2.369  11.2011]
+   TE: open strip vs t=w/800 plate rel diff 1.850e+00;  plate t=w/200 vs t=w/800 4.411e-03
+TM diel+open TYPE2 strip           np=98 form=2D multi-region indirect formulation (layered coat warnings=1 |B|= [ 4.6936  0.5925  5.9682  1.7424 10.0022]
+     W: Geometry contains 2 dangling endpoint node(s).
+TM diel+thin closed plate t=w/200  np=126 form=2D multi-region indirect formulation (layered coat warnings=0 |B|= [ 4.7547  0.5791  6.0205  1.6884 10.0585]
+TM diel+thin closed plate t=w/800  np=126 form=2D multi-region indirect formulation (layered coat warnings=0 |B|= [ 4.7124  0.5856  5.9872  1.7235 10.0211]
+   TM: open strip vs t=w/800 plate rel diff 4.363e-03;  plate t=w/200 vs t=w/800 1.108e-02
+TM closed PEC circle + open strip ka=2.4048: TYPE2-open [2D Robin-BIE (SLP representation; ] cond=2.21e+07 gate=False | TYPE1(Zs~0) [2D mixed sheet+PEC BIE (TM: unified SLP representation; comb] cond=495 | rel diff 3.34e-07 | default-gate passed=True warnings=['Geometry contains 2 dangling endpoint node(s).']
+TM closed PEC circle + open strip ka=2.3000: TYPE2-open [2D Robin-BIE (SLP representation; ] cond=2.05e+03 gate=True | TYPE1(Zs~0) [2D mixed sheet+PEC BIE (TM: unified SLP representation; comb] cond=502 | rel diff 4.18e-07 | default-gate passed=True warnings=['Geometry contains 2 dangling endpoint node(s).']
+TM closed PEC circle + open strip ka=5.5201: TYPE2-open [2D Robin-BIE (SLP representation; ] cond=8.61e+06 gate=False | TYPE1(Zs~0) [2D mixed sheet+PEC BIE (TM: unified SLP representation; comb] cond=471 | rel diff 7.87e-07 | default-gate passed=True warnings=['Geometry contains 2 dangling endpoint node(s).']

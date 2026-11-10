@@ -1,0 +1,25 @@
+in-memory cpu 25.39 wall 48.36 N 300
+recovery cpu 27.35 wall 39.05 N 300
+run folder bytes 251004 [('geometry.geo', 23355), ('geometry_snapshot.json', 49955), ('request.json', 67439)]
+         119958 function calls (110866 primitive calls) in 0.121 seconds
+
+   Ordered by: cumulative time
+   List reduced from 413 to 14 due to restriction <14>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.121    0.121 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/recovery.py:172(save)
+        1    0.000    0.000    0.083    0.083 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/recovery.py:181(export_completed_frequency)
+        1    0.000    0.000    0.079    0.079 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/solver_export.py:4(export_solver_result)
+        1    0.000    0.000    0.079    0.079 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/grim.py:1066(export_result_to_grim)
+        1    0.007    0.007    0.057    0.057 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/grim.py:84(_solver_metadata_json)
+        1    0.000    0.000    0.030    0.030 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/checkpoints.py:88(save)
+     1467    0.001    0.000    0.028    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/grim.py:123(encode)
+        3    0.022    0.007    0.022    0.007 {built-in method posix.fsync}
+     1443    0.005    0.000    0.021    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/samples.py:161(__iter__)
+10376/1467    0.014    0.000    0.021    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/grim.py:39(_json_safe)
+        1    0.000    0.000    0.020    0.020 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/io/grim.py:761(_save_grim_npz)
+        2    0.000    0.000    0.018    0.009 /usr/local/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:681(savez_compressed)
+        2    0.000    0.000    0.018    0.009 /usr/local/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py:756(_savez)
+     1442    0.013    0.000    0.017    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/samples.py:55(__getitem__)
+
+

@@ -1,0 +1,83 @@
+pec direct panels=3000 dofs=3000 nang=181 time=37.9s base_rss=68MiB peak_rss=585MiB delta=517MiB  16N^2=137MiB  ratio=3.76
+{'operators': 26.13, 'factorization': 5.58, 'excitation': 0.43, 'rhs_solve': 1.06, 'linear_solve': 2.19, 'rhs_compression': 2.2, 'far_field': 0.15}
+solver_method dense_lu reuses 1 fact 2
+TE rel err 1.8110400727620562e-07 spread over angles 1.5752564018278085e-12
+TM rel err 7.930790937327645e-09 spread over angles 2.7569303875698708e-12
+         3063132 function calls (3038809 primitive calls) in 37.922 seconds
+
+   Ordered by: cumulative time
+   List reduced from 2083 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        9    0.000    0.000   38.286    4.254 /usr/local/lib/python3.13/threading.py:1059(join)
+        9    0.000    0.000   38.270    4.252 {method 'join' of '_thread._ThreadHandle' objects}
+      4/1    0.000    0.000   37.946   37.946 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/preparation.py:111(call)
+      3/1    0.000    0.000   37.945   37.945 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/options.py:717(call)
+      3/1    0.000    0.000   37.909   37.909 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/options.py:515(invoke_configured)
+      3/1    0.000    0.000   37.909   37.909 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:234(measured)
+        1    0.000    0.000   37.909   37.909 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:145(finish)
+      9/1    0.000    0.000   37.902   37.902 /usr/local/lib/python3.13/threading.py:1001(_bootstrap)
+      9/1    0.000    0.000   37.902   37.902 /usr/local/lib/python3.13/threading.py:1028(_bootstrap_inner)
+      9/1    0.002    0.000   37.902   37.902 /usr/local/lib/python3.13/threading.py:984(run)
+        1    0.000    0.000   37.902   37.902 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:114(poll)
+      3/1    0.000    0.000   37.892   37.892 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/cpu.py:210(call)
+        1    0.000    0.000   37.892   37.892 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/cpu.py:162(_run_with_kernel_tables)
+      3/1    0.001    0.000   37.892   37.892 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/failure.py:80(invoke)
+        1    0.009    0.009   37.892   37.892 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/session.py:90(call)
+        1    0.000    0.000   37.881   37.881 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:3361(solve_monostatic_rcs_2d)
+        2    0.001    0.001   35.569   17.785 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:1926(_solve_robin_bie)
+    19/11    0.001    0.000   28.426    2.584 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:222(measured)
+        2    0.000    0.000   26.363   13.181 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/formulations/regions.py:502(assemble_system)
+        1    0.004    0.004   26.352   26.352 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py:288(assemble_pair)
+        1    0.000    0.000   26.142   26.142 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py:339(_traverse)
+        1    0.000    0.000   26.132   26.132 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/cpu.py:286(call)
+        1    0.038    0.038   21.685   21.685 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:2303(_run_ordered_tiles)
+      225    0.012    0.000   15.216    0.068 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/profiling.py:49(measured)
+      105    0.001    0.000   13.349    0.127 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:2327(run)
+        2    0.000    0.000    8.991    4.495 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:2074(_solve_multi_region_indirect)
+        2    0.000    0.000    8.965    4.482 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:1753(_solve_fields)
+        2    0.000    0.000    6.093    3.047 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py:31(__init__)
+        2    0.002    0.001    5.610    2.805 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py:128(_factor_double)
+        2    0.000    0.000    4.754    2.377 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:2105(solve_monostatic_rcs_2d_single_polarization)
+       72    0.001    0.000    3.610    0.050 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/polynomial_quadrature.py:268(map_checked)
+      105    0.000    0.000    2.402    0.023 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:3310(<lambda>)
+        2    0.000    0.000    2.199    1.099 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/sweep.py:238(solve)
+        2    0.000    0.000    2.196    1.098 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/sweep.py:231(_direct)
+        2    0.021    0.010    2.196    1.098 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py:14(call)
+     2352    0.025    0.000    1.752    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py:65(scatter_tile)
+     1568    1.584    0.001    1.726    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/native/far.py:82(scatter_tile)
+        2    0.000    0.000    1.060    0.530 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py:236(_apply_inverse)
+      105    0.416    0.004    0.887    0.008 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:3133(_far_tile)
+      105    0.003    0.000    0.825    0.008 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/native/far.py:193(far_block)
+      105    0.822    0.008    0.822    0.008 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/native/far.py:224(run)
+      105    0.002    0.000    0.758    0.007 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:3128(_commit_far)
+      142    0.000    0.000    0.646    0.005 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/workspace.py:91(_ordered_blocks)
+      110    0.001    0.000    0.570    0.005 /usr/local/lib/python3.13/site-packages/numpy/_core/einsumfunc.py:1244(einsum)
+      110    0.569    0.005    0.569    0.005 {built-in method numpy._core._multiarray_umath.c_einsum}
+       40    0.001    0.000    0.506    0.013 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:2769(integrate_touching)
+       40    0.072    0.002    0.477    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:1012(_integrate_linear_touching_pairs_sk_batched)
+9034/8895    0.474    0.000    0.466    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+       66    0.459    0.007    0.460    0.007 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/polynomial_quadrature.py:485(_kernels)
+   252/32    0.001    0.000    0.459    0.014 <frozen importlib._bootstrap>:1358(_find_and_load)
+   247/32    0.004    0.000    0.457    0.014 <frozen importlib._bootstrap>:1306(_find_and_load_unlocked)
+   240/34    0.001    0.000    0.451    0.013 <frozen importlib._bootstrap>:911(_load_unlocked)
+   201/34    0.000    0.000    0.450    0.013 <frozen importlib._bootstrap_external>:1021(exec_module)
+      703    0.036    0.000    0.447    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:59(sample_memory)
+   766/64    0.001    0.000    0.442    0.007 <frozen importlib._bootstrap>:480(_call_with_frames_removed)
+   218/34    0.005    0.000    0.440    0.013 {built-in method builtins.exec}
+       36    0.001    0.000    0.363    0.010 /usr/local/lib/python3.13/concurrent/futures/_base.py:430(result)
+       40    0.269    0.007    0.333    0.008 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:1042(blocks)
+  714/632    0.004    0.000    0.329    0.001 /usr/local/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:66(_wrapreduction)
+      142    0.019    0.000    0.322    0.002 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py:78(_sample_process_tree)
+  396/366    0.002    0.000    0.320    0.001 /usr/local/lib/python3.13/site-packages/numpy/_core/fromnumeric.py:2304(sum)
+       26    0.014    0.001    0.304    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:2730(_fixed_batch)
+    39002    0.096    0.000    0.301    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/geometry/regions.py:471(key)
+    30002    0.039    0.000    0.294    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/geometry.py:2539(key)
+       26    0.128    0.005    0.290    0.011 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/operators.py:223(_integrate_linear_pairs_box_sk_batched)
+        2    0.000    0.000    0.287    0.143 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:2491(estimate_system_memory)
+        2    0.000    0.000    0.287    0.143 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py:1559(_estimate_memory_gb)
+      142    0.007    0.000    0.286    0.002 /usr/local/lib/python3.13/site-packages/psutil/__init__.py:951(children)
+        1    0.000    0.000    0.277    0.277 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/kernels.py:1(<module>)
+  287/153    0.001    0.000    0.276    0.002 <frozen importlib._bootstrap>:1407(_handle_fromlist)
+
+

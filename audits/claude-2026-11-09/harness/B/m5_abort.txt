@@ -1,0 +1,21 @@
+abort direct 2 InterruptedError after 0.5s
+abort direct 6 InterruptedError after 4.7s
+abort direct 12 InterruptedError after 4.6s
+abort direct 25 InterruptedError after 9.6s
+  post-abort solve ok -9.092331973165171
+abort auto 2 InterruptedError after 0.3s
+abort auto 6 InterruptedError after 18.3s
+abort auto 12 InterruptedError after 20.2s
+abort auto 25 InterruptedError after 47.7s
+  post-abort solve ok -9.092331973165171
+  new temp entries: []
+  threads alive: ['MainThread']
+thread direct errors {'pecibc': "MemoryError('The multi_region 2-D solve requires an estimated 0.16 GiB, but 11.86 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 76 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce p", 'pec': "MemoryError('The multi_region 2-D solve requires an estimated 0.16 GiB, but 11.86 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 68 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce p", 'diel': "MemoryError('The single_dielectric 2-D solve requires an estimated 0.28 GiB, but 11.86 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 220 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Re", 'coatibc': "MemoryError('The multi_region 2-D solve requires an estimated 0.19 GiB, but 11.86 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 298 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce ", 'two': "MemoryError('The multi_region 2-D solve requires an estimated 0.18 GiB, but 11.85 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 396 DOFs across 3 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce "}
+    sheetpec TE 0.0e+00 TM 0.0e+00 warnings 1 fact 2 2
+thread auto errors {}
+    pec TE 0.0e+00 TM 0.0e+00 warnings 0 fact 2 2
+    diel TE 0.0e+00 TM 0.0e+00 warnings 0 fact 2 2
+    coatibc TE 0.0e+00 TM 0.0e+00 warnings 0 fact 2 2
+    pecibc TE 0.0e+00 TM 0.0e+00 warnings 0 fact 2 2
+    two TE 0.0e+00 TM 0.0e+00 warnings 0 fact 2 2
+    sheetpec TE 0.0e+00 TM 0.0e+00 warnings 2 fact 2 2

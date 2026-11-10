@@ -1,0 +1,31 @@
+base t 19.070629596710205 234 15
+VV dB [-16.034 -21.159 -30.286  -8.128  -6.171 -33.526 -20.483  -4.572   1.135]
+HH dB [-16.034 -25.865 -30.314  -9.155  -6.593 -23.936 -19.122  -4.833   1.135]
+VV==HH at 0,180: 3.552713678800501e-15 2.220446049250313e-15 amp (0.042112213801746505-0.014486672260200608j) (0.04211221380174649-0.014486672260200601j)
+flip z & 180-theta                       max|ddB|=8.77e-07  rel complex amp diff=2.87e-09
+translate dz phase exp(+12jkd cos)       max|ddB|=1.12e-06  rel complex amp diff=7.93e-09
+translate dz phase exp(-12jkd cos)       max|ddB|=1.12e-06  rel complex amp diff=2.00e+00
+split segments                           max|ddB|=0.00e+00  rel complex amp diff=0.00e+00
+inches                                   max|ddB|=7.75e-07  rel complex amp diff=5.63e-09
+multi-f sample order freq: [4.0, 3.0, 2.0]
+multi-freq [4,3,2] vs single 3           max|ddB|=0.00e+00  rel complex amp diff=0.00e+00
+aspect order reversed                    max|ddB|=0.00e+00  rel complex amp diff=0.00e+00
+single aspect 60: ddB [-1.13015730e-09 -2.78472356e-09] modes 13
+single aspect 0: ddB [1.92414973e-11 1.92450500e-11] modes 1
+aspects 0,180: ddB [ 1.92414973e-11 -1.60469416e-11  1.92450500e-11 -1.60498281e-11] modes 1
+aspects .001,179.999: ddB [-1.97538693e-07 -5.09178142e-08 -7.37066479e-08 -5.42221008e-08] modes 3
+n_modes=30 used 15                       max|ddB|=2.34e-13  rel complex amp diff=3.89e-15
+n_modes=20 used 15                       max|ddB|=1.14e-13  rel complex amp diff=8.47e-16
+n_modes 12 ModalConvergenceError Azimuthal mode truncation did not reach two consecutive increments below mode_tol=1e-06 at or above the physical tail start m=7 before the cap m=12 (l
+n_modes 8 ModalConvergenceError Azimuthal mode truncation did not reach two consecutive increments below mode_tol=1e-06 at or above the physical tail start m=7 before the cap m=8 (la
+n_modes 5 ModalConvergenceError Azimuthal mode cap m=5 is below the incident-wave physical bandwidth estimate m=7. Increase n_modes; adaptive tail convergence was intentionally not e
+mode_tol=0.001 used 12                   max|ddB|=1.20e-05  rel complex amp diff=7.67e-07
+mode_tol=1e-09 used 17                   max|ddB|=1.71e-09  rel complex amp diff=1.09e-10
+mode_tol=1e-12 used 19                   max|ddB|=1.71e-09  rel complex amp diff=1.10e-10
+expand: n 16 [(0.0, -16.034), (10.0, -21.159), (30.0, -30.286), (60.0, -8.128), (90.0, -6.171), (120.0, -33.526), (150.0, -20.483), (170.0, -4.572), (180.0, 1.135), (190.0, -4.572), (210.0, -20.483), (240.0, -33.526), (270.0, -6.171), (300.0, -8.128), (330.0, -30.286), (350.0, -21.159)]
+samples len 32 16
+workers=1 vs 2                           max|ddB|=1.42e-14  rel complex amp diff=2.63e-16
+cfie_alpha=0.2                           max|ddB|=7.09e-03  rel complex amp diff=4.47e-05
+cfie_alpha=0.8                           max|ddB|=3.48e-03  rel complex amp diff=3.94e-05
+N=-40 n=448                              max|ddB|=2.05e-02  rel complex amp diff=2.60e-04
+N=-80 n=868                              max|ddB|=2.37e-02  rel complex amp diff=2.97e-04

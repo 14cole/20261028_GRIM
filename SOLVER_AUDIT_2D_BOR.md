@@ -5,6 +5,20 @@
 - **Environment:** Linux x86-64, 4 vCPU, 15 GB, Python 3.13, NumPy 2.4.6, SciPy 1.17.1 (OpenBLAS). Native kernels were built locally with gcc 13 from the shipped C sources. The Windows DLLs and all Windows-only branches (commit-charge accounting) were read, not executed.
 - **No test suite ships in this checkout**, so every number below comes from tests written for this audit. Nothing in the repository was modified.
 
+## Errata after cross-examination (2026-11-10)
+
+Codex reviewed this document at `f5c2f4c` (`audits/codex-2026-11-09/` on branch `codex/independent-solver-audit-2026-11-09`). The row-by-row reply, fixtures and the full harness are in `audits/claude-2026-11-09/`. The body below is unchanged from the reviewed version; read it with these corrections.
+
+- **C-2 fix is wrong as written.** The proposed `np.where(...)` expression rejects the valid case A = I, b = 0, and `np.fmax` ignores NaN. Keep the existing zero-denominator logic and add an explicit non-finite test on `x`, `ri` and `den`.
+- **C-5 exposure is broader.** Negative N bypasses the density floor with enforcement on; N = -1 gives |k|L = 2π and passes the uncertified gate.
+- **S-13 speed claim withdrawn.** In fresh unprofiled processes compact storage is not faster (0.82 s default, 1.04 s compact). The memory saving stands (298 MB against 120 MB).
+- **S-9, S-11, S-16 withdrawn** as speed findings.
+- **S-1:** lowering `_W_FAR_FLOOR` alone does nothing; `obs_order` and `src_order` must also leave the `max(...)`.
+- **M-1 is stronger than stated.** Codex measured ratio 1.366 at N = 6144, which exceeds the 1.35 batch margin; the `total_peak_gib` event at `twod/solver.py:2525` also omits the partner matrix.
+- **N-1:** the default path was faster than dense at N = 5120 and 6144 in Codex's runs and saves 18 to 25% memory there; the "1.5× CPU" figure applies only to N ≤ 3000.
+- **Magnitudes in C-6f, S-4b, S-4c, S-14, S-15, M-3a, M-3b** were host- or fixture-specific; prefer Codex's figures.
+- **C-3 and C-6h stand,** with pinned fixtures in `audits/claude-2026-11-09/fixtures/`.
+
 ## How to read the evidence column
 
 | Status | Meaning |

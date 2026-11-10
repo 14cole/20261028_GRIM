@@ -1,0 +1,20 @@
+pec                        ka=0.1     n=82 modes=4 exact=  -45.494 errmax=  0.0134 dB spread=0.0001 cond=9.40e+03 warn=[] ext=None
+ibc 100+50j                ka=0.1     n=82 modes=4 exact=  -56.712 errmax=  0.0183 dB spread=0.0032 cond=3.08e+02 warn=[] ext=None
+sheet 100                  ka=0.1     n=82 modes=4 exact=  -48.935 errmax=  0.0136 dB spread=0.0002 cond=1.55e+04 warn=[] ext=None
+diel 4-0.2j                ka=0.1     n=164 modes=4 exact=  -55.022 errmax=  0.0143 dB spread=0.0032 cond=1.84e+06 warn=[] ext=None
+coat 4-0.2j b=.08          ka=0.1     n=246 modes=4 exact=  -48.205 errmax=  0.0134 dB spread=0.0017 cond=1.94e+06 warn=[] ext=None
+pec                        ka=0.01    n=82 modes=4 exact=  -85.486 errmax=  0.0135 dB spread=0.0001 cond=5.56e+04 warn=[] ext=None
+ibc 100+50j                ka=0.01    n=82 modes=4 exact= -115.504 errmax=  0.0201 dB spread=0.0054 cond=3.24e+02 warn=[] ext=None
+sheet 100                  ka=0.01    n=82 modes=4 exact=  -89.007 errmax=  0.0135 dB spread=0.0001 cond=1.05e+05 warn=[] ext=None
+diel 4-0.2j                ka=0.01    n=164 modes=4 exact=  -95.014 errmax=  0.2826 dB spread=0.3867 cond=1.84e+08 warn=['PMCHWT condition estimate 1.84e+08 exceeds 1e+08: low-frequency breakd'] ext=None
+coat 4-0.2j b=.08          ka=0.01    n=246 modes=4 exact=  -88.220 errmax=  0.2201 dB spread=0.2371 cond=1.90e+08 warn=['PMCHWT condition estimate 1.9e+08 exceeds 1e+08: low-frequency breakdo'] ext=None
+pec                        ka=0.001   n=82 modes=3 exact= -125.486 errmax=  0.0140 dB spread=0.0007 cond=5.56e+05 warn=[] ext=None
+ibc 100+50j                ka=0.001   n=82 modes=4 exact= -175.394 errmax=  0.0283 dB spread=0.0218 cond=3.25e+02 warn=[] ext=None
+sheet 100                  ka=0.001   n=82 modes=3 exact= -129.008 errmax=  0.0135 dB spread=0.0001 cond=1.05e+06 warn=[] ext=None
+diel 4-0.2j                ka=0.001   n=164 modes=3 exact= -135.014 errmax=  0.2684 dB spread=0.4543 cond=1.84e+10 warn=['PMCHWT condition estimate 1.84e+10 exceeds 1e+08: low-frequency breakd'] ext=None
+coat 4-0.2j b=.08          ka=0.001   n=246 modes=3 exact= -128.220 errmax=  0.1734 dB spread=0.1729 cond=1.90e+10 warn=['PMCHWT condition estimate 1.9e+10 exceeds 1e+08: low-frequency breakdo'] ext=None
+pec                        ka=0.0001  n=82 modes=3 exact= -165.486 errmax=  0.0293 dB spread=0.0159 cond=5.56e+06 warn=[] ext=None
+ibc 100+50j                ka=0.0001  n=82 modes=4 exact= -235.383 errmax=  0.1101 dB spread=0.1860 cond=3.25e+02 warn=[] ext=None
+sheet 100                  ka=0.0001  n=82 modes=3 exact= -169.008 errmax=  0.0135 dB spread=0.0001 cond=1.05e+07 warn=[] ext=None
+diel 4-0.2j ka=0.0001 FAIL RuntimeError: BoR mode m=0 estimated 1-norm condition 1837961200814.9316 exceeds the release limit 1000000000000.0.
+coat 4-0.2j b=.08 ka=0.0001 FAIL RuntimeError: BoR mode m=0 estimated 1-norm condition 1895717851094.5493 exceeds the release limit 1000000000000.0.

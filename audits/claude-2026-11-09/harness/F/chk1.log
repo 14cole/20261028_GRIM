@@ -1,0 +1,6 @@
+N 5120 wall 167.3 cpu self 13.8 cpu children 52.4 total_checks 1273 {'live': 330, 'reused': 682, 'admitted': 1012, 'refused': 0}
+  limit()                              calls    594  cpu    1.41 s  wall    3.41 s  (2.37 ms cpu/call)
+  require_construction()               calls   1012  cpu    0.88 s  wall    2.13 s  (0.87 ms cpu/call)
+  require_reload()                     calls    587  cpu    1.40 s  wall    3.34 s  (2.39 ms cpu/call)
+  worker_snapshot(incremental=False)   calls      5  cpu    0.02 s  wall    0.07 s  (3.60 ms cpu/call)
+  worker_snapshot(incremental=True)    calls    587  cpu    1.25 s  wall    2.99 s  (2.13 ms cpu/call)

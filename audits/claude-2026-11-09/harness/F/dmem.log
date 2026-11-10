@@ -1,0 +1,41 @@
+--- lu_factor called: matrix GiB 0.391 RSS GiB 1.4 traced GiB 1.199
+   0.781 GiB x4
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py", line 2085
+       matrix, layout = assemble_system(mesh, infos, pol, obs_order, src_order)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/formulations/regions.py", line 536
+       (matrix, layout), partner = assemble_pair(mesh, infos, obs_order, src_order, te_layout)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py", line 298
+       systems = [_prepare_system(mesh, infos, 'TE', layout=te_layout), _prepare_system(mesh, infos, 'TM')]
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py", line 312
+       matrix = (np.zeros((layout['n_dof'], layout['n_dof']), complex, order='F')
+   0.391 GiB x2
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/fields.py", line 57
+       factor = None if gpu else factor_class(matrix, diagnostics, label,
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py", line 107
+       self._factor_double()
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py", line 166
+       lu_buffer = copy_for_lu(self.a)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/residual_spool.py", line 151
+       return np.array(matrix, dtype=np.complex128, order='F', copy=True)
+--- after lu_factor RSS GiB 1.412
+--- lu_factor called: matrix GiB 0.391 RSS GiB 1.019 traced GiB 0.808
+   0.391 GiB x2
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/solver.py", line 2085
+       matrix, layout = assemble_system(mesh, infos, pol, obs_order, src_order)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/formulations/regions.py", line 536
+       (matrix, layout), partner = assemble_pair(mesh, infos, obs_order, src_order, te_layout)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py", line 298
+       systems = [_prepare_system(mesh, infos, 'TE', layout=te_layout), _prepare_system(mesh, infos, 'TM')]
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/assembly/scatter.py", line 312
+       matrix = (np.zeros((layout['n_dof'], layout['n_dof']), complex, order='F')
+   0.391 GiB x2
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/twod/fields.py", line 57
+       factor = None if gpu else factor_class(matrix, diagnostics, label,
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py", line 107
+       self._factor_double()
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/dense.py", line 166
+       lu_buffer = copy_for_lu(self.a)
+       File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/residual_spool.py", line 151
+       return np.array(matrix, dtype=np.complex128, order='F', copy=True)
+--- after lu_factor RSS GiB 1.021
+unknowns 5120 peak traced GiB 1.311

@@ -1,0 +1,15 @@
+direct threads 2 trial 0 ok 1 failed 1
+    MemoryError: The multi_region 2-D solve requires an estimated 0.16 GiB, but 8.07 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 68 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. If a larger allocation 
+direct threads 2 trial 1 ok 1 failed 1
+direct threads 2 trial 2 ok 1 failed 1
+direct threads 4 trial 0 ok 1 failed 3
+    MemoryError: The multi_region 2-D solve requires an estimated 0.16 GiB, but 8.30 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 68 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. If a larger allocation 
+direct threads 4 trial 1 ok 1 failed 3
+direct threads 4 trial 2 ok 1 failed 3
+auto threads 2 trial 0 ok 2 failed 0
+auto threads 2 trial 1 ok 2 failed 0
+auto threads 2 trial 2 ok 2 failed 0
+auto threads 4 trial 0 ok 4 failed 0
+auto threads 4 trial 1 ok 4 failed 0
+auto threads 4 trial 2 ok 4 failed 0
+bistatic threads 3 ok 1 failed 2 ['MemoryError: The multi_region bistatic 2-D solve requires an estimated 0.16 GiB, but 8.09 GiB is currently available; the safe allocation limit is 0.00 GiB. Planned system: 68 DOFs across 1 region(s). Binding cons']

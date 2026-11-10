@@ -1,0 +1,67 @@
+native <CDLL '/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so', handle 16a69120 at 0x7f9e496fc440>
+k=20 native=True auto: G relmax 2.32e-15 | mfie 2.2e-15 1.9e-15 1.3e-15 2.2e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.2e-15
+k=20 native=True complex: G relmax 2.32e-15 | mfie 2.2e-15 1.9e-15 1.3e-15 2.2e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.2e-15
+k=20 native=True real: G relmax 2.32e-15 | mfie 2.2e-15 1.9e-15 1.3e-15 2.2e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.2e-15
+k=20 native=True fft: G relmax 1.99e-15 | mfie 2.1e-15 1.6e-15 1.2e-15 2.1e-15 | ibc 2.0e-15 1.2e-15 1.6e-15 2.0e-15
+bor_streaming: native sampling kernel not available for this platform (found bor_stream_kernel.windows-amd64.dll -- built for a DIFFERENT platform, so it was correctly skipped); using the NumPy fallback (bit-equivalent, ~2-8x slower assembly). Compile and load-check it on THIS machine with:
+  py ghost_backend/bor/native/build_kernel.py
+k=20 native=False auto: G relmax 2.31e-15 | mfie 2.1e-15 1.9e-15 1.3e-15 2.3e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.1e-15
+k=20 native=False complex: G relmax 2.31e-15 | mfie 2.1e-15 1.9e-15 1.3e-15 2.3e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.1e-15
+k=20 native=False real: G relmax 2.31e-15 | mfie 2.1e-15 1.9e-15 1.3e-15 2.3e-15 | ibc 2.1e-15 1.3e-15 1.9e-15 2.1e-15
+k=20 native=False fft: G relmax 2.02e-15 | mfie 2.0e-15 1.7e-15 1.3e-15 2.0e-15 | ibc 2.0e-15 1.3e-15 1.6e-15 2.0e-15
+  native-vs-numpy G 1.0976210046351414e-16
+  signed mfie ['7.1e-16', '5.9e-16', '5.0e-16', '1.4e-15']
+k=200 ka large native=True auto: G relmax 6.82e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=True complex: G relmax 6.82e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=True real: G relmax 6.83e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=True fft: G relmax 6.81e-14 | mfie 5.5e-14 4.4e-14 6.2e-14 3.2e-14 | ibc 3.2e-14 6.1e-14 4.4e-14 5.5e-14
+k=200 ka large native=False auto: G relmax 6.82e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=False complex: G relmax 6.82e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=False real: G relmax 6.83e-14 | mfie 6.0e-14 4.4e-14 5.7e-14 3.5e-14 | ibc 3.5e-14 5.7e-14 4.4e-14 6.0e-14
+k=200 ka large native=False fft: G relmax 6.81e-14 | mfie 5.5e-14 4.4e-14 6.2e-14 3.2e-14 | ibc 3.2e-14 6.1e-14 4.4e-14 5.5e-14
+  native-vs-numpy G 1.706972541451268e-17
+  signed mfie ['1.5e-15', '1.8e-15', '5.3e-15', '2.1e-15']
+lossy k=20-15j native=True auto: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.1e-15 | ibc 2.1e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=True complex: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.1e-15 | ibc 2.1e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=True real: G relmax 1.93e-15 | mfie 1.9e-15 1.7e-15 1.4e-15 2.1e-15 | ibc 2.1e-15 1.4e-15 1.6e-15 1.9e-15
+lossy k=20-15j native=True fft: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.0e-15 | ibc 2.0e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=False auto: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.2e-15 | ibc 2.2e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=False complex: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.2e-15 | ibc 2.2e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=False real: G relmax 1.93e-15 | mfie 2.0e-15 1.7e-15 1.4e-15 2.2e-15 | ibc 2.2e-15 1.4e-15 1.6e-15 2.0e-15
+lossy k=20-15j native=False fft: G relmax 1.93e-15 | mfie 2.0e-15 1.6e-15 1.4e-15 2.0e-15 | ibc 2.0e-15 1.4e-15 1.6e-15 2.0e-15
+  native-vs-numpy G 1.0705220746580602e-16
+  signed mfie ['6.6e-16', '2.6e-16', '2.2e-16', '9.6e-16']
+very lossy native=True auto: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=True complex: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=True real: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=True fft: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=False auto: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=False complex: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=False real: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+very lossy native=False fft: G relmax 3.29e-12 | mfie 5.9e-12 1.0e-12 1.5e-12 3.8e-12 | ibc 3.8e-12 1.5e-12 1.0e-12 5.9e-12
+  native-vs-numpy G 1.3829768788742154e-16
+  signed mfie ['1.8e-15', '1.3e-15', '1.2e-15', '1.6e-15']
+k=2 m_max=200 native=True auto: G relmax 1.43e-14 | mfie 1.3e-14 3.6e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 3.7e-15 1.3e-14
+k=2 m_max=200 native=True complex: G relmax 1.43e-14 | mfie 1.3e-14 6.4e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 6.4e-15 1.3e-14
+k=2 m_max=200 native=True real: G relmax 1.43e-14 | mfie 1.3e-14 6.4e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 6.4e-15 1.3e-14
+k=2 m_max=200 native=True fft: G relmax 3.22e-16 | mfie 1.1e-15 3.9e-16 3.8e-16 1.5e-15 | ibc 1.4e-15 3.8e-16 3.9e-16 9.7e-16
+k=2 m_max=200 native=False auto: G relmax 1.43e-14 | mfie 1.3e-14 3.6e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 3.7e-15 1.3e-14
+k=2 m_max=200 native=False complex: G relmax 1.43e-14 | mfie 1.3e-14 6.4e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 6.4e-15 1.3e-14
+k=2 m_max=200 native=False real: G relmax 1.43e-14 | mfie 1.3e-14 6.4e-15 1.4e-14 1.5e-14 | ibc 1.5e-14 1.4e-14 6.4e-15 1.3e-14
+k=2 m_max=200 native=False fft: G relmax 3.66e-16 | mfie 1.1e-15 3.6e-16 3.7e-16 1.5e-15 | ibc 1.5e-15 3.7e-16 3.9e-16 1.0e-15
+  native-vs-numpy G 7.565333430477381e-17
+  signed mfie ['2.5e-15', '4.2e-16', '3.5e-15', '2.5e-15']
+mm units native=True auto: G relmax 2.22e-15 | mfie 2.3e-15 1.8e-15 1.5e-15 2.4e-15 | ibc 2.6e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=True complex: G relmax 2.22e-15 | mfie 2.3e-15 1.8e-15 1.5e-15 2.4e-15 | ibc 2.6e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=True real: G relmax 2.22e-15 | mfie 2.3e-15 1.8e-15 1.5e-15 2.4e-15 | ibc 2.6e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=True fft: G relmax 2.15e-15 | mfie 2.2e-15 1.6e-15 1.3e-15 2.3e-15 | ibc 2.1e-15 1.3e-15 1.7e-15 2.2e-15
+mm units native=False auto: G relmax 2.25e-15 | mfie 2.3e-15 1.8e-15 1.6e-15 2.4e-15 | ibc 2.5e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=False complex: G relmax 2.25e-15 | mfie 2.3e-15 1.8e-15 1.6e-15 2.4e-15 | ibc 2.5e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=False real: G relmax 2.25e-15 | mfie 2.3e-15 1.8e-15 1.6e-15 2.4e-15 | ibc 2.5e-15 1.5e-15 1.8e-15 2.3e-15
+mm units native=False fft: G relmax 2.13e-15 | mfie 2.1e-15 1.6e-15 1.4e-15 2.3e-15 | ibc 2.1e-15 1.3e-15 1.7e-15 2.2e-15
+  native-vs-numpy G 5.996680229221712e-17
+  signed mfie ['1.2e-15', '6.8e-16', '6.3e-16', '1.3e-15']
+
+real	0m52.158s
+user	0m25.817s
+sys	0m2.672s

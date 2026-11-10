@@ -1,0 +1,10 @@
+close d>=1e-3 (ref clean)    nat=1 G 6.9e-15 | mfie 1e-14 6e-16 5e-15 2e-14 | ibc 2e-14 5e-15 6e-16 1e-14
+rho=8 k*rho=160 m30          nat=1 G 7.5e-14 | mfie 3e-14 2e-16 1e-14 2e-14 | ibc 2e-14 1e-14 2e-16 3e-14
+bor_streaming: native sampling kernel not available for this platform (found bor_stream_kernel.windows-amd64.dll -- built for a DIFFERENT platform, so it was correctly skipped); using the NumPy fallback (bit-equivalent, ~2-8x slower assembly). Compile and load-check it on THIS machine with:
+  py ghost_backend/bor/native/build_kernel.py
+close pairs rho=1            nat=0 G 7.4e-15 | mfie 7e-10 7e-16 6e-15 1e-09 | ibc 1e-09 6e-15 7e-16 7e-10
+close collinear              nat=0 G 7.4e-15 | mfie 1e-09 7e-16 5e-16 1e-09 | ibc 1e-09 5e-16 7e-16 1e-09
+close lossy                  nat=0 G 2.0e-15 | mfie 7e-10 7e-17 7e-16 1e-09 | ibc 1e-09 7e-16 6e-17 7e-10
+near axis p                  nat=0 G 6.4e-15 | mfie 5e-15 5e-15 2e-15 1e-14 | ibc 1e-14 2e-15 5e-15 5e-15
+near axis q                  nat=0 G 6.3e-15 | mfie 7e-15 4e-15 2e-15 1e-14 | ibc 1e-14 2e-15 4e-15 7e-15
+both near axis               nat=0 G 6.4e-15 | mfie 9e-15 6e-15 7e-15 1e-14 | ibc 1e-14 7e-15 6e-15 9e-15

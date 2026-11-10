@@ -1,0 +1,29 @@
+COATPEC 3 0 1 0                        f=0.0238567 ka=0.05    np=720   TE rel=1.03e-08 dB=+0.0000 | TM rel=1.32e-08 dB=+0.0000 | 11.5s
+COATIBC 35+80j 3 0 1 0                 f=0.0238567 ka=0.05    np=720   TE rel=1.79e-05 dB=+0.0002 | TM rel=8.01e-06 dB=+0.0001 | 12.6s
+2LAYER 3 0 1 0/4.4-.1j,1.5             f=0.0238567 ka=0.05    np=720   TE rel=7.24e-08 dB=+0.0000 | TM rel=3.15e-08 dB=-0.0000 | 14.0s
+COATPEC 3 0 1 0                        f=0.477135 ka=1       np=720   TE rel=6.93e-08 dB=+0.0000 | TM rel=1.91e-07 dB=+0.0000 | 12.2s
+COATIBC 35+80j 3 0 1 0                 f=0.477135 ka=1       np=720   TE rel=6.69e-06 dB=-0.0000 | TM rel=8.24e-06 dB=+0.0000 | 14.9s
+2LAYER 3 0 1 0/4.4-.1j,1.5             f=0.477135 ka=1       np=720   TE rel=9.03e-07 dB=+0.0000 | TM rel=3.33e-07 dB=+0.0000 | 16.2s
+COATPEC 3 0 1 0                        f=1.14743  ka=2.405   np=720   TE rel=1.60e-06 dB=+0.0000 | TM rel=6.35e-07 dB=+0.0000 | 12.7s
+COATIBC 35+80j 3 0 1 0                 f=1.14743  ka=2.405   np=720   TE rel=1.87e-05 dB=-0.0000 | TM rel=1.35e-05 dB=+0.0000 | 11.4s
+2LAYER 3 0 1 0/4.4-.1j,1.5             f=1.14743  ka=2.405   np=720   TE rel=6.54e-06 dB=+0.0000 | TM rel=9.35e-06 dB=-0.0001 | 16.0s
+COATPEC 3 0 1 0                        f=2.38567  ka=5       np=720   TE rel=1.72e-06 dB=+0.0000 | TM rel=2.51e-05 dB=-0.0002 | 10.5s
+COATIBC 35+80j 3 0 1 0                 f=2.38567  ka=5       np=720   TE rel=3.44e-06 dB=+0.0000 | TM rel=3.73e-05 dB=-0.0003 | 10.8s
+2LAYER 3 0 1 0/4.4-.1j,1.5             f=2.38567  ka=5       np=720   TE rel=3.37e-05 dB=+0.0001 | TM rel=5.96e-05 dB=+0.0005 | 16.0s
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/B/m1.py", line 44, in <module>
+    run(f'COATPEC {em}', g, k2f(ka), [a, b], [(eps, mu)], ('pec',))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/B/m1.py", line 15, in run
+    b = get(r, pol)[0]; br = amp(f*1e9, pol, radii, mats, core)[0]
+                             ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/B/ref.py", line 66, in amp
+    a = coeffs(freq_hz, pol, radii, mats, core)
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/B/ref.py", line 60, in coeffs
+    x = np.linalg.solve(A/s, rhs)/s
+        ~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py", line 451, in solve
+    r = gufunc(a, b, signature=signature)
+  File "/usr/local/lib/python3.13/site-packages/numpy/linalg/_linalg.py", line 144, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix

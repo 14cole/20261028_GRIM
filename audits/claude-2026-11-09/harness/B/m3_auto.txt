@@ -1,0 +1,11 @@
+pec       [auto] np=68 form='2D closed Robin combined-pot' t=0.5s reuse=1 | TE co-vs-single=3.9e-16 | TM co-vs-single=9.0e-15
+ibc       [auto] np=68 form='2D closed Robin combined-pot' t=0.2s reuse=1 | TE co-vs-single=6.8e-16 | TM co-vs-single=3.8e-16
+pecibc    [auto] np=76 form='2D closed Robin combined-pot' t=0.2s reuse=1 | TE co-vs-single=6.0e-16 | TM co-vs-single=1.0e-15
+diel      [auto] np=110 form='2D combined-potential two-de' t=0.6s reuse=1 | TE co-vs-single=1.1e-15 | TM co-vs-single=1.3e-15
+coat      [auto] np=188 form='2D multi-region indirect for' t=1.5s reuse=1 | TE co-vs-single=4.1e-16 | TM co-vs-single=3.0e-16
+coatibc   [auto] np=188 form='2D multi-region indirect for' t=1.9s reuse=1 | TE co-vs-single=1.6e-15 | TM co-vs-single=1.2e-15
+two       [auto] np=198 form='2D multi-region indirect for' t=2.3s reuse=1 | TE co-vs-single=1.4e-15 | TM co-vs-single=1.5e-15
+sheet     [auto] np=29 form='2D sheet BIE (TE: double-lay' t=0.2s reuse=0 | TE co-vs-single=1.3e-16 | TM co-vs-single=2.6e-16
+sheetpec  [auto] np=93 form='2D mixed sheet+PEC BIE (TE: ' t=0.5s reuse=0 | TE co-vs-single=6.8e-16 | TM co-vs-single=3.1e-16
+thin      [auto] np=38 form='2D transmitting thin dielect' t=0.3s reuse=0 | TE co-vs-single=5.4e-16 | TM co-vs-single=5.1e-16
+twobody   [auto] np=142 form='2D multi-region indirect for' t=0.8s reuse=1 | TE co-vs-single=4.4e-16 | TM co-vs-single=1.1e-15

@@ -1,0 +1,5 @@
+== kill test
+    raise ZombieProcess(self.pid, self._name, self._ppid)
+psutil.ZombieProcess: PID still exists but it's a zombie (pid=20484)
+RESULT ok {'mode': 'parallel', 'workers': 2, 'maximum_active_workers': 2, 'cpu_budget': 4, 'memory_budget_gib': 9.775504302978517, 'peak_reserved_gib': 1.8961517214775085, 'interpreter_reservation_gib': 1.0, 'computed_frequencies': 4, 'reused_frequencies': 0, 'persistent_solve_cache': False} samples 152 wall 60.2
+== SWEEP workers=1 a=0.5 f=6 nf=4 (N~1280, default profile)

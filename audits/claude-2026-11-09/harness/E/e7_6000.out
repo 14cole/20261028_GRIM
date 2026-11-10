@@ -1,0 +1,102 @@
+### assemble wall 6.88s cpu 2.37s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  448/355    2.420    0.005    2.211    0.006 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:275(values)
+  796/685    0.485    0.001    0.392    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+1981/1598    0.460    0.000    0.476    0.000 {method 'acquire' of '_thread.lock' objects}
+      581    0.435    0.001    0.435    0.001 {method 'release' of '_thread.lock' objects}
+  379/365    0.237    0.001    0.291    0.001 /usr/local/lib/python3.13/site-packages/scipy/linalg/_basic.py:1606(lstsq)
+  597/571    0.230    0.000    0.215    0.000 /tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/audit/E/e5_lib.py
+   194/52    0.223    0.001    1.609    0.031 {method 'get' of '_queue.SimpleQueue' objects}
+5324/5091    0.219    0.000    0.214    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+  405/316    0.191    0.000    0.138    0.000 {built-in method builtins.abs}
+
+
+32 120 bytes/dense 0.16400302777777778
+### factor(no cond) wall 6.94s cpu 2.30s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1691    0.895    0.001    0.895    0.001 {method 'put' of '_queue.SimpleQueue' objects}
+      544    0.860    0.002    0.863    0.002 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+      126    0.608    0.005    4.809    0.038 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:288(compress_sampled)
+ 1006/110    0.342    0.000    0.015    0.000 {method 'get' of '_queue.SimpleQueue' objects}
+      642    0.296    0.000    0.306    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+  642/126    0.237    0.000    0.622    0.005 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+6612/5035    0.235    0.000    0.242    0.000 {method 'acquire' of '_thread.lock' objects}
+     1670    0.176    0.000    0.268    0.000 /usr/local/lib/python3.13/site-packages/psutil/_pslinux.py:306(virtual_memory)
+3344/3156    0.165    0.000    0.147    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1240(<genexpr>)
+
+
+### solve 16 rhs wall 10.38s cpu 3.48s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      254    6.869    0.027    6.871    0.027 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+    254/2    3.086    0.012    9.979    4.989 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+  368/153    0.146    0.000    0.056    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+    23/11    0.077    0.003    0.063    0.006 {method 'get' of '_queue.SimpleQueue' objects}
+1569/1516    0.046    0.000    0.046    0.000 {method 'acquire' of '_thread.lock' objects}
+      240    0.032    0.000    0.035    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl.py:998(match_
+        4    0.018    0.004    0.018    0.004 {built-in method _thread.start_joinable_thread}
+      368    0.017    0.000    0.026    0.000 /usr/local/lib/python3.13/concurrent/futures/thread.py:165(submit)
+        4    0.014    0.004    0.050    0.012 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl.py:978(_find_
+
+
+### matmul 16 rhs x10 wall 0.91s cpu 0.47s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+1840/1035    0.411    0.000    0.210    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+8026/7728    0.152    0.000    0.151    0.000 {method 'acquire' of '_thread.lock' objects}
+   113/45    0.134    0.001    0.075    0.002 {method 'get' of '_queue.SimpleQueue' objects}
+       20    0.025    0.001    0.064    0.003 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl.py:978(_find_
+       40    0.021    0.001    0.021    0.001 {built-in method builtins.__build_class__}
+     2138    0.014    0.000    0.020    0.000 /usr/local/lib/python3.13/threading.py:398(notify)
+     1840    0.014    0.000    0.042    0.000 /usr/local/lib/python3.13/concurrent/futures/_base.py:542(set_result)
+       10    0.012    0.001    0.909    0.091 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1073(matmul)
+     1840    0.011    0.000    0.055    0.000 /usr/local/lib/python3.13/concurrent/futures/thread.py:165(submit)
+
+
+### matmul 1 rhs x10 wall 0.36s cpu 0.22s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+1840/1526    0.162    0.000    0.133    0.000 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:1090(visit)
+7650/7432    0.053    0.000    0.053    0.000 {method 'acquire' of '_thread.lock' objects}
+   110/22    0.036    0.000    0.021    0.001 {method 'get' of '_queue.SimpleQueue' objects}
+     1840    0.012    0.000    0.068    0.000 /usr/local/lib/python3.13/concurrent/futures/thread.py:165(submit)
+1840/1485    0.007    0.000    0.117    0.000 /usr/local/lib/python3.13/concurrent/futures/thread.py:54(run)
+     1858    0.006    0.000    0.260    0.000 /usr/local/lib/python3.13/threading.py:327(wait)
+     1840    0.004    0.000    0.011    0.000 /usr/local/lib/python3.13/concurrent/futures/_base.py:542(set_result)
+     9702    0.004    0.000    0.006    0.000 /usr/local/lib/python3.13/threading.py:303(__enter__)
+     1958    0.004    0.000    0.006    0.000 /usr/local/lib/python3.13/threading.py:281(__init__)
+
+
+### precond apply x10 wall 28.28s cpu 9.68s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1270   16.810    0.013   16.846    0.013 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+  1270/10   11.310    0.009   28.223    2.822 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+       10    0.054    0.005   28.278    2.828 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/inverse.py:281(apply)
+     1270    0.034    0.000    0.035    0.000 /usr/local/lib/python3.13/site-packages/scipy/linalg/blas.py:395(getter)
+     1270    0.021    0.000   16.890    0.013 /usr/local/lib/python3.13/site-packages/scipy/_lib/_util.py:1149(wrapper)
+      630    0.009    0.000    0.013    0.000 /usr/local/lib/python3.13/site-packages/numpy/_core/shape_base.py:218(vstack)
+     3810    0.008    0.000    0.021    0.000 /usr/local/lib/python3.13/site-packages/scipy/_lib/array_api_compat/numpy/_aliases.py:70(asarray)
+     3810    0.006    0.000    0.009    0.000 {built-in method numpy.array}
+     1270    0.005    0.000   16.895    0.013 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:134(lu_solve)
+
+
+### factor+cond wall 15.38s cpu 6.12s
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1658    4.710    0.003    4.715    0.003 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_lu.py:192(_lu_solve)
+ 1658/134    2.929    0.002    7.892    0.059 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:360(solve_into)
+      544    0.875    0.002    0.877    0.002 /usr/local/lib/python3.13/site-packages/scipy/linalg/_decomp_qr.py:13(safecall)
+      126    0.638    0.005    4.268    0.034 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/linalg/hierarchical.py:288(compress_sampled)
+     2626    0.582    0.000    0.582    0.000 {method 'put' of '_queue.SimpleQueue' objects}
+5798/5492    0.503    0.000    0.488    0.000 {method 'conj' of 'numpy.ndarray' objects}
+  328/233    0.463    0.001    0.246    0.001 /home/user/20261028_GRIM/tools/GHOST/ghost_backend/compressed/hmatrix.py:275(values)
+ 1063/139    0.349    0.000    0.080    0.001 {method 'get' of '_queue.SimpleQueue' objects}
+  306/232    0.212    0.001    0.165    0.001 {built-in method builtins.abs}
+
+
+dense LU+solve wall 22.90
+dense matmul x10 4.137
+{'unknowns': 6000, 'factorizations': 1, 'rhs_batches': 1, 'max_rhs_columns': 16, 'max_backward_error': 7.726663128508397e-16, 'max_relative_residual': 5.165225454367001e-16, 'compressed': {'operator': 'hmatrix', 'unknowns': 6000, 'leaf': 128, 'eta': 1.0, 'tolerance': 1e-12, 'retained_bytes': 94465744, 'storage_budget': 8589934592, 'near_bytes': 45243040, 'far_bytes': 42533632, 'dense_equivalent_bytes': 576000000, 'near_rows': 64, 'interaction_lists': 120, 'dense_interaction_lists': 0, 'max_rank': 32, 'mean_rank': 15.333333333333334, 'geometry_queries': 597, 'geometry_coefficients': 7938269, 'shared_query_targets': 1, 'near_coefficients': 2812498, 'coefficient_fraction': 0.22050747222222222, 'sampled_rows': 64, 'sampled_row_error': 5.572820087765474e-13, 'sample_leaf_count': 64, 'sampled_leaf_count': 64, 'sampled_leaf_fraction': 1.0, 'sample_coverage_limited': False, 'sample_row_storage_bytes': 6144000, 'sample_row_storage_limit_bytes': 268435456, 'operator_error_limit': 1e-11, 'error_semantics': 'measured on exactly evaluated sample rows; not a deterministic bound'}, 'preconditioners': [{'bytes': 45907624, 'max_rank': 92, 'leaves': 64, 'accesses': 562512, 'oracle_calls': 64, 'max_query_entries': 8836, 'relative_inf_error_bound': None, 'relative_one_error_bound': None, 'storage_budget': 8495468848, 'inverse_only': True, 'inverse_builder': 'hmatrix_range_sampling', 'range_blocks': 126, 'max_inverse_rank': 2048, 'inverse_blas_threads': 1, 'construction': {'checks': 1670, 'live_checks': 1670, 'reused_observations': 0, 'largest_increment_bytes': 92946432, 'peak_accounted_build_bytes': 107970432, 'sampled_process_growth_bytes': 58654720, 'process_samples_exclusive': False, 'forecast_discount_applied': False}, 'dense_fallbacks': 0, 'largest_dense_fallback': 0, 'dense_fallback_limit': 1024}], 'gmres_columns': 0, 'max_refinements': 1, 'refinement_steps': 1, 'max_sampled_backward_error': 5.3031075113171444e-15, 'sampled_rows': 64}

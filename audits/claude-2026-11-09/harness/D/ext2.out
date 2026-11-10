@@ -1,0 +1,83 @@
+explicit 31 OK modes 20
+it/D/dlib.py", line 38, in run
+    r = D.solve_monostatic_rcs_bor(g, [f] if np.isscalar(f) else list(f), list(asp), **kw)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py", line 243, in measured
+    result = function(*args, **kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py", line 61, in call
+    return function(*args, **kwargs)
+  File "/usr/local/lib/python3.13/contextlib.py", line 85, in inner
+    return func(*args, **kwds)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py", line 362, in wrapped
+    result, cache = _run_configured(function, signature, bound, options, supplied,
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    checkpoint, expanded_caps)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py", line 278, in _run_configured
+    result = function(*args, **kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/dispatch.py", line 2235, in solve_monostatic_rcs_bor
+    out = solve_bor(pts, freq_hz, aspects, formulation=form,
+                    cfie_alpha=cfie_alpha,
+    ...<7 lines>...
+                    assembly=assembly_key,
+                    stream_budget_gb=stream_budget)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py", line 238, in measured
+    return function(*args, **kwargs)
+  File "/usr/local/lib/python3.13/contextlib.py", line 85, in inner
+    return func(*args, **kwds)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py", line 362, in wrapped
+    result, cache = _run_configured(function, signature, bound, options, supplied,
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    checkpoint, expanded_caps)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/options.py", line 278, in _run_configured
+    result = function(*args, **kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 4581, in solve_bor
+    F, modes_used, stats = _mode_sweep(n_dofs, thetas, ("VV", "HH"), m_max,
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       mode_tol, assemble, rhs, farfield,
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+                                               if mirror_split_pays(n_dofs, 2 * len(thetas))
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                               else None))
+                                               ^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 3361, in _mode_sweep
+    return _mode_sweep_impl(*args, **kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 3025, in _mode_sweep_impl
+    prepare(m_max)
+    ~~~~~~~^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/metrics.py", line 174, in measured
+    return function(*args, **kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 4439, in prepare
+    solver.prepare_operators(mm, efie=kinds[0], mfie=kinds[1], ibc=kinds[2],
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             workers=workers)
+                             ^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 2405, in prepare_operators
+    self._prepare_near_families(tuple(kind for kind, enabled in
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (('efie', efie), ('mfie', mfie), ('ibc', ibc)) if enabled), pairs, m_max, workers)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 2303, in _prepare_near_families
+    self._prepare_near_family_band(tuple(previous), pairs, m_max, start, previous, workers)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 2343, in _prepare_near_family_band
+    for pi, ((e, f), (blocks, refinement)) in enumerate(zip(pairs, results)):
+                                              ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 744, in _iter_near_pairs
+    results = future.result()
+  File "/usr/local/lib/python3.13/concurrent/futures/_base.py", line 460, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/near_parallel.py", line 372, in run_batch
+    outs = _converged_disjoint_batch(self.gp, self.gq, [pair for _, pair in disjoint],
+        self.k, self.m_max, self.kinds, self.near_order, self.near_rtol, self.near_max_order,
+        signed=False, mode_start=self.mode_start)
+  File "/home/user/20261028_GRIM/tools/GHOST/ghost_backend/bor/solver.py", line 5235, in _converged_disjoint_batch
+    raise ValueError(f"BoR near meridian quadrature did not converge for elements ({st['e']}, {st['f']}); gap={st['gap']:.6g}, order={st['n']}, relative block change={error:.3g}. Refine the mesh or increase near_max_order.")
+ValueError: BoR near meridian quadrature did not converge for elements (0, 2); gap=0.00062113, order=192, relative block change=0.000235. Refine the mesh or increase near_max_order.
+

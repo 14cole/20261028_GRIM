@@ -1,0 +1,20 @@
+pec direct panels=2000 dofs=2000 nang=61 time=17.3s base_rss=68MiB peak_rss=311MiB delta=243MiB  16N^2=61MiB  ratio=3.98
+{'operators': 14.08, 'factorization': 1.64, 'excitation': 0.11, 'rhs_solve': 0.16, 'linear_solve': 0.39, 'rhs_compression': 0.41, 'far_field': 0.03}
+solver_method dense_lu reuses 1 fact 2
+TE rel err 6.114519113343245e-07 spread over angles 9.626445132639118e-13
+TM rel err 2.5749703860779306e-08 spread over angles 2.24522905631087e-12
+pec auto panels=2000 dofs=2000 nang=61 time=40.0s base_rss=68MiB peak_rss=250MiB delta=182MiB  16N^2=61MiB  ratio=2.98
+{'compressed_memory_sampling': 0.02, 'operators': 14.56, 'compressed_coefficients': 14.96, 'compressed_tile_compression': 9.06, 'compressed_spool_write': 0.04, 'compressed_assembly': 15.24, 'factorization': 0.92, 'excitation': 0.08, 'linear_solve': 19.54, 'rhs_compression': 22.83, 'far_field': 0.14, 'compressed_spool_read': 0.03}
+solver_method compressed_experimental_cpu reuses 1 fact 2
+TE rel err 6.114520007035717e-07 spread over angles 1.8849596571196817e-14
+TM rel err 2.575091832593107e-08 spread over angles 7.43815530688586e-15
+pec direct panels=2000 dofs=2000 nang=61 time=14.1s base_rss=68MiB peak_rss=311MiB delta=243MiB  16N^2=61MiB  ratio=3.98
+{'operators': 11.72, 'factorization': 1.12, 'excitation': 0.08, 'rhs_solve': 0.12, 'linear_solve': 0.26, 'rhs_compression': 0.28, 'far_field': 0.04}
+solver_method dense_lu reuses 1 fact 2
+TE rel err 6.114519113343245e-07 spread over angles 9.626445132639118e-13
+TM rel err 2.5749703860779306e-08 spread over angles 2.24522905631087e-12
+pec auto panels=2000 dofs=2000 nang=61 time=44.2s base_rss=68MiB peak_rss=246MiB delta=178MiB  16N^2=61MiB  ratio=2.91
+{'compressed_memory_sampling': 0.01, 'operators': 15.82, 'compressed_coefficients': 16.08, 'compressed_tile_compression': 9.72, 'compressed_spool_write': 0.04, 'compressed_assembly': 16.34, 'factorization': 0.79, 'excitation': 0.13, 'linear_solve': 21.85, 'rhs_compression': 26.08, 'far_field': 0.14, 'compressed_spool_read': 0.05}
+solver_method compressed_experimental_cpu reuses 1 fact 2
+TE rel err 6.114520007035717e-07 spread over angles 1.8849596571196817e-14
+TM rel err 2.575091832593107e-08 spread over angles 7.43815530688586e-15

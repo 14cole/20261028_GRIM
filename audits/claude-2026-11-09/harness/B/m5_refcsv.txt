@@ -1,0 +1,11 @@
+meshref direct [(0.8, 348), (1.5, 348), (3.0, 348)]
+   0.8GHz single-call with ref panels 188 no ref 116 sweep-vs-single(0.8) TE 8.8e-04 info: ['Mesh topology cached using the shortest referenced-material wavelength across the requested frequencies and the 1.5 GHz ']
+meshref auto [(0.8, 348), (1.5, 348), (3.0, 348)]
+   0.8GHz single-call with ref panels 188 no ref 116 sweep-vs-single(0.8) TE 8.8e-04 info: ['Mesh topology cached using the shortest referenced-material wavelength across the requested frequencies and the 1.5 GHz ']
+meshref bistatic [(0.8, 348), (1.5, 348), (3.0, 348)]
+csv type3_csv_dielectric.geo direct sweep-vs-single max rel 0 reversed order 0.0
+csv type3_csv_dielectric.geo auto sweep-vs-single max rel 0 reversed order 0.0
+csv type2_csv_ibc.geo direct sweep-vs-single max rel 0 reversed order 0.0
+csv type2_csv_ibc.geo auto sweep-vs-single max rel 0 reversed order 0.0
+csv type1_csv_thin_dielectric.geo direct sweep-vs-single max rel 0 reversed order 0.0
+csv type1_csv_thin_dielectric.geo auto sweep-vs-single max rel 0 reversed order 0.0

@@ -1,0 +1,9 @@
+disk typ 2 [(0, 0), (0.1, 0)] FAIL ValueError The body generatrix endpoints must lie ON the rotation axis (x = 0) to close the body of revolution; got start rho = 0, end rho = 0.1. Open BoR shells are not supported in phase 4.
+disk typ 2 [(0.1, 0), (0, 0)] FAIL ValueError The body generatrix endpoints must lie ON the rotation axis (x = 0) to close the body of revolution; got start rho = 0.1, end rho = 0. Open BoR shells are not supported in phase 4.
+disk typ 1 10 constant 0 0 0 0 [(0, 0), (0.1, 0)] n 52 VV [   1.229  -24.372  -20.601 -656.429  -20.601    1.229] HH [  1.229 -19.399 -35.126 -23.14  -35.126   1.229] BoR transmitting electric sheet / PEC EFIE
+disk typ 1 10 constant 0 0 0 0 [(0.1, 0), (0, 0)] n 52 VV [   1.229  -24.372  -20.601 -656.429  -20.601    1.229] HH [  1.229 -19.399 -35.126 -23.14  -35.126   1.229] BoR transmitting electric sheet / PEC EFIE
+disk typ 1 10 constant 200 0 0 0 [(0, 0), (0.1, 0)] n 52 VV [  -5.321  -29.672  -40.331 -675.005  -40.331   -5.321] HH [ -5.321 -28.91  -36.964 -39.089 -36.964  -5.321] BoR transmitting electric sheet / PEC EFIE
+disk typ 1 10 constant 200 0 0 0 [(0.1, 0), (0, 0)] n 52 VV [  -5.321  -29.672  -40.331 -675.005  -40.331   -5.321] HH [ -5.321 -28.91  -36.964 -39.089 -36.964  -5.321] BoR transmitting electric sheet / PEC EFIE
+PO broadside disk dBsm 0.9411071299383373
+hemi type2 FAIL ValueError The body generatrix endpoints must lie ON the rotation axis (x = 0) to close the body of revolution; got start rho = 0, end rho = 0.1. Open BoR shells are not supported in phase 4.
+hemi shell type1 zs=0 [-21.927 -19.206  -7.372] [-21.927 -18.753  -7.372] BoR transmitting electric sheet / PEC EFIE
