@@ -267,9 +267,13 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.btn_segment_tools.setText('Segment tools')
         self.btn_segment_tools.setPopupMode(QToolButton.InstantPopup)
         segment_menu = QMenu(self.btn_segment_tools)
+        segment_menu.setToolTipsVisible(True)
         self.action_find_refinement = segment_menu.addAction('Select corners / junctions')
         self.action_find_refinement.setToolTip('Selects candidate rows only; does not change the mesh.')
         self.action_refine_selected = segment_menu.addAction('Refine selected 2x')
+        self.action_refine_selected.setToolTip(
+            'Double the mesh density of selected segments. Auto N becomes 40 panels per '
+            'controlling material wavelength. Choose Check specified mesh to compare the resulting fields.')
         self.action_reverse_selected = segment_menu.addAction('Reverse selected direction')
         self.action_reverse_selected.setToolTip(
             'Reverses normals. Material assignments stay the same; impedance tapers follow the new direction.')
@@ -283,6 +287,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.btn_assign_material.setToolTip(
             'Select conductor segments and one surface-impedance row below to assign it to all selected segments.')
         assignment_menu = QMenu(self.btn_assign_material)
+        assignment_menu.setToolTipsVisible(True)
         self.action_apply_conductor_ibc = assignment_menu.addAction('Assign selected surface impedance')
         self.action_apply_conductor_ibc.setToolTip(
             'TYPE 2 conductors in air only. For a FREDDY coating, draw the outer coating envelope. '
@@ -308,8 +313,13 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.btn_add_surface_material.setText('Add surface material')
         self.btn_add_surface_material.setPopupMode(QToolButton.InstantPopup)
         surface_menu = QMenu(self.btn_add_surface_material)
+        surface_menu.setToolTipsVisible(True)
         self.action_ibc_add = surface_menu.addAction('Constant impedance')
         self.action_ibc_add_csv = surface_menu.addAction('Impedance from CSV...')
+        self.action_ibc_add_csv.setToolTip(
+            'CSV columns identify frequency (Hz/kHz/MHz/GHz), resistance and reactance (ohms). '
+            'Column order, case and spacing may vary. Example: '
+            'frequency_hz,resistance_ohm,reactance_ohm.')
         self.action_thin_layer_add = surface_menu.addAction('Thin dielectric layer (2D)...')
         self.action_thin_layer_add.setToolTip(
             'Create a transmitting thin-layer material from an existing dielectric and thickness. '
@@ -332,7 +342,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.btn_diel_add = QPushButton("+")
         self.btn_diel_add_csv = QPushButton("+ CSV")
         self.btn_diel_add_csv.setToolTip("CSV columns identify frequency (Hz/kHz/MHz/GHz), relative epsilon and mu real/imaginary parts. Column order, case and spacing may vary. Example: frequency_hz,eps_real,eps_imag,mu_real,mu_imag.")
-        self.btn_diel_remove = QPushButton("-")
+        self.btn_diel_remove = QPushButton("Remove selected")
         diel_btn_row.addWidget(self.btn_diel_add)
         diel_btn_row.addWidget(self.btn_diel_add_csv)
         diel_btn_row.addWidget(self.btn_diel_remove)
@@ -416,6 +426,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self._set_equal_column_widths(self.table_diel, enabled=False)
         self.table.itemSelectionChanged.connect(self._update_material_actions)
         self.table_ibc.itemSelectionChanged.connect(self._update_material_actions)
+        self.table_diel.itemSelectionChanged.connect(self._update_material_actions)
         self.cmb_geometry_mode.currentIndexChanged.connect(self._update_material_actions)
         self.geometry_changed.connect(self._update_material_actions)
         self._update_material_actions()
@@ -426,6 +437,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.action_refine_selected.setEnabled(bool(rows))
         self.action_reverse_selected.setEnabled(bool(rows))
         self.btn_ibc_remove.setEnabled(bool(materials))
+        self.btn_diel_remove.setEnabled(bool(self.table_diel.selectedIndexes()))
         self.action_thin_layer_add.setEnabled(self.geometry_mode() == '2d')
         compatible = bool(rows) and len(materials) == 1
         try:
@@ -1335,9 +1347,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
     def _diel_remove_row(self) -> 'None':
         sel = sorted({i.row() for i in self.table_diel.selectedIndexes()}, reverse=True)
         if not sel:
-            if self.table_diel.rowCount() == 0:
-                return
-            sel = [self.table_diel.rowCount() - 1]
+            return
         current = self._read_small_table(self.table_diel)
         for r in sel:
             if 0 <= r < len(current):
@@ -1391,7 +1401,7 @@ class GeometryTab(GeometryInspectionMixin, QWidget):
         self.table.clearSelection()
         for row in candidates:
             self.table.selectionModel().select(self.table.model().index(row, 0), QItemSelectionModel.Select | QItemSelectionModel.Rows)
-        self.lbl_status.setText(f"Selected {len(candidates)} segments at open ends, bends, or material junctions. These are geometry indicators; use mesh certification to check complex-field accuracy.")
+        self.lbl_status.setText(f"Selected {len(candidates)} segments at open ends, bends, or material junctions. Selection does not change the mesh. Use Check specified mesh to compare complex-field results.")
 
     def _refine_selected_segments(self):
         from ghost_backend.geometry.guidance import refined_density

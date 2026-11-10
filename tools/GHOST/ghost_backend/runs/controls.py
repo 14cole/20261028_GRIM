@@ -14,7 +14,7 @@ CONTROL_FIELDS = {
 }
 FACTORIZATION_LABELS = {
     'compressed': 'Compressed (default, lower memory)',
-    'dense': 'Dense (manual override)',
+    'dense': 'Dense',
 }
 # Accepted by APIs, drivers, and saved profiles, but not offered for new GUI runs.
 DIAGNOSTIC_FACTORIZATION_LABELS = {
@@ -54,7 +54,8 @@ def run_control_summary(options, mesh_certification):
                       'Single P1 reference mesh (no refinement)')
     else:
         mesh_label = '{}; polynomial order: P{}'.format(mesh.capitalize(), options['basis_order'])
-    return ('Factorization: {}. Mesh: {}. Corner grading: {}. {}.'.format(
-        factor, mesh_label, 'On' if options['mesh_grading'] else 'Off',
-        'Mesh certification: On (compare meshes)' if mesh_certification else
-        'Survey \u2014 mesh convergence not checked'))
+    workflow = ('Find converged mesh automatically' if mesh_certification and mesh == 'adaptive' else
+                'Check specified mesh' if mesh_certification else
+                'Solve specified mesh — mesh convergence not checked')
+    return ('Linear solver: {}. Mesh: {}. Corner grading: {}. Workflow: {}.'.format(
+        factor, mesh_label, 'On' if options['mesh_grading'] else 'Off', workflow))

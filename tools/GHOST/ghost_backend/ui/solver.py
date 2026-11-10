@@ -1656,9 +1656,13 @@ class SolverTab(RunSetupMixin, QWidget):
         from ghost_backend.execution.options import automatic_run
         is_bor = self.cmb_solver_kind.currentData() == 'bor'
         scattering = self.cmb_scatter_mode.currentData()
-        options = (run_control_options(self.twod_options_widget.value()) if scattering == 'monostatic'
-                   else automatic_run(scattering)['execution_options'])
-        self.lbl_run_policy.setText(run_control_summary(options, self._mesh_check_enabled()))
+        if is_bor:
+            # The 2D policy row is hidden in BoR; do not retain stale 2D text.
+            self.lbl_run_policy.clear()
+        else:
+            options = (run_control_options(self.twod_options_widget.value()) if scattering == 'monostatic'
+                       else automatic_run(scattering)['execution_options'])
+            self.lbl_run_policy.setText(run_control_summary(options, self._mesh_check_enabled()))
         self.cmb_accuracy_target.setEnabled(not self._job_is_active() and self._mesh_check_enabled())
         self.solve_options_form.setRowVisible(self.cmb_accuracy_target, self._mesh_check_enabled())
         workflow = self.cmb_mesh_workflow.currentData()
