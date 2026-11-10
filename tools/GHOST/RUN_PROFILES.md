@@ -1,7 +1,9 @@
 # Running 2D solves
 
-Every 2D run, in the GHOST solver tab or a batch driver, uses one automatic
-setup. You choose the physical problem; the solver chooses how to compute it.
+The GHOST solver tab separates mesh workflow from the linear solver.
+Compressed is the default for 2D monostatic runs in every workflow; Dense is
+an independent Advanced setting. Changing the mesh workflow does not reset
+the selected backend, manual polynomial order, or corner grading.
 
 ## What you choose
 
@@ -11,11 +13,45 @@ setup. You choose the physical problem; the solver chooses how to compute it.
 | Frequencies | A list or a start/stop/step sweep in GHz. |
 | Azimuths | A list or a start/stop/step sweep in degrees. |
 | Scattering mode | Monostatic, or bistatic with observation angles. |
-| Mesh certification | On: solve base and fine meshes and publish the fine result only if both channels converge. Off: solve one mesh, marked `mesh_convergence_certified=false`. |
-| Accuracy target | Standard, or tight (1% maximum complex change) for the base/fine comparison. The dB and phase changes are compared where the pattern is above -30 dB of its peak (deep nulls are judged by the complex change). |
+| Mesh workflow | Solve specified mesh; Check specified mesh; Find converged mesh automatically. See below. |
+| Comparison target | Standard, or tight (1% maximum complex change) for the base/fine comparison. The dB and phase changes are compared where the pattern is above -30 dB of its peak (deep nulls are judged by the complex change). |
 
-Turning certification off runs a single mesh. It can take longer than an
-adaptive certified run when that single mesh contains more unknowns.
+## Mesh workflow in the GUI
+
+- **Solve specified mesh:** use the geometry's N values and the sizing,
+  polynomial order, and grading selected in Advanced. Solve one mesh per
+  frequency, with `mesh_convergence_certified=false`. Condition estimation,
+  residual checks, numerical validity checks, and density limits remain active.
+- **Check specified mesh:** solve that mesh and a finer copy at the same
+  polynomial order, using the selected linear solver. Publish the finer result
+  only when both polarizations pass the existing comparison criteria. Failed
+  Local sizing can retry Global material sizing, with the same backend.
+- **Find converged mesh automatically:** the previous checked/adaptive startup
+  behavior, now explicit. Eligible cases start with coarsened P2/P3 candidates;
+  comparison failures can trigger refinement and a P1 reference fallback.
+  This option applies to 2D monostatic runs only. BoR and bistatic retain the
+  specified-mesh single/checked workflows and their existing numerical paths.
+
+Mesh agreement is numerical evidence for the requested fields and tolerances;
+it is not proof that the geometry or material model represents the real object.
+The reported certificate and quality metadata retain their existing meanings.
+
+The one-shot preset and certification checkbox have been replaced by this
+workflow selector. Specified-mesh order and sizing are retained when visiting
+Automatic and restored when returning; the workflow never silently changes
+Compressed to Dense or vice versa. Backend-specific factorization details and
+fallbacks remain part of the chosen solver. There is no universal fastest backend.
+
+For an already validated mesh, select **Solve specified mesh**, open Advanced,
+and match its polynomial order, sizing, and grading. Positive N specifies
+panels per drawn primitive; N=0 or negative N still requests wavelength sizing.
+An existing certified result's refined mesh is not automatically reused.
+Compare Dense and Compressed on the same mesh and frequency if speed matters.
+A larger single P1 solve can take longer than an automatic checked P2/P3 pair.
+The GUI makes no promise that an unchecked solve is the fastest configuration.
+
+The original checked/adaptive startup behavior remains the default. Batch
+configuration flags and solver APIs are unchanged.
 
 ## What is automatic
 
@@ -37,7 +73,7 @@ Monostatic runs:
   in the operating system's commit limit does not remove the physical cap.
   Assembly sample growth receives incremental checks across concurrent tasks.
   Forecasts are estimates, not guarantees of completion for every geometry.
-- **Mesh.** An adaptive polynomial mesh: a quadratic candidate with a cubic
+- **Mesh in the automatic workflow.** An adaptive polynomial mesh: a quadratic candidate with a cubic
   accuracy check, local refinement when the comparison fails, and a global
   linear mesh as the final fallback.
 - **Numerics.** Double-precision LU, automatic incident-field basis reuse, and

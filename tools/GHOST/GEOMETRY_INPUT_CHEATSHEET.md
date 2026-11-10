@@ -528,8 +528,7 @@ sets material flags; it does not offset the geometry.
 
 In FREDDY, use **Check GHOST coating approximation**, then export the nominal
 IBC and attach it to the current saved GHOST geometry. In Geometry, select
-the TYPE 2 segments and material row, use **Apply IBC to selected TYPE 2
-segments**, and save. An uncertainty or analysis export is not a nominal
+the TYPE 2 segments and material row, use **Assign material > Assign selected surface impedance**, and save. An uncertainty or analysis export is not a nominal
 material table. The scalar IBC retains the planar normal-incidence response;
 the coating check assesses planar angle sensitivity and interpolation, not
 finite-body RCS accuracy. It does not implement an IBC on a bulk dielectric

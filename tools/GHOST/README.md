@@ -33,22 +33,35 @@ configurations keep their selected destinations.
 Use the [backend folder map](#ghost-solver-and-feature-workflows) to find solvers, data I/O,
 geometry operations, feature assembly, and run management.
 
-2D monostatic runs default to compressed factorization, adaptive meshing, corner
-grading, and mesh certification. Threads and memory admission remain automatic,
-and completed frequencies are checkpointed for resume. The collapsed
-**Advanced / Tools** section contains mesh certification, the accuracy target,
-numerical overrides, the selected policy, the accuracy/performance report, and
-the boundary-density plot. Geometry and material checks run automatically when
-**Run Solver** is pressed.
+2D monostatic runs default to compressed factorization, corner grading, and
+**Find converged mesh automatically**. Threads and memory admission remain
+automatic; completed frequencies are saved for recovery and export. Each
+new run computes fresh results. Geometry and material checks run automatically
+when **Run Solver** is pressed.
 
-For a single-mesh 2D monostatic solve, open **Advanced / Tools**, click
-**Use one-shot preset (no mesh certification)**, then **Run Solver**. The preset
-uses accelerated CPU execution, compressed factorization, and one P1 reference
-mesh per frequency for both VV and HH. It skips mesh refinement comparisons;
-residual and condition checks remain, and the result is marked uncertified.
-The fastest factorization depends on the geometry; Dense remains a manual
-override. Recheck **Certify mesh convergence** to return to a certified solve.
-The accuracy target is disabled while certification is off.
+Choose **Mesh workflow** on the main Solver screen:
+
+- **Solve specified mesh** runs one mesh per frequency using the geometry's
+  N values and the sizing, polynomial order, and grading in Advanced.
+  Residual and condition checks remain; mesh convergence is not checked.
+- **Check specified mesh** compares that mesh with a finer copy and publishes
+  the finer result only if both polarizations pass. This preserves the selected
+  backend and polynomial order. Local sizing can retry Global sizing if needed.
+- **Find converged mesh automatically** explicitly enables the existing
+  P2/P3 candidate search, refinement, and P1 fallback when needed.
+
+The linear solver is shown below the workflow. Advanced contains its independent
+Compressed/Dense choice, specified-mesh settings, the accuracy/performance report,
+and boundary-density tools. Switching workflows preserves the backend, grading,
+and manual mesh settings. The comparison target is shown only for checked runs.
+A mesh comparison measures numerical agreement, not physical-model validity.
+See [run profiles](RUN_PROFILES.md) for setup details and speed tradeoffs.
+
+In Geometry, **Segment tools** contains corner/junction selection, refinement,
+and direction reversal. **Add surface material** offers constant impedance,
+CSV impedance, and thin dielectric layers (2D only). Select compatible conductor
+segments and one impedance row to enable **Assign material**. These menus retain
+the existing editing actions without dedicated buttons for each action.
 
 Mouse-wheel scrolling over GHOST dropdowns and numeric fields does not change
 settings, even when focused. Use clicks, typing, or keyboard arrows to edit;

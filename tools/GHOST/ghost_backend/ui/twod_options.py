@@ -1,6 +1,6 @@
-"""Advanced 2-D monostatic controls; numerical policy stays in runs.controls."""
+"""Independent linear-solver and specified-mesh controls for 2-D runs."""
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QCheckBox, QFormLayout, QWidget
+from PySide6.QtWidgets import QCheckBox, QFormLayout, QLabel, QWidget
 from ghost_backend.ui.table_editors import ScrollSafeComboBox as QComboBox
 
 from ghost_backend.runs.controls import (FACTORIZATION_LABELS, DIAGNOSTIC_FACTORIZATION_LABELS,
@@ -12,85 +12,90 @@ class TwoDOptionsWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        form = QFormLayout(self)
-        form.setContentsMargins(0, 0, 0, 0)
+        self._automatic_mesh = True
+        self.form = QFormLayout(self)
+        self.form.setContentsMargins(0, 0, 0, 0)
         self.factorization = QComboBox()
         for key, label in FACTORIZATION_LABELS.items():
             self.factorization.addItem(label, key)
         self.factorization.setToolTip(
-            'Compressed is the default and uses less memory for larger problems. '
-            'Choose Dense explicitly when needed; it can use hierarchical '
-            'factorization internally, with LU fallback.')
-        self.factorization_override = QCheckBox('Override compressed solver (advanced)')
-        form.addRow(self.factorization_override)
-        form.addRow('Solver', self.factorization)
-        self.factorization.setEnabled(False)
+            'Shared by all mesh workflows. Compressed uses less memory; Dense can be faster '
+            'on smaller problems. Mesh checking does not change this selection. Dense may '
+            'use hierarchical factors internally, with LU fallback.')
+        self.form.addRow('Linear solver', self.factorization)
         self.mesh = QComboBox()
-        for key in ('adaptive', 'local', 'global'):
-            self.mesh.addItem(key.capitalize(), key)
+        self.mesh.addItem('Global wavelength sizing', 'global')
+        self.mesh.addItem('Local material sizing', 'local')
         self.mesh.setToolTip(
-            'Adaptive chooses and checks polynomial meshes when certification is on. '
-            'Local and Global retain manual polynomial-order control.')
-        form.addRow('Mesh strategy', self.mesh)
+            'Uses the geometry N values. Global sizes wavelength-based counts using the '
+            'controlling material wavelength; Local uses local material sizing. A failed '
+            'Local mesh comparison can retry Global sizing with the same linear solver.')
+        self.form.addRow('Specified mesh sizing', self.mesh)
         self.order = QComboBox()
-        self.order.addItem('Automatic', 0)
         for degree in (1, 2, 3):
-            self.order.addItem('P{}'.format(degree), degree)
-        self.order.setToolTip('Manual order applies to Local or Global meshes. Adaptive controls it automatically.')
-        form.addRow('Polynomial order', self.order)
+            self.order.addItem('P{} ({})'.format(degree, ('linear', 'quadratic', 'cubic')[degree - 1]), degree)
+        self.order.setToolTip('Keep the polynomial order used to validate your specified mesh.')
+        self.form.addRow('Polynomial order', self.order)
+        self.automatic_note = QLabel(
+            'Automatic mesh search chooses P2/P3 candidates when suitable, with P1 fallback. '
+            'Your specified-mesh sizing and polynomial order are retained for the other workflows.')
+        self.automatic_note.setWordWrap(True)
+        self.form.addRow(self.automatic_note)
         self.grading = QCheckBox('Grade corners, open ends, and material junctions')
         self.grading.setChecked(True)
-        form.addRow(self.grading)
-        self._manual_order = 1
-        self.mesh.currentIndexChanged.connect(self._sync)
-        self.factorization.currentIndexChanged.connect(lambda *_: self.changed.emit())
-        self.factorization_override.toggled.connect(self._sync_factorization)
-        self.order.currentIndexChanged.connect(lambda *_: self.changed.emit())
+        self.grading.setToolTip(
+            'Clustering can add or redistribute panels, including in a single-mesh solve. '
+            'Keep the grading used when validating your mesh; turn it off for an already '
+            'specified panel layout that needs no additional grading.')
+        self.form.addRow(self.grading)
+        self.mesh_note = QLabel(
+            'N in Geometry controls subdivision: 0 / negative values use wavelength sizing; '
+            'positive values give panels per drawn primitive. A previous result\'s refined '
+            'mesh is not automatically reused.')
+        self.mesh_note.setWordWrap(True)
+        self.form.addRow(self.mesh_note)
+        for combo in (self.factorization, self.mesh, self.order):
+            combo.currentIndexChanged.connect(lambda *_: self.changed.emit())
         self.grading.toggled.connect(lambda *_: self.changed.emit())
-        self._sync()
+        self._sync_mesh_rows()
 
-    def _sync_factorization(self, manual):
-        self.factorization.setEnabled(manual)
-        if not manual:
-            self.factorization.setCurrentIndex(self.factorization.findData('compressed'))
-        self.changed.emit()
+    def _sync_mesh_rows(self):
+        for widget in (self.mesh, self.order, self.mesh_note):
+            self.form.setRowVisible(widget, not self._automatic_mesh)
+        self.form.setRowVisible(self.automatic_note, self._automatic_mesh)
 
-    def _sync(self, *_):
-        adaptive = self.mesh.currentData() == 'adaptive'
-        current = self.order.currentData()
-        if adaptive and current:
-            self._manual_order = current
-        blocked = self.order.blockSignals(True)
-        self.order.setCurrentIndex(self.order.findData(0 if adaptive else (current or self._manual_order)))
-        # Automatic is display-only: fixed meshes must select a real degree.
-        self.order.model().item(0).setEnabled(adaptive)
-        self.order.blockSignals(blocked)
-        self.order.setEnabled(not adaptive)
-        self.changed.emit()
+    def set_automatic_mesh(self, enabled):
+        """Change mesh workflow without resetting backend, manual mesh, or grading."""
+        enabled = bool(enabled)
+        if enabled != self._automatic_mesh:
+            self._automatic_mesh = enabled
+            self._sync_mesh_rows()
+            self.changed.emit()
 
     def value(self):
-        return dict(factorization=self.factorization.currentData(), mesh_strategy=self.mesh.currentData(),
-                    basis_order=self.order.currentData() or 1, mesh_grading=self.grading.isChecked())
+        return dict(factorization=self.factorization.currentData(),
+                    mesh_strategy='adaptive' if self._automatic_mesh else self.mesh.currentData(),
+                    basis_order=1 if self._automatic_mesh else self.order.currentData(),
+                    mesh_grading=self.grading.isChecked())
 
     def set_value(self, controls):
-        # Preserve explicit saved diagnostic choices rather than silently changing
-        # their numerical/fallback semantics. Fresh runs offer only the core modes.
+        """Restore explicit saved choices, including diagnostic backend settings."""
         value = run_control_options(controls)
-        blocked = self.factorization.blockSignals(True)
-        self.factorization.clear()
-        for key, label in FACTORIZATION_LABELS.items():
-            self.factorization.addItem(label, key)
-        mode = value['factorization']
-        if mode in DIAGNOSTIC_FACTORIZATION_LABELS:
-            self.factorization.addItem(DIAGNOSTIC_FACTORIZATION_LABELS[mode], mode)
-        self.factorization.setCurrentIndex(self.factorization.findData(value['factorization']))
-        self.factorization.blockSignals(blocked)
-        blocked = self.factorization_override.blockSignals(True)
-        self.factorization_override.setChecked(mode != 'compressed')
-        self.factorization_override.blockSignals(blocked)
-        self.factorization.setEnabled(mode != 'compressed')
-        self.mesh.setCurrentIndex(self.mesh.findData(value['mesh_strategy']))
-        self._manual_order = value['basis_order']
-        self.order.setCurrentIndex(self.order.findData(value['basis_order']))
-        self.grading.setChecked(value['mesh_grading'])
-        self._sync()
+        blocked = self.blockSignals(True)
+        try:
+            self.factorization.clear()
+            for key, label in FACTORIZATION_LABELS.items():
+                self.factorization.addItem(label, key)
+            mode = value['factorization']
+            if mode in DIAGNOSTIC_FACTORIZATION_LABELS:
+                self.factorization.addItem(DIAGNOSTIC_FACTORIZATION_LABELS[mode], mode)
+            self.factorization.setCurrentIndex(self.factorization.findData(mode))
+            if value['mesh_strategy'] != 'adaptive':
+                self.mesh.setCurrentIndex(self.mesh.findData(value['mesh_strategy']))
+                self.order.setCurrentIndex(self.order.findData(value['basis_order']))
+            self.grading.setChecked(value['mesh_grading'])
+            self._automatic_mesh = value['mesh_strategy'] == 'adaptive'
+            self._sync_mesh_rows()
+        finally:
+            self.blockSignals(blocked)
+        self.changed.emit()
