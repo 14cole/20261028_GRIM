@@ -1,6 +1,7 @@
 """Checked inverse of a compressed operator, including adjoint evidence."""
 import numpy as np
-from scipy.sparse.linalg import LinearOperator,onenormest
+from scipy.sparse.linalg import LinearOperator
+from ghost_backend.linalg.onenorm import onenormest
 from ghost_backend.compressed.inverse import CompressedSystem
 from ghost_backend.linalg.hierarchical import HierarchicalRejected
 from ghost_backend.execution.metrics import timed_stage

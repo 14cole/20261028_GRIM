@@ -2,7 +2,6 @@
 import numpy as np
 import scipy.linalg as la
 import ghost_backend.linalg.hierarchical as hf
-import warnings
 
 class Oracle:
     def __init__(self,a):
@@ -173,9 +172,8 @@ class CompressedSystem:
         with self.construction.step('leaf or correction LU',2*a.nbytes+8*len(a)+1024**2,*live):
             if not np.all(np.isfinite(a)):
                 raise ValueError('Nonfinite compressed factor.')
-            with warnings.catch_warnings():
-                warnings.simplefilter('error')
-                result=la.lu_factor(np.array(a,order='F'),overwrite_a=True,check_finite=False)
+            from ghost_backend.linalg.workspace import strict_lu_factor
+            result=strict_lu_factor(np.array(a,order='F'))
             self.reserve(size)
         return result
     def inspect_block(self,oracle,rows,cols,u,v):

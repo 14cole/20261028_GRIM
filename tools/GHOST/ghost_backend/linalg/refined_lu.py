@@ -1,11 +1,10 @@
 """Opt-in single-precision factorization with double-precision residuals."""
 from contextlib import contextmanager
 from ghost_backend.execution.runtime import ScopedValue
-import warnings
 import numpy as np
-from scipy.linalg import lu_factor, lu_solve
+from scipy.linalg import lu_solve
 from ghost_backend.execution.metrics import timed_stage
-from ghost_backend.linalg.workspace import first_nonfinite
+from ghost_backend.linalg.workspace import first_nonfinite, strict_lu_factor
 
 _PRECISION = ScopedValue("ghost_lu_precision", default="double")
 
@@ -27,14 +26,13 @@ class RefinedLU:
     def __init__(self, matrix):
         self.matrix = np.asarray(matrix, dtype=np.complex128)
         self.max_corrections = 0
-        with warnings.catch_warnings():
-
-
-            warnings.simplefilter("error", RuntimeWarning)
+        # An overflowing cast yields infinities, caught below; no global
+        # warning filter is touched (see workspace.strict_lu_factor).
+        with np.errstate(over='ignore', invalid='ignore'):
             single = np.array(self.matrix, dtype=np.complex64, order='F')
-            if first_nonfinite(single) is not None:
-                raise np.linalg.LinAlgError("Single-precision matrix was nonfinite.")
-            self.lu, self.piv = lu_factor(single, overwrite_a=True, check_finite=False)
+        if first_nonfinite(single) is not None:
+            raise np.linalg.LinAlgError("Single-precision matrix was nonfinite.")
+        self.lu, self.piv = strict_lu_factor(single)
         if first_nonfinite(self.lu) is not None:
             raise np.linalg.LinAlgError("Single-precision LU was nonfinite.")
 

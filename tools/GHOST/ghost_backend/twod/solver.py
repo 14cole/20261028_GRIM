@@ -582,28 +582,16 @@ def _equilibrated_condition_from_lu(
 # dielectric system under different seeds -- and each call advanced that state
 # for other users.  A fixed private seed makes the estimate a deterministic
 # function of the matrix; the caller's global state is restored afterwards.
-_CONDITION_ESTIMATE_SEED = 0x2D5EED
-_CONDITION_ESTIMATE_LOCK = threading.Lock()
-
-
-def _reset_condition_estimate_lock() -> 'None':
-    global _CONDITION_ESTIMATE_LOCK
-    _CONDITION_ESTIMATE_LOCK = threading.Lock()
-
-
-if hasattr(os, "register_at_fork"):
-    # A pool worker forked while another thread held the lock must not inherit it.
-    os.register_at_fork(after_in_child=_reset_condition_estimate_lock)
-
-
 def _deterministic_onenormest(operator) -> 'float':
-    with _CONDITION_ESTIMATE_LOCK:
-        saved = np.random.get_state()
-        try:
-            np.random.seed(_CONDITION_ESTIMATE_SEED)
-            return float(_SCIPY_SPARSE_LINALG.onenormest(operator))
-        finally:
-            np.random.set_state(saved)
+    """1-norm estimate that neither reads nor advances NumPy's global generator.
+
+    The former implementation reseeded the process-global generator under a
+    lock around SciPy's estimator; another thread drawing random numbers during
+    the estimate saw the fixed-seed stream.  The private estimator returns the
+    same values (same algorithm, same seed) without global state.
+    """
+    from ghost_backend.linalg.onenorm import onenormest
+    return onenormest(operator)
 
 
 @timed_stage("linear_solve")
@@ -1174,6 +1162,78 @@ def _is_all_robin(infos: 'List[PanelCoupledInfo]') -> 'bool':
     """Return True if every element uses a Robin BC (PEC or IBC, no dielectric)."""
     return all(info.bc_kind == 'robin' for info in infos)
 
+# The far, touching and near quadrature rules are calibrated for panels of at
+# most this electrical length (NUMERICAL_METHODS.md, "2D transmission").
+CALIBRATED_PANEL_KL_MAX = 3.0
+
+
+def _note_electrically_long_panels(mesh: 'LinearMesh', infos: 'List[PanelCoupledInfo]', notices) -> 'float':
+    """Warn when a panel is longer than the operators' calibrated range.
+
+    Automatic and floor-checked meshes stay near |k|L = 1.6.  A mesh built with
+    the density floor switched off can exceed 3, where the 8-point far rule of
+    S and K' and the 20-point touching rule lose accuracy without any residual
+    symptom (1e-7 at |k|L = 8, 1e-2 and worse at 20): the linear system is
+    solved exactly for a wrong operator, so the quality gate cannot see it.
+    """
+    worst = 0.0
+    count = 0
+    for element, info in zip(mesh.elements, infos):
+        value = float(element.length) * max(abs(complex(info.k_plus)), abs(complex(info.k_minus)))
+        if not math.isfinite(value):
+            continue
+        worst = max(worst, value)
+        count += value > CALIBRATED_PANEL_KL_MAX
+    if count:
+        notices.warn_once(
+            'Electrically long panels: {} panel(s) exceed |k|L = {:g} (largest {:.3g}). '
+            'The boundary-integral quadrature is calibrated up to that length, so operator '
+            'accuracy is not qualified for this mesh and a small linear residual does not '
+            'certify it. Increase the panel density.'.format(count, CALIBRATED_PANEL_KL_MAX, worst))
+    return worst
+
+
+def _has_closed_contour(mesh: 'LinearMesh') -> 'bool':
+    """True when some connected chain of elements closes on itself."""
+    parent: 'Dict[Tuple[int, int], Tuple[int, int]]' = {}
+    degree: 'Dict[Tuple[int, int], int]' = {}
+
+    def find(key):
+        while parent[key] != key:
+            parent[key] = parent[parent[key]]
+            key = parent[key]
+        return key
+
+    for element in mesh.elements:
+        ends = [mesh.nodes[int(nid)].key for nid in element.node_ids[:2]]
+        for key in ends:
+            parent.setdefault(key, key)
+            degree[key] = degree.get(key, 0) + 1
+        parent[find(ends[0])] = find(ends[1])
+    open_components = {find(key) for key, count in degree.items() if count != 2}
+    return any(find(key) not in open_components for key in degree)
+
+
+def _note_unprotected_closed_conductor(mesh: 'LinearMesh', infos: 'List[PanelCoupledInfo]',
+                                       pol: 'str', notices) -> 'None':
+    """Say so when a closed conductor is solved without the combined potential.
+
+    The combined S + gamma*D layout is all-or-nothing: one open TYPE 2 strip in
+    a conductor-only scene sends every contour, closed ones included, to the
+    single-layer equations, whose condition number peaks at the interior
+    resonances of the closed bodies (2e7 measured next to 5e2 protected).
+    """
+    if not infos or not _is_all_robin(infos):
+        return
+    from ghost_backend.twod.formulations.robin import combined_layout
+    if combined_layout(mesh, infos, pol) is None and _has_closed_contour(mesh):
+        notices.warn_once(
+            "Conductor scene: an open or otherwise ineligible contour keeps every conductor "
+            "on the single-potential representation, which is not protected against "
+            "fictitious interior resonances of the closed conductors. Near such a frequency "
+            "the condition estimate rises sharply; confirm with a neighbouring frequency.")
+
+
 def _assert_supported_te_type2_contours(
     mesh: 'LinearMesh',
     infos: 'List[PanelCoupledInfo]',
@@ -1190,25 +1250,37 @@ def _assert_supported_te_type2_contours(
     physically closed and must remain supported.
     """
 
-    if pol != "TE" or not _is_all_robin(infos):
+    if pol != "TE":
         return
 
-    type2_degree: 'Dict[Tuple[int, int], int]' = {}
+    # A TYPE 2 end is free when no other boundary element of the scene meets it.
+    # The degree is counted over every non-sheet element, so the junctions of a
+    # partial coating (TYPE 2 bare arc meeting TYPE 3 and TYPE 4) stay closed,
+    # and the check does not depend on what else the scene contains: a
+    # dielectric body or a TYPE 1 sheet elsewhere used to switch it off, and the
+    # open conductor was then solved with a single-layer Neumann row (or with
+    # unpinned edge unknowns), converging to a field several dB wrong.
+    boundary_degree: 'Dict[Tuple[int, int], int]' = {}
+    type2_keys = set()
     for elem, info in zip(mesh.elements, infos):
-        if int(info.seg_type) != 2:
+        seg_type = int(info.seg_type)
+        if seg_type == 1:
             continue
         for nid in elem.node_ids[:2]:
             key = mesh.nodes[int(nid)].key
-            type2_degree[key] = type2_degree.get(key, 0) + 1
+            boundary_degree[key] = boundary_degree.get(key, 0) + 1
+            if seg_type == 2:
+                type2_keys.add(key)
 
-    open_endpoint_count = sum(1 for degree in type2_degree.values() if degree == 1)
+    open_endpoint_count = sum(1 for key in type2_keys if boundary_degree[key] == 1)
     if open_endpoint_count > 0:
         raise ValueError(
             "Open TYPE 2 PEC/IBC contours are not supported for TE polarization: "
             "the available TE Robin MFIE is a closed-obstacle formulation and "
             f"the geometry has {open_endpoint_count} open TYPE 2 endpoint(s). "
-            "Close/stitch the obstacle contour, or use a physically appropriate "
-            "TYPE 1 sheet model for an open impedance card."
+            "Close/stitch the obstacle contour (a thin plate is a closed "
+            "finite-thickness contour), or use a physically appropriate TYPE 1 "
+            "sheet model for an open impedance card."
             + (_near_miss_note(geometry_snapshot.get("segments", []) or [], meters_scale, (2,))
                if geometry_snapshot is not None else "")
         )
@@ -2470,6 +2542,8 @@ def solve_monostatic_rcs_2d_single_polarization(
         _assert_no_type1_sheet_for_mixed(coupled_infos)
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
+        _note_electrically_long_panels(mesh, coupled_infos, notices)
+        _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
 
 
@@ -2523,8 +2597,13 @@ def solve_monostatic_rcs_2d_single_polarization(
             from ghost_backend.execution.cpu import current_state
             state=current_state()
             if state is not None:
+                # The partner matrix is resident on top of this solve's own
+                # estimate (it was admitted as estimate + partner <= limit), so
+                # the peak of a paired solve is their sum.
+                partner_bytes = 16*resources['system_dofs']**2
                 state.memory_estimates.append(dict(method='paired_polarization_assembly',
-                    partner_matrix_bytes=16*resources['system_dofs']**2,total_peak_gib=est_gb,admission_limit_gib=memory_limit_gb))
+                    partner_matrix_bytes=partner_bytes, solve_estimate_gib=est_gb,
+                    total_peak_gib=est_gb+partner_bytes/1024**3, admission_limit_gib=memory_limit_gb))
         if est_gb > memory_limit_gb:
             raise MemoryError(
                 _memory_gate_message(
@@ -3262,6 +3341,24 @@ def _merge_co_polarized_2d_results(
     }
 
 
+def _reject_duplicate_angles(**grids) -> 'None':
+    """Refuse a repeated angle before any numerical work.
+
+    The co-polarized result grid has one row per (frequency, incidence,
+    observation); a repeated angle was only detected when the two finished
+    polarizations were merged, after the whole solve.
+    """
+    for name, values in grids.items():
+        seen = set()
+        for value in values:
+            key = float(value)
+            if key in seen:
+                raise ValueError(
+                    '{} contains {:g} more than once; a co-polarized 2-D result grid '
+                    'needs distinct angles. Remove the repeated value.'.format(name, key))
+            seen.add(key)
+
+
 def _frequency_local_co_solve(solve, kwargs):
     """Finish both channels (and both certification meshes) per frequency."""
     kwargs = dict(kwargs)
@@ -3393,6 +3490,7 @@ def solve_monostatic_rcs_2d(
     (``co_solved_samples`` holds each channel in the same order).
     """
 
+    _reject_duplicate_angles(elevations_deg=elevations_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_monostatic_rcs_2d, locals())
     shared_cache: 'Dict[str, Any]' = {}
@@ -3594,6 +3692,8 @@ def solve_bistatic_rcs_2d_single_polarization(
         _assert_no_type1_sheet_for_mixed(coupled_infos)
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
+        _note_electrically_long_panels(mesh, coupled_infos, notices)
+        _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
         nnodes = len(mesh.nodes)
 
@@ -3817,6 +3917,7 @@ def solve_bistatic_rcs_2d(
     observation angle as requested, with VV before HH for each sample.
     """
 
+    _reject_duplicate_angles(incidence_angles_deg=incidence_angles_deg, observation_angles_deg=observation_angles_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_bistatic_rcs_2d, locals())
     shared_cache = {}
@@ -4223,6 +4324,7 @@ def solve_monostatic_rcs_2d_certified(
 ) -> 'Dict[str, Any]':
     """Canonical production monostatic entry; both channels must certify."""
 
+    _reject_duplicate_angles(elevations_deg=elevations_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_monostatic_rcs_2d_certified, locals())
     kwargs = dict(locals())
@@ -4318,6 +4420,7 @@ def solve_bistatic_rcs_2d_certified(
 ) -> 'Dict[str, Any]':
     """Canonical certified bistatic entry; both channels must certify."""
 
+    _reject_duplicate_angles(incidence_angles_deg=incidence_angles_deg, observation_angles_deg=observation_angles_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_bistatic_rcs_2d_certified, locals())
     kwargs = dict(locals())

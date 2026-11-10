@@ -722,7 +722,7 @@ def configured_execution(function):
         from ghost_backend.linalg.crossover import scope
         from ghost_backend.execution.angle_batch import scope as batch_scope
         from ghost_backend.execution.memory_budget import scope as memory_scope
-        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope():
+        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope(kwargs.get('abort_event')):
             return invoke_configured(*args,**kwargs)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))
