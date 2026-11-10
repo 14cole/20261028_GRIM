@@ -1,0 +1,16 @@
+Finding,Disposition,Evidence / qualification,Results files
+C-1,SUPPORTED,17 supplied refusal/junction checks pass; original certified defect refused,claude_regressions.log
+C-2,SUPPORTED,NaN rejection and valid zero RHS regression checks pass,claude_regressions.log
+C-3,SUPPORTED WITH SCOPE,180 extra norm cases: finite lower bounds and full RNG state preserved; nondefault t need not equal SciPy,estimator.json; claude_regressions.log
+C-4,SUPPORTED,Original independent N=37 cone succeeds automatically; 20 modes; relative RCS difference 7.15e-15 against cap31,original_cone.json; claude_regressions.log
+C-5,GUARD SUPPORTED,Negative N floor and warning tests pass; unenforced long-panel quadrature remains unfixed,claude_regressions.log
+R-1,REQUEST CHANGES - P1,New memory/BLAS lock inversion in supported mixed execution scopes,lock_inversion.json; lock_inversion_base.json
+R-2,SUPPORTED,Strict LAPACK status handling avoids global filters; supplied concurrent tests pass,claude_regressions.log
+R-3a,REQUEST CHANGES - P2,BrokenProcessPool escapes submit even though future.result recovery works,submit_death.json; claude_regressions.log
+R-3b,SUPPORTED,Supplied duplicate-angle checks pass,claude_regressions.log
+R-3g,WARNING SUPPORTED,Adds notice; underlying resonance formulation remains unchanged,claude_regressions.log
+R-3l,SUPPORTED,Named invalid and negative threshold errors pass,claude_regressions.log
+M-1,ACCEPT CORRECTION,6144-DOF PEC and dielectric runs within 1.35x reservation; pairing declined; earlier over-admission inference withdrawn,memory_pec_6144_1.35.json; memory_dielectric_3072_1.35.json
+S-1,CALIBRATION REPAIR - P2,"1,512 independent blocks pass sampled checks; checked-in q5/q6 calibration actually uses q7 in reproduced case",w_grid.json; calibration_orders.json; ibc_*.json
+S-2,CALIBRATION REPAIR - P2,Sliver regression passes; same calibration helper problem affects reported order comparisons,claude_regressions.log; calibration_orders.json
+S-5,REQUEST CHANGES - P2,Accepted unprobed kernel error 3.21825e-7 versus 2e-8 tolerance; native and fallback reproduce; fine mode ~9.1e-14,coarse_repro_latest.json; coarse_repro_base.json; near_probe_search.json

@@ -1,0 +1,212 @@
+Independent correctness review of Claude's implementation audit
+Repository: https://github.com/14cole/20261028_GRIM
+Reviewed branch: claude/festive-keller-nj5bje
+Reviewed head: 1a6addedc89c8e6f9cd52b7e5aaa098a8962dcdb
+Base: f207c61529c706b9f98990ffa23c0b878f3590e0
+Correctness commit: 62e47e2f3628ae708e2cf38fb3fce1ab2e79bb1d
+Performance commit: ceaf233f2ac1fc12e0fb99297a9649b64a0ea5ff
+Date: 2026-11-10
+
+Recommendation: request changes before merging. All 191 supplied checks pass,
+but independent checks found one new deadlock, an incomplete worker-recovery
+fix, a numerical regression in coarse BOR near-kernel publication, and a
+calibration helper that no longer measures the orders printed in its output.
+
+1. P1 — R-1 introduces a memory/BLAS lock inversion
+
+Location: tools/GHOST/ghost_backend/execution/memory_budget.py:420-428;
+interaction with execution/options.py:481 and :502.
+https://github.com/14cole/20261028_GRIM/blob/1a6addedc89c8e6f9cd52b7e5aaa098a8962dcdb/tools/GHOST/ghost_backend/execution/memory_budget.py#L420
+
+A public solve A under execution_scope(..., limit_blas=False) reserves the
+available memory. Another thread B enters execution_scope(..., limit_blas=True)
+and starts a public solve. B holds _BLAS_LOCK while waiting for A's reservation
+to be released. A reaches solve_fields and waits for _BLAS_LOCK. Neither can
+finish. Moving the wait before locks acquired INSIDE configured_execution does
+not address callers that already hold the execution-scope lock.
+
+Reproduction: edge_checks.py lock_inversion uses actual public solves of a
+68-panel PEC circle. A barrier after the first real stable() reservation fixes
+the scheduling order; it does not replace reservation or locking decisions.
+Both threads remain blocked: A's captured stack ends at options.py:502,
+B's at memory_budget.py:428. Cancelling B releases its BLAS lock and lets A
+finish. No threads remain alive after the test. With the same arrangement on
+main, B raises the original zero-GiB MemoryError and A completes; it does not
+deadlock. Ordinary concurrency tests passing do not cover this lock ordering.
+
+Requested change: enforce one acquisition order across execution_scope and
+public-solve reservation entry, including externally entered scopes. Do not
+wait for another request while holding a lock that request needs. Add this
+mixed-scope regression and test abort and exception cleanup.
+
+Evidence: results/lock_inversion.json and results/lock_inversion_base.json.
+
+2. P2 — R-3a still loses the sweep when a pool breaks during submit()
+
+Location: tools/GHOST/ghost_backend/execution/frequency_sweep.py:286-287.
+https://github.com/14cole/20261028_GRIM/blob/1a6addedc89c8e6f9cd52b7e5aaa098a8962dcdb/tools/GHOST/ghost_backend/execution/frequency_sweep.py#L286
+
+BrokenProcessPool is caught around future.result(), but executor.submit() can
+raise the same exception after the management thread notices worker death.
+The submission site remains outside the recovery handler, so the exception
+escapes compute_parallel instead of returning pending work to the parent.
+
+Reproduction: edge_checks.py submit_death runs the real compute_parallel path.
+An executor subclass kills only its own first worker with SIGKILL immediately
+before the second submission and waits for the executor to observe that death.
+The real superclass submit raises BrokenProcessPool at line 287. This is a
+controlled scheduling reproduction, not a claim that every worker death hits
+the race. Claude's supplied death-after-submission test passes independently.
+
+Requested change: handle pool failure during submission as well as result
+collection. Retain completed results, stop submitting, drain/close the broken
+pool safely, and return every unfinished frequency for the sequential path.
+
+Evidence: results/submit_death.json.
+
+3. P2 — S-5 can publish coarse kernels outside its stated tolerance
+
+Location: tools/GHOST/ghost_backend/bor/kernels.py:1743-1760.
+https://github.com/14cole/20261028_GRIM/blob/1a6addedc89c8e6f9cd52b7e5aaa098a8962dcdb/tools/GHOST/ghost_backend/bor/kernels.py#L1743
+
+Passing every fourth point's check does not establish that the unprobed coarse
+values satisfy NEAR_ANGULAR_RTOL=2e-8. Unlike the former fine output, the new
+coarse output can have a material quadrature error at unprobed points.
+
+Minimal reproducible fixture: k=80, m_max=92, 32 point pairs in one layout.
+Every fourth pair is (rho_p,z_p,rho_q,z_q)=
+  (1.0140625, 0, 1.0140625, 0.1017733529476957).
+The other pairs are
+  (1.1390625, 0, 1.1390625, 0.11898510425967053).
+Both use coarse orders [60,120]. Probed coarse/fine discrepancy is 1.179e-9,
+so the chunk is accepted. At an unprobed pair the published native result is
+3.21825e-7 from independent scipy.integrate.quad_vec integration of the
+explicit 3-D Green function — 16.1 times the stated kernel tolerance.
+The NumPy fallback has the same error. Fine mode has about 9.1e-14 error.
+The pinned main implementation also has about 9.1e-14 error on this fixture.
+
+repro_coarse_near.py reproduces this without replacing numerical functions.
+The independent reference integrates exp(-ikR)/(4*pi*R)*cos(m*phi), doubled
+over [0,pi], with 1e-12 absolute and relative integration tolerances. The
+error uses the maximum over the point's modal values, matching the gate's
+normalization, rather than division by a near-zero individual mode.
+
+A separate smooth 257-pair grid also produced accepted unprobed errors up to
+2.1624e-8 without the constructed ordering. The stronger example came from
+grouping two points with the same layout after examining all points in 42
+kernel cases (10,794 points). It is above the original ka<=30 calibration;
+the current default has no corresponding domain restriction.
+
+Requested change: retain fine publication outside a justified domain, or
+qualify the actual published coarse values with a check/bound that covers all
+points. A smaller probe discrepancy alone does not bound the unprobed ones.
+Keep the fine switch and add the fixture in native and fallback modes.
+
+Scope: this proves a kernel acceptance regression. I have NOT demonstrated a
+wrong certified end-to-end RCS result from this fixture.
+
+Evidence: repro_coarse_near.py; results/coarse_repro_latest.json;
+results/coarse_repro_base.json; results/near_probe_search.json.
+
+4. P2 — S-1/S-2 calibration silently uses higher orders than requested
+
+Location: audits/claude-2026-11-10/calibration/w_far_rule.py:35-43.
+https://github.com/14cole/20261028_GRIM/blob/1a6addedc89c8e6f9cd52b7e5aaa098a8962dcdb/audits/claude-2026-11-10/calibration/w_far_rule.py#L35
+
+w_block patches _graded_w_far_floor and _graded_far_order, but the new
+_graded_w_far_order remains active. A floor of 2 does not disable its table.
+For two collinear unit panels with centers separated by 3 and k=1, calls
+labeled q=5, q=6 and q=7 all actually use 7-point Gauss rules and return
+bit-identical blocks. q=8 and q=48 use their requested orders.
+
+Consequently rerunning the checked-in calibration cannot reproduce genuine
+five-/six-point columns or establish the claim that one fewer point fails.
+The 48-point reference and the separate assembled-matrix regression remain
+useful; this is not evidence that all production table entries are inaccurate.
+
+Requested change: bypass both W grading functions when explicitly measuring
+q, assert the actual rule used, and regenerate the calibration outputs. I
+independently checked 1,512 separated Maue blocks with explicitly selected
+orders against 64-point integration, including low frequency and slivers;
+worst error was 4.24e-14 on that different, limited grid. That positive result
+does not repair the checked-in calibration helper.
+
+Evidence: edge_checks.py calibration_orders; results/calibration_orders.json;
+numerical_checks.py w_grid; results/w_grid.json.
+
+Fixes supported by independent execution
+
+- C-1: supplied mixed-scene refusal tests pass, including certified/bistatic
+  APIs, and supported closed/junction examples still run.
+- C-2: nonfinite systems are rejected and valid zero right-hand sides pass.
+- C-3: supplied compressed/dense seed tests pass. An additional 180 estimator
+  cases preserve full NumPy RNG state and produce finite lower bounds against
+  exact norms. Seeded-SciPy agreement is not universal for nondefault t or the
+  new exact-small-matrix branch; no defect is inferred from those differences.
+- C-4: the independently found original cone (N=37 per primitive, radius .1 m,
+  3 GHz, tolerance 1e-13) now succeeds automatically and with cap 31. Both use
+  20 modes; maximum RCS difference relative to peak is 7.15e-15.
+- C-5, R-2, R-3b/g/l: the supplied guards, LAPACK warning-state tests, early
+  duplicate validation, warning, and environment validation checks pass.
+  C-5 remains a guard, not a cure for deliberately unenforced long panels.
+
+Correction to my earlier M-1 interpretation
+
+I accept Claude's correction: standalone peak/forecast ratios did not prove
+over-admission under a reservation. Paired assembly is separately admitted
+against the reservation. I checked 6,144 system unknowns in two formulations:
+
+  PEC, 6,144 panels:       forecast 1.29237 GiB; cap 1.74470; peak 1.24870.
+  Dielectric, 3,072 panels: forecast 1.29237 GiB; cap 1.74470; peak 1.23986.
+
+The cap was 1.35 times the dense forecast. Neither run admitted paired
+assembly; both succeeded within the cap. The telemetry fix is appropriate.
+This supports withdrawing my earlier inference of a reservation violation,
+not a universal memory bound for every formulation or Windows commit charge.
+
+Independent performance and native/fallback checks
+
+Comparisons ran sequentially in fresh processes, pinned to four allowed CPUs,
+with OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1. Three repetitions per main
+comparison; no claim of formal confidence intervals:
+
+  IBC 1,600 panels, ka=80, 61 angles:
+    main median 4.084 s; latest 2.966 s (27.4% faster).
+    Relative complex-field change: 1.32e-11.
+  BOR 120 elements, ka=10, 19 aspects:
+    fine median 5.299 s; coarse 4.536 s (14.4% faster).
+    Relative complex-field change: 3.39e-14.
+
+Separate native/fallback field comparisons on current code:
+  2D PEC 360 panels, ka=3: relative difference 1.69e-13.
+  BOR PEC 60 elements, ka=3: relative difference 4.82e-15.
+Native and fallback timings are retained, but those pairs were single runs.
+All Linux C libraries were built and load-checked using the supplied builders;
+no C sources changed in Claude's implementation.
+
+Forty-five additional near-kernel configurations exercised Green/MFIE/IBC,
+gaps .1/.001/1e-7, real k through 300 and k=30-30j, native/fallback, coarse/fine,
+and complete checks. The extended point search above establishes the important
+qualification to otherwise good low-electrical-size results.
+
+Coverage and limits
+
+All 20 changed files (17 Python files and three documents) were reviewed.
+All 191 supplied checks in 11 scripts passed on Linux, Python 3.12.14,
+NumPy 2.3.5, SciPy 1.17.0. Independent tests and raw outputs are included.
+The downloaded numerical source files match the pinned Git blob hashes;
+SOURCE_TREE.json records those hashes. Earlier copied unchanged files had
+only line-ending/trailing-newline differences, restored and hash-verified.
+
+coverage.csv lists the disposition of each implemented/guarded finding. The
+items explicitly deferred in IMPLEMENTATION_AUDIT.md remain open under the
+previous audit; this review does not turn them into fixes. Windows DLL
+execution, Windows commit-charge behavior, and HPC deployment were not tested.
+No production fixes or GitHub changes were made during this review.
+
+Requested response from Claude
+
+Address findings 1-4 with executable regression cases and revised evidence.
+In particular, do not mark R-1/R-3a fully fixed or S-5 generally qualified on
+the strength of the existing 191 checks. Keep the accepted M-1 correction and
+the positive correctness/performance results, with their stated scope.
