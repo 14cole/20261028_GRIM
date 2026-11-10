@@ -1,0 +1,319 @@
+[
+  {
+    "name": "sample parser list and inclusive aligned sweep",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep nan",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep 1,1",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep 2,1",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep 0:1:0",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep 0:1:-1",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject malformed sweep 1:0:1",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "sweep arithmetic overflow escapes GUI ValueError handler",
+    "status": "deficiency",
+    "details": "OverflowError: cannot convert float infinity to integer"
+  },
+  {
+    "name": "sweep materializes on GUI thread without sample budget",
+    "status": "observation",
+    "details": {
+      "samples": 100001,
+      "seconds": 0.0036695750004582806
+    }
+  },
+  {
+    "name": "section step rejects nondivisor before solve",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject invalid station tip(0, 0, 0)",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject invalid station normal(0, 0, 0)",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject invalid station normal(1, 0, 0)",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject invalid station normal_end(0, 0, -1)",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "reject invalid station root(nan, 0, 0)",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "path import chains endpoints and defaults normal",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "placement units and mirrored handedness meters",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "placement units and mirrored handedness millimeters",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "placement units and mirrored handedness inches",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "placement units and mirrored handedness feet",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "uniform line analytic sinc, phase, both half-spaces and polarization",
+    "status": "pass",
+    "details": {
+      "max_abs_error": 8.777083671441753e-17
+    }
+  },
+  {
+    "name": "asymmetric section maps opposite sides to 90 and 270 degrees",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "translation obeys two-way phase",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "splitting a straight station preserves field",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "twisted frame preserves isotropic line response",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "oblique interpolation uses transverse frequency",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "scalar and batched expansion agree",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "exact half-visible line integrates half amplitude",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "sections-only archive roundtrip finite field",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "archive power matches complex field",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "one solve reused for identical section files",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "early cancellation retains output and removes stage",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "validation failure retains existing output",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base plus identical section sums coherently",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base grid conflict rejected",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base overwrite rejected",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "mirror option equals explicit reflected station",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "embedded BoR shadowing crashes across BVH leaves",
+    "status": "deficiency",
+    "details": "TypeError: '<' not supported between instances of 'tuple' and 'list'"
+  },
+  {
+    "name": "body-crossing root line shadowing",
+    "status": "deficiency",
+    "details": "TypeError: '<' not supported between instances of 'tuple' and 'list'"
+  },
+  {
+    "name": "transmitting sheet cannot supply opaque shadowing",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "invalid corner rejected without replacing output",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "four-channel base updates VH but leaves HV unchanged",
+    "status": "deficiency",
+    "details": {
+      "max_VH": 0.05435890013283409,
+      "max_HV": 0.0
+    }
+  },
+  {
+    "name": "incompatible radian_axes metadata survived fixture serialization",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base metadata radian_axes accepted without conversion",
+    "status": "deficiency",
+    "details": null
+  },
+  {
+    "name": "incompatible opposite_time_sign metadata survived fixture serialization",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base metadata opposite_time_sign accepted without conversion",
+    "status": "deficiency",
+    "details": null
+  },
+  {
+    "name": "incompatible polar_theta metadata survived fixture serialization",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "base metadata polar_theta accepted without conversion",
+    "status": "deficiency",
+    "details": null
+  },
+  {
+    "name": "output provenance omits reproducible placement, settings and warnings",
+    "status": "deficiency",
+    "details": {
+      "warnings": [
+        "A 90 deg section angle step under-samples section.geo at 3 GHz (it reaches 0.01 m from its origin); use 23 deg or finer."
+      ],
+      "provenance": null,
+      "history": "line expansion: 1 2-D section station(s), 0 corner estimate(s), psi_tm=180 psi_te=0, shadow=off, oblique=off | feature_sum radar-frame coherent axis_az=0 axis_el=0 roll=0"
+    }
+  },
+  {
+    "name": "cancel during final save still replaces destination",
+    "status": "deficiency",
+    "details": {
+      "saved": true,
+      "replaced_existing": true,
+      "cancel_requested": true
+    }
+  },
+  {
+    "name": "section solve uses certified entry and receives no abort/progress callback",
+    "status": "deficiency",
+    "details": {
+      "argument_keys": [
+        "elevations_deg",
+        "frequencies_ghz",
+        "geometry_snapshot",
+        "geometry_units",
+        "material_base_dir"
+      ],
+      "abort_event": "None",
+      "progress_callback": "None"
+    }
+  },
+  {
+    "name": "blank GUI end normal retains starting normal",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "GUI serializes section inputs",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "GUI no-selection removal keeps rows",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "GUI locks every input while running",
+    "status": "pass",
+    "details": null
+  },
+  {
+    "name": "help contradicts shadow and corner options",
+    "status": "deficiency",
+    "details": {
+      "no_shadowing_claim": true,
+      "shadow_default": true,
+      "corner_help": true
+    }
+  },
+  {
+    "name": "GUI screenshot saved",
+    "status": "pass",
+    "details": null
+  }
+]

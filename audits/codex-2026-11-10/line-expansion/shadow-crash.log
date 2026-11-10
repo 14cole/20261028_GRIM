@@ -1,0 +1,15 @@
+Shadow triangles: 720 look: [0.34202014 0.         0.93969262]
+Traceback (most recent call last):
+  File "/workspace/line-expansion-audit/reproduce_shadow_crash.py", line 14, in <module>
+    print(Occluder(triangles).visible_line_intervals(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/distribution-followup/tools/GHOST/ghost_backend/geometry/occlusion.py", line 292, in visible_line_intervals
+    return visible_intervals(self, starts, ends, direction, cancel_check)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/distribution-followup/tools/GHOST/ghost_backend/geometry/line_visibility.py", line 118, in visible_intervals
+    blocked[row] = _union(blocked[row] + list(zip(low[j,hits], high[j,hits])))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/distribution-followup/tools/GHOST/ghost_backend/geometry/line_visibility.py", line 25, in _union
+    for lo, hi in sorted(intervals):
+                  ^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'tuple' and 'list'

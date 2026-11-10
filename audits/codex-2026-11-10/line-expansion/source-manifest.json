@@ -1,0 +1,890 @@
+{
+  "audited_branch": "distribution/grim-ux-2026-11-10",
+  "audited_commit": "721629100bc48e30673eca7e5aeeea1bfc575495",
+  "source_files_verified": 218,
+  "source_git_blobs": [
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/__init__.py",
+      "sha": "8eac6db27a46fc7ef11472088b2b391eae9e91f2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/components.py",
+      "sha": "948247c0cf1beac2dbcc122e462dbb79112be409"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/contracts.py",
+      "sha": "009cee27e522e93079ea8569a603ca0e053294d9"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/create_feature_manifest.py",
+      "sha": "43e7adc324a8f9edce1cadbbace32d8a443f3e38"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/expand_wing_sections.py",
+      "sha": "31d53f55fad33aa7d1db958a2febb9ffa3790599"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/fields.py",
+      "sha": "b47845b8f120f808f2ef6a487ccdb36aae94f8aa"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/inspector.py",
+      "sha": "4a593049d88b4b8271d477eca89011c3376d8ac6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/line_expansion.py",
+      "sha": "07f1c32848f433c056ea8055d57e7683d2a35a6d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/place_features.py",
+      "sha": "1929bd32a3348a2cdbc4d66c71f404799a31d0f4"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/preparation.py",
+      "sha": "4d464c72d2c16bc54353c1bf38880f8f9d2241c4"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/workflow.py",
+      "sha": "d54fa1561a712c2d3592dfa89ee8b45f1ae3bfb3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/assembly/workload.py",
+      "sha": "4a4cd7e0222c2eeb6ae58cd2d0b480f7fa63e6bb"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/__init__.py",
+      "sha": "39dcf55e029430ae89ce8e11a86f85417821a496"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/cache.py",
+      "sha": "80a52d359f1b065745482cd1e26f0fddad9b3db7"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/checkpoints.py",
+      "sha": "98774ae40ba5e8a7558891fe601fed42f876f91e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/compressed_cross.py",
+      "sha": "5bb4ba852a9ed29c5fde88bc6d6e7885c66f81e9"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/compressed_far.py",
+      "sha": "1aeee6e5226f35685f4f8b1a7f5d2505996f7ec1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/dispatch.py",
+      "sha": "99f550d91e7d89264e902ee6d3f904fc2649b725"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/factor.py",
+      "sha": "21a0d30c34c4f6fd8a7eb405719ead1bc5911819"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/geometry.py",
+      "sha": "239138ccda18fb0f752a3dfa5d44e653755e5ac3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/kernels.py",
+      "sha": "cea5d4a62b7cae96127ab4118e44bd32b236c6a4"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/memory.py",
+      "sha": "17cd49bbd56f028ff3f1ffda14e567fcf9866353"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/__init__.py",
+      "sha": "cf233bdf75ab37412f9fb0f4ed39e088c6522029"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.c",
+      "sha": "c0ff01eeb6bad8ff65bf981e5a8147052edf28ca"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/build_kernel.py",
+      "sha": "36bbeaafff6cc9d29313e371b9570e052f14bd38"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/near_parallel.py",
+      "sha": "217aff58b1ba713c51304865367966efcbed4132"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/near_storage.py",
+      "sha": "fa4fa2b18ac76a9824269b7cb4e2a77440bf15c6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/options.py",
+      "sha": "e975e993433489f7517e644b4a4ec51deb2a4a5c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/preparation.py",
+      "sha": "d5b295fc00678013c05304068b18f04c16af0d30"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/quadrature.py",
+      "sha": "47a20a57ac5ac26da8f3c5a2bd24e28745daf5ed"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/samples.py",
+      "sha": "0bb31a8bec1df7da032601d8cd5101286363afbb"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/sharp_pairs.py",
+      "sha": "76636c74e54cfb18f8b032eb1684086293e2ce99"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/solver.py",
+      "sha": "a9325713093477c1a15ad3ac59c0a3656462fcf6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/spooled_far.py",
+      "sha": "73016ed463b3299aec63b045ef64cfd130d9d709"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/streaming.py",
+      "sha": "88796dbf977158c3aa37a80534182e5df84af2ed"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/surface_waves.py",
+      "sha": "5cda0fc40d0286b2004e3a1ae5c9ddd6d9b1b146"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/tiled.py",
+      "sha": "0e81369a7b3dda92a6bc294a9e931f5fac437e05"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/__init__.py",
+      "sha": "b262c0771a55a34d2f782531535ff5cb63af2385"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/block_products.py",
+      "sha": "de7a3706a27f056e5e697ea026ed723daf848f8d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/coefficients.py",
+      "sha": "3f14c6e6538caed667cd209b21370d7bb0a6be2a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/construction.py",
+      "sha": "f004baeb5baae4aaec11dbb9fd54744f56ba47a0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/factor.py",
+      "sha": "8acf5c40cc2b450ed149ac8bb539ab281bbe117d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/fast_far.py",
+      "sha": "b4ed5216ab11f6df08e486fc52c8ddc2dd509fa3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/hmatrix.py",
+      "sha": "0b49deb9724e7bc3b96a5db6e412b00c735f23c0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/hmatrix_factor.py",
+      "sha": "85960b8c25e3d066d46d64e3a9b6d0f35f1dd121"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/inverse.py",
+      "sha": "61b282474bab5c0f756d084db556e3d765db464b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/memory.py",
+      "sha": "79f78cca1b9febfece7fd9cc590b4afdbd959bd6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/operator.py",
+      "sha": "1917c322e0c3f3ebb8bba9331f554b0935b02224"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/pilots.py",
+      "sha": "dec5d4648a8ac337317a05b9f2817a0e5c74e7ca"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/polarization_cache.py",
+      "sha": "c4a719e9cccd3858cecd74331f858c013840f518"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/preconditioner_hints.py",
+      "sha": "e96f449162fa9ec8b4ea9e1106b7572dfe17fe5b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/projection.py",
+      "sha": "a797e7a08acbeb26a42a45233487a6ae58d9f0ac"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/regional_coefficients.py",
+      "sha": "656963e40e0bd43930007371428392507ccc4acd"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/retained_storage.py",
+      "sha": "0b1c3a0f3b58dc7dc89d9d7ca7a7691194c82fa2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/runtime.py",
+      "sha": "0b40c481ab25a02865028edb3ab7d4e03be4a749"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/tile_processes.py",
+      "sha": "9f36c35124349f0a9813fe1b5e9df2ec3ffbacea"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/compressed/worker_pool.py",
+      "sha": "5d8eca194003a2166c2be740ee0b38b7195e18e8"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/__init__.py",
+      "sha": "3665cb6d4f3c24add2091cb53469bfb6f56e4b9d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/__init__.py",
+      "sha": "778e7d17ea77cf87c6b945110b3821bf5acc0902"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/__main__.py",
+      "sha": "2a144e95bc4fe331d2fa48a3feedf8504bcd3cfd"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/cli.py",
+      "sha": "41ce7f2de4bfe7c67976c0579a086f2cb5e2279a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/errors.py",
+      "sha": "cb2bf1d72ee8d82bf50bf0f62393fa7e2890fcbe"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/grim_bridge.py",
+      "sha": "ed67ef4b523466817f22219e4f065ac0cf771586"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/grim_native.py",
+      "sha": "db76ffb4b762ab8fbc99388681d0e1bdeb563f3f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/gui.py",
+      "sha": "295b59038c43ae0a0250bb8bc03b6e265f5b38a1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/naming.py",
+      "sha": "f1e6a8ac9989c99561dbdbbdb41a4801f4c368a8"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/native_samples.py",
+      "sha": "4850f3447afc2238c6aaeccd96127270c60f310f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/operations.py",
+      "sha": "c9153422a3eda1e0e800ff927901a8700dda861a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/registry.py",
+      "sha": "7e4259038dab6d94050251753994bbf1e4c9ec12"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/cem_tools/solver_pairing.py",
+      "sha": "65b7fd64af0d3e60e058e91bb09e71e966cded57"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/run_cli.py",
+      "sha": "803bc6a4990ddd6eb18f7c631233e8d12bae4aa0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/run_gui.py",
+      "sha": "4027e9501afc0de8feb5f97a8ab5a0564143975c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/data_tools/setup.py",
+      "sha": "28e310209cf95457cbb08c7bd4291cc1fb5d3d09"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/__init__.py",
+      "sha": "13b6c052f3b56e46e74cf4edf6e00a8e48a9684a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/_dataclasses.py",
+      "sha": "0a1b598f6d435fcce4c814a2b4155095e7fd69aa"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/angle_batch.py",
+      "sha": "d067003afcb9302f8cdd341ccc62efd173bda2a0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/cpu.py",
+      "sha": "60e27dcba6be67e82b92125340c05e6e499b432a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/diagnostics.py",
+      "sha": "11c85b2fd6104481ddd8971e6d28880d64f2963c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/errors.py",
+      "sha": "eb95743d295a9496314e517da64f5d7c8120628e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/factor_timing.py",
+      "sha": "00c4bcc0b71eaa33a96b2884165dc2173bdb190c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/failure.py",
+      "sha": "3b95bc5df312112676d129d4082eb9220ac7bb49"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/frequency_sweep.py",
+      "sha": "119f17c8a989812d3b08b77ee33e639381da88f3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/fresh_sweep.py",
+      "sha": "5e5f7c50907b35e3de752d0d4924c33d4ad9b02b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/memory.py",
+      "sha": "8c7f748f80289755b4a15db7c75a6fcfb19b959b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/memory_budget.py",
+      "sha": "c68b51afb1883d234be7f6b96a3e6f583c209d42"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/metrics.py",
+      "sha": "fddd743ce6f03eaa8b01ff07900ff9d657be0c32"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/options.py",
+      "sha": "4b672fefeccc23951a1e4bfcf11ec40860c2af8d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/paths.py",
+      "sha": "9f4f9e321b1bad047bd7d52f8c8f70172afc0f55"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/policy.py",
+      "sha": "df32143bd5cdd1cedcb708809f67a69004ba08c8"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/provenance.py",
+      "sha": "e8f61060878b74c51f35436cc7fea5f826bcbc09"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/recovery.py",
+      "sha": "7c764be899fa7f6d656f5ad0983f3c709313fc86"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/recovery_export.py",
+      "sha": "c44d6487738af08a863823180e19fc57b8ce4ea3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/runtime.py",
+      "sha": "cdb2a350663dfbc8375297b494e61212b6fcd7d2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/selection.py",
+      "sha": "723c269174388d7a7f9b3cce40726398a10072d4"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/stage_timing.py",
+      "sha": "cc51ecb5ba0be417d4e571c5a46fc907ac73555c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/thread_control/__init__.py",
+      "sha": "c5426ba9dcf5483f2b2028b4ea0f30a21381ba6f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl.py",
+      "sha": "aea33509dc5512c0e845d387e01577c22f027676"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl_py36.py",
+      "sha": "93868824f5b38b00e3e0c46b38c0f08a50830ac7"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/execution/timing_history.py",
+      "sha": "3311d30f73b16ac99e38f14168a74f41db5b4c28"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/__init__.py",
+      "sha": "01dbb13aac20df12ff489da604133938e4832563"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/frames.py",
+      "sha": "0a0b624315ac9c617d6d4444f6760ee752daeb78"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/guidance.py",
+      "sha": "04d9ba4ef2e7ff3ddfbb061820cb5b3ad9ffdab6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/io.py",
+      "sha": "efb1554d6822ccd86f75779f635460e9165e68d3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/line_visibility.py",
+      "sha": "75b750b477748b86a9de141c7ad7fe996bf6439d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/material_columns.py",
+      "sha": "e5eaa7b5fe50ea0bac20caba0c5f86ea0aeeb876"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/materials.py",
+      "sha": "af5d48926fe42e5ab33a39cd39bd863b2579b460"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/measurements.py",
+      "sha": "e616a2c345c678380f5f0e561b648f48be6ef261"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/occlusion.py",
+      "sha": "fe52e89c0bb145b3976884a901d4cc97094e7b07"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/preview.py",
+      "sha": "e296bbbc8fb26fb1e6c1d6ea67675b5f3fa4d4e1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/quality.py",
+      "sha": "9e337b712ff7f05b075f8ce421cd44316ac001b6"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/regions.py",
+      "sha": "64fdf785dcfce51706444cc4379df168b7e14921"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/rotate_geo.py",
+      "sha": "e1ad4409f3cae720db0a31fb3c54690ee2c99908"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/spatial.py",
+      "sha": "f18c9e103bd1d1119c1f78c7e93e587038b66ca0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/surface.py",
+      "sha": "a4ec3ba6f587ea5d5f7023f09f8468a4fcf0bb94"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/geometry/validation.py",
+      "sha": "da148a3ad608f95ce81ae551cd05296ea5c0d17a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/__init__.py",
+      "sha": "005236b8b6718f2c225885a03bdae3535466aedf"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/bor_driver.py",
+      "sha": "686ce0524871c387c1ea890cb34877eb9d30d4c5"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/bundle.py",
+      "sha": "1df62edf4d86e8e9acd12b8e7b178317a041f18e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/check_environment.py",
+      "sha": "adcf48ff744816fb12fb02c239fa161d06e55c61"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/common.py",
+      "sha": "6d4d8e7792d6d4dcc5da00ad6f9a20e60ebfcebc"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/runtime_snapshot.py",
+      "sha": "c64659a8d6ffb49b73bded2852d39f186612474f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/scheduler.py",
+      "sha": "b80649b61371639eacf06d667cde382d3083bb71"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/hpc/twod_driver.py",
+      "sha": "b73814a1c0e16bef4b9f7397a5aa7105cfb5fd9a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/__init__.py",
+      "sha": "c6c304f460670d80c4bf5d9d7bc65c1f1b98ecd1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/grim.py",
+      "sha": "7a96d1b9e0f99a35f026761ea5e45f1cb75eadad"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/import_3d_reference.py",
+      "sha": "b952037f73eed3839f4867f4a06f2185416fafad"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/naming.py",
+      "sha": "5cc1dcdc2041f3824db72fe132931761d88fdb00"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/solver_export.py",
+      "sha": "222b88bf67c2401f42c94c9789f51a8080481dc1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/io/viewer_bridge.py",
+      "sha": "1bee556aad76d0bef5e655d0f599eeffda92e4ad"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/__init__.py",
+      "sha": "1fceb66a528c9b49cf782a190c5dc0a4ebbd0a12"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/crossover.py",
+      "sha": "ed69958332082de40ffd38646fc758b112e3286c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/dense.py",
+      "sha": "178f1d709004d11d67e220d060271d34959ce5a1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/hierarchical.py",
+      "sha": "61afb7df7c9829f25154aa1c96b0c5acce21bb70"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/onenorm.py",
+      "sha": "cc4cca6d64881e3f31cbee2500d37f23f0f86398"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/refined_lu.py",
+      "sha": "86edf00aa63cdd7a20f036595c99cae00ff3f8fe"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/residual_spool.py",
+      "sha": "ebd5fcd1a2058864f91c837b69ef3b62a23698f5"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/sweep.py",
+      "sha": "e4d3880e6fe9e4492f7eaead54b9b7443148c374"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/linalg/workspace.py",
+      "sha": "784c6334ba7dc5aca87bb25e07f7bc2a7a037b58"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_gui.py",
+      "sha": "f68dad31902c983a98581f98e6e6c7170fb8d038"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_hpc_bor_monostatic.py",
+      "sha": "27e790c70b17818d4d7276d4c2a3c467eaf54a58"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_hpc_monostatic.py",
+      "sha": "e842098a93d91fd70d455a1418ab84fe3bda3c81"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_local_bor.py",
+      "sha": "76b0b2eeca063b8bba9f3afcac5d7686bf0ea2fa"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_local_monostatic.py",
+      "sha": "5ca476acb7feb08be76584d64c67d0ae052b8517"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/run_local_monostatic_exploratory.py",
+      "sha": "5ad80d875eb5a2ba12e310fe95d876db6f655daf"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/__init__.py",
+      "sha": "590d95a567a1d3d51c701c31d9cc4b977220a84a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/batch.py",
+      "sha": "48d94f4e4aa9f32d79e082dc203f70572b16b86b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/bor_setup.py",
+      "sha": "03c86a0a01811e20b9b15dc3ce482e51d7c248b9"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/config.py",
+      "sha": "dff4753b200b3e58388dbbfa1749add8730e91e2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/controls.py",
+      "sha": "426cf77967cc51880862c63e4779d587318c47d8"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/execution.py",
+      "sha": "529c8514135d44f61675dc0da59a74e8df6ad903"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/exploratory.py",
+      "sha": "ae435ee5f8973153bc4a2da7b8bce2b4781fc703"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/inputs.py",
+      "sha": "dc975f138a7fe9e8220e4604b4dc552e9f516520"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/local_bor_driver.py",
+      "sha": "f428b178084918083b0a67806084c4d5d2488ee5"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/local_twod_driver.py",
+      "sha": "bdb99f6aeb3e9abd004f97445d1bde33b348e675"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/quality.py",
+      "sha": "5e2469dbe70d8037d5ebcd801ee7e80ba898f6de"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/quality_samples.py",
+      "sha": "eca72da77090d1eba54b4fb0d392f6a9b3b97c73"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/runs/setup.py",
+      "sha": "0ec31ab97ee1f5466e7af36d1ef7eb85d65b0e5c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/__init__.py",
+      "sha": "52bec746d9c143354bf667ebbf1892895c3b31f3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/adaptive_geometry.py",
+      "sha": "9b809dcb8377d42292ad1d496f50dcf12a7d1972"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/adaptivity.py",
+      "sha": "e1d07759e2fb66bce3b9e352764e3920d59f909e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/__init__.py",
+      "sha": "8eac6db27a46fc7ef11472088b2b391eae9e91f2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/compact.py",
+      "sha": "3b3330f2c0e229a50df8a0c9307aaaf482e50f60"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/dense_pair_storage.py",
+      "sha": "47f863fe1b8907391278e0f89db579b87a8e6e4d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/geometry_plan.py",
+      "sha": "72f334616d088571d0f8b263173a837d97cb2d49"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/kernels.py",
+      "sha": "164a9e41e707f70b4b4bde35288d9e669d976d78"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/mass.py",
+      "sha": "efa23b120971ef444d32bb4b5bc4af5e4b4f6d9e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/__init__.py",
+      "sha": "90c967416a4e299f24a992b5f097411b871b2185"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/build.py",
+      "sha": "0365361642cbae775202610ccc5758568d86b150"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/far.c",
+      "sha": "6f24c3f1d7a778ac9d1a6db2a6037be6f03f2825"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/far.py",
+      "sha": "59ecedb4d8419f8fe655734f3e568b121c788d7a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/near.c",
+      "sha": "5a7f98954f138da7412d1430a292646f46ec06d8"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/near.py",
+      "sha": "975bae89c158a15e62263f333dc41360e3d735ac"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/table.c",
+      "sha": "fb399a92dce44b24672845439ba693f865ab1490"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/table.py",
+      "sha": "d0f3bc8e4eb109b49d635d2447e95415183e9e6e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/near_store.py",
+      "sha": "37f6d4c93c7bd0413d509a532ac8698963226164"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/polynomial_pair.py",
+      "sha": "d7eb9858c40d9c5fbf65d9346a5030273ee7bd02"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/profiling.py",
+      "sha": "dbdc2067d4ef866204733e9bed7b733679688a55"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/scatter.py",
+      "sha": "2d19204410b4b1f085c8c5452d1f9c73f48f5821"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/separation.py",
+      "sha": "db2b5cb651e6d6d3fbdf71d0920428aec5a545c7"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/session.py",
+      "sha": "63f631aee734c28d19a7da5a87af094e0e785839"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/thin_gap.py",
+      "sha": "ea036bd1ad08352fa08fb0fd39f8a4e27f9d363d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/basis.py",
+      "sha": "5add7242f092f0ccdcb18a0062b2af3059a4ce1b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/checkpoints.py",
+      "sha": "f3b5723898421b098a945a6eb9418d85e51529eb"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/constants.py",
+      "sha": "01ee779f1d0794a4659b8ef4ea5a74fd62f04878"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/fields.py",
+      "sha": "51b89dd0a2228b9065a56db43ec3bf71e6483921"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/__init__.py",
+      "sha": "eaca0cba33a1545315e3230e7384c4555ed69cf3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/combined_regions.py",
+      "sha": "f391fe178027c3f61081705cd2e1bd94a90c51f1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/dielectric.py",
+      "sha": "daefb2c62fae4478ed05b43fe27eb9bf36ee5363"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/regions.py",
+      "sha": "64a0235a23186bc462021b0c9cd27c92a9d9f25b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/robin.py",
+      "sha": "b5588e42d7dc8869860211f6a7d87e5ff530488c"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/sheet.py",
+      "sha": "3a9e5fb3d1126a56006c46c6148657efa22881d0"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/thin_layer.py",
+      "sha": "2d9a6811110e31e3a2ba218559cb04c00a94b0ff"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/formulations/thin_layer_qualification.py",
+      "sha": "5c130ad4f77f4f7b2f0a2f9e4103ac6b29581d30"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/geometry.py",
+      "sha": "cec0bafd4bb1a76de7f93503f4757f6aeb3d2322"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/meshing.py",
+      "sha": "85d1cd03affe450c33966bf0a72c59ddc0bd70e9"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/operators.py",
+      "sha": "c22518b78d1c43ab696d5ff1b1be16346010f635"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/polynomial_quadrature.py",
+      "sha": "051224ec3d3764a7555a54699744c1d8364c9998"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/preparation.py",
+      "sha": "0da1647cea02080da11011af5149ef89a701e815"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/samples.py",
+      "sha": "8daa3482f9ba25bdf8286935194c2ca28546dd38"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/solver.py",
+      "sha": "510b4d77e95fe6ec127fcf988304b5fbd6e70353"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/special.py",
+      "sha": "7f03bc888f3c53e9ddb50da7ca020e3030567a9f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/__init__.py",
+      "sha": "ba5d300024c5aeed1797370bcffbd005a795394b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/app.py",
+      "sha": "974b812fcd6021824fb8e264a6d93f7e55a40d95"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/bor_options.py",
+      "sha": "90bbcd9a554f38daf7b4c196d7bdf7e0935ccbaf"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/geometry.py",
+      "sha": "8ba065b63a4df39a04be8d0d1485d4b29dfa0ece"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/geometry_inspection.py",
+      "sha": "0bec223ac7524109044fb2de44460b46b538381e"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/line_expansion.py",
+      "sha": "5e773798f83964683a617ad521bcccdd4e05630f"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/result_table.py",
+      "sha": "8d8d9f3c8d5b6ee8bf5ec24355744b0a4989bd88"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/solver.py",
+      "sha": "ac96876cacf2c06ef826a2773a9863e604bc1efe"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/table_editors.py",
+      "sha": "7de0ce2c3c02c0584777a55840cd7369d6cc3e1d"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/ui/twod_options.py",
+      "sha": "e233871e8c2237e5ffa47bda2fb53a56e92df5dd"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/validation/__init__.py",
+      "sha": "1551b73101d391361c4f8f55a41af14eb8ef1cd1"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/validation/cylinder.py",
+      "sha": "4e078bc3ed5b0f97c56f9412c2bc96780f846811"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/validation/feature_family.py",
+      "sha": "64ce4237b76410f80330a6bb7ff308de3b9c5700"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/validation/reconstruction.py",
+      "sha": "8d2c8c2f2c60a3a4e2eb2b8f7cdddcd5d43f2ea9"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/validation/sphere.py",
+      "sha": "c934a3cecf2e38def7b8c428544fecba958a958b"
+    },
+    {
+      "path": "tools/GHOST/scripts/build_distribution.py",
+      "sha": "31e36ccdd096d9948849e6b2b3d0625218bc4e94"
+    },
+    {
+      "path": "tools/GHOST/scripts/check_speed_paths.py",
+      "sha": "c1cd002c06262f9bb227ff1835b71426ce1e90cb"
+    }
+  ],
+  "environment": {
+    "os": "Linux",
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "pyside6": "6.12.0",
+    "QT_QPA_PLATFORM": "offscreen",
+    "OPENBLAS_NUM_THREADS": 1,
+    "OMP_NUM_THREADS": 1
+  },
+  "production_changes": false
+}

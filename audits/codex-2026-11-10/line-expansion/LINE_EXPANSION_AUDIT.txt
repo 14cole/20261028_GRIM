@@ -1,0 +1,250 @@
+LINE EXPANSION TAB — INDEPENDENT AUDIT FOR CLAUDE
+2026-11-10
+
+Verdict
+Do not sign off the complete Line Expansion workflow for distribution yet.
+The basic sections-only solve and expansion pass the checks below, but this
+audit reproduces a default body-shadowing crash, incompatible base conventions
+being accepted, and an incorrect four-channel output. Those are release
+blockers for the affected workflows. This extends the earlier UX review into
+new functionality; its no-blocker verdict did not establish these workflows.
+
+Audited branch: distribution/grim-ux-2026-11-10
+Audited commit: 721629100bc48e30673eca7e5aeeea1bfc575495
+Repository: https://github.com/14cole/20261028_GRIM
+All 218 local GHOST Python/C files matched the Git blobs at this commit.
+No production files or binaries were changed during this audit.
+Evidence branch: codex/line-expansion-audit-2026-11-10
+Evidence directory: audits/codex-2026-11-10/line-expansion/
+
+Source locations below are relative to tools/GHOST/ghost_backend/ at that
+commit. P1 means wrong numerical output or a broken advertised workflow;
+P2 means a material reliability/reproducibility problem; P3 means guidance.
+
+LE-01 — P1: Default BoR body shadowing can crash on ordinary crossing lines
+Source: geometry/line_visibility.py:23 and :118.
+The first union of shadow intervals returns lists. A later BVH leaf appends
+tuples from zip(), then sorted(intervals) attempts to compare a tuple with a
+list. Python raises TypeError: '<' not supported between instances of 'tuple'
+and 'list'. A partially blocked line is enough; no extreme inputs are needed.
+
+Independent minimal reproducer: reproduce_shadow_crash.py. It creates a closed
+cylinder of radius 0.1 m and axial length 0.2 m, builds its actual 720-triangle
+BoR shadow mesh, and queries a line from axis coordinates (0, .05, 0) to
+(0, .15, 0) at radar azimuth 0 / elevation 20 degrees. It crashes without Qt,
+a section solver, or any mocking. audit_line_expansion.py also reproduces the
+failure through the actual expansion/export path for interior and crossing
+lines. The GUI defaults shadowing on when a suitable base is supplied.
+
+Requested correction: normalize the interval representation or sort by
+numeric endpoints; test unions accumulated across multiple BVH leaves, both
+partial and complete occlusion, and agreement with an independent geometric
+oracle. Disabling shadowing avoids this code path but changes the physics and
+is not a numerically equivalent workaround. Check Assembly line features too:
+they share this visibility code.
+
+LE-02 — P1: Base conventions are not validated before coherent combination
+Source: assembly/expand_wing_sections.py:459, :601 and :629.
+_load_base checks shape, channel presence, and an optional field-domain tag,
+but the subsequent path treats numeric angles as canonical degrees and
+frequency as GHz without checking the imported units/coordinate convention.
+It also adds the newly computed exp(+jwt) field without reconciling an explicit
+opposite time convention.
+
+Reproducer: the main audit script serializes three bases with explicit
+incompatible metadata: radians, SENTRi-style polar theta, and exp(-jwt).
+It verifies those tags survived serialization. All three are accepted and an
+output is saved without conversion or warning. The angular values are passed
+directly to radar_frame_basis. The test isolates import/combination with
+synthetic section coefficients; it does not claim a full imported-data survey.
+
+Requested correction: reuse the existing canonical base-grid validation in
+assembly/fields.py (validate_assembly_base_grid_metadata), validate normalization and
+coherent-field conventions, and either convert supported inputs explicitly or
+reject incompatible ones before starting section solves. Preserve any allowed
+legacy assumptions in output provenance. Add physically equivalent radians /
+degrees and opposite-time-sign fixtures and compare final complex fields.
+
+LE-03 — P1: A base containing both VH and HV gets only one channel updated
+Source: assembly/expand_wing_sections.py:500 and :799.
+_load_base selects VH, falling back to HV only when VH is absent. The addition
+then updates that one index. For a base with [VV, HH, VH, HV], the saved VH
+contains the added section while HV retains only the old base response.
+
+Reproducer: a valid zero four-channel base and a tilted anisotropic section
+produce max |VH| = 0.05435890013283409 while max |HV| = 0. This breaks reciprocal
+cross-polarization equality for the added reciprocal section. Both the channel
+layout and numerical discrepancy are in audit-results.json.
+
+Requested correction: track and update both cross-channel indices when both
+exist, under the declared polarization convention, or reject unsupported
+layouts before computation. Test VH-only, HV-only, both, reordered labels, and
+nonzero base fields; preserve each base channel's own starting value.
+
+LE-04 — P2: The saved file loses the line-expansion provenance and warnings
+Source: assembly/expand_wing_sections.py:814; io/grim.py:848 (metadata whitelist).
+The expansion creates line_expansion_provenance_json, but _save_grim_npz does
+not include that key in its saved metadata. Reopening both synthetic and real
+GUI outputs shows the key is absent. A coarse-angle run returns a warning in
+the GUI but its output has neither that warning nor the intended provenance.
+The remaining history is a short count/phase/shadow/oblique summary.
+
+Even the in-memory provenance is insufficient to reproduce a job: descriptions
+omit root/tip coordinates, full end normals and geometry content hashes; it
+also omits the complete corner inputs, angle step, reduced-frequency settings,
+section solve settings, and individual section convergence evidence. The GUI
+does not offer a separate job save/load mechanism to fill that gap.
+
+Requested correction: roundtrip a versioned line-expansion record in the GRIM
+writer/reader. Include input hashes and placements, effective settings, warnings,
+model limits and per-section solve evidence. Distinguish the base's retained
+certification from validation of the added sections and of the combined 3-D
+approximation. Test reopening and subsequent use as an Assembly base.
+
+LE-05 — P2: Cancellation is incomplete during solves and final publication
+Source: ui/line_expansion.py:586; assembly/expand_wing_sections.py:767 and :824;
+assembly/line_expansion.py:167.
+The worker supplies cancel_check to the expansion, but this does not reach the
+2-D solver's supported abort_event or its progress callback. The real GUI test
+requested cancellation at 0.025 s and became idle at 0.523 s, after the full
+0.507 s certified section solve returned. No output was saved in this case.
+This is a small test; a large section can impose a much longer wait. Progress
+also has no intra-section solve updates. The GUI currently says cancellation
+waits for the current section, so the delay is a limitation, not a false claim
+of immediate abort.
+
+There is a separate publication race: after the last check_cancel(), saving
+the staged file can take time. No cancellation check runs between serialization
+and os.replace(staged, destination). The test wraps the real serializer, sets
+the cancellation event after serialization, and shows an existing destination
+still being replaced. This contradicts the stated no-publication-on-cancel
+behavior. The wrapper injects timing, not fake file-writing behavior.
+
+Requested correction: propagate abort/progress into every section solve and
+check cancellation again immediately before final replacement. Add a defined
+commit point and test cancellation before solving, inside a solve, during
+expansion, during serialization, and immediately before publication; retain
+the previous destination and clean staged files on pre-commit cancellation.
+
+LE-06 — P2: Sweep parsing has no size bound and can escape GUI error handling
+Source: ui/line_expansion.py:50, :69 and :538.
+The parser builds a Python tuple on the GUI thread before launching the worker.
+There is no maximum sample count or combined grid/solve budget. The bounded
+test safely materializes 100,001 samples to demonstrate the path; it does not
+attempt an OOM. A finite-input sweep 0:1e308:1e-308 overflows its count arithmetic
+and raises OverflowError, while expand_and_save catches only ValueError.
+
+Requested correction: validate the arithmetic and count before allocation,
+check the frequency-by-azimuth-by-elevation product and section solve workload,
+and return a useful validation message. Do not fix this by merely catching
+MemoryError after attempting the allocation. Retain normal inclusive-sweep
+behavior and test non-aligned stops explicitly.
+
+LE-07 — P2 UX gap: Line Expansion does not use the new one-shot controls
+Source: ui/line_expansion.py:538; assembly/line_expansion.py:167.
+The tab always calls the certified section entry point and exposes no mesh
+workflow, linear solver, polynomial order, or grading controls. It does not
+inherit the Solver tab's settings. A real default run used Compressed,
+adaptive mesh strategy and grading, solved 720 section incidence angles, and
+published a certified result with 192 panels for a 128-edge input polygon.
+Changing the Solver tab to Solve specified mesh therefore does not make this
+tab perform one-shot section solves. Section angle step controls angular
+sampling, not panels per wavelength.
+
+This is not evidence that certification itself is numerically wrong. It is a
+workflow inconsistency relevant to the user's requested fast trusted-mesh use.
+Requested correction: explicitly share or expose the section solve settings,
+or clearly explain the independent certified behavior. A specified-mesh mode
+must choose the corresponding solver entry, preserve N/order/grading/backend,
+and label its output as unchecked for mesh convergence. Do not silently remove
+certification from the existing default.
+
+LE-08 — P3: Help contradicts supported shadow and corner options
+Source: ui/line_expansion.py:151-164, :275 and :299.
+The introductory text says single bounce only and no shadowing with the body,
+yet the tab exposes a default-enabled BoR body-shadow checkbox and optional
+double-bounce corner estimates. Explain the baseline approximation separately
+from these optional corrections. Oblique tilt/max-solves controls also remain
+enabled when oblique correction is off; the shadow checkbox remains enabled
+without a base. Clarifying disabled/inapplicable controls would simplify use.
+
+Validation that passed
+The diagnostic script records 57 observations: 45 passing checks, 11 reproduced
+deficiency observations (some belong to the same finding), and one bounded
+resource observation. It is not a claim that 57 acceptance tests passed.
+
+- Independent uniform-line analytic sinc/translation-phase oracle, both
+  half-spaces, co-/cross-polarization, asymmetric 90/270-degree side mapping.
+- Straight-line subdivision invariance, an isotropic twisted-frame invariant,
+  reduced-frequency interpolation, and scalar versus batched expansion.
+- A separate exact half-visible-line oracle. Actual multi-leaf BoR shadowing
+  fails as LE-01; this passing narrow test does not override that failure.
+- Meter/mm/inch/foot placement conversion, mirror equivalence, and path chaining.
+- Sections-only GRIM roundtrip, power = 4*pi*|F|^2, coherent base addition,
+  reuse of repeated section geometry, grid-conflict/base-overwrite rejection.
+- Invalid station/end-normal/corner rejection, transmitting-sheet shadow
+  rejection, early cancellation/failure retaining the prior output.
+- Actual Qt input serialization, removal behavior, locking and restoration,
+  worker completion and export signal; screenshot included.
+
+Real solver and timing evidence
+real_gui_solve.py uses the actual Qt QThread, certified 2-D solver, expansion,
+and GRIM writer with a 128-edge PEC cylinder cross-section of radius 0.1 m,
+span 0.2 m, frequency 0.3 GHz, three radar azimuths and elevation 30 degrees.
+At broadside the complex VV and HH amplitudes are compared to the independent
+PEC-cylinder series with the analytic line scaling L/(4*pi), including the
+native TM sign conversion. Relative errors are 0.0002452 and 0.0002991
+(0.0245% and 0.0299%). A 30-degree section sampling run and the default
+0.5-degree run both pass; the coarse run correctly warns about angle sampling.
+
+Observed single-run timings (not averaged benchmarks):
+  12 section angles: 0.487 s certified solve, 0.526 s complete GUI workflow.
+  720 section angles: 0.515 s certified solve, 0.542 s complete GUI workflow.
+  Cancellation run: requested at 0.025 s; idle at 0.523 s; no output published.
+These measurements are for a small model on this Linux machine. They do not
+establish scaling, a Dense/Compressed crossover, or Windows performance.
+
+Scope and limitations
+Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, PySide6 6.12.0; Qt offscreen;
+OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1. No Windows execution this pass.
+Core orchestration tests replace only section coefficients where stated to
+isolate mapping/export; the real-GUI tests do not replace numerical results.
+The minimal shadow reproducer contains no mock at all.
+
+The tests validate the stated line-expansion model, not a general finite 3-D
+Maxwell solution. Finite-span end diffraction, arbitrary curved/twisted bodies,
+mutual coupling, corner-estimate accuracy, and oblique dielectric physics were
+not independently validated against a full 3-D solver. The UI already describes
+some of these limits. A certified 2-D section does not certify the 3-D assembly.
+The default native kernels were exercised by the real solve; this pass is not
+a new comprehensive native-versus-fallback kernel audit.
+
+Reproduction from a checkout of the evidence branch
+Install the GHOST GUI dependencies, then from the repository root:
+
+  export PYTHONPATH="$PWD/tools/GHOST"
+  export QT_QPA_PLATFORM=offscreen OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+  python audits/codex-2026-11-10/line-expansion/audit_line_expansion.py
+  python audits/codex-2026-11-10/line-expansion/reproduce_shadow_crash.py
+  python audits/codex-2026-11-10/line-expansion/real_gui_solve.py
+  python audits/codex-2026-11-10/line-expansion/real_gui_solve.py --angle-step 0.5 --report-name default-gui-results.json
+  python audits/codex-2026-11-10/line-expansion/real_gui_solve.py --angle-step 0.5 --cancel-after-ms 25 --report-name cancellation-gui-results.json
+
+The minimal shadow reproducer is expected to exit nonzero at the audited commit.
+The main script exits zero when its passing invariants hold and records the
+defects separately; inspect the statuses, not just its exit code. Some
+diagnostics explicitly describe baseline defects and should be converted to
+desired-behavior assertions when implementing fixes. Scripts write results
+beside themselves and use temporary directories for fixtures. Qt offscreen
+warnings about size hints and a font cache are environment messages, not test
+failures. Environment details and pinned source hashes accompany this report.
+
+Requested second audit by Claude
+1. Reproduce LE-01 through LE-03 first and assess their impact on shared Assembly
+   paths; independently inspect the minimal shadow repro and polarization basis.
+2. Correct them with focused regression tests, then repeat the actual GUI solve,
+   imported-base cases, shadowing, native archive reopen, and cancellation tests.
+3. Review LE-04 through LE-08 for reproducibility and consistency with the user's
+   specified-mesh workflow; keep approximate-model warnings attached to outputs.
+4. Report the exact fixed commit, new tests, remaining limits, and any disagreement
+   with these findings. Do not treat this report as a full 3-D physics validation.

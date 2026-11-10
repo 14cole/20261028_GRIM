@@ -1,0 +1,61 @@
+Fontconfig error: No writable cache directories
+This plugin does not support propagateSizeHints()
+PASS sample parser list and inclusive aligned sweep 
+PASS reject malformed sweep nan 
+PASS reject malformed sweep 1,1 
+PASS reject malformed sweep 2,1 
+PASS reject malformed sweep 0:1:0 
+PASS reject malformed sweep 0:1:-1 
+PASS reject malformed sweep 1:0:1 
+DEFICIENCY sweep arithmetic overflow escapes GUI ValueError handler "OverflowError: cannot convert float infinity to integer"
+OBSERVATION sweep materializes on GUI thread without sample budget {"samples": 100001, "seconds": 0.0036695750004582806}
+PASS section step rejects nondivisor before solve 
+PASS reject invalid station tip(0, 0, 0) 
+PASS reject invalid station normal(0, 0, 0) 
+PASS reject invalid station normal(1, 0, 0) 
+PASS reject invalid station normal_end(0, 0, -1) 
+PASS reject invalid station root(nan, 0, 0) 
+PASS path import chains endpoints and defaults normal 
+PASS placement units and mirrored handedness meters 
+PASS placement units and mirrored handedness millimeters 
+PASS placement units and mirrored handedness inches 
+PASS placement units and mirrored handedness feet 
+PASS uniform line analytic sinc, phase, both half-spaces and polarization {"max_abs_error": 8.777083671441753e-17}
+PASS asymmetric section maps opposite sides to 90 and 270 degrees 
+PASS translation obeys two-way phase 
+PASS splitting a straight station preserves field 
+PASS twisted frame preserves isotropic line response 
+PASS oblique interpolation uses transverse frequency 
+PASS scalar and batched expansion agree 
+PASS exact half-visible line integrates half amplitude 
+PASS sections-only archive roundtrip finite field 
+PASS archive power matches complex field 
+PASS one solve reused for identical section files 
+PASS early cancellation retains output and removes stage 
+PASS validation failure retains existing output 
+PASS base plus identical section sums coherently 
+PASS base grid conflict rejected 
+PASS base overwrite rejected 
+PASS mirror option equals explicit reflected station 
+DEFICIENCY embedded BoR shadowing crashes across BVH leaves "TypeError: '<' not supported between instances of 'tuple' and 'list'"
+DEFICIENCY body-crossing root line shadowing "TypeError: '<' not supported between instances of 'tuple' and 'list'"
+PASS transmitting sheet cannot supply opaque shadowing 
+PASS invalid corner rejected without replacing output 
+DEFICIENCY four-channel base updates VH but leaves HV unchanged {"max_VH": 0.05435890013283409, "max_HV": 0.0}
+PASS incompatible radian_axes metadata survived fixture serialization 
+DEFICIENCY base metadata radian_axes accepted without conversion 
+PASS incompatible opposite_time_sign metadata survived fixture serialization 
+DEFICIENCY base metadata opposite_time_sign accepted without conversion 
+PASS incompatible polar_theta metadata survived fixture serialization 
+DEFICIENCY base metadata polar_theta accepted without conversion 
+DEFICIENCY output provenance omits reproducible placement, settings and warnings {"warnings": ["A 90 deg section angle step under-samples section.geo at 3 GHz (it reaches 0.01 m from its origin); use 23 deg or finer."], "provenance": null, "history": "line expansion: 1 2-D section station(s), 0 corner estimate(s), psi_tm=180 psi_te=0, shadow=off, oblique=off | feature_sum radar-frame coherent axis_az=0 axis_el=0 roll=0"}
+DEFICIENCY cancel during final save still replaces destination {"saved": true, "replaced_existing": true, "cancel_requested": true}
+DEFICIENCY section solve uses certified entry and receives no abort/progress callback {"argument_keys": ["elevations_deg", "frequencies_ghz", "geometry_snapshot", "geometry_units", "material_base_dir"], "abort_event": "None", "progress_callback": "None"}
+PASS blank GUI end normal retains starting normal 
+PASS GUI serializes section inputs 
+PASS GUI no-selection removal keeps rows 
+This plugin does not support propagateSizeHints()
+PASS GUI locks every input while running 
+DEFICIENCY help contradicts shadow and corner options {"no_shadowing_claim": true, "shadow_default": true, "corner_help": true}
+PASS GUI screenshot saved 
+TOTAL 57
