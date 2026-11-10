@@ -2047,32 +2047,67 @@ def _graded_far_order(kl_max: 'float', ratio_min: 'float', cap: 'int', degree: '
     return int(cap)
 
 
-# Calibrated W far rule (degree 1: 8 points, degrees 2-3: 9 points). The
-# calibration compares the completed Maue block, including its cancellation,
-# with independent 48-point blocks for passive k with 1e-4 <= |k| Lmax <= 3,
-# arg k from 0 to -90 degrees, length ratios down to 0.001 and all orientations
-# at a separation of three panel lengths: worst block errors 1.5e-14 (degree 1
-# at 8 points), 3.7e-14 and 4.6e-14 (degrees 2 and 3 at 9 points), against 1e-12
-# promised by the quadrature error bound.
+# Calibrated W far rule.  The calibration compares the completed Maue block,
+# including its cancellation, with independent 48-point blocks for passive k
+# with arg k from 0 to -90 degrees and all orientations (collinear, broadside
+# and perpendicular among them).
+#
+# Degrees 2 and 3 keep one order for the whole calibrated range (9 points,
+# worst block errors 3.7e-14 and 4.6e-14 at a separation of three panels).
+#
+# Degree 1 is graded like S and K' since the November 2026 audit
+# (audits/claude-2026-11-10/calibration/w_far_rule.py): rows are the electrical
+# length |k| L of the longer panel of the tile, columns the smallest centre
+# separation in panel lengths (below 5, below 10, beyond).  Every entry keeps
+# the worst block error at or below 1e-13 at the bin's worst corner, ten times
+# inside the 1e-12 the quadrature error bound promises:
+#   |k|L 0.15: 6.1e-14, 6.1e-14, 6.8e-16      |k|L 0.5: 2.4e-15, 1.8e-15, 2.1e-14
+#   |k|L 1.0 : 1.8e-14, 5.5e-14, 5.5e-15      |k|L 1.5: 3.2e-15, 6.1e-15, 2.7e-15
+#   |k|L 3.0 : 2.7e-13, 4.0e-14, 2.3e-14 (the former uniform 8-point rule)
+# One point fewer fails that margin in every entry.  The same grid at length
+# ratios down to 1e-6 and |k| L down to 1e-8 is no worse (worst 7.2e-14), so
+# one sliver panel or a very low frequency no longer sends the whole mesh to
+# the 16-point fallback.
 _W_FAR_FLOOR = {1: 8, 2: 9, 3: 9}
+_W_FAR_ORDER_TABLE = (
+    (0.15, (6, 5, 5)),
+    (0.50, (7, 6, 5)),
+    (1.00, (7, 6, 6)),
+    (1.50, (8, 7, 7)),
+    (3.00, (8, 8, 8)),
+)
+_W_FAR_MIN_KL = 1.e-8
+_W_FAR_MIN_LENGTH_RATIO = 1.e-6
+# Callers that ask for more than this far order keep their order for W.
+_DEFAULT_FAR_ORDER = 8
 
 
 def _graded_w_far_floor(k, lengths, separation, degree):
     """Calibrated W rule for separated, resolved panels; otherwise retain 16.
 
-    The calibration compares the completed Maue block (including cancellation)
-    against 40/48 point rules for degrees 1..3, complex passive k, orientations
-    and length ratios. Use global geometry bounds so compact queries and worker
-    tiles choose the same rule. Self/adjacent/near quadrature is unchanged.
+    Returns the order that is safe for every tile of the mesh.  Use global
+    geometry bounds so compact queries and worker tiles choose the same
+    eligibility.  Self/adjacent/near quadrature is unchanged.  Within the
+    calibrated range :func:`_graded_w_far_order` may lower a tile's order.
     """
     wave = complex(k)
     longest = float(np.max(lengths))
     if (option('far_grading', _FAR_GRADED) and float(separation) >= 3.0
             and 1 <= degree <= 3 and wave.real >= 0 and wave.imag <= 0
-            and 1.e-4 <= abs(wave)*longest <= 3.0
-            and float(np.min(lengths)) >= .001*longest):
+            and _W_FAR_MIN_KL <= abs(wave)*longest <= 3.0
+            and float(np.min(lengths)) >= _W_FAR_MIN_LENGTH_RATIO*longest):
         return _W_FAR_FLOOR[int(degree)]
     return 16
+
+
+def _graded_w_far_order(floor, kl_max, ratio_min, degree):
+    """W order of one tile, given the mesh-wide ``floor`` of :func:`_graded_w_far_floor`."""
+    if int(floor) >= 16 or int(degree) != 1 or not float(ratio_min) >= _FAR_TABLE_MIN_RATIO:
+        return int(floor)
+    for bound, (near, mid, far) in _W_FAR_ORDER_TABLE:
+        if kl_max <= bound:
+            return int(near if ratio_min < 5.0 else mid if ratio_min < 10.0 else far)
+    return int(floor)
 
 
 def _wavenumber_is_real(k0: 'Union[complex, float]') -> 'bool':
@@ -3229,9 +3264,13 @@ def _assemble_multi(
         tile_src_order = max(rule_floor,
             _graded_far_order(kl_max, ratio_min, far_src_order, width - 1, attenuating))
         if want_w:
-            # Preserve W's independently qualified rule on both axes.
+            # Preserve W's independently qualified rule on both axes.  An
+            # explicitly raised caller order is kept; the default is not a
+            # floor of its own (it used to pin every W tile at 8 points).
+            explicit = max(int(obs_order), int(src_order))
             tile_obs_order = tile_src_order = max(tile_obs_order, tile_src_order,
-                w_far_floor, int(obs_order), int(src_order))
+                _graded_w_far_order(w_far_floor, kl_max, ratio_min, width - 1),
+                explicit if explicit > _DEFAULT_FAR_ORDER else 0)
         t_obs_f, qw_obs, phi_obs_arr = _rule(tile_obs_order)
         t_src_f, qw_src, phi_src_arr = _rule(tile_src_order)
 

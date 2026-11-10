@@ -1,0 +1,43 @@
+ok   test_baseline_physics.py                  60 passed, 0 failed, 74 s
+FAIL test_c1_te_open_conductor.py              10 passed, 7 failed, 5 s
+     FAIL dielectric + open strip refused (co-pol) | no exception
+     FAIL dielectric + open strip refused (TE single) | no exception
+     FAIL sheet + open strip refused (TE) | no exception
+     FAIL coated body + open strip refused (TE) | no exception
+     FAIL certified entry refuses dielectric + open strip | no exception
+     FAIL bistatic entry refuses dielectric + open strip | no exception
+     FAIL strip from a dielectric vertex with a free end refused (TE) | no exception
+FAIL test_c2_nonfinite_gate.py                  5 passed, 4 failed, 1 s
+     FAIL zero column rejected | no exception
+     FAIL zero matrix rejected | no exception
+     FAIL diagonal with a zero rejected | no exception
+     FAIL 3x3 zero system rejected | no exception
+FAIL test_c4_bor_mode_extension.py              2 passed, 1 failed, 56 s
+     FAIL automatic modes with a tight tolerance complete | ValueError('BoR near meridian quadrature did not converge for elements (0, 2); gap=0.00062113, order=192, relative block change=0.000235. Refine 
+FAIL test_c5_long_panels.py                     5 passed, 6 failed, 4 s
+     FAIL N=-1 refused with the density floor on | no exception
+     FAIL N=-2 refused with the density floor on | no exception
+     FAIL N=-3 refused with the density floor on | no exception
+     FAIL unenforced N=-1 is solved and warned about | []
+     FAIL warning reaches both channels
+     FAIL unenforced N=-2 (|k|L = pi) is warned about
+FAIL test_r1_concurrent_solves.py               6 passed, 3 failed, 5 s
+     FAIL 3 x direct all succeed with the serial answer | ["MemoryError('The multi_region 2-D solve requires an estimated 0.16 GiB, but 15.07 GiB is currently available; the safe a", "MemoryError('The mult
+     FAIL mixed direct/auto all succeed with the serial answer | ["MemoryError('The multi_region 2-D solve requires an estimated 0.38 GiB, but 15.05 GiB is currently available; the safe a", "MemoryError('T
+     FAIL waiting solve aborts promptly | MemoryError('The multi_region 2-D solve requires an estimated 0.16 GiB, but 14.97 GiB is currently available; the safe a
+FAIL test_r2_c3_linear_algebra_state.py         0 passed, 0 failed, 0 s
+     exit code 1: ImportError: cannot import name 'strict_lu_factor' from 'ghost_backend.linalg.workspace' (/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/base/tools/GHOST/ghost_
+FAIL test_r3_input_and_warnings.py              4 passed, 7 failed, 7 s
+     FAIL duplicate angle refused before solving (monostatic) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 10.0, 10.0).
+     FAIL duplicate angle refused before solving (survey) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 10.0, 10.0).
+     FAIL duplicate angle refused before solving (certified) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 10.0, 10.0).
+     FAIL duplicate angle refused before solving (bistatic observation) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 0.0, 5.0).
+     FAIL duplicate angle refused before solving (bistatic incidence) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 0.0, 5.0).
+     FAIL duplicate angle refused before solving (multi-frequency) | Duplicate VV 2-D sample at f/inc/scat=(1.0, 10.0, 10.0).
+     FAIL closed + open conductor warns about missing resonance protection
+FAIL test_r3a_worker_death.py                   1 passed, 1 failed, 6 s
+     FAIL sweep completed after the worker died | BrokenProcessPool('A process in the process pool was terminated abruptly while the future was running or pending.')
+FAIL test_s1_s2_w_far_rule.py                   0 passed, 0 failed, 0 s
+     exit code 1: AttributeError: module 'ghost_backend.twod.operators' has no attribute '_graded_w_far_order'. Did you mean: '_graded_far_order'?
+ok   test_s5_bor_near_publish.py               10 passed, 0 failed, 59 s
+9 script(s) failed

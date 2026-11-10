@@ -545,3 +545,35 @@ Junction pairs of two surfaces use a refined rule checked against a deeper one.
 Results report `near_quadrature.efie_near_block_asymmetry_max`, the
 reciprocity defect of the retained EFIE near blocks (a free lower bound on
 their quadrature error), and warn above 1e-3.
+
+## November 2026 audit changes
+
+The graded near angular rule publishes its coarse level. Each probed chunk
+(every fourth point) is still compared at the coarse and the fine level
+against `NEAR_ANGULAR_RTOL = 2e-8`; the fine level used to be evaluated for
+every point and published, although the coarse one is four orders inside the
+tolerance. The fine level is now evaluated on the probes only, 1.375 instead
+of 1.75 coarse units per point. `GHOST_BOR_NEAR_PUBLISH=fine` restores the
+former values bit for bit.
+
+Calibration (`audits/claude-2026-11-10/calibration/bor_near_publish.py`, two
+mode workers): largest coarse/fine discrepancy at any probe, operator time
+before and after, largest RCS change.
+
+| Body | Probe discrepancy | Operators (s) | RCS change |
+|---|---|---|---|
+| PEC sphere, ka 3 / 10 / 30 | 1.6e-12 / 8.0e-12 / 1.3e-10 | 1.95 to 1.74 / 5.33 to 4.44 / 23.1 to 19.8 | 3e-14 / 6e-14 / 3e-14 |
+| Impedance sphere 100-150j, ka 6 | 1.9e-12 | 6.45 to 5.58 | 3e-14 |
+| Dielectric 4-0.2j and 4-4j, ka 3 | 1.6e-12, 1.7e-12 | 3.81 to 3.48, 3.81 to 3.65 | 3e-14, 8e-14 |
+| Coated PEC sphere, ka 3 | 1.7e-12 | 6.55 to 5.84 | 1e-13 |
+| PEC cone-cylinder, 6 GHz | 8.6e-12 | 10.8 to 8.9 | 1e-13 |
+| PEC ogive, 4 GHz | 2.0e-12 | 6.22 to 5.85 | 2e-13 |
+| PEC finite cylinder, 5 GHz | 1.5e-12 | 7.08 to 6.24 | 8e-14 |
+
+No chunk fell back to the complete check. A sheet sphere (0.85 s) showed no
+measurable change.
+
+The automatic mode-cap extension no longer fails with "near meridian
+quadrature did not converge" at tight `mode_tol` (see NUMERICAL_METHODS.md,
+"November 2026 audit changes").
+

@@ -1093,3 +1093,98 @@ material side for conductor surfaces. Invalid incidence is rejected before
 operator construction. Dielectric IDs 900000 and above are reserved for
 solver-owned virtual sheet regions; user dielectric IDs must be 1–899999.
 This prevents a material definition from being silently interpreted as air.
+
+## November 2026 audit changes
+
+These follow the independent audit and its cross-examination
+(`SOLVER_AUDIT_2D_BOR.md`, `audits/`). Regression scripts and calibration data
+are in `audits/claude-2026-11-10/`. On 31 reference field sets (every 2-D
+formulation family on the dense and compressed backends, and six BoR bodies)
+the correctness changes leave every field bit for bit; the two quadrature
+changes move fields by at most 3.1e-12 (2-D) and 1.6e-13 (BoR) of the largest
+amplitude.
+
+*TE open conductors.* A free TYPE 2 end is refused for TE in every scene. The
+check used to run only when every element was a conductor, so a dielectric, a
+coating or a TYPE 1 sheet elsewhere switched it off: the open conductor then
+received a single-layer Neumann row (multi-region scenes) or unpinned edge
+unknowns (sheet scenes), which cannot represent the jump of `Hz` across a
+screen. The result was mesh-converged, passed the gate and the certificate,
+and was 3 to 8 dB wrong (dielectric rectangle plus strip against a thin closed
+plate). The end count is taken over every non-sheet element, so the junctions
+of a partial coating (TYPE 2 bare arc meeting TYPE 3 and TYPE 4) remain closed.
+TM is unchanged. The statement in "TE sheets" that open TYPE 2 strips keep the
+single-potential equations applies to TM only. A conductor strip
+attached to a closed body at both ends (a handle) never reaches this count:
+the material-region check refuses it first, because the enclosed pocket is
+declared air by one boundary and conductor by the other.
+
+*Dense backward-error gate.* A nonfinite solution made both the residual and
+its denominator NaN; neither comparison of the normwise formula held, and the
+column was accepted with backward error 0.0. Such columns now fail, and a
+nonfinite solution raises before the gate. A zero right-hand side with a zero
+solution remains a valid 0.
+
+*Condition estimates.* `linalg.onenorm.onenormest` is the block 1-norm
+estimator of Higham and Tisseur with a generator of its own. It returns the
+values of SciPy's estimator under the former fixed seed (300 random real and
+complex operators, bit for bit) and reads no global state. The compressed,
+hierarchical and BoR compressed estimates used SciPy's estimator directly, so
+they depended on the caller's NumPy random state and advanced it: two PEC
+circles 0.5% apart gave 706, 676, 733 or 216 for the same system (dense: 726).
+All paths now return 726.34091 there.
+
+*BoR mode extension.* When the automatic mode cap is extended, only the new
+modal band is integrated. The near convergence test scaled each component by
+its largest value inside that band; near a graded axis tip those blocks are
+rounding noise (1e-22 beside 1e-8 at mode 0), and the test compared noise with
+noise up to order 192 before reporting a mesh problem. The band is now scaled
+by the pair's two lowest modes as well, as a build from mode 0 is. The cone
+that failed at `mode_tol=1e-13` agrees with an explicit cap to 5e-14.
+
+*Mesh density.* The gross four-panels-per-wavelength floor applies to negative
+`N` (`N = -1 .. -3` are refused while `enforce_mesh_density` is on). When the
+floor is off, a mesh with panels beyond `|k| L = 3` is solved with a warning:
+the far and touching rules are calibrated to that length (see below), and an
+exact solve of an inaccurate operator shows no residual symptom.
+
+*W far rule.* For the linear basis the far order of the hypersingular block is
+graded per tile like S and K'. `audits/claude-2026-11-10/calibration/` compares
+the completed Maue block with a 48-point rule over `|k| L` from 1e-8 to 3,
+`arg k` from 0 to -90 degrees, length ratios from 1 to 1e-6, separations of 3
+to 30 panel lengths and all orientations. Orders by `|k| L` bound and smallest
+separation (below 5, below 10, beyond): 0.15: 6/5/5; 0.5: 7/6/5; 1.0: 7/6/6;
+1.5: 8/7/7; 3.0: 8/8/8. Every entry keeps the worst block error at or below
+1e-13 except the last row, which is the former uniform rule (2.7e-13 on this
+grid; the 1.5e-14 quoted above came from a narrower one). Sliver panels and
+very low frequencies are no worse than ordinary ones, so the 16-point fallback
+now starts at a length ratio of 1e-6 and `|k| L` of 1e-8 instead of 1e-3 and
+1e-4. The caller's default order is no longer a floor of its own; an
+explicitly raised order still is. Degrees 2 and 3 keep 9 points. Measured on
+one core, dense LU, median of three (`evidence/bench_2d_before_after.txt`):
+1,600-panel PEC and impedance circles at 20 panels per wavelength 5.19 to
+4.16 s and 5.52 to 4.57 s, at `|k| L = 1` 6.23 to 5.23 s, a coated cylinder
+6.35 to 5.34 s; a 1,200-panel circle with one sliver 7.59 to 2.83 s.
+
+*Concurrency.* A second solve started in the same process while another holds
+the memory reservation waits for it (honouring its abort event) instead of
+being admitted with 0 GiB. Leaf and correction factorizations test LAPACK's
+status instead of turning warnings into errors through the process-wide filter
+list. A frequency worker that dies leaves its frequencies to the parent's
+sequential path, as a worker `MemoryError` already did.
+
+*Smaller items.* Repeated angles are refused before any work on the
+co-polarized entry points. A closed conductor solved without the combined
+potential because another contour of the scene is open carries a warning. The
+`paired_polarization_assembly` record reports the solve estimate plus the
+partner matrix as its peak. `GHOST_HIERARCHICAL_MIN_UNKNOWNS` is validated.
+
+*Memory forecast of paired assembly.* The dense forecast prices the matrix and
+its LU copy; the TM partner assembled during the TE traversal is admitted
+separately, only when estimate plus partner fits the limit in force. Under a
+scheduler reservation the pairing is therefore declined when it would not fit:
+a 4,096-unknown PEC solve (estimate 0.67 GiB, partner 0.25 GiB) peaked at
+0.88 GiB unreserved, 0.41 and 0.63 GiB under reservations of 0.83 and 0.90 GiB,
+and 0.66 GiB under 0.93 GiB. A forecast that lies below an unreserved run's
+peak by one matrix is the expected consequence, not an under-reservation.
+

@@ -131,7 +131,8 @@ properties: TYPE N IBC_FLAG POS_MAT NEG_MAT
   material wavelength.
 - `N > 0`: exactly `N` panels per primitive, subject to a gross
   under-resolution safety check.
-- `N < 0`: `abs(N)` panels per wavelength.
+- `N < 0`: `abs(N)` panels per wavelength. Fewer than four (`N = -1`, `-2`,
+  `-3`) is refused, like an explicit count below the same gross floor.
 
 `N = 0` is the usual choice. Production results should still pass the
 base/fine complex-field mesh-convergence check.
@@ -272,7 +273,9 @@ Consequences for closed contours:
   other segments); a free dielectric endpoint is an error. When it stops just
   short of another primitive, the message gives the location and the gap:
   "segments X and Y almost meet at (x, y): gap d".
-- A free TYPE 2 end is refused for TE. For a TM-only run a TYPE 2 end that
+- A free TYPE 2 end is refused for TE, whatever else the scene contains
+  (dielectric bodies, coatings and TYPE 1 sheets included). Draw a thin plate
+  as a closed finite-thickness contour, or use a TYPE 1 sheet. For a TM-only run a TYPE 2 end that
   almost meets another primitive is a warning: the gap is solved as a slit.
 
 These directions matter especially for TE/VV because the boundary jump term
