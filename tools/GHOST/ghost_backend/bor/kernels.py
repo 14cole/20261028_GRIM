@@ -19,15 +19,21 @@ NEAR_ANGULAR_RTOL = 2.0e-8
 # The graded near rules are evaluated at a coarse and a fine level.  With a
 # positive stride the two are compared on every NEAR_CHECK_STRIDE-th point of
 # a layout chunk (the first included); when every probed point passes, the
-# chunk is accepted, and any probed failure falls back to the complete check
-# of every point.  Since the November 2026 audit an accepted chunk publishes
-# its coarse level (the fine one is evaluated on the probes only): the coarse
-# level sits four orders of magnitude inside NEAR_ANGULAR_RTOL (largest probe
-# discrepancy 1.3e-10 over the calibration bodies of
-# audits/claude-2026-11-10/calibration/bor_near_publish.py, fields moved by at
-# most 2e-13), and the angular samples of a chunk fall from 1.75 to 1.375
-# coarse units per point.  GHOST_BOR_NEAR_PUBLISH=fine restores the former
-# values bitwise; GHOST_BOR_NEAR_CHECK_STRIDE=0 restores the complete check.
+# chunk is accepted at the fine level, and any probed failure falls back to
+# the complete check of every point.  The fine level is the published value
+# either way: it carries its own margin at the points that are not probed.
+# GHOST_BOR_NEAR_CHECK_STRIDE=0 restores the complete check (October 2026).
+#
+# GHOST_BOR_NEAR_PUBLISH=coarse publishes the coarse level of an accepted
+# chunk instead and evaluates the fine level on the probes only (1.375 instead
+# of 1.75 coarse units per point).  It is an experiment, off by default and
+# NOT qualified: a probe bounds only the probed points.  For k = 80, 93 modes
+# and two point pairs sharing one layout, the probes agreed to 1.2e-9 while an
+# unprobed coarse value was 3.2e-7 from the exact kernel, sixteen times
+# NEAR_ANGULAR_RTOL (fine level: 9e-14).  On spheres, a cone, an ogive and a
+# cylinder up to ka = 30 the two levels agreed to 1.3e-10 and fields to 2e-13
+# (audits/claude-2026-11-10/calibration/bor_near_publish.py), which is why the
+# defect was not seen there.
 NEAR_CHECK_STRIDE = 4
 
 C0 = 299_792_458.0
@@ -1718,8 +1724,8 @@ def _near_check_stride():
 
 
 def _near_publish_coarse():
-    """Publish the coarse level of a probed chunk (default); 'fine' restores the former values."""
-    return os.environ.get('GHOST_BOR_NEAR_PUBLISH', '').strip().lower() != 'fine'
+    """Publish the coarse level of a probed chunk: opt-in, unqualified (see NEAR_CHECK_STRIDE)."""
+    return os.environ.get('GHOST_BOR_NEAR_PUBLISH', '').strip().lower() == 'coarse'
 
 
 def _refine_near_chunk(kind, arrays, ids, stable, base_orders, evaluate, next_orders, out, offset=0):
@@ -1729,8 +1735,9 @@ def _refine_near_chunk(kind, arrays, ids, stable, base_orders, evaluate, next_or
     order from 0 and only ``[offset:]`` is stored.  The fine level is
     compared with the coarse level on every stride-th point (positive
     NEAR_CHECK_STRIDE); when all of them pass the chunk is accepted at the
-    coarse level (:func:`_near_publish_coarse`), otherwise every point is
-    checked and published at the first level that converges."""
+    fine level (at the coarse one under the opt-in of
+    :func:`_near_publish_coarse`), otherwise every point is checked and
+    published at the first level that converges."""
     bracket = kind != 'g'
     use_stable = stable
     coarse_orders = np.asarray(base_orders, dtype=np.int64)
@@ -1741,11 +1748,9 @@ def _refine_near_chunk(kind, arrays, ids, stable, base_orders, evaluate, next_or
     probed = stride > 0 and len(ids) >= 2 * stride
     coarse = None
     if probed and _near_publish_coarse():
-        # The coarse level already meets NEAR_ANGULAR_RTOL by four orders of
-        # magnitude (calibrated <= 4e-11 of the largest kernel value against a
-        # 2e-8 tolerance), so it is the published value; the fine level is
-        # spent on the probed points only, where it certifies the coarse one.
-        # 1 + 1.5/stride coarse units per point instead of 1.5 + 1/stride.
+        # Opt-in experiment: publish the coarse level and spend the fine one
+        # on the probed points only (1 + 1.5/stride coarse units per point
+        # instead of 1.5 + 1/stride).  The probes do not bound the others.
         coarse = evaluate(ids, coarse_orders, use_stable)
         probe = np.arange(0, len(ids), stride)
         fine_probe = evaluate(ids[probe], fine_orders, use_stable)

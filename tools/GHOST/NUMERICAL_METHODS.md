@@ -1100,9 +1100,9 @@ These follow the independent audit and its cross-examination
 (`SOLVER_AUDIT_2D_BOR.md`, `audits/`). Regression scripts and calibration data
 are in `audits/claude-2026-11-10/`. On 31 reference field sets (every 2-D
 formulation family on the dense and compressed backends, and six BoR bodies)
-the correctness changes leave every field bit for bit; the two quadrature
-changes move fields by at most 3.1e-12 (2-D) and 1.6e-13 (BoR) of the largest
-amplitude.
+the correctness changes leave every field bit for bit; the W far-rule change
+moves 2-D fields by at most 3.1e-12 of the largest amplitude, and BoR fields
+are unchanged.
 
 *TE open conductors.* A free TYPE 2 end is refused for TE in every scene. The
 check used to run only when every element was a conductor, so a dielectric, a
@@ -1168,10 +1168,16 @@ one core, dense LU, median of three (`evidence/bench_2d_before_after.txt`):
 
 *Concurrency.* A second solve started in the same process while another holds
 the memory reservation waits for it (honouring its abort event) instead of
-being admitted with 0 GiB. Leaf and correction factorizations test LAPACK's
+being admitted with 0 GiB. The order is reservation first, BLAS lock second: a
+thread that already holds the BLAS lock from an outer
+`execution_scope(limit_blas=True)` does not wait, because the running solve
+needs that lock; it is admitted against what is left, as before the audit, and
+a refusal names the cause. Leaf and correction factorizations test LAPACK's
 status instead of turning warnings into errors through the process-wide filter
-list. A frequency worker that dies leaves its frequencies to the parent's
-sequential path, as a worker `MemoryError` already did.
+list. A frequency worker that dies, whether the pool reports it when a result
+is collected or when the next unit is submitted, leaves the unfinished
+frequencies to the parent's sequential path, as a worker `MemoryError` already
+did.
 
 *Smaller items.* Repeated angles are refused before any work on the
 co-polarized entry points. A closed conductor solved without the combined

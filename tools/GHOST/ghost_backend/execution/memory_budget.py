@@ -417,11 +417,18 @@ def scope(abort_event=None):
     if _STATE.get() is not None:
         yield _STATE.get()
         return
+    from ghost_backend.execution.options import blas_lock_held
+    # Lock order: reservation first, BLAS lock second.  A running solve takes
+    # the BLAS lock for its linear algebra, so a caller that already holds it
+    # (an outer execution_scope(limit_blas=True)) must not wait here: the two
+    # would block each other for good.  Such a caller keeps the former
+    # behaviour, immediate admission against what the cohort has left.
+    may_wait = not blas_lock_held()
     with _TURN:
-        # Wait before sampling this request's baseline and before any solver
-        # lock is taken.  Requests whose caps leave room for each other still
-        # overlap; the aggregate reservation is never exceeded either way.
-        while _reservation_exhausted():
+        # Wait before sampling this request's baseline.  Requests whose caps
+        # leave room for each other still overlap; the aggregate reservation
+        # is never exceeded either way.
+        while may_wait and _reservation_exhausted():
             if abort_event is not None and abort_event.is_set():
                 raise InterruptedError('Solve aborted while waiting for another solve of this process '
                                        'to release its memory reservation.')

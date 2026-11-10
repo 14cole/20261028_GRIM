@@ -1618,6 +1618,14 @@ def _memory_gate_message(
     if ledger is not None and ledger.last:
         detail_text += ' Binding constraint: {}. Owned numeric payload: {:.2f} GiB.'.format(
             ledger.last['binding_constraint'], ledger.last['owned_numeric_gib'])
+        if (ledger.last['binding_constraint'] == 'stable_reservation'
+                and ledger.last.get('reservation_binding_constraint') == 'cohort_remaining_reservation'):
+            # Free RAM is not the cause: another request holds the reservation.
+            from ghost_backend.execution.options import blas_lock_held
+            detail_text += ' Another solve running in this process holds the memory reservation.'
+            if blas_lock_held():
+                detail_text += (' This solve could not wait for it because its thread holds the BLAS '
+                                'lock of an outer execution scope. Run the solves one after another.')
     return (
         f"{context} requires an estimated {required_gb:.2f} {unit}, but "
         f"{availability}; the safe allocation limit is {limit_gb:.2f} {unit}."

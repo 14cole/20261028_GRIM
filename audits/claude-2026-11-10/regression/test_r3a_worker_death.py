@@ -54,4 +54,49 @@ if __name__ == "__main__":
         check("recovered sweep equals the sequential sweep", worst < 1e-9, "max relative difference {:.2e}".format(worst))
         order = [(s["frequency_ghz"], s["theta_inc_deg"], s["polarization"]) for s in swept["samples"]]
         check("sample order equals the sequential order", order == [(s["frequency_ghz"], s["theta_inc_deg"], s["polarization"]) for s in serial["samples"]])
+    # --- pool breaks before a submission (Codex implementation review, finding 2) ---
+    # The executor's own first worker is killed just before the second unit is
+    # submitted, and the executor is given time to notice, so submit() itself
+    # raises BrokenProcessPool.
+    from concurrent.futures import ProcessPoolExecutor
+    from ghost_backend.execution import frequency_sweep as F
+    killed_early = []
+
+    class KillBeforeSecondSubmit(ProcessPoolExecutor):
+        calls = 0
+
+        def submit(self, *args, **kwargs):
+            self.calls += 1
+            if self.calls == 2:
+                process = next(iter(self._processes.values()))
+                os.kill(process.pid, signal.SIGKILL)
+                killed_early.append(process.pid)
+                deadline = time.monotonic() + 5
+                while not self._broken and time.monotonic() < deadline:
+                    time.sleep(0.01)
+            return super().submit(*args, **kwargs)
+
+    original_executor = F.ProcessPoolExecutor
+    F.ProcessPoolExecutor = KillBeforeSecondSubmit
+    try:
+        with execution_scope(options, limit_blas=True):
+            early = run_fresh(S.solve_monostatic_rcs_2d_survey, kw, options, "double", False, frequency_workers=2)
+        error = None
+    except BaseException as exc:  # noqa: BLE001
+        early, error = None, exc
+    finally:
+        F.ProcessPoolExecutor = original_executor
+    check("a worker was killed before the second submission", bool(killed_early))
+    check("sweep completed although submit() found the pool broken", error is None, repr(error)[:160])
+    if early is not None:
+        execution = early["metadata"]["frequency_execution"]
+        check("units lost at submission are reported", execution.get("units_lost_to_worker_failure", 0) >= 1, execution)
+        worst = max(np.max(np.abs(amp(early["samples"], pol) - amp(serial["samples"], pol))) / np.max(np.abs(amp(serial["samples"], pol)))
+                    for pol in ("VV", "HH"))
+        check("sweep recovered at submission equals the sequential sweep", worst < 1e-9, "max relative difference {:.2e}".format(worst))
+        check("its sample order equals the sequential order",
+              [(s["frequency_ghz"], s["theta_inc_deg"], s["polarization"]) for s in early["samples"]]
+              == [(s["frequency_ghz"], s["theta_inc_deg"], s["polarization"]) for s in serial["samples"]])
+    leftovers = [c for c in me.children(recursive=True) if "spawn_main" in " ".join(c.cmdline())]
+    check("no worker process left behind", not leftovers, [c.pid for c in leftovers])
     finish()

@@ -1,7 +1,13 @@
-"""Calibration of publishing the coarse level of the BoR near angular rule.
+"""Measurements of publishing the coarse level of the BoR near angular rule.
 
-Each case is solved with GHOST_BOR_NEAR_PUBLISH=fine (former values) and with
-the default.  Reported per case: operator time of both, the largest
+NOT a qualification.  Coarse publication is an opt-in experiment
+(GHOST_BOR_NEAR_PUBLISH=coarse); the probes this script records bound only the
+probed points, and Codex's review found an unprobed coarse value sixteen times
+outside tolerance at k = 80 (regression/test_s5_bor_near_publish.py).  No body
+below exceeds ka = 30.
+
+Each case is solved with GHOST_BOR_NEAR_PUBLISH=fine (the default) and with
+GHOST_BOR_NEAR_PUBLISH=coarse.  Reported per case: operator time of both, the largest
 coarse-against-fine discrepancy seen at any probed point (relative to that
 point's largest kernel value; the acceptance tolerance is 2e-8), the number of
 probed chunks that fell back, and the largest relative change of the RCS.

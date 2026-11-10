@@ -33,17 +33,42 @@ def pair_mesh(p0, p1, q0, q1):
 
 
 def w_block(mesh, k, order):
-    saved = ops._graded_w_far_floor, ops._graded_far_order
+    """Far W block of the two-element mesh with exactly ``order`` points per panel.
+
+    Every production order selector is bypassed (the S/K' table, the mesh-wide
+    W floor and the per-tile W table), and the rule the assembly really
+    requested is recorded and asserted: an earlier version of this helper left
+    the per-tile table active, so requests below it were silently raised.
+    """
+    saved = ops._graded_w_far_floor, ops._graded_far_order, ops._graded_w_far_order, ops._get_quadrature
+    used = []
+
+    def recording_quadrature(n, *args, **kwargs):
+        used.append(int(n))
+        return saved[3](n, *args, **kwargs)
+
     ops._graded_w_far_floor = lambda *a, **kw: 2
     ops._graded_far_order = lambda kl, ratio, cap, degree=1, attenuating=False: int(cap)
+    ops._graded_w_far_order = lambda floor, kl_max, ratio_min, degree: 2
+    ops._get_quadrature = recording_quadrature
     try:
         full = np.zeros((4, 4), complex, order="F")
         ops._assemble_linear_hypersingular_matrix(mesh, k, obs_order=order, src_order=order, destination=full)
     finally:
-        ops._graded_w_far_floor, ops._graded_far_order = saved
-    return np.concatenate((full[:2, 2:].ravel(), full[2:, :2].ravel()))
+        ops._graded_w_far_floor, ops._graded_far_order, ops._graded_w_far_order, ops._get_quadrature = saved
+    block = np.concatenate((full[:2, 2:].ravel(), full[2:, :2].ravel()))
+    if not used and not np.any(block):
+        # Strongly attenuated pair: production drops the interaction outright
+        # (FAR_ATTENUATION_CUT) and integrates nothing.  Not a far-rule cell.
+        LAST_RULES[:] = []
+        return block
+    if int(order) not in used:
+        raise AssertionError("requested a {}-point far rule; the assembly used {}".format(order, sorted(set(used))))
+    LAST_RULES[:] = sorted(set(used))
+    return block
 
 
+LAST_RULES = []
 KL = (1e-4, 1e-2, 0.15, 0.5, 1.0, 1.5, 2.0, 3.0)
 ARG = (0.0, -20.0, -45.0, -70.0, -89.9)
 RATIO = (1.0, 0.5, 0.1, 0.01, 0.001)
@@ -68,13 +93,21 @@ def run(samples=10, seed=0, orders=ORDERS):
                             a1, a2 = rng.uniform(0, 2 * math.pi, 2)
                         swap = trial % 2
                         la, lb = (short_len, long_len) if swap else (long_len, short_len)
-                        c2 = np.array([separation * long_len, 0.0])
+                        # A hair beyond the nominal separation: at exactly 3.0 the
+                        # rounding of the centre distance left about 6% of the random
+                        # orientations just under the far threshold, where no far rule
+                        # is used at all (w_block now refuses to measure such a pair).
+                        c2 = np.array([separation * (1.0 + 1e-9) * long_len, 0.0])
                         d1 = 0.5 * la * np.array([math.cos(a1), math.sin(a1)])
                         d2 = 0.5 * lb * np.array([math.cos(a2), math.sin(a2)])
                         mesh = pair_mesh(-d1, d1, c2 - d2, c2 + d2)
                         k = (kl / long_len) * complex(math.cos(math.radians(arg)), math.sin(math.radians(arg)))
                         reference = w_block(mesh, k, 48)
                         scale = np.max(np.abs(reference))
+                        if not scale:
+                            worst["dropped"] = worst.get("dropped", 0) + 1
+                            continue
+                        worst["measured"] = worst.get("measured", 0) + 1
                         for order in orders:
                             error = float(np.max(np.abs(w_block(mesh, k, order) - reference)) / scale)
                             for key in ((separation, kl, order), ("arg", separation, kl, arg, order), ("ratio", separation, kl, ratio, order)):
@@ -84,6 +117,8 @@ def run(samples=10, seed=0, orders=ORDERS):
 
 if __name__ == "__main__":
     worst = run()
+    print("{} cells measured at the requested orders; {} attenuated cells dropped by production and skipped".format(
+        worst.get("measured", 0), worst.get("dropped", 0)))
     print("worst completed-block error, linear basis; rows |k|L, columns order " + str(ORDERS))
     for separation in SEPARATION:
         print("separation {:g} panel lengths".format(separation))

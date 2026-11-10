@@ -2061,11 +2061,13 @@ def _graded_far_order(kl_max: 'float', ratio_min: 'float', cap: 'int', degree: '
 # separation in panel lengths (below 5, below 10, beyond).  Every entry keeps
 # the worst block error at or below 1e-13 at the bin's worst corner, ten times
 # inside the 1e-12 the quadrature error bound promises:
-#   |k|L 0.15: 6.1e-14, 6.1e-14, 6.8e-16      |k|L 0.5: 2.4e-15, 1.8e-15, 2.1e-14
-#   |k|L 1.0 : 1.8e-14, 5.5e-14, 5.5e-15      |k|L 1.5: 3.2e-15, 6.1e-15, 2.7e-15
-#   |k|L 3.0 : 2.7e-13, 4.0e-14, 2.3e-14 (the former uniform 8-point rule)
-# One point fewer fails that margin in every entry.  The same grid at length
-# ratios down to 1e-6 and |k| L down to 1e-8 is no worse (worst 7.2e-14), so
+#   |k|L 0.15: 6.1e-14, 6.1e-14, 8.1e-16      |k|L 0.5: 2.8e-15, 2.1e-15, 2.1e-14
+#   |k|L 1.0 : 1.8e-14, 5.5e-14, 5.4e-15      |k|L 1.5: 3.1e-15, 5.9e-15, 2.6e-15
+#   |k|L 3.0 : 2.7e-13, 4.0e-14, 2.2e-14 (the former uniform 8-point rule)
+# One point fewer fails that margin wherever it was measured (five points is
+# the lowest order measured, so the three 5-point entries have no such check).
+# The same grid at length
+# ratios down to 1e-6 and |k| L down to 1e-8 is no worse (worst 2.5e-14), so
 # one sliver panel or a very low frequency no longer sends the whole mesh to
 # the 16-point fallback.
 _W_FAR_FLOOR = {1: 8, 2: 9, 3: 9}

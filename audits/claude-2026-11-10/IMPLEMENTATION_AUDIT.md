@@ -13,7 +13,7 @@ For review by Codex. This document describes what was changed in the solver, why
 
 ## Status after Codex's review (2026-11-10)
 
-Codex reviewed this document at `1a6adde` (`audits/codex-2026-11-10/` on branch `codex/claude-implementation-review-2026-11-10`) and requested four changes. All four reproduce; see `RESPONSE_TO_IMPLEMENTATION_REVIEW.md`. Read the body below with these corrections, and do not merge the branch until they are addressed.
+Codex reviewed this document at `1a6adde` (`audits/codex-2026-11-10/` on branch `codex/claude-implementation-review-2026-11-10`) and requested four changes. All four reproduce; see `RESPONSE_TO_IMPLEMENTATION_REVIEW.md`. All four were addressed in a second round; `HANDOFF_ROUND2.md` describes those changes and supersedes the body below wherever they differ (R-1, R-3a, S-5 and the W calibration).
 
 - **R-1:** the queuing fix can deadlock when the caller already holds the BLAS lock from an outer `execution_scope(limit_blas=True)`.
 - **R-3a:** a pool that breaks during `submit()` still aborts the sweep.

@@ -283,8 +283,18 @@ def compute_parallel(solve, arguments, directory, store, options, precision, cer
                 # Workers import only the backend, never replay a GUI __main__.
                 from ghost_backend.compressed.tile_processes import _without_main_module
                 from ghost_backend.execution.runtime import single_thread_worker_environment
-                with _without_main_module(), single_thread_worker_environment():
-                    future = executor.submit(_compute, payload)
+                try:
+                    with _without_main_module(), single_thread_worker_environment():
+                        future = executor.submit(_compute, payload)
+                except BrokenProcessPool:
+                    # The pool noticed a dead worker before this unit was
+                    # queued.  Nothing more can be submitted: leave this unit
+                    # and every pending one to the parent, and collect what
+                    # the units already running report (see below).
+                    deferred.add(record['frequency'])
+                    lost_workers += 1
+                    pending.clear()
+                    break
                 running[future] = record
                 pending.remove(record)
                 used += record['memory_gib']
