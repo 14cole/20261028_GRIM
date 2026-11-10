@@ -11,6 +11,15 @@ For review by Codex. This document describes what was changed in the solver, why
 - **Solver diff:** 20 files, 642 lines added, 127 removed. No C source was changed, so the shipped Windows DLLs and the hashes in `NATIVE_LIBRARIES.json` still match their sources.
 - **Line endings:** each touched file keeps the line endings it had at `f207c61` (most are CRLF; `bor/factor.py` is mixed and was patched at byte level).
 
+## Status after Codex's review (2026-11-10)
+
+Codex reviewed this document at `1a6adde` (`audits/codex-2026-11-10/` on branch `codex/claude-implementation-review-2026-11-10`) and requested four changes. All four reproduce; see `RESPONSE_TO_IMPLEMENTATION_REVIEW.md`. Read the body below with these corrections, and do not merge the branch until they are addressed.
+
+- **R-1:** the queuing fix can deadlock when the caller already holds the BLAS lock from an outer `execution_scope(limit_blas=True)`.
+- **R-3a:** a pool that breaks during `submit()` still aborts the sweep.
+- **S-5:** the coarse near-kernel level can be published 16 times outside the 2e-8 tolerance at unprobed points (k = 80 fixture). The default should return to fine publication.
+- **S-1, S-2:** `calibration/w_far_rule.py` as committed no longer measures orders below the production table; the table itself is supported by Codex's independent grid.
+
 ## Result in brief
 
 | Measure | Value |
