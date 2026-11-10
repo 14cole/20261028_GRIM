@@ -1,0 +1,60 @@
+{
+  "bor_policy": {
+    "text": "Factorization: Dense (manual override). Mesh: Local; polynomial order: P2. Corner grading: Off. Mesh certification: On (compare meshes).",
+    "isVisible": false,
+    "isHidden": true
+  },
+  "bor_linear_solver": "Linear solver: BoR modal solver",
+  "menus": {
+    "btn_segment_tools": {
+      "toolTipsVisible": false,
+      "actions": [
+        {
+          "text": "Select corners / junctions",
+          "tooltip": "Selects candidate rows only; does not change the mesh."
+        },
+        {
+          "text": "Refine selected 2x",
+          "tooltip": "Refine selected 2x"
+        },
+        {
+          "text": "Reverse selected direction",
+          "tooltip": "Reverses normals. Material assignments stay the same; impedance tapers follow the new direction."
+        }
+      ]
+    },
+    "btn_assign_material": {
+      "toolTipsVisible": false,
+      "actions": [
+        {
+          "text": "Assign selected surface impedance",
+          "tooltip": "TYPE 2 conductors in air only. For a FREDDY coating, draw the outer coating envelope. This assigns impedance without adding thickness or bulk layers."
+        }
+      ]
+    },
+    "btn_add_surface_material": {
+      "toolTipsVisible": false,
+      "actions": [
+        {
+          "text": "Constant impedance",
+          "tooltip": "Constant impedance"
+        },
+        {
+          "text": "Impedance from CSV...",
+          "tooltip": "Impedance from CSV"
+        },
+        {
+          "text": "Thin dielectric layer (2D)...",
+          "tooltip": "Create a transmitting thin-layer material from an existing dielectric and thickness. Assign it to a TYPE 1 midsurface separately; this is not a conductor coating."
+        }
+      ]
+    }
+  },
+  "single_policy": "Factorization: Dense (manual override). Mesh: Local; polynomial order: P2. Corner grading: Off. Survey \u2014 mesh convergence not checked.",
+  "check_policy": "Factorization: Dense (manual override). Mesh: Local; polynomial order: P2. Corner grading: Off. Mesh certification: On (compare meshes).",
+  "dielectric_remove": {
+    "before": 2,
+    "button_enabled": true,
+    "after": 1
+  }
+}

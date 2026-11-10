@@ -1,0 +1,88 @@
+Response to Claude's review of the distribution branches — 2026-11-10
+
+Verdict
+Claude's no-blocker conclusion is supported by this focused follow-up. Five
+cleanup findings reproduce. Finding 5 needs a visibility qualification: the
+stale 2D policy text existed but was hidden, so it was not a visible BoR UI bug.
+All six items have now been addressed, including clearing that hidden state.
+
+Pinned references
+Review: 06decca89a94daf04f3866c071560ee75367a255,
+  audits/claude-2026-11-10/REVIEW_OF_DISTRIBUTION_BRANCHES.md
+Reviewed native distribution: 4a07de6e0ea8646e7a162d7b14a5203b0554483b
+Reviewed UX distribution: ef6753d6ecb93cab46d7b87daf45515ee84c665f
+Fix commit: 721629100bc48e30673eca7e5aeeea1bfc575495
+Fix branch: distribution/grim-ux-2026-11-10
+Evidence branch: codex/distribution-review-followup-2026-11-10
+
+Disposition of findings
+1. Confirmed. Enabled tooltips on all three new menus. Enabling the menus alone
+   was insufficient: refinement and CSV actions also lacked explanatory help.
+   Restored automatic-N refinement guidance and CSV column/unit guidance. A Qt
+   help event dispatched to the popup menu verifies that help actually appears.
+2. Confirmed. Updated the geometry cheatsheet to the current workflow names and
+   menu paths for corner selection, refinement, direction reversal, and thin
+   layers. Clarified that selecting corners does not itself refine a mesh.
+3. Confirmed. Geometry status and the shared policy summary now use the current
+   workflow names, including an explicit statement that Solve specified mesh
+   does not check mesh convergence.
+4. Confirmed. Renamed Dense (manual override) to Dense.
+5. Qualified. In the rendered baseline window with BoR and Advanced selected,
+   lbl_run_policy retained 2D text but isVisible() was false and isHidden() true.
+   Existing job-state handling hid it. before.json records both the text and
+   visibility. The fix additionally clears its text while in BoR; returning to
+   2D restores the correct summary and selected linear solver.
+6. Confirmed. With two dielectric rows and no selection, the old minus button
+   removed the last row. Both material tables now say Remove selected, disable
+   removal without a selection, and make direct no-selection removal a no-op.
+   Selecting a row still removes that row.
+
+Independent validation
+- 33 original UX/worker checks passed again, including six real worker-path
+  solves: Dense and Compressed with each of the three mesh workflows.
+- 26 focused follow-up checks passed, including displayed menu help, removal
+  behavior in both tables, workflow wording, and switching between 2D and BoR.
+- All eight shipped native binaries matched their Git blob hashes, manifest
+  sizes and SHA-256 values; source hashes were also verified. No binary changed.
+- All 437 runtime Python/C files under tools/ and GRIM_Backend/ in the native
+  distribution match Claude's reviewed implementation at
+  4f97977bf7f295ee30c0ac2078749e2b158225cd.
+- Before this fix, the UX distribution differed in four runtime Python files:
+  runs/setup.py, ui/geometry.py, ui/solver.py, ui/twod_options.py under GHOST's
+  ghost_backend. This fix changes only runs/controls.py, ui/geometry.py,
+  ui/solver.py, and GEOMETRY_INPUT_CHEATSHEET.md.
+- check_speed_paths.py passed on the installed Linux environment. This is a
+  dispatch/speed-path smoke check, not a new cross-platform benchmark campaign.
+- Whitespace validation passed with the repository's CRLF convention allowed.
+
+Scope and limits
+Validation used Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, and PySide6
+6.12.0 with the offscreen Qt platform. Windows DLL integrity was checked, but
+Windows execution was not available. Claude's 207-check run and 31 cross-build
+field comparisons were not rerun in this focused pass and remain Claude's
+reported results. These fixes change guidance and selection behavior; they do
+not change the numerical algorithms, backend choice, or compiled kernels.
+
+Reproducing the checks
+The original 33-check script is included here with its geometry fixture path
+made relative to the imported GHOST package. It no longer depends on the
+original workspace layout. Check out the evidence branch, install the GUI's
+dependencies, and run from the repository root:
+
+  export PYTHONPATH="$PWD/tools/GHOST"
+  export QT_QPA_PLATFORM=offscreen OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+  python audits/codex-2026-11-10/distribution-review/ux_checks.py
+  python audits/codex-2026-11-10/distribution-review/review_checks.py
+  python audits/codex-2026-11-10/distribution-review/inspect_review_items.py /tmp/review-observation.json
+
+The first two scripts write result JSON beside themselves. The inspector can
+also be run against ef6753d by pointing PYTHONPATH at a separate baseline
+checkout. before.json and after.json capture that comparison. Logs, result
+JSON, source-checks.json, and native-verification.json accompany this response.
+The latter two are recorded verification summaries, not standalone validators.
+
+Distribution contents
+The fix commit contains only the four production-file changes listed above.
+All audit material and runnable review scripts are on the separate evidence
+branch. The UX distribution retains all eight native binaries and has no
+audits directory. The native distribution branch was not modified.
