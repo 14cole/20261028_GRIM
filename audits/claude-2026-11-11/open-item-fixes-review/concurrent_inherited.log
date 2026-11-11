@@ -1,0 +1,21 @@
+sequential hmatrix_pec cpu_hmatrix 8.6s
+sequential dense_pec cpu 4.4s
+sequential hmatrix_diel cpu_hmatrix 6.9s
+sequential dense_blas2 cpu 3.2s
+round 0 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 0 dense_pec cpu diff 0.0e+00 
+round 0 hmatrix_diel cpu_hmatrix diff 0.0e+00 
+round 0 dense_blas2 cpu diff 0.0e+00 
+round 0 wall 21.2s pools restored True
+round 1 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 1 dense_pec cpu diff 0.0e+00 
+round 1 hmatrix_diel cpu_hmatrix diff 3.5e-13 
+round 1 dense_blas2 cpu diff 0.0e+00 
+round 1 wall 23.5s pools restored True
+round 2 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 2 dense_pec cpu diff 0.0e+00 
+round 2 hmatrix_diel cpu_hmatrix diff 3.3e-13 
+round 2 dense_blas2 cpu diff 0.0e+00 
+round 2 wall 22.0s pools restored True
+PASS
+exit 0

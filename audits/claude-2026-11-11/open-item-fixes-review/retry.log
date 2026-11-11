@@ -1,0 +1,13 @@
+ok   pec 8000: explicit compressed completes 56.3s
+ok   pec 8000: completed with the hierarchical operator cpu_hmatrix
+ok   pec 8000: metadata records the rejected tile attempt {'error': 'HierarchicalRejected', 'message': 'Off-diagonal rank exceeds 256 (relative error 0.544).', 'wall_seconds': 23.8}
+ok   pec 8000: all 362 amplitudes agree with dense 3.2e-12 (dense 30.5s)
+ok   coated 4080: explicit compressed completes 60.2s
+ok   coated 4080: completed with the hierarchical operator cpu_hmatrix
+ok   coated 4080: metadata records the rejected tile attempt {'error': 'HierarchicalRejected', 'message': 'Off-diagonal rank exceeds 256 (relative error 0.034).', 'wall_seconds': 16.2}
+ok   coated 4080: all 362 amplitudes agree with dense 3.7e-08 (dense 17.4s)
+ok   threshold override: rejection is not retried HierarchicalRejected
+ok   rejection advice mentions Automatic batch size 256 is estimated at 2.33 GiB; fits the currently estimated 12.85 GiB allowance after releasing the failed solve. Select Automatic, or Dense explicitly, to retry. Memory must be checked again; later mesh refinement and convergence are not guaranteed.
+ok   pec 3000: tile operator still used, no retry recorded cpu_compressed
+11 passed, 0 failed
+exit 0
