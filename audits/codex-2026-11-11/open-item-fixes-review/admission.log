@@ -1,0 +1,10 @@
+ok   alone: admitted immediately with its cap [{'budget': 0.45, 'outcome': 'admitted', 'at': 75716.308773915}]
+ok   insufficient remainder: capped peer waits
+ok   insufficient remainder: admitted with full cap after release [{'budget': 0.45, 'outcome': 'admitted', 'at': 75717.309849655}]
+ok   insufficient remainder: uncapped peer waits
+ok   uncapped peer admitted after release [{'budget': 1.0, 'outcome': 'admitted', 'at': 75718.310912161}]
+ok   sufficient remainder: capped peer overlaps [{'budget': 0.45, 'outcome': 'admitted', 'at': 75718.312988034}]
+ok   waiting peer is interruptible [{'outcome': 'interrupted', 'at': 75718.914305167}]
+ok   BLAS-lock holder does not wait [{'budget': 0.010000000000000009, 'outcome': 'MemoryError', 'at': 75718.915319006}]
+ok   cap above capacity: admitted alone [{'budget': 1.0, 'outcome': 'admitted', 'at': 75718.915866637}]
+9 passed, 0 failed

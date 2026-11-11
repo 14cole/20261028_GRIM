@@ -1,0 +1,216 @@
+OPEN-ITEM FIXES: INDEPENDENT REVIEW AND ANSWERS — 2026-11-11
+
+Reviewed branch: claude/festive-keller-nj5bje
+Pinned handoff head: 6b3967f26d26e8493081248a991e169b679054c7
+Implementation commit: 429f2990fd2c5ecf57c199ec00333ec6f05c4cfd
+Production baseline: 49bd93fa0ab2ccef0eb94312fd825683acf082fd
+Handoff: audits/claude-2026-11-11/open-item-fixes/HANDOFF_OPEN_ITEM_FIXES.md
+
+The bounded Compressed retry and refreshed driver comments are supported by
+this review. The admission change improves direct-option callers, but one
+medium-priority gap remains: it ignores caps inherited from an execution scope,
+the scheduler allocation or the environment when deciding how long to wait.
+Correct that before describing the capped-admission defect as fully fixed.
+The documented uncapped-above-0.5-GiB limitation also remains.
+
+No production code was changed or promoted during this review. The response
+branch contains the reviewed Claude code plus this evidence. The existing
+distribution branch remains at 49bd93f.
+
+ANSWERS TO THE FOUR QUESTIONS
+
+1. Waiting for the full cap is acceptable as a conservative interim policy.
+
+It preserves the reservation-before-BLAS-lock ordering and avoids starting work
+with a known small remainder. The cost is serialization when a solve's actual
+need is much smaller than its configured maximum. Document that cost. Resolve
+the effective cap from all supported sources and bound it by any stricter
+scheduler allocation; the maximum a user permits is not always the amount the
+worker is allowed to reserve. A later forecast-aware queue/retry is preferable
+for throughput and for uncapped requests needing more than the initial guard,
+but it must release failed workspaces/reservations and avoid waiting while it
+holds the BLAS lock. Do not expand the current patch into an untested retry of
+arbitrary numerical failures just to improve concurrency.
+
+2. 0.5 GiB is a provisional scheduling guard, not a validated Windows minimum.
+
+There is no Windows measurement here that establishes it as appropriate for
+Windows desktops. The source comment "no 2D system fits a smaller reservation"
+is false: the real concurrency fixture's H-matrix solves fit a 0.45 GiB cap.
+Replace that assertion with an explanation that this is a conservative entry
+guard for uncapped overlapping requests. It neither proves a larger solve fits
+nor optimizes small solves. Keep physical/commit headroom gates and cancellation;
+qualify the constant on Windows before making platform-wide claims. A known
+forecast is a better admission criterion than a universal fixed floor.
+
+3. Yes, the bounded retry should apply in batch and frequency workers.
+
+Each worker makes its own outermost public call, so it can perform the same
+one-retry recovery under its existing allocation. It must not enlarge that
+allocation, change an explicit threshold override, or bypass backward-error
+gates. I tested real spawned frequency workers with natural tile-rank rejection
+and a frozen HPC worker locally; see results below. This validates those worker
+paths, not an actual SLURM cluster or Windows multiprocessing.
+
+4. Keep the bounded retry for now instead of lowering the explicit threshold.
+
+This is the smaller behavior change: accepted tile solves remain accepted tile
+solves, while previously rejected requests can recover. A global 1,024 switch
+would need broader performance, memory and formulation calibration, including
+exclusions and high order. Automatic already offers the lower threshold without
+paying for a failed tile attempt. Keep reporting the rejected-attempt cost and
+the actual backend. Future simplification can remove the retry if measurements
+justify a single explicit-compressed threshold; current evidence does not prove
+that is universally better.
+
+OI-01 — MEDIUM: EFFECTIVE RAM CAP IS NOT RESOLVED AT ADMISSION
+
+execution/options.py, outer call(), reads only:
+
+  requested = kwargs.get('execution_options')
+  wanted = requested.get('ram_budget_gib') if isinstance(requested, dict) else None
+
+It does not consult current_options(), allocated_memory_budget(), or the launch
+environment. These are supported sources used by the numerical admission gates.
+The same request therefore waits or fails depending on how its cap was supplied.
+
+probe_inherited_admission.py uses the real configured_execution public wrapper,
+real memory scopes and rank_candidates, with physical capacity mocked to 1 GiB.
+A peer holds 0.4 GiB; the tested request has a cap of 0.8 GiB and its candidate
+needs 0.75 GiB. No large numerical arrays are allocated.
+
+Cap source                  Waits?    Result
+execution_options argument  yes       passes with 0.8 GiB after peer releases
+inherited execution_scope   no        MemoryError: 0.60 GiB budget, 0.75 needed
+inherited scheduler cap     no        same refusal
+GHOST_MAX_SOLVE_GB           no        same refusal
+
+All four use the same controlled cohort and candidate. This is evidence that
+the fix is incomplete, not a claim of numerical field corruption. The new
+0.5-GiB floor improves sliver reservations for these callers but cannot honor
+their actual cap. Source lines near 809-816 are the requested correction point.
+
+Resolve the effective validated options before entering memory_scope, with the
+same precedence as invoke_configured; pass the smallest applicable positive
+explicit/scheduler cap. Preserve an explicitly supplied None override according
+to existing option semantics. Avoid duplicating a subtly different resolver in
+call(). Add tests for direct, inherited, environment and allocation-only caps,
+including a configured cap larger than the scheduler reservation.
+
+The existing "do not wait while holding BLAS" exception remains necessary.
+This response does not recommend removing it to force every caller to wait.
+
+OI-02 — LOW: THE HANDOFF'S NON-AUDIT TREE CLAIM NEEDS QUALIFICATION
+
+The six production files are exactly the intended code delta, and all 523
+baseline production blob paths match the pinned Claude tree after applying
+those six replacements. Native sources/binaries are unchanged. However, outside
+audits/ the Claude branch also contains SOLVER_AUDIT_2D_BOR.md, absent from the
+production branch. Thus "code outside audits equals base plus six files" is
+true for runtime code but not a literal whole-tree equality. If preparing a
+distribution, start from 49bd93f and carry the reviewed source changes; do not
+publish the entire audit branch as the audit-free distribution.
+
+OI-03 — LOW: CORRECT THE UNMEASURED 0.5-GiB COMMENT
+
+memory_budget.py near MINIMUM_SHARED_RESERVATION_GIB describes a numerical
+minimum that its own 0.45-GiB real-solve tests contradict. Describe it as an
+entry heuristic. This is distinct from the documented remaining limitation:
+an uncapped request needing more than a positive remainder >=0.5 GiB can still
+be refused. The current patch does not implement forecast-aware waiting.
+
+INDEPENDENT VALIDATION
+
+* All 523 production paths verified by Git blob SHA against the pinned Claude
+  tree; exactly six runtime/template replacements. No native changes.
+* Supplied test_admission.py: 9/9 checks pass, including cancellation and the
+  BLAS-lock-holder exception.
+* Supplied concurrent_solves.py: two fresh runs, three rounds each. All 24
+  concurrent solves pass against eight sequential references. Backends match,
+  fields are identical, BLAS limits restore, no deadlock.
+* Supplied test_compressed_retry.py: 11/11 checks pass. Natural rank rejection
+  recovers PEC 8,000 and coated 6,480; all 362 amplitudes agree with dense at
+  3.2e-12 and 3.7e-8 norm-scaled respectively. Explicit threshold override
+  retains rejection, and the accepted PEC 3,000 tile path remains unchanged.
+* Added retry_workflows.py: six groups verified. Injected first-attempt tile
+  rejection recovers survey, certified and adaptive/certified PEC solves using
+  H-matrix; quality/certification passes and complete fields agree with dense
+  within 7.7e-14. Thin-layer exclusion remains a bounded two-attempt failure
+  when both tile factors are deliberately rejected. An HMatrixRejected is
+  not retried. Deliberately rejecting the second attempt propagates once.
+  Retry state and the ordinary 8,192 threshold restore after every case.
+* Added worker_retry.py: two real spawned frequency workers, each at two CPUs,
+  naturally reject the tile inverse and recover with H-matrix. Quality gates
+  pass; retry metadata is present per frequency; no worker is lost. Aggregate
+  reservation is 7.412073 GiB within an 8-GiB cap, including interpreters. All
+  12 fields agree with the pinned 49bd93f sequential-dense reference at 3.03e-12.
+* Added hpc_retry.py: a real frozen HPC runtime prepared with SUBMIT=False and
+  executed locally naturally recovers the PEC 8,000 rejection and publishes
+  a .grim artifact with retry metadata, explicit compressed options and a
+  passing quality gate. All six exported fields agree with the prior dense
+  reference at 3.03e-12. With no SLURM environment, the local worker detects
+  host resources; this is not a test of cluster-enforced limits or submission.
+* Added inherited-cap probe: reproduces OI-01 through four cap-source variants.
+* Full inherited regression suite: 207 checks pass across 11 scripts, zero
+  failed scripts; see regression.log.
+* Python compilation and final source/evidence integrity checks pass.
+
+The supplied compressed retry harness compares every amplitude and uses a
+1e-6 norm-scaled threshold. The observed coated difference is approximately
+3.7e-8, not bitwise equality. The worker and injected-workflow comparisons use
+complete fields for their stated angle grids, which are smaller than 181 angles.
+The deliberately injected rejections exercise control flow; they are not
+measurements of the frequency of natural rank failures on certified meshes.
+
+Tests were run on Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, AMD EPYC
+9V45, a four-CPU quota and 16 GiB memory. Some independent validation processes
+overlapped. Their elapsed seconds are NOT controlled performance comparisons;
+no new speedup claim is based on them. Claude's Python 3.13 timing observations
+remain separate. Windows and real SLURM were not exercised.
+
+USER-VISIBLE CONSEQUENCES OF THE PROPOSED CLAUDE FIXES
+
+Explicit Compressed can now finish after a tile rank/accuracy rejection, at the
+cost of doing the rejected attempt first. Metadata records the retry. An
+explicit GHOST_HMATRIX_MIN_UNKNOWNS override still disables this automatic retry.
+Overlapping same-process requests can wait longer for their RAM allowance; a
+single uncontended request is unaffected by the new wait rule. New controls,
+profile/schema changes and native rebuilds are not introduced. These fixes are
+on Claude's branch; the existing distribution remains unchanged by this review.
+
+REPRODUCTION
+
+Use a clean checkout of the pinned Claude head (or 429f299, same six code files)
+with repository dependencies installed. The supplied Claude scripts are under
+audits/claude-2026-11-11/open-item-fixes/ at that pin.
+
+  python test_admission.py ROOT
+  python test_compressed_retry.py ROOT
+  python concurrent_solves.py ROOT
+  python probe_inherited_admission.py ROOT
+  python retry_workflows.py ROOT
+  python worker_retry.py ROOT
+  python hpc_retry.py ROOT
+  GHOST_AUDIT_ROOT=ROOT OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python regression/run_all.py
+
+probe_inherited_admission intentionally asserts the currently reproduced gap;
+after a correction, change its expected outcome to waiting and success for all
+cap sources. worker_retry.py imports geometry from retry_workflows.py and reads
+worker-reference-fields.npz, whose reference is the prior independently verified
+49bd93f sequential dense solve (two frequencies, three angles, two polarizations).
+hpc_retry.py creates a fresh hpc-run/ directory; use a separate output directory
+for a fresh rerun, or --verify-only to inspect an already published local artifact.
+It submits no cluster job. The frozen runtime performs the actual solve/export.
+
+The accompanying scripts and JSON/log files provide the compact evidence.
+validation-details.zip includes full worker/HPC metadata, detailed HPC logs,
+source hashes and inherited regression/calibration scripts used for the rerun.
+It also retains the initial custom-harness errors: the repeat-rejection test
+first injected only into tile factors, so it mistakenly expected an H-matrix
+retry to fail; its injector was corrected to reject the second factor as well
+and that case was rerun. The first HPC reader looked for linear_backend at the
+metadata-envelope root; it was corrected to read the nested metadata and the
+already-published artifact was reverified, including all exported fields. These
+were test-harness errors; no production fix was made to obtain the passing
+results. The five earlier workflow groups and the corrected sixth are retained.
+SHA256SUMS.json records the published artifacts. Windows and SLURM remain open.

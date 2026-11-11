@@ -1,0 +1,67 @@
+{
+  "worker": {
+    "execution": {
+      "mode": "parallel",
+      "workers": 2,
+      "maximum_active_workers": 2,
+      "cpu_budget": 4,
+      "memory_budget_gib": 8.0,
+      "peak_reserved_gib": 7.412072777748108,
+      "interpreter_reservation_gib": 1.0,
+      "units_lost_to_worker_failure": 0,
+      "computed_frequencies": 2,
+      "reused_frequencies": 0,
+      "persistent_solve_cache": false
+    },
+    "norm_scaled_error": 3.020625604571112e-12,
+    "frequencies": [
+      {
+        "backend": "cpu_hmatrix",
+        "retry": {
+          "rejected_tile_attempt": {
+            "error": "HierarchicalRejected",
+            "message": "Off-diagonal rank exceeds 256 (relative error 5.65e-06).",
+            "wall_seconds": 145.60600413299107
+          },
+          "hmatrix_minimum_unknowns": 1024
+        },
+        "reservation": {
+          "cpus": 2,
+          "memory_reservation_gib": 3.206036388874054
+        },
+        "quality_passed": true
+      },
+      {
+        "backend": "cpu_hmatrix",
+        "retry": {
+          "rejected_tile_attempt": {
+            "error": "HierarchicalRejected",
+            "message": "Off-diagonal rank exceeds 256 (relative error 0.544).",
+            "wall_seconds": 169.13748481300718
+          },
+          "hmatrix_minimum_unknowns": 1024
+        },
+        "reservation": {
+          "cpus": 2,
+          "memory_reservation_gib": 3.206036388874054
+        },
+        "quality_passed": true
+      }
+    ]
+  },
+  "hpc": {
+    "status": "passed",
+    "artifact": "results/FRD/19.076GHz_circle.grim",
+    "norm_scaled_error": 3.020625604571112e-12,
+    "backend": "cpu_hmatrix",
+    "retry": {
+      "hmatrix_minimum_unknowns": 1024,
+      "rejected_tile_attempt": {
+        "error": "HierarchicalRejected",
+        "message": "Off-diagonal rank exceeds 256 (relative error 0.544).",
+        "wall_seconds": 47.87555515200074
+      }
+    },
+    "quality_passed": true
+  }
+}

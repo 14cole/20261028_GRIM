@@ -1,0 +1,109 @@
+[
+  {
+    "case": "survey",
+    "outcome": "passed",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      }
+    ],
+    "backend": "cpu_hmatrix",
+    "retry": {
+      "rejected_tile_attempt": {
+        "error": "HierarchicalRejected",
+        "message": "injected tile rejection for workflow validation",
+        "wall_seconds": 4.183781697996892
+      },
+      "hmatrix_minimum_unknowns": 1024
+    },
+    "certified": false,
+    "error": 7.602842637485012e-14,
+    "samples": 6
+  },
+  {
+    "case": "certified",
+    "outcome": "passed",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      }
+    ],
+    "backend": "cpu_hmatrix",
+    "retry": {
+      "rejected_tile_attempt": {
+        "error": "HierarchicalRejected",
+        "message": "injected tile rejection for workflow validation",
+        "wall_seconds": 4.032612486000289
+      },
+      "hmatrix_minimum_unknowns": 1024
+    },
+    "certified": true,
+    "error": 4.4375193655972045e-14,
+    "samples": 6
+  },
+  {
+    "case": "adaptive",
+    "outcome": "passed",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      }
+    ],
+    "backend": "cpu_hmatrix",
+    "retry": {
+      "rejected_tile_attempt": {
+        "error": "HierarchicalRejected",
+        "message": "injected tile rejection for workflow validation",
+        "wall_seconds": 3.2320710259955376
+      },
+      "hmatrix_minimum_unknowns": 1024
+    },
+    "certified": true,
+    "error": 4.4375193655972045e-14,
+    "samples": 6
+  },
+  {
+    "case": "thin_excluded",
+    "outcome": "bounded rejection",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      },
+      {
+        "retry": true,
+        "threshold": 1024
+      }
+    ],
+    "error": "HierarchicalRejected"
+  },
+  {
+    "case": "hmatrix_rejection",
+    "outcome": "bounded rejection",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      }
+    ],
+    "error": "HMatrixRejected"
+  },
+  {
+    "case": "repeat_rejection",
+    "outcome": "bounded rejection",
+    "calls": [
+      {
+        "retry": false,
+        "threshold": 8192
+      },
+      {
+        "retry": true,
+        "threshold": 1024
+      }
+    ],
+    "error": "HierarchicalRejected"
+  }
+]
