@@ -1,0 +1,3442 @@
+diff --git a/tools/GHOST/ghost_backend/bor/kernels.py b/tools/GHOST/ghost_backend/bor/kernels.py
+index cea5d4a..0742203 100644
+--- a/tools/GHOST/ghost_backend/bor/kernels.py
++++ b/tools/GHOST/ghost_backend/bor/kernels.py
+@@ -384,23 +384,6 @@ def _numpy_trig_moments(rows, xi, count, want_cos=True, want_sin=False, start_or
+     return cosine, sine
+ 
+ 
+-def _cosine_moments(weights, xi, count):
+-    """``2 * sum_a weights[:, a] cos(m xi[:, a])`` for ``m = 0..count-1``,
+-    ``weights`` complex ``[n, na]``: the modal projection of the near Green's
+-    rules.  Native recurrence when available, else the trigonometric table."""
+-    native = _native_trig_moments(np.stack([weights.real, weights.imag], axis=1), xi, count, False)
+-    if native is not None:
+-        cosine = native[0]
+-        return 2.0 * (cosine[:, 0] + 1j * cosine[:, 1])
+-    _notice_native_fallback(('trig_moments',))
+-    out = np.empty((weights.shape[0], count), complex)
+-    orders = np.arange(count)
+-    for m0 in range(0, count, 32):
+-        table = np.cos(xi[:, :, None] * orders[None, None, m0:m0 + 32])
+-        out[:, m0:m0 + 32] = 2.0 * np.matmul(weights[:, None, :], table).squeeze(1)
+-    return out
+-
+-
+ def _parity_moments(even, odd, xi, count):
+     """Cosine moments of the ``even`` rows and sine moments of the ``odd`` rows
+     (``[n, 4, na]`` each) on the per-pair grids ``xi`` ``[n, na]``.
+@@ -980,28 +963,6 @@ def mfie_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
+     return tuple(o.reshape(shape + (2 * m_max + 1,)) for o in out)
+ 
+ 
+-def _project_parity_brackets(Fp, w_pos, xi_pos, m):
+-    """Exact angular parity of the MFIE/IBC tangential bracket components.
+-
+-    tt/ff are even in xi; tf/ft are odd, for real and complex k. Thus their
+-    half-range contributions are 2 F cos(m xi) and -2j F sin(m xi).
+-    Preserve the generic signed-mode output without evaluating -xi or
+-    multiplying the identically zero/unused rows of the generic projector.
+-    The cosine moments of the even rows and the sine moments of the odd rows
+-    come from one fused native pass when available (``_parity_moments``).
+-    """
+-    m = np.asarray(m, dtype=int)
+-    magnitude = np.abs(m)
+-    count = int(magnitude.max()) + 1 if m.size else 0
+-    weighted = [2 * value * w_pos for value in Fp]
+-    even = np.stack([weighted[0].real, weighted[3].real,
+-                     weighted[0].imag, weighted[3].imag], axis=1)
+-    odd = np.stack([weighted[1].real, weighted[2].real,
+-                    weighted[1].imag, weighted[2].imag], axis=1)
+-    cosines, sines = _parity_moments(even, odd, np.asarray(xi_pos, dtype=float), count)
+-    return _parity_outputs(cosines, sines, m)
+-
+-
+ def _stable_brackets(points, k, xi, family):
+     """The four MFIE or IBC brackets without the cancellations of the sampled forms.
+ 
+@@ -1164,111 +1125,6 @@ def ibc_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
+     return tuple(o.reshape(Pp, Pq, -1) for o in out)
+ 
+ 
+-def _checked_near_kernels(rule, args, k, m_max, order, tail_order, bracket):
+-    """Resolve core and tail oscillation, check refinement, and bound scratch
+-    (legacy two-piece rules ``_*_kernels_near_rule``).
+-
+-    A refinement step compares a coarse and a fine result only when BOTH the
+-    core and the tail order increased: an order held at
+-    NEAR_ANGULAR_MAX_ORDER would be shared by the two results, its error
+-    would cancel out of their difference and the step could accept an
+-    unconverged kernel.  When a capped order prevents a valid comparison the
+-    bracket rules restart with the cancellation-free forms, and otherwise the
+-    call raises.
+-
+-    The limit applies to temporary point/angular/mode arrays. The returned
+-    point-by-mode arrays are owned by the caller and must be budgeted there.
+-    """
+-    args = tuple(np.ravel(a) for a in np.broadcast_arrays(
+-        *[np.atleast_1d(np.asarray(a, dtype=float)) for a in args]))
+-    q = 4 if bracket else 2
+-    rp, zp, rq, zq = args[0], args[1], args[q], args[q + 1]
+-    n = len(rp)
+-    nm = 2 * m_max + 1 if bracket else m_max + 2
+-    outputs = tuple(np.empty((n, nm), complex) for _ in range(4 if bracket else 1))
+-    if n == 0:
+-        return outputs if bracket else outputs[0]
+-    a = np.sqrt(np.maximum(4 * rp * rq, 0.0))
+-    d = np.hypot(rp - rq, zp - zq)
+-    s0 = np.minimum(0.25, 20 * d / np.maximum(a, 1e-150))
+-    xi0 = 2 * np.arcsin(s0)
+-    core_phase = abs(complex(k)) * a * s0 + (m_max + 2) * xi0
+-    if bracket:
+-        core_phase = np.where(a <= 1e-15, (m_max + 2) * np.pi, core_phase)
+-    core = max(int(order), 48, int(math.ceil(24 + 2 * np.max(core_phase))))
+-    tail = max(int(tail_order), 64, int(math.ceil(
+-        4 * (abs(complex(k)) * float(np.max(a)) / math.pi + m_max + 2))))
+-    if max(core, tail) > NEAR_ANGULAR_MAX_ORDER:
+-        raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
+-
+-
+-    point_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
+-                            (128 * (core + tail) * max(min(nm, 32), 16))))
+-    for start in range(0, n, point_chunk):
+-        stop = min(n, start + point_chunk)
+-        # Absolute indices of the points in this chunk that still need a
+-        # higher angular order.  Each point's kernel depends only on its own
+-        # coordinates, so refining a subset reproduces its per-point values;
+-        # points that already meet the tolerance keep their accepted result.
+-        active = np.arange(start, stop)
+-        part = tuple(a[start:stop] for a in args)
+-
+-
+-        c, t = max(16, core // 2), max(16, tail // 2)
+-        coarse = rule(*part, k, m_max, order=c, tail_order=t)
+-        coarse = coarse if bracket else (coarse,)
+-        # Sampled brackets reach a rounding floor above the tolerance once two
+-        # points are closer than about 5e-6 rho (tiny or graded elements).
+-        # Points still pending at the maximum order restart with the
+-        # cancellation-free closed forms; everything that converged before is
+-        # untouched, so existing results do not change.
+-        options = {}
+-        error = scale = None
+-        while True:
+-            cf = min(NEAR_ANGULAR_MAX_ORDER, max(core, c + 16, int(math.ceil(1.5 * c))))
+-            tf = min(NEAR_ANGULAR_MAX_ORDER, max(tail, t + 16, int(math.ceil(1.5 * t))))
+-            if cf <= c or tf <= t:
+-                # A capped order cannot increase: no valid comparison remains.
+-                if bracket and not options:
+-                    options = {'stable': True}
+-                    c, t = max(16, core // 2), max(16, tail // 2)
+-                    coarse = rule(*part, k, m_max, order=c, tail_order=t, **options)
+-                    continue
+-                if error is None:
+-                    raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
+-                worst = int(np.argmax(error / np.maximum(scale, 1e-280)))
+-                coordinates = tuple(float(a[worst]) for a in part)
+-                raise ValueError(f"BoR near angular quadrature did not converge at the maximum order: {rule.__name__}, point={coordinates}, relative change={float(error[worst] / max(scale[worst], 1e-280)):.3g}.")
+-
+-
+-            fine_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
+-                                   (128 * (cf + tf) * max(min(nm, 32), 16))))
+-            fine = tuple(np.empty_like(x) for x in coarse)
+-            for i in range(0, len(active), fine_chunk):
+-                val = rule(*(a[i:i + fine_chunk] for a in part), k, m_max,
+-                           order=cf, tail_order=tf, **options)
+-                val = val if bracket else (val,)
+-                for out, x in zip(fine, val):
+-                    out[i:i + fine_chunk] = x
+-            scale = np.maximum.reduce([np.max(np.abs(x), axis=1) for x in fine])
+-            error = np.maximum.reduce([np.max(np.abs(x - y), axis=1)
+-                                       for x, y in zip(fine, coarse)])
+-            converged = np.isfinite(error) & (
+-                error <= NEAR_ANGULAR_RTOL * np.maximum(scale, 1e-280)
+-            )
+-            for out, x in zip(outputs, fine):
+-                out[active[converged]] = x[converged]
+-            if np.all(converged):
+-                break
+-            pending = ~converged
+-            active = active[pending]
+-            part = tuple(a[pending] for a in part)
+-            coarse = tuple(x[pending] for x in fine)
+-            error, scale = error[pending], scale[pending]
+-            c, t = cf, tf
+-    return outputs if bracket else outputs[0]
+-
+-
+ # --------------------------------------------------------------------------
+ # Graded near angular rule (production)
+ # --------------------------------------------------------------------------
+diff --git a/tools/GHOST/ghost_backend/bor/solver.py b/tools/GHOST/ghost_backend/bor/solver.py
+index a932571..94eae8a 100644
+--- a/tools/GHOST/ghost_backend/bor/solver.py
++++ b/tools/GHOST/ghost_backend/bor/solver.py
+@@ -756,34 +756,6 @@ def _iter_near_pairs(function: 'Callable', pairs, workers: 'int', process_functi
+             blas.__exit__(None, None, None)
+ 
+ 
+-def _graded_cells(kind: 'str', depth: 'int' = 4) -> 'List[Tuple[float, float, float, float]]':
+-    """Cells (s0, s1, sp0, sp1) covering [0,1]^2 refined toward the singular
+-    set: kind = 'diag' (s == s'), 'corner00', 'corner01', 'corner10', 'corner11'
+-    where cornerAB means singular at s = A, s' = B."""
+-
+-    cells = []
+-
+-    def touches(kind, s0, s1, p0, p1):
+-        if kind == "diag":
+-            return not (s1 <= p0 or p1 <= s0)
+-        a = 0.0 if kind[6] == "0" else 1.0
+-        b = 0.0 if kind[7] == "0" else 1.0
+-        return (s0 <= a <= s1) and (p0 <= b <= p1)
+-
+-    def recurse(s0, s1, p0, p1, d):
+-        if not touches(kind, s0, s1, p0, p1) or d >= depth:
+-            cells.append((s0, s1, p0, p1))
+-            return
+-        sm, pm = 0.5 * (s0 + s1), 0.5 * (p0 + p1)
+-        recurse(s0, sm, p0, pm, d + 1)
+-        recurse(s0, sm, pm, p1, d + 1)
+-        recurse(sm, s1, p0, pm, d + 1)
+-        recurse(sm, s1, pm, p1, d + 1)
+-
+-    recurse(0.0, 1.0, 0.0, 1.0, 0)
+-    return cells
+-
+-
+ _CELL_CACHE: 'Dict[str, Tuple[np.ndarray, np.ndarray, np.ndarray]]' = {}
+ 
+ 
+@@ -820,35 +792,6 @@ def _touching_probes(owner, records):
+     return check_probes([record for _, record in records], _near_check_stride())
+ 
+ 
+-def _cell_points(kind: 'str', gorder: 'int' = 4,
+-                 depth: 'int' = 4) -> 'Tuple[np.ndarray, np.ndarray, np.ndarray]':
+-    """(s_points, sp_points, weights) for the graded cell set of `kind`."""
+-
+-    depth = max(0, int(depth))
+-    key = f"{kind}:{gorder}:{depth}"
+-    if key in _CELL_CACHE:
+-        return _CELL_CACHE[key]
+-    xg, wg = cached_leggauss(gorder)
+-    u = 0.5 * (xg + 1.0)
+-    w = 0.5 * wg
+-
+-
+-    xq, wq_ = cached_leggauss(gorder + 1)
+-    uq = 0.5 * (xq + 1.0)
+-    wq = 0.5 * wq_
+-    S, SP, W = [], [], []
+-    for (s0, s1, p0, p1) in _graded_cells(kind, depth=depth):
+-        hs, hp = s1 - s0, p1 - p0
+-        ss = s0 + u * hs
+-        pp = p0 + uq * hp
+-        SS, PP = np.meshgrid(ss, pp, indexing="ij")
+-        WW = np.outer(w * hs, wq * hp)
+-        S.append(SS.ravel()); SP.append(PP.ravel()); W.append(WW.ravel())
+-    out = (np.concatenate(S), np.concatenate(SP), np.concatenate(W))
+-    _CELL_CACHE[key] = out
+-    return out
+-
+-
+ def _same_surface_points(gen, e: 'int', f: 'int', kinds, depth: 'int', m_max=None):
+     """Quadrature of a same-surface self (e == f) or adjacent pair: the graded
+     polar rule of bor.sharp_pairs, for every pair.
+diff --git a/tools/GHOST/ghost_backend/data_tools/cem_tools/certification_evidence.py b/tools/GHOST/ghost_backend/data_tools/cem_tools/certification_evidence.py
+new file mode 100644
+index 0000000..a7ec25a
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/data_tools/cem_tools/certification_evidence.py
+@@ -0,0 +1,460 @@
++"""Optional inspection of legacy mesh-certification evidence.
++
++Normal joins and subtraction do not load this module. These checks inspect
++stored provenance; they do not authorize a numerical dataset operation.
++"""
++import json
++import math
++from typing import Any
++import numpy as np
++from .errors import CemToolError
++from .grim_native import (
++    MESH_CERTIFICATION_KEY, MESH_CERTIFICATION_SCHEMA, DUAL_OUTPUT_POLARIZATIONS,
++    EMBEDDED_ATTESTATION_SCHEMA, _ATTESTATION_SHA256_FIELDS, _POLARIZATION_2D,
++    _scalar_text,
++)
++
++
++def _canonical_output_polarization(value: 'Any') -> 'str':
++    key = str(value).strip().upper()
++    internal = _POLARIZATION_2D.get(key)
++    if internal == "TE":
++        return "VV"
++    if internal == "TM":
++        return "HH"
++    raise CemToolError(f"unsupported 2-D polarization in certification: {value!r}")
++
++
++def _require_passed_quality_gate(gate: 'Any', label: 'str') -> 'dict[str, Any]':
++    if not isinstance(gate, dict) or gate.get("passed") is not True:
++        raise CemToolError(f"{label}: solver quality gate did not pass")
++    return gate
++
++
++def _require_passed_mesh_gate(gate: 'Any', label: 'str') -> 'dict[str, Any]':
++    if (
++        not isinstance(gate, dict)
++        or gate.get("passed") is not True
++        or gate.get("published_mesh") != "fine"
++    ):
++        raise CemToolError(
++            f"{label}: mesh-convergence gate did not publish a passing fine mesh"
++        )
++    _require_passed_quality_gate(
++        gate.get("base_quality_gate"), f"{label} base mesh"
++    )
++    _require_passed_quality_gate(
++        gate.get("fine_quality_gate"), f"{label} fine mesh"
++    )
++    return gate
++
++
++def _attestation_frequency(attestation: 'dict[str, Any]', label: 'str') -> 'float':
++    try:
++        value = float(attestation["frequency_ghz"])
++    except (KeyError, TypeError, ValueError, OverflowError) as exc:
++        raise CemToolError(
++            f"{label}: embedded output attestation has no finite frequency_ghz"
++        ) from exc
++    if not math.isfinite(value) or value <= 0.0:
++        raise CemToolError(
++            f"{label}: embedded output attestation has no finite frequency_ghz"
++        )
++    return value
++
++
++def _require_embedded_attestation(
++    attestation: 'Any',
++    label: 'str',
++    *,
++    frequency_ghz: 'float',
++    polarizations: 'tuple[str, ...]',
++) -> 'dict[str, Any]':
++    """Validate the exact local/HPC embedded output-attestation contract."""
++
++    if (
++        not isinstance(attestation, dict)
++        or attestation.get("schema") != EMBEDDED_ATTESTATION_SCHEMA
++    ):
++        raise CemToolError(
++            f"{label}: missing current embedded output attestation"
++        )
++    if not str(attestation.get("run_id", "")).strip():
++        raise CemToolError(f"{label}: embedded output attestation has no run_id")
++    for field in _ATTESTATION_SHA256_FIELDS:
++        digest = str(attestation.get(field, "")).strip()
++        if len(digest) != 64 or any(
++            character not in "0123456789abcdefABCDEF" for character in digest
++        ):
++            raise CemToolError(
++                f"{label}: embedded output attestation has invalid {field}"
++            )
++    if attestation.get("angular_grid_kind") != "azimuths_deg":
++        raise CemToolError(
++            f"{label}: embedded output attestation has the wrong angular grid kind"
++        )
++    recorded_frequency = _attestation_frequency(attestation, label)
++    if not math.isclose(
++        recorded_frequency, float(frequency_ghz), rel_tol=0.0, abs_tol=1.0e-12
++    ):
++        raise CemToolError(
++            f"{label}: embedded output attestation frequency does not match "
++            "the GRIM frequency axis"
++        )
++
++    if polarizations == DUAL_OUTPUT_POLARIZATIONS:
++        recorded = attestation.get("polarizations")
++        if not isinstance(recorded, list) or tuple(recorded) != polarizations:
++            raise CemToolError(
++                f"{label}: embedded output attestation must declare exactly "
++                "polarizations=['VV','HH']"
++            )
++        if "polarization" in attestation:
++            raise CemToolError(
++                f"{label}: dual-channel output attestation must not select one "
++                "polarization"
++            )
++    elif len(polarizations) == 1:
++        if "polarizations" in attestation:
++            raise CemToolError(
++                f"{label}: legacy single-channel output attestation must not "
++                "declare a channel collection"
++            )
++        try:
++            recorded = _canonical_output_polarization(
++                attestation.get("polarization")
++            )
++        except CemToolError as exc:
++            raise CemToolError(
++                f"{label}: embedded output attestation has no valid polarization"
++            ) from exc
++        if recorded != polarizations[0]:
++            raise CemToolError(
++                f"{label}: embedded output attestation polarization does not "
++                "match the GRIM channel"
++            )
++    else:
++        raise CemToolError(f"{label}: unsupported attested polarization contract")
++    return attestation
++
++
++def _require_channel_dictionary(
++    value: 'Any', label: 'str'
++) -> 'dict[str, Any]':
++    if not isinstance(value, dict) or set(value) != set(DUAL_OUTPUT_POLARIZATIONS):
++        raise CemToolError(
++            f"{label}: certification must contain exactly VV and HH channels"
++        )
++    return value
++
++
++def _validate_dual_channel_evidence(
++    *,
++    mesh: 'Any',
++    quality: 'Any',
++    channels: 'Any',
++    label: 'str',
++) -> 'None':
++    """Require independent mesh and algebraic evidence for VV and HH."""
++
++    aggregate_mesh = _require_passed_mesh_gate(mesh, f"{label} aggregate")
++    aggregate_quality = _require_passed_quality_gate(
++        quality, f"{label} aggregate"
++    )
++    channel_meshes = _require_channel_dictionary(
++        aggregate_mesh.get("channels"), f"{label} aggregate mesh"
++    )
++    quality_channels = _require_channel_dictionary(
++        aggregate_quality.get("channels"), f"{label} aggregate quality"
++    )
++    channel_records = _require_channel_dictionary(channels, label)
++
++    for phase in ("base_quality_gate", "fine_quality_gate"):
++        phase_gate = _require_passed_quality_gate(
++            aggregate_mesh.get(phase), f"{label} aggregate {phase}"
++        )
++        phase_channels = _require_channel_dictionary(
++            phase_gate.get("channels"), f"{label} aggregate {phase}"
++        )
++        for polarization in DUAL_OUTPUT_POLARIZATIONS:
++            _require_passed_quality_gate(
++                phase_channels[polarization],
++                f"{label} {polarization} aggregate {phase}",
++            )
++
++    for polarization in DUAL_OUTPUT_POLARIZATIONS:
++        channel_label = f"{label} {polarization}"
++        _require_passed_quality_gate(
++            quality_channels[polarization], channel_label
++        )
++        _require_passed_mesh_gate(
++            channel_meshes[polarization], channel_label
++        )
++        record = channel_records[polarization]
++        if not isinstance(record, dict):
++            raise CemToolError(f"{channel_label}: malformed channel metadata")
++        _require_passed_quality_gate(record.get("quality_gate"), channel_label)
++        _require_passed_mesh_gate(
++            record.get("mesh_convergence"), channel_label
++        )
++
++
++def _validate_propagated_source(source: 'Any', label: 'str') -> 'None':
++    if not isinstance(source, dict):
++        raise CemToolError(f"{label}: malformed source-chain record")
++    contract = source.get("contract")
++    if contract == "embedded-dual-output-attestation.v1":
++        polarizations = tuple(source.get("polarizations", ()))
++        if polarizations != DUAL_OUTPUT_POLARIZATIONS:
++            raise CemToolError(
++                f"{label}: dual source-chain record does not contain VV and HH"
++            )
++        try:
++            frequency_value = float(source.get("frequency_ghz"))
++        except (TypeError, ValueError, OverflowError) as exc:
++            raise CemToolError(
++                f"{label}: dual source-chain record has invalid frequency"
++            ) from exc
++        _require_embedded_attestation(
++            source.get("output_attestation"),
++            label,
++            frequency_ghz=frequency_value,
++            polarizations=DUAL_OUTPUT_POLARIZATIONS,
++        )
++        _validate_dual_channel_evidence(
++            mesh=source.get("mesh_convergence"),
++            quality=source.get("quality_gate"),
++            channels=source.get("channels"),
++            label=label,
++        )
++        return
++    if contract == "embedded-single-output-attestation.v1":
++        polarization = _canonical_output_polarization(
++            source.get("polarization")
++        )
++        try:
++            frequency_value = float(source.get("frequency_ghz"))
++        except (TypeError, ValueError, OverflowError) as exc:
++            raise CemToolError(
++                f"{label}: single-channel source-chain record has invalid frequency"
++            ) from exc
++        _require_embedded_attestation(
++            source.get("output_attestation"),
++            label,
++            frequency_ghz=frequency_value,
++            polarizations=(polarization,),
++        )
++        _require_passed_mesh_gate(source.get("mesh_convergence"), label)
++        _require_passed_quality_gate(source.get("quality_gate"), label)
++        return
++
++    # Records emitted by the original workflow-unit contract did not carry a
++    # contract discriminator or a top-level quality gate. Its base/fine gates
++    # are nevertheless preserved and still validated here.
++    if contract not in (None, "legacy-workflow-unit.v1"):
++        raise CemToolError(f"{label}: unsupported source-chain contract")
++    _require_passed_mesh_gate(source.get("mesh_convergence"), label)
++
++
++def mesh_certification_sources(
++    payload: 'dict[str, np.ndarray]',
++    label: 'str',
++) -> 'list[dict[str, Any]] | None':
++    """Explicitly audit optional source evidence, including legacy CEM chains.
++
++    Normal joins and subtraction deliberately do not call this helper; mesh
++    certification is advisory and never authorizes a numerical operation.
++    """
++
++    if MESH_CERTIFICATION_KEY in payload:
++        try:
++            decoded = json.loads(
++                _scalar_text(payload[MESH_CERTIFICATION_KEY])
++            )
++        except (TypeError, ValueError, json.JSONDecodeError) as exc:
++            raise CemToolError(
++                f"{label}: malformed production mesh certification"
++            ) from exc
++        sources = decoded.get("sources") if isinstance(decoded, dict) else None
++        if (
++            not isinstance(decoded, dict)
++            or decoded.get("schema") != MESH_CERTIFICATION_SCHEMA
++            or decoded.get("passed") is not True
++            or decoded.get("published_mesh") != "fine"
++            or not isinstance(sources, list)
++            or not sources
++            or (
++                "source_count" in decoded
++                and decoded.get("source_count") != len(sources)
++            )
++        ):
++            raise CemToolError(
++                f"{label}: unsupported production mesh certification"
++            )
++        if decoded.get("certifies_coherent_delta_convergence") is True:
++            raise CemToolError(
++                f"{label}: invalid source-chain certificate claims coherent "
++                "delta convergence"
++            )
++        for index, source in enumerate(sources):
++            _validate_propagated_source(
++                source, f"{label} source-chain item {index + 1}"
++            )
++        return sources
++
++    if "solver_metadata_json" not in payload:
++        return None
++    try:
++        audit = json.loads(_scalar_text(payload["solver_metadata_json"]))
++    except (TypeError, ValueError, json.JSONDecodeError) as exc:
++        raise CemToolError(
++            f"{label}: malformed solver metadata"
++        ) from exc
++    metadata = audit.get("metadata") if isinstance(audit, dict) else None
++    mesh = (
++        metadata.get("mesh_convergence")
++        if isinstance(metadata, dict)
++        else None
++    )
++    if mesh is None:
++        return None
++    output_attestation = metadata.get("output_attestation")
++    payload_polarizations = tuple(
++        str(value).strip().upper()
++        for value in np.asarray(payload["polarizations"]).ravel()
++    )
++    frequencies = np.asarray(payload["frequencies"], dtype=float).ravel()
++
++    if output_attestation is not None and "polarizations" in output_attestation:
++        if payload_polarizations != DUAL_OUTPUT_POLARIZATIONS:
++            raise CemToolError(
++                f"{label}: an attested dual-channel artifact must store exactly "
++                "polarizations ['VV', 'HH'] in that order"
++            )
++        if frequencies.size != 1:
++            raise CemToolError(
++                f"{label}: an attested solver unit must contain one frequency"
++            )
++        if tuple(audit.get("polarizations", ())) != DUAL_OUTPUT_POLARIZATIONS:
++            raise CemToolError(
++                f"{label}: solver audit does not declare exactly VV and HH"
++            )
++        if tuple(metadata.get("polarizations", ())) != DUAL_OUTPUT_POLARIZATIONS:
++            raise CemToolError(
++                f"{label}: solver metadata does not declare exactly VV and HH"
++            )
++        if metadata.get("polarization_mapping") != {"VV": "TE", "HH": "TM"}:
++            raise CemToolError(
++                f"{label}: solver metadata has the wrong VV/HH scalar mapping"
++            )
++        _require_embedded_attestation(
++            output_attestation,
++            label,
++            frequency_ghz=float(frequencies[0]),
++            polarizations=DUAL_OUTPUT_POLARIZATIONS,
++        )
++        if (
++            metadata.get("mesh_convergence_certified") is not True
++            or metadata.get("certified_entry_point") is not True
++            or metadata.get("published_mesh") != "fine"
++        ):
++            raise CemToolError(
++                f"{label}: dual-channel solver result was not published by the "
++                "certified fine-mesh entry point"
++            )
++        quality = metadata.get("quality_gate")
++        channel_metadata = _require_channel_dictionary(
++            metadata.get("channel_metadata"), label
++        )
++        _validate_dual_channel_evidence(
++            mesh=mesh,
++            quality=quality,
++            channels=channel_metadata,
++            label=label,
++        )
++        for polarization in DUAL_OUTPUT_POLARIZATIONS:
++            channel = channel_metadata[polarization]
++            if (
++                channel.get("mesh_convergence_certified") is not True
++                or channel.get("certified_entry_point") is not True
++                or channel.get("published_mesh") != "fine"
++            ):
++                raise CemToolError(
++                    f"{label} {polarization}: channel was not published by the "
++                    "certified fine-mesh entry point"
++                )
++        return [{
++            "contract": "embedded-dual-output-attestation.v1",
++            "label": str(label),
++            "frequency_ghz": float(frequencies[0]),
++            "polarizations": list(DUAL_OUTPUT_POLARIZATIONS),
++            "output_attestation": output_attestation,
++            "mesh_convergence": mesh,
++            "quality_gate": quality,
++            "channels": {
++                polarization: {
++                    "mesh_convergence": channel_metadata[polarization][
++                        "mesh_convergence"
++                    ],
++                    "quality_gate": channel_metadata[polarization][
++                        "quality_gate"
++                    ],
++                }
++                for polarization in DUAL_OUTPUT_POLARIZATIONS
++            },
++        }]
++
++    if output_attestation is not None:
++        if len(payload_polarizations) != 1 or frequencies.size != 1:
++            raise CemToolError(
++                f"{label}: legacy attested solver unit must contain one channel "
++                "and one frequency"
++            )
++        polarization = _canonical_output_polarization(payload_polarizations[0])
++        _require_embedded_attestation(
++            output_attestation,
++            label,
++            frequency_ghz=float(frequencies[0]),
++            polarizations=(polarization,),
++        )
++        _require_passed_mesh_gate(mesh, label)
++        quality = _require_passed_quality_gate(
++            metadata.get("quality_gate"), label
++        )
++        return [{
++            "contract": "embedded-single-output-attestation.v1",
++            "label": str(label),
++            "frequency_ghz": float(frequencies[0]),
++            "polarization": polarization,
++            "output_attestation": output_attestation,
++            "mesh_convergence": mesh,
++            "quality_gate": quality,
++        }]
++
++    # Backward compatibility for artifacts produced before embedded output
++    # attestations. These carried a workflow_unit beside a scalar mesh gate.
++    workflow = metadata.get("workflow_unit")
++    try:
++        _require_passed_mesh_gate(mesh, label)
++    except CemToolError as exc:
++        raise CemToolError(
++            f"{label}: solver mesh certification did not pass the strict "
++            "base/fine production policy"
++        ) from exc
++    if (
++        not isinstance(workflow, dict)
++        or workflow.get("published_mesh") != "fine"
++        or not isinstance(workflow.get("mesh_convergence_policy"), dict)
++    ):
++        raise CemToolError(
++            f"{label}: solver mesh certification did not pass the strict "
++            "base/fine production policy"
++        )
++    return [{
++        "contract": "legacy-workflow-unit.v1",
++        "label": str(label),
++        "workflow_unit_sha256": str(workflow.get("unit_sha256", "")),
++        "frequency_ghz": workflow.get("frequency_ghz"),
++        "polarization": workflow.get("polarization"),
++        "mesh_convergence": mesh,
++    }]
+diff --git a/tools/GHOST/ghost_backend/data_tools/cem_tools/grim_native.py b/tools/GHOST/ghost_backend/data_tools/cem_tools/grim_native.py
+index db76ffb..84ab1be 100644
+--- a/tools/GHOST/ghost_backend/data_tools/cem_tools/grim_native.py
++++ b/tools/GHOST/ghost_backend/data_tools/cem_tools/grim_native.py
+@@ -71,449 +71,10 @@ def _scalar_text(value: 'Any') -> 'str':
+     return str(item)
+ 
+ 
+-def _canonical_output_polarization(value: 'Any') -> 'str':
+-    key = str(value).strip().upper()
+-    internal = _POLARIZATION_2D.get(key)
+-    if internal == "TE":
+-        return "VV"
+-    if internal == "TM":
+-        return "HH"
+-    raise CemToolError(f"unsupported 2-D polarization in certification: {value!r}")
+-
+-
+-def _require_passed_quality_gate(gate: 'Any', label: 'str') -> 'dict[str, Any]':
+-    if not isinstance(gate, dict) or gate.get("passed") is not True:
+-        raise CemToolError(f"{label}: solver quality gate did not pass")
+-    return gate
+-
+-
+-def _require_passed_mesh_gate(gate: 'Any', label: 'str') -> 'dict[str, Any]':
+-    if (
+-        not isinstance(gate, dict)
+-        or gate.get("passed") is not True
+-        or gate.get("published_mesh") != "fine"
+-    ):
+-        raise CemToolError(
+-            f"{label}: mesh-convergence gate did not publish a passing fine mesh"
+-        )
+-    _require_passed_quality_gate(
+-        gate.get("base_quality_gate"), f"{label} base mesh"
+-    )
+-    _require_passed_quality_gate(
+-        gate.get("fine_quality_gate"), f"{label} fine mesh"
+-    )
+-    return gate
+-
+-
+-def _attestation_frequency(attestation: 'dict[str, Any]', label: 'str') -> 'float':
+-    try:
+-        value = float(attestation["frequency_ghz"])
+-    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+-        raise CemToolError(
+-            f"{label}: embedded output attestation has no finite frequency_ghz"
+-        ) from exc
+-    if not math.isfinite(value) or value <= 0.0:
+-        raise CemToolError(
+-            f"{label}: embedded output attestation has no finite frequency_ghz"
+-        )
+-    return value
+-
+-
+-def _require_embedded_attestation(
+-    attestation: 'Any',
+-    label: 'str',
+-    *,
+-    frequency_ghz: 'float',
+-    polarizations: 'tuple[str, ...]',
+-) -> 'dict[str, Any]':
+-    """Validate the exact local/HPC embedded output-attestation contract."""
+-
+-    if (
+-        not isinstance(attestation, dict)
+-        or attestation.get("schema") != EMBEDDED_ATTESTATION_SCHEMA
+-    ):
+-        raise CemToolError(
+-            f"{label}: missing current embedded output attestation"
+-        )
+-    if not str(attestation.get("run_id", "")).strip():
+-        raise CemToolError(f"{label}: embedded output attestation has no run_id")
+-    for field in _ATTESTATION_SHA256_FIELDS:
+-        digest = str(attestation.get(field, "")).strip()
+-        if len(digest) != 64 or any(
+-            character not in "0123456789abcdefABCDEF" for character in digest
+-        ):
+-            raise CemToolError(
+-                f"{label}: embedded output attestation has invalid {field}"
+-            )
+-    if attestation.get("angular_grid_kind") != "azimuths_deg":
+-        raise CemToolError(
+-            f"{label}: embedded output attestation has the wrong angular grid kind"
+-        )
+-    recorded_frequency = _attestation_frequency(attestation, label)
+-    if not math.isclose(
+-        recorded_frequency, float(frequency_ghz), rel_tol=0.0, abs_tol=1.0e-12
+-    ):
+-        raise CemToolError(
+-            f"{label}: embedded output attestation frequency does not match "
+-            "the GRIM frequency axis"
+-        )
+-
+-    if polarizations == DUAL_OUTPUT_POLARIZATIONS:
+-        recorded = attestation.get("polarizations")
+-        if not isinstance(recorded, list) or tuple(recorded) != polarizations:
+-            raise CemToolError(
+-                f"{label}: embedded output attestation must declare exactly "
+-                "polarizations=['VV','HH']"
+-            )
+-        if "polarization" in attestation:
+-            raise CemToolError(
+-                f"{label}: dual-channel output attestation must not select one "
+-                "polarization"
+-            )
+-    elif len(polarizations) == 1:
+-        if "polarizations" in attestation:
+-            raise CemToolError(
+-                f"{label}: legacy single-channel output attestation must not "
+-                "declare a channel collection"
+-            )
+-        try:
+-            recorded = _canonical_output_polarization(
+-                attestation.get("polarization")
+-            )
+-        except CemToolError as exc:
+-            raise CemToolError(
+-                f"{label}: embedded output attestation has no valid polarization"
+-            ) from exc
+-        if recorded != polarizations[0]:
+-            raise CemToolError(
+-                f"{label}: embedded output attestation polarization does not "
+-                "match the GRIM channel"
+-            )
+-    else:
+-        raise CemToolError(f"{label}: unsupported attested polarization contract")
+-    return attestation
+-
+-
+-def _require_channel_dictionary(
+-    value: 'Any', label: 'str'
+-) -> 'dict[str, Any]':
+-    if not isinstance(value, dict) or set(value) != set(DUAL_OUTPUT_POLARIZATIONS):
+-        raise CemToolError(
+-            f"{label}: certification must contain exactly VV and HH channels"
+-        )
+-    return value
+-
+-
+-def _validate_dual_channel_evidence(
+-    *,
+-    mesh: 'Any',
+-    quality: 'Any',
+-    channels: 'Any',
+-    label: 'str',
+-) -> 'None':
+-    """Require independent mesh and algebraic evidence for VV and HH."""
+-
+-    aggregate_mesh = _require_passed_mesh_gate(mesh, f"{label} aggregate")
+-    aggregate_quality = _require_passed_quality_gate(
+-        quality, f"{label} aggregate"
+-    )
+-    channel_meshes = _require_channel_dictionary(
+-        aggregate_mesh.get("channels"), f"{label} aggregate mesh"
+-    )
+-    quality_channels = _require_channel_dictionary(
+-        aggregate_quality.get("channels"), f"{label} aggregate quality"
+-    )
+-    channel_records = _require_channel_dictionary(channels, label)
+-
+-    for phase in ("base_quality_gate", "fine_quality_gate"):
+-        phase_gate = _require_passed_quality_gate(
+-            aggregate_mesh.get(phase), f"{label} aggregate {phase}"
+-        )
+-        phase_channels = _require_channel_dictionary(
+-            phase_gate.get("channels"), f"{label} aggregate {phase}"
+-        )
+-        for polarization in DUAL_OUTPUT_POLARIZATIONS:
+-            _require_passed_quality_gate(
+-                phase_channels[polarization],
+-                f"{label} {polarization} aggregate {phase}",
+-            )
+-
+-    for polarization in DUAL_OUTPUT_POLARIZATIONS:
+-        channel_label = f"{label} {polarization}"
+-        _require_passed_quality_gate(
+-            quality_channels[polarization], channel_label
+-        )
+-        _require_passed_mesh_gate(
+-            channel_meshes[polarization], channel_label
+-        )
+-        record = channel_records[polarization]
+-        if not isinstance(record, dict):
+-            raise CemToolError(f"{channel_label}: malformed channel metadata")
+-        _require_passed_quality_gate(record.get("quality_gate"), channel_label)
+-        _require_passed_mesh_gate(
+-            record.get("mesh_convergence"), channel_label
+-        )
+-
+-
+-def _validate_propagated_source(source: 'Any', label: 'str') -> 'None':
+-    if not isinstance(source, dict):
+-        raise CemToolError(f"{label}: malformed source-chain record")
+-    contract = source.get("contract")
+-    if contract == "embedded-dual-output-attestation.v1":
+-        polarizations = tuple(source.get("polarizations", ()))
+-        if polarizations != DUAL_OUTPUT_POLARIZATIONS:
+-            raise CemToolError(
+-                f"{label}: dual source-chain record does not contain VV and HH"
+-            )
+-        try:
+-            frequency_value = float(source.get("frequency_ghz"))
+-        except (TypeError, ValueError, OverflowError) as exc:
+-            raise CemToolError(
+-                f"{label}: dual source-chain record has invalid frequency"
+-            ) from exc
+-        _require_embedded_attestation(
+-            source.get("output_attestation"),
+-            label,
+-            frequency_ghz=frequency_value,
+-            polarizations=DUAL_OUTPUT_POLARIZATIONS,
+-        )
+-        _validate_dual_channel_evidence(
+-            mesh=source.get("mesh_convergence"),
+-            quality=source.get("quality_gate"),
+-            channels=source.get("channels"),
+-            label=label,
+-        )
+-        return
+-    if contract == "embedded-single-output-attestation.v1":
+-        polarization = _canonical_output_polarization(
+-            source.get("polarization")
+-        )
+-        try:
+-            frequency_value = float(source.get("frequency_ghz"))
+-        except (TypeError, ValueError, OverflowError) as exc:
+-            raise CemToolError(
+-                f"{label}: single-channel source-chain record has invalid frequency"
+-            ) from exc
+-        _require_embedded_attestation(
+-            source.get("output_attestation"),
+-            label,
+-            frequency_ghz=frequency_value,
+-            polarizations=(polarization,),
+-        )
+-        _require_passed_mesh_gate(source.get("mesh_convergence"), label)
+-        _require_passed_quality_gate(source.get("quality_gate"), label)
+-        return
+-
+-    # Records emitted by the original workflow-unit contract did not carry a
+-    # contract discriminator or a top-level quality gate. Its base/fine gates
+-    # are nevertheless preserved and still validated here.
+-    if contract not in (None, "legacy-workflow-unit.v1"):
+-        raise CemToolError(f"{label}: unsupported source-chain contract")
+-    _require_passed_mesh_gate(source.get("mesh_convergence"), label)
+-
+-
+-def _mesh_certification_sources(
+-    payload: 'dict[str, np.ndarray]',
+-    label: 'str',
+-) -> 'list[dict[str, Any]] | None':
+-    """Explicitly audit optional source evidence, including legacy CEM chains.
+-
+-    Normal joins and subtraction deliberately do not call this helper; mesh
+-    certification is advisory and never authorizes a numerical operation.
+-    """
+-
+-    if MESH_CERTIFICATION_KEY in payload:
+-        try:
+-            decoded = json.loads(
+-                _scalar_text(payload[MESH_CERTIFICATION_KEY])
+-            )
+-        except (TypeError, ValueError, json.JSONDecodeError) as exc:
+-            raise CemToolError(
+-                f"{label}: malformed production mesh certification"
+-            ) from exc
+-        sources = decoded.get("sources") if isinstance(decoded, dict) else None
+-        if (
+-            not isinstance(decoded, dict)
+-            or decoded.get("schema") != MESH_CERTIFICATION_SCHEMA
+-            or decoded.get("passed") is not True
+-            or decoded.get("published_mesh") != "fine"
+-            or not isinstance(sources, list)
+-            or not sources
+-            or (
+-                "source_count" in decoded
+-                and decoded.get("source_count") != len(sources)
+-            )
+-        ):
+-            raise CemToolError(
+-                f"{label}: unsupported production mesh certification"
+-            )
+-        if decoded.get("certifies_coherent_delta_convergence") is True:
+-            raise CemToolError(
+-                f"{label}: invalid source-chain certificate claims coherent "
+-                "delta convergence"
+-            )
+-        for index, source in enumerate(sources):
+-            _validate_propagated_source(
+-                source, f"{label} source-chain item {index + 1}"
+-            )
+-        return sources
+-
+-    if "solver_metadata_json" not in payload:
+-        return None
+-    try:
+-        audit = json.loads(_scalar_text(payload["solver_metadata_json"]))
+-    except (TypeError, ValueError, json.JSONDecodeError) as exc:
+-        raise CemToolError(
+-            f"{label}: malformed solver metadata"
+-        ) from exc
+-    metadata = audit.get("metadata") if isinstance(audit, dict) else None
+-    mesh = (
+-        metadata.get("mesh_convergence")
+-        if isinstance(metadata, dict)
+-        else None
+-    )
+-    if mesh is None:
+-        return None
+-    output_attestation = metadata.get("output_attestation")
+-    payload_polarizations = tuple(
+-        str(value).strip().upper()
+-        for value in np.asarray(payload["polarizations"]).ravel()
+-    )
+-    frequencies = np.asarray(payload["frequencies"], dtype=float).ravel()
+-
+-    if output_attestation is not None and "polarizations" in output_attestation:
+-        if payload_polarizations != DUAL_OUTPUT_POLARIZATIONS:
+-            raise CemToolError(
+-                f"{label}: an attested dual-channel artifact must store exactly "
+-                "polarizations ['VV', 'HH'] in that order"
+-            )
+-        if frequencies.size != 1:
+-            raise CemToolError(
+-                f"{label}: an attested solver unit must contain one frequency"
+-            )
+-        if tuple(audit.get("polarizations", ())) != DUAL_OUTPUT_POLARIZATIONS:
+-            raise CemToolError(
+-                f"{label}: solver audit does not declare exactly VV and HH"
+-            )
+-        if tuple(metadata.get("polarizations", ())) != DUAL_OUTPUT_POLARIZATIONS:
+-            raise CemToolError(
+-                f"{label}: solver metadata does not declare exactly VV and HH"
+-            )
+-        if metadata.get("polarization_mapping") != {"VV": "TE", "HH": "TM"}:
+-            raise CemToolError(
+-                f"{label}: solver metadata has the wrong VV/HH scalar mapping"
+-            )
+-        _require_embedded_attestation(
+-            output_attestation,
+-            label,
+-            frequency_ghz=float(frequencies[0]),
+-            polarizations=DUAL_OUTPUT_POLARIZATIONS,
+-        )
+-        if (
+-            metadata.get("mesh_convergence_certified") is not True
+-            or metadata.get("certified_entry_point") is not True
+-            or metadata.get("published_mesh") != "fine"
+-        ):
+-            raise CemToolError(
+-                f"{label}: dual-channel solver result was not published by the "
+-                "certified fine-mesh entry point"
+-            )
+-        quality = metadata.get("quality_gate")
+-        channel_metadata = _require_channel_dictionary(
+-            metadata.get("channel_metadata"), label
+-        )
+-        _validate_dual_channel_evidence(
+-            mesh=mesh,
+-            quality=quality,
+-            channels=channel_metadata,
+-            label=label,
+-        )
+-        for polarization in DUAL_OUTPUT_POLARIZATIONS:
+-            channel = channel_metadata[polarization]
+-            if (
+-                channel.get("mesh_convergence_certified") is not True
+-                or channel.get("certified_entry_point") is not True
+-                or channel.get("published_mesh") != "fine"
+-            ):
+-                raise CemToolError(
+-                    f"{label} {polarization}: channel was not published by the "
+-                    "certified fine-mesh entry point"
+-                )
+-        return [{
+-            "contract": "embedded-dual-output-attestation.v1",
+-            "label": str(label),
+-            "frequency_ghz": float(frequencies[0]),
+-            "polarizations": list(DUAL_OUTPUT_POLARIZATIONS),
+-            "output_attestation": output_attestation,
+-            "mesh_convergence": mesh,
+-            "quality_gate": quality,
+-            "channels": {
+-                polarization: {
+-                    "mesh_convergence": channel_metadata[polarization][
+-                        "mesh_convergence"
+-                    ],
+-                    "quality_gate": channel_metadata[polarization][
+-                        "quality_gate"
+-                    ],
+-                }
+-                for polarization in DUAL_OUTPUT_POLARIZATIONS
+-            },
+-        }]
+-
+-    if output_attestation is not None:
+-        if len(payload_polarizations) != 1 or frequencies.size != 1:
+-            raise CemToolError(
+-                f"{label}: legacy attested solver unit must contain one channel "
+-                "and one frequency"
+-            )
+-        polarization = _canonical_output_polarization(payload_polarizations[0])
+-        _require_embedded_attestation(
+-            output_attestation,
+-            label,
+-            frequency_ghz=float(frequencies[0]),
+-            polarizations=(polarization,),
+-        )
+-        _require_passed_mesh_gate(mesh, label)
+-        quality = _require_passed_quality_gate(
+-            metadata.get("quality_gate"), label
+-        )
+-        return [{
+-            "contract": "embedded-single-output-attestation.v1",
+-            "label": str(label),
+-            "frequency_ghz": float(frequencies[0]),
+-            "polarization": polarization,
+-            "output_attestation": output_attestation,
+-            "mesh_convergence": mesh,
+-            "quality_gate": quality,
+-        }]
+-
+-    # Backward compatibility for artifacts produced before embedded output
+-    # attestations. These carried a workflow_unit beside a scalar mesh gate.
+-    workflow = metadata.get("workflow_unit")
+-    try:
+-        _require_passed_mesh_gate(mesh, label)
+-    except CemToolError as exc:
+-        raise CemToolError(
+-            f"{label}: solver mesh certification did not pass the strict "
+-            "base/fine production policy"
+-        ) from exc
+-    if (
+-        not isinstance(workflow, dict)
+-        or workflow.get("published_mesh") != "fine"
+-        or not isinstance(workflow.get("mesh_convergence_policy"), dict)
+-    ):
+-        raise CemToolError(
+-            f"{label}: solver mesh certification did not pass the strict "
+-            "base/fine production policy"
+-        )
+-    return [{
+-        "contract": "legacy-workflow-unit.v1",
+-        "label": str(label),
+-        "workflow_unit_sha256": str(workflow.get("unit_sha256", "")),
+-        "frequency_ghz": workflow.get("frequency_ghz"),
+-        "polarization": workflow.get("polarization"),
+-        "mesh_convergence": mesh,
+-    }]
++def _mesh_certification_sources(payload: 'dict[str, np.ndarray]', label: 'str') -> 'list[dict[str, Any]] | None':
++    """Inspect optional source evidence on demand; retained for existing callers."""
++    from .certification_evidence import mesh_certification_sources
++    return mesh_certification_sources(payload, label)
+ 
+ 
+ def _grid_shape(payload: 'dict[str, np.ndarray]') -> 'tuple[int, int, int, int]':
+diff --git a/tools/GHOST/ghost_backend/execution/_dataclasses.py b/tools/GHOST/ghost_backend/execution/_dataclasses.py
+deleted file mode 100644
+index 0a1b598..0000000
+--- a/tools/GHOST/ghost_backend/execution/_dataclasses.py
++++ /dev/null
+@@ -1,1184 +0,0 @@
+-import re
+-import sys
+-import copy
+-import types
+-import inspect
+-import keyword
+-
+-__all__ = ['dataclass',
+-           'field',
+-           'Field',
+-           'FrozenInstanceError',
+-           'InitVar',
+-           'MISSING',
+-
+-           # Helper functions.
+-           'fields',
+-           'asdict',
+-           'astuple',
+-           'make_dataclass',
+-           'replace',
+-           'is_dataclass',
+-           ]
+-
+-# Conditions for adding methods.  The boxes indicate what action the
+-# dataclass decorator takes.  For all of these tables, when I talk
+-# about init=, repr=, eq=, order=, unsafe_hash=, or frozen=, I'm
+-# referring to the arguments to the @dataclass decorator.  When
+-# checking if a dunder method already exists, I mean check for an
+-# entry in the class's __dict__.  I never check to see if an attribute
+-# is defined in a base class.
+-
+-# Key:
+-# +=========+=========================================+
+-# + Value   | Meaning                                 |
+-# +=========+=========================================+
+-# | <blank> | No action: no method is added.          |
+-# +---------+-----------------------------------------+
+-# | add     | Generated method is added.              |
+-# +---------+-----------------------------------------+
+-# | raise   | TypeError is raised.                    |
+-# +---------+-----------------------------------------+
+-# | None    | Attribute is set to None.               |
+-# +=========+=========================================+
+-
+-# __init__
+-#
+-#   +--- init= parameter
+-#   |
+-#   v     |       |       |
+-#         |  no   |  yes  |  <--- class has __init__ in __dict__?
+-# +=======+=======+=======+
+-# | False |       |       |
+-# +-------+-------+-------+
+-# | True  | add   |       |  <- the default
+-# +=======+=======+=======+
+-
+-# __repr__
+-#
+-#    +--- repr= parameter
+-#    |
+-#    v    |       |       |
+-#         |  no   |  yes  |  <--- class has __repr__ in __dict__?
+-# +=======+=======+=======+
+-# | False |       |       |
+-# +-------+-------+-------+
+-# | True  | add   |       |  <- the default
+-# +=======+=======+=======+
+-
+-
+-# __setattr__
+-# __delattr__
+-#
+-#    +--- frozen= parameter
+-#    |
+-#    v    |       |       |
+-#         |  no   |  yes  |  <--- class has __setattr__ or __delattr__ in __dict__?
+-# +=======+=======+=======+
+-# | False |       |       |  <- the default
+-# +-------+-------+-------+
+-# | True  | add   | raise |
+-# +=======+=======+=======+
+-# Raise because not adding these methods would break the "frozen-ness"
+-# of the class.
+-
+-# __eq__
+-#
+-#    +--- eq= parameter
+-#    |
+-#    v    |       |       |
+-#         |  no   |  yes  |  <--- class has __eq__ in __dict__?
+-# +=======+=======+=======+
+-# | False |       |       |
+-# +-------+-------+-------+
+-# | True  | add   |       |  <- the default
+-# +=======+=======+=======+
+-
+-# __lt__
+-# __le__
+-# __gt__
+-# __ge__
+-#
+-#    +--- order= parameter
+-#    |
+-#    v    |       |       |
+-#         |  no   |  yes  |  <--- class has any comparison method in __dict__?
+-# +=======+=======+=======+
+-# | False |       |       |  <- the default
+-# +-------+-------+-------+
+-# | True  | add   | raise |
+-# +=======+=======+=======+
+-# Raise because to allow this case would interfere with using
+-# functools.total_ordering.
+-
+-# __hash__
+-
+-#    +------------------- unsafe_hash= parameter
+-#    |       +----------- eq= parameter
+-#    |       |       +--- frozen= parameter
+-#    |       |       |
+-#    v       v       v    |        |        |
+-#                         |   no   |  yes   |  <--- class has explicitly defined __hash__
+-# +=======+=======+=======+========+========+
+-# | False | False | False |        |        | No __eq__, use the base class __hash__
+-# +-------+-------+-------+--------+--------+
+-# | False | False | True  |        |        | No __eq__, use the base class __hash__
+-# +-------+-------+-------+--------+--------+
+-# | False | True  | False | None   |        | <-- the default, not hashable
+-# +-------+-------+-------+--------+--------+
+-# | False | True  | True  | add    |        | Frozen, so hashable, allows override
+-# +-------+-------+-------+--------+--------+
+-# | True  | False | False | add    | raise  | Has no __eq__, but hashable
+-# +-------+-------+-------+--------+--------+
+-# | True  | False | True  | add    | raise  | Has no __eq__, but hashable
+-# +-------+-------+-------+--------+--------+
+-# | True  | True  | False | add    | raise  | Not frozen, but hashable
+-# +-------+-------+-------+--------+--------+
+-# | True  | True  | True  | add    | raise  | Frozen, so hashable
+-# +=======+=======+=======+========+========+
+-# For boxes that are blank, __hash__ is untouched and therefore
+-# inherited from the base class.  If the base is object, then
+-# id-based hashing is used.
+-#
+-# Note that a class may already have __hash__=None if it specified an
+-# __eq__ method in the class body (not one that was created by
+-# @dataclass).
+-#
+-# See _hash_action (below) for a coded version of this table.
+-
+-
+-# Raised when an attempt is made to modify a frozen class.
+-class FrozenInstanceError(AttributeError): pass
+-
+-# A sentinel object for default values to signal that a default
+-# factory will be used.  This is given a nice repr() which will appear
+-# in the function signature of dataclasses' constructors.
+-class _HAS_DEFAULT_FACTORY_CLASS:
+-    def __repr__(self):
+-        return '<factory>'
+-_HAS_DEFAULT_FACTORY = _HAS_DEFAULT_FACTORY_CLASS()
+-
+-# A sentinel object to detect if a parameter is supplied or not.  Use
+-# a class to give it a better repr.
+-class _MISSING_TYPE:
+-    pass
+-MISSING = _MISSING_TYPE()
+-
+-# Since most per-field metadata will be unused, create an empty
+-# read-only proxy that can be shared among all fields.
+-_EMPTY_METADATA = types.MappingProxyType({})
+-
+-# Markers for the various kinds of fields and pseudo-fields.
+-class _FIELD_BASE:
+-    def __init__(self, name):
+-        self.name = name
+-    def __repr__(self):
+-        return self.name
+-_FIELD = _FIELD_BASE('_FIELD')
+-_FIELD_CLASSVAR = _FIELD_BASE('_FIELD_CLASSVAR')
+-_FIELD_INITVAR = _FIELD_BASE('_FIELD_INITVAR')
+-
+-# The name of an attribute on the class where we store the Field
+-# objects.  Also used to check if a class is a Data Class.
+-_FIELDS = '__dataclass_fields__'
+-
+-# The name of an attribute on the class that stores the parameters to
+-# @dataclass.
+-_PARAMS = '__dataclass_params__'
+-
+-# The name of the function, that if it exists, is called at the end of
+-# __init__.
+-_POST_INIT_NAME = '__post_init__'
+-
+-# String regex that string annotations for ClassVar or InitVar must match.
+-# Allows "identifier.identifier[" or "identifier[".
+-# https://bugs.python.org/issue33453 for details.
+-_MODULE_IDENTIFIER_RE = re.compile(r'^(?:\s*(\w+)\s*\.)?\s*(\w+)')
+-
+-class _InitVarMeta(type):
+-    def __getitem__(self, params):
+-        return self
+-
+-class InitVar(metaclass=_InitVarMeta):
+-    pass
+-
+-
+-# Instances of Field are only ever created from within this module,
+-# and only from the field() function, although Field instances are
+-# exposed externally as (conceptually) read-only objects.
+-#
+-# name and type are filled in after the fact, not in __init__.
+-# They're not known at the time this class is instantiated, but it's
+-# convenient if they're available later.
+-#
+-# When cls._FIELDS is filled in with a list of Field objects, the name
+-# and type fields will have been populated.
+-class Field:
+-    __slots__ = ('name',
+-                 'type',
+-                 'default',
+-                 'default_factory',
+-                 'repr',
+-                 'hash',
+-                 'init',
+-                 'compare',
+-                 'metadata',
+-                 '_field_type',  # Private: not to be used by user code.
+-                 )
+-
+-    def __init__(self, default, default_factory, init, repr, hash, compare,
+-                 metadata):
+-        self.name = None
+-        self.type = None
+-        self.default = default
+-        self.default_factory = default_factory
+-        self.init = init
+-        self.repr = repr
+-        self.hash = hash
+-        self.compare = compare
+-        self.metadata = (_EMPTY_METADATA
+-                         if metadata is None or len(metadata) == 0 else
+-                         types.MappingProxyType(metadata))
+-        self._field_type = None
+-
+-    def __repr__(self):
+-        return ('Field('
+-                f'name={self.name!r},'
+-                f'type={self.type!r},'
+-                f'default={self.default!r},'
+-                f'default_factory={self.default_factory!r},'
+-                f'init={self.init!r},'
+-                f'repr={self.repr!r},'
+-                f'hash={self.hash!r},'
+-                f'compare={self.compare!r},'
+-                f'metadata={self.metadata!r},'
+-                f'_field_type={self._field_type}'
+-                ')')
+-
+-    # This is used to support the PEP 487 __set_name__ protocol in the
+-    # case where we're using a field that contains a descriptor as a
+-    # defaul value.  For details on __set_name__, see
+-    # https://www.python.org/dev/peps/pep-0487/#implementation-details.
+-    #
+-    # Note that in _process_class, this Field object is overwritten
+-    # with the default value, so the end result is a descriptor that
+-    # had __set_name__ called on it at the right time.
+-    def __set_name__(self, owner, name):
+-        func = getattr(type(self.default), '__set_name__', None)
+-        if func:
+-            # There is a __set_name__ method on the descriptor, call
+-            # it.
+-            func(self.default, owner, name)
+-
+-
+-class _DataclassParams:
+-    __slots__ = ('init',
+-                 'repr',
+-                 'eq',
+-                 'order',
+-                 'unsafe_hash',
+-                 'frozen',
+-                 )
+-
+-    def __init__(self, init, repr, eq, order, unsafe_hash, frozen):
+-        self.init = init
+-        self.repr = repr
+-        self.eq = eq
+-        self.order = order
+-        self.unsafe_hash = unsafe_hash
+-        self.frozen = frozen
+-
+-    def __repr__(self):
+-        return ('_DataclassParams('
+-                f'init={self.init!r},'
+-                f'repr={self.repr!r},'
+-                f'eq={self.eq!r},'
+-                f'order={self.order!r},'
+-                f'unsafe_hash={self.unsafe_hash!r},'
+-                f'frozen={self.frozen!r}'
+-                ')')
+-
+-
+-# This function is used instead of exposing Field creation directly,
+-# so that a type checker can be told (via overloads) that this is a
+-# function whose type depends on its parameters.
+-def field(*, default=MISSING, default_factory=MISSING, init=True, repr=True,
+-          hash=None, compare=True, metadata=None):
+-    """Return an object to identify dataclass fields.
+-
+-    default is the default value of the field.  default_factory is a
+-    0-argument function called to initialize a field's value.  If init
+-    is True, the field will be a parameter to the class's __init__()
+-    function.  If repr is True, the field will be included in the
+-    object's repr().  If hash is True, the field will be included in
+-    the object's hash().  If compare is True, the field will be used
+-    in comparison functions.  metadata, if specified, must be a
+-    mapping which is stored but not otherwise examined by dataclass.
+-
+-    It is an error to specify both default and default_factory.
+-    """
+-
+-    if default is not MISSING and default_factory is not MISSING:
+-        raise ValueError('cannot specify both default and default_factory')
+-    return Field(default, default_factory, init, repr, hash, compare,
+-                 metadata)
+-
+-
+-def _tuple_str(obj_name, fields):
+-    # Return a string representing each field of obj_name as a tuple
+-    # member.  So, if fields is ['x', 'y'] and obj_name is "self",
+-    # return "(self.x,self.y)".
+-
+-    # Special case for the 0-tuple.
+-    if not fields:
+-        return '()'
+-    # Note the trailing comma, needed if this turns out to be a 1-tuple.
+-    return f'({",".join([f"{obj_name}.{f.name}" for f in fields])},)'
+-
+-
+-def _create_fn(name, args, body, *, globals=None, locals=None,
+-               return_type=MISSING):
+-    # Note that we mutate locals when exec() is called.  Caller
+-    # beware!  The only callers are internal to this module, so no
+-    # worries about external callers.
+-    if locals is None:
+-        locals = {}
+-    return_annotation = ''
+-    if return_type is not MISSING:
+-        locals['_return_type'] = return_type
+-        return_annotation = '->_return_type'
+-    args = ','.join(args)
+-    body = '\n'.join(f' {b}' for b in body)
+-
+-    # Compute the text of the entire function.
+-    txt = f'def {name}({args}){return_annotation}:\n{body}'
+-
+-    exec(txt, globals, locals)
+-    return locals[name]
+-
+-
+-def _field_assign(frozen, name, value, self_name):
+-    # If we're a frozen class, then assign to our fields in __init__
+-    # via object.__setattr__.  Otherwise, just use a simple
+-    # assignment.
+-    #
+-    # self_name is what "self" is called in this function: don't
+-    # hard-code "self", since that might be a field name.
+-    if frozen:
+-        return f'object.__setattr__({self_name},{name!r},{value})'
+-    return f'{self_name}.{name}={value}'
+-
+-
+-def _field_init(f, frozen, globals, self_name):
+-    # Return the text of the line in the body of __init__ that will
+-    # initialize this field.
+-
+-    default_name = f'_dflt_{f.name}'
+-    if f.default_factory is not MISSING:
+-        if f.init:
+-            # This field has a default factory.  If a parameter is
+-            # given, use it.  If not, call the factory.
+-            globals[default_name] = f.default_factory
+-            value = (f'{default_name}() '
+-                     f'if {f.name} is _HAS_DEFAULT_FACTORY '
+-                     f'else {f.name}')
+-        else:
+-            # This is a field that's not in the __init__ params, but
+-            # has a default factory function.  It needs to be
+-            # initialized here by calling the factory function,
+-            # because there's no other way to initialize it.
+-
+-            # For a field initialized with a default=defaultvalue, the
+-            # class dict just has the default value
+-            # (cls.fieldname=defaultvalue).  But that won't work for a
+-            # default factory, the factory must be called in __init__
+-            # and we must assign that to self.fieldname.  We can't
+-            # fall back to the class dict's value, both because it's
+-            # not set, and because it might be different per-class
+-            # (which, after all, is why we have a factory function!).
+-
+-            globals[default_name] = f.default_factory
+-            value = f'{default_name}()'
+-    else:
+-        # No default factory.
+-        if f.init:
+-            if f.default is MISSING:
+-                # There's no default, just do an assignment.
+-                value = f.name
+-            elif f.default is not MISSING:
+-                globals[default_name] = f.default
+-                value = f.name
+-        else:
+-            # This field does not need initialization.  Signify that
+-            # to the caller by returning None.
+-            return None
+-
+-    # Only test this now, so that we can create variables for the
+-    # default.  However, return None to signify that we're not going
+-    # to actually do the assignment statement for InitVars.
+-    if f._field_type is _FIELD_INITVAR:
+-        return None
+-
+-    # Now, actually generate the field assignment.
+-    return _field_assign(frozen, f.name, value, self_name)
+-
+-
+-def _init_param(f):
+-    # Return the __init__ parameter string for this field.  For
+-    # example, the equivalent of 'x:int=3' (except instead of 'int',
+-    # reference a variable set to int, and instead of '3', reference a
+-    # variable set to 3).
+-    if f.default is MISSING and f.default_factory is MISSING:
+-        # There's no default, and no default_factory, just output the
+-        # variable name and type.
+-        default = ''
+-    elif f.default is not MISSING:
+-        # There's a default, this will be the name that's used to look
+-        # it up.
+-        default = f'=_dflt_{f.name}'
+-    elif f.default_factory is not MISSING:
+-        # There's a factory function.  Set a marker.
+-        default = '=_HAS_DEFAULT_FACTORY'
+-    return f'{f.name}:_type_{f.name}{default}'
+-
+-
+-def _init_fn(fields, frozen, has_post_init, self_name):
+-    # fields contains both real fields and InitVar pseudo-fields.
+-
+-    # Make sure we don't have fields without defaults following fields
+-    # with defaults.  This actually would be caught when exec-ing the
+-    # function source code, but catching it here gives a better error
+-    # message, and future-proofs us in case we build up the function
+-    # using ast.
+-    seen_default = False
+-    for f in fields:
+-        # Only consider fields in the __init__ call.
+-        if f.init:
+-            if not (f.default is MISSING and f.default_factory is MISSING):
+-                seen_default = True
+-            elif seen_default:
+-                raise TypeError(f'non-default argument {f.name!r} '
+-                                'follows default argument')
+-
+-    globals = {'MISSING': MISSING,
+-               '_HAS_DEFAULT_FACTORY': _HAS_DEFAULT_FACTORY}
+-
+-    body_lines = []
+-    for f in fields:
+-        line = _field_init(f, frozen, globals, self_name)
+-        # line is None means that this field doesn't require
+-        # initialization (it's a pseudo-field).  Just skip it.
+-        if line:
+-            body_lines.append(line)
+-
+-    # Does this class have a post-init function?
+-    if has_post_init:
+-        params_str = ','.join(f.name for f in fields
+-                              if f._field_type is _FIELD_INITVAR)
+-        body_lines.append(f'{self_name}.{_POST_INIT_NAME}({params_str})')
+-
+-    # If no body lines, use 'pass'.
+-    if not body_lines:
+-        body_lines = ['pass']
+-
+-    locals = {f'_type_{f.name}': f.type for f in fields}
+-    return _create_fn('__init__',
+-                      [self_name] + [_init_param(f) for f in fields if f.init],
+-                      body_lines,
+-                      locals=locals,
+-                      globals=globals,
+-                      return_type=None)
+-
+-
+-def _repr_fn(fields):
+-    return _create_fn('__repr__',
+-                      ('self',),
+-                      ['return self.__class__.__qualname__ + f"(' +
+-                       ', '.join([f"{f.name}={{self.{f.name}!r}}"
+-                                  for f in fields]) +
+-                       ')"'])
+-
+-
+-def _frozen_get_del_attr(cls, fields):
+-    # XXX: globals is modified on the first call to _create_fn, then
+-    # the modified version is used in the second call.  Is this okay?
+-    globals = {'cls': cls,
+-              'FrozenInstanceError': FrozenInstanceError}
+-    if fields:
+-        fields_str = '(' + ','.join(repr(f.name) for f in fields) + ',)'
+-    else:
+-        # Special case for the zero-length tuple.
+-        fields_str = '()'
+-    return (_create_fn('__setattr__',
+-                      ('self', 'name', 'value'),
+-                      (f'if type(self) is cls or name in {fields_str}:',
+-                        ' raise FrozenInstanceError(f"cannot assign to field {name!r}")',
+-                       f'super(cls, self).__setattr__(name, value)'),
+-                       globals=globals),
+-            _create_fn('__delattr__',
+-                      ('self', 'name'),
+-                      (f'if type(self) is cls or name in {fields_str}:',
+-                        ' raise FrozenInstanceError(f"cannot delete field {name!r}")',
+-                       f'super(cls, self).__delattr__(name)'),
+-                       globals=globals),
+-            )
+-
+-
+-def _cmp_fn(name, op, self_tuple, other_tuple):
+-    # Create a comparison function.  If the fields in the object are
+-    # named 'x' and 'y', then self_tuple is the string
+-    # '(self.x,self.y)' and other_tuple is the string
+-    # '(other.x,other.y)'.
+-
+-    return _create_fn(name,
+-                      ('self', 'other'),
+-                      [ 'if other.__class__ is self.__class__:',
+-                       f' return {self_tuple}{op}{other_tuple}',
+-                        'return NotImplemented'])
+-
+-
+-def _hash_fn(fields):
+-    self_tuple = _tuple_str('self', fields)
+-    return _create_fn('__hash__',
+-                      ('self',),
+-                      [f'return hash({self_tuple})'])
+-
+-
+-def _is_classvar(a_type, typing):
+-    # This test uses a typing internal class, but it's the best way to
+-    # test if this is a ClassVar.
+-    return type(a_type) is typing._ClassVar
+-
+-
+-def _is_initvar(a_type, dataclasses):
+-    # The module we're checking against is the module we're
+-    # currently in (dataclasses.py).
+-    return a_type is dataclasses.InitVar
+-
+-
+-def _is_type(annotation, cls, a_module, a_type, is_type_predicate):
+-    # Given a type annotation string, does it refer to a_type in
+-    # a_module?  For example, when checking that annotation denotes a
+-    # ClassVar, then a_module is typing, and a_type is
+-    # typing.ClassVar.
+-
+-    # It's possible to look up a_module given a_type, but it involves
+-    # looking in sys.modules (again!), and seems like a waste since
+-    # the caller already knows a_module.
+-
+-    # - annotation is a string type annotation
+-    # - cls is the class that this annotation was found in
+-    # - a_module is the module we want to match
+-    # - a_type is the type in that module we want to match
+-    # - is_type_predicate is a function called with (obj, a_module)
+-    #   that determines if obj is of the desired type.
+-
+-    # Since this test does not do a local namespace lookup (and
+-    # instead only a module (global) lookup), there are some things it
+-    # gets wrong.
+-
+-    # With string annotations, cv0 will be detected as a ClassVar:
+-    #   CV = ClassVar
+-    #   @dataclass
+-    #   class C0:
+-    #     cv0: CV
+-
+-    # But in this example cv1 will not be detected as a ClassVar:
+-    #   @dataclass
+-    #   class C1:
+-    #     CV = ClassVar
+-    #     cv1: CV
+-
+-    # In C1, the code in this function (_is_type) will look up "CV" in
+-    # the module and not find it, so it will not consider cv1 as a
+-    # ClassVar.  This is a fairly obscure corner case, and the best
+-    # way to fix it would be to eval() the string "CV" with the
+-    # correct global and local namespaces.  However that would involve
+-    # a eval() penalty for every single field of every dataclass
+-    # that's defined.  It was judged not worth it.
+-
+-    match = _MODULE_IDENTIFIER_RE.match(annotation)
+-    if match:
+-        ns = None
+-        module_name = match.group(1)
+-        if not module_name:
+-            # No module name, assume the class's module did
+-            # "from dataclasses import InitVar".
+-            ns = sys.modules.get(cls.__module__).__dict__
+-        else:
+-            # Look up module_name in the class's module.
+-            module = sys.modules.get(cls.__module__)
+-            if module and module.__dict__.get(module_name) is a_module:
+-                ns = sys.modules.get(a_type.__module__).__dict__
+-        if ns and is_type_predicate(ns.get(match.group(2)), a_module):
+-            return True
+-    return False
+-
+-
+-def _get_field(cls, a_name, a_type):
+-    # Return a Field object for this field name and type.  ClassVars
+-    # and InitVars are also returned, but marked as such (see
+-    # f._field_type).
+-
+-    # If the default value isn't derived from Field, then it's only a
+-    # normal default value.  Convert it to a Field().
+-    default = getattr(cls, a_name, MISSING)
+-    if isinstance(default, Field):
+-        f = default
+-    else:
+-        if isinstance(default, types.MemberDescriptorType):
+-            # This is a field in __slots__, so it has no default value.
+-            default = MISSING
+-        f = field(default=default)
+-
+-    # Only at this point do we know the name and the type.  Set them.
+-    f.name = a_name
+-    f.type = a_type
+-
+-    # Assume it's a normal field until proven otherwise.  We're next
+-    # going to decide if it's a ClassVar or InitVar, everything else
+-    # is just a normal field.
+-    f._field_type = _FIELD
+-
+-    # In addition to checking for actual types here, also check for
+-    # string annotations.  get_type_hints() won't always work for us
+-    # (see https://github.com/python/typing/issues/508 for example),
+-    # plus it's expensive and would require an eval for every stirng
+-    # annotation.  So, make a best effort to see if this is a ClassVar
+-    # or InitVar using regex's and checking that the thing referenced
+-    # is actually of the correct type.
+-
+-    # For the complete discussion, see https://bugs.python.org/issue33453
+-
+-    # If typing has not been imported, then it's impossible for any
+-    # annotation to be a ClassVar.  So, only look for ClassVar if
+-    # typing has been imported by any module (not necessarily cls's
+-    # module).
+-    typing = sys.modules.get('typing')
+-    if typing:
+-        if (_is_classvar(a_type, typing)
+-            or (isinstance(f.type, str)
+-                and _is_type(f.type, cls, typing, typing.ClassVar,
+-                             _is_classvar))):
+-            f._field_type = _FIELD_CLASSVAR
+-
+-    # If the type is InitVar, or if it's a matching string annotation,
+-    # then it's an InitVar.
+-    if f._field_type is _FIELD:
+-        # The module we're checking against is the module we're
+-        # currently in (dataclasses.py).
+-        dataclasses = sys.modules[__name__]
+-        if (_is_initvar(a_type, dataclasses)
+-            or (isinstance(f.type, str)
+-                and _is_type(f.type, cls, dataclasses, dataclasses.InitVar,
+-                             _is_initvar))):
+-            f._field_type = _FIELD_INITVAR
+-
+-    # Validations for individual fields.  This is delayed until now,
+-    # instead of in the Field() constructor, since only here do we
+-    # know the field name, which allows for better error reporting.
+-
+-    # Special restrictions for ClassVar and InitVar.
+-    if f._field_type in (_FIELD_CLASSVAR, _FIELD_INITVAR):
+-        if f.default_factory is not MISSING:
+-            raise TypeError(f'field {f.name} cannot have a '
+-                            'default factory')
+-        # Should I check for other field settings? default_factory
+-        # seems the most serious to check for.  Maybe add others.  For
+-        # example, how about init=False (or really,
+-        # init=<not-the-default-init-value>)?  It makes no sense for
+-        # ClassVar and InitVar to specify init=<anything>.
+-
+-    # For real fields, disallow mutable defaults for known types.
+-    if f._field_type is _FIELD and isinstance(f.default, (list, dict, set)):
+-        raise ValueError(f'mutable default {type(f.default)} for field '
+-                         f'{f.name} is not allowed: use default_factory')
+-
+-    return f
+-
+-
+-def _set_new_attribute(cls, name, value):
+-    # Never overwrites an existing attribute.  Returns True if the
+-    # attribute already exists.
+-    if name in cls.__dict__:
+-        return True
+-    setattr(cls, name, value)
+-    return False
+-
+-
+-# Decide if/how we're going to create a hash function.  Key is
+-# (unsafe_hash, eq, frozen, does-hash-exist).  Value is the action to
+-# take.  The common case is to do nothing, so instead of providing a
+-# function that is a no-op, use None to signify that.
+-
+-def _hash_set_none(cls, fields):
+-    return None
+-
+-def _hash_add(cls, fields):
+-    flds = [f for f in fields if (f.compare if f.hash is None else f.hash)]
+-    return _hash_fn(flds)
+-
+-def _hash_exception(cls, fields):
+-    # Raise an exception.
+-    raise TypeError(f'Cannot overwrite attribute __hash__ '
+-                    f'in class {cls.__name__}')
+-
+-#
+-#                +-------------------------------------- unsafe_hash?
+-#                |      +------------------------------- eq?
+-#                |      |      +------------------------ frozen?
+-#                |      |      |      +----------------  has-explicit-hash?
+-#                |      |      |      |
+-#                |      |      |      |        +-------  action
+-#                |      |      |      |        |
+-#                v      v      v      v        v
+-_hash_action = {(False, False, False, False): None,
+-                (False, False, False, True ): None,
+-                (False, False, True,  False): None,
+-                (False, False, True,  True ): None,
+-                (False, True,  False, False): _hash_set_none,
+-                (False, True,  False, True ): None,
+-                (False, True,  True,  False): _hash_add,
+-                (False, True,  True,  True ): None,
+-                (True,  False, False, False): _hash_add,
+-                (True,  False, False, True ): _hash_exception,
+-                (True,  False, True,  False): _hash_add,
+-                (True,  False, True,  True ): _hash_exception,
+-                (True,  True,  False, False): _hash_add,
+-                (True,  True,  False, True ): _hash_exception,
+-                (True,  True,  True,  False): _hash_add,
+-                (True,  True,  True,  True ): _hash_exception,
+-                }
+-# See https://bugs.python.org/issue32929#msg312829 for an if-statement
+-# version of this table.
+-
+-
+-def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen):
+-    # Now that dicts retain insertion order, there's no reason to use
+-    # an ordered dict.  I am leveraging that ordering here, because
+-    # derived class fields overwrite base class fields, but the order
+-    # is defined by the base class, which is found first.
+-    fields = {}
+-
+-    setattr(cls, _PARAMS, _DataclassParams(init, repr, eq, order,
+-                                           unsafe_hash, frozen))
+-
+-    # Find our base classes in reverse MRO order, and exclude
+-    # ourselves.  In reversed order so that more derived classes
+-    # override earlier field definitions in base classes.  As long as
+-    # we're iterating over them, see if any are frozen.
+-    any_frozen_base = False
+-    has_dataclass_bases = False
+-    for b in cls.__mro__[-1:0:-1]:
+-        # Only process classes that have been processed by our
+-        # decorator.  That is, they have a _FIELDS attribute.
+-        base_fields = getattr(b, _FIELDS, None)
+-        if base_fields:
+-            has_dataclass_bases = True
+-            for f in base_fields.values():
+-                fields[f.name] = f
+-            if getattr(b, _PARAMS).frozen:
+-                any_frozen_base = True
+-
+-    # Annotations that are defined in this class (not in base
+-    # classes).  If __annotations__ isn't present, then this class
+-    # adds no new annotations.  We use this to compute fields that are
+-    # added by this class.
+-    #
+-    # Fields are found from cls_annotations, which is guaranteed to be
+-    # ordered.  Default values are from class attributes, if a field
+-    # has a default.  If the default value is a Field(), then it
+-    # contains additional info beyond (and possibly including) the
+-    # actual default value.  Pseudo-fields ClassVars and InitVars are
+-    # included, despite the fact that they're not real fields.  That's
+-    # dealt with later.
+-    cls_annotations = cls.__dict__.get('__annotations__', {})
+-
+-    # Now find fields in our class.  While doing so, validate some
+-    # things, and set the default values (as class attributes) where
+-    # we can.
+-    cls_fields = [_get_field(cls, name, type)
+-                  for name, type in cls_annotations.items()]
+-    for f in cls_fields:
+-        fields[f.name] = f
+-
+-        # If the class attribute (which is the default value for this
+-        # field) exists and is of type 'Field', replace it with the
+-        # real default.  This is so that normal class introspection
+-        # sees a real default value, not a Field.
+-        if isinstance(getattr(cls, f.name, None), Field):
+-            if f.default is MISSING:
+-                # If there's no default, delete the class attribute.
+-                # This happens if we specify field(repr=False), for
+-                # example (that is, we specified a field object, but
+-                # no default value).  Also if we're using a default
+-                # factory.  The class attribute should not be set at
+-                # all in the post-processed class.
+-                delattr(cls, f.name)
+-            else:
+-                setattr(cls, f.name, f.default)
+-
+-    # Do we have any Field members that don't also have annotations?
+-    for name, value in cls.__dict__.items():
+-        if isinstance(value, Field) and not name in cls_annotations:
+-            raise TypeError(f'{name!r} is a field but has no type annotation')
+-
+-    # Check rules that apply if we are derived from any dataclasses.
+-    if has_dataclass_bases:
+-        # Raise an exception if any of our bases are frozen, but we're not.
+-        if any_frozen_base and not frozen:
+-            raise TypeError('cannot inherit non-frozen dataclass from a '
+-                            'frozen one')
+-
+-        # Raise an exception if we're frozen, but none of our bases are.
+-        if not any_frozen_base and frozen:
+-            raise TypeError('cannot inherit frozen dataclass from a '
+-                            'non-frozen one')
+-
+-    # Remember all of the fields on our class (including bases).  This
+-    # also marks this class as being a dataclass.
+-    setattr(cls, _FIELDS, fields)
+-
+-    # Was this class defined with an explicit __hash__?  Note that if
+-    # __eq__ is defined in this class, then python will automatically
+-    # set __hash__ to None.  This is a heuristic, as it's possible
+-    # that such a __hash__ == None was not auto-generated, but it
+-    # close enough.
+-    class_hash = cls.__dict__.get('__hash__', MISSING)
+-    has_explicit_hash = not (class_hash is MISSING or
+-                             (class_hash is None and '__eq__' in cls.__dict__))
+-
+-    # If we're generating ordering methods, we must be generating the
+-    # eq methods.
+-    if order and not eq:
+-        raise ValueError('eq must be true if order is true')
+-
+-    if init:
+-        # Does this class have a post-init function?
+-        has_post_init = hasattr(cls, _POST_INIT_NAME)
+-
+-        # Include InitVars and regular fields (so, not ClassVars).
+-        flds = [f for f in fields.values()
+-                if f._field_type in (_FIELD, _FIELD_INITVAR)]
+-        _set_new_attribute(cls, '__init__',
+-                           _init_fn(flds,
+-                                    frozen,
+-                                    has_post_init,
+-                                    # The name to use for the "self"
+-                                    # param in __init__.  Use "self"
+-                                    # if possible.
+-                                    '__dataclass_self__' if 'self' in fields
+-                                            else 'self',
+-                          ))
+-
+-    # Get the fields as a list, and include only real fields.  This is
+-    # used in all of the following methods.
+-    field_list = [f for f in fields.values() if f._field_type is _FIELD]
+-
+-    if repr:
+-        flds = [f for f in field_list if f.repr]
+-        _set_new_attribute(cls, '__repr__', _repr_fn(flds))
+-
+-    if eq:
+-        # Create _eq__ method.  There's no need for a __ne__ method,
+-        # since python will call __eq__ and negate it.
+-        flds = [f for f in field_list if f.compare]
+-        self_tuple = _tuple_str('self', flds)
+-        other_tuple = _tuple_str('other', flds)
+-        _set_new_attribute(cls, '__eq__',
+-                           _cmp_fn('__eq__', '==',
+-                                   self_tuple, other_tuple))
+-
+-    if order:
+-        # Create and set the ordering methods.
+-        flds = [f for f in field_list if f.compare]
+-        self_tuple = _tuple_str('self', flds)
+-        other_tuple = _tuple_str('other', flds)
+-        for name, op in [('__lt__', '<'),
+-                         ('__le__', '<='),
+-                         ('__gt__', '>'),
+-                         ('__ge__', '>='),
+-                         ]:
+-            if _set_new_attribute(cls, name,
+-                                  _cmp_fn(name, op, self_tuple, other_tuple)):
+-                raise TypeError(f'Cannot overwrite attribute {name} '
+-                                f'in class {cls.__name__}. Consider using '
+-                                'functools.total_ordering')
+-
+-    if frozen:
+-        for fn in _frozen_get_del_attr(cls, field_list):
+-            if _set_new_attribute(cls, fn.__name__, fn):
+-                raise TypeError(f'Cannot overwrite attribute {fn.__name__} '
+-                                f'in class {cls.__name__}')
+-
+-    # Decide if/how we're going to create a hash function.
+-    hash_action = _hash_action[bool(unsafe_hash),
+-                               bool(eq),
+-                               bool(frozen),
+-                               has_explicit_hash]
+-    if hash_action:
+-        # No need to call _set_new_attribute here, since by the time
+-        # we're here the overwriting is unconditional.
+-        cls.__hash__ = hash_action(cls, field_list)
+-
+-    if not getattr(cls, '__doc__'):
+-        # Create a class doc-string.
+-        cls.__doc__ = (cls.__name__ +
+-                       str(inspect.signature(cls)).replace(' -> None', ''))
+-
+-    return cls
+-
+-
+-# _cls should never be specified by keyword, so start it with an
+-# underscore.  The presence of _cls is used to detect if this
+-# decorator is being called with parameters or not.
+-def dataclass(_cls=None, *, init=True, repr=True, eq=True, order=False,
+-              unsafe_hash=False, frozen=False):
+-    """Returns the same class as was passed in, with dunder methods
+-    added based on the fields defined in the class.
+-
+-    Examines PEP 526 __annotations__ to determine fields.
+-
+-    If init is true, an __init__() method is added to the class. If
+-    repr is true, a __repr__() method is added. If order is true, rich
+-    comparison dunder methods are added. If unsafe_hash is true, a
+-    __hash__() method function is added. If frozen is true, fields may
+-    not be assigned to after instance creation.
+-    """
+-
+-    def wrap(cls):
+-        return _process_class(cls, init, repr, eq, order, unsafe_hash, frozen)
+-
+-    # See if we're being called as @dataclass or @dataclass().
+-    if _cls is None:
+-        # We're called with parens.
+-        return wrap
+-
+-    # We're called as @dataclass without parens.
+-    return wrap(_cls)
+-
+-
+-def fields(class_or_instance):
+-    """Return a tuple describing the fields of this dataclass.
+-
+-    Accepts a dataclass or an instance of one. Tuple elements are of
+-    type Field.
+-    """
+-
+-    # Might it be worth caching this, per class?
+-    try:
+-        fields = getattr(class_or_instance, _FIELDS)
+-    except AttributeError:
+-        raise TypeError('must be called with a dataclass type or instance')
+-
+-    # Exclude pseudo-fields.  Note that fields is sorted by insertion
+-    # order, so the order of the tuple is as the fields were defined.
+-    return tuple(f for f in fields.values() if f._field_type is _FIELD)
+-
+-
+-def _is_dataclass_instance(obj):
+-    """Returns True if obj is an instance of a dataclass."""
+-    return not isinstance(obj, type) and hasattr(obj, _FIELDS)
+-
+-
+-def is_dataclass(obj):
+-    """Returns True if obj is a dataclass or an instance of a
+-    dataclass."""
+-    return hasattr(obj, _FIELDS)
+-
+-
+-def asdict(obj, *, dict_factory=dict):
+-    """Return the fields of a dataclass instance as a new dictionary mapping
+-    field names to field values.
+-
+-    Example usage:
+-
+-      @dataclass
+-      class C:
+-          x: int
+-          y: int
+-
+-      c = C(1, 2)
+-      assert asdict(c) == {'x': 1, 'y': 2}
+-
+-    If given, 'dict_factory' will be used instead of built-in dict.
+-    The function applies recursively to field values that are
+-    dataclass instances. This will also look into built-in containers:
+-    tuples, lists, and dicts.
+-    """
+-    if not _is_dataclass_instance(obj):
+-        raise TypeError("asdict() should be called on dataclass instances")
+-    return _asdict_inner(obj, dict_factory)
+-
+-
+-def _asdict_inner(obj, dict_factory):
+-    if _is_dataclass_instance(obj):
+-        result = []
+-        for f in fields(obj):
+-            value = _asdict_inner(getattr(obj, f.name), dict_factory)
+-            result.append((f.name, value))
+-        return dict_factory(result)
+-    elif isinstance(obj, (list, tuple)):
+-        return type(obj)(_asdict_inner(v, dict_factory) for v in obj)
+-    elif isinstance(obj, dict):
+-        return type(obj)((_asdict_inner(k, dict_factory), _asdict_inner(v, dict_factory))
+-                          for k, v in obj.items())
+-    else:
+-        return copy.deepcopy(obj)
+-
+-
+-def astuple(obj, *, tuple_factory=tuple):
+-    """Return the fields of a dataclass instance as a new tuple of field values.
+-
+-    Example usage::
+-
+-      @dataclass
+-      class C:
+-          x: int
+-          y: int
+-
+-    c = C(1, 2)
+-    assert astuple(c) == (1, 2)
+-
+-    If given, 'tuple_factory' will be used instead of built-in tuple.
+-    The function applies recursively to field values that are
+-    dataclass instances. This will also look into built-in containers:
+-    tuples, lists, and dicts.
+-    """
+-
+-    if not _is_dataclass_instance(obj):
+-        raise TypeError("astuple() should be called on dataclass instances")
+-    return _astuple_inner(obj, tuple_factory)
+-
+-
+-def _astuple_inner(obj, tuple_factory):
+-    if _is_dataclass_instance(obj):
+-        result = []
+-        for f in fields(obj):
+-            value = _astuple_inner(getattr(obj, f.name), tuple_factory)
+-            result.append(value)
+-        return tuple_factory(result)
+-    elif isinstance(obj, (list, tuple)):
+-        return type(obj)(_astuple_inner(v, tuple_factory) for v in obj)
+-    elif isinstance(obj, dict):
+-        return type(obj)((_astuple_inner(k, tuple_factory), _astuple_inner(v, tuple_factory))
+-                          for k, v in obj.items())
+-    else:
+-        return copy.deepcopy(obj)
+-
+-
+-def make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True,
+-                   repr=True, eq=True, order=False, unsafe_hash=False,
+-                   frozen=False):
+-    """Return a new dynamically created dataclass.
+-
+-    The dataclass name will be 'cls_name'.  'fields' is an iterable
+-    of either (name), (name, type) or (name, type, Field) objects. If type is
+-    omitted, use the string 'typing.Any'.  Field objects are created by
+-    the equivalent of calling 'field(name, type [, Field-info])'.
+-
+-      C = make_dataclass('C', ['x', ('y', int), ('z', int, field(init=False))], bases=(Base,))
+-
+-    is equivalent to:
+-
+-      @dataclass
+-      class C(Base):
+-          x: 'typing.Any'
+-          y: int
+-          z: int = field(init=False)
+-
+-    For the bases and namespace parameters, see the builtin type() function.
+-
+-    The parameters init, repr, eq, order, unsafe_hash, and frozen are passed to
+-    dataclass().
+-    """
+-
+-    if namespace is None:
+-        namespace = {}
+-    else:
+-        # Copy namespace since we're going to mutate it.
+-        namespace = namespace.copy()
+-
+-    # While we're looking through the field names, validate that they
+-    # are identifiers, are not keywords, and not duplicates.
+-    seen = set()
+-    anns = {}
+-    for item in fields:
+-        if isinstance(item, str):
+-            name = item
+-            tp = 'typing.Any'
+-        elif len(item) == 2:
+-            name, tp, = item
+-        elif len(item) == 3:
+-            name, tp, spec = item
+-            namespace[name] = spec
+-        else:
+-            raise TypeError(f'Invalid field: {item!r}')
+-
+-        if not isinstance(name, str) or not name.isidentifier():
+-            raise TypeError(f'Field names must be valid identifers: {name!r}')
+-        if keyword.iskeyword(name):
+-            raise TypeError(f'Field names must not be keywords: {name!r}')
+-        if name in seen:
+-            raise TypeError(f'Field name duplicated: {name!r}')
+-
+-        seen.add(name)
+-        anns[name] = tp
+-
+-    namespace['__annotations__'] = anns
+-    # We use `types.new_class()` instead of simply `type()` to allow dynamic creation
+-    # of generic dataclassses.
+-    cls = types.new_class(cls_name, bases, {}, lambda ns: ns.update(namespace))
+-    return dataclass(cls, init=init, repr=repr, eq=eq, order=order,
+-                     unsafe_hash=unsafe_hash, frozen=frozen)
+-
+-
+-def replace(obj, **changes):
+-    """Return a new object replacing specified fields with new values.
+-
+-    This is especially useful for frozen classes.  Example usage:
+-
+-      @dataclass(frozen=True)
+-      class C:
+-          x: int
+-          y: int
+-
+-      c = C(1, 2)
+-      c1 = replace(c, x=3)
+-      assert c1.x == 3 and c1.y == 2
+-      """
+-
+-    # We're going to mutate 'changes', but that's okay because it's a
+-    # new dict, even if called with 'replace(obj, **my_changes)'.
+-
+-    if not _is_dataclass_instance(obj):
+-        raise TypeError("replace() should be called on dataclass instances")
+-
+-    # It's an error to have init=False fields in 'changes'.
+-    # If a field is not in 'changes', read its value from the provided obj.
+-
+-    for f in getattr(obj, _FIELDS).values():
+-        # Only consider normal fields or InitVars.
+-        if f._field_type is _FIELD_CLASSVAR:
+-            continue
+-
+-        if not f.init:
+-            # Error if this field is specified in changes.
+-            if f.name in changes:
+-                raise ValueError(f'field {f.name} is declared with '
+-                                 'init=False, it cannot be specified with '
+-                                 'replace()')
+-            continue
+-
+-        if f.name not in changes:
+-            if f._field_type is _FIELD_INITVAR:
+-                raise ValueError(f"InitVar {f.name!r} "
+-                                 'must be specified with replace()')
+-            changes[f.name] = getattr(obj, f.name)
+-
+-    # Create the new object, which calls __init__() and
+-    # __post_init__() (if defined), using all of the init fields we've
+-    # added and/or left in 'changes'.  If there are values supplied in
+-    # changes that aren't fields, this will correctly raise a
+-    # TypeError.
+-    return obj.__class__(**changes)
+diff --git a/tools/GHOST/ghost_backend/execution/runtime.py b/tools/GHOST/ghost_backend/execution/runtime.py
+index cdb2a35..b5f6707 100644
+--- a/tools/GHOST/ghost_backend/execution/runtime.py
++++ b/tools/GHOST/ghost_backend/execution/runtime.py
+@@ -1,47 +1,27 @@
+-"""Small runtime adapters for the Python 3.6+ headless GHOST backend."""
++"""Small runtime adapters for the Python 3.10+ headless GHOST backend."""
+ from contextlib import contextmanager
+-import sys
+ import threading
+ 
+-if sys.version_info < (3, 7):
+-    from ghost_backend.execution._dataclasses import asdict, dataclass, field, replace
+-else:
+-    from dataclasses import asdict, dataclass, field, replace
+-
+-try:
+-    from contextvars import ContextVar
+-except ImportError:
+-    ContextVar = None
++from contextvars import ContextVar
++from dataclasses import asdict, dataclass, field, replace
+ 
+ 
+ class ScopedValue:
+     """A solver setting restored after nested calls, exceptions, and threads."""
+ 
+     def __init__(self, name, default):
+-        self._default = default
+-        self._context = ContextVar(name, default=default) if ContextVar else None
+-        self._local = threading.local() if self._context is None else None
++        self._context = ContextVar(name, default=default)
+ 
+     def get(self):
+-        if self._context is not None:
+-            return self._context.get()
+-        return getattr(self._local, 'value', self._default)
++        return self._context.get()
+ 
+     @contextmanager
+     def override(self, value):
+-        if self._context is not None:
+-            token = self._context.set(value)
+-            try:
+-                yield
+-            finally:
+-                self._context.reset(token)
+-        else:
+-            previous = self.get()
+-            self._local.value = value
+-            try:
+-                yield
+-            finally:
+-                self._local.value = previous
++        token = self._context.set(value)
++        try:
++            yield
++        finally:
++            self._context.reset(token)
+ 
+ 
+ # Spawned numerical workers that run one BLAS thread each (the BoR near-pair and
+@@ -108,7 +88,7 @@ def single_thread_worker_environment():
+ 
+ 
+ def unlink_if_exists(path):
+-    """Remove a file, ignoring only absence (Path.unlink on Python 3.6)."""
++    """Remove a file, ignoring only absence."""
+     try:
+         path.unlink()
+     except FileNotFoundError:
+diff --git a/tools/GHOST/ghost_backend/execution/thread_control/LICENSE-2.2.0.txt b/tools/GHOST/ghost_backend/execution/thread_control/LICENSE-2.2.0.txt
+deleted file mode 100644
+index f2927f5..0000000
+--- a/tools/GHOST/ghost_backend/execution/thread_control/LICENSE-2.2.0.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Copyright (c) 2019, threadpoolctl contributors
+-
+-Redistribution and use in source and binary forms, with or without
+-modification, are permitted provided that the following conditions are met:
+-
+-    * Redistributions of source code must retain the above copyright notice,
+-      this list of conditions and the following disclaimer.
+-    * Redistributions in binary form must reproduce the above copyright
+-      notice, this list of conditions and the following disclaimer in the
+-      documentation and/or other materials provided with the distribution.
+-    * Neither the name of copyright holder nor the names of its contributors
+-      may be used to endorse or promote products derived from this software
+-      without specific prior written permission.
+-
+-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\ No newline at end of file
+diff --git a/tools/GHOST/ghost_backend/execution/thread_control/README.md b/tools/GHOST/ghost_backend/execution/thread_control/README.md
+index d79cedf..31c0b2c 100644
+--- a/tools/GHOST/ghost_backend/execution/thread_control/README.md
++++ b/tools/GHOST/ghost_backend/execution/thread_control/README.md
+@@ -6,12 +6,11 @@ used by GHOST, so source copies and HPC workers use the reviewed version.
+ 
+ | Python | Implementation | License |
+ | --- | --- | --- |
+-| 3.9 and newer | `_threadpoolctl.py`, threadpoolctl 3.6.0 | `LICENSE-3.6.0.txt` |
+-| 3.6 through 3.8 | `_threadpoolctl_py36.py`, threadpoolctl 2.2.0 | `LICENSE-2.2.0.txt` |
++| 3.10 and newer | `_threadpoolctl.py`, threadpoolctl 3.6.0 | `LICENSE-3.6.0.txt` |
+ 
+-The implementation files and BSD 3-Clause licenses are copied without content
++The implementation file and BSD 3-Clause license are copied without content
+ changes from the official distributions. Their bytes were checked against the
+-installed distributions' RECORD hashes. The source filenames are changed to
++installed distribution's RECORD hashes. The source filename is changed to
+ keep imports private to GHOST.
+ 
+ Upstream: https://github.com/joblib/threadpoolctl
+@@ -19,8 +18,7 @@ Upstream: https://github.com/joblib/threadpoolctl
+ | File | SHA-256 |
+ | --- | --- |
+ | `_threadpoolctl.py` | `12fb9526b6a74d2e686b7ec148dc165c3587999b14fa86984aa180e10802400b` |
+-| `_threadpoolctl_py36.py` | `a3bd8629e7300409b201ccd42d5ec4812ce1965f04b135169ac68e2de3260ebf` |
+-| Each license | `81ac619075248b06e53660b652d10e485f4675f5d0ae0f97ea22370da1f7e23b` |
++| `LICENSE-3.6.0.txt` | `81ac619075248b06e53660b652d10e485f4675f5d0ae0f97ea22370da1f7e23b` |
+ 
+ Copy this entire directory with the backend. NumPy and SciPy remain external
+ dependencies. Thread limits apply to their supported native BLAS libraries;
+diff --git a/tools/GHOST/ghost_backend/execution/thread_control/__init__.py b/tools/GHOST/ghost_backend/execution/thread_control/__init__.py
+index c5426ba..0939412 100644
+--- a/tools/GHOST/ghost_backend/execution/thread_control/__init__.py
++++ b/tools/GHOST/ghost_backend/execution/thread_control/__init__.py
+@@ -1,10 +1,5 @@
+-"""Expose the bundled BLAS thread controls supported by this Python runtime."""
+-import sys
+-
+-if sys.version_info >= (3, 9):
+-    from . import _threadpoolctl as implementation
+-else:
+-    from . import _threadpoolctl_py36 as implementation
++"""Expose the bundled BLAS thread controls for supported Python runtimes."""
++from . import _threadpoolctl as implementation
+ 
+ __version__ = implementation.__version__
+ threadpool_limits = implementation.threadpool_limits
+diff --git a/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl_py36.py b/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl_py36.py
+deleted file mode 100644
+index 9386882..0000000
+--- a/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl_py36.py
++++ /dev/null
+@@ -1,821 +0,0 @@
+-"""threadpoolctl
+-
+-This module provides utilities to introspect native libraries that relies on
+-thread pools (notably BLAS and OpenMP implementations) and dynamically set the
+-maximal number of threads they can use.
+-"""
+-# License: BSD 3-Clause
+-
+-# The code to introspect dynamically loaded libraries on POSIX systems is
+-# adapted from code by Intel developper @anton-malakhov available at
+-# https://github.com/IntelPython/smp (Copyright (c) 2017, Intel Corporation)
+-# and also published under the BSD 3-Clause license
+-import os
+-import re
+-import sys
+-import ctypes
+-import textwrap
+-import warnings
+-from ctypes.util import find_library
+-from abc import ABC, abstractmethod
+-
+-__version__ = "2.2.0"
+-__all__ = ["threadpool_limits", "threadpool_info"]
+-
+-
+-# One can get runtime errors or even segfaults due to multiple OpenMP libraries
+-# loaded simultaneously which can happen easily in Python when importing and
+-# using compiled extensions built with different compilers and therefore
+-# different OpenMP runtimes in the same program. In particular libiomp (used by
+-# Intel ICC) and libomp used by clang/llvm tend to crash. This can happen for
+-# instance when calling BLAS inside a prange. Setting the following environment
+-# variable allows multiple OpenMP libraries to be loaded. It should not degrade
+-# performances since we manually take care of potential over-subscription
+-# performance issues, in sections of the code where nested OpenMP loops can
+-# happen, by dynamically reconfiguring the inner OpenMP runtime to temporarily
+-# disable it while under the scope of the outer OpenMP parallel section.
+-os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "True")
+-
+-# Structure to cast the info on dynamically loaded library. See
+-# https://linux.die.net/man/3/dl_iterate_phdr for more details.
+-_SYSTEM_UINT = ctypes.c_uint64 if sys.maxsize > 2**32 else ctypes.c_uint32
+-_SYSTEM_UINT_HALF = ctypes.c_uint32 if sys.maxsize > 2**32 else ctypes.c_uint16
+-
+-
+-class _dl_phdr_info(ctypes.Structure):
+-    _fields_ = [
+-        ("dlpi_addr",  _SYSTEM_UINT),       # Base address of object
+-        ("dlpi_name",  ctypes.c_char_p),    # path to the library
+-        ("dlpi_phdr",  ctypes.c_void_p),    # pointer on dlpi_headers
+-        ("dlpi_phnum",  _SYSTEM_UINT_HALF)  # number of elements in dlpi_phdr
+-    ]
+-
+-
+-# The RTLD_NOLOAD flag for loading shared libraries is not defined on Windows.
+-try:
+-    _RTLD_NOLOAD = os.RTLD_NOLOAD
+-except AttributeError:
+-    _RTLD_NOLOAD = ctypes.DEFAULT_MODE
+-
+-
+-# List of the supported libraries. The items are indexed by the name of the
+-# class to instanciate to create the module objects. The items hold the
+-# possible prefixes of loaded shared objects, the name of the internal_api to
+-# call and the name of the user_api.
+-_SUPPORTED_MODULES = {
+-    "_OpenMPModule": {
+-        "user_api": "openmp",
+-        "internal_api": "openmp",
+-        "filename_prefixes": ("libiomp", "libgomp", "libomp", "vcomp")
+-    },
+-    "_OpenBLASModule": {
+-        "user_api": "blas",
+-        "internal_api": "openblas",
+-        "filename_prefixes": ("libopenblas",)
+-    },
+-    "_MKLModule": {
+-        "user_api": "blas",
+-        "internal_api": "mkl",
+-        "filename_prefixes": ("libmkl_rt", "mkl_rt")
+-    },
+-    "_BLISModule": {
+-        "user_api": "blas",
+-        "internal_api": "blis",
+-        "filename_prefixes": ("libblis",)
+-    }
+-}
+-
+-# Helpers for the doc and test names
+-_ALL_USER_APIS = list(set(m["user_api"] for m in _SUPPORTED_MODULES.values()))
+-_ALL_INTERNAL_APIS = [m["internal_api"] for m in _SUPPORTED_MODULES.values()]
+-_ALL_PREFIXES = [prefix for m in _SUPPORTED_MODULES.values()
+-                 for prefix in m["filename_prefixes"]]
+-_ALL_BLAS_LIBRARIES = [m["internal_api"] for m in _SUPPORTED_MODULES.values()
+-                       if m["user_api"] == "blas"]
+-_ALL_OPENMP_LIBRARIES = list(
+-    _SUPPORTED_MODULES["_OpenMPModule"]["filename_prefixes"])
+-
+-
+-def _format_docstring(*args, **kwargs):
+-    def decorator(o):
+-        o.__doc__ = o.__doc__.format(*args, **kwargs)
+-        return o
+-
+-    return decorator
+-
+-
+-@_format_docstring(USER_APIS=list(_ALL_USER_APIS),
+-                   INTERNAL_APIS=_ALL_INTERNAL_APIS)
+-def threadpool_info():
+-    """Return the maximal number of threads for each detected library.
+-
+-    Return a list with all the supported modules that have been found. Each
+-    module is represented by a dict with the following information:
+-
+-      - "user_api" : user API. Possible values are {USER_APIS}.
+-      - "internal_api": internal API. Possible values are {INTERNAL_APIS}.
+-      - "prefix" : filename prefix of the specific implementation.
+-      - "filepath": path to the loaded module.
+-      - "version": version of the library (if available).
+-      - "num_threads": the current thread limit.
+-
+-    In addition, each module may contain internal_api specific entries.
+-    """
+-    return _ThreadpoolInfo(user_api=_ALL_USER_APIS).todicts()
+-
+-
+-@_format_docstring(
+-    USER_APIS=", ".join('"{}"'.format(api) for api in _ALL_USER_APIS),
+-    BLAS_LIBS=", ".join(_ALL_BLAS_LIBRARIES),
+-    OPENMP_LIBS=", ".join(_ALL_OPENMP_LIBRARIES))
+-class threadpool_limits:
+-    """Change the maximal number of threads that can be used in thread pools.
+-
+-    This class can be used either as a function (the construction of this
+-    object limits the number of threads) or as a context manager, in a `with`
+-    block.
+-
+-    Set the maximal number of threads that can be used in thread pools used in
+-    the supported libraries to `limit`. This function works for libraries that
+-    are already loaded in the interpreter and can be changed dynamically.
+-
+-    Parameters
+-    ----------
+-    limits : int, dict or None (default=None)
+-        The maximal number of threads that can be used in thread pools
+-
+-        - If int, sets the maximum number of threads to `limits` for each
+-          library selected by `user_api`.
+-
+-        - If it is a dictionary `{{key: max_threads}}`, this function sets a
+-          custom maximum number of threads for each `key` which can be either a
+-          `user_api` or a `prefix` for a specific library.
+-
+-        - If None, this function does not do anything.
+-
+-    user_api : {USER_APIS} or None (default=None)
+-        APIs of libraries to limit. Used only if `limits` is an int.
+-
+-        - If "blas", it will only limit BLAS supported libraries ({BLAS_LIBS}).
+-
+-        - If "openmp", it will only limit OpenMP supported libraries
+-          ({OPENMP_LIBS}). Note that it can affect the number of threads used
+-          by the BLAS libraries if they rely on OpenMP.
+-
+-        - If None, this function will apply to all supported libraries.
+-    """
+-    def __init__(self, limits=None, user_api=None):
+-        self._limits, self._user_api, self._prefixes = \
+-            self._check_params(limits, user_api)
+-
+-        self._original_info = self._set_threadpool_limits()
+-
+-    def __enter__(self):
+-        return self
+-
+-    def __exit__(self, type, value, traceback):
+-        self.unregister()
+-
+-    def unregister(self):
+-        if self._original_info is not None:
+-            for module in self._original_info:
+-                module.set_num_threads(module.num_threads)
+-
+-    def get_original_num_threads(self):
+-        """Original num_threads from before calling threadpool_limits
+-
+-        Return a dict `{user_api: num_threads}`.
+-        """
+-        if self._original_info is not None:
+-            original_limits = self._original_info
+-        else:
+-            original_limits = _ThreadpoolInfo(user_api=self._user_api)
+-
+-        num_threads = {}
+-        warning_apis = []
+-
+-        for user_api in self._user_api:
+-            limits = [module.num_threads for module in
+-                      original_limits.get_modules("user_api", user_api)]
+-            limits = set(limits)
+-            n_limits = len(limits)
+-
+-            if n_limits == 1:
+-                limit = limits.pop()
+-            elif n_limits == 0:
+-                limit = None
+-            else:
+-                limit = min(limits)
+-                warning_apis.append(user_api)
+-
+-            num_threads[user_api] = limit
+-
+-        if warning_apis:
+-            warnings.warn(
+-                "Multiple value possible for following user apis: " +
+-                ", ".join(warning_apis) + ". Returning the minimum.")
+-
+-        return num_threads
+-
+-    def _check_params(self, limits, user_api):
+-        """Suitable values for the _limits, _user_api and _prefixes attributes
+-        """
+-        if limits is None or isinstance(limits, int):
+-            if user_api is None:
+-                user_api = _ALL_USER_APIS
+-            elif user_api in _ALL_USER_APIS:
+-                user_api = [user_api]
+-            else:
+-                raise ValueError(
+-                    "user_api must be either in {} or None. Got "
+-                    "{} instead.".format(_ALL_USER_APIS, user_api))
+-
+-            if limits is not None:
+-                limits = {api: limits for api in user_api}
+-            prefixes = []
+-        else:
+-            if isinstance(limits, list):
+-                # This should be a list of dicts of modules, for compatibility
+-                # with the result from threadpool_info.
+-                limits = {module["prefix"]: module["num_threads"]
+-                          for module in limits}
+-            elif isinstance(limits, _ThreadpoolInfo):
+-                # To set the limits from the modules of a _ThreadpoolInfo
+-                # object.
+-                limits = {module.prefix: module.num_threads
+-                          for module in limits}
+-
+-            if not isinstance(limits, dict):
+-                raise TypeError("limits must either be an int, a list or a "
+-                                "dict. Got {} instead".format(type(limits)))
+-
+-            # With a dictionary, can set both specific limit for given modules
+-            # and global limit for user_api. Fetch each separately.
+-            prefixes = [prefix for prefix in limits if prefix in _ALL_PREFIXES]
+-            user_api = [api for api in limits if api in _ALL_USER_APIS]
+-
+-        return limits, user_api, prefixes
+-
+-    def _set_threadpool_limits(self):
+-        """Change the maximal number of threads in selected thread pools.
+-
+-        Return a list with all the supported modules that have been found
+-        matching `self._prefixes` and `self._user_api`.
+-        """
+-        if self._limits is None:
+-            return None
+-
+-        modules = _ThreadpoolInfo(prefixes=self._prefixes,
+-                                  user_api=self._user_api)
+-        for module in modules:
+-            # self._limits is a dict {key: num_threads} where key is either
+-            # a prefix or a user_api. If a module matches both, the limit
+-            # corresponding to the prefix is chosed.
+-            if module.prefix in self._limits:
+-                num_threads = self._limits[module.prefix]
+-            else:
+-                num_threads = self._limits[module.user_api]
+-
+-            if num_threads is not None:
+-                module.set_num_threads(num_threads)
+-        return modules
+-
+-
+-# The object oriented API of _ThreadpoolInfo and its modules is private.
+-# The public API (i.e. the "threadpool_info" function) only exposes the
+-# "list of dicts" representation returned by the .todicts method.
+-@_format_docstring(
+-    PREFIXES=", ".join('"{}"'.format(prefix) for prefix in _ALL_PREFIXES),
+-    USER_APIS=", ".join('"{}"'.format(api) for api in _ALL_USER_APIS),
+-    BLAS_LIBS=", ".join(_ALL_BLAS_LIBRARIES),
+-    OPENMP_LIBS=", ".join(_ALL_OPENMP_LIBRARIES))
+-class _ThreadpoolInfo():
+-    """Collection of all supported modules that have been found
+-
+-    Parameters
+-    ----------
+-    user_api : list of user APIs or None (default=None)
+-        Select libraries matching the requested API. Ignored if `modules` is
+-        not None. Supported user APIs are {USER_APIS}.
+-
+-        - "blas" selects all BLAS supported libraries ({BLAS_LIBS})
+-        - "openmp" selects all OpenMP supported libraries ({OPENMP_LIBS})
+-
+-        If None, libraries are not selected by their `user_api`.
+-
+-    prefixes : list of prefixes or None (default=None)
+-        Select libraries matching the requested prefixes. Supported prefixes
+-        are {PREFIXES}.
+-        If None, libraries are not selected by their prefix. Ignored if
+-        `modules` is not None.
+-
+-    modules : list of _Module objects or None (default=None)
+-        Wraps a list of _Module objects into a _ThreapoolInfo object. Does not
+-        load or reload any shared library. If it is not None, `prefixes` and
+-        `user_api` are ignored.
+-
+-    Note
+-    ----
+-    Is is possible to select libraries both by prefixes and by user_api. All
+-    libraries matching one or the other will be selected.
+-    """
+-    # Cache for libc under POSIX and a few system libraries under Windows.
+-    # We use a class level cache instead of an instance level cache because
+-    # it's very unlikely that a shared library will be unloaded and reloaded
+-    # during the lifetime of a program.
+-    _system_libraries = dict()
+-    # Cache for calls to os.path.realpath on system libraries to reduce the
+-    # impact of slow system calls (e.g. stat) on slow filesystem.
+-    # We use a class level cache instead of an instance level cache because
+-    # we can safely assume that the filepath of loaded shared libraries will
+-    # never change during the lifetime of a program.
+-    _realpaths = dict()
+-
+-    def __init__(self, user_api=None, prefixes=None,  modules=None):
+-        if modules is None:
+-            self.prefixes = [] if prefixes is None else prefixes
+-            self.user_api = [] if user_api is None else user_api
+-
+-            self.modules = []
+-            self._load_modules()
+-            self._warn_if_incompatible_openmp()
+-        else:
+-            self.modules = modules
+-
+-    def get_modules(self, key, values):
+-        """Return all modules such that values contains module[key]"""
+-        if key == "user_api" and values is None:
+-            values = list(_ALL_USER_APIS)
+-        if not isinstance(values, list):
+-            values = [values]
+-        modules = [module for module in self.modules
+-                   if getattr(module, key) in values]
+-        return _ThreadpoolInfo(modules=modules)
+-
+-    def todicts(self):
+-        """Return info as a list of dicts"""
+-        return [module.todict() for module in self.modules]
+-
+-    def __len__(self):
+-        return len(self.modules)
+-
+-    def __iter__(self):
+-        yield from self.modules
+-
+-    def __eq__(self, other):
+-        return self.modules == other.modules
+-
+-    def _load_modules(self):
+-        """Loop through loaded libraries and store supported ones"""
+-        if sys.platform == "darwin":
+-            self._find_modules_with_dyld()
+-        elif sys.platform == "win32":
+-            self._find_modules_with_enum_process_module_ex()
+-        else:
+-            self._find_modules_with_dl_iterate_phdr()
+-
+-    def _find_modules_with_dl_iterate_phdr(self):
+-        """Loop through loaded libraries and return binders on supported ones
+-
+-        This function is expected to work on POSIX system only.
+-        This code is adapted from code by Intel developper @anton-malakhov
+-        available at https://github.com/IntelPython/smp
+-
+-        Copyright (c) 2017, Intel Corporation published under the BSD 3-Clause
+-        license
+-        """
+-        libc = self._get_libc()
+-        if not hasattr(libc, "dl_iterate_phdr"):  # pragma: no cover
+-            return []
+-
+-        # Callback function for `dl_iterate_phdr` which is called for every
+-        # module loaded in the current process until it returns 1.
+-        def match_module_callback(info, size, data):
+-            # Get the path of the current module
+-            filepath = info.contents.dlpi_name
+-            if filepath:
+-                filepath = filepath.decode("utf-8")
+-
+-                # Store the module if it is supported and selected
+-                self._make_module_from_path(filepath)
+-            return 0
+-
+-        c_func_signature = ctypes.CFUNCTYPE(
+-            ctypes.c_int,  # Return type
+-            ctypes.POINTER(_dl_phdr_info), ctypes.c_size_t, ctypes.c_char_p)
+-        c_match_module_callback = c_func_signature(match_module_callback)
+-
+-        data = ctypes.c_char_p(b"")
+-        libc.dl_iterate_phdr(c_match_module_callback, data)
+-
+-    def _find_modules_with_dyld(self):
+-        """Loop through loaded libraries and return binders on supported ones
+-
+-        This function is expected to work on OSX system only
+-        """
+-        libc = self._get_libc()
+-        if not hasattr(libc, "_dyld_image_count"):  # pragma: no cover
+-            return []
+-
+-        n_dyld = libc._dyld_image_count()
+-        libc._dyld_get_image_name.restype = ctypes.c_char_p
+-
+-        for i in range(n_dyld):
+-            filepath = ctypes.string_at(libc._dyld_get_image_name(i))
+-            filepath = filepath.decode("utf-8")
+-
+-            # Store the module if it is supported and selected
+-            self._make_module_from_path(filepath)
+-
+-    def _find_modules_with_enum_process_module_ex(self):
+-        """Loop through loaded libraries and return binders on supported ones
+-
+-        This function is expected to work on windows system only.
+-        This code is adapted from code by Philipp Hagemeister @phihag available
+-        at https://stackoverflow.com/questions/17474574
+-        """
+-        from ctypes.wintypes import DWORD, HMODULE, MAX_PATH
+-
+-        PROCESS_QUERY_INFORMATION = 0x0400
+-        PROCESS_VM_READ = 0x0010
+-
+-        LIST_MODULES_ALL = 0x03
+-
+-        ps_api = self._get_windll("Psapi")
+-        kernel_32 = self._get_windll("kernel32")
+-
+-        h_process = kernel_32.OpenProcess(
+-            PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+-            False, os.getpid())
+-        if not h_process:  # pragma: no cover
+-            raise OSError("Could not open PID %s" % os.getpid())
+-
+-        try:
+-            buf_count = 256
+-            needed = DWORD()
+-            # Grow the buffer until it becomes large enough to hold all the
+-            # module headers
+-            while True:
+-                buf = (HMODULE * buf_count)()
+-                buf_size = ctypes.sizeof(buf)
+-                if not ps_api.EnumProcessModulesEx(
+-                        h_process, ctypes.byref(buf), buf_size,
+-                        ctypes.byref(needed), LIST_MODULES_ALL):
+-                    raise OSError("EnumProcessModulesEx failed")
+-                if buf_size >= needed.value:
+-                    break
+-                buf_count = needed.value // (buf_size // buf_count)
+-
+-            count = needed.value // (buf_size // buf_count)
+-            h_modules = map(HMODULE, buf[:count])
+-
+-            # Loop through all the module headers and get the module path
+-            buf = ctypes.create_unicode_buffer(MAX_PATH)
+-            n_size = DWORD()
+-            for h_module in h_modules:
+-
+-                # Get the path of the current module
+-                if not ps_api.GetModuleFileNameExW(
+-                        h_process, h_module, ctypes.byref(buf),
+-                        ctypes.byref(n_size)):
+-                    raise OSError("GetModuleFileNameEx failed")
+-                filepath = buf.value
+-
+-                # Store the module if it is supported and selected
+-                self._make_module_from_path(filepath)
+-        finally:
+-            kernel_32.CloseHandle(h_process)
+-
+-    def _make_module_from_path(self, filepath):
+-        """Store a module if it is supported and selected"""
+-        # Required to resolve symlinks
+-        filepath = self._realpath(filepath)
+-        # `lower` required to take account of OpenMP dll case on Windows
+-        # (vcomp, VCOMP, Vcomp, ...)
+-        filename = os.path.basename(filepath).lower()
+-
+-        # Loop through supported modules to find if this filename corresponds
+-        # to a supported module.
+-        for module_class, candidate_module in _SUPPORTED_MODULES.items():
+-            # check if filename matches a supported prefix
+-            prefix = self._check_prefix(filename,
+-                                        candidate_module["filename_prefixes"])
+-
+-            # filename does not match any of the prefixes of the candidate
+-            # module. move to next module.
+-            if prefix is None:
+-                continue
+-
+-            # filename matches a prefix. Check if it matches the request. If
+-            # so, create and store the module.
+-            user_api = candidate_module["user_api"]
+-            internal_api = candidate_module["internal_api"]
+-            if prefix in self.prefixes or user_api in self.user_api:
+-                module_class = globals()[module_class]
+-                module = module_class(filepath, prefix, user_api, internal_api)
+-                self.modules.append(module)
+-
+-    def _check_prefix(self, library_basename, filename_prefixes):
+-        """Return the prefix library_basename starts with
+-
+-        Return None if none matches.
+-        """
+-        for prefix in filename_prefixes:
+-            if library_basename.startswith(prefix):
+-                return prefix
+-        return None
+-
+-    def _warn_if_incompatible_openmp(self):
+-        """Raise a warning if llvm-OpenMP and intel-OpenMP are both loaded"""
+-        if sys.platform != 'linux':
+-            # Only raise the warning on linux
+-            return
+-
+-        prefixes = [module.prefix for module in self.modules]
+-        msg = textwrap.dedent(
+-            """
+-            Found Intel OpenMP ('libiomp') and LLVM OpenMP ('libomp') loaded at
+-            the same time. Both libraries are known to be incompatible and this
+-            can cause random crashes or deadlocks on Linux when loaded in the
+-            same Python program.
+-            Using threadpoolctl may cause crashes or deadlocks. For more
+-            information and possible workarounds, please see
+-                https://github.com/joblib/threadpoolctl/blob/master/multiple_openmp.md
+-            """)
+-        if 'libomp' in prefixes and 'libiomp' in prefixes:
+-            warnings.warn(msg, RuntimeWarning)
+-
+-    @classmethod
+-    def _get_libc(cls):
+-        """Load the lib-C for unix systems."""
+-        libc = cls._system_libraries.get("libc")
+-        if libc is None:
+-            libc_name = find_library("c")
+-            if libc_name is None:  # pragma: no cover
+-                return None
+-            libc = ctypes.CDLL(libc_name, mode=_RTLD_NOLOAD)
+-            cls._system_libraries["libc"] = libc
+-        return libc
+-
+-    @classmethod
+-    def _get_windll(cls, dll_name):
+-        """Load a windows DLL"""
+-        dll = cls._system_libraries.get(dll_name)
+-        if dll is None:
+-            dll = ctypes.WinDLL("{}.dll".format(dll_name))
+-            cls._system_libraries[dll_name] = dll
+-        return dll
+-
+-    @classmethod
+-    def _realpath(cls, filepath, cache_limit=10000):
+-        """Small caching wrapper around os.path.realpath to limit system calls
+-        """
+-        rpath = cls._realpaths.get(filepath)
+-        if rpath is None:
+-            rpath = os.path.realpath(filepath)
+-            if len(cls._realpaths) < cache_limit:
+-                # If we drop support for Python 2.7, we could use
+-                # functools.lru_cache with maxsize=10000 instead.
+-                cls._realpaths[filepath] = rpath
+-        return rpath
+-
+-
+-@_format_docstring(
+-    USER_APIS=", ".join('"{}"'.format(api) for api in _ALL_USER_APIS),
+-    INTERNAL_APIS=", ".join('"{}"'.format(api) for api in _ALL_INTERNAL_APIS))
+-class _Module(ABC):
+-    """Abstract base class for the modules
+-
+-    A module is represented by the following information:
+-      - "user_api" : user API. Possible values are {USER_APIS}.
+-      - "internal_api" : internal API. Possible values are {INTERNAL_APIS}.
+-      - "prefix" : prefix of the shared library's name.
+-      - "filepath" : path to the loaded module.
+-      - "version" : version of the library (if available).
+-      - "num_threads" : the current thread limit.
+-
+-    In addition, each module may contain internal_api specific entries.
+-    """
+-    def __init__(self, filepath=None, prefix=None, user_api=None,
+-                 internal_api=None):
+-        self.filepath = filepath
+-        self.prefix = prefix
+-        self.user_api = user_api
+-        self.internal_api = internal_api
+-        self._dynlib = ctypes.CDLL(filepath, mode=_RTLD_NOLOAD)
+-        self.version = self.get_version()
+-        self.num_threads = self.get_num_threads()
+-        self._get_extra_info()
+-
+-    def __eq__(self, other):
+-        return self.todict() == other.todict()
+-
+-    def todict(self):
+-        """Return relevant info wrapped in a dict"""
+-        return {k: v for k, v in vars(self).items() if not k.startswith("_")}
+-
+-    @abstractmethod
+-    def get_version(self):
+-        """Return the version of the shared library"""
+-        pass  # pragma: no cover
+-
+-    @abstractmethod
+-    def get_num_threads(self):
+-        """Return the maximum number of threads available to use"""
+-        pass  # pragma: no cover
+-
+-    @abstractmethod
+-    def set_num_threads(self, num_threads):
+-        """Set the maximum number of threads to use"""
+-        pass  # pragma: no cover
+-
+-    @abstractmethod
+-    def _get_extra_info(self):
+-        """Add additional module specific information"""
+-        pass  # pragma: no cover
+-
+-
+-class _OpenBLASModule(_Module):
+-    """Module class for OpenBLAS"""
+-    def get_version(self):
+-        # None means OpenBLAS is not loaded or version < 0.3.4, since OpenBLAS
+-        # did not expose its version before that.
+-        get_config = getattr(self._dynlib, "openblas_get_config",
+-                             lambda: None)
+-        get_config.restype = ctypes.c_char_p
+-        config = get_config().split()
+-        if config[0] == b"OpenBLAS":
+-            return config[1].decode("utf-8")
+-        return None
+-
+-    def get_num_threads(self):
+-        get_func = getattr(self._dynlib, "openblas_get_num_threads",
+-                           lambda: None)
+-        return get_func()
+-
+-    def set_num_threads(self, num_threads):
+-        set_func = getattr(self._dynlib, "openblas_set_num_threads",
+-                           lambda num_threads: None)
+-        return set_func(num_threads)
+-
+-    def _get_extra_info(self):
+-        self.threading_layer = self.get_threading_layer()
+-        self.architecture = self.get_architecture()
+-
+-    def get_threading_layer(self):
+-        """Return the threading layer of OpenBLAS"""
+-        threading_layer = self._dynlib.openblas_get_parallel()
+-        if threading_layer == 2:
+-            return "openmp"
+-        elif threading_layer == 1:
+-            return "pthreads"
+-        return "disabled"
+-
+-    def get_architecture(self):
+-        get_corename = getattr(self._dynlib, "openblas_get_corename", None)
+-        if get_corename is None:
+-            return None
+-
+-        get_corename.restype = ctypes.c_char_p
+-        return get_corename().decode("utf-8")
+-
+-
+-class _BLISModule(_Module):
+-    """Module class for BLIS"""
+-    def get_version(self):
+-        get_version_ = getattr(self._dynlib, "bli_info_get_version_str",
+-                               lambda: None)
+-        get_version_.restype = ctypes.c_char_p
+-        return get_version_().decode("utf-8")
+-
+-    def get_num_threads(self):
+-        get_func = getattr(self._dynlib, "bli_thread_get_num_threads",
+-                           lambda: None)
+-        num_threads = get_func()
+-        # by default BLIS is single-threaded and get_num_threads
+-        # returns -1. We map it to 1 for consistency with other libraries.
+-        return 1 if num_threads == -1 else num_threads
+-
+-    def set_num_threads(self, num_threads):
+-        set_func = getattr(self._dynlib, "bli_thread_set_num_threads",
+-                           lambda num_threads: None)
+-        return set_func(num_threads)
+-
+-    def _get_extra_info(self):
+-        self.threading_layer = self.get_threading_layer()
+-        self.architecture = self.get_architecture()
+-
+-    def get_threading_layer(self):
+-        """Return the threading layer of BLIS"""
+-        if self._dynlib.bli_info_get_enable_openmp():
+-            return "openmp"
+-        elif self._dynlib.bli_info_get_enable_pthreads():
+-            return "pthreads"
+-        return "disabled"
+-
+-    def get_architecture(self):
+-        bli_arch_query_id = getattr(self._dynlib, "bli_arch_query_id", None)
+-        bli_arch_string = getattr(self._dynlib, "bli_arch_string", None)
+-        if bli_arch_query_id is None or bli_arch_string is None:
+-            return None
+-
+-        # the true restype should be BLIS' arch_t (enum) but int should work
+-        # for us:
+-        bli_arch_query_id.restype = ctypes.c_int
+-        bli_arch_string.restype = ctypes.c_char_p
+-        return bli_arch_string(bli_arch_query_id()).decode("utf-8")
+-
+-
+-class _MKLModule(_Module):
+-    """Module class for MKL"""
+-    def get_version(self):
+-        if not hasattr(self._dynlib, "MKL_Get_Version_String"):
+-            return None
+-
+-        res = ctypes.create_string_buffer(200)
+-        self._dynlib.MKL_Get_Version_String(res, 200)
+-
+-        version = res.value.decode("utf-8")
+-        group = re.search(r"Version ([^ ]+) ", version)
+-        if group is not None:
+-            version = group.groups()[0]
+-        return version.strip()
+-
+-    def get_num_threads(self):
+-        get_func = getattr(self._dynlib, "MKL_Get_Max_Threads", lambda: None)
+-        return get_func()
+-
+-    def set_num_threads(self, num_threads):
+-        set_func = getattr(self._dynlib, "MKL_Set_Num_Threads",
+-                           lambda num_threads: None)
+-        return set_func(num_threads)
+-
+-    def _get_extra_info(self):
+-        self.threading_layer = self.get_threading_layer()
+-
+-    def get_threading_layer(self):
+-        """Return the threading layer of MKL"""
+-        # The function mkl_set_threading_layer returns the current threading
+-        # layer. Calling it with an invalid threading layer allows us to safely
+-        # get the threading layer
+-        set_threading_layer = getattr(self._dynlib, "MKL_Set_Threading_Layer",
+-                                      lambda layer: -1)
+-        layer_map = {0: "intel", 1: "sequential", 2: "pgi",
+-                     3: "gnu", 4: "tbb", -1: "not specified"}
+-        return layer_map[set_threading_layer(-1)]
+-
+-
+-class _OpenMPModule(_Module):
+-    """Module class for OpenMP"""
+-    def get_version(self):
+-        # There is no way to get the version number programmatically in OpenMP.
+-        return None
+-
+-    def get_num_threads(self):
+-        get_func = getattr(self._dynlib, "omp_get_max_threads", lambda: None)
+-        return get_func()
+-
+-    def set_num_threads(self, num_threads):
+-        set_func = getattr(self._dynlib, "omp_set_num_threads",
+-                           lambda num_threads: None)
+-        return set_func(num_threads)
+-
+-    def _get_extra_info(self):
+-        pass
+-
+-
+-def _main():
+-    """Commandline interface to display thread-pool information and exit."""
+-    import argparse
+-    import importlib
+-    import json
+-    import sys
+-
+-    parser = argparse.ArgumentParser(
+-        usage="python -m threadpoolctl -i numpy scipy.linalg xgboost",
+-        description="Display thread-pool information and exit.",
+-    )
+-    parser.add_argument(
+-        "-i", "--import", dest="modules", nargs="*", default=(),
+-        help="Python modules to import before introspecting thread-pools."
+-    )
+-    parser.add_argument(
+-        "-c", "--command",
+-        help="a Python statement to execute before introspecting"
+-             " thread-pools.")
+-
+-    options = parser.parse_args(sys.argv[1:])
+-    for module in options.modules:
+-        try:
+-            importlib.import_module(module, package=None)
+-        except ImportError:
+-            print("WARNING: could not import", module, file=sys.stderr)
+-
+-    if options.command:
+-        exec(options.command)
+-
+-    print(json.dumps(threadpool_info(), indent=2))
+-
+-
+-if __name__ == "__main__":
+-    _main()
+diff --git a/tools/GHOST/ghost_backend/twod/formulations/regions.py b/tools/GHOST/ghost_backend/twod/formulations/regions.py
+index 64a0235..4769ec8 100644
+--- a/tools/GHOST/ghost_backend/twod/formulations/regions.py
++++ b/tools/GHOST/ghost_backend/twod/formulations/regions.py
+@@ -236,103 +236,6 @@ def _sparse_mass(mesh):
+     return sparse_mass(mesh)
+ 
+ 
+-def _assemble_system_fresh(mesh, infos, pol, obs_order=8, src_order=8):
+-
+-    import ghost_backend.twod.solver as rcs
+-    layout = build_layout(mesh, infos, pol)
+-    ifaces = layout['ifaces']
+-    regions = layout['region_props']
+-    region_ifaces = layout['region_ifaces']
+-    dofs = layout['dof_map']
+-    operators, weighted = {}, {}
+-    for k, requests in operator_plan(layout):
+-        masks = [ifaces[r['source']]['mask'] for r in requests]
+-        coefficients = [None if r['observer'] is None else
+-                        ifaces[r['observer']]['robin_alpha_elements'] for r in requests]
+-        outputs = rcs._assemble_linear_operator_matrices_multi(
+-            mesh=mesh, k0=k, obs_normal_deriv=True, source_element_masks=masks,
+-            obs_order=obs_order, src_order=src_order,
+-            compute_double_layer_many=[r['kind'] == 'plain' for r in requests],
+-            single_layer_observation_coefficients_many=coefficients,
+-            output_node_ids_many=[(sorted(r['s_rows']), ifaces[r['source']]['nodes']) for r in requests],
+-            double_layer_output_node_ids_many=[(sorted(r['k_rows']), ifaces[r['source']]['nodes']) for r in requests])
+-        for request, pair in zip(requests, outputs):
+-            if request['kind'] == 'plain':
+-                operators[k, request['source']] = pair
+-            else:
+-                weighted[k, request['source'], request['observer']] = pair[0]
+-    mass = _sparse_mass(mesh)
+-    matrix = np.zeros((layout['n_dof'], layout['n_dof']), dtype=np.complex128, order='F')
+-
+-    def sub(op, rows, columns):
+-        return op.block(rows, columns) if hasattr(op, 'block') else op[np.ix_(rows, columns)]
+-
+-    def alpha_s(k, source, observer, rows, columns):
+-        op = weighted.get((k, source, observer))
+-        return 0.0 if op is None else sub(op, rows, columns)
+-
+-    for mi, ifc in enumerate(ifaces):
+-        rm, rp = ifc['r_m'], ifc['r_p']
+-        all_nodes, nm = ifc['nodes'], ifc['n']
+-        for start in range(0, nm, BLOCK_ROWS):
+-            stop = min(start + BLOCK_ROWS, nm)
+-            rows = all_nodes[start:stop]
+-
+-
+-            m = mass[rows, :][:, all_nodes].toarray()
+-            if rm < 0 or rp < 0:
+-                side = 'plus' if rm < 0 else 'minus'
+-                rid = rp if rm < 0 else rm
+-                k = regions[rid]['k']
+-                dm = dofs[mi, side][0]
+-                dest_rows = slice(dm + start, dm + stop)
+-                pec = np.abs(ifc['robin_alpha'][start:stop]) <= EPS if pol == 'TM' else np.zeros(stop-start, dtype=bool)
+-                s, kp = operators[k, mi]
+-                block = (0.5 if rm < 0 else -0.5) * m + sub(kp, rows, all_nodes) + alpha_s(k, mi, mi, rows, all_nodes)
+-                if np.any(pec):
+-                    block[pec] = sub(s, rows, all_nodes)[pec]
+-                matrix[dest_rows, dm:dm+nm] += block
+-                for mj in region_ifaces[rid]:
+-                    if mj == mi:
+-                        continue
+-                    src = ifaces[mj]
+-                    dj, nj = dofs[mj, 'minus' if src['r_m'] == rid else 'plus']
+-                    s, kp = operators[k, mj]
+-                    block = sub(kp, rows, src['nodes']) + alpha_s(k, mj, mi, rows, src['nodes'])
+-                    if np.any(pec):
+-                        block[pec] = sub(s, rows, src['nodes'])[pec]
+-                    matrix[dest_rows, dj:dj+nj] += block
+-            else:
+-                ds, dt = dofs[mi, 'minus'][0], dofs[mi, 'plus'][0]
+-                rs, rt = slice(ds+start, ds+stop), slice(dt+start, dt+stop)
+-                key = 'mu' if pol == 'TM' else 'eps'
+-                beta = regions[rp][key] / regions[rm][key] if abs(regions[rm][key]) > EPS else 1+0j
+-                inv = 1.0 / beta if abs(beta) > EPS else 1+0j
+-                sm, km = operators[regions[rm]['k'], mi]
+-                sp, kp = operators[regions[rp]['k'], mi]
+-                matrix[rs, ds:ds+nm] += -0.5*m + sub(km, rows, all_nodes)
+-                matrix[rs, dt:dt+nm] -= inv * (0.5*m + sub(kp, rows, all_nodes))
+-                matrix[rt, ds:ds+nm] += sub(sm, rows, all_nodes)
+-                matrix[rt, dt:dt+nm] -= sub(sp, rows, all_nodes)
+-                for rid, sign, flux in ((rm, 1.0, 1.0), (rp, -1.0, inv)):
+-                    for mj in region_ifaces[rid]:
+-                        if mj == mi:
+-                            continue
+-                        src = ifaces[mj]
+-                        dj, nj = dofs[mj, 'minus' if src['r_m'] == rid else 'plus']
+-                        s, kp = operators[regions[rid]['k'], mj]
+-                        if sign > 0:
+-                            matrix[rs, dj:dj+nj] += sub(kp, rows, src['nodes'])
+-                            matrix[rt, dj:dj+nj] += sub(s, rows, src['nodes'])
+-                        else:
+-                            matrix[rs, dj:dj+nj] -= flux * sub(kp, rows, src['nodes'])
+-                            matrix[rt, dj:dj+nj] -= sub(s, rows, src['nodes'])
+-
+-    from ghost_backend.twod.formulations.combined_regions import add_corrections
+-    add_corrections(matrix, mesh, layout, obs_order, src_order)
+-    return matrix, layout
+-
+-
+ def _inverse_beta(layout, interface, pol):
+     rm, rp = interface['r_m'], interface['r_p']
+     key = 'mu' if pol == 'TM' else 'eps'

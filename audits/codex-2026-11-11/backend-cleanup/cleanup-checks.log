@@ -1,0 +1,28 @@
+PASS GHOST uses stdlib dataclasses and retained BLAS implementation
+PASS ordinary CEM import does not load certification implementation
+PASS legacy inspection entry still returns absent evidence
+PASS explicit inspection loads optional implementation
+PASS outer scoped setting visible
+PASS nested scoped setting visible
+PASS nested scope restores outer
+PASS exception restores scoped default
+PASS thread scopes remain isolated
+PASS async scopes remain isolated
+PASS 12 evidence cases accept valid inputs and reject malformed inputs
+PASS standalone CEM and embedded CEM inspection agree
+PASS new optional module retains Python 3.6 syntax compatibility
+PASS inspection results and exact errors match baseline on all 12 cases
+PASS all retained numerical AST unchanged: bor/kernels.py
+PASS all retained numerical AST unchanged: bor/solver.py
+PASS all retained numerical AST unchanged: twod/formulations/regions.py
+PASS moved inspection AST unchanged: _canonical_output_polarization
+PASS moved inspection AST unchanged: _require_passed_quality_gate
+PASS moved inspection AST unchanged: _require_passed_mesh_gate
+PASS moved inspection AST unchanged: _attestation_frequency
+PASS moved inspection AST unchanged: _require_embedded_attestation
+PASS moved inspection AST unchanged: _require_channel_dictionary
+PASS moved inspection AST unchanged: _validate_dual_channel_evidence
+PASS moved inspection AST unchanged: _validate_propagated_source
+PASS moved inspection AST unchanged: _mesh_certification_sources
+PASS ordinary dataset operation AST unchanged
+Passed: 27

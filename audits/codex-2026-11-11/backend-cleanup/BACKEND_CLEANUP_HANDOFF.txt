@@ -1,0 +1,162 @@
+BACKEND CLEANUP: IMPLEMENTATION AND SECOND-AUDIT HANDOFF
+Date: 2026-11-11
+Repository: 14cole/20261028_GRIM
+
+Review target
+-------------
+Base: distribution/grim-ux-2026-11-10
+Base commit: 721629100bc48e30673eca7e5aeeea1bfc575495
+Production: distribution/grim-backend-cleanup-2026-11-11
+Production commit: 32eb4066ea20382e430b4f26eeebd0ec765d8ccb
+Evidence: codex/backend-cleanup-2026-11-11
+Evidence directory: audits/codex-2026-11-11/backend-cleanup/
+
+The production branch contains only implementation changes. The evidence branch
+extends that exact production commit with this report, scripts, logs and result
+files. Main and existing distribution branches are not updated.
+
+Result and intended user impact
+-------------------------------
+Implemented the bounded cleanup recommendations: 11 changed files, 481 added
+lines and 2,814 removed lines (2,333 net removed). Supported GHOST users should
+see the same controls, solver choices and numerical results. This is a code
+maintenance change; no solve-time or memory improvement is claimed. In
+particular, the legacy metadata-inspection helper was not on the solve path.
+
+This is not a new distribution signoff. Previously reported Line Expansion
+deficiencies remain outside this patch. Review those reports separately before
+distributing that workflow. This audit also does not establish that every other
+backend module is necessary, or that no other dead code exists.
+
+Changes and evidence for removal
+--------------------------------
+1. Remove GHOST's old dataclasses backport (1,184 lines), threadpoolctl 2.2.0
+   backport (821 lines), and the latter's now-unused license file. GHOST already
+   requires Python >=3.10. runtime.py now directly uses stdlib dataclasses and
+   ContextVar; thread_control always exposes the retained bundled threadpoolctl
+   3.6.0. Its implementation and license are unchanged. ScopedValue retains
+   nested overrides, restoration on exceptions, thread isolation and async
+   task isolation. Runtime thread pinning/refcount logic is unchanged.
+
+2. Remove six private numerical helpers:
+   bor/kernels.py: _cosine_moments, _project_parity_brackets,
+                   _checked_near_kernels
+   bor/solver.py: _graded_cells, _cell_points
+   twod/formulations/regions.py: _assemble_system_fresh
+   Reference inspection found no live callers. _graded_cells was used only by
+   the removed _cell_points. The active regular-cell path still needs _CELL_CACHE,
+   so the cache remains. AST comparisons confirm every remaining statement in
+   these three modules is unchanged. Comments in native C sources and a
+   historical sharp_pairs.py docstring still mention former Python helpers;
+   these are explanatory text, not calls. Native sources are left byte-identical.
+
+3. Move nine legacy certification-evidence inspection functions from
+   data_tools/cem_tools/grim_native.py to certification_evidence.py. Preserve
+   grim_native._mesh_certification_sources(payload, label) as a lazy shim and
+   retain shared constants in the original module. Ordinary CEM dataset import
+   no longer loads the inspection implementation. Explicit inspection still
+   works. Each moved function has the same AST, apart from the entry-point
+   rename in its new module. All remaining ordinary dataset-operation ASTs are
+   unchanged. Twelve valid/malformed evidence fixtures produce identical values
+   or exception types/messages before and after, through both embedded and
+   standalone package imports. The new module is runtime application code,
+   not an audit artifact.
+
+Deliberately retained
+---------------------
+* Native acceleration and NumPy fallbacks, Dense and Compressed solvers,
+  physics validation, checkpointing, HPC interfaces and current thread control.
+* Assembly ContributionInspector/interference_metrics: these have cross-app
+  dynamic users in GRIM_Backend/assembly/interference.py through
+  load_ghost_module("assembly_inspector"). A simple local caller count would
+  incorrectly classify them as unused.
+* Standalone CEM tools' older-Python/PySide2 compatibility. Their setup.py and
+  gui.py are unchanged. The moved module parses with Python 3.6 grammar, but
+  an actual Python 3.6 runtime was not available for execution.
+* All eight shipped DLL/SO files, four native C sources, and native manifests.
+  No native rebuild is needed for these Python-only changes. SHA-256 checks
+  are recorded in preservation-checks.json; final Git tree verification also
+  checks every file outside the explicit production change list.
+
+Validation performed
+--------------------
+Environment: Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, PySide6 6.12.0.
+Qt used offscreen mode. Numerical/worker comparisons used one BLAS/OMP thread.
+
+* 207 numerical regression checks passed across Claude's 11 regression scripts.
+  These cover baseline physics, open-conductor TE, nonfinite rejection, BoR
+  modes, long panels, concurrency, linear-algebra state, input/warnings, worker
+  death, far quadrature and BoR near publication. test_s5_bor_near_publish.py
+  explicitly checks native AND NumPy near kernels against independent quad_vec
+  integration, as well as a Mie sphere and default/fine equality.
+* 59 GUI/worker checks passed (33 UX and 26 follow-up review checks), including
+  six real worker solves: Dense/Compressed crossed with single/check/automatic.
+* 27 targeted cleanup checks passed: imports, lazy loading, scoped state,
+  standalone/embedded inspection compatibility and exact AST preservation.
+* 31 before/after reference result sets were bitwise identical, with matching
+  shapes and dtypes and finite values. These comprise 24 monostatic 2D cases
+  (12 formulations across Dense/Compressed), one bistatic dielectric case,
+  and six BoR material/geometry cases. The 2D arrays are complex amplitudes;
+  the BoR arrays are linear RCS. NPZs and the strict byte comparator are included.
+* Environment/driver imports, complex LU, thread control and native speed-path
+  availability passed. speed-paths.log is an availability check, NOT a timing
+  benchmark. Whitespace validation passed with core.whitespace=cr-at-eol.
+
+Test-bundle incident: the first regression/run_all.py invocation completed 171
+checks but exited 1 because test_s1_s2_w_far_rule.py could not import w_far_rule.
+The copied test bundle lacked its calibration fixture; this was not a production
+failure. The original fixture was copied unchanged into calibration/w_far_rule.py
+and only the affected script was rerun: 36 passed, 0 failures. regression.log
+preserves the original failure honestly; far-rule.log records the successful
+rerun. The bundled reproduction now includes that fixture. The full suite was
+not redundantly rerun after repairing the test bundle.
+
+Reproduction
+------------
+Check out the evidence branch as CLEAN and the base commit above as BASE, using
+separate directories. Set PY to a Python environment with the dependencies above.
+Example Bash commands (replace the three absolute paths):
+
+  CLEAN=/absolute/path/to/evidence-checkout
+  BASE=/absolute/path/to/base-checkout
+  PY=/absolute/path/to/python
+  EV="$CLEAN/audits/codex-2026-11-11/backend-cleanup"
+  export PYTHONPATH="$CLEAN/tools/GHOST"
+  export GHOST_AUDIT_ROOT="$CLEAN"
+  export QT_QPA_PLATFORM=offscreen OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+  "$PY" "$EV/cleanup_checks.py" --baseline-root "$BASE"
+  "$PY" "$EV/ux_checks.py"
+  "$PY" "$EV/review_checks.py"
+  "$PY" "$EV/regression/run_all.py"
+  GHOST_AUDIT_ROOT="$BASE" "$PY" "$EV/regression/golden.py" "$BASE" /tmp/base-fields.npz
+  "$PY" "$EV/regression/golden.py" "$CLEAN" /tmp/clean-fields.npz
+  "$PY" "$EV/compare_fields.py" /tmp/base-fields.npz /tmp/clean-fields.npz
+
+Scripts write JSON results next to themselves; save original evidence if needed.
+production.patch is included for inspection, but the production commit diff is
+the authoritative change. Tests are bounded regression evidence, not a proof of
+all possible inputs or all platforms.
+
+Requested Claude second audit
+-----------------------------
+1. Independently inspect the exact production commit against the base. Confirm
+   no live or dynamically imported callers need the six removed private helpers.
+   Search beyond tools/GHOST, including GRIM_Backend and packaging entry points.
+2. Confirm the supported GHOST interpreter floor and the independent CEM-tools
+   compatibility boundary. Exercise the minimum supported GHOST Python and
+   Windows if available; neither was executed here.
+3. Inspect the lazy module dependency in both import orders, package inclusion,
+   exception semantics and existing callers of _mesh_certification_sources.
+   Challenge the supplied evidence fixtures with independent malformed inputs.
+4. Reproduce numerical regression and before/after field comparison independently,
+   including native and fallback execution. Confirm active solver/cache paths
+   were retained. Do not infer a timing improvement from line-count reduction.
+5. Verify retained library/source hashes and check the Windows DLL paths on an
+   actual Windows host. DLL execution and SLURM execution were not tested here.
+6. Separate any pre-existing Line Expansion findings from regressions introduced
+   by this cleanup. Report defects with trigger, expected/actual behavior,
+   severity, file/line evidence and a reproducer.
+
+Remaining compatibility risk: external code that imports removed underscore-
+prefixed helpers directly will need updating. Such consumers are outside the
+repository reference scan. No public solver entry point was removed.

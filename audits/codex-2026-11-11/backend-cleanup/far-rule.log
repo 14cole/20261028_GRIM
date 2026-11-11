@@ -1,0 +1,38 @@
+PASS typical mesh (|k|L 0.31): 7 / 6 / 5 points by separation
+PASS |k|L up to 3 keeps the former 8 points
+PASS order never exceeds the former rule
+PASS order is monotone in |k|L and separation
+PASS ineligible mesh keeps the 16-point fallback
+PASS polynomial degrees keep their 9-point rule
+PASS one sliver no longer forces the fallback
+PASS a 1e-7 sliver still does
+PASS |k|L above 3 still does
+PASS active wavenumber still does
+PASS jittered ring: |k|L 0.05, arg k 0 deg within 1e-12 | 6.6e-14
+PASS jittered ring: |k|L 0.05, arg k -35 deg within 1e-12 | 5.7e-14
+PASS jittered ring: |k|L 0.05, arg k -80 deg within 1e-12 | 6.6e-14
+PASS jittered ring: |k|L 0.31, arg k 0 deg within 1e-12 | 2.9e-14
+PASS jittered ring: |k|L 0.31, arg k -35 deg within 1e-12 | 2.4e-14
+PASS jittered ring: |k|L 0.31, arg k -80 deg within 1e-12 | 2.6e-14
+PASS jittered ring: |k|L 0.9, arg k 0 deg within 1e-12 | 8.0e-15
+PASS jittered ring: |k|L 0.9, arg k -35 deg within 1e-12 | 1.3e-14
+PASS jittered ring: |k|L 0.9, arg k -80 deg within 1e-12 | 1.4e-14
+PASS jittered ring: |k|L 1.4, arg k 0 deg within 1e-12 | 5.0e-15
+PASS jittered ring: |k|L 1.4, arg k -35 deg within 1e-12 | 1.7e-14
+PASS jittered ring: |k|L 1.4, arg k -80 deg within 1e-12 | 1.9e-14
+PASS jittered ring: |k|L 2.5, arg k 0 deg within 1e-12 | 6.6e-15
+PASS jittered ring: |k|L 2.5, arg k -35 deg within 1e-12 | 5.5e-14
+PASS jittered ring: |k|L 2.5, arg k -80 deg within 1e-12 | 4.1e-14
+PASS ring with a 5e-4 sliver: |k|L 0.31, arg k 0 deg within 1e-12 | 2.4e-14
+PASS ring with a 5e-4 sliver: |k|L 0.31, arg k -35 deg within 1e-12 | 2.1e-14
+PASS ring with a 5e-4 sliver: |k|L 0.31, arg k -80 deg within 1e-12 | 2.6e-14
+PASS ring with a 5e-4 sliver: |k|L 1.2, arg k 0 deg within 1e-12 | 6.2e-15
+PASS ring with a 5e-4 sliver: |k|L 1.2, arg k -35 deg within 1e-12 | 1.3e-14
+PASS ring with a 5e-4 sliver: |k|L 1.2, arg k -80 deg within 1e-12 | 1.4e-14
+PASS ring with a 1e-5 sliver: |k|L 0.31, arg k 0 deg within 1e-12 | 1.8e-14
+PASS ring with a 1e-5 sliver: |k|L 0.31, arg k -35 deg within 1e-12 | 1.9e-14
+PASS ring with a 1e-5 sliver: |k|L 0.31, arg k -80 deg within 1e-12 | 2.0e-14
+worst far-entry error relative to the largest far entry: 6.61e-14
+PASS IBC circle with a sliver matches the series (VV) | 4.61e-05 dB
+PASS IBC circle with a sliver matches the series (HH) | 4.70e-05 dB
+0 failure(s)

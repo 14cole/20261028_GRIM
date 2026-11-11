@@ -1,0 +1,281 @@
+{
+  "passed": 27,
+  "checks": [
+    "GHOST uses stdlib dataclasses and retained BLAS implementation",
+    "ordinary CEM import does not load certification implementation",
+    "legacy inspection entry still returns absent evidence",
+    "explicit inspection loads optional implementation",
+    "outer scoped setting visible",
+    "nested scoped setting visible",
+    "nested scope restores outer",
+    "exception restores scoped default",
+    "thread scopes remain isolated",
+    "async scopes remain isolated",
+    "12 evidence cases accept valid inputs and reject malformed inputs",
+    "standalone CEM and embedded CEM inspection agree",
+    "new optional module retains Python 3.6 syntax compatibility",
+    "inspection results and exact errors match baseline on all 12 cases",
+    "all retained numerical AST unchanged: bor/kernels.py",
+    "all retained numerical AST unchanged: bor/solver.py",
+    "all retained numerical AST unchanged: twod/formulations/regions.py",
+    "moved inspection AST unchanged: _canonical_output_polarization",
+    "moved inspection AST unchanged: _require_passed_quality_gate",
+    "moved inspection AST unchanged: _require_passed_mesh_gate",
+    "moved inspection AST unchanged: _attestation_frequency",
+    "moved inspection AST unchanged: _require_embedded_attestation",
+    "moved inspection AST unchanged: _require_channel_dictionary",
+    "moved inspection AST unchanged: _validate_dual_channel_evidence",
+    "moved inspection AST unchanged: _validate_propagated_source",
+    "moved inspection AST unchanged: _mesh_certification_sources",
+    "ordinary dataset operation AST unchanged"
+  ],
+  "certification_cases": [
+    {
+      "case": "absent",
+      "error": null,
+      "result": null
+    },
+    {
+      "case": "no mesh",
+      "error": null,
+      "result": null
+    },
+    {
+      "case": "legacy source chain",
+      "error": null,
+      "result": [
+        {
+          "contract": "legacy-workflow-unit.v1",
+          "mesh_convergence": {
+            "base_quality_gate": {
+              "passed": true
+            },
+            "fine_quality_gate": {
+              "passed": true
+            },
+            "passed": true,
+            "published_mesh": "fine"
+          }
+        }
+      ]
+    },
+    {
+      "case": "malformed JSON",
+      "error": [
+        "CemToolError",
+        "fixture: malformed production mesh certification"
+      ],
+      "result": null
+    },
+    {
+      "case": "source count mismatch",
+      "error": [
+        "CemToolError",
+        "fixture: unsupported production mesh certification"
+      ],
+      "result": null
+    },
+    {
+      "case": "false convergence claim",
+      "error": [
+        "CemToolError",
+        "fixture: invalid source-chain certificate claims coherent delta convergence"
+      ],
+      "result": null
+    },
+    {
+      "case": "failed fine quality gate",
+      "error": [
+        "CemToolError",
+        "fixture source-chain item 1 fine mesh: solver quality gate did not pass"
+      ],
+      "result": null
+    },
+    {
+      "case": "single-channel attestation",
+      "error": null,
+      "result": [
+        {
+          "contract": "embedded-single-output-attestation.v1",
+          "frequency_ghz": 1.0,
+          "label": "fixture",
+          "mesh_convergence": {
+            "base_quality_gate": {
+              "passed": true
+            },
+            "fine_quality_gate": {
+              "passed": true
+            },
+            "passed": true,
+            "published_mesh": "fine"
+          },
+          "output_attestation": {
+            "angular_grid_kind": "azimuths_deg",
+            "angular_grid_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "frequency_ghz": 1.0,
+            "geometry_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "polarization": "HH",
+            "run_id": "test",
+            "run_solve_spec_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "runtime_environment_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "schema": "ghost.workflow.embedded-attestation.v1",
+            "solver_config_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "solver_source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "unit_solve_spec_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "polarization": "HH",
+          "quality_gate": {
+            "passed": true
+          }
+        }
+      ]
+    },
+    {
+      "case": "dual-channel attestation",
+      "error": null,
+      "result": [
+        {
+          "channels": {
+            "HH": {
+              "mesh_convergence": {
+                "base_quality_gate": {
+                  "passed": true
+                },
+                "fine_quality_gate": {
+                  "passed": true
+                },
+                "passed": true,
+                "published_mesh": "fine"
+              },
+              "quality_gate": {
+                "passed": true
+              }
+            },
+            "VV": {
+              "mesh_convergence": {
+                "base_quality_gate": {
+                  "passed": true
+                },
+                "fine_quality_gate": {
+                  "passed": true
+                },
+                "passed": true,
+                "published_mesh": "fine"
+              },
+              "quality_gate": {
+                "passed": true
+              }
+            }
+          },
+          "contract": "embedded-dual-output-attestation.v1",
+          "frequency_ghz": 1.0,
+          "label": "fixture",
+          "mesh_convergence": {
+            "base_quality_gate": {
+              "channels": {
+                "HH": {
+                  "passed": true
+                },
+                "VV": {
+                  "passed": true
+                }
+              },
+              "passed": true
+            },
+            "channels": {
+              "HH": {
+                "base_quality_gate": {
+                  "passed": true
+                },
+                "fine_quality_gate": {
+                  "passed": true
+                },
+                "passed": true,
+                "published_mesh": "fine"
+              },
+              "VV": {
+                "base_quality_gate": {
+                  "passed": true
+                },
+                "fine_quality_gate": {
+                  "passed": true
+                },
+                "passed": true,
+                "published_mesh": "fine"
+              }
+            },
+            "fine_quality_gate": {
+              "channels": {
+                "HH": {
+                  "passed": true
+                },
+                "VV": {
+                  "passed": true
+                }
+              },
+              "passed": true
+            },
+            "passed": true,
+            "published_mesh": "fine"
+          },
+          "output_attestation": {
+            "angular_grid_kind": "azimuths_deg",
+            "angular_grid_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "frequency_ghz": 1.0,
+            "geometry_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "polarizations": [
+              "VV",
+              "HH"
+            ],
+            "run_id": "test",
+            "run_solve_spec_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "runtime_environment_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "schema": "ghost.workflow.embedded-attestation.v1",
+            "solver_config_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "solver_source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "unit_solve_spec_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "polarizations": [
+            "VV",
+            "HH"
+          ],
+          "quality_gate": {
+            "channels": {
+              "HH": {
+                "passed": true
+              },
+              "VV": {
+                "passed": true
+              }
+            },
+            "passed": true
+          }
+        }
+      ]
+    },
+    {
+      "case": "missing channel",
+      "error": [
+        "CemToolError",
+        "fixture: certification must contain exactly VV and HH channels"
+      ],
+      "result": null
+    },
+    {
+      "case": "frequency mismatch",
+      "error": [
+        "CemToolError",
+        "fixture: embedded output attestation frequency does not match the GRIM frequency axis"
+      ],
+      "result": null
+    },
+    {
+      "case": "invalid hash",
+      "error": [
+        "CemToolError",
+        "fixture: embedded output attestation has invalid solver_source_sha256"
+      ],
+      "result": null
+    }
+  ]
+}
