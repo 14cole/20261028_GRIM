@@ -1,0 +1,19 @@
+======================================================================
+HPC monostatic BoR RCS sweep
+======================================================================
+  Run dir       : /workspace/simplify-final-hpc-bor/runs/run_20261111_023619_449299
+  Geometries    : 1
+  Polarizations : VV, HH (co-solved; VH also published)
+  Frequencies   : 1  (0.3-0.3 GHz)
+  Radar grid    : 2 az x 1 el
+  Solver aspects: 2 exact body-aspect RHS columns
+  Deliverables  : 1 monostatic GRIM(s)
+  Physical solves: 1  (VV/HH co-solved)
+  Mesh check    : base only (no mesh comparison)
+  Slots         : 1 job(s) x 1 node(s)
+  Per unit      : 1 threads (modes + streaming tiles), assembly=streaming, precision=double
+  Memory reserve: 2.09-2.09 GB per physical solve
+  Slurm scripts : 1 files in /workspace/simplify-final-hpc-bor/runs/run_20261111_023619_449299
+
+  SUBMIT=False -- submit manually with:
+    sbatch /workspace/simplify-final-hpc-bor/runs/run_20261111_023619_449299/submit_job0.slurm

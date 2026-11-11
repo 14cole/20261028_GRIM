@@ -1,0 +1,20 @@
+======================================================================
+Local BoR monostatic RCS sweep
+======================================================================
+  Run dir       : /workspace/simplify-final-local-bor/runs/run_20261111_023619_579343
+  Geometries    : 1
+  Polarizations : VV, HH
+  Frequencies   : 1  (0.3-0.3 GHz)
+  Radar grid    : 2 az x 1 el
+  Solver aspects: 2 exact body-aspect RHS columns
+  Deliverables  : 1 monostatic GRIM(s)
+  Physical solves: 1  (VV/HH co-solved)
+  Mesh check    : base only (no mesh comparison)
+  Workers       : 1 procs x 1 threads of 5 cpus; 5 cpus reserved per solve  (BLAS threads/worker: 1)
+  Memory        : 16.0 GiB installed, 16.6 GiB available, 12.0 GiB schedulable; per-solve reservations 1.94-1.94 GiB
+======================================================================
+      [warn] body: SURVEY MODE: solved on the base BoR mesh only. No mesh-convergence certificate exists for this field.
+  [   1/1] written  VV+HH_0.300GHz_body
+
+  Done. wrote=1, skipped=0, failed=0.  1.5 s elapsed.
+  Monostatic outputs: /workspace/simplify-final-local-bor/runs/run_20261111_023619_579343/results/

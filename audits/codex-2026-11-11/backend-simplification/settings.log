@@ -1,0 +1,43 @@
+PASS runs.local_twod_driver: configured keys are not injected into module globals
+PASS runs.local_twod_driver: legacy attribute reads resolve
+PASS runs.local_twod_driver: snapshot pickle roundtrip
+PASS runs.local_twod_driver: returned values do not mutate captured settings
+PASS runs.local_twod_driver: input mutation does not mutate captured settings
+PASS runs.local_twod_driver: missing parameter error preserved
+PASS runs.local_twod_driver: failed capture leaves prior snapshot intact
+PASS runs.local_twod_driver: spawned worker restores identical settings
+PASS runs.local_twod_driver: execution decorator reads captured controls
+PASS hpc.twod_driver: configured keys are not injected into module globals
+PASS hpc.twod_driver: legacy attribute reads resolve
+PASS hpc.twod_driver: snapshot pickle roundtrip
+PASS hpc.twod_driver: returned values do not mutate captured settings
+PASS hpc.twod_driver: input mutation does not mutate captured settings
+PASS hpc.twod_driver: missing parameter error preserved
+PASS hpc.twod_driver: failed capture leaves prior snapshot intact
+PASS hpc.twod_driver: spawned worker restores identical settings
+PASS hpc.twod_driver: execution decorator reads captured controls
+PASS runs.local_bor_driver: configured keys are not injected into module globals
+PASS runs.local_bor_driver: legacy attribute reads resolve
+PASS runs.local_bor_driver: snapshot pickle roundtrip
+PASS runs.local_bor_driver: returned values do not mutate captured settings
+PASS runs.local_bor_driver: input mutation does not mutate captured settings
+PASS runs.local_bor_driver: missing parameter error preserved
+PASS runs.local_bor_driver: failed capture leaves prior snapshot intact
+PASS runs.local_bor_driver: spawned worker restores identical settings
+PASS runs.local_bor_driver: adjacent JSON override applied
+PASS runs.local_bor_driver: JSON contract remains statically discoverable
+PASS runs.local_bor_driver: JSON source fingerprint retained
+PASS runs.local_bor_driver: rejected BoR validation leaves previous settings intact
+PASS hpc.bor_driver: configured keys are not injected into module globals
+PASS hpc.bor_driver: legacy attribute reads resolve
+PASS hpc.bor_driver: snapshot pickle roundtrip
+PASS hpc.bor_driver: returned values do not mutate captured settings
+PASS hpc.bor_driver: input mutation does not mutate captured settings
+PASS hpc.bor_driver: missing parameter error preserved
+PASS hpc.bor_driver: failed capture leaves prior snapshot intact
+PASS hpc.bor_driver: spawned worker restores identical settings
+PASS hpc.bor_driver: adjacent JSON override applied
+PASS hpc.bor_driver: JSON contract remains statically discoverable
+PASS hpc.bor_driver: JSON source fingerprint retained
+PASS hpc.bor_driver: rejected BoR validation leaves previous settings intact
+PASS all GHOST Python files parse with 3.10 grammar

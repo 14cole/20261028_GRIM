@@ -1,0 +1,22 @@
+======================================================================
+Local monostatic RCS sweep
+======================================================================
+  Run dir       : /workspace/simplify-final-local-twod/runs/run_20261111_023619_453177
+  Geometries    : 1
+  Polarizations : VV, HH (co-solved)
+  Frequencies   : 1  (0.3-0.3 GHz)
+  Azimuths      : 2
+  Units total   : 1  (geometry x frequency)
+  Mesh check    : base only (no mesh comparison)
+  Run policy    : Linear solver: Dense. Mesh: Global; polynomial order: P1. Corner grading: Off. Workflow: Solve specified mesh — mesh convergence not checked.
+  Workers       : 1 of 5 cpus  (CPU reservation per solve, assembly and BLAS alike; BLAS team at most 5, assembly threads/solve: 5)
+  Memory        : 16.0 GiB installed, 16.5 GiB available, 14.4 GiB schedulable
+  Mesh comparison is off: downstream use remains enabled; the
+  user owns the mesh-resolution decision.
+======================================================================
+  /workspace/simplify-final-local-twod/geometry/body.geo | Preparing geometry | 0.0s; RSS 0.07 GiB
+      memory 0.300GHz_body.grim: forecast 0.82 GiB, measured peak 0.08 GiB (worker_process_lifetime, 0.10 of forecast)
+  [   1/1] written  0.300GHz_body.grim
+
+  Done. wrote=1, skipped=0, failed=0.  1.2 s elapsed.
+  Outputs: /workspace/simplify-final-local-twod/runs/run_20261111_023619_453177/results/

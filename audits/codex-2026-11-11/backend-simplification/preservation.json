@@ -1,0 +1,174 @@
+{
+  "base_commit": "6dd0a1f9cbdc0fac98ad302412abb6593a01a4a9",
+  "moved_definitions": [
+    {
+      "module": "constraints",
+      "name": "_ConstraintEntries",
+      "lines": 37
+    },
+    {
+      "module": "constraints",
+      "name": "_constraint_structure",
+      "lines": 25
+    },
+    {
+      "module": "constraints",
+      "name": "_reduce_constrained_operator",
+      "lines": 24
+    },
+    {
+      "module": "constraints",
+      "name": "_constraint_coordinates",
+      "lines": 13
+    },
+    {
+      "module": "constraints",
+      "name": "_rotate_test_rows",
+      "lines": 3
+    },
+    {
+      "module": "constraints",
+      "name": "_mix_dual_ibc_in_place",
+      "lines": 21
+    },
+    {
+      "module": "constraints",
+      "name": "_scaled_add_into",
+      "lines": 17
+    },
+    {
+      "module": "storage",
+      "name": "bor_impedance_map_bytes",
+      "lines": 6
+    },
+    {
+      "module": "storage",
+      "name": "estimate_bor_table_gb",
+      "lines": 13
+    },
+    {
+      "module": "storage",
+      "name": "estimate_bor_cross_table_gb",
+      "lines": 15
+    },
+    {
+      "module": "storage",
+      "name": "conductor_operator_kinds",
+      "lines": 11
+    },
+    {
+      "module": "storage",
+      "name": "bor_near_cache_bytes",
+      "lines": 10
+    },
+    {
+      "module": "storage",
+      "name": "bor_cross_near_cache_bytes",
+      "lines": 3
+    },
+    {
+      "module": "storage",
+      "name": "bor_operator_storage_bytes",
+      "lines": 76
+    },
+    {
+      "module": "storage",
+      "name": "estimate_bor_operator_storage_gb",
+      "lines": 80
+    },
+    {
+      "module": "validation",
+      "name": "_bor_axis_tolerance",
+      "lines": 3
+    },
+    {
+      "module": "validation",
+      "name": "_segments_intersect_2d",
+      "lines": 43
+    },
+    {
+      "module": "validation",
+      "name": "_validate_solve_bor_generatrix",
+      "lines": 124
+    },
+    {
+      "module": "validation",
+      "name": "_validated_bor_aspects",
+      "lines": 11
+    }
+  ],
+  "remaining_solver_definitions_ast_identical": true,
+  "unchanged_files": 509,
+  "native_unchanged": [
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.c",
+      "sha256": "abd752ec1fb93bd501b390abbd723411c0b59d368ab0e460b4c3547d593556da"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so",
+      "sha256": "cf05635e0dad323d065befe0d29c2a86f400835d968f686593bf3ace1801d287"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.windows-amd64.dll",
+      "sha256": "f3668662feb457c341b8fc41d44b733659615e6ec010f9298f9a004f0c9ca07b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/far.c",
+      "sha256": "ccbe2dea5c78aa1fda68a158884e8c9121b4448a3ea1e1f416a54d71cd79649b"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_far.dll",
+      "sha256": "aa1bfa7c4eab8de6063818768c586efd03d2c8ce290159f2b473fe7ac27959ff"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_near.dll",
+      "sha256": "8e65a4e613ee3bf83e5b53c9bb6bffdede3fb86b0cb87f5c021a727837e40cb2"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_table.dll",
+      "sha256": "cf6144a802fac9787ed58b797069b8b97176cf192584c2e088e92a80d7ca628a"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_far.so",
+      "sha256": "aacfc3c069dc67a704609daeba33c2c98a990f7e9bb23fa427a767c588c48709"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_near.so",
+      "sha256": "38445ddcea6ad61bf5650aab851021f2048347e38ddef05eef54f2f03917b2ba"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_table.so",
+      "sha256": "b8bb1a4af83f3208a0d6ab5a116d0a4125a165a9b90018efcbfc1631939b7fa3"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/near.c",
+      "sha256": "370eda53b346f07b9c6d5eb8f031814d65522fc6498d4128c4c5c6312303b617"
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/table.c",
+      "sha256": "a17488f440f356795c4cfa7ed40431677e401bab918ada66ded4da8c6e3c1725"
+    }
+  ],
+  "module_line_counts": {
+    "bor/solver.py": {
+      "before": 7460,
+      "after": 6896
+    },
+    "runs/local_twod_driver.py": {
+      "before": 732,
+      "after": 630
+    },
+    "runs/local_bor_driver.py": {
+      "before": 944,
+      "after": 843
+    },
+    "hpc/twod_driver.py": {
+      "before": 1246,
+      "after": 1169
+    },
+    "hpc/bor_driver.py": {
+      "before": 1504,
+      "after": 1443
+    }
+  }
+}

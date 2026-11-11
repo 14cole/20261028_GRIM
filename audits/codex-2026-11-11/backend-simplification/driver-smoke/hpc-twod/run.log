@@ -1,0 +1,26 @@
+  Planning mesh/storage bounds for 2 channel record(s) across 1 geometry file(s) on 1 process(es); no coefficient sampling...
+    planned 1/1 geometries (100%) in 0.2s, ETA 0.0s
+  Resource plan ready in 0.2s.
+======================================================================
+HPC monostatic RCS sweep
+======================================================================
+  Run dir       : /workspace/simplify-final-hpc-twod/runs/run_20261111_023619_440782
+  Geometries    : 1
+  Polarizations : VV, HH (co-solved)
+  Frequencies   : 1  (0.3-0.3 GHz)
+  Azimuths      : 2
+  Units total   : 1  (geometry x frequency)
+  Run policy    : Linear solver: Dense. Mesh: Global; polynomial order: P1. Corner grading: Off. Workflow: Solve specified mesh — mesh convergence not checked.
+  Slots         : 1 job(s) x 1 node(s) = 1 parallel nodes
+  Per node      : 1 cores, 4G RAM, unlimited walltime
+  Unit peak RAM : 0.82-0.82 GB estimated (incl. 1.35x safety)
+  Mesh path     : 1 single P1 mesh(es), uncertified (MESH_CERTIFICATION = False)
+  Solve ceiling : 13.8 GB per solve (15 GiB detected here)
+  Plan balance  : 1.00x the best any schedule could do (1.00 = optimal; stealing absorbs the rest)
+  Certification : Survey — mesh convergence not checked
+                  Downstream use remains enabled; the user owns the
+                  mesh-resolution decision.
+  Slurm scripts : 1 files in /workspace/simplify-final-hpc-twod/runs/run_20261111_023619_440782
+
+  SUBMIT=False -- submit manually with:
+    sbatch /workspace/simplify-final-hpc-twod/runs/run_20261111_023619_440782/submit_job0.slurm

@@ -1,0 +1,236 @@
+BACKEND SIMPLIFICATION: IMPLEMENTATION HANDOFF FOR CLAUDE
+Date: 2026-11-11
+Repository: 14cole/20261028_GRIM
+
+Review target
+-------------
+Base: 6dd0a1f9cbdc0fac98ad302412abb6593a01a4a9
+      distribution/grim-backend-cleanup-fix-2026-11-11
+Production commit: c20b9edbce8c4b652312ca8ea206a4e5c198f0c2
+Production branch: distribution/grim-driver-simplification-2026-11-11
+Evidence branch: codex/backend-simplification-2026-11-11
+Evidence directory: audits/codex-2026-11-11/backend-simplification/
+
+The production branch extends the BC-01 repair that Claude accepted. The evidence
+branch extends this exact new production commit with audit material only.
+
+Purpose and measured scope
+--------------------------
+Reduce duplicated driver control flow and make independent BoR responsibilities
+reviewable without changing numerical methods or removing supported solve paths.
+
+14 changed files: 1,380 insertions, 1,418 deletions, 38 net lines removed.
+Five new modules organize code that still serves an active purpose. This is
+primarily a structural simplification, not a large reduction in backend size:
+
+  bor/solver.py                 7,460 -> 6,896 lines
+  runs/local_twod_driver.py       732 ->   630
+  runs/local_bor_driver.py        944 ->   843
+  hpc/twod_driver.py            1,246 -> 1,169
+  hpc/bor_driver.py             1,504 -> 1,443
+
+The four drivers shrink by 341 lines together. Extracting definitions accounts
+for most of the main BoR solver's 564-line reduction. No speed or RAM reduction
+is claimed. Reference-run timings are incidental measurements under concurrent
+validation load; do not interpret their differences as a performance benchmark.
+
+Implementation
+--------------
+1. Shared solve/export pipelines in runs/worker_pipeline.py.
+
+   Local and HPC 2D workers use run_twod_unit. Local and HPC BoR workers use
+   run_bor_pair and solve_bor_result. WorkerAdapter passes explicit callbacks
+   for output paths, source/input checks, attestation construction, loading,
+   history labels and memory evidence. The remaining driver wrappers preserve
+   the existing pool entry points and parameter lists used by their callers.
+
+   Kept transport-specific policies: HPC paths versus local results folders,
+   frozen-manifest loading, per-pair HPC BoR execution-plan overrides, local BoR
+   duplicate-input-check suppression, publication history strings, CPU/RAM
+   scopes and pool cleanup. Both source and input checks still run before reuse
+   and again after solving, before output publication. Partial BoR restarts
+   co-solve the pair but publish only missing channel artifacts.
+
+   runs/inputs.py now shares normalized-context attestation construction across
+   local 2D, HPC 2D and local BoR, plus the identical local provenance check.
+   HPC BoR's different manifest representation retains its adapter-specific
+   attestation builder. Memory reporting and BoR channel slicing are shared.
+
+2. Explicit process settings in runs/driver_settings.py.
+
+   All four drivers capture a DriverSettings snapshot instead of injecting
+   parameter names with globals().update(). Their internal reads use _SETTINGS.
+   current_settings() returns independent dictionaries for manifests and spawned
+   workers. Snapshots copy caller-owned values and are pickleable. Execution
+   decorators now obtain configured controls through current_settings().
+
+   Existing parameter scripts, configure()/run(), default loaders, static BoR
+   JSON contracts, adjacent/explicit configuration loading and spawned-worker
+   parameter dictionaries are retained. BoR configuration is validated before
+   replacing the previous snapshot; a rejected configuration leaves it intact.
+
+   Compatibility boundary: reads such as driver.GEOMETRY_UNITS still work via
+   module __getattr__. The driver module's vars()/__dict__ no longer holds each
+   configured parameter. Direct assignment to driver.GEOMETRY_UNITS is not a
+   way to reconfigure the solver now; use configure(). Caller dictionary/list
+   mutations after configure() no longer alter the captured run. A process
+   still has one active configuration per driver module: this does not promise
+   concurrent independent configurations within a single module/process.
+
+3. Extract independent BoR helpers behind retained import names.
+
+   bor/constraints.py: sparse pole/junction constraints and bounded matrix
+   operations. bor/validation.py: direct-solver geometry and aspect validation.
+   bor/storage.py: storage records and operator-storage estimates shared by
+   previews and solve admission. All 19 moved function/class definitions have
+   identical ASTs to the base. Every remaining solver function/class also has
+   an identical AST. solver.py re-exports the moved names and storage records.
+   Their defining __module__ changes, as expected after extraction; import
+   locations used by current callers remain available.
+
+4. Remove the unused UI _parse_mesh_n_token copy.
+
+   geometry/validation.py retains the active implementation. No production
+   repository caller of the UI copy was found. External consumers of that
+   private UI helper would need to use the validation implementation.
+
+5. Update GRIM's completeness contract in the same patch.
+
+   GHOST_SENTINELS includes the five new mandatory modules. All 68 mapped GRIM
+   imports still load and all 126 required files exist. Removing each new file
+   in turn correctly rejects discovery, preventing a repeat of BC-01. Frozen
+   local/HPC runtime bundles include all five files in actual driver runs.
+
+Preserved and deliberately deferred
+-----------------------------------
+* Dense/Compressed, native/NumPy, 2D/BoR and material formulations remain.
+* All eight DLL/SO libraries, four native C sources and native manifests remain
+  byte-identical. No native recompilation was performed or required.
+* 509 existing files outside the explicit change list remain byte-identical.
+* The retained-unused legacy certification inspector stays for compatibility.
+* Assembly/Line Expansion code is unchanged. Its known defects should be fixed
+  before its large fields/workflow modules are restructured. This patch is not
+  a repair or release signoff for those workflows.
+* The large BoR solve implementations and 2D solver orchestration still warrant
+  later, separately reviewed decomposition. This is the first bounded structural
+  pass, not a claim that all backend complexity or duplication is eliminated.
+
+User-visible implications
+--------------------------
+Normal GUI and parameter-script controls, file formats, numerical methods and
+selected mesh policy are intended to behave as before. Programmatic clients
+must use configure() to change driver settings; implicit mutation after capture
+is intentionally prevented. Source fingerprints change with this refactor, so
+old restart artifacts must not be combined with a new source inventory. Existing
+provenance checks continue to enforce that boundary; start a new run when changing
+the solver source. Raw GRIM archives are not claimed to be byte-identical across
+versions because provenance/runtime metadata can differ. Numerical arrays are
+compared independently below.
+
+Validation
+----------
+Linux x86-64, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, PySide6 6.12.0,
+Matplotlib 3.10.8. Qt offscreen; numerical comparisons used one BLAS/OMP thread.
+This environment differs from the distribution's pinned Windows requirements.
+
+* 207/207 Claude numerical regression checks pass, all 11 scripts in one run.
+* 31/31 reference result sets are bitwise identical before/after with native
+  libraries, and 31/31 with all DLL/SO files absent in separate fallback copies.
+  Fallback speed-path logs confirm NumPy execution. These are 24 monostatic 2D
+  sets, one bistatic dielectric set and six BoR sets. 2D values are complex
+  amplitudes; BoR values are linear RCS. Key sets, shape, dtype, finiteness and
+  byte equality are checked by compare_references.py.
+* 38 differential worker fixtures match baseline in complete event traces,
+  solve arguments, metadata, history strings, returned status and exception
+  type/text. Cases include fresh/certified runs, reuse, partial BoR channels,
+  differing channel input digests, execution-plan overrides, stale attestations,
+  source/input changes and solver failure. These use mocked solvers/I/O to
+  isolate control-flow semantics; they are not numerical or cluster benchmarks.
+* 43 settings checks pass: copy isolation, pickle roundtrips, spawned processes,
+  unchanged missing-key errors, preserved previous state after rejection,
+  execution-profile capture, JSON overrides/contracts and Python 3.10 grammar.
+* All four drivers' default settings and real attestation builders match the
+  baseline exactly in settings-attestation-{base,new}.json.
+* Two complete tiny local runs (2D and BoR) succeed with real solves, spawned
+  workers, artifact exports and frozen runtimes.
+* Two HPC dry submissions (SUBMIT=False), followed by local execution of the
+  copied/frozen worker entry point and a resume, succeed for 2D and BoR. No
+  sbatch command, actual SLURM allocation or remote node was used. Logs and
+  artifact inventories are in driver-smoke/.
+* 59 GUI/worker checks pass (33 UX, 26 follow-up checks); the UX checks include
+  six real GUI-worker solves across Dense/Compressed and three mesh policies.
+* 16 GRIM integration checks pass, including actual embedded Geometry/Solver
+  tab construction and rejection of missing active files/licenses.
+* The full GRIM module map passes (68 modules), diagnostics exit 0, 126 required
+  files exist, and discovery rejects removal of each of the five new modules.
+* Exact AST/file preservation checks are recorded in preservation.json.
+  git diff --check passes with core.whitespace=cr-at-eol; original CRLF is kept.
+
+During test development, the first HPC smoke harness looked for driver.py in
+the frozen run instead of the existing driver_configured.py filename. The
+production dry submissions succeeded; the harness assertion failed. The harness
+was corrected and rerun. Final logs are in driver-smoke/. An initial shared
+BoR export variable-shadowing error was caught during implementation inspection
+and corrected before the worker fixtures and real driver smoke runs passed.
+
+Reproduction
+------------
+Use full disposable checkouts of the evidence branch (NEW) and base 6dd0a1f
+(BASE). PY is a Python environment with the dependencies above. Replace paths.
+Tests write results beside their scripts. The integration/module-map scripts
+temporarily rename files with finally-protected restoration; run them alone
+against a checkout that no application process is using.
+
+  NEW=/absolute/path/to/evidence-checkout
+  BASE=/absolute/path/to/base-checkout
+  PY=/absolute/path/to/python
+  EV="$NEW/audits/codex-2026-11-11/backend-simplification"
+  export PYTHONPATH="$NEW/tools/GHOST" GHOST_AUDIT_ROOT="$NEW"
+  export QT_QPA_PLATFORM=offscreen OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+  export MPLCONFIGDIR=/tmp/grim-review-mpl XDG_CACHE_HOME=/tmp/grim-review-cache
+  unset GHOST_BACKEND_PATH
+  "$PY" "$EV/settings_checks.py" "$NEW"
+  "$PY" "$EV/worker_behavior.py" "$BASE" > /tmp/worker-base.json
+  "$PY" "$EV/worker_behavior.py" "$NEW" > /tmp/worker-new.json
+  diff /tmp/worker-base.json /tmp/worker-new.json
+  "$PY" "$EV/settings_attestation_probe.py" "$BASE" > /tmp/settings-base.json
+  "$PY" "$EV/settings_attestation_probe.py" "$NEW" > /tmp/settings-new.json
+  diff /tmp/settings-base.json /tmp/settings-new.json
+  "$PY" "$EV/grim_integration_regression.py" "$NEW"
+  "$PY" "$EV/module_map_check.py" "$NEW"
+  "$PY" "$EV/ux_checks.py"
+  "$PY" "$EV/review_checks.py"
+  "$PY" "$EV/regression/run_all.py"
+
+For each kind local-twod, local-bor, hpc-twod, hpc-bor, choose a new output path:
+  "$PY" "$EV/driver_smoke.py" "$NEW" local-twod /tmp/unique-local-twod-run
+
+For numerical references, use regression/golden.py ROOT OUTPUT.npz with
+GHOST_AUDIT_ROOT set to ROOT. Generate base-native.npz and new-native.npz from
+the two checkouts. Create separate copies of each checkout without native
+*.so/*.dll files, confirm their fallback status with scripts/check_speed_paths.py,
+and generate base-fallback.npz and new-fallback.npz. Then run:
+  "$PY" "$EV/compare_references.py" /directory/containing/the/four/npz/files
+
+Requested second audit
+-----------------------
+1. Independently inspect the two shared pipelines: preserve verification ordering,
+   partial restart behavior, polarization handling, execution-plan precedence,
+   precision/CPU/RAM scopes, exceptions and provenance/history values. Challenge
+   the fixtures with additional cancellation and interrupted-publication cases.
+2. Review the explicit-settings compatibility boundary. Check real parameter
+   scripts, JSON overrides, stale/missing configurations, failure atomicity,
+   spawn semantics, and callers that may rely on driver module __dict__ mutation.
+3. Confirm moved BoR definitions and storage constants preserve their semantics,
+   all import/export paths work, and all new files enter distribution/frozen
+   bundles. Check any out-of-repository monkeypatch or pickle consumers if known.
+4. Reproduce GRIM discovery and module-map checks, including the five negative
+   completeness checks. Verify the production branch has no audit artifacts and
+   the evidence branch matches production outside audits/.
+5. Reproduce native/fallback numeric comparisons and driver runs independently.
+   If available, test actual Windows, minimum supported Python and SLURM.
+6. Keep existing Line Expansion defects distinct from regressions in this change.
+
+Limits: Windows DLL execution, actual Python 3.10 runtime, standalone CEM on
+Python 3.6, real SLURM and full Assembly jobs were not executed. This handoff
+establishes a review target with bounded evidence, not a universal release claim.

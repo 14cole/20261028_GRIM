@@ -1,0 +1,3798 @@
+diff --git a/GRIM_Backend/execution/diagnostics.py b/GRIM_Backend/execution/diagnostics.py
+index a355c6d..e137a78 100644
+--- a/GRIM_Backend/execution/diagnostics.py
++++ b/GRIM_Backend/execution/diagnostics.py
+@@ -208,6 +208,11 @@ GHOST_MODULE_LOCATIONS = {
+ }
+ 
+ GHOST_SENTINELS = (
++    "runs/driver_settings.py",
++    "runs/worker_pipeline.py",
++    "bor/constraints.py",
++    "bor/validation.py",
++    "bor/storage.py",
+     "execution/errors.py",
+     "execution/policy.py",
+     "runs/batch.py",
+diff --git a/tools/GHOST/ghost_backend/bor/constraints.py b/tools/GHOST/ghost_backend/bor/constraints.py
+new file mode 100644
+index 0000000..50fde22
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/bor/constraints.py
+@@ -0,0 +1,152 @@
++"""Sparse pole/junction constraints and bounded modal matrix operations."""
++import numpy as np
++from scipy.sparse import csr_matrix, issparse
++from ghost_backend.bor.tiled import TileExpression, modal_block
++
++
++class _ConstraintEntries:
++    """Builder of a pole/junction transform ``Q = S + E``.
++
++    ``S`` selects the active full-system rows (one column each, value 1);
++    ``E`` holds the few relations of inactive rows (axis-pole phi components,
++    junction slaves) to their master columns.  Item assignment records ``E``
++    with matrix semantics (the last value written to a position wins), so
++    the existing ``Q[row, column] = value`` code builds it unchanged.
++    """
++
++    def __init__(self, n_rows: 'int', n_cols: 'int'):
++        self.shape = (int(n_rows), int(n_cols))
++        self.primary = np.full(int(n_cols), -1, dtype=np.intp)
++        self.extra: 'Dict[Tuple[int, int], complex]' = {}
++
++    def select(self, rows, columns) -> 'None':
++        self.primary[np.asarray(columns, dtype=np.intp)] = np.asarray(rows, dtype=np.intp)
++
++    def __setitem__(self, key, value) -> 'None':
++        row, column = key
++        self.extra[(int(row), int(column))] = complex(value)
++
++    def tocsr(self):
++        if np.any(self.primary < 0):
++            raise ValueError("BoR constraint transform has a column without an active row.")
++        extra = sorted(self.extra.items())
++        extra_rows = np.array([rc[0] for rc, _ in extra], dtype=np.intp)
++        extra_cols = np.array([rc[1] for rc, _ in extra], dtype=np.intp)
++        extra_vals = np.array([value for _, value in extra], dtype=complex)
++        if np.intersect1d(extra_rows, self.primary).size:
++            raise ValueError("BoR constraint relations must act on inactive rows.")
++        rows = np.concatenate([self.primary, extra_rows])
++        cols = np.concatenate([np.arange(self.shape[1], dtype=np.intp), extra_cols])
++        data = np.concatenate([np.ones(self.shape[1], dtype=complex), extra_vals])
++        Q = csr_matrix((data, (rows, cols)), shape=self.shape)
++        Q._ghost_constraint = (self.primary.copy(), extra_rows, extra_cols, extra_vals)
++        return Q
++
++def _constraint_structure(transform):
++    """``(primary, extra_rows, extra_cols, extra_vals)`` with ``Q = S + E``.
++
++    Transforms built by ``_ConstraintEntries`` carry it; otherwise it is
++    inferred when unambiguous (every column has exactly one row whose only
++    entry is 1, as in the block-diagonal pole transforms) or None.
++    """
++    explicit = getattr(transform, '_ghost_constraint', None)
++    if explicit is not None:
++        return explicit
++    q = transform.tocsr() if issparse(transform) else csr_matrix(transform)
++    n_rows, n_cols = q.shape
++    counts = np.diff(q.indptr)
++    rows = np.repeat(np.arange(n_rows), counts)
++    single = counts[rows] == 1
++    is_primary = single & (q.data == 1.0)
++    primary_cols = q.indices[is_primary]
++    if primary_cols.size != n_cols or np.unique(primary_cols).size != n_cols:
++        return None
++    primary = np.empty(n_cols, dtype=np.intp)
++    primary[primary_cols] = rows[is_primary]
++    extra = ~is_primary
++    if np.intersect1d(rows[extra], primary).size:
++        return None
++    return primary, rows[extra], q.indices[extra].astype(np.intp), q.data[extra]
++
++def _reduce_constrained_operator(matrix, transform):
++    """``Q^H A Q`` for sparse pole/junction relations.
++
++    With ``Q = S + E`` (selection plus a few relations of inactive rows) this
++    is one gathered copy of ``A`` plus rank-one row/column updates -- the
++    generalization of ``BorPecSolver.reduce_pole_operator``.  The former
++    sparse product copied ``A`` about three times (SciPy ravels F-ordered
++    operands) and ran 6.7x slower at 2,400 unknowns.
++    """
++    if isinstance(matrix, TileExpression):
++        return matrix.reduce(transform)
++    structure = _constraint_structure(transform)
++    if structure is None:
++        q = csr_matrix(transform)
++        return q.conj().T @ (q.T @ matrix.T).T
++    primary, extra_rows, extra_cols, extra_vals = structure
++    reduced = matrix[np.ix_(primary, primary)]
++    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
++        reduced[:, column] += value * matrix[primary, row]
++        reduced[column, :] += np.conj(value) * matrix[row, primary]
++    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
++        for row2, column2, value2 in zip(extra_rows, extra_cols, extra_vals):
++            reduced[column, column2] += np.conj(value) * value2 * matrix[row, row2]
++    return reduced
++
++def _constraint_coordinates(full_coordinates, transform):
++    """Positions of reduced unknowns; used only to order a checked factor.
++
++    Selecting each constraint's primary unknown preserves colocated electric
++    and magnetic components. General sparse relations use a weighted centroid;
++    neither choice changes matrix entries or the original-matrix checks.
++    """
++    structure = _constraint_structure(transform)
++    if structure is not None:
++        return np.asarray(full_coordinates)[structure[0]]
++    weights = abs(csr_matrix(transform))
++    totals = np.asarray(weights.sum(axis=0)).ravel()
++    return (weights.T @ np.asarray(full_coordinates)) / np.maximum(totals[:, None], 1e-300)
++
++def _rotate_test_rows(matrix, nodes):
++    """Test n x field in (t, phi) coordinates: (-field_phi, field_t)."""
++    return modal_block([[-matrix[nodes:, :]], [matrix[:nodes, :]]])
++
++def _mix_dual_ibc_in_place(quads, alpha, scale, weights, chunk_rows: 'int' = 256) -> 'None':
++    """Turn the EFIE quadrants ``T`` into ``alpha*T + scale*dual(T)*diag(w)``.
++
++    ``dual(T) = [[T_ff, -T_ft], [-T_tf, T_tt]]`` is the EFIE operator acting on
++    the magnetic current ``M = -Zs n x J`` of an impedance surface; ``w`` is the
++    scalar impedance or the nodal impedance applied to the source columns.
++    The quadrant pairs (tt, ff) and (tf, ft) are mixed through row chunks, so
++    no second full matrix is ever formed (the former path held ``Z``, the dual
++    copy and its column-scaled product at once).
++    """
++    tt, tf, ft, ff = quads
++    columns = weights if np.ndim(weights) == 0 else np.asarray(weights)[None, :]
++    rows = tt.shape[0]
++    for start in range(0, rows, chunk_rows):
++        piece = slice(start, min(rows, start + chunk_rows))
++        a, d = tt[piece].copy(), ff[piece].copy()
++        tt[piece] = alpha * a + scale * (d * columns)
++        ff[piece] = alpha * d + scale * (a * columns)
++        b, c = tf[piece].copy(), ft[piece].copy()
++        tf[piece] = alpha * b - scale * (c * columns)
++        ft[piece] = alpha * c - scale * (b * columns)
++
++def _scaled_add_into(target, source, scale, chunk_rows: 'int' = 256):
++    """``target += scale * source`` through bounded row chunks.
++
++    ``source`` may alias read-only single-precision storage; only a
++    ``chunk_rows``-row temporary is ever formed, so a full-matrix copy is
++    never needed to combine one operator family into the system matrix.
++    """
++    if scale == 0:
++        return
++    rows = target.shape[0]
++    for start in range(0, rows, chunk_rows):
++        stop = min(rows, start + chunk_rows)
++        piece = source[start:stop]
++        if scale == 1:
++            target[start:stop] += piece
++        else:
++            target[start:stop] += piece * scale
+diff --git a/tools/GHOST/ghost_backend/bor/solver.py b/tools/GHOST/ghost_backend/bor/solver.py
+index 94eae8a..6531187 100644
+--- a/tools/GHOST/ghost_backend/bor/solver.py
++++ b/tools/GHOST/ghost_backend/bor/solver.py
+@@ -14,6 +14,34 @@ from concurrent.futures import ThreadPoolExecutor
+ from typing import Any, Callable, Dict, List, Optional, Tuple
+ 
+ import numpy as np
++from ghost_backend.bor.constraints import (
++    _ConstraintEntries,
++    _constraint_structure,
++    _reduce_constrained_operator,
++    _constraint_coordinates,
++    _rotate_test_rows,
++    _mix_dual_ibc_in_place,
++    _scaled_add_into,
++)
++from ghost_backend.bor.validation import (
++    _bor_axis_tolerance,
++    _segments_intersect_2d,
++    _validate_solve_bor_generatrix,
++    _validated_bor_aspects,
++)
++from ghost_backend.bor.storage import (
++    bor_impedance_map_bytes,
++    estimate_bor_table_gb,
++    estimate_bor_cross_table_gb,
++    conductor_operator_kinds,
++    bor_near_cache_bytes,
++    bor_cross_near_cache_bytes,
++    bor_operator_storage_bytes,
++    estimate_bor_operator_storage_gb,
++    BOR_RETAINED_STORAGE_FACTOR,
++    BorSurfaceStorage,
++    BorCrossStorage,
++)
+ from ghost_backend.execution.metrics import active_metrics, profiled_solve, timed_stage, metrics_scope
+ from scipy import special as sp
+ from scipy.linalg import get_lapack_funcs
+@@ -66,11 +94,6 @@ BOR_CONDITION_EST_MAX = 1.0e12
+ BOR_ENDPOINT_WELD_TOLERANCE_M = 1.0e-9
+ 
+ 
+-def _bor_axis_tolerance(points):
+-    """Numerical zero in radius; never a drawing/feature-size tolerance."""
+-    return numerical_bor_axis_tolerance(points)
+-
+-
+ # Per concurrent mode worker: the reduced system matrix plus its LAPACK LU copy
+ # are retained for the mode's lifetime, and the in-place assembly of the
+ # conductor solvers (``BorPecSolver.assemble_mode`` writing straight into the
+@@ -93,160 +116,6 @@ BOR_PEAK_FIXED_MARGIN_GB = 0.5
+ _COMPLEX128_BYTES = np.dtype(np.complex128).itemsize
+ 
+ 
+-class _ConstraintEntries:
+-    """Builder of a pole/junction transform ``Q = S + E``.
+-
+-    ``S`` selects the active full-system rows (one column each, value 1);
+-    ``E`` holds the few relations of inactive rows (axis-pole phi components,
+-    junction slaves) to their master columns.  Item assignment records ``E``
+-    with matrix semantics (the last value written to a position wins), so
+-    the existing ``Q[row, column] = value`` code builds it unchanged.
+-    """
+-
+-    def __init__(self, n_rows: 'int', n_cols: 'int'):
+-        self.shape = (int(n_rows), int(n_cols))
+-        self.primary = np.full(int(n_cols), -1, dtype=np.intp)
+-        self.extra: 'Dict[Tuple[int, int], complex]' = {}
+-
+-    def select(self, rows, columns) -> 'None':
+-        self.primary[np.asarray(columns, dtype=np.intp)] = np.asarray(rows, dtype=np.intp)
+-
+-    def __setitem__(self, key, value) -> 'None':
+-        row, column = key
+-        self.extra[(int(row), int(column))] = complex(value)
+-
+-    def tocsr(self):
+-        if np.any(self.primary < 0):
+-            raise ValueError("BoR constraint transform has a column without an active row.")
+-        extra = sorted(self.extra.items())
+-        extra_rows = np.array([rc[0] for rc, _ in extra], dtype=np.intp)
+-        extra_cols = np.array([rc[1] for rc, _ in extra], dtype=np.intp)
+-        extra_vals = np.array([value for _, value in extra], dtype=complex)
+-        if np.intersect1d(extra_rows, self.primary).size:
+-            raise ValueError("BoR constraint relations must act on inactive rows.")
+-        rows = np.concatenate([self.primary, extra_rows])
+-        cols = np.concatenate([np.arange(self.shape[1], dtype=np.intp), extra_cols])
+-        data = np.concatenate([np.ones(self.shape[1], dtype=complex), extra_vals])
+-        Q = csr_matrix((data, (rows, cols)), shape=self.shape)
+-        Q._ghost_constraint = (self.primary.copy(), extra_rows, extra_cols, extra_vals)
+-        return Q
+-
+-
+-def _constraint_structure(transform):
+-    """``(primary, extra_rows, extra_cols, extra_vals)`` with ``Q = S + E``.
+-
+-    Transforms built by ``_ConstraintEntries`` carry it; otherwise it is
+-    inferred when unambiguous (every column has exactly one row whose only
+-    entry is 1, as in the block-diagonal pole transforms) or None.
+-    """
+-    explicit = getattr(transform, '_ghost_constraint', None)
+-    if explicit is not None:
+-        return explicit
+-    q = transform.tocsr() if issparse(transform) else csr_matrix(transform)
+-    n_rows, n_cols = q.shape
+-    counts = np.diff(q.indptr)
+-    rows = np.repeat(np.arange(n_rows), counts)
+-    single = counts[rows] == 1
+-    is_primary = single & (q.data == 1.0)
+-    primary_cols = q.indices[is_primary]
+-    if primary_cols.size != n_cols or np.unique(primary_cols).size != n_cols:
+-        return None
+-    primary = np.empty(n_cols, dtype=np.intp)
+-    primary[primary_cols] = rows[is_primary]
+-    extra = ~is_primary
+-    if np.intersect1d(rows[extra], primary).size:
+-        return None
+-    return primary, rows[extra], q.indices[extra].astype(np.intp), q.data[extra]
+-
+-
+-def _reduce_constrained_operator(matrix, transform):
+-    """``Q^H A Q`` for sparse pole/junction relations.
+-
+-    With ``Q = S + E`` (selection plus a few relations of inactive rows) this
+-    is one gathered copy of ``A`` plus rank-one row/column updates -- the
+-    generalization of ``BorPecSolver.reduce_pole_operator``.  The former
+-    sparse product copied ``A`` about three times (SciPy ravels F-ordered
+-    operands) and ran 6.7x slower at 2,400 unknowns.
+-    """
+-    if isinstance(matrix, TileExpression):
+-        return matrix.reduce(transform)
+-    structure = _constraint_structure(transform)
+-    if structure is None:
+-        q = csr_matrix(transform)
+-        return q.conj().T @ (q.T @ matrix.T).T
+-    primary, extra_rows, extra_cols, extra_vals = structure
+-    reduced = matrix[np.ix_(primary, primary)]
+-    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
+-        reduced[:, column] += value * matrix[primary, row]
+-        reduced[column, :] += np.conj(value) * matrix[row, primary]
+-    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
+-        for row2, column2, value2 in zip(extra_rows, extra_cols, extra_vals):
+-            reduced[column, column2] += np.conj(value) * value2 * matrix[row, row2]
+-    return reduced
+-
+-
+-def _constraint_coordinates(full_coordinates, transform):
+-    """Positions of reduced unknowns; used only to order a checked factor.
+-
+-    Selecting each constraint's primary unknown preserves colocated electric
+-    and magnetic components. General sparse relations use a weighted centroid;
+-    neither choice changes matrix entries or the original-matrix checks.
+-    """
+-    structure = _constraint_structure(transform)
+-    if structure is not None:
+-        return np.asarray(full_coordinates)[structure[0]]
+-    weights = abs(csr_matrix(transform))
+-    totals = np.asarray(weights.sum(axis=0)).ravel()
+-    return (weights.T @ np.asarray(full_coordinates)) / np.maximum(totals[:, None], 1e-300)
+-
+-
+-def _rotate_test_rows(matrix, nodes):
+-    """Test n x field in (t, phi) coordinates: (-field_phi, field_t)."""
+-    return modal_block([[-matrix[nodes:, :]], [matrix[:nodes, :]]])
+-
+-
+-def _mix_dual_ibc_in_place(quads, alpha, scale, weights, chunk_rows: 'int' = 256) -> 'None':
+-    """Turn the EFIE quadrants ``T`` into ``alpha*T + scale*dual(T)*diag(w)``.
+-
+-    ``dual(T) = [[T_ff, -T_ft], [-T_tf, T_tt]]`` is the EFIE operator acting on
+-    the magnetic current ``M = -Zs n x J`` of an impedance surface; ``w`` is the
+-    scalar impedance or the nodal impedance applied to the source columns.
+-    The quadrant pairs (tt, ff) and (tf, ft) are mixed through row chunks, so
+-    no second full matrix is ever formed (the former path held ``Z``, the dual
+-    copy and its column-scaled product at once).
+-    """
+-    tt, tf, ft, ff = quads
+-    columns = weights if np.ndim(weights) == 0 else np.asarray(weights)[None, :]
+-    rows = tt.shape[0]
+-    for start in range(0, rows, chunk_rows):
+-        piece = slice(start, min(rows, start + chunk_rows))
+-        a, d = tt[piece].copy(), ff[piece].copy()
+-        tt[piece] = alpha * a + scale * (d * columns)
+-        ff[piece] = alpha * d + scale * (a * columns)
+-        b, c = tf[piece].copy(), ft[piece].copy()
+-        tf[piece] = alpha * b - scale * (c * columns)
+-        ft[piece] = alpha * c - scale * (b * columns)
+-
+-
+-def _scaled_add_into(target, source, scale, chunk_rows: 'int' = 256):
+-    """``target += scale * source`` through bounded row chunks.
+-
+-    ``source`` may alias read-only single-precision storage; only a
+-    ``chunk_rows``-row temporary is ever formed, so a full-matrix copy is
+-    never needed to combine one operator family into the system matrix.
+-    """
+-    if scale == 0:
+-        return
+-    rows = target.shape[0]
+-    for start in range(0, rows, chunk_rows):
+-        stop = min(rows, start + chunk_rows)
+-        piece = source[start:stop]
+-        if scale == 1:
+-            target[start:stop] += piece
+-        else:
+-            target[start:stop] += piece * scale
+-
+-
+ # Material interfaces combine the equations of their two regions.  PMCHWT adds
+ # them with equal weights; on a lossless interface the exterior operator is
+ # then net capacitive and the interior one net inductive on a pole-localized
+@@ -282,14 +151,6 @@ def _region_equation_weights(media, exterior=0):
+     return [complex(np.exp(-1j * theta * (r - rank[exterior]))) for r in rank]
+ 
+ 
+-def bor_impedance_map_bytes(nodes: 'int') -> 'float':
+-    """Bound on the sparse ``2N x 2N`` J-to-M impedance map of a bare IBC piece
+-    with ``nodes`` nodes: 2N complex nonzeros plus CSR indices, priced with
+-    64-bit indices so a preview never falls below the gate's exact size."""
+-    count = 2 * int(nodes)
+-    return float(count * (16 + 8) + (count + 1) * 8)
+-
+-
+ def _rotation_mass(solver):
+     """``<W, n x f>`` in (t, phi) coordinates: ``[[0, -G], [G, 0]]`` (n x t = phi)."""
+     gram = solver.mass_blocks()
+@@ -3342,418 +3203,6 @@ def _require_mode_convergence(stats: 'Dict', mode_tol: 'float') -> 'None':
+         )
+ 
+ 
+-def _segments_intersect_2d(
+-    a: 'np.ndarray',
+-    b: 'np.ndarray',
+-    c: 'np.ndarray',
+-    d: 'np.ndarray',
+-    tol: 'float',
+-) -> 'bool':
+-    """Inclusive segment intersection with a length-scaled cross tolerance."""
+-
+-    def cross(p, q, r) -> 'float':
+-        return float((q[0] - p[0]) * (r[1] - p[1])
+-                     - (q[1] - p[1]) * (r[0] - p[0]))
+-
+-    def on_segment(p, q, r, cross_tol) -> 'bool':
+-        return (
+-            abs(cross(p, q, r)) <= cross_tol
+-            and min(p[0], r[0]) - tol <= q[0] <= max(p[0], r[0]) + tol
+-            and min(p[1], r[1]) - tol <= q[1] <= max(p[1], r[1]) + tol
+-        )
+-
+-    length_scale = max(
+-        float(np.linalg.norm(b - a)),
+-        float(np.linalg.norm(d - c)),
+-        tol,
+-    )
+-    cross_tol = tol * length_scale
+-    o1 = cross(a, b, c)
+-    o2 = cross(a, b, d)
+-    o3 = cross(c, d, a)
+-    o4 = cross(c, d, b)
+-    if (
+-        ((o1 > cross_tol and o2 < -cross_tol)
+-         or (o1 < -cross_tol and o2 > cross_tol))
+-        and ((o3 > cross_tol and o4 < -cross_tol)
+-             or (o3 < -cross_tol and o4 > cross_tol))
+-    ):
+-        return True
+-    return (
+-        on_segment(a, c, b, cross_tol)
+-        or on_segment(a, d, b, cross_tol)
+-        or on_segment(c, a, d, cross_tol)
+-        or on_segment(c, b, d, cross_tol)
+-    )
+-
+-
+-def _validate_solve_bor_generatrix(points, formulation: 'str') -> 'np.ndarray':
+-    """Validate the direct single-surface ``solve_bor`` geometry.
+-
+-    EFIE may represent an open shell.  CFIE/MFIE require the supported
+-    closed-body topology: both ends on the rotation axis and traversal from
+-    the +z pole to the -z pole.  Every path rejects intersections because a
+-    self-crossing meridian generates an overlapping/non-manifold surface.
+-    """
+-
+-    raw = np.asarray(points)
+-    if raw.ndim != 2 or raw.shape[1:] != (2,) or raw.shape[0] < 2:
+-        raise ValueError(
+-            "BoR generatrix must be a finite (N, 2) array of (rho, z) "
+-            "nodes with N >= 2."
+-        )
+-    if np.iscomplexobj(raw) and np.any(np.imag(raw) != 0.0):
+-        raise ValueError("BoR generatrix coordinates must be real.")
+-    try:
+-        pts = np.asarray(np.real(raw), dtype=float).copy()
+-    except (TypeError, ValueError) as exc:
+-        raise ValueError("BoR generatrix coordinates must be real numbers.") from exc
+-    if not np.all(np.isfinite(pts)):
+-        raise ValueError("BoR generatrix coordinates must all be finite.")
+-
+-    diag = max(
+-        float(np.ptp(pts[:, 0])),
+-        float(np.ptp(pts[:, 1])),
+-        1.0e-15,
+-    )
+-    geom_tol = max(1.0e-14, 1.0e-10 * diag)
+-    axis_tol = _bor_axis_tolerance(pts)
+-    if np.any(pts[:, 0] < -axis_tol):
+-        bad = float(np.min(pts[:, 0]))
+-        raise ValueError(
+-            f"BoR generatrix rho coordinates must be >= 0; found {bad:.6g}."
+-        )
+-    pts[np.abs(pts[:, 0]) <= axis_tol, 0] = 0.0
+-
+-    lengths = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+-    if np.any(lengths <= geom_tol):
+-        idx = int(np.argmin(lengths))
+-        raise ValueError(
+-            f"BoR generatrix element {idx} has zero or near-zero length "
+-            f"({lengths[idx]:.3g})."
+-        )
+-    if float(np.max(pts[:, 0])) <= axis_tol:
+-        raise ValueError(
+-            "BoR generatrix lies entirely on the rotation axis and sweeps "
+-            "zero surface area."
+-        )
+-    # Only the two end points may lie on the axis. An interior axis node is a
+-    # pinched (non-manifold) surface, and an element on the axis sweeps no
+-    # area: its rows vanish and the system loses rank (LAPACK info = 1,
+-    # condition 1e37 on a graded needle tip whose inner nodes a mesher had
+-    # snapped onto the axis).
+-    interior = np.flatnonzero(pts[1:-1, 0] == 0.0) + 1
+-    if interior.size:
+-        index = int(interior[0])
+-        raise ValueError(
+-            f"BoR generatrix node {index} of {len(pts)} (rho = {float(raw[index, 0].real):.3g}) "
+-            "lies on the rotation axis; only the end points may. A mesher "
+-            "that snaps small radii onto the axis must spare interior nodes.")
+-
+-
+-    n_elem = len(pts) - 1
+-    seg_a = pts[:-1]
+-    seg_b = pts[1:]
+-    mids = 0.5 * (seg_a + seg_b)
+-    half = 0.5 * lengths
+-    max_half = float(np.max(half))
+-    tree = cKDTree(mids)
+-    # A possible contact has center distance <= half[i]+half[j]+tol.
+-    # Let the longer panel own the pair, so a single long panel does not
+-    # inflate every short panel's query. Uniform meshes keep the cheaper
+-    # index ordering, whose bound is already within a factor of two.
+-    local_owner = max_half > 2.0 * float(np.min(half))
+-    roundoff = 32.0 * np.finfo(float).eps * max(float(np.max(np.abs(pts))), diag)
+-    checkpoint = current_checkpoint()
+-    for i in range(n_elem):
+-        if checkpoint is not None:
+-            checkpoint()
+-        radius = (2.0 * float(half[i]) if local_owner else float(half[i]) + max_half)
+-        radius += geom_tol + roundoff
+-        for candidate_index, j in enumerate(tree.query_ball_point(mids[i], radius)):
+-            if checkpoint is not None and candidate_index % 256 == 0:
+-                checkpoint()
+-            j = int(j)
+-            if local_owner:
+-                if abs(j - i) <= 1 or half[j] > half[i] or (half[j] == half[i] and j <= i):
+-                    continue
+-            elif j <= i + 1:
+-                continue
+-            lower = (
+-                float(np.linalg.norm(mids[i] - mids[j]))
+-                - float(half[i]) - float(half[j])
+-            )
+-            if lower > geom_tol + roundoff:
+-                continue
+-            if _segments_intersect_2d(
+-                pts[i], pts[i + 1], pts[j], pts[j + 1], geom_tol
+-            ):
+-                raise ValueError(
+-                    "BoR generatrix self-intersection/overlap between "
+-                    f"elements {i} and {j} is not supported."
+-                )
+-
+-    start_on_axis = pts[0, 0] == 0.0
+-    end_on_axis = pts[-1, 0] == 0.0
+-    closed_body = start_on_axis and end_on_axis
+-    if formulation in {"cfie", "mfie"} and not closed_body:
+-        raise ValueError(
+-            f"{formulation.upper()} requires a closed BoR whose two "
+-            "generatrix endpoints lie on the rotation axis; use EFIE for "
+-            "an intentionally open shell."
+-        )
+-    if closed_body and not (pts[0, 1] > pts[-1, 1] + geom_tol):
+-        raise ValueError(
+-            "A closed BoR generatrix must be traversed from its +z axis "
+-            "endpoint to its -z axis endpoint so the left-of-travel normal "
+-            "faces the exterior."
+-        )
+-    from ghost_backend.bor.geometry import require_resolved_corners
+-    require_resolved_corners(pts)
+-    return pts
+-
+-
+-def estimate_bor_table_gb(n_elems: 'int', m_max: 'int', formulation: 'str' = "cfie",
+-                          has_ibc: 'bool' = False, gauss_order: 'int' = FAR_GAUSS_ORDER,
+-                          single_tables: 'bool' = False) -> 'float':
+-    """Estimate persistent far-table storage for all modal FFT tables in GB."""
+-
+-    P = float(gauss_order * n_elems)
+-    per = 8.0 if single_tables else 16.0
+-    total = P * P * (m_max + 2) * per
+-    if formulation in ("cfie", "mfie"):
+-        total += 4.0 * P * P * (m_max + 1) * per
+-    if has_ibc:
+-        total += 4.0 * P * P * (m_max + 1) * per
+-    return total / 1e9
+-
+-
+-def estimate_bor_cross_table_gb(
+-    n_test_elements: 'int', n_source_elements: 'int', m_max: 'int',
+-    test_gauss_order: 'int' = FAR_GAUSS_ORDER, source_gauss_order: 'int' = FAR_GAUSS_ORDER,
+-    single_tables: 'bool' = False, has_rotated_pv: 'bool' = True,
+-) -> 'float':
+-    """Persistent far tables for one directed rectangular T/P mapping."""
+-
+-    test_points = float(int(test_gauss_order) * int(n_test_elements))
+-    source_points = float(int(source_gauss_order) * int(n_source_elements))
+-    modes = int(m_max)
+-    if test_points <= 0.0 or source_points <= 0.0 or modes < 0:
+-        raise ValueError("Cross-table estimate dimensions are invalid.")
+-    item_bytes = 8.0 if single_tables else 16.0
+-    modal_values = (modes + 2) + int(has_rotated_pv) * 4.0 * (modes + 1)
+-    return test_points * source_points * modal_values * item_bytes / 1.0e9
+-
+-
+-# Allowance on retained operator storage, applied by the run-time gates and by
+-# the dispatch previews that mirror them from mesh counts.
+-BOR_RETAINED_STORAGE_FACTOR = 1.10
+-
+-
+-def conductor_operator_kinds(formulation: 'str', has_impedance: 'bool'):
+-    """``(efie, mfie, ibc)``: the operator families a conductor solve prepares.
+-
+-    One description for ``solve_bor``, its admission gate and the dispatch
+-    previews. Every enabled family retains its own far tables and its own
+-    same-surface near contractions, so a CFIE with a nonzero impedance holds
+-    three of each. The previews assumed two per surface and could fall below
+-    the gate they predict on bodies with many geometrically close panels.
+-    """
+-    efie, mfie = formulation in ("efie", "cfie"), formulation in ("cfie", "mfie")
+-    return efie, mfie, bool(has_impedance) and efie
+-
+-
+-def bor_near_cache_bytes(pair_count, node_count, kinds, modes) -> 'float':
+-    """Retained same-surface near contractions of one medium side.
+-
+-    ``kinds`` operator families, each holding four component blocks of
+-    ``4*pair_count`` basis pairs per retained mode and its routing indices.
+-    The run-time gate and the snapshot preview both price them here.
+-    """
+-    index_bytes = np.dtype(np.intp).itemsize
+-    values = int(kinds) * 4.0 * (int(modes) + 1) * (4 * int(pair_count)) * _COMPLEX128_BYTES
+-    return values + int(kinds) * (4.0 * (4 * int(pair_count)) + int(node_count) + 1) * index_bytes
+-
+-
+-def bor_cross_near_cache_bytes(pair_count, modes, has_rotated_pv=True) -> 'float':
+-    """Retained near contractions of one directed cross-surface operator."""
+-    return int(pair_count) * (1 + int(has_rotated_pv)) * 4 * (int(modes) + 1) * 4 * _COMPLEX128_BYTES
+-
+-
+-from collections import namedtuple
+-
+-# What one medium side of a surface, and one directed cross-surface operator,
+-# contribute to operator storage.  The run-time gate fills these from the
+-# constructed solvers; the dispatch previews fill them from mesh counts and
+-# geometric near-pair counts.  ``fft_samples`` is ``(scalar, bracket)`` angular
+-# sample counts, or ``None`` where only the bound ``FFT_BUILD_BUDGET`` is known.
+-BorSurfaceStorage = namedtuple(
+-    'BorSurfaceStorage', 'points nodes table_bytes near_pairs efie mfie ibc fft_samples')
+-BorCrossStorage = namedtuple(
+-    'BorCrossStorage', 'points_p points_q table_bytes near_pairs near_max_order fft_samples has_rotated_pv',
+-    defaults=(True,))
+-
+-
+-def bor_operator_storage_bytes(modes, surfaces, crosses=(), constraint_dofs=0,
+-                               streaming=False, compressed=False):
+-    """The one BoR operator-storage model, in bytes, by component.
+-
+-    ``tables`` are the retained far tables (absent when streaming, whose
+-    planner prices far blocks itself). ``basis`` is retained as a zero-valued
+-    reporting field: production contracts local bases without dense matrices.
+-    ``near`` the same- and cross-surface near contractions, ``projection`` the
+-    junction projection matrices, ``fft_workspace`` and ``near_workspace`` the
+-    largest build scratch of each kind.  A gate needs
+-    ``BOR_RETAINED_STORAGE_FACTOR * (tables + basis + near + projection) +
+-    max(fft_workspace, near_workspace)``; the previews add the two workspaces
+-    instead, so they never fall below the gate they predict.  The function is
+-    monotone in every record field: records that bound the solvers' own bound
+-    the result.
+-    """
+-
+-    from ghost_backend.bor import kernels
+-    modes = int(modes)
+-    signed_modes = 2 * modes + 1
+-    budget = float(FFT_BUILD_BUDGET)
+-    tables = basis = near = fft_workspace = near_workspace = 0.0
+-
+-    def fft_bytes(pair_points, samples, arrays):
+-        if samples is None:
+-            return budget
+-        return min(budget, pair_points * samples * arrays * _COMPLEX128_BYTES)
+-
+-    for surface in surfaces:
+-        kinds = int(bool(surface.efie)) + int(bool(surface.mfie)) + int(bool(surface.ibc))
+-        square = float(surface.points) ** 2
+-        if not streaming and kinds:
+-            if surface.efie:
+-                tables += square * (modes + 2) * surface.table_bytes
+-            if surface.mfie:
+-                tables += 4.0 * square * (modes + 1) * surface.table_bytes
+-            if surface.ibc:
+-                tables += 4.0 * square * (modes + 1) * surface.table_bytes
+-        near += bor_near_cache_bytes(surface.near_pairs, surface.nodes, kinds, modes)
+-        if kinds:
+-            near_workspace = max(near_workspace, 128.0e6)
+-        if not streaming and kinds:
+-            if (surface.mfie or surface.ibc) and not kernels.BANDED_FFT:
+-                fft_workspace = max(fft_workspace, 4.0 * square * signed_modes * _COMPLEX128_BYTES)
+-            scalar, bracket = surface.fft_samples if surface.fft_samples is not None else (None, None)
+-            if surface.efie:
+-                fft_workspace = max(fft_workspace, fft_bytes(square, scalar, 4.0))
+-            if surface.mfie or surface.ibc:
+-                fft_workspace = max(fft_workspace, fft_bytes(square, bracket, 18.0 if surface.ibc else 16.0))
+-
+-    for cross in crosses:
+-        pair_points = float(cross.points_p) * float(cross.points_q)
+-        if not streaming:
+-            tables += pair_points * (modes + 2) * cross.table_bytes
+-            if cross.has_rotated_pv:
+-                tables += 4.0 * pair_points * (modes + 1) * cross.table_bytes
+-            if cross.has_rotated_pv and not kernels.BANDED_FFT:
+-                fft_workspace = max(fft_workspace, 4.0 * pair_points * signed_modes * _COMPLEX128_BYTES)
+-            scalar, bracket = cross.fft_samples if cross.fft_samples is not None else (None, None)
+-            fft_workspace = max(fft_workspace, fft_bytes(pair_points, scalar, 4.0))
+-            if cross.has_rotated_pv:
+-                fft_workspace = max(fft_workspace, fft_bytes(pair_points, bracket, 18.0))
+-        near += bor_cross_near_cache_bytes(cross.near_pairs, modes, cross.has_rotated_pv)
+-        if cross.near_pairs:
+-            near_workspace = max(near_workspace, 128.0e6, 64.0e6 + 768 * int(cross.near_max_order) ** 2)
+-
+-    projection = 0.0
+-    if constraint_dofs:
+-        # Categories m = 0, 1 and |m| >= 2 (signed-mode symmetry never builds
+-        # m = -1).  Every backend stores the transforms sparse: one selection
+-        # entry per column plus a few relations, priced with CSR overhead
+-        # (value, column index and row pointer, about 6 complex values per row).
+-        category_count = 1 if modes == 0 else (2 if modes == 1 else 3)
+-        projection = category_count * float(constraint_dofs) * 6 * _COMPLEX128_BYTES
+-    return dict(tables=tables, basis=basis, near=near, projection=projection,
+-                fft_workspace=fft_workspace, near_workspace=near_workspace)
+-
+-
+-def estimate_bor_operator_storage_gb(
+-    m_max: 'int',
+-    solver_requirements,
+-    cross_operators=(),
+-    constraint_dofs: 'int' = 0,
+-    streaming: 'bool' = False,
+-) -> 'float':
+-    """Estimate retained operator auxiliaries and their build workspace.
+-
+-    ``solver_requirements`` contains ``(solver, efie, mfie, ibc)`` tuples.
+-    Repeated solver instances are merged so their tables are counted once.
+-    Cross-surface operators are counted independently.
+-    ``constraint_dofs`` adds the sparse junction projection transforms retained by
+-    the partial/multiregion paths.  With ``streaming=True``, far tables and
+-    their FFT workspace are excluded because the combined streaming planner
+-    accounts for those blocks and sampling tiles separately; exact same- and
+-    cross-surface near caches plus junction projections remain included.
+-    """
+-
+-    try:
+-        modes = int(m_max)
+-        constraint_size = int(constraint_dofs)
+-    except (TypeError, ValueError, OverflowError) as exc:
+-        raise ValueError(
+-            "BoR operator estimates require integer mode and constraint sizes."
+-        ) from exc
+-    if modes != m_max or modes < 0:
+-        raise ValueError("BoR operator mode cap must be a non-negative integer.")
+-    if constraint_size != constraint_dofs or constraint_size < 0:
+-        raise ValueError("BoR constraint DOFs must be a non-negative integer.")
+-
+-    merged = {}
+-    for requirement in solver_requirements:
+-        if len(requirement) != 4:
+-            raise ValueError(
+-                "Each BoR solver requirement must be (solver, efie, mfie, ibc)."
+-            )
+-        solver, efie, mfie, ibc = requirement
+-        key = id(solver)
+-        if key in merged:
+-            previous = merged[key]
+-            merged[key] = (
+-                solver,
+-                previous[1] or bool(efie),
+-                previous[2] or bool(mfie),
+-                previous[3] or bool(ibc),
+-            )
+-        else:
+-            merged[key] = (solver, bool(efie), bool(mfie), bool(ibc))
+-
+-    compressed = compressed_requested()
+-    streaming = streaming or compressed
+-
+-    def samples(wavenumber, rho_max, far_gap):
+-        return (n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=False),
+-                n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=True))
+-
+-    surfaces = []
+-    for solver, efie, mfie, ibc in merged.values():
+-        tabled = not streaming and (efie or mfie or ibc)
+-        surfaces.append(BorSurfaceStorage(
+-            int(solver.P), int(solver.Nn), np.dtype(solver._table_dtype).itemsize,
+-            int(solver._near_pair_count), efie, mfie, ibc,
+-            samples(solver.k, float(np.max(solver.gen.nodes[:, 0])), float(solver._far_gap())) if tabled else None))
+-    crosses, seen_crosses = [], set()
+-    for cross in cross_operators:
+-        # Derived reverse operators retain nothing of their own.
+-        if id(cross) in seen_crosses or getattr(cross, 'derived', False):
+-            continue
+-        seen_crosses.add(id(cross))
+-        rho_max = max(float(np.max(cross.sp.gen.nodes[:, 0])), float(np.max(cross.sq.gen.nodes[:, 0])))
+-        crosses.append(BorCrossStorage(
+-            int(cross.sp.P), int(cross.sq.P), np.dtype(cross.sp._table_dtype).itemsize,
+-            len(cross.near_pairs), int(cross.near_max_order),
+-            samples(cross.k, rho_max, float(cross._far_gap)) if not streaming else None,
+-            cross.need_p))
+-    parts = bor_operator_storage_bytes(modes, surfaces, crosses, constraint_size, streaming, compressed)
+-    retained = parts['tables'] + parts['basis'] + parts['near'] + parts['projection']
+-    build_workspace = max(parts['fft_workspace'], parts['near_workspace'])
+-    return (BOR_RETAINED_STORAGE_FACTOR * retained + build_workspace) / 1.0e9
+-
+-
+ def _plan_multisurface_assembly(
+     m_max: 'int',
+     solver_requirements,
+@@ -3973,19 +3422,6 @@ def mirror_map(solver, element_values=()) -> 'Optional[Callable]':
+     return mirror
+ 
+ 
+-def _validated_bor_aspects(thetas_deg) -> 'np.ndarray':
+-    """Validate the direct-solver monostatic aspect grid."""
+-
+-    thetas = np.atleast_1d(np.asarray(thetas_deg, dtype=float))
+-    if thetas.ndim != 1 or thetas.size == 0:
+-        raise ValueError("BoR aspect grid must be a non-empty one-dimensional array.")
+-    if not np.all(np.isfinite(thetas)):
+-        raise ValueError("BoR aspect angles must all be finite.")
+-    if np.any(thetas < 0.0) or np.any(thetas > 180.0):
+-        raise ValueError("BoR aspect angles must lie in [0, 180] degrees.")
+-    return thetas
+-
+-
+ COMPRESSED_FAR_CACHE_MIN_NODES = 256
+ # Optional acceleration has a separate allowance from the solve's RAM limit.
+ # Large modal systems still need room for near blocks and active factors.
+diff --git a/tools/GHOST/ghost_backend/bor/storage.py b/tools/GHOST/ghost_backend/bor/storage.py
+new file mode 100644
+index 0000000..f8aebe1
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/bor/storage.py
+@@ -0,0 +1,243 @@
++"""Shared BoR operator-storage estimates for previews and solve admission."""
++from collections import namedtuple
++import numpy as np
++from ghost_backend.bor.kernels import FAR_GAUSS_ORDER, FFT_BUILD_BUDGET, n_xi_for_pairs
++from ghost_backend.bor.options import compressed_requested
++_COMPLEX128_BYTES = np.dtype(np.complex128).itemsize
++
++
++def bor_impedance_map_bytes(nodes: 'int') -> 'float':
++    """Bound on the sparse ``2N x 2N`` J-to-M impedance map of a bare IBC piece
++    with ``nodes`` nodes: 2N complex nonzeros plus CSR indices, priced with
++    64-bit indices so a preview never falls below the gate's exact size."""
++    count = 2 * int(nodes)
++    return float(count * (16 + 8) + (count + 1) * 8)
++
++def estimate_bor_table_gb(n_elems: 'int', m_max: 'int', formulation: 'str' = "cfie",
++                          has_ibc: 'bool' = False, gauss_order: 'int' = FAR_GAUSS_ORDER,
++                          single_tables: 'bool' = False) -> 'float':
++    """Estimate persistent far-table storage for all modal FFT tables in GB."""
++
++    P = float(gauss_order * n_elems)
++    per = 8.0 if single_tables else 16.0
++    total = P * P * (m_max + 2) * per
++    if formulation in ("cfie", "mfie"):
++        total += 4.0 * P * P * (m_max + 1) * per
++    if has_ibc:
++        total += 4.0 * P * P * (m_max + 1) * per
++    return total / 1e9
++
++def estimate_bor_cross_table_gb(
++    n_test_elements: 'int', n_source_elements: 'int', m_max: 'int',
++    test_gauss_order: 'int' = FAR_GAUSS_ORDER, source_gauss_order: 'int' = FAR_GAUSS_ORDER,
++    single_tables: 'bool' = False, has_rotated_pv: 'bool' = True,
++) -> 'float':
++    """Persistent far tables for one directed rectangular T/P mapping."""
++
++    test_points = float(int(test_gauss_order) * int(n_test_elements))
++    source_points = float(int(source_gauss_order) * int(n_source_elements))
++    modes = int(m_max)
++    if test_points <= 0.0 or source_points <= 0.0 or modes < 0:
++        raise ValueError("Cross-table estimate dimensions are invalid.")
++    item_bytes = 8.0 if single_tables else 16.0
++    modal_values = (modes + 2) + int(has_rotated_pv) * 4.0 * (modes + 1)
++    return test_points * source_points * modal_values * item_bytes / 1.0e9
++
++BOR_RETAINED_STORAGE_FACTOR = 1.10
++
++def conductor_operator_kinds(formulation: 'str', has_impedance: 'bool'):
++    """``(efie, mfie, ibc)``: the operator families a conductor solve prepares.
++
++    One description for ``solve_bor``, its admission gate and the dispatch
++    previews. Every enabled family retains its own far tables and its own
++    same-surface near contractions, so a CFIE with a nonzero impedance holds
++    three of each. The previews assumed two per surface and could fall below
++    the gate they predict on bodies with many geometrically close panels.
++    """
++    efie, mfie = formulation in ("efie", "cfie"), formulation in ("cfie", "mfie")
++    return efie, mfie, bool(has_impedance) and efie
++
++def bor_near_cache_bytes(pair_count, node_count, kinds, modes) -> 'float':
++    """Retained same-surface near contractions of one medium side.
++
++    ``kinds`` operator families, each holding four component blocks of
++    ``4*pair_count`` basis pairs per retained mode and its routing indices.
++    The run-time gate and the snapshot preview both price them here.
++    """
++    index_bytes = np.dtype(np.intp).itemsize
++    values = int(kinds) * 4.0 * (int(modes) + 1) * (4 * int(pair_count)) * _COMPLEX128_BYTES
++    return values + int(kinds) * (4.0 * (4 * int(pair_count)) + int(node_count) + 1) * index_bytes
++
++def bor_cross_near_cache_bytes(pair_count, modes, has_rotated_pv=True) -> 'float':
++    """Retained near contractions of one directed cross-surface operator."""
++    return int(pair_count) * (1 + int(has_rotated_pv)) * 4 * (int(modes) + 1) * 4 * _COMPLEX128_BYTES
++
++# What one medium side of a surface, and one directed cross-surface operator,
++# contribute to operator storage.  The run-time gate fills these from the
++# constructed solvers; the dispatch previews fill them from mesh counts and
++# geometric near-pair counts.  ``fft_samples`` is ``(scalar, bracket)`` angular
++# sample counts, or ``None`` where only the bound ``FFT_BUILD_BUDGET`` is known.
++BorSurfaceStorage = namedtuple(
++    'BorSurfaceStorage', 'points nodes table_bytes near_pairs efie mfie ibc fft_samples')
++
++BorCrossStorage = namedtuple(
++    'BorCrossStorage', 'points_p points_q table_bytes near_pairs near_max_order fft_samples has_rotated_pv',
++    defaults=(True,))
++
++def bor_operator_storage_bytes(modes, surfaces, crosses=(), constraint_dofs=0,
++                               streaming=False, compressed=False):
++    """The one BoR operator-storage model, in bytes, by component.
++
++    ``tables`` are the retained far tables (absent when streaming, whose
++    planner prices far blocks itself). ``basis`` is retained as a zero-valued
++    reporting field: production contracts local bases without dense matrices.
++    ``near`` the same- and cross-surface near contractions, ``projection`` the
++    junction projection matrices, ``fft_workspace`` and ``near_workspace`` the
++    largest build scratch of each kind.  A gate needs
++    ``BOR_RETAINED_STORAGE_FACTOR * (tables + basis + near + projection) +
++    max(fft_workspace, near_workspace)``; the previews add the two workspaces
++    instead, so they never fall below the gate they predict.  The function is
++    monotone in every record field: records that bound the solvers' own bound
++    the result.
++    """
++
++    from ghost_backend.bor import kernels
++    modes = int(modes)
++    signed_modes = 2 * modes + 1
++    budget = float(FFT_BUILD_BUDGET)
++    tables = basis = near = fft_workspace = near_workspace = 0.0
++
++    def fft_bytes(pair_points, samples, arrays):
++        if samples is None:
++            return budget
++        return min(budget, pair_points * samples * arrays * _COMPLEX128_BYTES)
++
++    for surface in surfaces:
++        kinds = int(bool(surface.efie)) + int(bool(surface.mfie)) + int(bool(surface.ibc))
++        square = float(surface.points) ** 2
++        if not streaming and kinds:
++            if surface.efie:
++                tables += square * (modes + 2) * surface.table_bytes
++            if surface.mfie:
++                tables += 4.0 * square * (modes + 1) * surface.table_bytes
++            if surface.ibc:
++                tables += 4.0 * square * (modes + 1) * surface.table_bytes
++        near += bor_near_cache_bytes(surface.near_pairs, surface.nodes, kinds, modes)
++        if kinds:
++            near_workspace = max(near_workspace, 128.0e6)
++        if not streaming and kinds:
++            if (surface.mfie or surface.ibc) and not kernels.BANDED_FFT:
++                fft_workspace = max(fft_workspace, 4.0 * square * signed_modes * _COMPLEX128_BYTES)
++            scalar, bracket = surface.fft_samples if surface.fft_samples is not None else (None, None)
++            if surface.efie:
++                fft_workspace = max(fft_workspace, fft_bytes(square, scalar, 4.0))
++            if surface.mfie or surface.ibc:
++                fft_workspace = max(fft_workspace, fft_bytes(square, bracket, 18.0 if surface.ibc else 16.0))
++
++    for cross in crosses:
++        pair_points = float(cross.points_p) * float(cross.points_q)
++        if not streaming:
++            tables += pair_points * (modes + 2) * cross.table_bytes
++            if cross.has_rotated_pv:
++                tables += 4.0 * pair_points * (modes + 1) * cross.table_bytes
++            if cross.has_rotated_pv and not kernels.BANDED_FFT:
++                fft_workspace = max(fft_workspace, 4.0 * pair_points * signed_modes * _COMPLEX128_BYTES)
++            scalar, bracket = cross.fft_samples if cross.fft_samples is not None else (None, None)
++            fft_workspace = max(fft_workspace, fft_bytes(pair_points, scalar, 4.0))
++            if cross.has_rotated_pv:
++                fft_workspace = max(fft_workspace, fft_bytes(pair_points, bracket, 18.0))
++        near += bor_cross_near_cache_bytes(cross.near_pairs, modes, cross.has_rotated_pv)
++        if cross.near_pairs:
++            near_workspace = max(near_workspace, 128.0e6, 64.0e6 + 768 * int(cross.near_max_order) ** 2)
++
++    projection = 0.0
++    if constraint_dofs:
++        # Categories m = 0, 1 and |m| >= 2 (signed-mode symmetry never builds
++        # m = -1).  Every backend stores the transforms sparse: one selection
++        # entry per column plus a few relations, priced with CSR overhead
++        # (value, column index and row pointer, about 6 complex values per row).
++        category_count = 1 if modes == 0 else (2 if modes == 1 else 3)
++        projection = category_count * float(constraint_dofs) * 6 * _COMPLEX128_BYTES
++    return dict(tables=tables, basis=basis, near=near, projection=projection,
++                fft_workspace=fft_workspace, near_workspace=near_workspace)
++
++def estimate_bor_operator_storage_gb(
++    m_max: 'int',
++    solver_requirements,
++    cross_operators=(),
++    constraint_dofs: 'int' = 0,
++    streaming: 'bool' = False,
++) -> 'float':
++    """Estimate retained operator auxiliaries and their build workspace.
++
++    ``solver_requirements`` contains ``(solver, efie, mfie, ibc)`` tuples.
++    Repeated solver instances are merged so their tables are counted once.
++    Cross-surface operators are counted independently.
++    ``constraint_dofs`` adds the sparse junction projection transforms retained by
++    the partial/multiregion paths.  With ``streaming=True``, far tables and
++    their FFT workspace are excluded because the combined streaming planner
++    accounts for those blocks and sampling tiles separately; exact same- and
++    cross-surface near caches plus junction projections remain included.
++    """
++
++    try:
++        modes = int(m_max)
++        constraint_size = int(constraint_dofs)
++    except (TypeError, ValueError, OverflowError) as exc:
++        raise ValueError(
++            "BoR operator estimates require integer mode and constraint sizes."
++        ) from exc
++    if modes != m_max or modes < 0:
++        raise ValueError("BoR operator mode cap must be a non-negative integer.")
++    if constraint_size != constraint_dofs or constraint_size < 0:
++        raise ValueError("BoR constraint DOFs must be a non-negative integer.")
++
++    merged = {}
++    for requirement in solver_requirements:
++        if len(requirement) != 4:
++            raise ValueError(
++                "Each BoR solver requirement must be (solver, efie, mfie, ibc)."
++            )
++        solver, efie, mfie, ibc = requirement
++        key = id(solver)
++        if key in merged:
++            previous = merged[key]
++            merged[key] = (
++                solver,
++                previous[1] or bool(efie),
++                previous[2] or bool(mfie),
++                previous[3] or bool(ibc),
++            )
++        else:
++            merged[key] = (solver, bool(efie), bool(mfie), bool(ibc))
++
++    compressed = compressed_requested()
++    streaming = streaming or compressed
++
++    def samples(wavenumber, rho_max, far_gap):
++        return (n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=False),
++                n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=True))
++
++    surfaces = []
++    for solver, efie, mfie, ibc in merged.values():
++        tabled = not streaming and (efie or mfie or ibc)
++        surfaces.append(BorSurfaceStorage(
++            int(solver.P), int(solver.Nn), np.dtype(solver._table_dtype).itemsize,
++            int(solver._near_pair_count), efie, mfie, ibc,
++            samples(solver.k, float(np.max(solver.gen.nodes[:, 0])), float(solver._far_gap())) if tabled else None))
++    crosses, seen_crosses = [], set()
++    for cross in cross_operators:
++        # Derived reverse operators retain nothing of their own.
++        if id(cross) in seen_crosses or getattr(cross, 'derived', False):
++            continue
++        seen_crosses.add(id(cross))
++        rho_max = max(float(np.max(cross.sp.gen.nodes[:, 0])), float(np.max(cross.sq.gen.nodes[:, 0])))
++        crosses.append(BorCrossStorage(
++            int(cross.sp.P), int(cross.sq.P), np.dtype(cross.sp._table_dtype).itemsize,
++            len(cross.near_pairs), int(cross.near_max_order),
++            samples(cross.k, rho_max, float(cross._far_gap)) if not streaming else None,
++            cross.need_p))
++    parts = bor_operator_storage_bytes(modes, surfaces, crosses, constraint_size, streaming, compressed)
++    retained = parts['tables'] + parts['basis'] + parts['near'] + parts['projection']
++    build_workspace = max(parts['fft_workspace'], parts['near_workspace'])
++    return (BOR_RETAINED_STORAGE_FACTOR * retained + build_workspace) / 1.0e9
+diff --git a/tools/GHOST/ghost_backend/bor/validation.py b/tools/GHOST/ghost_backend/bor/validation.py
+new file mode 100644
+index 0000000..fb26da6
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/bor/validation.py
+@@ -0,0 +1,191 @@
++"""Direct BoR solver geometry and aspect-grid validation."""
++import numpy as np
++from scipy.spatial import cKDTree
++from ghost_backend.geometry.regions import numerical_bor_axis_tolerance
++from ghost_backend.bor.options import current_checkpoint
++
++
++def _bor_axis_tolerance(points):
++    """Numerical zero in radius; never a drawing/feature-size tolerance."""
++    return numerical_bor_axis_tolerance(points)
++
++def _segments_intersect_2d(
++    a: 'np.ndarray',
++    b: 'np.ndarray',
++    c: 'np.ndarray',
++    d: 'np.ndarray',
++    tol: 'float',
++) -> 'bool':
++    """Inclusive segment intersection with a length-scaled cross tolerance."""
++
++    def cross(p, q, r) -> 'float':
++        return float((q[0] - p[0]) * (r[1] - p[1])
++                     - (q[1] - p[1]) * (r[0] - p[0]))
++
++    def on_segment(p, q, r, cross_tol) -> 'bool':
++        return (
++            abs(cross(p, q, r)) <= cross_tol
++            and min(p[0], r[0]) - tol <= q[0] <= max(p[0], r[0]) + tol
++            and min(p[1], r[1]) - tol <= q[1] <= max(p[1], r[1]) + tol
++        )
++
++    length_scale = max(
++        float(np.linalg.norm(b - a)),
++        float(np.linalg.norm(d - c)),
++        tol,
++    )
++    cross_tol = tol * length_scale
++    o1 = cross(a, b, c)
++    o2 = cross(a, b, d)
++    o3 = cross(c, d, a)
++    o4 = cross(c, d, b)
++    if (
++        ((o1 > cross_tol and o2 < -cross_tol)
++         or (o1 < -cross_tol and o2 > cross_tol))
++        and ((o3 > cross_tol and o4 < -cross_tol)
++             or (o3 < -cross_tol and o4 > cross_tol))
++    ):
++        return True
++    return (
++        on_segment(a, c, b, cross_tol)
++        or on_segment(a, d, b, cross_tol)
++        or on_segment(c, a, d, cross_tol)
++        or on_segment(c, b, d, cross_tol)
++    )
++
++def _validate_solve_bor_generatrix(points, formulation: 'str') -> 'np.ndarray':
++    """Validate the direct single-surface ``solve_bor`` geometry.
++
++    EFIE may represent an open shell.  CFIE/MFIE require the supported
++    closed-body topology: both ends on the rotation axis and traversal from
++    the +z pole to the -z pole.  Every path rejects intersections because a
++    self-crossing meridian generates an overlapping/non-manifold surface.
++    """
++
++    raw = np.asarray(points)
++    if raw.ndim != 2 or raw.shape[1:] != (2,) or raw.shape[0] < 2:
++        raise ValueError(
++            "BoR generatrix must be a finite (N, 2) array of (rho, z) "
++            "nodes with N >= 2."
++        )
++    if np.iscomplexobj(raw) and np.any(np.imag(raw) != 0.0):
++        raise ValueError("BoR generatrix coordinates must be real.")
++    try:
++        pts = np.asarray(np.real(raw), dtype=float).copy()
++    except (TypeError, ValueError) as exc:
++        raise ValueError("BoR generatrix coordinates must be real numbers.") from exc
++    if not np.all(np.isfinite(pts)):
++        raise ValueError("BoR generatrix coordinates must all be finite.")
++
++    diag = max(
++        float(np.ptp(pts[:, 0])),
++        float(np.ptp(pts[:, 1])),
++        1.0e-15,
++    )
++    geom_tol = max(1.0e-14, 1.0e-10 * diag)
++    axis_tol = _bor_axis_tolerance(pts)
++    if np.any(pts[:, 0] < -axis_tol):
++        bad = float(np.min(pts[:, 0]))
++        raise ValueError(
++            f"BoR generatrix rho coordinates must be >= 0; found {bad:.6g}."
++        )
++    pts[np.abs(pts[:, 0]) <= axis_tol, 0] = 0.0
++
++    lengths = np.linalg.norm(np.diff(pts, axis=0), axis=1)
++    if np.any(lengths <= geom_tol):
++        idx = int(np.argmin(lengths))
++        raise ValueError(
++            f"BoR generatrix element {idx} has zero or near-zero length "
++            f"({lengths[idx]:.3g})."
++        )
++    if float(np.max(pts[:, 0])) <= axis_tol:
++        raise ValueError(
++            "BoR generatrix lies entirely on the rotation axis and sweeps "
++            "zero surface area."
++        )
++    # Only the two end points may lie on the axis. An interior axis node is a
++    # pinched (non-manifold) surface, and an element on the axis sweeps no
++    # area: its rows vanish and the system loses rank (LAPACK info = 1,
++    # condition 1e37 on a graded needle tip whose inner nodes a mesher had
++    # snapped onto the axis).
++    interior = np.flatnonzero(pts[1:-1, 0] == 0.0) + 1
++    if interior.size:
++        index = int(interior[0])
++        raise ValueError(
++            f"BoR generatrix node {index} of {len(pts)} (rho = {float(raw[index, 0].real):.3g}) "
++            "lies on the rotation axis; only the end points may. A mesher "
++            "that snaps small radii onto the axis must spare interior nodes.")
++
++
++    n_elem = len(pts) - 1
++    seg_a = pts[:-1]
++    seg_b = pts[1:]
++    mids = 0.5 * (seg_a + seg_b)
++    half = 0.5 * lengths
++    max_half = float(np.max(half))
++    tree = cKDTree(mids)
++    # A possible contact has center distance <= half[i]+half[j]+tol.
++    # Let the longer panel own the pair, so a single long panel does not
++    # inflate every short panel's query. Uniform meshes keep the cheaper
++    # index ordering, whose bound is already within a factor of two.
++    local_owner = max_half > 2.0 * float(np.min(half))
++    roundoff = 32.0 * np.finfo(float).eps * max(float(np.max(np.abs(pts))), diag)
++    checkpoint = current_checkpoint()
++    for i in range(n_elem):
++        if checkpoint is not None:
++            checkpoint()
++        radius = (2.0 * float(half[i]) if local_owner else float(half[i]) + max_half)
++        radius += geom_tol + roundoff
++        for candidate_index, j in enumerate(tree.query_ball_point(mids[i], radius)):
++            if checkpoint is not None and candidate_index % 256 == 0:
++                checkpoint()
++            j = int(j)
++            if local_owner:
++                if abs(j - i) <= 1 or half[j] > half[i] or (half[j] == half[i] and j <= i):
++                    continue
++            elif j <= i + 1:
++                continue
++            lower = (
++                float(np.linalg.norm(mids[i] - mids[j]))
++                - float(half[i]) - float(half[j])
++            )
++            if lower > geom_tol + roundoff:
++                continue
++            if _segments_intersect_2d(
++                pts[i], pts[i + 1], pts[j], pts[j + 1], geom_tol
++            ):
++                raise ValueError(
++                    "BoR generatrix self-intersection/overlap between "
++                    f"elements {i} and {j} is not supported."
++                )
++
++    start_on_axis = pts[0, 0] == 0.0
++    end_on_axis = pts[-1, 0] == 0.0
++    closed_body = start_on_axis and end_on_axis
++    if formulation in {"cfie", "mfie"} and not closed_body:
++        raise ValueError(
++            f"{formulation.upper()} requires a closed BoR whose two "
++            "generatrix endpoints lie on the rotation axis; use EFIE for "
++            "an intentionally open shell."
++        )
++    if closed_body and not (pts[0, 1] > pts[-1, 1] + geom_tol):
++        raise ValueError(
++            "A closed BoR generatrix must be traversed from its +z axis "
++            "endpoint to its -z axis endpoint so the left-of-travel normal "
++            "faces the exterior."
++        )
++    from ghost_backend.bor.geometry import require_resolved_corners
++    require_resolved_corners(pts)
++    return pts
++
++def _validated_bor_aspects(thetas_deg) -> 'np.ndarray':
++    """Validate the direct-solver monostatic aspect grid."""
++
++    thetas = np.atleast_1d(np.asarray(thetas_deg, dtype=float))
++    if thetas.ndim != 1 or thetas.size == 0:
++        raise ValueError("BoR aspect grid must be a non-empty one-dimensional array.")
++    if not np.all(np.isfinite(thetas)):
++        raise ValueError("BoR aspect angles must all be finite.")
++    if np.any(thetas < 0.0) or np.any(thetas > 180.0):
++        raise ValueError("BoR aspect angles must lie in [0, 180] degrees.")
++    return thetas
+diff --git a/tools/GHOST/ghost_backend/hpc/bor_driver.py b/tools/GHOST/ghost_backend/hpc/bor_driver.py
+index 686ce05..c08b553 100644
+--- a/tools/GHOST/ghost_backend/hpc/bor_driver.py
++++ b/tools/GHOST/ghost_backend/hpc/bor_driver.py
+@@ -35,6 +35,10 @@ published or used downstream.
+ Internal worker invocation (called by SLURM, not by the user):
+     python run_hpc_bor_monostatic.py --worker <run_dir> <job_index> <node_index>
+ """
++from ghost_backend.runs.driver_settings import DriverSettings
++from ghost_backend.runs.worker_pipeline import (
++    WorkerAdapter, run_bor_pair, solve_bor_result, channel_result as _channel_result,
++)
+ from ghost_backend.execution.paths import backend_root as _backend_root
+ 
+ import argparse
+@@ -82,7 +86,7 @@ from ghost_backend.runs.config import (
+     copy_configuration,
+ )
+ from ghost_backend.bor.options import validate_options as validate_bor_options
+-BOR_EXECUTION_OPTIONS = validate_bor_options({})
++_SETTINGS = DriverSettings({"BOR_EXECUTION_OPTIONS": validate_bor_options({})})
+ 
+ _CONFIG_KIND = 'bor'
+ _CONFIG_KEYS = (
+@@ -132,30 +136,23 @@ _SCRIPT = None
+ 
+ 
+ def current_settings():
+-    """The run's parameters, as configure() received them."""
+-    return {key: globals()[key] for key in _CONFIG_KEYS if key in globals()}
++    """Return an independent parameter dictionary for manifests and spawned workers."""
++    return _SETTINGS.snapshot()
+ 
+ 
+ def configure(settings, *, script, configuration=None, load_config_file=False):
+-    """Install user parameters as this module's settings.
+-
+-    ``settings`` holds the parameter-block values of the user-facing driver
+-    script. With ``load_config_file`` an explicit ``--config`` or the script's
+-    adjacent ``.config.json`` is applied on top, exactly as before.
+-    """
+-    global _ACTIVE_CONFIG_PATH, _SCRIPT, BOR_EXECUTION_OPTIONS
+-    namespace = {key: value for key, value in dict(settings).items() if key in _CONFIG_KEYS}
+-    namespace.setdefault("BOR_EXECUTION_OPTIONS", BOR_EXECUTION_OPTIONS)
+-    missing = sorted(set(_CONFIG_KEYS) - set(namespace))
+-    if missing:
+-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
++    """Capture the parameter block and optional JSON overrides for this process."""
++    global _SETTINGS, _ACTIVE_CONFIG_PATH, _SCRIPT
++    candidate = DriverSettings.capture(
++        settings, _CONFIG_KEYS,
++        {"BOR_EXECUTION_OPTIONS": _SETTINGS.BOR_EXECUTION_OPTIONS}).snapshot()
+     if load_config_file:
+-        namespace["__name__"] = "__main__"
+-        configuration = load_driver_configuration(namespace, script, _CONFIG_KIND, _CONFIG_KEYS)
+-    globals().update({key: namespace[key] for key in _CONFIG_KEYS})
+-    BOR_EXECUTION_OPTIONS = validate_bor_options(BOR_EXECUTION_OPTIONS)
+-    _SCRIPT = str(Path(script).resolve())
+-    _ACTIVE_CONFIG_PATH = configuration
++        candidate["__name__"] = "__main__"
++        configuration = load_driver_configuration(candidate, script, _CONFIG_KIND, _CONFIG_KEYS)
++    candidate["BOR_EXECUTION_OPTIONS"] = validate_bor_options(candidate["BOR_EXECUTION_OPTIONS"])
++    captured = DriverSettings.capture(candidate, _CONFIG_KEYS)
++    script_path = str(Path(script).resolve())
++    _SETTINGS, _SCRIPT, _ACTIVE_CONFIG_PATH = captured, script_path, configuration
+ 
+ 
+ _SBATCH = shutil.which("sbatch") or "sbatch"
+@@ -254,12 +251,12 @@ def _discover_geometries():
+     # type: () -> List[Path]
+     found = []   # type: List[Path]
+     seen = set()  # type: set
+-    for d in GEOMETRY_DIRS:
++    for d in _SETTINGS.GEOMETRY_DIRS:
+         root = Path(d)
+         if not root.is_dir():
+             print(f"  [warn] dir not found: {root}", file=sys.stderr)
+             continue
+-        for ext in GEOMETRY_EXTS:
++        for ext in _SETTINGS.GEOMETRY_EXTS:
+             for p in sorted(root.rglob(f"*{ext}")):
+                 rp = p.resolve()
+                 if rp in seen:
+@@ -527,22 +524,7 @@ def _spill_directory():
+         return tempfile.gettempdir()
+ 
+ 
+-def _channel_result(result, polarization):
+-    # type: (Dict[str, Any], str) -> Dict[str, Any]
+-    samples = (result.get("co_solved_samples", {}) or {}).get(polarization, [])
+-    if not samples:
+-        raise RuntimeError(
+-            f"BoR solve did not return its co-solved {polarization} channel."
+-        )
+-    channel = dict(result)
+-    channel["samples"] = samples
+-    channel["polarization"] = polarization
+-    channel["polarization_export"] = polarization
+-    channel.pop("polarizations", None)
+-    channel.pop("polarization_mapping", None)
+-    channel.pop("co_solved_samples", None)
+-    channel["metadata"] = dict(result.get("metadata", {}) or {})
+-    return channel
++
+ 
+ 
+ # The manifest carries every unit in the run, so re-reading and re-parsing it
+@@ -566,96 +548,46 @@ def _manifest_for(run_dir):
+ 
+ 
+ def _solve_and_export(pair, snapshot, material_base, run_dir_str):
+-    # type: (Dict[str, Any], Dict[str, Any], str, str) -> Tuple[str, str]
+-    """Solve one geometry/frequency pair and export requested channels."""
+-    run_dir = Path(run_dir_str)
+-    channel_units = list(pair["channel_units"])
+-    manifest = _manifest_for(run_dir)
+-    _verify_run_provenance(manifest)
+-    for unit in channel_units:
+-        _verify_unit_input(unit, manifest)
+-    missing = []
+-    paths = []
+-    for unit in channel_units:
+-        out_path = _unit_output_path(run_dir, unit)
+-        paths.append(out_path)
+-        if out_path.exists():
+-            verify_embedded_attestation(
+-                str(out_path), _unit_attestation_fields(manifest, unit)
+-            )
+-        else:
+-            missing.append(unit)
+-    if not missing:
+-        return ("skipped", ", ".join(str(path) for path in paths))
+-
+-    from ghost_backend.bor.dispatch import (
+-        solve_monostatic_rcs_bor_certified,
+-        solve_monostatic_rcs_bor_survey,
+-    )
+-    certified = bool(
+-        manifest.get("solver_config", {}).get("mesh_certification", True)
+-    )
+-    solver_config = dict(manifest.get("solver_config", {}) or {})
+-    solve = (solve_monostatic_rcs_bor_certified if certified
+-             else solve_monostatic_rcs_bor_survey)
+-    from ghost_backend.twod.samples import compact_samples
+-    solve = compact_samples()(solve)
+-    quality_kwargs = ({"mesh_convergence_policy": validate_mesh_convergence_policy(
+-        solver_config.get("mesh_convergence_policy")
+-    )} if certified else {})
+-    execution_plan = dict(pair.get("execution_plan", {}) or {})
+-    result = solve(
+-        geometry_snapshot=snapshot,
+-        frequencies_ghz=[float(pair["frequency_ghz"])],
+-        elevations_deg=[float(a) for a in manifest["aspects_deg"]],
+-        geometry_units=str(solver_config.get(
+-            "geometry_units", GEOMETRY_UNITS
+-        )),
+-        material_base_dir=material_base,
+-        cfie_alpha=float(solver_config.get("cfie_alpha", CFIE_ALPHA)),
+-        n_modes=solver_config.get("n_modes", N_MODES),
+-        mode_tol=float(solver_config.get("mode_tol", MODE_TOL)),
+-        max_elements=int(solver_config.get("max_elements", MAX_ELEMENTS)),
+-        workers=int(execution_plan.get("workers",
+-            solver_config.get("workers_per_unit", WORKERS_PER_UNIT))),
+-        table_precision=str(execution_plan.get("table_precision",
+-            solver_config.get("table_precision", TABLE_PRECISION))),
+-        assembly=str(execution_plan.get("assembly", solver_config.get("assembly", ASSEMBLY))),
+-        stream_budget_gb=float(solver_config.get(
+-            "stream_budget_gb", STREAM_BUDGET_GB
+-        )),
+-        bor_options=execution_plan.get("bor_execution_options",
+-            solver_config.get("bor_execution_options", {})),
+-        expand_to_360=False,
+-        **quality_kwargs,
+-    )
+-    if execution_plan:
+-        result["metadata"]["hpc_execution_plan"] = execution_plan
+-    for w in result["metadata"].get("warnings", []) or []:
+-        print(f"      [warn] {pair['geometry_stem']}: {w}", flush=True)
+-    _verify_run_provenance(manifest)
+-    for unit in channel_units:
+-        _verify_unit_input(unit, manifest)
+-
+-    from ghost_backend.io.grim import export_result_to_grim
+-    actual_paths = []
+-    for unit in missing:
+-        out_path = _unit_output_path(run_dir, unit)
+-        channel_result = _channel_result(result, str(unit["polarization"]))
+-        embed_output_attestation(
+-            channel_result, _unit_attestation_fields(manifest, unit)
+-        )
+-        written = export_result_to_grim(
+-            channel_result, str(out_path),
+-            source_path=str(snapshot.get("source_path", "") or ""),
+-            history=(f"run_hpc_bor_monostatic.py pol={unit['polarization']} "
+-                     f"freq={unit['frequency_ghz']}GHz"),
++    """Run the shared BoR pipeline with the HPC manifest and resource plan."""
++    manifest = _manifest_for(Path(run_dir_str))
++    def solve(snapshot, material_base):
++        solver_config = dict(manifest.get("solver_config", {}) or {})
++        certified = bool(manifest.get("solver_config", {}).get("mesh_certification", True))
++        execution_plan = dict(pair.get("execution_plan", {}) or {})
++        solve_kwargs = dict(
++            geometry_snapshot=snapshot,
++            frequencies_ghz=[float(pair["frequency_ghz"])],
++            elevations_deg=[float(a) for a in manifest["aspects_deg"]],
++            geometry_units=str(solver_config.get(
++                "geometry_units", _SETTINGS.GEOMETRY_UNITS
++            )),
++            material_base_dir=material_base,
++            cfie_alpha=float(solver_config.get("cfie_alpha", _SETTINGS.CFIE_ALPHA)),
++            n_modes=solver_config.get("n_modes", _SETTINGS.N_MODES),
++            mode_tol=float(solver_config.get("mode_tol", _SETTINGS.MODE_TOL)),
++            max_elements=int(solver_config.get("max_elements", _SETTINGS.MAX_ELEMENTS)),
++            workers=int(execution_plan.get("workers",
++                solver_config.get("workers_per_unit", _SETTINGS.WORKERS_PER_UNIT))),
++            table_precision=str(execution_plan.get("table_precision",
++                solver_config.get("table_precision", _SETTINGS.TABLE_PRECISION))),
++            assembly=str(execution_plan.get("assembly", solver_config.get("assembly", _SETTINGS.ASSEMBLY))),
++            stream_budget_gb=float(solver_config.get(
++                "stream_budget_gb", _SETTINGS.STREAM_BUDGET_GB
++            )),
++            bor_options=execution_plan.get("bor_execution_options",
++                solver_config.get("bor_execution_options", {})),
++            expand_to_360=False,
+         )
+-        actual_paths.append(str(written[0]) if written else str(out_path))
+-    # The run state was verified before the solve and again before the
+-    # export; a third check after the artifact is published could only
+-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
+-    return ("written", ", ".join(actual_paths))
++        result = solve_bor_result(solve_kwargs, certified, solver_config.get("mesh_convergence_policy"))
++        if execution_plan:
++            result["metadata"]["hpc_execution_plan"] = execution_plan
++        return result
++
++    adapter = WorkerAdapter(
++        _unit_output_path, _verify_run_provenance, _verify_unit_input,
++        _unit_attestation_fields, lambda _: (snapshot, material_base),
++        "run_hpc_bor_monostatic.py")
++    return run_bor_pair(pair, manifest, run_dir_str, adapter, solve)
+ 
+ 
+ def _solve_and_export_star(args):
+@@ -686,10 +618,10 @@ def _build_slurm(script_path, run_dir, job_index):
+     lines = [
+         "#!/bin/bash",
+         f"#SBATCH --job-name=bor_{run_dir.name}_j{job_index}",
+-        f"#SBATCH --array=0-{N_NODES - 1}",
++        f"#SBATCH --array=0-{_SETTINGS.N_NODES - 1}",
+         "#SBATCH --nodes=1",
+         "#SBATCH --ntasks=1",
+-        f"#SBATCH --partition={SLURM_PARTITION}",
++        f"#SBATCH --partition={_SETTINGS.SLURM_PARTITION}",
+         f"#SBATCH --output={run_dir}/logs/job{job_index}_task_%A_%a.out",
+         f"#SBATCH --error={run_dir}/logs/job{job_index}_task_%A_%a.err",
+         # A requeued task rejoins the run and takes whatever is unclaimed, so
+@@ -697,19 +629,19 @@ def _build_slurm(script_path, run_dir, job_index):
+         "#SBATCH --requeue",
+         "#SBATCH --open-mode=append",
+     ]
+-    if CORES_PER_NODE is not None:
+-        lines.append(f"#SBATCH --cpus-per-task={CORES_PER_NODE}")
++    if _SETTINGS.CORES_PER_NODE is not None:
++        lines.append(f"#SBATCH --cpus-per-task={_SETTINGS.CORES_PER_NODE}")
+     else:
+         lines.append("#SBATCH --exclusive")
+-    if MEM_PER_NODE:
+-        lines.append(f"#SBATCH --mem={MEM_PER_NODE}")
+-    if SLURM_TIME:
+-        lines.append(f"#SBATCH --time={SLURM_TIME}")
+-    if SLURM_ACCOUNT:   lines.append(f"#SBATCH --account={SLURM_ACCOUNT}")
+-    if SLURM_QOS:       lines.append(f"#SBATCH --qos={SLURM_QOS}")
+-    if SLURM_MAIL_TYPE: lines.append(f"#SBATCH --mail-type={SLURM_MAIL_TYPE}")
+-    if SLURM_MAIL_USER: lines.append(f"#SBATCH --mail-user={SLURM_MAIL_USER}")
+-    for extra in SLURM_EXTRA_SBATCH:
++    if _SETTINGS.MEM_PER_NODE:
++        lines.append(f"#SBATCH --mem={_SETTINGS.MEM_PER_NODE}")
++    if _SETTINGS.SLURM_TIME:
++        lines.append(f"#SBATCH --time={_SETTINGS.SLURM_TIME}")
++    if _SETTINGS.SLURM_ACCOUNT:   lines.append(f"#SBATCH --account={_SETTINGS.SLURM_ACCOUNT}")
++    if _SETTINGS.SLURM_QOS:       lines.append(f"#SBATCH --qos={_SETTINGS.SLURM_QOS}")
++    if _SETTINGS.SLURM_MAIL_TYPE: lines.append(f"#SBATCH --mail-type={_SETTINGS.SLURM_MAIL_TYPE}")
++    if _SETTINGS.SLURM_MAIL_USER: lines.append(f"#SBATCH --mail-user={_SETTINGS.SLURM_MAIL_USER}")
++    for extra in _SETTINGS.SLURM_EXTRA_SBATCH:
+         e = extra.strip()
+         if e:
+             lines.append(e if e.startswith("#SBATCH") else f"#SBATCH {e}")
+@@ -718,12 +650,12 @@ def _build_slurm(script_path, run_dir, job_index):
+         "",
+         "set -euo pipefail",
+         f"cd {shlex.quote(str(script_path.parent))}",
+-        *JOB_PROLOGUE,
++        *_SETTINGS.JOB_PROLOGUE,
+         # The run owns its backend, independent of later checkout/config edits.
+         ("export PYTHONPATH="
+          f"{shlex.quote(str(run_dir / 'runtime'))}"
+          ":${PYTHONPATH:-}"),
+-        (f"exec {shlex.quote(PYTHON_EXE)} {shlex.quote(str(script_path))} "
++        (f"exec {shlex.quote(_SETTINGS.PYTHON_EXE)} {shlex.quote(str(script_path))} "
+          f"--worker {shlex.quote(str(run_dir))} {job_index} "
+          f"${{SLURM_ARRAY_TASK_ID}}"),
+         "",
+@@ -733,9 +665,9 @@ def _build_slurm(script_path, run_dir, job_index):
+ 
+ def submit():
+     # type: () -> None
+-    if ACCURACY_TARGET not in ("standard", "tight"):
++    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
+         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
+-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
++    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
+     geometries = _discover_geometries()
+     if not geometries:
+         sys.exit(
+@@ -743,24 +675,24 @@ def submit():
+         )
+ 
+     pols = ["VV", "HH"]
+-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
++    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+     try:
+         from ghost_backend.assembly.fields import radar_grid_aspects, validate_radar_grid
+-        validate_radar_grid(AZIMUTHS_DEG, ELEVATIONS_DEG)
++        validate_radar_grid(_SETTINGS.AZIMUTHS_DEG, _SETTINGS.ELEVATIONS_DEG)
+         aspects = [float(value) for value in radar_grid_aspects(
+-            AZIMUTHS_DEG,
+-            ELEVATIONS_DEG,
+-            BODY_AXIS_AZ_DEG,
+-            BODY_AXIS_EL_DEG,
++            _SETTINGS.AZIMUTHS_DEG,
++            _SETTINGS.ELEVATIONS_DEG,
++            _SETTINGS.BODY_AXIS_AZ_DEG,
++            _SETTINGS.BODY_AXIS_EL_DEG,
+         )]
+         attitude = [float(value) for value in (
+-            BODY_AXIS_AZ_DEG, BODY_AXIS_EL_DEG, BODY_ROLL_DEG
++            _SETTINGS.BODY_AXIS_AZ_DEG, _SETTINGS.BODY_AXIS_EL_DEG, _SETTINGS.BODY_ROLL_DEG
+         )]
+         if not all(math.isfinite(value) for value in attitude):
+             raise ValueError("body-axis attitude angles must be finite")
+     except ValueError as exc:
+         sys.exit(f"ERROR: radar grid is invalid -- {exc}")
+-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
++    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
+     if (
+         not all(math.isfinite(value) and value > 0.0
+                 for value in frequencies)
+@@ -773,41 +705,41 @@ def submit():
+             "distinct at the 0.001 GHz output-name precision."
+         )
+     if (
+-        not math.isfinite(float(CFIE_ALPHA))
+-        or not 0.0 < float(CFIE_ALPHA) < 1.0
++        not math.isfinite(float(_SETTINGS.CFIE_ALPHA))
++        or not 0.0 < float(_SETTINGS.CFIE_ALPHA) < 1.0
+     ):
+         sys.exit(
+             "ERROR: CFIE_ALPHA must be finite and lie strictly between 0 and 1."
+         )
+     if (
+-        N_MODES is not None and int(N_MODES) < 1
+-        or not math.isfinite(float(MODE_TOL))
+-        or float(MODE_TOL) <= 0.0
+-        or int(MAX_ELEMENTS) < 1
+-        or not math.isfinite(float(STREAM_BUDGET_GB))
+-        or float(STREAM_BUDGET_GB) <= 0.0
+-        or int(WORKERS_PER_UNIT) < 1
+-        or int(BLAS_THREADS_PER_WORKER) < 1
+-        or not math.isfinite(float(MEMORY_HEADROOM))
+-        or not 0.0 < float(MEMORY_HEADROOM) <= 1.0
+-        or int(TASKS_PER_CHILD) < 1
++        _SETTINGS.N_MODES is not None and int(_SETTINGS.N_MODES) < 1
++        or not math.isfinite(float(_SETTINGS.MODE_TOL))
++        or float(_SETTINGS.MODE_TOL) <= 0.0
++        or int(_SETTINGS.MAX_ELEMENTS) < 1
++        or not math.isfinite(float(_SETTINGS.STREAM_BUDGET_GB))
++        or float(_SETTINGS.STREAM_BUDGET_GB) <= 0.0
++        or int(_SETTINGS.WORKERS_PER_UNIT) < 1
++        or int(_SETTINGS.BLAS_THREADS_PER_WORKER) < 1
++        or not math.isfinite(float(_SETTINGS.MEMORY_HEADROOM))
++        or not 0.0 < float(_SETTINGS.MEMORY_HEADROOM) <= 1.0
++        or int(_SETTINGS.TASKS_PER_CHILD) < 1
+         or (
+-            MAX_WORKERS_PER_NODE is not None
+-            and int(MAX_WORKERS_PER_NODE) < 1
++            _SETTINGS.MAX_WORKERS_PER_NODE is not None
++            and int(_SETTINGS.MAX_WORKERS_PER_NODE) < 1
+         )
+     ):
+         sys.exit("ERROR: BoR numerical resource/tolerance controls are invalid.")
+-    if str(ASSEMBLY).strip().lower() not in {
++    if str(_SETTINGS.ASSEMBLY).strip().lower() not in {
+         "auto", "tables", "streaming"
+     }:
+         sys.exit("ERROR: ASSEMBLY must be auto, tables, or streaming.")
+-    if str(TABLE_PRECISION).strip().lower() not in {
++    if str(_SETTINGS.TABLE_PRECISION).strip().lower() not in {
+         "auto", "single", "double"
+     }:
+         sys.exit(
+             "ERROR: TABLE_PRECISION must be auto, single, or double."
+         )
+-    if int(N_NODES) < 1 or int(N_JOBS) < 1:
++    if int(_SETTINGS.N_NODES) < 1 or int(_SETTINGS.N_JOBS) < 1:
+         sys.exit("ERROR: N_NODES and N_JOBS must be >= 1.")
+ 
+     stems = [g.stem for g in geometries]
+@@ -816,7 +748,7 @@ def submit():
+                  "would otherwise overwrite one another.")
+ 
+     run_id  = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
+-    run_dir = Path(OUTPUT_DIR).resolve() / run_id
++    run_dir = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
+     run_dir.mkdir(parents=True, exist_ok=False)
+     (run_dir / "logs").mkdir()
+     (run_dir / "results").mkdir()
+@@ -849,23 +781,23 @@ def submit():
+         )
+         snapshot["source_path"] = str(geom.resolve())
+         from ghost_backend.assembly.fields import bor_output_profile
+-        bor_output_profile(snapshot, GEOMETRY_UNITS)
++        bor_output_profile(snapshot, _SETTINGS.GEOMETRY_UNITS)
+         for frequency in frequencies:
+             resource_estimates[(str(geom.resolve()), float(frequency))] = (
+                 estimate_bor_resources(
+                     snapshot,
+                     frequency,
+                     aspects,
+-                    geometry_units=GEOMETRY_UNITS,
++                    geometry_units=_SETTINGS.GEOMETRY_UNITS,
+                     material_base_dir=str(geom.parent),
+-                    n_modes=N_MODES,
+-                    max_elements=MAX_ELEMENTS,
+-                    workers=WORKERS_PER_UNIT,
+-                    table_precision=TABLE_PRECISION,
+-                    assembly=ASSEMBLY,
+-                    stream_budget_gb=STREAM_BUDGET_GB,
+-                    bor_options=BOR_EXECUTION_OPTIONS,
+-                    mesh_certification=bool(MESH_CERTIFICATION),
++                    n_modes=_SETTINGS.N_MODES,
++                    max_elements=_SETTINGS.MAX_ELEMENTS,
++                    workers=_SETTINGS.WORKERS_PER_UNIT,
++                    table_precision=_SETTINGS.TABLE_PRECISION,
++                    assembly=_SETTINGS.ASSEMBLY,
++                    stream_budget_gb=_SETTINGS.STREAM_BUDGET_GB,
++                    bor_options=_SETTINGS.BOR_EXECUTION_OPTIONS,
++                    mesh_certification=bool(_SETTINGS.MESH_CERTIFICATION),
+                     fine_factor=float(mesh_policy["fine_factor"]),
+                 )
+             )
+@@ -874,10 +806,10 @@ def submit():
+     from ghost_backend.assembly.fields import geometry_input_fingerprint
+     for original, geom in frozen_geometries:
+         input_fingerprint = geometry_input_fingerprint(
+-            str(geom), GEOMETRY_UNITS
++            str(geom), _SETTINGS.GEOMETRY_UNITS
+         )
+         for pol in pols:
+-            for f in FREQUENCIES_GHZ:
++            for f in _SETTINGS.FREQUENCIES_GHZ:
+                 units.append({
+                     "geometry":      str(geom.resolve()),
+                     "geometry_stem": geom.stem,
+@@ -912,17 +844,17 @@ def submit():
+         "created":         datetime.now().isoformat(),
+         "solver":          "bor_mom_rcs",
+         "geometry_dirs":   [
+-            str(Path(directory).resolve()) for directory in GEOMETRY_DIRS
++            str(Path(directory).resolve()) for directory in _SETTINGS.GEOMETRY_DIRS
+         ],
+         "output_dir":      str(run_dir),
+-        "frequencies_ghz": list(FREQUENCIES_GHZ),
++        "frequencies_ghz": list(_SETTINGS.FREQUENCIES_GHZ),
+         "aspects_deg":     aspects,
+         "polarizations":   pols,
+         "expand_to_360":   False,
+         "unit_output_dir": "results/by_frequency",
+-        "n_nodes":         int(N_NODES),
+-        "n_jobs":          int(N_JOBS),
+-        "n_slots":         int(N_NODES) * int(N_JOBS),
++        "n_nodes":         int(_SETTINGS.N_NODES),
++        "n_jobs":          int(_SETTINGS.N_JOBS),
++        "n_slots":         int(_SETTINGS.N_NODES) * int(_SETTINGS.N_JOBS),
+         "n_units":         len(units),
+         "resource_planning_method": "bor-frequency-specific-v1",
+         "solver_source_sha256": backend_source_fingerprint(frozen_backend, source_records),
+@@ -931,36 +863,36 @@ def submit():
+         "runtime_environment_sha256": runtime_environment_fingerprint(),
+         "submission_runtime_environment": runtime_environment_payload(),
+         "solver_config": {
+-            "geometry_units":          GEOMETRY_UNITS,
+-            "cfie_alpha":              CFIE_ALPHA,
+-            "n_modes":                 N_MODES,
+-            "mode_tol":                MODE_TOL,
+-            "max_elements":            MAX_ELEMENTS,
+-            "assembly":                ASSEMBLY,
+-            "table_precision":         TABLE_PRECISION,
+-            "stream_budget_gb":        STREAM_BUDGET_GB,
+-            "bor_execution_options": dict(BOR_EXECUTION_OPTIONS),
+-            "mesh_certification":      bool(MESH_CERTIFICATION),
+-            "accuracy_target":         ACCURACY_TARGET,
++            "geometry_units":          _SETTINGS.GEOMETRY_UNITS,
++            "cfie_alpha":              _SETTINGS.CFIE_ALPHA,
++            "n_modes":                 _SETTINGS.N_MODES,
++            "mode_tol":                _SETTINGS.MODE_TOL,
++            "max_elements":            _SETTINGS.MAX_ELEMENTS,
++            "assembly":                _SETTINGS.ASSEMBLY,
++            "table_precision":         _SETTINGS.TABLE_PRECISION,
++            "stream_budget_gb":        _SETTINGS.STREAM_BUDGET_GB,
++            "bor_execution_options": dict(_SETTINGS.BOR_EXECUTION_OPTIONS),
++            "mesh_certification":      bool(_SETTINGS.MESH_CERTIFICATION),
++            "accuracy_target":         _SETTINGS.ACCURACY_TARGET,
+             "mesh_convergence_policy": mesh_policy,
+-            "workers_per_unit":        WORKERS_PER_UNIT,
+-            "blas_threads_per_worker": BLAS_THREADS_PER_WORKER,
+-            "cores_per_node":          CORES_PER_NODE,
++            "workers_per_unit":        _SETTINGS.WORKERS_PER_UNIT,
++            "blas_threads_per_worker": _SETTINGS.BLAS_THREADS_PER_WORKER,
++            "cores_per_node":          _SETTINGS.CORES_PER_NODE,
+         },
+         "radar_grid": {
+-            "azimuths_deg":   [float(value) for value in AZIMUTHS_DEG],
+-            "elevations_deg": [float(value) for value in ELEVATIONS_DEG],
++            "azimuths_deg":   [float(value) for value in _SETTINGS.AZIMUTHS_DEG],
++            "elevations_deg": [float(value) for value in _SETTINGS.ELEVATIONS_DEG],
+             "frequencies_ghz": frequencies,
+-            "axis_az_deg":    float(BODY_AXIS_AZ_DEG),
+-            "axis_el_deg":    float(BODY_AXIS_EL_DEG),
+-            "roll_deg":       float(BODY_ROLL_DEG),
++            "axis_az_deg":    float(_SETTINGS.BODY_AXIS_AZ_DEG),
++            "axis_el_deg":    float(_SETTINGS.BODY_AXIS_EL_DEG),
++            "roll_deg":       float(_SETTINGS.BODY_ROLL_DEG),
+         },
+         "units": units,
+     }
+     (run_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
+ 
+     slurm_paths = []  # type: List[Path]
+-    for j in range(int(N_JOBS)):
++    for j in range(int(_SETTINGS.N_JOBS)):
+         sp = run_dir / f"submit_job{j}.slurm"
+         sp.write_text(_build_slurm(script_path, run_dir, j))
+         sp.chmod(0o755)
+@@ -972,17 +904,17 @@ def submit():
+     print(f"  Run dir       : {run_dir}")
+     print(f"  Geometries    : {len(geometries)}")
+     print(f"  Polarizations : VV, HH (co-solved; VH also published)")
+-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
+-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
+-    print(f"  Radar grid    : {len(AZIMUTHS_DEG)} az x "
+-          f"{len(ELEVATIONS_DEG)} el")
++    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
++          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
++    print(f"  Radar grid    : {len(_SETTINGS.AZIMUTHS_DEG)} az x "
++          f"{len(_SETTINGS.ELEVATIONS_DEG)} el")
+     print(f"  Solver aspects: {len(aspects)} exact body-aspect RHS columns")
+     print(f"  Deliverables  : {len(geometries)} monostatic GRIM(s)")
+     print(f"  Physical solves: {len(_paired_solve_units(units))}  (VV/HH co-solved)")
+-    print(f"  Mesh check    : {'base + fine comparison' if MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
+-    print(f"  Slots         : {N_JOBS} job(s) x {N_NODES} node(s)")
+-    print(f"  Per unit      : {WORKERS_PER_UNIT} threads (modes + streaming "
+-          f"tiles), assembly={ASSEMBLY}, precision={TABLE_PRECISION}")
++    print(f"  Mesh check    : {'base + fine comparison' if _SETTINGS.MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
++    print(f"  Slots         : {_SETTINGS.N_JOBS} job(s) x {_SETTINGS.N_NODES} node(s)")
++    print(f"  Per unit      : {_SETTINGS.WORKERS_PER_UNIT} threads (modes + streaming "
++          f"tiles), assembly={_SETTINGS.ASSEMBLY}, precision={_SETTINGS.TABLE_PRECISION}")
+     reservations = [
+         float(record["estimated_peak_gb"])
+         for record in resource_estimates.values()
+@@ -991,8 +923,8 @@ def submit():
+           f"{max(reservations):.2f} GB per physical solve")
+     print(f"  Slurm scripts : {len(slurm_paths)} files in {run_dir}")
+ 
+-    if not SUBMIT or shutil.which("sbatch") is None:
+-        why = "SUBMIT=False" if not SUBMIT else "[warn] sbatch not on PATH"
++    if not _SETTINGS.SUBMIT or shutil.which("sbatch") is None:
++        why = "SUBMIT=False" if not _SETTINGS.SUBMIT else "[warn] sbatch not on PATH"
+         print(f"\n  {why} -- submit manually with:")
+         for sp in slurm_paths:
+             print(f"    sbatch {sp}")
+@@ -1075,14 +1007,14 @@ def _compute_resource_plan(pair, snapshot, material_base, manifest, cpus, budget
+     from ghost_backend.twod.preparation import preparation_scope
+ 
+     config = dict(manifest.get("solver_config", {}) or {})
+-    workers = max(1, min(int(cpus), int(config.get("workers_per_unit", WORKERS_PER_UNIT))))
++    workers = max(1, min(int(cpus), int(config.get("workers_per_unit", _SETTINGS.WORKERS_PER_UNIT))))
+     arguments = dict(
+-        geometry_units=str(config.get("geometry_units", GEOMETRY_UNITS)),
+-        material_base_dir=material_base, n_modes=config.get("n_modes", N_MODES),
+-        max_elements=int(config.get("max_elements", MAX_ELEMENTS)), workers=workers,
+-        table_precision=str(config.get("table_precision", TABLE_PRECISION)),
+-        assembly=str(config.get("assembly", ASSEMBLY)),
+-        stream_budget_gb=float(config.get("stream_budget_gb", STREAM_BUDGET_GB)),
++        geometry_units=str(config.get("geometry_units", _SETTINGS.GEOMETRY_UNITS)),
++        material_base_dir=material_base, n_modes=config.get("n_modes", _SETTINGS.N_MODES),
++        max_elements=int(config.get("max_elements", _SETTINGS.MAX_ELEMENTS)), workers=workers,
++        table_precision=str(config.get("table_precision", _SETTINGS.TABLE_PRECISION)),
++        assembly=str(config.get("assembly", _SETTINGS.ASSEMBLY)),
++        stream_budget_gb=float(config.get("stream_budget_gb", _SETTINGS.STREAM_BUDGET_GB)),
+         bor_options=config.get("bor_execution_options", {}),
+         mesh_certification=bool(config.get("mesh_certification", True)),
+         fine_factor=float(validate_mesh_convergence_policy(
+@@ -1138,13 +1070,13 @@ def worker(run_dir_str, job_index, node_index):
+     _verify_run_provenance(manifest)
+     solver_config = dict(manifest.get("solver_config", {}) or {})
+     blas_threads = int(solver_config.get(
+-        "blas_threads_per_worker", BLAS_THREADS_PER_WORKER
++        "blas_threads_per_worker", _SETTINGS.BLAS_THREADS_PER_WORKER
+     ))
+     workers_per_unit = int(solver_config.get(
+-        "workers_per_unit", WORKERS_PER_UNIT
++        "workers_per_unit", _SETTINGS.WORKERS_PER_UNIT
+     ))
+     geometry_units = str(solver_config.get(
+-        "geometry_units", GEOMETRY_UNITS
++        "geometry_units", _SETTINGS.GEOMETRY_UNITS
+     ))
+     _pin_blas_threads(blas_threads)
+     output_units = manifest["units"]
+@@ -1172,12 +1104,12 @@ def worker(run_dir_str, job_index, node_index):
+ 
+     cores    = _detect_cores()
+     memory_gb = hpc_scheduler.detect_memory_gb()
+-    budget_gb = max(1.0, memory_gb * float(MEMORY_HEADROOM))
++    budget_gb = max(1.0, memory_gb * float(_SETTINGS.MEMORY_HEADROOM))
+     # BoR units are internally threaded: divide the node into pool workers of
+     # WORKERS_PER_UNIT threads each.
+     by_threads = max(1, cores // max(1, workers_per_unit))
+-    worker_cap = by_threads if MAX_WORKERS_PER_NODE is None else \
+-        max(1, min(by_threads, int(MAX_WORKERS_PER_NODE)))
++    worker_cap = by_threads if _SETTINGS.MAX_WORKERS_PER_NODE is None else \
++        max(1, min(by_threads, int(_SETTINGS.MAX_WORKERS_PER_NODE)))
+     pool_size = max(1, min(worker_cap, len(candidates))) if candidates else 1
+ 
+     print("=" * 70)
+@@ -1272,7 +1204,7 @@ def worker(run_dir_str, job_index, node_index):
+               f"solve in {spill_dir} ({free_text})", flush=True)
+ 
+     broker = hpc_scheduler.ClaimBroker(
+-        run_dir / "claims", stale_seconds=float(CLAIM_STALE_SECONDS)
++        run_dir / "claims", stale_seconds=float(_SETTINGS.CLAIM_STALE_SECONDS)
+     )
+     broker.start_heartbeat()
+ 
+@@ -1380,7 +1312,7 @@ def worker(run_dir_str, job_index, node_index):
+         with ExecutorPool(processes=pool_size,
+                           initializer=_pool_initializer,
+                           initargs=(blas_threads, current_settings(), _SCRIPT, _ACTIVE_CONFIG_PATH),
+-                          max_tasks_per_child=int(TASKS_PER_CHILD)) as pool:
++                          max_tasks_per_child=int(_SETTINGS.TASKS_PER_CHILD)) as pool:
+             dispatcher = hpc_scheduler.MemoryAwareDispatcher(
+                 pool, budget_gb=budget_gb, max_concurrent=pool_size,
+                 cpu_budget=cores,
+@@ -1440,7 +1372,7 @@ def worker(run_dir_str, job_index, node_index):
+         )
+     try:
+         n_written, n_skipped = _publish_monostatic_coordinated(
+-            run_dir, float(CLAIM_STALE_SECONDS)
++            run_dir, float(_SETTINGS.CLAIM_STALE_SECONDS)
+         )
+         if n_written or n_skipped:
+             print(
+@@ -1502,3 +1434,10 @@ def run(namespace, script):
+     """Entry point used by the user-facing run_hpc_*.py parameter script."""
+     configure(namespace, script=script, load_config_file=True)
+     main()
++
++
++def __getattr__(name):
++    """Keep reads of configured parameter attributes compatible with old callers."""
++    if name in _SETTINGS:
++        return _SETTINGS[name]
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/tools/GHOST/ghost_backend/hpc/twod_driver.py b/tools/GHOST/ghost_backend/hpc/twod_driver.py
+index b73814a..a7a4e12 100644
+--- a/tools/GHOST/ghost_backend/hpc/twod_driver.py
++++ b/tools/GHOST/ghost_backend/hpc/twod_driver.py
+@@ -44,6 +44,9 @@ verifies, so canceling and resubmitting is always safe.
+ Internal worker invocation (called by SLURM, not by the user):
+     python run_hpc_monostatic.py --worker <run_dir> <submission_index> <task_index>
+ """
++from ghost_backend.runs.driver_settings import DriverSettings
++from ghost_backend.runs.inputs import unit_attestation_fields
++from ghost_backend.runs.worker_pipeline import WorkerAdapter, run_twod_unit, record_memory_evidence
+ from ghost_backend.execution.paths import backend_root as _backend_root
+ from ghost_backend.execution.options import (
+     blas_thread_reservation,
+@@ -121,24 +124,21 @@ _PARAMETER_KEYS = (
+     'SUBMIT',
+     *DRIVER_CONTROL_DEFAULTS,
+ )
++_SETTINGS = DriverSettings()
+ _SCRIPT = None
+ 
+ 
+ def current_settings():
+-    """The run's parameters, as configure() received them."""
+-    return {key: globals()[key] for key in _PARAMETER_KEYS if key in globals()}
++    """Return an independent parameter dictionary for manifests and spawned workers."""
++    return _SETTINGS.snapshot()
+ 
+ 
+ def configure(settings, *, script):
+-    """Install the parameter-block values of the user-facing driver script."""
+-    global _SCRIPT
+-    # Older parameter scripts omit the advanced controls and keep defaults.
+-    settings = dict(DRIVER_CONTROL_DEFAULTS, **settings)
+-    missing = sorted(set(_PARAMETER_KEYS) - set(settings))
+-    if missing:
+-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
+-    globals().update({key: settings[key] for key in _PARAMETER_KEYS})
+-    _SCRIPT = str(Path(script).resolve())
++    """Capture a parameter block, keeping defaults for older advanced controls."""
++    global _SETTINGS, _SCRIPT
++    captured = DriverSettings.capture(settings, _PARAMETER_KEYS, DRIVER_CONTROL_DEFAULTS)
++    script_path = str(Path(script).resolve())
++    _SETTINGS, _SCRIPT = captured, script_path
+ 
+ 
+ # Internal scheduling constants.
+@@ -233,20 +233,7 @@ def _verify_run_provenance(context):
+ 
+ 
+ def _unit_attestation_fields(context, unit):
+-    # type: (Dict[str, Any], Dict[str, Any]) -> Dict[str, Any]
+-    return {
+-        "run_id": str(context["run_id"]),
+-        "solver_source_sha256": str(context["solver_source_sha256"]),
+-        "runtime_environment_sha256": str(context["runtime_environment_sha256"]),
+-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
+-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
+-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
+-        "solver_config_sha256": str(context["solver_config_sha256"]),
+-        "angular_grid_kind": "azimuths_deg",
+-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
+-        "polarizations": list(OUTPUT_POLARIZATIONS),
+-        "frequency_ghz": float(unit["frequency_ghz"]),
+-    }
++    return unit_attestation_fields(context, unit, 'azimuths_deg', OUTPUT_POLARIZATIONS)
+ 
+ 
+ def _verify_unit_input(unit, context):
+@@ -267,7 +254,7 @@ def _discover_geometries():
+     """Return every geometry file under FRD_DIR/OPN_DIR (deduplicated)."""
+     found = []   # type: List[Path]
+     seen = set()  # type: set
+-    for d in (FRD_DIR, OPN_DIR):
++    for d in (_SETTINGS.FRD_DIR, _SETTINGS.OPN_DIR):
+         root = Path(d)
+         if not root.is_dir():
+             print(f"  [warn] dir not found: {root}", file=sys.stderr)
+@@ -287,7 +274,7 @@ def _geometry_role(path):
+     """Return the configured FRD/OPN role for a discovered geometry."""
+ 
+     resolved = Path(path).resolve()
+-    for role, directory in (("FRD", FRD_DIR), ("OPN", OPN_DIR)):
++    for role, directory in (("FRD", _SETTINGS.FRD_DIR), ("OPN", _SETTINGS.OPN_DIR)):
+         try:
+             resolved.relative_to(Path(directory).resolve())
+             return role
+@@ -345,87 +332,16 @@ def _pool_initializer(blas_threads, settings=None, script=None):
+ @unit_execution
+ def _solve_and_export(unit, context, run_dir_str):
+     # type: (Dict[str, Any], Dict[str, Any], str) -> Tuple[str, str]
+-    """Pool-worker entry point: solve one unit, export .grim. Idempotent."""
+-
+-    run_dir = Path(run_dir_str)
+-    out_path = _unit_output_path(run_dir, unit)
+-    out_path.parent.mkdir(parents=True, exist_ok=True)
+-    _verify_run_provenance(context)
+-    _verify_unit_input(unit, context)
+-    attestation = _unit_attestation_fields(context, unit)
+-    if out_path.exists():
+-        verify_embedded_attestation(str(out_path), attestation)
+-        return ("skipped", str(out_path))
+-
+-    snapshot, material_base = _load_snapshot(str(unit["geometry"]))
+-
+-    solve_kwargs = dict(
+-        geometry_snapshot=snapshot,
+-        frequencies_ghz=[float(unit["frequency_ghz"])],
+-        elevations_deg=[float(a) for a in context["azimuths_deg"]],
+-        geometry_units=context["geometry_units"],
+-        material_base_dir=material_base,
+-        max_panels=context["max_panels"],
+-        solver_method=context.get("solver_method", "direct"),
+-    )
+-    # Select precision inside each worker; context variables are process-local.
+-    from ghost_backend.linalg.refined_lu import linear_precision
+-    from ghost_backend.twod.samples import compact_samples
+-    peak_reset = hpc_scheduler.reset_peak_rss()
+-    with compact_samples(), linear_precision(context.get("lu_precision", "double")):
+-        if context["mesh_certification"]:
+-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
+-            result = solve_monostatic_rcs_2d_certified(
+-                mesh_convergence_policy=context["mesh_convergence_policy"],
+-                **solve_kwargs
+-            )
+-        else:
+-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_survey
+-            result = solve_monostatic_rcs_2d_survey(**solve_kwargs)
+-    _verify_run_provenance(context)
+-    _verify_unit_input(unit, context)
+-    _record_memory_evidence(result, context, unit, peak_reset)
+-
+-    # Bind the result to its run state inside the artifact, before export, so
+-    # results/ holds one file per unit instead of a .grim and a sidecar.
+-    embed_output_attestation(result, attestation)
+-
+-    from ghost_backend.io.grim import export_result_to_grim
+-    written = export_result_to_grim(
+-        result, str(out_path),
+-        source_path=str(snapshot.get("source_path", "") or ""),
+-        history=(f"run_hpc_monostatic.py pols=VV,HH "
+-                 f"freq={unit['frequency_ghz']}GHz"),
+-    )
+-    actual_path = str(written[0]) if written else str(out_path)
+-    # The run state was verified before the solve and again before the
+-    # export; a third check after the artifact is published could only
+-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
+-    return ("written", actual_path)
++    """Run the shared 2D pipeline using this driver's paths and verifiers."""
++    adapter = WorkerAdapter(
++        _unit_output_path, _verify_run_provenance, _verify_unit_input,
++        _unit_attestation_fields, _load_snapshot, 'run_hpc_monostatic.py',
++        record_memory=_record_memory_evidence)
++    return run_twod_unit(unit, context, run_dir_str, adapter)
+ 
+ 
+ def _record_memory_evidence(result, context, unit, peak_reset):
+-    """Measured peak resident size of this worker against the planner's
+-    forecast, in the artifact metadata and the task log: the evidence for
+-    tightening the 1.35x / 0.85 memory factors on a given cluster."""
+-    measured = hpc_scheduler.peak_rss_gib()
+-    forecast = context.get("forecast_peak_gib")
+-    evidence = {
+-        "forecast_peak_gib": (float(forecast) if forecast is not None else None),
+-        "measured_peak_gib": measured,
+-        "scope": ("worker_process_since_unit_start" if peak_reset
+-                  else "worker_process_lifetime"),
+-        "note": "Compressed tile processes are children of the worker and are not "
+-                "included; the forecast covers the whole unit.",
+-    }
+-    metadata = result.setdefault("metadata", {})
+-    if isinstance(metadata, dict):
+-        metadata["execution_memory"] = evidence
+-    if measured is not None:
+-        ratio = ("" if not forecast else f", {measured / float(forecast):.2f} of forecast")
+-        print(f"      memory {_unit_name(unit)}: forecast "
+-              f"{(float(forecast) if forecast else 0.0):.2f} GiB, measured peak "
+-              f"{measured:.2f} GiB ({evidence['scope']}{ratio})", flush=True)
++    return record_memory_evidence(result, context, unit, peak_reset, _unit_name)
+ 
+ 
+ def _solve_and_export_star(args):
+@@ -478,7 +394,7 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
+ 
+     total = len(grouped)
+     records_total = sum(len(group["frequencies"]) * 2 for group in grouped.values())
+-    workers = hpc_scheduler.planning_worker_count(PLANNING_WORKERS, total)
++    workers = hpc_scheduler.planning_worker_count(_SETTINGS.PLANNING_WORKERS, total)
+     started = time.monotonic()
+     report_step = max(1, total // 20)
+     state = {"next_report": report_step, "last_report": started}
+@@ -508,7 +424,7 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
+     batches = hpc_scheduler.predict_2d_resources_for_geometries(
+         {geometry: list(group["frequencies"]) for geometry, group in grouped.items()},
+         ["TM", "TE"],
+-        GEOMETRY_UNITS,
++        _SETTINGS.GEOMETRY_UNITS,
+         _MAX_PANELS,
+         fine_factor=fine_factor,
+         n_angles=n_angles,
+@@ -578,13 +494,13 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
+ 
+ def _validate_config():
+     # type: () -> Tuple[List[float], List[float]]
+-    if ACCURACY_TARGET not in ("standard", "tight"):
++    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
+         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
+-    if type(MESH_CERTIFICATION) is not bool:
++    if type(_SETTINGS.MESH_CERTIFICATION) is not bool:
+         sys.exit("ERROR: MESH_CERTIFICATION must be True or False.")
+-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+-    if not AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
+-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
++    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
++    if not _SETTINGS.AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
++    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
+     if (
+         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
+         or len(set(frequencies)) != len(frequencies)
+@@ -594,19 +510,19 @@ def _validate_config():
+             "ERROR: frequencies must be finite, positive, unique, and "
+             "distinct at the 0.001 GHz output-name precision."
+         )
+-    azimuths = [float(value) for value in AZIMUTHS_DEG]
++    azimuths = [float(value) for value in _SETTINGS.AZIMUTHS_DEG]
+     if (
+         not all(math.isfinite(value) for value in azimuths)
+         or len(set(azimuths)) != len(azimuths)
+     ):
+         sys.exit("ERROR: AZIMUTHS_DEG must be finite and unique.")
+-    if str(GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
++    if str(_SETTINGS.GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
+         sys.exit("ERROR: GEOMETRY_UNITS must be 'inches' or 'meters'.")
+-    if int(N_NODES) < 1 or int(N_JOBS) < 1:
++    if int(_SETTINGS.N_NODES) < 1 or int(_SETTINGS.N_JOBS) < 1:
+         sys.exit("ERROR: N_NODES and N_JOBS must be >= 1.")
+-    if ARRAY_THROTTLE is not None and int(ARRAY_THROTTLE) < 1:
++    if _SETTINGS.ARRAY_THROTTLE is not None and int(_SETTINGS.ARRAY_THROTTLE) < 1:
+         sys.exit("ERROR: ARRAY_THROTTLE must be None or >= 1.")
+-    if MAX_SOLVE_GB is not None and float(MAX_SOLVE_GB) <= 0.0:
++    if _SETTINGS.MAX_SOLVE_GB is not None and float(_SETTINGS.MAX_SOLVE_GB) <= 0.0:
+         sys.exit("ERROR: MAX_SOLVE_GB must be positive or None.")
+     return frequencies, azimuths
+ 
+@@ -626,7 +542,7 @@ def submit():
+                  "would otherwise overwrite one another.")
+ 
+     run_id  = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
+-    run_dir = Path(OUTPUT_DIR).resolve() / run_id
++    run_dir = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
+     run_dir.mkdir(parents=True, exist_ok=False)
+     (run_dir / "logs").mkdir()
+     (run_dir / "results").mkdir()
+@@ -651,7 +567,7 @@ def submit():
+     units = []  # type: List[Dict[str, Any]]
+     from ghost_backend.assembly.fields import geometry_input_fingerprint
+     for original, geom in frozen_geometries:
+-        input_fingerprint = geometry_input_fingerprint(str(geom), GEOMETRY_UNITS)
++        input_fingerprint = geometry_input_fingerprint(str(geom), _SETTINGS.GEOMETRY_UNITS)
+         for f in frequencies:
+             # The angular grid is identical for every unit and is recorded
+             # once at manifest level.
+@@ -665,7 +581,7 @@ def submit():
+                 "frequency_ghz": float(f),
+             })
+ 
+-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
++    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
+     # Workers import their own immutable backend, including native kernels.
+     from ghost_backend.hpc.runtime_snapshot import snapshot_backend_runtime
+     source_driver = Path(_SCRIPT).resolve()
+@@ -678,15 +594,15 @@ def submit():
+         "schema":          MANIFEST_SCHEMA,
+         "run_id":          run_id,
+         "created":         datetime.now().isoformat(),
+-        "frd_dir":         str(Path(FRD_DIR).resolve()),
+-        "opn_dir":         str(Path(OPN_DIR).resolve()),
++        "frd_dir":         str(Path(_SETTINGS.FRD_DIR).resolve()),
++        "opn_dir":         str(Path(_SETTINGS.OPN_DIR).resolve()),
+         "output_dir":      str(run_dir),
+         "frequencies_ghz": frequencies,
+         "azimuths_deg":    azimuths,
+         "polarizations":   list(OUTPUT_POLARIZATIONS),
+-        "n_nodes":         int(N_NODES),
+-        "n_jobs":          int(N_JOBS),
+-        "n_slots":         int(N_NODES) * int(N_JOBS),
++        "n_nodes":         int(_SETTINGS.N_NODES),
++        "n_jobs":          int(_SETTINGS.N_JOBS),
++        "n_slots":         int(_SETTINGS.N_NODES) * int(_SETTINGS.N_JOBS),
+         "n_units":         len(units),
+         "solver_source_sha256": backend_source_fingerprint(frozen_backend, source_records),
+         # Per-file hashes behind that fingerprint, so a later mismatch can say
+@@ -696,18 +612,18 @@ def submit():
+         "runtime_environment_sha256": runtime_environment_fingerprint(),
+         "submission_runtime_environment": runtime_environment_payload(),
+         "solver_config": {
+-            "geometry_units":          GEOMETRY_UNITS,
++            "geometry_units":          _SETTINGS.GEOMETRY_UNITS,
+             "linear_solver":           "dense_lu",
+             "polarizations":           list(OUTPUT_POLARIZATIONS),
+             "max_panels":              _MAX_PANELS,
+             "blas_threads_per_worker": blas_thread_reservation(),
+-            "cores_per_node":          CORES_PER_NODE,
++            "cores_per_node":          _SETTINGS.CORES_PER_NODE,
+             "mesh_convergence_policy": mesh_policy,
+-            "accuracy_target":         ACCURACY_TARGET,
++            "accuracy_target":         _SETTINGS.ACCURACY_TARGET,
+             "lu_precision":            AUTOMATIC_LU_PRECISION,
+             "solver_method":           AUTOMATIC_SOLVER_METHOD,
+             "execution_options": current_options(),
+-            "mesh_certification": bool(MESH_CERTIFICATION),
++            "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
+         },
+         "units": units,
+     }
+@@ -716,48 +632,48 @@ def submit():
+     # The schedule lives beside the manifest rather than inside it: it says
+     # where work should run, not what is solved, and the manifest fingerprint
+     # that per-unit attestations bind to must cover only the latter.
+-    n_slots = int(N_NODES) * int(N_JOBS)
++    n_slots = int(_SETTINGS.N_NODES) * int(_SETTINGS.N_JOBS)
+     # fine_factor <= 1 tells the cost model there is only one mesh to solve.
+     schedule = _plan_schedule(
+         units, n_slots,
+-        float(mesh_policy["fine_factor"]) if MESH_CERTIFICATION else 1.0,
++        float(mesh_policy["fine_factor"]) if _SETTINGS.MESH_CERTIFICATION else 1.0,
+         len(azimuths),
+     )
+     (run_dir / "schedule.json").write_text(json.dumps(schedule, indent=2))
+ 
+     slurm_paths = []  # type: List[Path]
+-    for j in range(int(N_JOBS)):
++    for j in range(int(_SETTINGS.N_JOBS)):
+         sp = run_dir / f"submit_job{j}.slurm"
+         sp.write_text(hpc_scheduler.build_sbatch_script(
+             job_name=f"rcs_{run_dir.name}_j{j}",
+             run_dir=run_dir,
+             script_path=script_path,
+-            array_size=int(N_NODES),
+-            array_throttle=ARRAY_THROTTLE,
+-            partition=SLURM_PARTITION,
+-            cpus_per_node=CORES_PER_NODE,
+-            mem_per_node=MEM_PER_NODE,
+-            walltime=SLURM_TIME,
+-            account=SLURM_ACCOUNT,
+-            qos=SLURM_QOS,
+-            mail_type=SLURM_MAIL_TYPE,
+-            mail_user=SLURM_MAIL_USER,
+-            extra_sbatch=SLURM_EXTRA_SBATCH,
++            array_size=int(_SETTINGS.N_NODES),
++            array_throttle=_SETTINGS.ARRAY_THROTTLE,
++            partition=_SETTINGS.SLURM_PARTITION,
++            cpus_per_node=_SETTINGS.CORES_PER_NODE,
++            mem_per_node=_SETTINGS.MEM_PER_NODE,
++            walltime=_SETTINGS.SLURM_TIME,
++            account=_SETTINGS.SLURM_ACCOUNT,
++            qos=_SETTINGS.SLURM_QOS,
++            mail_type=_SETTINGS.SLURM_MAIL_TYPE,
++            mail_user=_SETTINGS.SLURM_MAIL_USER,
++            extra_sbatch=_SETTINGS.SLURM_EXTRA_SBATCH,
+             # Module setup cannot replace the run's frozen backend.
+             prologue=[
+-                *JOB_PROLOGUE,
++                *_SETTINGS.JOB_PROLOGUE,
+                 ("export PYTHONPATH="
+                  f"{shlex.quote(str(runtime_parent))}"
+                  ":${PYTHONPATH:-}"),
+             ],
+-            python_exe=PYTHON_EXE,
++            python_exe=_SETTINGS.PYTHON_EXE,
+             worker_args=(f"--worker {shlex.quote(str(run_dir))} {j} "
+                          "${SLURM_ARRAY_TASK_ID}"),
+             submission_index=j,
+             blas_threads=blas_thread_reservation(),
+             extra_env=(
+-                {"GHOST_MAX_SOLVE_GB": f"{float(MAX_SOLVE_GB):g}"}
+-                if MAX_SOLVE_GB else {}
++                {"GHOST_MAX_SOLVE_GB": f"{float(_SETTINGS.MAX_SOLVE_GB):g}"}
++                if _SETTINGS.MAX_SOLVE_GB else {}
+             ),
+         ))
+         sp.chmod(0o755)
+@@ -771,29 +687,29 @@ def submit():
+     print(f"  Run dir       : {run_dir}")
+     print(f"  Geometries    : {len(geometries)}")
+     print("  Polarizations : VV, HH (co-solved)")
+-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
+-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
+-    print(f"  Azimuths      : {len(AZIMUTHS_DEG)}")
++    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
++          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
++    print(f"  Azimuths      : {len(_SETTINGS.AZIMUTHS_DEG)}")
+     print(f"  Units total   : {len(units)}  (geometry x frequency)")
+-    print(f"  Run policy    : {run_control_summary(current_options(), MESH_CERTIFICATION)}")
+-    if MESH_STRATEGY == 'adaptive' and BASIS_ORDER != 1:
+-        print(f"  Order note    : requested P{BASIS_ORDER} is ignored; adaptive controls polynomial order.")
+-    print(f"  Slots         : {N_JOBS} job(s) x {N_NODES} node(s) "
++    print(f"  Run policy    : {run_control_summary(current_options(), _SETTINGS.MESH_CERTIFICATION)}")
++    if _SETTINGS.MESH_STRATEGY == 'adaptive' and _SETTINGS.BASIS_ORDER != 1:
++        print(f"  Order note    : requested P{_SETTINGS.BASIS_ORDER} is ignored; adaptive controls polynomial order.")
++    print(f"  Slots         : {_SETTINGS.N_JOBS} job(s) x {_SETTINGS.N_NODES} node(s) "
+           f"= {n_slots} parallel nodes")
+-    cores_str = str(CORES_PER_NODE) if CORES_PER_NODE is not None else "auto (--exclusive)"
+-    mem_str   = str(MEM_PER_NODE) if MEM_PER_NODE else "unlimited"
+-    time_str  = str(SLURM_TIME) if SLURM_TIME else "unlimited"
++    cores_str = str(_SETTINGS.CORES_PER_NODE) if _SETTINGS.CORES_PER_NODE is not None else "auto (--exclusive)"
++    mem_str   = str(_SETTINGS.MEM_PER_NODE) if _SETTINGS.MEM_PER_NODE else "unlimited"
++    time_str  = str(_SETTINGS.SLURM_TIME) if _SETTINGS.SLURM_TIME else "unlimited"
+     print(f"  Per node      : {cores_str} cores, {mem_str} RAM, "
+           f"{time_str} walltime")
+     if peaks:
+         print(f"  Unit peak RAM : {min(peaks):.2f}-{max(peaks):.2f} GB "
+               f"estimated (incl. {_MEMORY_SAFETY:g}x safety)")
+     hp_units = sum(int(r.get("fine_polynomial_degree", 1)) > 1 for r in schedule["units"])
+-    if MESH_CERTIFICATION and current_options()['mesh_strategy'] == 'adaptive':
++    if _SETTINGS.MESH_CERTIFICATION and current_options()['mesh_strategy'] == 'adaptive':
+         print(f"  Mesh path     : {hp_units} unit(s) on the hp pair (P2/P3, one coarsened "
+               f"mesh), {len(schedule['units']) - hp_units} on the linear pair "
+               f"(P1 and P1 x{float(mesh_policy['fine_factor']):g})")
+-    elif MESH_CERTIFICATION:
++    elif _SETTINGS.MESH_CERTIFICATION:
+         print(f"  Mesh path     : P{current_options()['basis_order']} base/fine meshes; "
+               f"requested density refinement x{float(mesh_policy['fine_factor']):g}")
+     else:
+@@ -801,10 +717,10 @@ def submit():
+               "uncertified (MESH_CERTIFICATION = False)")
+         import ghost_backend.twod.solver as _solver
+         ceiling = (
+-            float(MAX_SOLVE_GB) if MAX_SOLVE_GB
++            float(_SETTINGS.MAX_SOLVE_GB) if _SETTINGS.MAX_SOLVE_GB
+             else _solver._solve_memory_limit_gb()
+         )
+-        source = ("MAX_SOLVE_GB" if MAX_SOLVE_GB
++        source = ("MAX_SOLVE_GB" if _SETTINGS.MAX_SOLVE_GB
+                   else f"{(_solver._detect_available_gb() or 0):.0f} GiB detected here")
+         print(f"  Solve ceiling : {ceiling:.1f} GB per solve ({source})")
+         if max(peaks) > ceiling:
+@@ -819,13 +735,13 @@ def submit():
+     if idle:
+         print(f"                  {idle} of {n_slots} slot(s) have no planned "
+               "work -- fewer units than nodes, so those tasks exit at once")
+-    if not MESH_CERTIFICATION:
++    if not _SETTINGS.MESH_CERTIFICATION:
+         print("  Certification : Survey \u2014 mesh convergence not checked")
+         print("                  Downstream use remains enabled; the user owns the")
+         print("                  mesh-resolution decision.")
+     print(f"  Slurm scripts : {len(slurm_paths)} files in {run_dir}")
+ 
+-    if not SUBMIT:
++    if not _SETTINGS.SUBMIT:
+         print("\n  SUBMIT=False -- submit manually with:")
+         for sp in slurm_paths:
+             print(f"    sbatch {sp}")
+@@ -993,7 +909,7 @@ def worker(run_dir_str, submission_index, task_index):
+     blas_cap = hpc_scheduler.blas_thread_cap(cores)
+     memory_gb = hpc_scheduler.detect_memory_gb()
+     budget_gb = max(1.0, memory_gb * _MEMORY_HEADROOM)
+-    worker_cap = cores if MAX_WORKERS_PER_NODE is None else max(1, int(MAX_WORKERS_PER_NODE))
++    worker_cap = cores if _SETTINGS.MAX_WORKERS_PER_NODE is None else max(1, int(_SETTINGS.MAX_WORKERS_PER_NODE))
+     # Concurrency is sized from this task's OWN share, not from the whole
+     # sweep. Sizing it from the total let one task claim every unit before the
+     # others had started; it also left each solve with a sliver of the node
+@@ -1244,3 +1160,10 @@ def run(namespace, script):
+     """Entry point used by the user-facing run_hpc_*.py parameter script."""
+     configure(namespace, script=script)
+     main()
++
++
++def __getattr__(name):
++    """Keep reads of configured parameter attributes compatible with old callers."""
++    if name in _SETTINGS:
++        return _SETTINGS[name]
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/tools/GHOST/ghost_backend/runs/driver_settings.py b/tools/GHOST/ghost_backend/runs/driver_settings.py
+new file mode 100644
+index 0000000..593b905
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/runs/driver_settings.py
+@@ -0,0 +1,44 @@
++"""Explicit, copy-isolated settings for local and scheduler driver adapters."""
++from collections.abc import Mapping
++from copy import deepcopy
++
++
++class DriverSettings(Mapping):
++    """A pickleable snapshot; callers receive copies of mutable setting values.
++
++    Parameter scripts still pass dictionaries to configure(). Drivers keep one
++    snapshot per process and pass ordinary dictionaries to spawned workers.
++    """
++
++    def __init__(self, values=()):
++        self._values = deepcopy(dict(values))
++
++    def __getitem__(self, key):
++        return deepcopy(self._values[key])
++
++    def __getattr__(self, name):
++        if name.startswith('_'):
++            raise AttributeError(name)
++        try:
++            return self[name]
++        except KeyError:
++            raise AttributeError(name) from None
++
++    def __iter__(self):
++        return iter(self._values)
++
++    def __len__(self):
++        return len(self._values)
++
++    def snapshot(self):
++        return deepcopy(self._values)
++
++    @classmethod
++    def capture(cls, values, required_keys, defaults=()):
++        merged = dict(defaults)
++        merged.update(values)
++        values = merged
++        missing = sorted(set(required_keys) - set(values))
++        if missing:
++            raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
++        return cls({key: values[key] for key in required_keys})
+diff --git a/tools/GHOST/ghost_backend/runs/execution.py b/tools/GHOST/ghost_backend/runs/execution.py
+index 529c851..1612ac7 100644
+--- a/tools/GHOST/ghost_backend/runs/execution.py
++++ b/tools/GHOST/ghost_backend/runs/execution.py
+@@ -24,6 +24,11 @@ def driver_options(namespace):
+     return run_control_options(controls, budget)
+ 
+ 
++def _driver_settings(function):
++    capture = function.__globals__.get('current_settings')
++    return capture() if callable(capture) else function.__globals__
++
++
+ def driver_execution(function):
+     """Scope driver planning and worker management to a captured profile."""
+     @wraps(function)
+@@ -37,7 +42,7 @@ def driver_execution(function):
+                 profile = validate_for_run(config['execution_options'], config.get('solver_method', 'auto'),
+                                            config.get('lu_precision', 'double'))
+         if profile is None:
+-            profile = driver_options(function.__globals__)
++            profile = driver_options(_driver_settings(function))
+         with execution_scope(profile):
+             return function(*args, **kwargs)
+     return call
+@@ -47,7 +52,7 @@ def unit_execution(function):
+     """Apply manifest settings inside a fresh or reused pool worker."""
+     @wraps(function)
+     def call(unit, context, destination):
+-        profile = context.get('execution_options') or current_options() or driver_options(function.__globals__)
++        profile = context.get('execution_options') or current_options() or driver_options(_driver_settings(function))
+         from ghost_backend.execution.metrics import progress_listener
+         last = [0.0]
+         def progress(event):
+diff --git a/tools/GHOST/ghost_backend/runs/inputs.py b/tools/GHOST/ghost_backend/runs/inputs.py
+index dc975f1..8c18df8 100644
+--- a/tools/GHOST/ghost_backend/runs/inputs.py
++++ b/tools/GHOST/ghost_backend/runs/inputs.py
+@@ -1,4 +1,7 @@
+ """Shared driver input checks, geometry loading, and durable submission journals."""
++from ghost_backend.execution.provenance import (
++    describe_source_mismatch, verify_runtime_environment, unit_solve_spec_fingerprint,
++)
+ 
+ import json
+ import os
+@@ -65,3 +68,52 @@ def load_geometry_snapshot(geometry_path: 'str', cache: 'Dict[str, Any]') -> 'Tu
+     entry = (snapshot, str(path.parent))
+     cache[geometry_path] = entry
+     return entry
++
++
++def verify_local_run_provenance(context, source_fingerprint, source_inventory):
++    """Re-check that the solver source and numerical runtime still match the run.
++
++    Called around every unit. The file hashes underneath come from
++    `hpc_scheduler.install_fingerprint_cache`, so a repeat check is a stat per
++    backend file rather than a full re-read, and the cache expires on a timer
++    so full re-reads keep happening inside long-lived workers.
++    """
++
++    if source_fingerprint() != context.get("solver_source_sha256"):
++        detail = describe_source_mismatch(
++            context.get("solver_source_inventory") or {},
++            source_inventory(),
++        )
++        raise RuntimeError(
++            "Local-run solver source/native artifacts changed; no mixed-state "
++            f"field will be written or reused. ({detail})"
++        )
++    verify_runtime_environment(
++        str(context.get("runtime_environment_sha256", "")),
++        context.get("submission_runtime_environment"), origin="the local run manifest",
++    )
++
++
++def unit_attestation_fields(context, unit, angular_grid_kind, polarizations=None):
++    """Bind a normalized local/2D context to one published unit."""
++    fields = {
++        "run_id": str(context["run_id"]),
++        "solver_source_sha256": str(context["solver_source_sha256"]),
++        "runtime_environment_sha256":
++            str(context["runtime_environment_sha256"]),
++        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
++        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
++        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
++        "solver_config_sha256": str(context["solver_config_sha256"]),
++        "angular_grid_kind": angular_grid_kind,
++        # The grid is a run-level property, so it is bound by hash here and
++        # stored once in the manifest instead of being repeated in every unit
++        # record and every attestation.
++        "angular_grid_sha256": str(context["angular_grid_sha256"]),
++        "frequency_ghz": float(unit["frequency_ghz"]),
++    }
++    if polarizations is None:
++        fields["polarization"] = str(unit["polarization"])
++    else:
++        fields["polarizations"] = list(polarizations)
++    return fields
+diff --git a/tools/GHOST/ghost_backend/runs/local_bor_driver.py b/tools/GHOST/ghost_backend/runs/local_bor_driver.py
+index f428b17..96f8a41 100644
+--- a/tools/GHOST/ghost_backend/runs/local_bor_driver.py
++++ b/tools/GHOST/ghost_backend/runs/local_bor_driver.py
+@@ -27,6 +27,11 @@ Edit the CONFIG block and run:
+ 
+     python run_local_bor.py
+ """
++from ghost_backend.runs.driver_settings import DriverSettings
++from ghost_backend.runs.inputs import unit_attestation_fields, verify_local_run_provenance
++from ghost_backend.runs.worker_pipeline import (
++    WorkerAdapter, run_bor_pair, solve_bor_result, channel_result as _channel_result,
++)
+ from ghost_backend.execution.paths import backend_root as _backend_root
+ 
+ import json
+@@ -68,7 +73,7 @@ from ghost_backend.runs.config import (
+     configuration_source_records,
+ )
+ from ghost_backend.bor.options import validate_options as validate_bor_options
+-BOR_EXECUTION_OPTIONS = validate_bor_options({})
++_SETTINGS = DriverSettings({"BOR_EXECUTION_OPTIONS": validate_bor_options({})})
+ 
+ _CONFIG_KIND = 'bor'
+ _CONFIG_KEYS = (
+@@ -102,29 +107,23 @@ _SCRIPT = None
+ 
+ 
+ def current_settings():
+-    """The run's parameters, as configure() received them."""
+-    return {key: globals()[key] for key in _CONFIG_KEYS if key in globals()}
++    """Return an independent parameter dictionary for manifests and spawned workers."""
++    return _SETTINGS.snapshot()
+ 
+ 
+ def configure(settings, *, script, configuration=None, load_config_file=False):
+-    """Install the parameter-block values of the user-facing driver script.
+-
+-    With ``load_config_file`` an explicit ``--config`` or the script's
+-    adjacent ``.config.json`` is applied on top, exactly as before.
+-    """
+-    global _ACTIVE_CONFIG_PATH, _SCRIPT, BOR_EXECUTION_OPTIONS
+-    namespace = {key: value for key, value in dict(settings).items() if key in _CONFIG_KEYS}
+-    namespace.setdefault("BOR_EXECUTION_OPTIONS", BOR_EXECUTION_OPTIONS)
+-    missing = sorted(set(_CONFIG_KEYS) - set(namespace))
+-    if missing:
+-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
++    """Capture the parameter block and optional JSON overrides for this process."""
++    global _SETTINGS, _ACTIVE_CONFIG_PATH, _SCRIPT
++    candidate = DriverSettings.capture(
++        settings, _CONFIG_KEYS,
++        {"BOR_EXECUTION_OPTIONS": _SETTINGS.BOR_EXECUTION_OPTIONS}).snapshot()
+     if load_config_file:
+-        namespace["__name__"] = "__main__"
+-        configuration = load_driver_configuration(namespace, script, _CONFIG_KIND, _CONFIG_KEYS)
+-    globals().update({key: namespace[key] for key in _CONFIG_KEYS})
+-    BOR_EXECUTION_OPTIONS = validate_bor_options(BOR_EXECUTION_OPTIONS)
+-    _SCRIPT = str(Path(script).resolve())
+-    _ACTIVE_CONFIG_PATH = configuration
++        candidate["__name__"] = "__main__"
++        configuration = load_driver_configuration(candidate, script, _CONFIG_KIND, _CONFIG_KEYS)
++    candidate["BOR_EXECUTION_OPTIONS"] = validate_bor_options(candidate["BOR_EXECUTION_OPTIONS"])
++    captured = DriverSettings.capture(candidate, _CONFIG_KEYS)
++    script_path = str(Path(script).resolve())
++    _SETTINGS, _SCRIPT, _ACTIVE_CONFIG_PATH = captured, script_path, configuration
+ 
+ 
+ MANIFEST_SCHEMA = "ghost.local.bor-run.v2"
+@@ -160,57 +159,18 @@ def _write_json_atomic(path: 'Path', payload: 'Dict[str, Any]') -> 'None':
+     os.replace(str(temporary), str(path))
+ 
+ 
+-def _verify_run_provenance(context: 'Dict[str, Any]') -> 'None':
+-    """Re-check that the solver source and numerical runtime still match the run.
++def _verify_run_provenance(context):
++    return verify_local_run_provenance(context, _solver_source_fingerprint, _solver_source_inventory)
+ 
+-    The file hashes underneath come from `hpc_scheduler.install_fingerprint_cache`,
+-    so a repeat check is a stat per backend file rather than a full re-read, and
+-    the cache expires on a timer so full re-reads keep happening inside
+-    long-lived workers.
+-    """
+ 
+-    if _solver_source_fingerprint() != context.get("solver_source_sha256"):
+-        detail = describe_source_mismatch(
+-            context.get("solver_source_inventory") or {},
+-            _solver_source_inventory(),
+-        )
+-        raise RuntimeError(
+-            "Local-run solver source/native artifacts changed; no mixed-state "
+-            f"field will be written or reused. ({detail})"
+-        )
+-    verify_runtime_environment(
+-        str(context.get("runtime_environment_sha256", "")),
+-        context.get("submission_runtime_environment"), origin="the local run manifest",
+-    )
+-
+-
+-def _unit_attestation_fields(
+-    context: 'Dict[str, Any]',
+-    unit: 'Dict[str, Any]',
+-) -> 'Dict[str, Any]':
+-    return {
+-        "run_id": str(context["run_id"]),
+-        "solver_source_sha256": str(context["solver_source_sha256"]),
+-        "runtime_environment_sha256":
+-            str(context["runtime_environment_sha256"]),
+-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
+-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
+-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
+-        "solver_config_sha256": str(context["solver_config_sha256"]),
+-        "angular_grid_kind": "aspects_deg",
+-        # The grid is a run-level property, so it is bound by hash here and
+-        # stored once in the manifest instead of being repeated in every unit
+-        # record and every attestation.
+-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
+-        "polarization": str(unit["polarization"]),
+-        "frequency_ghz": float(unit["frequency_ghz"]),
+-    }
++def _unit_attestation_fields(context, unit):
++    return unit_attestation_fields(context, unit, 'aspects_deg', None)
+ 
+ 
+ def _discover_geometries() -> 'List[Path]':
+     found: 'List[Path]' = []
+     seen: 'set' = set()
+-    for d in GEOMETRY_DIRS:
++    for d in _SETTINGS.GEOMETRY_DIRS:
+         root = Path(d)
+         if not root.is_dir():
+             print(f"  [warn] dir not found: {root}", file=sys.stderr)
+@@ -264,23 +224,7 @@ def _pair_name(pair: 'Dict[str, Any]') -> 'str':
+             f"{pair['geometry_stem']}")
+ 
+ 
+-def _channel_result(
+-    result: 'Dict[str, Any]', polarization: 'str'
+-) -> 'Dict[str, Any]':
+-    samples = (result.get("co_solved_samples", {}) or {}).get(polarization, [])
+-    if not samples:
+-        raise RuntimeError(
+-            f"BoR solve did not return its co-solved {polarization} channel."
+-        )
+-    channel = dict(result)
+-    channel["samples"] = samples
+-    channel["polarization"] = polarization
+-    channel["polarization_export"] = polarization
+-    channel.pop("polarizations", None)
+-    channel.pop("polarization_mapping", None)
+-    channel.pop("co_solved_samples", None)
+-    channel["metadata"] = dict(result.get("metadata", {}) or {})
+-    return channel
++
+ 
+ 
+ def _load_snapshot(geometry_path: 'str') -> 'Tuple[Dict[str, Any], str]':
+@@ -303,86 +247,34 @@ def _pool_initializer(blas_threads: 'int', settings=None, script=None, configura
+ from ghost_backend.hpc.common import ExecutorPool as _ExecutorPool
+ 
+ 
+-def _solve_and_export(
+-    pair: 'Dict[str, Any]',
+-    context: 'Dict[str, Any]',
+-    results_dir_str: 'str',
+-) -> 'Tuple[str, str]':
+-    """Solve one geometry/frequency pair and export its requested channels."""
+-
+-    results_dir = Path(results_dir_str)
+-    channel_units = list(pair["channel_units"])
+-    _verify_run_provenance(context)
+-    _verify_channel_inputs(channel_units, context)
+-    missing = []
+-    paths = []
+-    for unit in channel_units:
+-        out_path = _unit_output_path(results_dir, unit)
+-        paths.append(out_path)
+-        if out_path.exists():
+-            verify_embedded_attestation(
+-                str(out_path), _unit_attestation_fields(context, unit)
+-            )
+-        else:
+-            missing.append(unit)
+-    if not missing:
+-        return ("skipped", ", ".join(str(path) for path in paths))
+-
+-    snapshot, material_base = _load_snapshot(str(pair["geometry"]))
+-
+-    from ghost_backend.bor.dispatch import (
+-        solve_monostatic_rcs_bor_certified,
+-        solve_monostatic_rcs_bor_survey,
+-    )
+-    solve = (solve_monostatic_rcs_bor_certified if context["mesh_certification"]
+-             else solve_monostatic_rcs_bor_survey)
+-    from ghost_backend.twod.samples import compact_samples
+-    solve = compact_samples()(solve)
+-    quality_kwargs = ({"mesh_convergence_policy": validate_mesh_convergence_policy(
+-        context.get("mesh_convergence_policy")
+-    )} if context["mesh_certification"] else {})
+-    result = solve(
+-        geometry_snapshot=snapshot,
+-        frequencies_ghz=[float(pair["frequency_ghz"])],
+-        elevations_deg=[float(a) for a in context["aspects_deg"]],
+-        geometry_units=context["geometry_units"],
+-        material_base_dir=material_base,
+-        cfie_alpha=context["cfie_alpha"],
+-        n_modes=context["n_modes"],
+-        mode_tol=context["mode_tol"],
+-        max_elements=context["max_elements"],
+-        workers=context["workers_per_unit"],
+-        table_precision=context["table_precision"],
+-        assembly=context["assembly"],
+-        stream_budget_gb=context["stream_budget_gb"],
+-        bor_options=context.get("bor_execution_options", {}),
+-        expand_to_360=context["expand_to_360"],
+-        **quality_kwargs,
+-    )
+-    for warning in result.get("metadata", {}).get("warnings", []) or []:
+-        print(f"      [warn] {pair['geometry_stem']}: {warning}", flush=True)
+-    _verify_run_provenance(context)
+-    _verify_channel_inputs(channel_units, context)
+-
+-    from ghost_backend.io.grim import export_result_to_grim
+-    actual_paths = []
+-    for unit in missing:
+-        out_path = _unit_output_path(results_dir, unit)
+-        channel_result = _channel_result(result, str(unit["polarization"]))
+-        embed_output_attestation(
+-            channel_result, _unit_attestation_fields(context, unit)
+-        )
+-        written = export_result_to_grim(
+-            channel_result, str(out_path),
+-            source_path=str(snapshot.get("source_path", "") or ""),
+-            history=(f"run_local_bor.py pol={unit['polarization']} "
+-                     f"freq={unit['frequency_ghz']}GHz"),
++def _solve_and_export(pair, context, results_dir_str):
++    """Run the shared BoR pipeline with local input deduplication and paths."""
++    def solve(snapshot, material_base):
++        solve_kwargs = dict(
++            geometry_snapshot=snapshot,
++            frequencies_ghz=[float(pair["frequency_ghz"])],
++            elevations_deg=[float(a) for a in context["aspects_deg"]],
++            geometry_units=context["geometry_units"],
++            material_base_dir=material_base,
++            cfie_alpha=context["cfie_alpha"],
++            n_modes=context["n_modes"],
++            mode_tol=context["mode_tol"],
++            max_elements=context["max_elements"],
++            workers=context["workers_per_unit"],
++            table_precision=context["table_precision"],
++            assembly=context["assembly"],
++            stream_budget_gb=context["stream_budget_gb"],
++            bor_options=context.get("bor_execution_options", {}),
++            expand_to_360=context["expand_to_360"],
+         )
+-        actual_paths.append(str(written[0]) if written else str(out_path))
+-    # The run state was verified before the solve and again before the
+-    # export; a third check after the artifact is published could only
+-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
+-    return ("written", ", ".join(actual_paths))
++        return solve_bor_result(solve_kwargs, context["mesh_certification"],
++                                context.get("mesh_convergence_policy"))
++
++    adapter = WorkerAdapter(
++        _unit_output_path, _verify_run_provenance, _verify_unit_input,
++        _unit_attestation_fields, _load_snapshot, "run_local_bor.py",
++        verify_channels=_verify_channel_inputs)
++    return run_bor_pair(pair, context, results_dir_str, adapter, solve)
+ 
+ 
+ def _verify_channel_inputs(channel_units, context):
+@@ -490,7 +382,7 @@ def _plan(
+         path = str(unit["geometry"])
+         if path not in extents:
+             extents[path] = hpc_scheduler.predict_bor_extent(
+-                path, GEOMETRY_UNITS
++                path, _SETTINGS.GEOMETRY_UNITS
+             )
+         arc, radius = extents[path]
+         costs[_pair_name(unit)] = hpc_scheduler.bor_unit_cost(
+@@ -498,43 +390,43 @@ def _plan(
+         )
+         snapshot, material_base = _load_snapshot(path)
+         if path not in checked_profiles:
+-            bor_output_profile(snapshot, GEOMETRY_UNITS)
++            bor_output_profile(snapshot, _SETTINGS.GEOMETRY_UNITS)
+             checked_profiles.add(path)
+         unit["resource_estimate"] = estimate_bor_resources(
+             snapshot,
+             float(unit["frequency_ghz"]),
+             aspects_deg,
+-            geometry_units=GEOMETRY_UNITS,
++            geometry_units=_SETTINGS.GEOMETRY_UNITS,
+             material_base_dir=material_base,
+-            n_modes=N_MODES,
+-            max_elements=MAX_ELEMENTS,
+-            workers=WORKERS_PER_UNIT,
+-            table_precision=TABLE_PRECISION,
+-            assembly=ASSEMBLY,
+-            stream_budget_gb=STREAM_BUDGET_GB,
+-            bor_options=BOR_EXECUTION_OPTIONS,
+-            mesh_certification=bool(MESH_CERTIFICATION),
+-            fine_factor=float(accuracy_target_policy(ACCURACY_TARGET)["fine_factor"]),
++            n_modes=_SETTINGS.N_MODES,
++            max_elements=_SETTINGS.MAX_ELEMENTS,
++            workers=_SETTINGS.WORKERS_PER_UNIT,
++            table_precision=_SETTINGS.TABLE_PRECISION,
++            assembly=_SETTINGS.ASSEMBLY,
++            stream_budget_gb=_SETTINGS.STREAM_BUDGET_GB,
++            bor_options=_SETTINGS.BOR_EXECUTION_OPTIONS,
++            mesh_certification=bool(_SETTINGS.MESH_CERTIFICATION),
++            fine_factor=float(accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)["fine_factor"]),
+         )
+     return costs
+ 
+ 
+ def _validate_config() -> 'List[float]':
+-    if ACCURACY_TARGET not in ("standard", "tight"):
++    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
+         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
+-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
++    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+     try:
+         from ghost_backend.assembly.fields import radar_grid_aspects, validate_radar_grid
+-        validate_radar_grid(AZIMUTHS_DEG, ELEVATIONS_DEG)
++        validate_radar_grid(_SETTINGS.AZIMUTHS_DEG, _SETTINGS.ELEVATIONS_DEG)
+         aspects = radar_grid_aspects(
+-            AZIMUTHS_DEG,
+-            ELEVATIONS_DEG,
+-            BODY_AXIS_AZ_DEG,
+-            BODY_AXIS_EL_DEG,
++            _SETTINGS.AZIMUTHS_DEG,
++            _SETTINGS.ELEVATIONS_DEG,
++            _SETTINGS.BODY_AXIS_AZ_DEG,
++            _SETTINGS.BODY_AXIS_EL_DEG,
+         )
+     except ValueError as exc:
+         sys.exit(f"ERROR: radar grid is invalid -- {exc}")
+-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
++    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
+     if (
+         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
+         or len(set(frequencies)) != len(frequencies)
+@@ -545,29 +437,29 @@ def _validate_config() -> 'List[float]':
+             "distinct at the 0.001 GHz output-name precision."
+         )
+     if not all(math.isfinite(float(value)) for value in (
+-        BODY_AXIS_AZ_DEG, BODY_AXIS_EL_DEG, BODY_ROLL_DEG
++        _SETTINGS.BODY_AXIS_AZ_DEG, _SETTINGS.BODY_AXIS_EL_DEG, _SETTINGS.BODY_ROLL_DEG
+     )):
+         sys.exit("ERROR: body-axis attitude angles must be finite.")
+-    if str(ASSEMBLY).strip().lower() not in {"auto", "tables", "streaming"}:
++    if str(_SETTINGS.ASSEMBLY).strip().lower() not in {"auto", "tables", "streaming"}:
+         sys.exit("ERROR: ASSEMBLY must be auto, tables, or streaming.")
+-    if str(TABLE_PRECISION).strip().lower() not in {"auto", "single", "double"}:
++    if str(_SETTINGS.TABLE_PRECISION).strip().lower() not in {"auto", "single", "double"}:
+         sys.exit("ERROR: TABLE_PRECISION must be auto, single, or double.")
+     if (
+-        not math.isfinite(float(CFIE_ALPHA))
+-        or not 0.0 < float(CFIE_ALPHA) < 1.0
++        not math.isfinite(float(_SETTINGS.CFIE_ALPHA))
++        or not 0.0 < float(_SETTINGS.CFIE_ALPHA) < 1.0
+     ):
+         sys.exit(
+             "ERROR: CFIE_ALPHA must be finite and lie strictly between 0 and 1."
+         )
+-    if float(STREAM_BUDGET_GB) <= 0.0:
++    if float(_SETTINGS.STREAM_BUDGET_GB) <= 0.0:
+         sys.exit("ERROR: STREAM_BUDGET_GB must be positive.")
+-    if not 0.0 < float(MEMORY_HEADROOM) <= 1.0:
++    if not 0.0 < float(_SETTINGS.MEMORY_HEADROOM) <= 1.0:
+         sys.exit("ERROR: MEMORY_HEADROOM must be in (0, 1].")
+-    if int(WORKERS_PER_UNIT) < 1:
++    if int(_SETTINGS.WORKERS_PER_UNIT) < 1:
+         sys.exit("ERROR: WORKERS_PER_UNIT must be >= 1.")
+-    if int(TASKS_PER_CHILD) < 1:
++    if int(_SETTINGS.TASKS_PER_CHILD) < 1:
+         sys.exit("ERROR: TASKS_PER_CHILD must be >= 1.")
+-    if WORKERS is not None and int(WORKERS) < 1:
++    if _SETTINGS.WORKERS is not None and int(_SETTINGS.WORKERS) < 1:
+         sys.exit("ERROR: WORKERS must be a positive integer or None.")
+     return [float(value) for value in aspects]
+ 
+@@ -600,9 +492,9 @@ def _freeze_runtime(run_dir):
+ 
+ def main() -> 'None':
+     aspects = _validate_config()
+-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
++    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
+     pols = ["VV", "HH"]
+-    hpc_scheduler.pin_blas_threads(int(BLAS_THREADS_PER_WORKER))
++    hpc_scheduler.pin_blas_threads(int(_SETTINGS.BLAS_THREADS_PER_WORKER))
+     hpc_scheduler.install_fingerprint_cache()
+     # Spill left by a killed earlier solve would otherwise shrink the space
+     # the previews below see (and keep tens of GB of disk occupied).
+@@ -622,10 +514,10 @@ def main() -> 'None':
+     from ghost_backend.assembly.fields import geometry_input_fingerprint
+     for geom in geometries:
+         input_fingerprint = geometry_input_fingerprint(
+-            str(geom), GEOMETRY_UNITS
++            str(geom), _SETTINGS.GEOMETRY_UNITS
+         )
+         for pol in pols:
+-            for f in FREQUENCIES_GHZ:
++            for f in _SETTINGS.FREQUENCIES_GHZ:
+                 # The aspect grid is deliberately NOT repeated per unit: it is
+                 # identical for every unit in the run, and carrying it here made
+                 # the manifest grow with (units x aspects) instead of with the
+@@ -640,7 +532,7 @@ def main() -> 'None':
+                 })
+ 
+     run_id = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
+-    run_dir = Path(OUTPUT_DIR).resolve() / run_id
++    run_dir = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
+     results_dir = run_dir / "results"
+     unit_dir = results_dir / "by_frequency"
+     run_dir.mkdir(parents=True, exist_ok=False)
+@@ -648,21 +540,21 @@ def main() -> 'None':
+     _freeze_runtime(run_dir)
+     unit_dir.mkdir()
+     solver_config = {
+-        "geometry_units": GEOMETRY_UNITS,
+-        "cfie_alpha": float(CFIE_ALPHA),
+-        "n_modes": N_MODES,
+-        "mode_tol": float(MODE_TOL),
+-        "max_elements": int(MAX_ELEMENTS),
+-        "assembly": ASSEMBLY,
+-        "table_precision": TABLE_PRECISION,
+-        "stream_budget_gb": float(STREAM_BUDGET_GB),
+-        "bor_execution_options": dict(BOR_EXECUTION_OPTIONS),
++        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
++        "cfie_alpha": float(_SETTINGS.CFIE_ALPHA),
++        "n_modes": _SETTINGS.N_MODES,
++        "mode_tol": float(_SETTINGS.MODE_TOL),
++        "max_elements": int(_SETTINGS.MAX_ELEMENTS),
++        "assembly": _SETTINGS.ASSEMBLY,
++        "table_precision": _SETTINGS.TABLE_PRECISION,
++        "stream_budget_gb": float(_SETTINGS.STREAM_BUDGET_GB),
++        "bor_execution_options": dict(_SETTINGS.BOR_EXECUTION_OPTIONS),
+         "expand_to_360": False,
+-        "mesh_certification": bool(MESH_CERTIFICATION),
+-        "accuracy_target": ACCURACY_TARGET,
++        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
++        "accuracy_target": _SETTINGS.ACCURACY_TARGET,
+         "mesh_convergence_policy": mesh_policy,
+-        "workers_per_unit": int(WORKERS_PER_UNIT),
+-        "blas_threads_per_worker": int(BLAS_THREADS_PER_WORKER),
++        "workers_per_unit": int(_SETTINGS.WORKERS_PER_UNIT),
++        "blas_threads_per_worker": int(_SETTINGS.BLAS_THREADS_PER_WORKER),
+     }
+     manifest: 'Dict[str, Any]' = {
+         "schema": MANIFEST_SCHEMA,
+@@ -670,16 +562,16 @@ def main() -> 'None':
+         "run_id": run_id,
+         "created": datetime.now().isoformat(),
+         "solver": "bor_mom_rcs",
+-        "frequencies_ghz": [float(f) for f in FREQUENCIES_GHZ],
++        "frequencies_ghz": [float(f) for f in _SETTINGS.FREQUENCIES_GHZ],
+         "aspects_deg": aspects,
+         "polarizations": pols,
+         "unit_output_dir": "results/by_frequency",
+         "radar_grid": {
+-            "azimuths_deg": [float(value) for value in AZIMUTHS_DEG],
+-            "elevations_deg": [float(value) for value in ELEVATIONS_DEG],
+-            "axis_az_deg": float(BODY_AXIS_AZ_DEG),
+-            "axis_el_deg": float(BODY_AXIS_EL_DEG),
+-            "roll_deg": float(BODY_ROLL_DEG),
++            "azimuths_deg": [float(value) for value in _SETTINGS.AZIMUTHS_DEG],
++            "elevations_deg": [float(value) for value in _SETTINGS.ELEVATIONS_DEG],
++            "axis_az_deg": float(_SETTINGS.BODY_AXIS_AZ_DEG),
++            "axis_el_deg": float(_SETTINGS.BODY_AXIS_EL_DEG),
++            "roll_deg": float(_SETTINGS.BODY_ROLL_DEG),
+         },
+         "n_units": len(units),
+         "solver_source_sha256": _solver_source_fingerprint(),
+@@ -704,19 +596,19 @@ def main() -> 'None':
+         "submission_runtime_environment": manifest.get("submission_runtime_environment"),
+         "run_solve_spec_sha256": manifest_solve_spec_fingerprint(manifest),
+         "solver_config_sha256": stable_json_fingerprint(solver_config),
+-        "geometry_units": GEOMETRY_UNITS,
+-        "cfie_alpha": float(CFIE_ALPHA),
+-        "n_modes": N_MODES,
+-        "mode_tol": float(MODE_TOL),
+-        "max_elements": int(MAX_ELEMENTS),
+-        "assembly": ASSEMBLY,
+-        "table_precision": TABLE_PRECISION,
+-        "stream_budget_gb": float(STREAM_BUDGET_GB),
+-        "bor_execution_options": dict(BOR_EXECUTION_OPTIONS),
++        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
++        "cfie_alpha": float(_SETTINGS.CFIE_ALPHA),
++        "n_modes": _SETTINGS.N_MODES,
++        "mode_tol": float(_SETTINGS.MODE_TOL),
++        "max_elements": int(_SETTINGS.MAX_ELEMENTS),
++        "assembly": _SETTINGS.ASSEMBLY,
++        "table_precision": _SETTINGS.TABLE_PRECISION,
++        "stream_budget_gb": float(_SETTINGS.STREAM_BUDGET_GB),
++        "bor_execution_options": dict(_SETTINGS.BOR_EXECUTION_OPTIONS),
+         "expand_to_360": False,
+-        "mesh_certification": bool(MESH_CERTIFICATION),
++        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
+         "mesh_convergence_policy": mesh_policy,
+-        "workers_per_unit": int(WORKERS_PER_UNIT),
++        "workers_per_unit": int(_SETTINGS.WORKERS_PER_UNIT),
+         "aspects_deg": aspects,
+         "angular_grid_sha256": stable_json_fingerprint(
+             aspects
+@@ -742,10 +634,10 @@ def main() -> 'None':
+     # sizing itself to the whole host.
+     cores = hpc_scheduler.detect_cores()
+     budget_gb, memory_gb, available_gb = hpc_scheduler.local_memory_budget_gb(
+-        float(MEMORY_HEADROOM)
++        float(_SETTINGS.MEMORY_HEADROOM)
+     )
+-    by_threads = max(1, cores // max(1, int(WORKERS_PER_UNIT)))
+-    worker_cap = by_threads if WORKERS is None else int(WORKERS)
++    by_threads = max(1, cores // max(1, int(_SETTINGS.WORKERS_PER_UNIT)))
++    worker_cap = by_threads if _SETTINGS.WORKERS is None else int(_SETTINGS.WORKERS)
+     pool_size = max(1, min(by_threads, worker_cap, len(ordered)))
+     # The planner prices decimal GB; the scheduler budgets GiB.
+     reservations_gib = {
+@@ -777,20 +669,20 @@ def main() -> 'None':
+     print(f"  Run dir       : {run_dir}")
+     print(f"  Geometries    : {len(geometries)}")
+     print(f"  Polarizations : {', '.join(pols)}")
+-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
+-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
+-    print(f"  Radar grid    : {len(AZIMUTHS_DEG)} az x "
+-          f"{len(ELEVATIONS_DEG)} el")
++    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
++          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
++    print(f"  Radar grid    : {len(_SETTINGS.AZIMUTHS_DEG)} az x "
++          f"{len(_SETTINGS.ELEVATIONS_DEG)} el")
+     print(f"  Solver aspects: {len(aspects)} exact body-aspect RHS columns")
+     print(f"  Deliverables  : {len(geometries)} monostatic GRIM(s)")
+     print(f"  Physical solves: {len(ordered)}  (VV/HH co-solved)")
+-    print(f"  Mesh check    : {'base + fine comparison' if MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
++    print(f"  Mesh check    : {'base + fine comparison' if _SETTINGS.MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
+     cpu_counts = sorted(set(unit_cpus.values()))
+     cpu_label = (str(cpu_counts[0]) if len(cpu_counts) == 1
+                  else f"{cpu_counts[0]}-{cpu_counts[-1]}")
+-    print(f"  Workers       : {pool_size} procs x {WORKERS_PER_UNIT} threads "
++    print(f"  Workers       : {pool_size} procs x {_SETTINGS.WORKERS_PER_UNIT} threads "
+           f"of {cores} cpus; {cpu_label} cpus reserved per solve  "
+-          f"(BLAS threads/worker: {BLAS_THREADS_PER_WORKER})")
++          f"(BLAS threads/worker: {_SETTINGS.BLAS_THREADS_PER_WORKER})")
+     reservations = list(reservations_gib.values())
+     available_text = (f", {available_gb:.1f} GiB available"
+                       if available_gb is not None else "")
+@@ -851,8 +743,8 @@ def main() -> 'None':
+         with _ExecutorPool(
+             processes=pool_size,
+             initializer=_pool_initializer,
+-            initargs=(int(BLAS_THREADS_PER_WORKER), current_settings(), _SCRIPT, _ACTIVE_CONFIG_PATH),
+-            max_tasks_per_child=int(TASKS_PER_CHILD),
++            initargs=(int(_SETTINGS.BLAS_THREADS_PER_WORKER), current_settings(), _SCRIPT, _ACTIVE_CONFIG_PATH),
++            max_tasks_per_child=int(_SETTINGS.TASKS_PER_CHILD),
+         ) as pool:
+             dispatcher = hpc_scheduler.MemoryAwareDispatcher(
+                 pool, budget_gb=budget_gb, max_concurrent=pool_size,
+@@ -902,16 +794,16 @@ def main() -> 'None':
+             records, stem=stem
+         )
+         snapshot, _material_base = _load_snapshot(str(matching[0]["geometry"]))
+-        profile = bor_output_profile(snapshot, GEOMETRY_UNITS)
++        profile = bor_output_profile(snapshot, _SETTINGS.GEOMETRY_UNITS)
+         save_monostatic_grim(
+             bodies_from_units(records, stem=stem),
+             profile,
+             str(results_dir / f"{stem}.grim"),
+-            azimuths_deg=AZIMUTHS_DEG,
+-            elevations_deg=ELEVATIONS_DEG,
+-            axis_az_deg=BODY_AXIS_AZ_DEG,
+-            axis_el_deg=BODY_AXIS_EL_DEG,
+-            roll_deg=BODY_ROLL_DEG,
++            azimuths_deg=_SETTINGS.AZIMUTHS_DEG,
++            elevations_deg=_SETTINGS.ELEVATIONS_DEG,
++            axis_az_deg=_SETTINGS.BODY_AXIS_AZ_DEG,
++            axis_el_deg=_SETTINGS.BODY_AXIS_EL_DEG,
++            roll_deg=_SETTINGS.BODY_ROLL_DEG,
+             history="run_local_bor.py monostatic response",
+             source_path=str(matching[0]["geometry"]),
+             solver_diagnostics=solver_diagnostics,
+@@ -942,3 +834,10 @@ def run(namespace, script):
+     """Entry point used by the user-facing run_local_bor.py parameter script."""
+     configure(namespace, script=script, load_config_file=True)
+     main()
++
++
++def __getattr__(name):
++    """Keep reads of configured parameter attributes compatible with old callers."""
++    if name in _SETTINGS:
++        return _SETTINGS[name]
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/tools/GHOST/ghost_backend/runs/local_twod_driver.py b/tools/GHOST/ghost_backend/runs/local_twod_driver.py
+index bdb99f6..5fd7e46 100644
+--- a/tools/GHOST/ghost_backend/runs/local_twod_driver.py
++++ b/tools/GHOST/ghost_backend/runs/local_twod_driver.py
+@@ -18,6 +18,9 @@ Edit the CONFIG block and run:
+ 
+     python run_local_monostatic.py
+ """
++from ghost_backend.runs.driver_settings import DriverSettings
++from ghost_backend.runs.inputs import unit_attestation_fields, verify_local_run_provenance
++from ghost_backend.runs.worker_pipeline import WorkerAdapter, run_twod_unit, record_memory_evidence
+ from ghost_backend.execution.paths import backend_root as _backend_root
+ from ghost_backend.execution.options import (
+     blas_thread_reservation,
+@@ -73,24 +76,21 @@ _PARAMETER_KEYS = (
+     'MAX_SOLVE_GB',
+     *DRIVER_CONTROL_DEFAULTS,
+ )
++_SETTINGS = DriverSettings()
+ _SCRIPT = None
+ 
+ 
+ def current_settings():
+-    """The run's parameters, as configure() received them."""
+-    return {key: globals()[key] for key in _PARAMETER_KEYS if key in globals()}
++    """Return an independent parameter dictionary for manifests and spawned workers."""
++    return _SETTINGS.snapshot()
+ 
+ 
+ def configure(settings, *, script):
+-    """Install the parameter-block values of the user-facing driver script."""
+-    global _SCRIPT
+-    # Older parameter scripts omit the advanced controls and keep defaults.
+-    settings = dict(DRIVER_CONTROL_DEFAULTS, **settings)
+-    missing = sorted(set(_PARAMETER_KEYS) - set(settings))
+-    if missing:
+-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
+-    globals().update({key: settings[key] for key in _PARAMETER_KEYS})
+-    _SCRIPT = str(Path(script).resolve())
++    """Capture a parameter block, keeping defaults for older advanced controls."""
++    global _SETTINGS, _SCRIPT
++    captured = DriverSettings.capture(settings, _PARAMETER_KEYS, DRIVER_CONTROL_DEFAULTS)
++    script_path = str(Path(script).resolve())
++    _SETTINGS, _SCRIPT = captured, script_path
+ 
+ # Internal scheduling constants.
+ # Fraction of detected RAM the scheduler may reserve for solves; a workstation
+@@ -137,57 +137,18 @@ def _write_json_atomic(path: 'Path', payload: 'Dict[str, Any]') -> 'None':
+     os.replace(str(temporary), str(path))
+ 
+ 
+-def _verify_run_provenance(context: 'Dict[str, Any]') -> 'None':
+-    """Re-check that the solver source and numerical runtime still match the run.
++def _verify_run_provenance(context):
++    return verify_local_run_provenance(context, _solver_source_fingerprint, _solver_source_inventory)
+ 
+-    Called around every unit. The file hashes underneath come from
+-    `hpc_scheduler.install_fingerprint_cache`, so a repeat check is a stat per
+-    backend file rather than a full re-read, and the cache expires on a timer
+-    so full re-reads keep happening inside long-lived workers.
+-    """
+-
+-    if _solver_source_fingerprint() != context.get("solver_source_sha256"):
+-        detail = describe_source_mismatch(
+-            context.get("solver_source_inventory") or {},
+-            _solver_source_inventory(),
+-        )
+-        raise RuntimeError(
+-            "Local-run solver source/native artifacts changed; no mixed-state "
+-            f"field will be written or reused. ({detail})"
+-        )
+-    verify_runtime_environment(
+-        str(context.get("runtime_environment_sha256", "")),
+-        context.get("submission_runtime_environment"), origin="the local run manifest",
+-    )
+ 
+-
+-def _unit_attestation_fields(
+-    context: 'Dict[str, Any]',
+-    unit: 'Dict[str, Any]',
+-) -> 'Dict[str, Any]':
+-    return {
+-        "run_id": str(context["run_id"]),
+-        "solver_source_sha256": str(context["solver_source_sha256"]),
+-        "runtime_environment_sha256":
+-            str(context["runtime_environment_sha256"]),
+-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
+-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
+-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
+-        "solver_config_sha256": str(context["solver_config_sha256"]),
+-        "angular_grid_kind": "azimuths_deg",
+-        # The grid is a run-level property, so it is bound by hash here and
+-        # stored once in the manifest instead of being repeated in every unit
+-        # record and every attestation.
+-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
+-        "polarizations": list(OUTPUT_POLARIZATIONS),
+-        "frequency_ghz": float(unit["frequency_ghz"]),
+-    }
++def _unit_attestation_fields(context, unit):
++    return unit_attestation_fields(context, unit, 'azimuths_deg', OUTPUT_POLARIZATIONS)
+ 
+ 
+ def _discover_geometries() -> 'List[Path]':
+     found: 'List[Path]' = []
+     seen: 'set' = set()
+-    for d in (FRD_DIR, OPN_DIR):
++    for d in (_SETTINGS.FRD_DIR, _SETTINGS.OPN_DIR):
+         root = Path(d)
+         if not root.is_dir():
+             print(f"  [warn] dir not found: {root}", file=sys.stderr)
+@@ -204,7 +165,7 @@ def _discover_geometries() -> 'List[Path]':
+ 
+ def _geometry_role(path: 'Path') -> 'str':
+     resolved = Path(path).resolve()
+-    for role, directory in (("FRD", FRD_DIR), ("OPN", OPN_DIR)):
++    for role, directory in (("FRD", _SETTINGS.FRD_DIR), ("OPN", _SETTINGS.OPN_DIR)):
+         try:
+             resolved.relative_to(Path(directory).resolve())
+             return role
+@@ -246,86 +207,16 @@ def _solve_and_export(
+     context: 'Dict[str, Any]',
+     results_dir_str: 'str',
+ ) -> 'Tuple[str, str]':
+-    """Pool-worker entry point: solve one unit, export .grim. Idempotent."""
+-
+-    results_dir = Path(results_dir_str)
+-    out_path = _unit_output_path(results_dir, unit)
+-    out_path.parent.mkdir(parents=True, exist_ok=True)
+-    _verify_run_provenance(context)
+-    _verify_unit_input(unit, context)
+-    attestation = _unit_attestation_fields(context, unit)
+-    if out_path.exists():
+-        verify_embedded_attestation(str(out_path), attestation)
+-        return ("skipped", str(out_path))
+-
+-    snapshot, material_base = _load_snapshot(str(unit["geometry"]))
+-
+-    solve_kwargs = dict(
+-        geometry_snapshot=snapshot,
+-        frequencies_ghz=[float(unit["frequency_ghz"])],
+-        elevations_deg=[float(a) for a in context["azimuths_deg"]],
+-        geometry_units=context["geometry_units"],
+-        material_base_dir=material_base,
+-        max_panels=context["max_panels"],
+-        solver_method=context.get("solver_method", "direct"),
+-    )
+-    # Select precision inside each worker; context variables are process-local.
+-    from ghost_backend.linalg.refined_lu import linear_precision
+-    from ghost_backend.twod.samples import compact_samples
+-    peak_reset = hpc_scheduler.reset_peak_rss()
+-    with compact_samples(), linear_precision(context.get("lu_precision", "double")):
+-        if context["mesh_certification"]:
+-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
+-            result = solve_monostatic_rcs_2d_certified(
+-                mesh_convergence_policy=context["mesh_convergence_policy"],
+-                **solve_kwargs
+-            )
+-        else:
+-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_survey
+-            result = solve_monostatic_rcs_2d_survey(**solve_kwargs)
+-    _verify_run_provenance(context)
+-    _verify_unit_input(unit, context)
+-    _record_memory_evidence(result, context, unit, peak_reset)
+-
+-    # Bind the result to its run state inside the artifact, before export, so
+-    # results/ holds one file per unit instead of a .grim and a sidecar.
+-    embed_output_attestation(result, attestation)
+-
+-    from ghost_backend.io.grim import export_result_to_grim
+-    written = export_result_to_grim(
+-        result, str(out_path),
+-        source_path=str(snapshot.get("source_path", "") or ""),
+-        history=(f"run_local_monostatic.py pols=VV,HH "
+-                 f"freq={unit['frequency_ghz']}GHz"),
+-    )
+-    actual_path = str(written[0]) if written else str(out_path)
+-    # The run state was verified before the solve and again before the
+-    # export; a third check after the artifact is published could only
+-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
+-    return ("written", actual_path)
++    """Run the shared 2D pipeline using this driver's paths and verifiers."""
++    adapter = WorkerAdapter(
++        _unit_output_path, _verify_run_provenance, _verify_unit_input,
++        _unit_attestation_fields, _load_snapshot, 'run_local_monostatic.py',
++        record_memory=_record_memory_evidence)
++    return run_twod_unit(unit, context, results_dir_str, adapter)
+ 
+ 
+ def _record_memory_evidence(result, context, unit, peak_reset):
+-    """Measured peak resident size of this worker against the planner's
+-    forecast, in the artifact metadata and the run log."""
+-    measured = hpc_scheduler.peak_rss_gib()
+-    forecast = context.get("forecast_peak_gib")
+-    evidence = {
+-        "forecast_peak_gib": (float(forecast) if forecast is not None else None),
+-        "measured_peak_gib": measured,
+-        "scope": ("worker_process_since_unit_start" if peak_reset
+-                  else "worker_process_lifetime"),
+-        "note": "Compressed tile processes are children of the worker and are not "
+-                "included; the forecast covers the whole unit.",
+-    }
+-    metadata = result.setdefault("metadata", {})
+-    if isinstance(metadata, dict):
+-        metadata["execution_memory"] = evidence
+-    if measured is not None:
+-        ratio = ("" if not forecast else f", {measured / float(forecast):.2f} of forecast")
+-        print(f"      memory {_unit_name(unit)}: forecast "
+-              f"{(float(forecast) if forecast else 0.0):.2f} GiB, measured peak "
+-              f"{measured:.2f} GiB ({evidence['scope']}{ratio})", flush=True)
++    return record_memory_evidence(result, context, unit, peak_reset, _unit_name)
+ 
+ 
+ def _solve_and_export_star(args: 'tuple') -> 'tuple':
+@@ -361,9 +252,9 @@ def _plan(units, fine_factor, n_angles, records_out=None):
+     costs, peaks = {}, {}
+     batches = hpc_scheduler.predict_2d_resources_for_geometries(
+         {geometry: sorted({float(u['frequency_ghz']) for u in group}) for geometry, group in grouped.items()},
+-        ['TM', 'TE'], GEOMETRY_UNITS, _MAX_PANELS, fine_factor=fine_factor,
++        ['TM', 'TE'], _SETTINGS.GEOMETRY_UNITS, _MAX_PANELS, fine_factor=fine_factor,
+         n_angles=n_angles, safety=_MEMORY_SAFETY, solver_method=AUTOMATIC_SOLVER_METHOD,
+-        workers=PLANNING_WORKERS)
++        workers=_SETTINGS.PLANNING_WORKERS)
+     for geometry, group in grouped.items():
+         batch = batches[geometry]
+         for unit in group:
+@@ -387,13 +278,13 @@ def _unit_assembly_threads(
+ 
+ 
+ def _validate_config() -> 'Tuple[List[float], List[float]]':
+-    if ACCURACY_TARGET not in ("standard", "tight"):
++    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
+         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
+-    if type(MESH_CERTIFICATION) is not bool:
++    if type(_SETTINGS.MESH_CERTIFICATION) is not bool:
+         sys.exit("ERROR: MESH_CERTIFICATION must be True or False.")
+-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+-    if not AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
+-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
++    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
++    if not _SETTINGS.AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
++    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
+     if (
+         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
+         or len(set(frequencies)) != len(frequencies)
+@@ -403,17 +294,17 @@ def _validate_config() -> 'Tuple[List[float], List[float]]':
+             "ERROR: frequencies must be finite, positive, unique, and "
+             "distinct at the 0.001 GHz output-name precision."
+         )
+-    azimuths = [float(value) for value in AZIMUTHS_DEG]
++    azimuths = [float(value) for value in _SETTINGS.AZIMUTHS_DEG]
+     if (
+         not all(math.isfinite(value) for value in azimuths)
+         or len(set(azimuths)) != len(azimuths)
+     ):
+         sys.exit("ERROR: AZIMUTHS_DEG must be finite and unique.")
+-    if str(GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
++    if str(_SETTINGS.GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
+         sys.exit("ERROR: GEOMETRY_UNITS must be 'inches' or 'meters'.")
+-    if MAX_SOLVE_GB is not None and float(MAX_SOLVE_GB) <= 0.0:
++    if _SETTINGS.MAX_SOLVE_GB is not None and float(_SETTINGS.MAX_SOLVE_GB) <= 0.0:
+         sys.exit("ERROR: MAX_SOLVE_GB must be positive or None.")
+-    if WORKERS is not None and int(WORKERS) < 1:
++    if _SETTINGS.WORKERS is not None and int(_SETTINGS.WORKERS) < 1:
+         sys.exit("ERROR: WORKERS must be a positive integer or None.")
+     return frequencies, azimuths
+ 
+@@ -441,10 +332,10 @@ def _freeze_runtime(run_dir):
+ @driver_execution
+ def main() -> 'None':
+     frequencies, azimuths = _validate_config()
+-    if MAX_SOLVE_GB:
++    if _SETTINGS.MAX_SOLVE_GB:
+         # Read by the solver's own memory gate, in this process and every
+         # forked worker.
+-        os.environ["GHOST_MAX_SOLVE_GB"] = f"{float(MAX_SOLVE_GB):g}"
++        os.environ["GHOST_MAX_SOLVE_GB"] = f"{float(_SETTINGS.MAX_SOLVE_GB):g}"
+     blas_threads = blas_thread_reservation()
+     hpc_scheduler.pin_blas_threads(blas_threads)
+     hpc_scheduler.install_fingerprint_cache()
+@@ -463,7 +354,7 @@ def main() -> 'None':
+     from ghost_backend.assembly.fields import geometry_input_fingerprint
+     for geom in geometries:
+         input_fingerprint = geometry_input_fingerprint(
+-            str(geom), GEOMETRY_UNITS
++            str(geom), _SETTINGS.GEOMETRY_UNITS
+         )
+         for f in frequencies:
+             # The azimuth grid is deliberately NOT repeated per unit: it is
+@@ -477,9 +368,9 @@ def main() -> 'None':
+                 "frequency_ghz": float(f),
+             })
+ 
+-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
++    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
+     run_id = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
+-    run_dir     = Path(OUTPUT_DIR).resolve() / run_id
++    run_dir     = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
+     results_dir = run_dir / "results"
+     run_dir.mkdir(parents=True, exist_ok=False)
+     _freeze_runtime(run_dir)
+@@ -487,17 +378,17 @@ def main() -> 'None':
+     (results_dir / "FRD").mkdir()
+     (results_dir / "OPN").mkdir()
+     solver_config = {
+-        "geometry_units": GEOMETRY_UNITS,
++        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
+         "linear_solver": "dense_lu",
+         "polarizations": list(OUTPUT_POLARIZATIONS),
+         "max_panels": _MAX_PANELS,
+         "blas_threads_per_worker": blas_threads,
+         "mesh_convergence_policy": mesh_policy,
+-        "accuracy_target": ACCURACY_TARGET,
++        "accuracy_target": _SETTINGS.ACCURACY_TARGET,
+         "lu_precision": AUTOMATIC_LU_PRECISION,
+         "solver_method": AUTOMATIC_SOLVER_METHOD,
+         "execution_options": current_options(),
+-        "mesh_certification": bool(MESH_CERTIFICATION),
++        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
+     }
+     manifest: 'Dict[str, Any]' = {
+         "schema": MANIFEST_SCHEMA,
+@@ -529,13 +420,13 @@ def main() -> 'None':
+         "submission_runtime_environment": manifest.get("submission_runtime_environment"),
+         "run_solve_spec_sha256": manifest_solve_spec_fingerprint(manifest),
+         "solver_config_sha256": stable_json_fingerprint(solver_config),
+-        "geometry_units": GEOMETRY_UNITS,
++        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
+         "max_panels": _MAX_PANELS,
+         "mesh_convergence_policy": mesh_policy,
+         "lu_precision": AUTOMATIC_LU_PRECISION,
+         "solver_method": AUTOMATIC_SOLVER_METHOD,
+         "execution_options": current_options(),
+-        "mesh_certification": bool(MESH_CERTIFICATION),
++        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
+         "azimuths_deg": azimuths,
+         "angular_grid_sha256": stable_json_fingerprint(
+             azimuths
+@@ -547,7 +438,7 @@ def main() -> 'None':
+     # count), and starting with the cheap end leaves the expensive tail with
+     # nothing to overlap against.
+     fine_factor = (
+-        float(mesh_policy["fine_factor"]) if MESH_CERTIFICATION else 1.0
++        float(mesh_policy["fine_factor"]) if _SETTINGS.MESH_CERTIFICATION else 1.0
+     )
+     planning_records = []
+     costs, peaks = _plan(units, fine_factor, len(azimuths), planning_records)
+@@ -570,7 +461,7 @@ def main() -> 'None':
+     )
+     if budget_gb <= 0:
+         raise MemoryError('No RAM is currently available for the local solve reservation.')
+-    worker_cap = max(1, cores - 1) if WORKERS is None else int(WORKERS)
++    worker_cap = max(1, cores - 1) if _SETTINGS.WORKERS is None else int(_SETTINGS.WORKERS)
+     pool_size = max(1, min(cores, worker_cap, len(ordered)))
+     from ghost_backend.runs.batch import apply_batch_choices
+     resolved, batch_selections, batch_summary = apply_batch_choices(
+@@ -603,14 +494,14 @@ def main() -> 'None':
+     print(f"  Run dir       : {run_dir}")
+     print(f"  Geometries    : {len(geometries)}")
+     print("  Polarizations : VV, HH (co-solved)")
+-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
+-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
+-    print(f"  Azimuths      : {len(AZIMUTHS_DEG)}")
++    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
++          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
++    print(f"  Azimuths      : {len(_SETTINGS.AZIMUTHS_DEG)}")
+     print(f"  Units total   : {len(ordered)}  (geometry x frequency)")
+-    print(f"  Mesh check    : {'base + fine comparison' if MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
+-    print(f"  Run policy    : {run_control_summary(current_options(), MESH_CERTIFICATION)}")
+-    if MESH_STRATEGY == 'adaptive' and BASIS_ORDER != 1:
+-        print(f"  Order note    : requested P{BASIS_ORDER} is ignored; adaptive controls polynomial order.")
++    print(f"  Mesh check    : {'base + fine comparison' if _SETTINGS.MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
++    print(f"  Run policy    : {run_control_summary(current_options(), _SETTINGS.MESH_CERTIFICATION)}")
++    if _SETTINGS.MESH_STRATEGY == 'adaptive' and _SETTINGS.BASIS_ORDER != 1:
++        print(f"  Order note    : requested P{_SETTINGS.BASIS_ORDER} is ignored; adaptive controls polynomial order.")
+     print(f"  Workers       : {pool_size} of {cores} cpus  "
+           f"(CPU reservation per solve, assembly and BLAS alike; BLAS team at most {blas_cap}, "
+           f"assembly threads/solve: {thread_label})")
+@@ -621,7 +512,7 @@ def main() -> 'None':
+                       if available_gb is not None else "")
+     print(f"  Memory        : {memory_gb:.1f} GiB installed{available_text}, "
+           f"{budget_gb:.1f} GiB schedulable")
+-    if not MESH_CERTIFICATION:
++    if not _SETTINGS.MESH_CERTIFICATION:
+         print("  Mesh comparison is off: downstream use remains enabled; the")
+         print("  user owns the mesh-resolution decision.")
+     print("=" * 70, flush=True)
+@@ -730,3 +621,10 @@ def run(namespace, script):
+     """Entry point used by the user-facing run_local_monostatic.py parameter script."""
+     configure(namespace, script=script)
+     main()
++
++
++def __getattr__(name):
++    """Keep reads of configured parameter attributes compatible with old callers."""
++    if name in _SETTINGS:
++        return _SETTINGS[name]
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/tools/GHOST/ghost_backend/runs/worker_pipeline.py b/tools/GHOST/ghost_backend/runs/worker_pipeline.py
+new file mode 100644
+index 0000000..25f80dd
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/runs/worker_pipeline.py
+@@ -0,0 +1,192 @@
++"""Solve/export pipelines shared by local and HPC scheduling adapters.
++
++Adapters own paths, source/input verification and snapshot loading. The shared
++pipeline preserves verification before reuse and again before publication.
++"""
++from dataclasses import dataclass
++from pathlib import Path
++from typing import Any, Callable, Dict, Optional
++import ghost_backend.hpc.scheduler as hpc_scheduler
++from ghost_backend.execution.provenance import embed_output_attestation, verify_embedded_attestation
++
++
++@dataclass(frozen=True)
++class WorkerAdapter:
++    output_path: Callable
++    verify_run: Callable
++    verify_input: Callable
++    attestation: Callable
++    load_snapshot: Callable
++    history_script: str
++    record_memory: Optional[Callable] = None
++    verify_channels: Optional[Callable] = None
++
++    def check_inputs(self, units, context):
++        if self.verify_channels is not None:
++            self.verify_channels(units, context)
++        else:
++            for unit in units:
++                self.verify_input(unit, context)
++
++
++def run_twod_unit(unit, context, destination, adapter):
++    """Solve or reuse one paired-polarization 2D output."""
++    results_dir = Path(destination)
++    out_path = adapter.output_path(results_dir, unit)
++    out_path.parent.mkdir(parents=True, exist_ok=True)
++    adapter.verify_run(context)
++    adapter.check_inputs([unit], context)
++    attestation = adapter.attestation(context, unit)
++    if out_path.exists():
++        verify_embedded_attestation(str(out_path), attestation)
++        return ("skipped", str(out_path))
++
++    snapshot, material_base = adapter.load_snapshot(str(unit["geometry"]))
++
++    solve_kwargs = dict(
++        geometry_snapshot=snapshot,
++        frequencies_ghz=[float(unit["frequency_ghz"])],
++        elevations_deg=[float(a) for a in context["azimuths_deg"]],
++        geometry_units=context["geometry_units"],
++        material_base_dir=material_base,
++        max_panels=context["max_panels"],
++        solver_method=context.get("solver_method", "direct"),
++    )
++    # Select precision inside each worker; context variables are process-local.
++    from ghost_backend.linalg.refined_lu import linear_precision
++    from ghost_backend.twod.samples import compact_samples
++    peak_reset = hpc_scheduler.reset_peak_rss()
++    with compact_samples(), linear_precision(context.get("lu_precision", "double")):
++        if context["mesh_certification"]:
++            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
++            result = solve_monostatic_rcs_2d_certified(
++                mesh_convergence_policy=context["mesh_convergence_policy"],
++                **solve_kwargs
++            )
++        else:
++            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_survey
++            result = solve_monostatic_rcs_2d_survey(**solve_kwargs)
++    adapter.verify_run(context)
++    adapter.check_inputs([unit], context)
++    adapter.record_memory(result, context, unit, peak_reset)
++
++    # Bind the result to its run state inside the artifact, before export, so
++    # results/ holds one file per unit instead of a .grim and a sidecar.
++    embed_output_attestation(result, attestation)
++
++    from ghost_backend.io.grim import export_result_to_grim
++    written = export_result_to_grim(
++        result, str(out_path),
++        source_path=str(snapshot.get("source_path", "") or ""),
++        history=(f"{adapter.history_script} pols=VV,HH "
++                 f"freq={unit['frequency_ghz']}GHz"),
++    )
++    actual_path = str(written[0]) if written else str(out_path)
++    # The run state was verified before the solve and again before the
++    # export; a third check after the artifact is published could only
++    # report a change it can no longer prevent (October 2026 audit, R-D-1).
++    return ("written", actual_path)
++
++
++def record_memory_evidence(result, context, unit, peak_reset, unit_name):
++    """Measured peak resident size of this worker against the planner's
++    forecast, in the artifact metadata and the run log."""
++    measured = hpc_scheduler.peak_rss_gib()
++    forecast = context.get("forecast_peak_gib")
++    evidence = {
++        "forecast_peak_gib": (float(forecast) if forecast is not None else None),
++        "measured_peak_gib": measured,
++        "scope": ("worker_process_since_unit_start" if peak_reset
++                  else "worker_process_lifetime"),
++        "note": "Compressed tile processes are children of the worker and are not "
++                "included; the forecast covers the whole unit.",
++    }
++    metadata = result.setdefault("metadata", {})
++    if isinstance(metadata, dict):
++        metadata["execution_memory"] = evidence
++    if measured is not None:
++        ratio = ("" if not forecast else f", {measured / float(forecast):.2f} of forecast")
++        print(f"      memory {unit_name(unit)}: forecast "
++              f"{(float(forecast) if forecast else 0.0):.2f} GiB, measured peak "
++              f"{measured:.2f} GiB ({evidence['scope']}{ratio})", flush=True)
++
++
++def channel_result(
++    result: 'Dict[str, Any]', polarization: 'str'
++) -> 'Dict[str, Any]':
++    samples = (result.get("co_solved_samples", {}) or {}).get(polarization, [])
++    if not samples:
++        raise RuntimeError(
++            f"BoR solve did not return its co-solved {polarization} channel."
++        )
++    channel = dict(result)
++    channel["samples"] = samples
++    channel["polarization"] = polarization
++    channel["polarization_export"] = polarization
++    channel.pop("polarizations", None)
++    channel.pop("polarization_mapping", None)
++    channel.pop("co_solved_samples", None)
++    channel["metadata"] = dict(result.get("metadata", {}) or {})
++    return channel
++
++
++def run_bor_pair(pair, context, destination, adapter, solve):
++    """Co-solve a BoR pair and publish only its missing channel artifacts."""
++    results_dir = Path(destination)
++    channel_units = list(pair["channel_units"])
++    adapter.verify_run(context)
++    adapter.check_inputs(channel_units, context)
++    missing = []
++    paths = []
++    for unit in channel_units:
++        out_path = adapter.output_path(results_dir, unit)
++        paths.append(out_path)
++        if out_path.exists():
++            verify_embedded_attestation(
++                str(out_path), adapter.attestation(context, unit)
++            )
++        else:
++            missing.append(unit)
++    if not missing:
++        return ("skipped", ", ".join(str(path) for path in paths))
++
++    snapshot, material_base = adapter.load_snapshot(str(pair["geometry"]))
++
++    result = solve(snapshot, material_base)
++    for warning in result.get("metadata", {}).get("warnings", []) or []:
++        print(f"      [warn] {pair['geometry_stem']}: {warning}", flush=True)
++    adapter.verify_run(context)
++    adapter.check_inputs(channel_units, context)
++
++    from ghost_backend.io.grim import export_result_to_grim
++    actual_paths = []
++    for unit in missing:
++        out_path = adapter.output_path(results_dir, unit)
++        channel = channel_result(result, str(unit["polarization"]))
++        embed_output_attestation(
++            channel, adapter.attestation(context, unit)
++        )
++        written = export_result_to_grim(
++            channel, str(out_path),
++            source_path=str(snapshot.get("source_path", "") or ""),
++            history=(f"{adapter.history_script} pol={unit['polarization']} "
++                     f"freq={unit['frequency_ghz']}GHz"),
++        )
++        actual_paths.append(str(written[0]) if written else str(out_path))
++    # The run state was verified before the solve and again before the
++    # export; a third check after the artifact is published could only
++    # report a change it can no longer prevent (October 2026 audit, R-D-1).
++    return ("written", ", ".join(actual_paths))
++
++
++def solve_bor_result(solve_kwargs, certified, mesh_policy):
++    """Choose the existing BoR solve entry and compact result representation."""
++    from ghost_backend.bor.dispatch import (
++        solve_monostatic_rcs_bor_certified, solve_monostatic_rcs_bor_survey,
++    )
++    from ghost_backend.runs.quality import validate_mesh_convergence_policy
++    from ghost_backend.twod.samples import compact_samples
++    solve = solve_monostatic_rcs_bor_certified if certified else solve_monostatic_rcs_bor_survey
++    quality = ({"mesh_convergence_policy": validate_mesh_convergence_policy(mesh_policy)}
++               if certified else {})
++    return compact_samples()(solve)(**solve_kwargs, **quality)
+diff --git a/tools/GHOST/ghost_backend/ui/geometry.py b/tools/GHOST/ghost_backend/ui/geometry.py
+index 8ba065b..d21f450 100644
+--- a/tools/GHOST/ghost_backend/ui/geometry.py
++++ b/tools/GHOST/ghost_backend/ui/geometry.py
+@@ -62,24 +62,7 @@ MESH_N_TOOLTIP = (
+ )
+ 
+ 
+-def _parse_mesh_n_token(token: 'Any') -> 'int':
+-    """Parse the geometry N field without changing its solver semantics.
+-
+-    Blank or zero selects automatic 20-panels-per-wavelength meshing, a
+-    positive integer is an explicit panel count per primitive, and a negative
+-    integer selects its absolute value in panels per wavelength.
+-    """
+-
+-    text = str(token or "").strip()
+-    if not text:
+-        return 0
+-    try:
+-        value = float(text)
+-    except (TypeError, ValueError) as exc:
+-        raise ValueError("N must be an integer.") from exc
+-    if not math.isfinite(value) or not value.is_integer():
+-        raise ValueError("N must be an integer.")
+-    return int(value)
++
+ 
+ 
+ class MplCanvas(FigureCanvas):
