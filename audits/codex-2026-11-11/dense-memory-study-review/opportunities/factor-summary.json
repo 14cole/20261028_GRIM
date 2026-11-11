@@ -1,0 +1,737 @@
+{
+  "attempts": 21,
+  "completed": 17,
+  "rejected": [
+    {
+      "fixture": "pec-1",
+      "method": "mixed-memory",
+      "error": "LinAlgError: Mixed-precision refinement exceeded its correction limit."
+    },
+    {
+      "fixture": "pec-1",
+      "method": "mixed-spool",
+      "error": "LinAlgError: Mixed correction limit"
+    },
+    {
+      "fixture": "ill-conditioned",
+      "method": "mixed-memory",
+      "error": "LinAlgError: Mixed-precision refinement stalled; double LU required."
+    },
+    {
+      "fixture": "ill-conditioned",
+      "method": "mixed-spool",
+      "error": "LinAlgError: Mixed refinement stalled; double fallback required"
+    }
+  ],
+  "all_completed_backward_checks_pass": true,
+  "largest_completed_mixed_solution_difference": 7.671712549943635e-12,
+  "rows": [
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-0",
+      "method": "double-spool",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.6288266300107352,
+      "rss_gib": 0.310455322265625,
+      "lu_bytes": 256000000,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 1,
+          "initial_backward_error": 8.639769118753357e-12,
+          "backward_error": 7.208216595467635e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.3094092449900927
+        },
+        {
+          "trans": 1,
+          "corrections": 1,
+          "initial_backward_error": 3.22950187626729e-12,
+          "backward_error": 6.59820479117262e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.3890052490023663
+        },
+        {
+          "trans": 2,
+          "corrections": 1,
+          "initial_backward_error": 2.9062086664197028e-12,
+          "backward_error": 6.055725753437148e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.33167609899828676
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-0",
+      "method": "mixed-memory",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.5732014210079797,
+      "rss_gib": 0.43112945556640625,
+      "lu_bytes": 128000000,
+      "retained_original_bytes": 256000000,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 4,
+          "initial_backward_error": 2.3845003016580412e-15,
+          "backward_error": 2.3845003016580412e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.31957420900289435,
+          "relative_solution_difference": 2.944226194330103e-14
+        },
+        {
+          "trans": 1,
+          "corrections": 4,
+          "initial_backward_error": 2.672597023389404e-15,
+          "backward_error": 2.672597023389404e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.405600976999267,
+          "relative_solution_difference": 3.764603110727827e-14
+        },
+        {
+          "trans": 2,
+          "corrections": 4,
+          "initial_backward_error": 4.48723543860792e-15,
+          "backward_error": 4.48723543860792e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.4421111380070215,
+          "relative_solution_difference": 5.033876113566655e-14
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-0",
+      "method": "mixed-spool",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.9956586369953584,
+      "rss_gib": 0.18894195556640625,
+      "lu_bytes": 128000000,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 4,
+          "initial_backward_error": 2.3845003016580412e-15,
+          "backward_error": 2.3845003016580412e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.6031065870047314,
+          "relative_solution_difference": 2.944226194330103e-14
+        },
+        {
+          "trans": 1,
+          "corrections": 4,
+          "initial_backward_error": 3.292431292922872e-15,
+          "backward_error": 3.292431292922872e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.4866857599990908,
+          "relative_solution_difference": 3.9167052741090057e-14
+        },
+        {
+          "trans": 2,
+          "corrections": 4,
+          "initial_backward_error": 4.056492543209177e-15,
+          "backward_error": 4.056492543209177e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.599173348993645,
+          "relative_solution_difference": 5.016653884465606e-14
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-1",
+      "method": "double-spool",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.5673264880024362,
+      "rss_gib": 0.31050872802734375,
+      "lu_bytes": 256000000,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 1,
+          "initial_backward_error": 3.875512398260533e-11,
+          "backward_error": 5.29926115976512e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.3120209469925612
+        },
+        {
+          "trans": 1,
+          "corrections": 1,
+          "initial_backward_error": 6.159663612672515e-11,
+          "backward_error": 4.325628554960089e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.30507006400148384
+        },
+        {
+          "trans": 2,
+          "corrections": 1,
+          "initial_backward_error": 8.015379555195065e-11,
+          "backward_error": 4.933448896112215e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.32731872200383805
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-1",
+      "method": "mixed-memory",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.0772805199958384,
+      "rss_gib": 0.4215087890625,
+      "lu_bytes": 128000000,
+      "retained_original_bytes": 256000000,
+      "error": "LinAlgError: Mixed-precision refinement exceeded its correction limit.",
+      "results": []
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/pec-1",
+      "method": "mixed-spool",
+      "n": 4000,
+      "rhs_columns": 7,
+      "wall": 1.3595121990074404,
+      "rss_gib": 0.18280410766601562,
+      "lu_bytes": 128000000,
+      "retained_original_bytes": 0,
+      "error": "LinAlgError: Mixed correction limit",
+      "results": []
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-0",
+      "method": "double-spool",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.15206421000766568,
+      "rss_gib": 0.07197189331054688,
+      "lu_bytes": 18662400,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 0,
+          "initial_backward_error": 3.823120272973332e-16,
+          "backward_error": 3.823120272973332e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.008257192996097729
+        },
+        {
+          "trans": 1,
+          "corrections": 0,
+          "initial_backward_error": 8.462328400471532e-16,
+          "backward_error": 8.462328400471532e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.010869033998460509
+        },
+        {
+          "trans": 2,
+          "corrections": 0,
+          "initial_backward_error": 1.0503974051442441e-15,
+          "backward_error": 1.0503974051442441e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.08896360200014897
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-0",
+      "method": "mixed-memory",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.2927558719966328,
+      "rss_gib": 0.0813446044921875,
+      "lu_bytes": 9331200,
+      "retained_original_bytes": 18662400,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 2,
+          "initial_backward_error": 4.331636686957071e-16,
+          "backward_error": 4.331636686957071e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.14076351901167072,
+          "relative_solution_difference": 1.9336958311269714e-13
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 5.077867663066594e-18,
+          "backward_error": 5.077867663066594e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.09178559700376354,
+          "relative_solution_difference": 1.043453204635226e-13
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 4.903007925213161e-18,
+          "backward_error": 4.903007925213161e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.04111771400494035,
+          "relative_solution_difference": 1.0263637818574776e-13
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-0",
+      "method": "mixed-spool",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.27104080299614,
+      "rss_gib": 0.06293487548828125,
+      "lu_bytes": 9331200,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 2,
+          "initial_backward_error": 4.331636686957071e-16,
+          "backward_error": 4.331636686957071e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.15306643399526365,
+          "relative_solution_difference": 1.9336958311269714e-13
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 3.644607121117956e-18,
+          "backward_error": 3.644607121117956e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.04162242500751745,
+          "relative_solution_difference": 1.0409715082829864e-13
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 3.519344966180671e-18,
+          "backward_error": 3.519344966180671e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.060170728000230156,
+          "relative_solution_difference": 1.0291646657523112e-13
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-1",
+      "method": "double-spool",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.18750776900560595,
+      "rss_gib": 0.07178497314453125,
+      "lu_bytes": 18662400,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 0,
+          "initial_backward_error": 3.5589818328898974e-16,
+          "backward_error": 3.5589818328898974e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.1283362579997629
+        },
+        {
+          "trans": 1,
+          "corrections": 0,
+          "initial_backward_error": 2.6841857998024194e-15,
+          "backward_error": 2.6841857998024194e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.013174428007914685
+        },
+        {
+          "trans": 2,
+          "corrections": 0,
+          "initial_backward_error": 2.116230218967469e-15,
+          "backward_error": 2.116230218967469e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.02296371500415262
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-1",
+      "method": "mixed-memory",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.22975492899422534,
+      "rss_gib": 0.08130645751953125,
+      "lu_bytes": 9331200,
+      "retained_original_bytes": 18662400,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 4,
+          "initial_backward_error": 2.1822815395706298e-17,
+          "backward_error": 2.1822815395706298e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.09513112700369675,
+          "relative_solution_difference": 2.6914325768212843e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 4,
+          "initial_backward_error": 5.046336844208021e-18,
+          "backward_error": 5.046336844208021e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.04498028301168233,
+          "relative_solution_difference": 2.9688593068562436e-12
+        },
+        {
+          "trans": 2,
+          "corrections": 4,
+          "initial_backward_error": 5.22385306552819e-18,
+          "backward_error": 5.22385306552819e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.06793765800830442,
+          "relative_solution_difference": 2.9352319328674054e-12
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/coated-1",
+      "method": "mixed-spool",
+      "n": 1080,
+      "rhs_columns": 7,
+      "wall": 0.19291566699394025,
+      "rss_gib": 0.06299209594726562,
+      "lu_bytes": 9331200,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 4,
+          "initial_backward_error": 2.1822815395706298e-17,
+          "backward_error": 2.1822815395706298e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.042726557003334165,
+          "relative_solution_difference": 2.6914325768212843e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 4,
+          "initial_backward_error": 5.696282860360772e-18,
+          "backward_error": 5.696282860360772e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.041498438993585296,
+          "relative_solution_difference": 2.969021695114934e-12
+        },
+        {
+          "trans": 2,
+          "corrections": 4,
+          "initial_backward_error": 3.3260826260903746e-18,
+          "backward_error": 3.3260826260903746e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.09287581000535283,
+          "relative_solution_difference": 2.935062414578582e-12
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-0",
+      "method": "double-spool",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.05139583798882086,
+      "rss_gib": 0.07020950317382812,
+      "lu_bytes": 16777216,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 0,
+          "initial_backward_error": 1.4377563750565518e-15,
+          "backward_error": 1.4377563750565518e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.007448143005603924
+        },
+        {
+          "trans": 1,
+          "corrections": 0,
+          "initial_backward_error": 3.6906254512965795e-15,
+          "backward_error": 3.6906254512965795e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.009697401008452289
+        },
+        {
+          "trans": 2,
+          "corrections": 0,
+          "initial_backward_error": 2.6460965709467277e-15,
+          "backward_error": 2.6460965709467277e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.008003834998817183
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-0",
+      "method": "mixed-memory",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.1312625899881823,
+      "rss_gib": 0.07869338989257812,
+      "lu_bytes": 8388608,
+      "retained_original_bytes": 16777216,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 2,
+          "initial_backward_error": 6.629731850570955e-16,
+          "backward_error": 6.629731850570955e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.024225945002399385,
+          "relative_solution_difference": 5.90671807719622e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 1.051901137531993e-17,
+          "backward_error": 1.051901137531993e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.03371964099642355,
+          "relative_solution_difference": 9.58545401029208e-13
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 1.0671684878014073e-17,
+          "backward_error": 1.0671684878014073e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.051923209000960924,
+          "relative_solution_difference": 9.710961069619783e-13
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-0",
+      "method": "mixed-spool",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.42604111299442593,
+      "rss_gib": 0.06206512451171875,
+      "lu_bytes": 8388608,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 2,
+          "initial_backward_error": 6.629731850570955e-16,
+          "backward_error": 6.629731850570955e-16,
+          "passes_dense_gate": true,
+          "seconds": 0.310876728995936,
+          "relative_solution_difference": 5.90671807719622e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 6.998240716228604e-18,
+          "backward_error": 6.998240716228604e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.05645313199784141,
+          "relative_solution_difference": 9.5810775380591e-13
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 7.744625113506197e-18,
+          "backward_error": 7.744625113506197e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.04359465699235443,
+          "relative_solution_difference": 9.709806392541921e-13
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-1",
+      "method": "double-spool",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.04470211600710172,
+      "rss_gib": 0.0700836181640625,
+      "lu_bytes": 16777216,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 0,
+          "initial_backward_error": 3.2944274848295676e-15,
+          "backward_error": 3.2944274848295676e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.0059308909985702485
+        },
+        {
+          "trans": 1,
+          "corrections": 0,
+          "initial_backward_error": 2.590785742914356e-15,
+          "backward_error": 2.590785742914356e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.009967174992198125
+        },
+        {
+          "trans": 2,
+          "corrections": 0,
+          "initial_backward_error": 3.2685285531495044e-15,
+          "backward_error": 3.2685285531495044e-15,
+          "passes_dense_gate": true,
+          "seconds": 0.0073976679996121675
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-1",
+      "method": "mixed-memory",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.34492647400475107,
+      "rss_gib": 0.078704833984375,
+      "lu_bytes": 8388608,
+      "retained_original_bytes": 16777216,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 3,
+          "initial_backward_error": 5.805767399194331e-18,
+          "backward_error": 5.805767399194331e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.1551581090025138,
+          "relative_solution_difference": 7.671712549943635e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 1.2927103621881978e-17,
+          "backward_error": 1.2927103621881978e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.10982276599679608,
+          "relative_solution_difference": 2.858550955412253e-12
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 1.1786813673413883e-17,
+          "backward_error": 1.1786813673413883e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.06192207099229563,
+          "relative_solution_difference": 2.3070226805720784e-12
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/dielectric-1",
+      "method": "mixed-spool",
+      "n": 1024,
+      "rhs_columns": 7,
+      "wall": 0.3025896309991367,
+      "rss_gib": 0.06204986572265625,
+      "lu_bytes": 8388608,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 3,
+          "initial_backward_error": 5.805767399194331e-18,
+          "backward_error": 5.805767399194331e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.04142044200852979,
+          "relative_solution_difference": 7.671712549943635e-12
+        },
+        {
+          "trans": 1,
+          "corrections": 3,
+          "initial_backward_error": 8.57759452126431e-18,
+          "backward_error": 8.57759452126431e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.05818049800291192,
+          "relative_solution_difference": 2.858869898748066e-12
+        },
+        {
+          "trans": 2,
+          "corrections": 3,
+          "initial_backward_error": 8.429207518129517e-18,
+          "backward_error": 8.429207518129517e-18,
+          "passes_dense_gate": true,
+          "seconds": 0.18646071199327707,
+          "relative_solution_difference": 2.3070276159397986e-12
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/ill-conditioned",
+      "method": "double-spool",
+      "n": 64,
+      "rhs_columns": 3,
+      "wall": 0.001120328000979498,
+      "rss_gib": 0.0466766357421875,
+      "lu_bytes": 65536,
+      "retained_original_bytes": 0,
+      "error": null,
+      "results": [
+        {
+          "trans": 0,
+          "corrections": 0,
+          "initial_backward_error": 3.8163452272711234e-17,
+          "backward_error": 3.8163452272711234e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.0004015710001112893
+        },
+        {
+          "trans": 1,
+          "corrections": 0,
+          "initial_backward_error": 5.314269298022459e-17,
+          "backward_error": 5.314269298022459e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.0002512860082788393
+        },
+        {
+          "trans": 2,
+          "corrections": 0,
+          "initial_backward_error": 4.643865131217791e-17,
+          "backward_error": 4.643865131217791e-17,
+          "passes_dense_gate": true,
+          "seconds": 0.00020782099454663694
+        }
+      ]
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/ill-conditioned",
+      "method": "mixed-memory",
+      "n": 64,
+      "rhs_columns": 3,
+      "wall": 0.0006584660004591569,
+      "rss_gib": 0.04639434814453125,
+      "lu_bytes": 32768,
+      "retained_original_bytes": 65536,
+      "error": "LinAlgError: Mixed-precision refinement stalled; double LU required.",
+      "results": []
+    },
+    {
+      "prefix": "/workspace/dense-memory-opportunities/factors/ill-conditioned",
+      "method": "mixed-spool",
+      "n": 64,
+      "rhs_columns": 3,
+      "wall": 0.000643343009869568,
+      "rss_gib": 0.046413421630859375,
+      "lu_bytes": 32768,
+      "retained_original_bytes": 0,
+      "error": "LinAlgError: Mixed refinement stalled; double fallback required",
+      "results": []
+    }
+  ]
+}

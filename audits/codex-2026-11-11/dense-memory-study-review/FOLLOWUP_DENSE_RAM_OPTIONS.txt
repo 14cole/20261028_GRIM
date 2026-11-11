@@ -1,0 +1,463 @@
+DENSE RAM OPPORTUNITIES AND THE ONE-BACKEND QUESTION — 2026-11-11
+Follow-up handoff for Claude
+
+DECISION
+
+Keep one automatic user workflow, backed by Dense and Compressed numerical
+paths. There are worthwhile Dense RAM improvements, but none demonstrated here
+makes full dense LU a general replacement for Compressed on RAM-limited jobs.
+The highest-value work is a shared resource planner, bounded RHS/residual
+buffers, and qualified reduction of the number of unknowns. Do not add another
+user-facing backend selector for these storage and batching choices.
+
+Measured follow-up: the combined Dense buffer/tile plan saves another 10-17%
+above lean Dense. On the actual airfoil, an intermediate hp coarsening experiment
+uses 0.72 GiB versus a 1.61 GiB linear baseline, passing mesh convergence without
+the default aggressive candidate's quadrature warning. Geometry/mesh choices
+can therefore outweigh buffer tuning, but require a separate accuracy contract.
+
+This is research and audit evidence only. No production source, GUI, DLL or .so
+file was modified. Runtime experiments are not distribution-ready changes.
+
+SOURCE AND METHOD
+
+Production: d162169876cf53d10ca0f1b7382c94ba5301fb82.
+Prior review: 8210a8e527660eb5cc65ae27628a83f87cca9b6e, on
+codex/dense-memory-study-review-2026-11-11.
+Claude study: 29a9749ce87426c7307a7d68e2f968c7a835dc90.
+This follow-up uses the same production source as the prior measured study.
+
+Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0, local overlay scratch,
+16 GiB cgroup, four-CPU sustained quota. New end-to-end comparisons explicitly
+request four assembly and four BLAS threads. The prior review's auto/five-thread
+results are contextual evidence, not mixed into the new timing comparisons.
+Runs use fresh processes and full fields, with unchanged production quality
+gates. Pairing is forced off in the isolated memory tests to prevent a smaller
+RHS forecast from silently enabling a second resident polarization matrix.
+This is a runtime experiment, not a proposed unconditional production policy.
+
+A. MEASURED ADDITIONAL SAVINGS ABOVE LEAN DENSE
+
+The baseline already uses disk-backed DOUBLE original coefficients, double LU,
+unpaired assembly and all-row residual checks. The combined experiment uses:
+  - angle_batch_size=64, instead of 256 (181 actual angles in these tests);
+  - assembly_tile=128;
+  - a reusable residual-read buffer, nominally 4 MiB with at least 64 rows,
+    instead of repeated allocations with at least 256 rows.
+All 362 complex amplitudes are compared. Tables and outliers are included in
+the appended measured results below. Baseline and combined settings each have
+two independent repetitions per geometry; the other variants are screening runs.
+Small timing differences are not statistically established speedups.
+
+Why it helps: RHS, solution, residual, plane-wave and projection arrays scale
+with N times the batch width. Smaller tile workspaces reduce assembly scratch.
+Reusing one read buffer avoids overlapping successive np.fromfile allocations
+and reduces allocator retention. The nominal 4 MiB buffer is NOT a hard 4 MiB
+bound: 64 rows require 7.8125 MiB at N=8000 and 9.4922 MiB at N=9720.
+
+Current source already supports explicit batch and tile sizes. The missing
+piece is a coherent Dense memory plan that chooses them before admission.
+execution/angle_batch.py:24 only recovers a Compressed admission by reducing
+batch size. Extending recovery to Dense must reprice both phases and keep the
+chosen pairing/storage/workspaces fixed through execution and worker scheduling.
+The current Dense forecast at twod/solver.py:1701 assumes two full matrices.
+Correcting that earlier admission gap remains the first prerequisite.
+
+Smaller is not always better: batch 16 reduced memory further in screening but
+cost appreciably more time, partly because full disk residuals are repeated for
+more batches. A storage-aware cost model should choose the largest batch that
+fits. Avoid making all users pay the most conservative setting.
+
+Nine targeted reusable-buffer checks cover all rows, partial final blocks,
+vector and matrix RHS, rewind, exact restoration, invalid shape, short reads,
+cancellation, truncated data and cleanup (some grouped in one check). Full
+production qualification still needs concurrent jobs, supported platforms,
+scratch errors and admission accounting; this is not a drop-in approved patch.
+
+Allocator trimming was also tested after factor construction. It changes
+retained arenas but gives a weaker/less portable answer than bounding live
+arrays: the earlier assembly peak may already have set the high-water mark.
+Do not install unconditional glibc malloc_trim calls as a cross-platform fix.
+Prefer explicit ownership and scratch lifetimes; retaining useful cache may
+still improve throughput. CPU/thread and frequency-worker limits also matter:
+a worker carries its own matrix/factors, so serialized frequencies can save
+more RAM than shaving another small buffer. These choices belong in planning.
+
+Numerical qualification: batching changes floating-point execution. The coated
+case exceeds the deliberately strict 1e-11 audit reproducibility threshold even
+though production quality gates pass. Matrix fingerprints show that batch-only
+changes keep both complete assembled matrices IDENTICAL. RHS changes are about
+4.16e-16 relative, and solution differences are amplified. Tile changes also
+change matrix fingerprints. Do not describe the combined configuration as
+bitwise identical or silently raise the audit threshold; review this against
+the project's intended forward-field contract. Buffer-only controls isolate
+storage changes from batching/tile changes. Raw failed comparisons are retained.
+
+B. REDUCE UNKNOWNS: OFTEN THE LARGEST OPPORTUNITY
+
+A full complex128 matrix costs 16*N*N bytes. A 20% reduction in unknowns saves
+36% of matrix storage; halving them saves 75%. It also reduces dense LU work,
+which scales cubically, although total runtime includes assembly and diagnostics.
+
+Exact collinear fragmentation is a useful, narrowly safe geometry opportunity.
+The square experiment represents exactly the same unit-square boundary either
+as 1024 short primitives or four straight sides. The fragmented version forces
+at least one element per primitive; the merged version can use the requested
+wavelength mesh and corner grading. All endpoints of the square, perimeter,
+orientation and material assignment are unchanged; the DISCRETIZATION changes.
+Seven solves compare P1 resolutions and P2/P3 candidates against a P1 160-PPW
+reference at 0.6 GHz and 91 angles/two polarizations. Results are below.
+These are convergence comparisons, not analytic truth or an exported mesh
+certificate. A high-resolution reference itself has residual mesh error.
+
+A production simplifier must protect corners, junctions, open ends, interface
+signatures, material/IBC changes, thin gaps, topology and intentional user marks.
+Do not merge across segment/material boundaries. Preserve the meaning of fixed
+panel counts: combining primitives with N panels EACH into one primitive with
+N panels would silently change the user's request. Preserve taper parameterization
+and geometry-to-mesh provenance. Offer a candidate and its accuracy evidence;
+never delete meaningful small features merely to satisfy a RAM cap.
+
+For this repository's airfoil, a read-only scan finds 350 primitives across
+19 segments and only ONE exact collinear interior candidate. Simple collinear
+cleanup is not a material solution for that model. Existing local material
+sizing was also queried at 3 GHz: every segment retains global sizing because
+of its conservative feature/proximity protections. That setting alone does
+not reduce this airfoil's mesh. Per-primitive or patch-level protection could
+be investigated, but a thinner boundary is not proof of a negligible field.
+
+hp adaptation is already implemented (twod/adaptive_geometry.py). It coarsens
+wavelength-based element counts and raises basis degree, while keeping corners
+and checking a second discretization. More degree on the SAME elements adds
+unknowns and increases RAM; it helps only when fewer elements achieve the
+required accuracy. Dense imported faceting sets an element-count floor; the
+existing eligibility rule rejects hp candidates that cannot repay that cost.
+The actual airfoil's existing adaptive-certified path was separately tested;
+its results and any limitations are recorded below. Do not equate a mesh-size
+change with a storage-only optimization or silently apply it to a trusted,
+fixed-mesh one-shot request.
+
+NEW QUALIFICATION ISSUE FOR CLAUDE: the default adaptive airfoil run reports
+mesh_convergence_certified=True while warning that SIX panels exceed the stated
+quadrature calibration |k|L<=3 (maximum 3.45). Both repetitions reproduce it.
+The quality gate admits the two warnings because it counts warnings against a
+limit of ten; the adaptive path accepts P2/P3 agreement without resolving that
+specific qualification. The full-field comparison to the larger P1 mesh is
+close, so this is NOT proof that these fields are wrong. It is a conflict in
+what the certificate and warning tell the user, and the calibration boundary
+needs resolution before advertising the full RAM saving as qualified.
+
+Review solver._note_electrically_long_panels (line 1168), the warning-count
+quality gate, and adaptivity._run_certified acceptance. Establish whether the
+polynomial quadrature is separately qualified beyond this generic bound. If
+not, cap/refine candidate element lengths or raise quadrature accuracy with
+independent evidence before acceptance. Conservative factor-four and intermediate factor-six coarsening
+controls remove the warning and still reduce RAM. The factor-six trial retains
+about 0.72 GiB versus 1.61 GiB for the P1 baseline, with mesh convergence passing.
+These are runtime research settings, not new public options; fixed factor six
+is not a general guarantee of the electrical-length bound. Refining only the offending
+local elements could preserve more savings than globally halving the coarsening;
+that local policy is a proposal, not an implemented or validated fix here.
+Do not merely suppress the warning to claim success. The usual high-degree
+junction advisory remains and geometry approximation is not certified.
+
+Curved/isoparametric elements are a longer-term route for curved CAD geometry:
+higher-order density on straight facets does not remove geometric chord error.
+The current geometry.py faceting advisory explicitly notes that refining the
+drawn polygon cannot certify the underlying intended curve. A curved-element
+implementation needs geometry, normals, singular/near quadrature, junction and
+material handling plus independent geometry-error tests. Simply fitting a
+spline to imported points is not an accuracy-preserving solver optimization.
+
+C. MIXED LU WITH DOUBLE RESIDUALS: PROMISING BUT NOT A CATCH-ALL
+
+Current RefinedLU (linalg/refined_lu.py:24) retains a complex128 original plus
+a complex64 LU: about 1.5 dense matrices' worth of payload. Lean double LU with
+an original on disk retains one dense matrix. Turning on today's mixed path
+therefore does NOT improve that lean matrix floor.
+
+An isolated prototype streams the exact double original from disk, constructs
+only a single-precision LU, and iteratively refines with full double residuals.
+Factor payload becomes 8*N*N bytes. It tests normal, transpose and adjoint
+solves using captured physical RHS, rather than only random easy matrices.
+Six physical matrices (PEC, coated and dielectric, both systems) and a difficult
+synthetic control were compared with double LU and existing RefinedLU. Results
+are below. The prototype deliberately keeps the existing mixed residual stopping
+rule; failures are failures, not silently accepted answers.
+
+This is factor-stage evidence only. Today's assembly still allocates a full
+double matrix first. To reduce END-TO-END peak below that floor, assembly must
+produce completed double tiles into a double spool and cast them into the single
+factor array, without first retaining a full double matrix. Native scatter and
+matrix destinations currently assume complex128 storage. Cast completed tiles,
+not each accumulating contribution, and calculate finite checks, scaling and
+norms in bounded double passes. No in-place dtype-view trick frees a retained
+full-double allocation.
+
+Maintain the full double residual contract. The previous review's proposal to
+store residual coefficients in complex64 is a different and rejected shortcut.
+Mixed LU needs a budgeted double/Compressed fallback when refinement fails,
+including transpose/adjoint condition-estimation solves. A fallback cannot
+allocate another full matrix outside the reservation. Halving matrix storage
+increases matrix-limited N capacity only by sqrt(2), about 41%, not by 100%.
+
+D. OTHER IDEAS, WITH THEIR ACTUAL LIMITS
+
+1. Generate original coefficients from geometry during residual products.
+   Existing NativeOracle/PreparedOracle can query bounded coefficient blocks.
+   A full-row product can regenerate exact original coefficients instead of
+   retaining/spooling them. This saves scratch and file-cache pressure, but
+   ordinary in-core double LU STILL retains 16*N*N bytes. It trades repeated
+   assembly/Green-function evaluation for disk reads; the prior measured reads
+   were cache-served. Freeze geometry/material/quadrature state and validate all
+   rows. Worth a prototype for scratch-limited systems, not the first RAM fix.
+
+2. True out-of-core, blocked, pivoted LU.
+   Factors as well as originals live on disk, with a bounded RAM working set.
+   This can exceed RAM capacity without compression, but retains quadratic
+   storage and cubic arithmetic and adds trailing-update/triangular-solve I/O.
+   It requires a real external-memory algorithm, pivot coordination, cancellation,
+   crash/space handling and residual/condition qualification. Replacing an array
+   with np.memmap and calling ordinary LAPACK does not enforce a small resident
+   working set. This is a large new execution path, not a simplification already
+   justified by these benchmarks. No out-of-core LU speedup is claimed here.
+
+3. Packed symmetric/Hermitian factorization.
+   Electromagnetic reciprocity does not make every assembled coupled system
+   Hermitian positive definite. The captured circular PEC matrices are nearly
+   transpose-symmetric but not Hermitian; the coated and dielectric matrices are
+   substantially nonsymmetric. Measured defects are below. Do not replace general
+   LU with Cholesky or retain only a triangle globally. A separately proven
+   symmetric formulation and pivoted factor/storage implementation could help
+   a subset, with its own applicability test and fallback.
+
+4. Exact geometric symmetry, periodicity or circulant structure.
+   Perfectly symmetric geometry AND materials may permit parity/mode blocks;
+   rotationally uniform circles can have special structure. Splitting two equal
+   independent symmetry sectors could halve total dense factor storage (or reduce
+   the simultaneously resident block further when solved sequentially). Excitation
+   decomposition and full-field reconstruction must also be correct. Arbitrary
+   airfoils, coatings, junctions and asymmetric media defeat those shortcuts.
+   This is a specialist optimization, not a general backend replacement.
+
+5. Matrix-free Krylov, FMM, H2/HSS or directional compression.
+   These can remove the dense-factor floor, but introduce iterative convergence,
+   preconditioning, rank/error control and frequency/material limits. Many RHS
+   may favor a reusable direct factor. The existing Compressed path already
+   occupies this role in the architecture. Improve its measured workspace and
+   pairing faults before replacing it with another complex algorithm. No universal
+   O(N log N) or rank-independent bound is claimed for oscillatory high-frequency
+   systems; ranks and robustness depend on the problem.
+
+6. Reordering, sparsification, interface elimination and thin-layer models.
+   Spatial reordering helps locality and compression, but a permuted full dense
+   LU still stores N*N entries. Long-range wave interactions cannot be dropped
+   solely by geometric distance or visual occlusion. Exact Schur elimination may
+   help some block structures but must price retained interior factors and dense
+   Schur complements; elimination is not automatically a RAM saving. Thin-layer/
+   impedance models can remove physical interior degrees of freedom where their
+   asymptotic assumptions are valid. That changes the modeled physics and needs
+   regime-specific error validation; do not apply it as generic cleanup.
+
+E. RECOMMENDED ARCHITECTURE AND IMPLEMENTATION ORDER
+
+Expose one automatic solve workflow with a RAM budget and the existing accuracy/
+mesh semantics. Internally share geometry preparation, coefficient assembly,
+residual/quality interfaces and a phase-aware resource plan. Keep a small set
+of qualified plans: ordinary Dense, lean Dense and Compressed. Add streamed mixed
+LU only if the larger engineering and fallback work proves worthwhile.
+
+For each plan, price max(assembly, factorization, RHS/residual, retained partner),
+including process/worker overhead, live buffers and scratch requirements. Choose
+the fastest qualified plan within the reservation; report the selected path and
+why. A single public workflow does not remove the different numerical tradeoffs.
+
+Order for Claude to review:
+  1. Fix Dense disk-aware admission and bind pairing/batching/tile/storage into
+     one plan. Keep all full residual, condition, live-memory and worker gates.
+  2. Review the reusable-buffer prototype independently, then qualify budget-driven
+     batching/tile changes with the documented numerical differences and benchmarks.
+  3. Use existing hp/local certification where it demonstrably reduces unknowns.
+     Add geometry diagnostics for primitive floors and protected collinear candidates.
+     Preserve explicit mesh promises; never equate mesh coarsening with certification.
+  4. Fix Compressed's previously demonstrated projection workspace/partner-retention
+     gap. Existing cases where it wins both time and RAM are reason to retain it.
+  5. Treat streamed mixed LU as a separate research milestone with admitted fallback.
+     Defer full out-of-core LU or a new FMM path until workload evidence justifies it.
+
+One matrix alone costs approximately:
+  N=10,000: 1.490 GiB; N=20,000: 5.960 GiB;
+  N=50,000: 37.253 GiB; N=100,000: 149.012 GiB.
+These are lower bounds for double LU storage, NOT safe job RAM budgets. At
+25,000 unknowns the matrix alone is 9.31 GiB, so even a perfect overhead-free
+in-core double Dense implementation cannot fit in an 8 GiB budget. File cache,
+RHS, assembly and native/runtime overhead remain additional constraints.
+
+The previous independent study found Compressed faster AND smaller than lean
+Dense on airfoil 8666 and PEC 14000. This follow-up does not invalidate that
+result. There is currently no evidence supporting removal of Compressed.
+
+MEASURED RESULTS
+
+Peak process RSS, GiB; wall seconds. Two-run medians for the shortlist.
+Case             lean baseline RAM   combined RAM   baseline s   combined s
+PEC 8000             1.436            1.186         32.36        32.70
+Coated 9720          1.836            1.650         39.95        41.41
+
+Additional RAM reductions: 17.4% PEC and 10.1% coated. Median runtime changes
+are +1.1% and +3.7%, respectively, within a small two-run sample. These gains
+are on TOP OF unpaired/disk Dense, not versus the original multi-matrix path.
+
+Screening variants (single runs except the repeated baseline/combined rows):
+case                    seconds   RSS GiB    max norm-scaled field difference
+pec-baseline               33.41    1.443    0
+pec-batch64                33.91    1.337    3.362e-15
+pec-batch16                44.42    1.308    4.367e-15
+pec-buffer64               37.23    1.212    3.362e-15
+pec-trim64                 34.74    1.328    3.362e-15
+pec-tile128                33.81    1.300    5.228e-15
+coated-baseline            40.26    1.842    0
+coated-batch64             43.70    1.700    1.625e-10
+coated-batch16             53.67    1.653    1.625e-10
+coated-buffer64            43.77    1.656    1.625e-10
+coated-trim64              44.08    1.664    1.625e-10
+coated-tile128             41.75    1.681    8.386e-10
+pec-baseline-repeat        31.32    1.430    0
+pec-combined-0             32.05    1.186    5.228e-15
+pec-combined-1             33.36    1.187    5.228e-15
+coated-baseline-repeat     39.64    1.830    0
+coated-combined-0          41.21    1.651    8.386e-10
+coated-combined-1          41.62    1.650    8.386e-10
+pec-buffer256              32.09    1.400    3.362e-15
+coated-buffer256           39.52    1.788    0
+
+All 20 solves completed and passed production quality gates. 7 coated
+comparisons fail the separate 1e-11 reproducibility threshold; the largest is
+8.3863785e-10. The analysis returns nonzero and retains them.
+The buffer-only 256-column controls are distinct: PEC differs by 3.36e-15,
+and coated fields are bitwise identical to baseline (reported relative error 0).
+Their measured RSS is 1.400 and 1.788 GiB. This is a modest, narrower storage-only
+change, without the larger numerical-execution changes of the combined plan.
+
+Exact square geometry, comparison to P1 160 PPW (1316 unknowns):
+case                 unknowns   max scaled amplitude difference   max RCS dB
+fragmented             1048       7.9501e-06                  0.00035327
+merged-ppw20            176       0.00042945                  0.015578
+merged-ppw40            348       6.5286e-05                  0.002487
+merged-ppw80            668       1.9719e-05                  0.00084685
+merged-ppw160          1316       0                  0
+merged-p2               168       7.4847e-05                  0.0028208
+merged-p3               252       2.2286e-05                  0.00097132
+RCS values exclude reference amplitudes below 1e-3 of the peak. The 668-DOF
+merged P1 mesh saves 59.4% of matrix bytes relative to the 1048-DOF fragmented
+mesh; the P3 candidate is smaller still. These are changes in discretization,
+with nonzero mesh errors, not field-identical algebraic substitutions.
+
+Real airfoil, 3 GHz, 362 amplitudes; all reported RCS comparisons include
+all 362 samples because none falls below the stated 1e-3 amplitude floor:
+case                         max DOF   seconds   RSS GiB  quadrature warning
+global                         8666     24.83   1.598    False
+adaptive-certified             3964      7.19   0.512    True
+adaptive-certified-repeat      3964      7.77   0.525    True
+global-repeat                  8666     25.45   1.615    False
+adaptive-coarsen4              7348     20.29   1.276    False
+adaptive-coarsen6              4984     11.07   0.720    False
+Default adaptive medians: 7.48 s / 0.519 GiB versus global 25.14 s / 1.607
+GiB. Treat that 67.7% reduction as QUALIFIED BY THE UNRESOLVED WARNING, not an
+unconditional supported configuration. The factor-four and factor-six controls
+are single trials, so their timings are observations, not stable speedup estimates.
+
+adaptive-certified: amplitude difference to global P1 = 3.66019e-05; max RCS difference = 0.00260717 dB; mesh certificate = True.
+adaptive-coarsen4: amplitude difference to global P1 = 2.74651e-05; max RCS difference = 0.00235165 dB; mesh certificate = True.
+adaptive-coarsen6: amplitude difference to global P1 = 3.26036e-05; max RCS difference = 0.00251167 dB; mesh certificate = True.
+The P1 one-shot result is an independent discretization comparison, not an
+analytic reference. The mesh certificate concerns the drawn piecewise-linear
+geometry; geometry_approximation_certified remains false.
+
+Mixed-factor experiment: 21 attempts, 17 complete and four reject. The two
+mixed methods both reject PEC system 1 (correction limit) and the ill-conditioned
+synthetic control (stagnation). All completed corrected runs pass the 1e-12
+backward-error check for normal, transpose and adjoint solves. Largest successful
+mixed-vs-double solution difference is 7.67171e-12.
+PEC system 0, N=4000, double-spool: 0.310 GiB peak, 1.63 s for factor plus all three solve directions.
+PEC system 0, N=4000, mixed-memory: 0.431 GiB peak, 1.57 s for factor plus all three solve directions.
+PEC system 0, N=4000, mixed-spool: 0.189 GiB peak, 2.00 s for factor plus all three solve directions.
+These are factor-only timings after the matrix has already been captured,
+not an end-to-end application benchmark. Complete double residual coefficients
+remain on disk. No large-mesh mixed release qualification is claimed.
+
+Harness correction retained for transparency: the initial factor-only double
+reference called raw LAPACK without production DenseFactor's residual correction.
+Its PEC backward errors exceeded 1e-12. The reference was corrected to perform
+the same bounded two-step refinement, and all 21 factor attempts were rerun.
+One double correction sufficed on both PEC systems. Initial unrefined JSON/logs
+are retained and are not used as the final comparison. Production code was
+unchanged. This further argues for retaining full residual checks.
+
+Measured max-entry transpose/Hermitian defects, normalized by max |A_ij|:
+pec system 0 (N=4000): transpose 6.7017e-14, Hermitian 1.9529.
+pec system 1 (N=4000): transpose 3.2323e-13, Hermitian 1.8084.
+coated system 0 (N=1080): transpose 0.16587, Hermitian 1.8753.
+coated system 1 (N=1080): transpose 0.51696, Hermitian 1.8753.
+dielectric system 0 (N=1024): transpose 1.0001, Hermitian 1.0001.
+dielectric system 1 (N=1024): transpose 1.0001, Hermitian 1.0001.
+
+WHAT REMAINS UNPROVEN
+
+No Windows/SLURM/NFS, slow/evicted disk, strict low-memory OS cgroup or large
+concurrent-job qualification was performed. RSS excludes file-backed pages
+outside the process mapping; job-level RAM savings can differ. The sample set
+is intentionally focused, not a universal performance model. No FMM, packed-LU,
+out-of-core LU, curve-fitting or thin-layer speedup was benchmarked. Those
+sections describe engineering options and limits, not measured implementations.
+
+QUESTIONS FOR CLAUDE'S REVIEW
+
+1. Can one phase-aware Dense plan safely bind disk residuals, pairing, batch
+   width and tile sizes through admission, live checks and worker reservations?
+2. Does the reusable-buffer prototype preserve all supported spool consumers,
+   short-read/cancel/failure behavior and concurrency accounting? Qualify it
+   separately from batch/tile numerical changes.
+3. What forward-field reproducibility contract should apply to batch/tile changes?
+   Review the retained threshold outliers and matrix/RHS/solution fingerprints;
+   do not relax numerical gates to hide them.
+4. Why does certified hp accept the airfoil's out-of-calibration warning? Is
+   higher-degree quadrature independently calibrated for this range, or should
+   candidate sizing/refinement enforce the bound before issuing the certificate?
+5. Can geometry diagnostics identify primitive floors and safe simplification
+   candidates without breaking fixed counts, material interfaces or geometry error?
+6. Is the streamed mixed-LU engineering justified given real PEC fallback, the
+   remaining quadratic floor and the existing Compressed path? Keep one public
+   workflow while preserving the internals that cover different RAM regimes.
+
+REPRODUCTION AND EVIDENCE
+
+From this review branch, with the pinned runtime dependencies installed:
+
+  ROOT="$PWD"
+  P="$ROOT/audits/codex-2026-11-11/dense-memory-study-review/opportunities"
+  OUT=$(mktemp -d /tmp/grim-dense-opportunities-XXXXXX)
+  python "$P/run_memory_options.py" "$ROOT" "$OUT"
+  python "$P/run_geometry.py" "$ROOT" "$OUT"
+  python "$P/run_factor_probes.py" "$ROOT" "$OUT"
+  python "$P/run_fingerprints.py" "$ROOT" "$OUT"
+  python "$P/run_airfoil_adaptive.py" "$ROOT" "$OUT"
+  python "$P/test_bounded_spool.py" "$ROOT" "$OUT"
+  python "$P/analyze_opportunities.py" "$OUT"
+  python "$P/analyze_factors.py" "$OUT"
+  python "$P/analyze_fingerprints.py" "$OUT"
+  python "$P/analyze_airfoil.py" "$OUT"
+
+analyze_opportunities.py intentionally exits nonzero for the documented coated
+reproducibility outliers; run the other analyses separately. run_factor_probes.py
+records expected mixed rejection as a result, not a successful solve. Never
+append reruns into an existing result directory. The geometry scan and local
+sizing probe accept ROOT as their first argument and print JSON.
+
+opportunities/validation-details.zip contains full far fields/timelines,
+per-solve metadata, raw JSON, logs, fixture solution arrays, source hashes and
+environment details. Large captured coefficient matrices and full fingerprint
+RHS/density raw arrays are not committed; scripts regenerate them from the
+public fixtures, and all matrix fingerprints/comparisons are retained. Factor
+captures use synthetic circles; the airfoil is the repository's tracked file.
+The prior 59-attempt study remains beside this follow-up, unchanged.

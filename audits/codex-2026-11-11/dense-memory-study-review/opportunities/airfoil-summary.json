@@ -1,0 +1,2646 @@
+{
+  "summary": {
+    "global": {
+      "repeats": 2,
+      "median_seconds": 25.14,
+      "median_rss_gib": 1.6065959930419922,
+      "rss_range_gib": [
+        1.598052978515625,
+        1.6151390075683594
+      ]
+    },
+    "adaptive-certified": {
+      "repeats": 2,
+      "median_seconds": 7.48,
+      "median_rss_gib": 0.5185356140136719,
+      "rss_range_gib": [
+        0.5115966796875,
+        0.5254745483398438
+      ]
+    }
+  },
+  "runs": [
+    {
+      "case": "global",
+      "wall": 24.83,
+      "rss_highwater_gib": 1.598052978515625,
+      "error": null,
+      "hp_coarsening": null,
+      "unknowns": [
+        8666,
+        8666
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.5152267648260475e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 13004.271750287491,
+              "condition_est_gate_value": 13004.271750287491,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 7.669535226252143e-11,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 35317.53952878094,
+              "condition_est_gate_value": 35317.53952878094,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed",
+        "mesh_convergence_certified": false,
+        "certification_scope": "discrete_linear_system_only"
+      },
+      "mesh_convergence_certified": false,
+      "polynomial_degree": 1,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives).",
+        "SURVEY MODE: VV and HH were solved on the base mesh only; no mesh-convergence certificate exists for either channel."
+      ],
+      "relative_field_difference": 0.0,
+      "max_rcs_db_difference_above_minus60db": 0.0,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": false,
+      "mesh_convergence": null
+    },
+    {
+      "case": "adaptive-certified",
+      "wall": 7.19,
+      "rss_highwater_gib": 0.5115966796875,
+      "error": null,
+      "hp_coarsening": null,
+      "unknowns": [
+        2646,
+        2646,
+        3964,
+        3964
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.064299419310843e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 3754.124616488474,
+              "condition_est_gate_value": 3754.124616488474,
+              "condition_est_computed": true,
+              "warnings_count": 2
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.2896521648293364e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 9929.505197396074,
+              "condition_est_gate_value": 9929.505197396074,
+              "condition_est_computed": true,
+              "warnings_count": 2
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "mesh_convergence_certified": true,
+      "polynomial_degree": 3,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives).",
+        "Electrically long panels: 6 panel(s) exceed |k|L = 3 (largest 3.45). The boundary-integral quadrature is calibrated up to that length, so operator accuracy is not qualified for this mesh and a small linear residual does not certify it. Increase the panel density."
+      ],
+      "relative_field_difference": 3.6601920438633085e-05,
+      "max_rcs_db_difference_above_minus60db": 0.0026071735779463626,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": true,
+      "mesh_convergence": {
+        "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+        "passed": true,
+        "published_mesh": "fine",
+        "channels": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0002062048064291397,
+            "max_abs_db": 0.0005994066100079021,
+            "mean_db": -3.9419265132392755e-05,
+            "median_abs_db": 0.00014129064039414274,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00046027573939054776,
+            "max_abs_db_unfloored": 0.0013013670532657784,
+            "complex_rms_normalized": 5.974065140183596e-06,
+            "complex_max_normalized": 1.1025310886745003e-05,
+            "complex_reference_peak_amplitude": 22.923781690517313,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923781690517313
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.005137251976307382,
+            "phase_max_deg": 0.011737092884860967,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 2.212718643242573e-05,
+              "complex_rms_normalized": 1.1989616843840688e-05,
+              "max_abs_db": 0.0012029757659186367,
+              "rms_db": 0.0004138415906807039,
+              "phase_max_deg": 0.02355569335920013,
+              "phase_rms_deg": 0.010310179313561341
+            },
+            "estimated_published_complex_max_normalized": 2.212718643242573e-05,
+            "estimated_published_complex_rms_normalized": 1.1989616843840688e-05,
+            "estimated_published_max_abs_db": 0.0012029757659186367,
+            "estimated_published_rms_db": 0.0004138415906807039
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0012244414759034125,
+            "max_abs_db": 0.0023664885189944584,
+            "mean_db": -0.0007456869721856786,
+            "median_abs_db": 0.0005832600275867961,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0016300666373903511,
+            "max_abs_db_unfloored": 0.003212944172663157,
+            "complex_rms_normalized": 2.8449567314579616e-05,
+            "complex_max_normalized": 4.4667549596809534e-05,
+            "complex_reference_peak_amplitude": 21.53823047854523,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53823047854523
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.012038458039097484,
+            "phase_max_deg": 0.02195214148377867,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 8.964529051026356e-05,
+              "complex_rms_normalized": 5.70967010688438e-05,
+              "max_abs_db": 0.0047494109860374886,
+              "rms_db": 0.0024573860176117096,
+              "phase_max_deg": 0.044056728394528025,
+              "phase_rms_deg": 0.024160516481244253
+            },
+            "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+            "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+            "estimated_published_max_abs_db": 0.0047494109860374886,
+            "estimated_published_rms_db": 0.0024573860176117096
+          }
+        },
+        "polarizations": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0002062048064291397,
+            "max_abs_db": 0.0005994066100079021,
+            "mean_db": -3.9419265132392755e-05,
+            "median_abs_db": 0.00014129064039414274,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00046027573939054776,
+            "max_abs_db_unfloored": 0.0013013670532657784,
+            "complex_rms_normalized": 5.974065140183596e-06,
+            "complex_max_normalized": 1.1025310886745003e-05,
+            "complex_reference_peak_amplitude": 22.923781690517313,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923781690517313
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.005137251976307382,
+            "phase_max_deg": 0.011737092884860967,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 2.212718643242573e-05,
+              "complex_rms_normalized": 1.1989616843840688e-05,
+              "max_abs_db": 0.0012029757659186367,
+              "rms_db": 0.0004138415906807039,
+              "phase_max_deg": 0.02355569335920013,
+              "phase_rms_deg": 0.010310179313561341
+            },
+            "estimated_published_complex_max_normalized": 2.212718643242573e-05,
+            "estimated_published_complex_rms_normalized": 1.1989616843840688e-05,
+            "estimated_published_max_abs_db": 0.0012029757659186367,
+            "estimated_published_rms_db": 0.0004138415906807039
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0012244414759034125,
+            "max_abs_db": 0.0023664885189944584,
+            "mean_db": -0.0007456869721856786,
+            "median_abs_db": 0.0005832600275867961,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0016300666373903511,
+            "max_abs_db_unfloored": 0.003212944172663157,
+            "complex_rms_normalized": 2.8449567314579616e-05,
+            "complex_max_normalized": 4.4667549596809534e-05,
+            "complex_reference_peak_amplitude": 21.53823047854523,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53823047854523
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.012038458039097484,
+            "phase_max_deg": 0.02195214148377867,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 8.964529051026356e-05,
+              "complex_rms_normalized": 5.70967010688438e-05,
+              "max_abs_db": 0.0047494109860374886,
+              "rms_db": 0.0024573860176117096,
+              "phase_max_deg": 0.044056728394528025,
+              "phase_rms_deg": 0.024160516481244253
+            },
+            "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+            "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+            "estimated_published_max_abs_db": 0.0047494109860374886,
+            "estimated_published_rms_db": 0.0024573860176117096
+          }
+        },
+        "base_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+        "rms_db": 0.0012244414759034125,
+        "max_abs_db": 0.0023664885189944584,
+        "complex_rms_normalized": 2.8449567314579616e-05,
+        "complex_max_normalized": 4.4667549596809534e-05,
+        "phase_rms_deg": 0.012038458039097484,
+        "phase_max_deg": 0.02195214148377867,
+        "base_panel_count": 864.0,
+        "fine_panel_count": 864.0,
+        "panel_refinement_ratio": 1.0,
+        "fine_factor": 1.5,
+        "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+        "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+        "estimated_published_max_abs_db": 0.0047494109860374886,
+        "estimated_published_rms_db": 0.0024573860176117096
+      }
+    },
+    {
+      "case": "adaptive-certified-repeat",
+      "wall": 7.77,
+      "rss_highwater_gib": 0.5254745483398438,
+      "error": null,
+      "hp_coarsening": null,
+      "unknowns": [
+        2646,
+        2646,
+        3964,
+        3964
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.064299419310843e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 3754.124616488474,
+              "condition_est_gate_value": 3754.124616488474,
+              "condition_est_computed": true,
+              "warnings_count": 2
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.2896521648293364e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 9929.505197396074,
+              "condition_est_gate_value": 9929.505197396074,
+              "condition_est_computed": true,
+              "warnings_count": 2
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "mesh_convergence_certified": true,
+      "polynomial_degree": 3,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives).",
+        "Electrically long panels: 6 panel(s) exceed |k|L = 3 (largest 3.45). The boundary-integral quadrature is calibrated up to that length, so operator accuracy is not qualified for this mesh and a small linear residual does not certify it. Increase the panel density."
+      ],
+      "relative_field_difference": 3.6601920438633085e-05,
+      "max_rcs_db_difference_above_minus60db": 0.0026071735779463626,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": true,
+      "mesh_convergence": {
+        "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+        "passed": true,
+        "published_mesh": "fine",
+        "channels": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0002062048064291397,
+            "max_abs_db": 0.0005994066100079021,
+            "mean_db": -3.9419265132392755e-05,
+            "median_abs_db": 0.00014129064039414274,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00046027573939054776,
+            "max_abs_db_unfloored": 0.0013013670532657784,
+            "complex_rms_normalized": 5.974065140183596e-06,
+            "complex_max_normalized": 1.1025310886745003e-05,
+            "complex_reference_peak_amplitude": 22.923781690517313,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923781690517313
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.005137251976307382,
+            "phase_max_deg": 0.011737092884860967,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 2.212718643242573e-05,
+              "complex_rms_normalized": 1.1989616843840688e-05,
+              "max_abs_db": 0.0012029757659186367,
+              "rms_db": 0.0004138415906807039,
+              "phase_max_deg": 0.02355569335920013,
+              "phase_rms_deg": 0.010310179313561341
+            },
+            "estimated_published_complex_max_normalized": 2.212718643242573e-05,
+            "estimated_published_complex_rms_normalized": 1.1989616843840688e-05,
+            "estimated_published_max_abs_db": 0.0012029757659186367,
+            "estimated_published_rms_db": 0.0004138415906807039
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0012244414759034125,
+            "max_abs_db": 0.0023664885189944584,
+            "mean_db": -0.0007456869721856786,
+            "median_abs_db": 0.0005832600275867961,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0016300666373903511,
+            "max_abs_db_unfloored": 0.003212944172663157,
+            "complex_rms_normalized": 2.8449567314579616e-05,
+            "complex_max_normalized": 4.4667549596809534e-05,
+            "complex_reference_peak_amplitude": 21.53823047854523,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53823047854523
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.012038458039097484,
+            "phase_max_deg": 0.02195214148377867,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 8.964529051026356e-05,
+              "complex_rms_normalized": 5.70967010688438e-05,
+              "max_abs_db": 0.0047494109860374886,
+              "rms_db": 0.0024573860176117096,
+              "phase_max_deg": 0.044056728394528025,
+              "phase_rms_deg": 0.024160516481244253
+            },
+            "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+            "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+            "estimated_published_max_abs_db": 0.0047494109860374886,
+            "estimated_published_rms_db": 0.0024573860176117096
+          }
+        },
+        "polarizations": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0002062048064291397,
+            "max_abs_db": 0.0005994066100079021,
+            "mean_db": -3.9419265132392755e-05,
+            "median_abs_db": 0.00014129064039414274,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00046027573939054776,
+            "max_abs_db_unfloored": 0.0013013670532657784,
+            "complex_rms_normalized": 5.974065140183596e-06,
+            "complex_max_normalized": 1.1025310886745003e-05,
+            "complex_reference_peak_amplitude": 22.923781690517313,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923781690517313
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.005137251976307382,
+            "phase_max_deg": 0.011737092884860967,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 2.212718643242573e-05,
+              "complex_rms_normalized": 1.1989616843840688e-05,
+              "max_abs_db": 0.0012029757659186367,
+              "rms_db": 0.0004138415906807039,
+              "phase_max_deg": 0.02355569335920013,
+              "phase_rms_deg": 0.010310179313561341
+            },
+            "estimated_published_complex_max_normalized": 2.212718643242573e-05,
+            "estimated_published_complex_rms_normalized": 1.1989616843840688e-05,
+            "estimated_published_max_abs_db": 0.0012029757659186367,
+            "estimated_published_rms_db": 0.0004138415906807039
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0012244414759034125,
+            "max_abs_db": 0.0023664885189944584,
+            "mean_db": -0.0007456869721856786,
+            "median_abs_db": 0.0005832600275867961,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0016300666373903511,
+            "max_abs_db_unfloored": 0.003212944172663157,
+            "complex_rms_normalized": 2.8449567314579616e-05,
+            "complex_max_normalized": 4.4667549596809534e-05,
+            "complex_reference_peak_amplitude": 21.53823047854523,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53823047854523
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.012038458039097484,
+            "phase_max_deg": 0.02195214148377867,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 864,
+            "fine_panel_count": 864,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4982698961937717,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.006944444444444,
+              "complex_max_normalized": 8.964529051026356e-05,
+              "complex_rms_normalized": 5.70967010688438e-05,
+              "max_abs_db": 0.0047494109860374886,
+              "rms_db": 0.0024573860176117096,
+              "phase_max_deg": 0.044056728394528025,
+              "phase_rms_deg": 0.024160516481244253
+            },
+            "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+            "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+            "estimated_published_max_abs_db": 0.0047494109860374886,
+            "estimated_published_rms_db": 0.0024573860176117096
+          }
+        },
+        "base_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 7.305791768856893e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2274.582928579285,
+                "condition_est_gate_value": 2274.582928579285,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 2.119394985289506e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5174.348661232074,
+                "condition_est_gate_value": 5174.348661232074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.064299419310843e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3754.124616488474,
+                "condition_est_gate_value": 3754.124616488474,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.2896521648293364e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 9929.505197396074,
+                "condition_est_gate_value": 9929.505197396074,
+                "condition_est_computed": true,
+                "warnings_count": 2
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+        "rms_db": 0.0012244414759034125,
+        "max_abs_db": 0.0023664885189944584,
+        "complex_rms_normalized": 2.8449567314579616e-05,
+        "complex_max_normalized": 4.4667549596809534e-05,
+        "phase_rms_deg": 0.012038458039097484,
+        "phase_max_deg": 0.02195214148377867,
+        "base_panel_count": 864.0,
+        "fine_panel_count": 864.0,
+        "panel_refinement_ratio": 1.0,
+        "fine_factor": 1.5,
+        "estimated_published_complex_max_normalized": 8.964529051026356e-05,
+        "estimated_published_complex_rms_normalized": 5.70967010688438e-05,
+        "estimated_published_max_abs_db": 0.0047494109860374886,
+        "estimated_published_rms_db": 0.0024573860176117096
+      }
+    },
+    {
+      "case": "global-repeat",
+      "wall": 25.45,
+      "rss_highwater_gib": 1.6151390075683594,
+      "error": null,
+      "hp_coarsening": null,
+      "unknowns": [
+        8666,
+        8666
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.5152267648260475e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 13004.271750287491,
+              "condition_est_gate_value": 13004.271750287491,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 7.669535226252143e-11,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 35317.53952878094,
+              "condition_est_gate_value": 35317.53952878094,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed",
+        "mesh_convergence_certified": false,
+        "certification_scope": "discrete_linear_system_only"
+      },
+      "mesh_convergence_certified": false,
+      "polynomial_degree": 1,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives).",
+        "SURVEY MODE: VV and HH were solved on the base mesh only; no mesh-convergence certificate exists for either channel."
+      ],
+      "relative_field_difference": 0.0,
+      "max_rcs_db_difference_above_minus60db": 0.0,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": false,
+      "mesh_convergence": null
+    },
+    {
+      "case": "adaptive-coarsen4",
+      "wall": 20.29,
+      "rss_highwater_gib": 1.2761344909667969,
+      "error": null,
+      "hp_coarsening": 4.0,
+      "unknowns": [
+        4902,
+        4902,
+        7348,
+        7348
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9884629361342938e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 6729.766840852436,
+              "condition_est_gate_value": 6729.766840852436,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 3.4927897449267647e-12,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 15401.304764642784,
+              "condition_est_gate_value": 15401.304764642784,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "mesh_convergence_certified": true,
+      "polynomial_degree": 3,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives)."
+      ],
+      "relative_field_difference": 2.746506510484985e-05,
+      "max_rcs_db_difference_above_minus60db": 0.0023516527936078366,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": false,
+      "mesh_convergence": {
+        "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+        "passed": true,
+        "published_mesh": "fine",
+        "channels": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 9.911840293177891e-05,
+            "max_abs_db": 0.0003096436578969852,
+            "mean_db": -1.0680721796080817e-05,
+            "median_abs_db": 6.8908833978365e-05,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00022581889115412052,
+            "max_abs_db_unfloored": 0.0008197099441247246,
+            "complex_rms_normalized": 2.602167553992103e-06,
+            "complex_max_normalized": 5.168721733967751e-06,
+            "complex_reference_peak_amplitude": 22.92382821966265,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.92382821966265
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.002224038879028615,
+            "phase_max_deg": 0.0053805057078337645,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.840873502707012e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3452.6844451941442,
+                "condition_est_gate_value": 3452.6844451941442,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.9884629361342938e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 6729.766840852436,
+                "condition_est_gate_value": 6729.766840852436,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1612,
+            "fine_panel_count": 1612,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4990712074303405,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.003722084367246,
+              "complex_max_normalized": 1.0356681886300148e-05,
+              "complex_rms_normalized": 5.214020595157875e-06,
+              "max_abs_db": 0.0006204398356124456,
+              "rms_db": 0.00019860573292161657,
+              "phase_max_deg": 0.010781038111850534,
+              "phase_rms_deg": 0.004456355818401009
+            },
+            "estimated_published_complex_max_normalized": 1.0356681886300148e-05,
+            "estimated_published_complex_rms_normalized": 5.214020595157875e-06,
+            "estimated_published_max_abs_db": 0.0006204398356124456,
+            "estimated_published_rms_db": 0.00019860573292161657
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0009684842720638821,
+            "max_abs_db": 0.0018570465625467047,
+            "mean_db": -0.0006004534180515782,
+            "median_abs_db": 0.00042243487895055054,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0012875458098759365,
+            "max_abs_db_unfloored": 0.002521241620904391,
+            "complex_rms_normalized": 1.8542473398243464e-05,
+            "complex_max_normalized": 2.902407792637925e-05,
+            "complex_reference_peak_amplitude": 21.53838460452975,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53838460452975
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.006146044744923968,
+            "phase_max_deg": 0.010792128725838302,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.3787787816510365e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 8503.941415642052,
+                "condition_est_gate_value": 8503.941415642052,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.4927897449267647e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 15401.304764642784,
+                "condition_est_gate_value": 15401.304764642784,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1612,
+            "fine_panel_count": 1612,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4990712074303405,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.003722084367246,
+              "complex_max_normalized": 5.8156185919482e-05,
+              "complex_rms_normalized": 3.71539634468526e-05,
+              "max_abs_db": 0.0037210052090731124,
+              "rms_db": 0.0019405733242967367,
+              "phase_max_deg": 0.02162442666529635,
+              "phase_rms_deg": 0.01231496558691341
+            },
+            "estimated_published_complex_max_normalized": 5.8156185919482e-05,
+            "estimated_published_complex_rms_normalized": 3.71539634468526e-05,
+            "estimated_published_max_abs_db": 0.0037210052090731124,
+            "estimated_published_rms_db": 0.0019405733242967367
+          }
+        },
+        "polarizations": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 9.911840293177891e-05,
+            "max_abs_db": 0.0003096436578969852,
+            "mean_db": -1.0680721796080817e-05,
+            "median_abs_db": 6.8908833978365e-05,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00022581889115412052,
+            "max_abs_db_unfloored": 0.0008197099441247246,
+            "complex_rms_normalized": 2.602167553992103e-06,
+            "complex_max_normalized": 5.168721733967751e-06,
+            "complex_reference_peak_amplitude": 22.92382821966265,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.92382821966265
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.002224038879028615,
+            "phase_max_deg": 0.0053805057078337645,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.840873502707012e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3452.6844451941442,
+                "condition_est_gate_value": 3452.6844451941442,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.9884629361342938e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 6729.766840852436,
+                "condition_est_gate_value": 6729.766840852436,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1612,
+            "fine_panel_count": 1612,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4990712074303405,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.003722084367246,
+              "complex_max_normalized": 1.0356681886300148e-05,
+              "complex_rms_normalized": 5.214020595157875e-06,
+              "max_abs_db": 0.0006204398356124456,
+              "rms_db": 0.00019860573292161657,
+              "phase_max_deg": 0.010781038111850534,
+              "phase_rms_deg": 0.004456355818401009
+            },
+            "estimated_published_complex_max_normalized": 1.0356681886300148e-05,
+            "estimated_published_complex_rms_normalized": 5.214020595157875e-06,
+            "estimated_published_max_abs_db": 0.0006204398356124456,
+            "estimated_published_rms_db": 0.00019860573292161657
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0009684842720638821,
+            "max_abs_db": 0.0018570465625467047,
+            "mean_db": -0.0006004534180515782,
+            "median_abs_db": 0.00042243487895055054,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0012875458098759365,
+            "max_abs_db_unfloored": 0.002521241620904391,
+            "complex_rms_normalized": 1.8542473398243464e-05,
+            "complex_max_normalized": 2.902407792637925e-05,
+            "complex_reference_peak_amplitude": 21.53838460452975,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.53838460452975
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.006146044744923968,
+            "phase_max_deg": 0.010792128725838302,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.3787787816510365e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 8503.941415642052,
+                "condition_est_gate_value": 8503.941415642052,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.4927897449267647e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 15401.304764642784,
+                "condition_est_gate_value": 15401.304764642784,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1612,
+            "fine_panel_count": 1612,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4990712074303405,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.003722084367246,
+              "complex_max_normalized": 5.8156185919482e-05,
+              "complex_rms_normalized": 3.71539634468526e-05,
+              "max_abs_db": 0.0037210052090731124,
+              "rms_db": 0.0019405733242967367,
+              "phase_max_deg": 0.02162442666529635,
+              "phase_rms_deg": 0.01231496558691341
+            },
+            "estimated_published_complex_max_normalized": 5.8156185919482e-05,
+            "estimated_published_complex_rms_normalized": 3.71539634468526e-05,
+            "estimated_published_max_abs_db": 0.0037210052090731124,
+            "estimated_published_rms_db": 0.0019405733242967367
+          }
+        },
+        "base_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.840873502707012e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 3452.6844451941442,
+                "condition_est_gate_value": 3452.6844451941442,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.3787787816510365e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 8503.941415642052,
+                "condition_est_gate_value": 8503.941415642052,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.9884629361342938e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 6729.766840852436,
+                "condition_est_gate_value": 6729.766840852436,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 3.4927897449267647e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 15401.304764642784,
+                "condition_est_gate_value": 15401.304764642784,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+        "rms_db": 0.0009684842720638821,
+        "max_abs_db": 0.0018570465625467047,
+        "complex_rms_normalized": 1.8542473398243464e-05,
+        "complex_max_normalized": 2.902407792637925e-05,
+        "phase_rms_deg": 0.006146044744923968,
+        "phase_max_deg": 0.010792128725838302,
+        "base_panel_count": 1612.0,
+        "fine_panel_count": 1612.0,
+        "panel_refinement_ratio": 1.0,
+        "fine_factor": 1.5,
+        "estimated_published_complex_max_normalized": 5.8156185919482e-05,
+        "estimated_published_complex_rms_normalized": 3.71539634468526e-05,
+        "estimated_published_max_abs_db": 0.0037210052090731124,
+        "estimated_published_rms_db": 0.0019405733242967367
+      }
+    },
+    {
+      "case": "adaptive-coarsen6",
+      "wall": 11.07,
+      "rss_highwater_gib": 0.7202835083007812,
+      "error": null,
+      "hp_coarsening": 6.0,
+      "unknowns": [
+        3326,
+        3326,
+        4984,
+        4984
+      ],
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 4.977462152204765e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 4254.165141590852,
+              "condition_est_gate_value": 4254.165141590852,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.865136639497019e-12,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 12323.778537426842,
+              "condition_est_gate_value": 12323.778537426842,
+              "condition_est_computed": true,
+              "warnings_count": 1
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_and_mesh_convergence",
+            "mesh_convergence_certified": true,
+            "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "mesh_convergence_certified": true,
+      "polynomial_degree": 3,
+      "warnings": [
+        "Geometry contains 4 high-degree node(s) (>2 connected primitives)."
+      ],
+      "relative_field_difference": 3.260362089177101e-05,
+      "max_rcs_db_difference_above_minus60db": 0.0025116733114121325,
+      "compared_rcs_samples": 362,
+      "quadrature_warning": false,
+      "mesh_convergence": {
+        "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+        "passed": true,
+        "published_mesh": "fine",
+        "channels": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0001563940308550043,
+            "max_abs_db": 0.00045296558232821305,
+            "mean_db": -3.488021651823475e-05,
+            "median_abs_db": 0.00010252748640970921,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00035803741446077913,
+            "max_abs_db_unfloored": 0.0010647378643398042,
+            "complex_rms_normalized": 4.607330917176766e-06,
+            "complex_max_normalized": 8.601329248212813e-06,
+            "complex_reference_peak_amplitude": 22.923803054770502,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923803054770502
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.0039423109556796215,
+            "phase_max_deg": 0.009035467124567653,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.67201663076941e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2390.1629869993985,
+                "condition_est_gate_value": 2390.1629869993985,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.977462152204765e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 4254.165141590852,
+                "condition_est_gate_value": 4254.165141590852,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1090,
+            "fine_panel_count": 1090,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4986276303751143,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.0055045871559636,
+              "complex_max_normalized": 1.7250005262929553e-05,
+              "complex_rms_normalized": 9.240023288943497e-06,
+              "max_abs_db": 0.0009084245531830035,
+              "rms_db": 0.00031364894628352244,
+              "phase_max_deg": 0.018120670765417332,
+              "phase_rms_deg": 0.007906322705610692
+            },
+            "estimated_published_complex_max_normalized": 1.7250005262929553e-05,
+            "estimated_published_complex_rms_normalized": 9.240023288943497e-06,
+            "estimated_published_max_abs_db": 0.0009084245531830035,
+            "estimated_published_rms_db": 0.00031364894628352244
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0010694597002140226,
+            "max_abs_db": 0.002059639406288838,
+            "mean_db": -0.0006575219778429074,
+            "median_abs_db": 0.00047437547887385634,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0014231782127763564,
+            "max_abs_db_unfloored": 0.002796316246978847,
+            "complex_rms_normalized": 2.315526082410024e-05,
+            "complex_max_normalized": 3.6316164370387814e-05,
+            "complex_reference_peak_amplitude": 21.538290349807696,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.538290349807696
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.00919319158059434,
+            "phase_max_deg": 0.016588576402541425,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.4444238207524186e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5944.575361072861,
+                "condition_est_gate_value": 5944.575361072861,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.865136639497019e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 12323.778537426842,
+                "condition_est_gate_value": 12323.778537426842,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1090,
+            "fine_panel_count": 1090,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4986276303751143,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.0055045871559636,
+              "complex_max_normalized": 7.283223423272273e-05,
+              "complex_rms_normalized": 4.643798179952581e-05,
+              "max_abs_db": 0.00413061627719945,
+              "rms_db": 0.002144806334557664,
+              "phase_max_deg": 0.033268466069684,
+              "phase_rms_deg": 0.01843698788548553
+            },
+            "estimated_published_complex_max_normalized": 7.283223423272273e-05,
+            "estimated_published_complex_rms_normalized": 4.643798179952581e-05,
+            "estimated_published_max_abs_db": 0.00413061627719945,
+            "estimated_published_rms_db": 0.002144806334557664
+          }
+        },
+        "polarizations": {
+          "VV": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0001563940308550043,
+            "max_abs_db": 0.00045296558232821305,
+            "mean_db": -3.488021651823475e-05,
+            "median_abs_db": 0.00010252748640970921,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 112,
+            "rms_db_unfloored": 0.00035803741446077913,
+            "max_abs_db_unfloored": 0.0010647378643398042,
+            "complex_rms_normalized": 4.607330917176766e-06,
+            "complex_max_normalized": 8.601329248212813e-06,
+            "complex_reference_peak_amplitude": 22.923803054770502,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 22.923803054770502
+            },
+            "phase_sample_count": 112,
+            "phase_rms_deg": 0.0039423109556796215,
+            "phase_max_deg": 0.009035467124567653,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.67201663076941e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2390.1629869993985,
+                "condition_est_gate_value": 2390.1629869993985,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.977462152204765e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 4254.165141590852,
+                "condition_est_gate_value": 4254.165141590852,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1090,
+            "fine_panel_count": 1090,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4986276303751143,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.0055045871559636,
+              "complex_max_normalized": 1.7250005262929553e-05,
+              "complex_rms_normalized": 9.240023288943497e-06,
+              "max_abs_db": 0.0009084245531830035,
+              "rms_db": 0.00031364894628352244,
+              "phase_max_deg": 0.018120670765417332,
+              "phase_rms_deg": 0.007906322705610692
+            },
+            "estimated_published_complex_max_normalized": 1.7250005262929553e-05,
+            "estimated_published_complex_rms_normalized": 9.240023288943497e-06,
+            "estimated_published_max_abs_db": 0.0009084245531830035,
+            "estimated_published_rms_db": 0.00031364894628352244
+          },
+          "HH": {
+            "passed": true,
+            "sample_count": 181,
+            "rms_db": 0.0010694597002140226,
+            "max_abs_db": 0.002059639406288838,
+            "mean_db": -0.0006575219778429074,
+            "median_abs_db": 0.00047437547887385634,
+            "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+            "db_sample_count_above_floor": 181,
+            "rms_db_unfloored": 0.0014231782127763564,
+            "max_abs_db_unfloored": 0.002796316246978847,
+            "complex_rms_normalized": 2.315526082410024e-05,
+            "complex_max_normalized": 3.6316164370387814e-05,
+            "complex_reference_peak_amplitude": 21.538290349807696,
+            "complex_reference_peak_amplitude_by_frequency": {
+              "3.0": 21.538290349807696
+            },
+            "phase_sample_count": 181,
+            "phase_rms_deg": 0.00919319158059434,
+            "phase_max_deg": 0.016588576402541425,
+            "limits": {
+              "rms_db": 0.05,
+              "max_abs_db": 0.25,
+              "complex_rms_normalized": 0.001,
+              "complex_max_normalized": 0.002,
+              "phase_rms_deg": 0.5,
+              "phase_max_deg": 2.0,
+              "phase_floor_relative": 0.03,
+              "db_floor_relative": 0.03
+            },
+            "violations": [],
+            "reason": "mesh convergence passed",
+            "schema": "ghost.solver.mesh-convergence.v1",
+            "fine_factor": 1.5,
+            "published_mesh": "fine",
+            "geometry_model": "piecewise_linear_input",
+            "geometry_approximation_certified": false,
+            "surface_wave_sampling_checked": false,
+            "base_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.4444238207524186e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5944.575361072861,
+                "condition_est_gate_value": 5944.575361072861,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "fine_quality_gate": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.865136639497019e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 12323.778537426842,
+                "condition_est_gate_value": 12323.778537426842,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "base_polynomial_degree": 2,
+            "fine_polynomial_degree": 3,
+            "refinement_kind": "polynomial",
+            "base_panel_count": 1090,
+            "fine_panel_count": 1090,
+            "panel_refinement_ratio": 1.0,
+            "estimated_published_error": {
+              "assumed_order": 1.0,
+              "refinement_ratio": 1.4986276303751143,
+              "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+              "available": true,
+              "factor": 2.0055045871559636,
+              "complex_max_normalized": 7.283223423272273e-05,
+              "complex_rms_normalized": 4.643798179952581e-05,
+              "max_abs_db": 0.00413061627719945,
+              "rms_db": 0.002144806334557664,
+              "phase_max_deg": 0.033268466069684,
+              "phase_rms_deg": 0.01843698788548553
+            },
+            "estimated_published_complex_max_normalized": 7.283223423272273e-05,
+            "estimated_published_complex_rms_normalized": 4.643798179952581e-05,
+            "estimated_published_max_abs_db": 0.00413061627719945,
+            "estimated_published_rms_db": 0.002144806334557664
+          }
+        },
+        "base_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 5.67201663076941e-14,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 2390.1629869993985,
+                "condition_est_gate_value": 2390.1629869993985,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.4444238207524186e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 5944.575361072861,
+                "condition_est_gate_value": 5944.575361072861,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "fine_quality_gate": {
+          "passed": true,
+          "channels": {
+            "VV": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 4.977462152204765e-13,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 4254.165141590852,
+                "condition_est_gate_value": 4254.165141590852,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            },
+            "HH": {
+              "passed": true,
+              "thresholds": {
+                "residual_norm_max": 1e-06,
+                "constraint_residual_norm_max": 1e-08,
+                "condition_est_max": 1000000.0,
+                "warnings_max": 10
+              },
+              "values": {
+                "residual_norm_max": 1.865136639497019e-12,
+                "residual_nonfinite_count": 0,
+                "constraint_residual_norm_max": 0.0,
+                "condition_est_max": 12323.778537426842,
+                "condition_est_gate_value": 12323.778537426842,
+                "condition_est_computed": true,
+                "warnings_count": 1
+              },
+              "violations": [],
+              "certification_scope": "discrete_linear_system_residual_and_condition",
+              "mesh_convergence_certified": false,
+              "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+            }
+          }
+        },
+        "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+        "rms_db": 0.0010694597002140226,
+        "max_abs_db": 0.002059639406288838,
+        "complex_rms_normalized": 2.315526082410024e-05,
+        "complex_max_normalized": 3.6316164370387814e-05,
+        "phase_rms_deg": 0.00919319158059434,
+        "phase_max_deg": 0.016588576402541425,
+        "base_panel_count": 1090.0,
+        "fine_panel_count": 1090.0,
+        "panel_refinement_ratio": 1.0,
+        "fine_factor": 1.5,
+        "estimated_published_complex_max_normalized": 7.283223423272273e-05,
+        "estimated_published_complex_rms_normalized": 4.643798179952581e-05,
+        "estimated_published_max_abs_db": 0.00413061627719945,
+        "estimated_published_rms_db": 0.002144806334557664
+      }
+    }
+  ]
+}

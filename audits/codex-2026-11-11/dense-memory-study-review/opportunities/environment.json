@@ -1,0 +1,33 @@
+{
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cpu_max": "400000 100000",
+  "memory_max": "17179869184",
+  "launch_blas_threads": 1,
+  "solve_assembly_threads": 4,
+  "solve_blas_threads": 4,
+  "source": "d162169876cf53d10ca0f1b7382c94ba5301fb82",
+  "prior_review": "8210a8e527660eb5cc65ae27628a83f87cca9b6e",
+  "libraries": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 5,
+      "prefix": "libscipy_openblas",
+      "filepath": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-fdde5778.so",
+      "version": "0.3.30",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ],
+  "note": "Library thread counts in this introspection process are not the solve thread scopes. Benchmark scripts explicitly request four threads; factor probes launch with four BLAS threads."
+}
