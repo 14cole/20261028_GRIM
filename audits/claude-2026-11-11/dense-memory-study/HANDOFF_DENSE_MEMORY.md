@@ -3,7 +3,7 @@
 - **Tree measured:** production `distribution/grim-open-item-fixes-2026-11-11` at `d162169`. No code changed.
 - **Host:** Linux, 4 vCPU, 15 GiB, Python 3.13, temporary directory on a local virtual disk (ext4). No Windows, no network file system.
 - **Question:** can Dense run in less memory, so that it can be used more often as the reference method?
-- **Evidence:** scripts and raw results beside this file (79 profiled solves).
+- **Evidence:** scripts and raw results beside this file (73 profiled solves).
 
 ## Answer
 
