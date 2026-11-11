@@ -1,0 +1,33 @@
+GRIM integrated installation diagnostic
+No files are changed and no solver or PowerPoint instance is started.
+
+[PASS] [required] Python runtime: 3.12.14 (/workspace/ghost-gui-env/bin/python); requires 3.10 or newer
+[PASS] [required] GRIM authoritative source: complete source-checkout module path
+       Repository root: /workspace/backend-cleanup-response
+       GRIM modules: /workspace/backend-cleanup-response/GRIM_Backend
+[PASS] [required] GHOST workspace files: all required backend sentinels are present
+       Selected: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend
+       Source: bundled tools/GHOST backend
+[PASS] [required] GHOST authoritative module path: module resolution is confined to the selected backend
+       ghost_gui resolves to: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/run_gui.py
+       Expected: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/run_gui.py
+[PASS] [required] FREDDY workspace files: all required package sentinels are present
+       Selected: /workspace/backend-cleanup-response/tools/FREDDY
+       Source: bundled tools/FREDDY package
+[PASS] [required] FREDDY authoritative module path: private package source resolves from the selected FREDDY root
+       ibc resolves to: /workspace/backend-cleanup-response/tools/FREDDY/ibc/__init__.py
+       Expected: /workspace/backend-cleanup-response/tools/FREDDY/ibc/__init__.py
+       GRIM loads this package under its private _grim_embedded_freddy_ibc namespace.
+[PASS] [required] NumPy: 2.3.5; required by every GRIM dataset and solver path
+[PASS] [required] PySide6 Qt widgets: 6.12.0; imported during combined-GUI startup
+[PASS] [required] Matplotlib Qt backend: 3.10.8; imported during combined-GUI startup and plot preview
+[PASS] [required] SciPy solver support: 1.17.0; required by the bundled GHOST BoR/feature solvers and FREDDY inverse-design paths
+[PASS] [required] BLAS thread control: bundled threadpoolctl 3.6.0; no separate installation required
+       /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/execution/thread_control/_threadpoolctl.py
+[SKIP] [optional] PowerPoint export: optional export requires Windows, pywin32, and desktop Microsoft PowerPoint
+[PASS] [optional] GHOST BoR streaming acceleration: native library loaded: bor_stream_kernel.linux-x86_64.so
+
+FUNCTIONAL READINESS: READY
+RESULT: READY - no required startup blockers were found.
+Optional notices: 1. They do not prevent GRIM from starting.
+SOLVER PERFORMANCE: ACCELERATED - native libraries are available.

@@ -1,0 +1,38 @@
+mkdir -p failed for path /home/agent/.config/matplotlib: [Errno 30] Read-only file system: '/home/agent/.config/matplotlib'
+Matplotlib created a temporary cache directory at /tmp/matplotlib-wccjom3q because there was an issue with the default path (/home/agent/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Fontconfig error: No writable cache directories
+GRIM integrated installation diagnostic
+No files are changed and no solver or PowerPoint instance is started.
+
+[PASS] [required] Python runtime: 3.12.14 (/workspace/ghost-gui-env/bin/python); requires 3.10 or newer
+[PASS] [required] GRIM authoritative source: complete source-checkout module path
+       Repository root: /workspace/backend-cleanup-response
+       GRIM modules: /workspace/backend-cleanup-response/GRIM_Backend
+[FAIL] [required] GHOST workspace files: selected backend is incomplete
+       Selected: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend
+       Source: bundled tools/GHOST backend
+       Missing: execution/thread_control/_threadpoolctl_py36.py, execution/_dataclasses.py
+[PASS] [required] GHOST authoritative module path: module resolution is confined to the selected backend
+       ghost_gui resolves to: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/run_gui.py
+       Expected: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/run_gui.py
+[PASS] [required] FREDDY workspace files: all required package sentinels are present
+       Selected: /workspace/backend-cleanup-response/tools/FREDDY
+       Source: bundled tools/FREDDY package
+[PASS] [required] FREDDY authoritative module path: private package source resolves from the selected FREDDY root
+       ibc resolves to: /workspace/backend-cleanup-response/tools/FREDDY/ibc/__init__.py
+       Expected: /workspace/backend-cleanup-response/tools/FREDDY/ibc/__init__.py
+       GRIM loads this package under its private _grim_embedded_freddy_ibc namespace.
+[PASS] [required] NumPy: 2.3.5; required by every GRIM dataset and solver path
+[PASS] [required] PySide6 Qt widgets: 6.12.0; imported during combined-GUI startup
+[PASS] [required] Matplotlib Qt backend: 3.10.8; imported during combined-GUI startup and plot preview
+[PASS] [required] SciPy solver support: 1.17.0; required by the bundled GHOST BoR/feature solvers and FREDDY inverse-design paths
+[FAIL] [required] BLAS thread control: bundled thread control could not be loaded
+       FileNotFoundError: /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/execution/thread_control/LICENSE-2.2.0.txt
+       Restore the complete /workspace/backend-cleanup-response/tools/GHOST/ghost_backend/execution/thread_control folder.
+[SKIP] [optional] PowerPoint export: optional export requires Windows, pywin32, and desktop Microsoft PowerPoint
+[SKIP] [optional] GHOST BoR streaming acceleration: not checked because the selected GHOST backend is incomplete
+
+FUNCTIONAL READINESS: NOT READY - 2 required startup blocker(s).
+RESULT: NOT READY - 2 required startup blocker(s).
+Fix the required FAIL items, then run this diagnostic again.
+SOLVER PERFORMANCE: LIMITED - functional fallbacks are available, but GHOST BoR streaming acceleration is not accelerated.
