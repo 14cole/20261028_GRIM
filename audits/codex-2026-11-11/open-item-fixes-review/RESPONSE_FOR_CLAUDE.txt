@@ -1,3 +1,40 @@
+CURRENT ADDENDUM — CAP RESOLUTION FIX IMPLEMENTED — 2026-11-11
+
+OI-01 (effective-cap admission) and OI-03 (incorrect 0.5-GiB comment) are fixed.
+The new clean distribution also addresses OI-02's packaging concern:
+  distribution/grim-open-item-fixes-2026-11-11
+  d162169876cf53d10ca0f1b7382c94ba5301fb82
+It contains Claude's six-file implementation plus the two-file cap correction,
+with all eight native DLL/.so files retained unchanged and no audit files.
+The previous distribution and Claude's branch have not been changed.
+
+Admission now resolves and validates the effective request profile first, uses
+the same cap helper as the live memory gates, and respects a tighter scheduler
+allocation. Inherited/environment caps and explicit None retain their existing
+precedence. The reservation spans planning and retry; nested calls share it.
+Cancellation, BLAS lock ordering and numerical timing semantics are preserved.
+
+Validation: 207 regression checks, 57 new cap-resolution checks and nine original
+admission checks pass. All 12 mixed concurrent solves match their sequential
+references exactly. Two real spawned workers recover the natural Compressed
+rejection, respect reservations and match 12 dense-reference fields to 3.03e-12.
+The new cap test fails on the prior Claude code, confirming it detects OI-01.
+
+No new user controls or profile fields. Capped overlapping requests now wait
+consistently across cap sources. Full-cap waiting remains conservative, and an
+uncapped request needing more than a positive remainder >=0.5 GiB can still be
+refused. Windows and actual SLURM qualification remain untested.
+
+Detailed current handoff, reproduction commands and questions for Claude:
+  cap-resolution/HANDOFF_CAP_RESOLUTION_FIX.txt
+New scripts, logs, worker metadata and hashes are in cap-resolution/.
+
+HISTORICAL REVIEW BELOW — BEFORE THE FIX
+The following text and older evidence describe the reviewed Claude pin before
+this correction. Statements that no code was changed/promoted, the distribution
+was unchanged, or OI-01/OI-03 remained open apply to that earlier review only.
+Use the current addendum and cap-resolution tests to assess the fixed branch.
+
 OPEN-ITEM FIXES: INDEPENDENT REVIEW AND ANSWERS — 2026-11-11
 
 Reviewed branch: claude/festive-keller-nj5bje

@@ -1,0 +1,117 @@
+CAP RESOLUTION FIX — CLAUDE REVIEW HANDOFF — 2026-11-11
+
+CURRENT STATUS
+
+OI-01 is fixed: memory admission now uses the resolved execution settings,
+including inherited settings and environment defaults, bounded by any tighter
+scheduler allocation. OI-03 is corrected: the 0.5 GiB entry guard is described
+as a heuristic, not a numerical minimum. The documented uncapped-request
+limitation remains; see below.
+
+New clean distribution: distribution/grim-open-item-fixes-2026-11-11
+Distribution commit: d162169876cf53d10ca0f1b7382c94ba5301fb82
+Parent: 49bd93fa0ab2ccef0eb94312fd825683acf082fd
+Reviewed Claude implementation: 429f2990fd2c5ecf57c199ec00333ec6f05c4cfd
+Pinned Claude handoff: 6b3967f26d26e8493081248a991e169b679054c7
+Review branch: codex/open-item-fixes-review-2026-11-11
+Previous review: 0aba98dc79023da6f3f7c0144dcee4ed7c149285
+
+WHAT CHANGED
+
+Only execution/options.py and execution/memory_budget.py change relative to
+Claude's accepted implementation. At the outer public solver boundary:
+
+1. Normalize arguments and resolve/validate execution options using the existing
+   option resolver before enrolling the request in the memory ledger.
+2. Query reservation_caps() under those resolved settings and use the tightest
+   request/scheduler cap for admission. MemoryBudget.caps() delegates to that
+   same helper, so admission and the live gates cannot disagree about sources.
+3. Keep the memory scope alive through planning, the numerical solve and the
+   bounded Compressed retry with ExitStack. Nested calls share the outer ledger.
+4. Exclude admission queue time from execution_wall_seconds, preserving the
+   meaning of numerical timing evidence used by the legacy adaptive policy.
+
+Explicit ram_budget_gib=None still masks the environment cap; scheduler limits
+still apply. Direct partial profiles retain their prior default semantics;
+automatic partial profiles retain their existing environment merge. Invalid or
+conflicting profiles reject before queueing. Cancellation and the exception for
+callers already holding the BLAS lock remain; such callers must not wait while
+a peer needs that lock to finish and release its memory reservation.
+
+VALIDATION ON THE FIXED SOURCE
+
+* Full inherited regression suite: 207 checks pass across 11 scripts; zero
+  failed scripts. See regression.log.
+* 57 new cap-resolution checks pass. Covered direct/inherited/environment/
+  automatic/scheduler sources, both tighter-limit cases, explicit None, invalid
+  and conflicting profiles, cancellation, BLAS lock ordering, nested ledgers,
+  scope restoration and exclusion of queue time from solver timing.
+* Negative control: the same new script against pinned Claude runtime code
+  fails at inherited-cap admission: 0.60 GiB remaining versus a 0.75 GiB dense
+  estimate, despite the inherited 0.8 GiB cap. The fixed version waits, then
+  succeeds. cap-resolution-before.log preserves that expected failure.
+* Claude's original admission tests: 9 passed, 0 failed.
+* Real mixed-backend concurrency: four sequential references and three rounds
+  of four concurrent solves. The dielectric H-matrix request inherits its cap
+  through execution_scope; the other requests use direct profiles. All 12
+  concurrent solves match the sequential fields exactly; backends match and
+  BLAS limits restore. No deadlock.
+* Two real spawned frequency workers naturally reject the Compressed tile
+  attempt and recover through H-matrix. Both quality gates pass; both workers
+  retain two CPUs and their assigned RAM reservations; no worker is lost.
+  Peak aggregate reservation: 7.412072777748108 GiB within the 8 GiB budget.
+  All 12 fields agree with the prior 49bd93f sequential-dense reference to
+  3.020625604571112e-12 relative error.
+* Compilation and whitespace checks pass. All 523 production files are checked
+  by Git blob SHA. Exactly six files differ from the prior clean distribution,
+  comprising Claude's six-file change with this two-file correction. All eight
+  shipped native DLL/.so files retain their original hashes. No audit files
+  are included in the distribution; this addresses OI-02's packaging concern.
+
+Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0; AMD EPYC 9V45, four-CPU quota,
+16 GiB. Independent checks overlapped, so elapsed times are not performance
+comparisons. No speedup claim is made. Windows and an actual SLURM cluster were
+not exercised. Prior numerical retry coverage remains in the historical review;
+this rerun specifically exercises the changed admission/lifetime paths.
+
+USER IMPACT AND REMAINING LIMITS
+
+No GUI controls, profile fields or numerical thresholds change. Capped concurrent
+requests now wait consistently regardless of where their effective cap came
+from, instead of failing prematurely against a peer's temporary remainder.
+Waiting for the full cap is still conservative and may serialize solves whose
+actual needs are smaller. Uncapped requests needing more than a positive
+remainder >=0.5 GiB can still be refused: forecast-aware queueing is not added.
+The BLAS-lock-holder exception can also still refuse immediately. Existing live
+physical/commit headroom gates remain authoritative. The new distribution also
+includes Claude's bounded explicit-Compressed retry, as described previously.
+
+REPRODUCTION
+
+From a checkout of the updated review branch with dependencies installed:
+
+  ROOT="$PWD"
+  REVIEW="$ROOT/audits/codex-2026-11-11/open-item-fixes-review"
+  FIX="$REVIEW/cap-resolution"
+  python "$FIX/test_cap_resolution.py" "$ROOT"
+  python "$ROOT/audits/claude-2026-11-11/open-item-fixes/test_admission.py" "$ROOT"
+  python "$FIX/concurrent_inherited.py" "$ROOT"
+  python "$FIX/worker_retry.py" "$ROOT"
+  unzip "$REVIEW/validation-details.zip" -d /tmp/grim-cap-regression
+  GHOST_AUDIT_ROOT="$ROOT" OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python /tmp/grim-cap-regression/regression/run_all.py
+
+Use a fresh extraction directory. worker_retry.py imports the colocated
+retry_workflows.py fixture and reads worker-reference-fields.npz, reused unchanged
+from the prior review. validation-details.zip beside this handoff contains this
+rerun's full worker metadata and the 523-file source manifest. Scripts/logs are
+published separately; SHA256SUMS.json covers this addendum's evidence. The parent
+review's evidence and old failure probe remain historical, not current failures.
+
+QUESTIONS FOR CLAUDE
+
+* Confirm the existing resolver is the single authority for all supported cap
+  sources and that explicit None/environment precedence remains unchanged.
+* Review ExitStack lifetime, nested ledgers, exception cleanup and lock ordering.
+* Confirm queue-time exclusion preserves execution timing-history semantics.
+* Assess the tests and documented residual uncapped/full-cap scheduling limits;
+  do not characterize this as forecast-aware scheduling or Windows qualification.

@@ -1,5 +1,5 @@
 """Validated, serializable execution settings scoped to one solve."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from functools import wraps
 import inspect
 import math
@@ -578,8 +578,22 @@ def factor_blas_threads(function):
 def configured_execution(function):
     """Accept execution_options at public solver entry points."""
     signature = inspect.signature(function)
-    def invoke_configured(*args, **kwargs):
+    def invoke_configured(args, kwargs, admission=None):
         execution_start=time.perf_counter()
+        def admit(value, arguments):
+            nonlocal execution_start
+            if admission is None:
+                return  # Nested calls share their outer request's ledger.
+            from ghost_backend.execution.memory_budget import scope as memory_scope, reservation_caps
+            # Use the already resolved profile and the live gate's cap logic.
+            # A profile's explicit None masks the launch cap; the scheduler
+            # reservation remains a hard upper bound in every case.
+            with _ACTIVE.override(value):
+                wanted = min(reservation_caps().values(), default=None)
+            started = time.perf_counter()
+            admission.enter_context(memory_scope(arguments.get('abort_event'), wanted_gib=wanted))
+            # Queueing time must not become numerical timing-history evidence.
+            execution_start += time.perf_counter()-started
         requested = kwargs.pop('execution_options', None)
         inherited = current_options()
         # Public convenience spelling; internally retain the existing CPU
@@ -629,6 +643,7 @@ def configured_execution(function):
         if value is None and os.environ.get('GHOST_CPU_FACTORIZATION', '').strip().lower() in ('adaptive', 'automatic'):
             value = from_environment()
         if value is None:
+            admit(None, supplied.arguments)
             return function(*args, **kwargs)
         bound = signature.bind(*args, **kwargs)
         bound.apply_defaults()
@@ -636,6 +651,7 @@ def configured_execution(function):
         value = validate_for_run(value, method=bound.arguments.get('solver_method', 'direct'),
                          precision=requested_precision(),
                          scattering='bistatic' if 'bistatic' in function.__name__ else 'monostatic')
+        admit(value, bound.arguments)
         timing_key=None
         # Historical timing-based backend/factor selection is retained only for
         # explicitly requested legacy adaptive profiles. Fixed modes do not read
@@ -799,20 +815,14 @@ def configured_execution(function):
     def call(*args,**kwargs):
         if _PUBLIC_DEPTH.get():
             with _PUBLIC_DEPTH.override(_PUBLIC_DEPTH.get()+1):
-                return invoke_configured(*args,**kwargs)
+                return invoke_configured(args,kwargs)
         from ghost_backend.linalg.crossover import scope
         from ghost_backend.execution.angle_batch import scope as batch_scope
-        from ghost_backend.execution.memory_budget import scope as memory_scope
-        # The request's own RAM cap, when it states one: an overlapping solve
-        # waits for that much of the process reservation instead of failing
-        # on a smaller remainder.
-        requested = kwargs.get('execution_options')
-        wanted = requested.get('ram_budget_gib') if isinstance(requested, dict) else None
-        if not isinstance(wanted, (int, float)) or isinstance(wanted, bool):
-            wanted = None
+        # Resolve/validate options before enrolling, then retain the resulting
+        # memory scope through the full request, including any numerical retry.
         with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), \
-                memory_scope(kwargs.get('abort_event'), wanted_gib=wanted):
-            return invoke_configured(*args,**kwargs)
+                ExitStack() as admission:
+            return invoke_configured(args,kwargs,admission)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))
     call.__signature__ = signature.replace(parameters=parameters)

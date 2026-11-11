@@ -1,0 +1,13 @@
+PASS direct cap waiting
+PASS direct cap result
+PASS direct cap cap
+PASS direct cap queue excluded from solver timing
+Traceback (most recent call last):
+  File "/workspace/cap-resolution-evidence/test_cap_resolution.py", line 59, in <module>
+    trial('inherited cap',inherited=dict(ram_budget_gib=.8))
+  File "/workspace/cap-resolution-evidence/test_cap_resolution.py", line 49, in trial
+    check(name+' waiting',waited==expected_wait,outcome)
+  File "/workspace/cap-resolution-evidence/test_cap_resolution.py", line 23, in check
+    assert ok,(name,detail)
+           ^^
+AssertionError: ('inherited cap waiting', {'status': 'MemoryError', 'message': 'No compatible backend fits the 0.60 GiB solve budget (dense 0.75 GiB).'})

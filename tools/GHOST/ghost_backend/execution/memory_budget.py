@@ -37,6 +37,23 @@ def payload_bytes(value):
     return max(0, int(getattr(value, 'resident_bytes', getattr(value, 'bytes', 0))))
 
 
+def reservation_caps():
+    """Configured request and scheduler limits, shared by entry and live gates."""
+    from ghost_backend.execution.options import allocated_memory_budget, environment_value
+    caps = {}
+    raw = environment_value('GHOST_MAX_SOLVE_GB', '').strip()
+    try:
+        explicit = float(raw)
+    except ValueError:
+        explicit = 0.
+    if math.isfinite(explicit) and explicit > 0:
+        caps['explicit_ram_budget'] = explicit
+    parent = allocated_memory_budget()
+    if parent is not None:
+        caps['scheduler_reservation'] = parent
+    return caps
+
+
 class MemoryBudget:
     def __init__(self):
         from ghost_backend.twod.solver import _detect_available_gb
@@ -119,19 +136,7 @@ class MemoryBudget:
         return numeric/GIB, (physical+(0 if incremental else worker_physical))/GIB, (committed+(0 if incremental else worker_commit))/GIB
 
     def caps(self):
-        from ghost_backend.execution.options import allocated_memory_budget, environment_value
-        caps = {}
-        raw = environment_value('GHOST_MAX_SOLVE_GB', '').strip()
-        try:
-            explicit = float(raw)
-        except ValueError:
-            explicit = 0.
-        if math.isfinite(explicit) and explicit > 0:
-            caps['explicit_ram_budget'] = explicit
-        parent = allocated_memory_budget()
-        if parent is not None:
-            caps['scheduler_reservation'] = parent
-        return caps
+        return reservation_caps()
 
     def enrol(self):
         with _LOCK:
@@ -395,8 +400,8 @@ class MemoryBudget:
         return dict(live_check=True, process_sample=self.last_process_sample)
 
 
-# An uncapped request that overlaps other solves of this process is not worth
-# admitting with less than this: no 2D system fits a smaller reservation.
+# Conservative entry guard for uncapped overlapping requests, not a numerical
+# minimum or a guarantee that the eventual solve fits this reservation.
 MINIMUM_SHARED_RESERVATION_GIB = .5
 
 

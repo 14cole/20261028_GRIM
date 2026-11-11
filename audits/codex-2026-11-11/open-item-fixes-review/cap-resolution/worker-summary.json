@@ -1,0 +1,155 @@
+{
+  "execution": {
+    "mode": "parallel",
+    "workers": 2,
+    "maximum_active_workers": 2,
+    "cpu_budget": 4,
+    "memory_budget_gib": 8.0,
+    "peak_reserved_gib": 7.412072777748108,
+    "interpreter_reservation_gib": 1.0,
+    "units_lost_to_worker_failure": 0,
+    "computed_frequencies": 2,
+    "reused_frequencies": 0,
+    "persistent_solve_cache": false
+  },
+  "relative_error": 3.020625604571112e-12,
+  "frequency_count": 2,
+  "frequencies": [
+    {
+      "linear_backend": "cpu_hmatrix",
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.089182363174811e-15,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 885.4127266414349,
+              "condition_est_gate_value": 885.4127266414349,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 9.105281147709755e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 1172.93911477171,
+              "condition_est_gate_value": 1172.93911477171,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed",
+        "mesh_convergence_certified": false,
+        "certification_scope": "discrete_linear_system_only"
+      },
+      "frequency_worker": {
+        "cpus": 2,
+        "memory_reservation_gib": 3.206036388874054
+      },
+      "execution_memory_reservation_gib": 3.206036388874054,
+      "compressed_hmatrix_retry": {
+        "rejected_tile_attempt": {
+          "error": "HierarchicalRejected",
+          "message": "Off-diagonal rank exceeds 256 (relative error 5.65e-06).",
+          "wall_seconds": 93.34841160700307
+        },
+        "hmatrix_minimum_unknowns": 1024
+      }
+    },
+    {
+      "linear_backend": "cpu_hmatrix",
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.0717042435064895e-15,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 963.0824128943339,
+              "condition_est_gate_value": 963.0824128943339,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 8.997604862114253e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 1279.4766242833443,
+              "condition_est_gate_value": 1279.4766242833443,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed",
+        "mesh_convergence_certified": false,
+        "certification_scope": "discrete_linear_system_only"
+      },
+      "frequency_worker": {
+        "cpus": 2,
+        "memory_reservation_gib": 3.206036388874054
+      },
+      "execution_memory_reservation_gib": 3.206036388874054,
+      "compressed_hmatrix_retry": {
+        "rejected_tile_attempt": {
+          "error": "HierarchicalRejected",
+          "message": "Off-diagonal rank exceeds 256 (relative error 0.544).",
+          "wall_seconds": 97.23235632901196
+        },
+        "hmatrix_minimum_unknowns": 1024
+      }
+    }
+  ]
+}
