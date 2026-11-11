@@ -756,34 +756,6 @@ def _iter_near_pairs(function: 'Callable', pairs, workers: 'int', process_functi
             blas.__exit__(None, None, None)
 
 
-def _graded_cells(kind: 'str', depth: 'int' = 4) -> 'List[Tuple[float, float, float, float]]':
-    """Cells (s0, s1, sp0, sp1) covering [0,1]^2 refined toward the singular
-    set: kind = 'diag' (s == s'), 'corner00', 'corner01', 'corner10', 'corner11'
-    where cornerAB means singular at s = A, s' = B."""
-
-    cells = []
-
-    def touches(kind, s0, s1, p0, p1):
-        if kind == "diag":
-            return not (s1 <= p0 or p1 <= s0)
-        a = 0.0 if kind[6] == "0" else 1.0
-        b = 0.0 if kind[7] == "0" else 1.0
-        return (s0 <= a <= s1) and (p0 <= b <= p1)
-
-    def recurse(s0, s1, p0, p1, d):
-        if not touches(kind, s0, s1, p0, p1) or d >= depth:
-            cells.append((s0, s1, p0, p1))
-            return
-        sm, pm = 0.5 * (s0 + s1), 0.5 * (p0 + p1)
-        recurse(s0, sm, p0, pm, d + 1)
-        recurse(s0, sm, pm, p1, d + 1)
-        recurse(sm, s1, p0, pm, d + 1)
-        recurse(sm, s1, pm, p1, d + 1)
-
-    recurse(0.0, 1.0, 0.0, 1.0, 0)
-    return cells
-
-
 _CELL_CACHE: 'Dict[str, Tuple[np.ndarray, np.ndarray, np.ndarray]]' = {}
 
 
@@ -818,35 +790,6 @@ def _touching_probes(owner, records):
     from ghost_backend.bor.sharp_pairs import check_probes
     owner.__dict__.setdefault('touching_pair_records', {}).update(records)
     return check_probes([record for _, record in records], _near_check_stride())
-
-
-def _cell_points(kind: 'str', gorder: 'int' = 4,
-                 depth: 'int' = 4) -> 'Tuple[np.ndarray, np.ndarray, np.ndarray]':
-    """(s_points, sp_points, weights) for the graded cell set of `kind`."""
-
-    depth = max(0, int(depth))
-    key = f"{kind}:{gorder}:{depth}"
-    if key in _CELL_CACHE:
-        return _CELL_CACHE[key]
-    xg, wg = cached_leggauss(gorder)
-    u = 0.5 * (xg + 1.0)
-    w = 0.5 * wg
-
-
-    xq, wq_ = cached_leggauss(gorder + 1)
-    uq = 0.5 * (xq + 1.0)
-    wq = 0.5 * wq_
-    S, SP, W = [], [], []
-    for (s0, s1, p0, p1) in _graded_cells(kind, depth=depth):
-        hs, hp = s1 - s0, p1 - p0
-        ss = s0 + u * hs
-        pp = p0 + uq * hp
-        SS, PP = np.meshgrid(ss, pp, indexing="ij")
-        WW = np.outer(w * hs, wq * hp)
-        S.append(SS.ravel()); SP.append(PP.ravel()); W.append(WW.ravel())
-    out = (np.concatenate(S), np.concatenate(SP), np.concatenate(W))
-    _CELL_CACHE[key] = out
-    return out
 
 
 def _same_surface_points(gen, e: 'int', f: 'int', kinds, depth: 'int', m_max=None):
