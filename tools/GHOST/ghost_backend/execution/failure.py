@@ -62,8 +62,9 @@ def dense_advisory(state):
     if not all(math.isfinite(v) and v >= 0 for v in (peak, limit)):
         raise ValueError('Dense forecast or available allowance is not finite and nonnegative.')
     fits = peak <= limit
-    action = ('Select Dense explicitly to retry.' if fits else
-              'A dense retry is not currently estimated to fit.')
+    action = ('Select Automatic, or Dense explicitly, to retry.' if fits else
+              'A dense retry is not currently estimated to fit; Automatic selects a compressed '
+              'representation that fits the RAM budget where one exists.')
     return dict(status='estimated', peak_gib=peak, available_limit_gib=limit,
         fits=fits, system_dofs=resources['system_dofs'], nodes=resources['nodes'],
         angle_batch_size=options.get('angle_batch_size', 256),

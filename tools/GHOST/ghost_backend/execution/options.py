@@ -1,5 +1,5 @@
 """Validated, serializable execution settings scoped to one solve."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from functools import wraps
 import inspect
 import math
@@ -55,10 +55,33 @@ _PUBLIC_DEPTH = ScopedValue('ghost_public_execution_depth',default=0)
 _AUTOMATIC_REQUEST = ScopedValue('ghost_automatic_backend_request', default=False)
 _AUTOMATIC_POLICY = ScopedValue('ghost_automatic_backend_policy', default=False)
 _FACTOR_EVIDENCE = ScopedValue('ghost_measured_factor_evidence', default=None)
+_HMATRIX_RETRY = ScopedValue('ghost_compressed_hmatrix_retry', default=False)
 
 
 def automatic_policy_requested():
     return _AUTOMATIC_POLICY.get()
+
+
+def hmatrix_retry_requested():
+    """An explicit compressed request is being repeated after its tile inverse was rejected."""
+    return _HMATRIX_RETRY.get()
+
+
+def _hmatrix_retry_applies(exc, mode):
+    """A rejected tile-operator inverse that the hierarchical operator may still solve.
+
+    Only an explicit compressed request qualifies, only for a rank or accuracy
+    rejection that did not come from the hierarchical operator itself, and
+    never against a launch threshold override, which states the user's choice
+    (including 0, tiles only).  The retry stays within compressed execution
+    and passes the same memory admission and backward-error gates.
+    """
+    from ghost_backend.linalg.hierarchical import HierarchicalRejected
+    from ghost_backend.compressed.hmatrix import HMatrixRejected
+    # The outermost public call repeats the request, so its result carries the record.
+    return (mode == 'compressed' and _PUBLIC_DEPTH.get() == 1 and not _HMATRIX_RETRY.get() and not _AUTOMATIC_POLICY.get()
+            and isinstance(exc, HierarchicalRejected) and not isinstance(exc, HMatrixRejected)
+            and not environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip())
 
 
 def automatic_backend_requested():
@@ -555,8 +578,22 @@ def factor_blas_threads(function):
 def configured_execution(function):
     """Accept execution_options at public solver entry points."""
     signature = inspect.signature(function)
-    def invoke_configured(*args, **kwargs):
+    def invoke_configured(args, kwargs, admission=None):
         execution_start=time.perf_counter()
+        def admit(value, arguments):
+            nonlocal execution_start
+            if admission is None:
+                return  # Nested calls share their outer request's ledger.
+            from ghost_backend.execution.memory_budget import scope as memory_scope, reservation_caps
+            # Use the already resolved profile and the live gate's cap logic.
+            # A profile's explicit None masks the launch cap; the scheduler
+            # reservation remains a hard upper bound in every case.
+            with _ACTIVE.override(value):
+                wanted = min(reservation_caps().values(), default=None)
+            started = time.perf_counter()
+            admission.enter_context(memory_scope(arguments.get('abort_event'), wanted_gib=wanted))
+            # Queueing time must not become numerical timing-history evidence.
+            execution_start += time.perf_counter()-started
         requested = kwargs.pop('execution_options', None)
         inherited = current_options()
         # Public convenience spelling; internally retain the existing CPU
@@ -606,6 +643,7 @@ def configured_execution(function):
         if value is None and os.environ.get('GHOST_CPU_FACTORIZATION', '').strip().lower() in ('adaptive', 'automatic'):
             value = from_environment()
         if value is None:
+            admit(None, supplied.arguments)
             return function(*args, **kwargs)
         bound = signature.bind(*args, **kwargs)
         bound.apply_defaults()
@@ -613,6 +651,7 @@ def configured_execution(function):
         value = validate_for_run(value, method=bound.arguments.get('solver_method', 'direct'),
                          precision=requested_precision(),
                          scattering='bistatic' if 'bistatic' in function.__name__ else 'monostatic')
+        admit(value, bound.arguments)
         timing_key=None
         # Historical timing-based backend/factor selection is retained only for
         # explicitly requested legacy adaptive profiles. Fixed modes do not read
@@ -676,11 +715,19 @@ def configured_execution(function):
             for index,mode in enumerate(modes):
                 value=dict(value,factorization=mode)
                 attempt_start=time.perf_counter()
+                rejected=None
                 try:
                     with execution_scope(value), request_selection_scope(forecast):
                         result=function(*args,**kwargs)
                 except (MemoryError,BackendNumericalError,LinAlgError) as exc:
-                    if selection is None or index == len(modes)-1:
+                    if selection is None and _hmatrix_retry_applies(exc, mode):
+                        # Explicit Compressed: the tile inverse hit its rank or
+                        # accuracy limit.  Repeat the request once with the
+                        # hierarchical operator eligible from 1,024 unknowns,
+                        # as Automatic's compressed candidate is.
+                        rejected=dict(error=type(exc).__name__,message=str(exc).split(' Dense override',1)[0],
+                                      wall_seconds=time.perf_counter()-attempt_start)
+                    elif selection is None or index == len(modes)-1:
                         raise
                     failures.append(dict(backend=mode,error=type(exc).__name__,message=str(exc),
                                          wall_seconds=time.perf_counter()-attempt_start))
@@ -692,6 +739,13 @@ def configured_execution(function):
                 # Exception tracebacks no longer own failed native workspaces.
                 import gc
                 gc.collect()
+                if rejected is not None:
+                    with _HMATRIX_RETRY.override(True), execution_scope(value), request_selection_scope(forecast):
+                        result=function(*args,**kwargs)
+                    if isinstance(result,dict):
+                        result.setdefault('metadata',{})['compressed_hmatrix_retry']=dict(
+                            rejected_tile_attempt=rejected,hmatrix_minimum_unknowns=1024)
+                    return result
             raise RuntimeError('Automatic backend retry exhausted.')
 
         events = _BLAS_EVENTS.get()
@@ -761,12 +815,14 @@ def configured_execution(function):
     def call(*args,**kwargs):
         if _PUBLIC_DEPTH.get():
             with _PUBLIC_DEPTH.override(_PUBLIC_DEPTH.get()+1):
-                return invoke_configured(*args,**kwargs)
+                return invoke_configured(args,kwargs)
         from ghost_backend.linalg.crossover import scope
         from ghost_backend.execution.angle_batch import scope as batch_scope
-        from ghost_backend.execution.memory_budget import scope as memory_scope
-        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope(kwargs.get('abort_event')):
-            return invoke_configured(*args,**kwargs)
+        # Resolve/validate options before enrolling, then retain the resulting
+        # memory scope through the full request, including any numerical retry.
+        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), \
+                ExitStack() as admission:
+            return invoke_configured(args,kwargs,admission)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))
     call.__signature__ = signature.replace(parameters=parameters)

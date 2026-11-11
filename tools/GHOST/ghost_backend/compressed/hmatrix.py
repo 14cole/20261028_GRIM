@@ -115,8 +115,8 @@ def minimum_unknowns():
     from ghost_backend.execution.options import environment_value
     raw = environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip()
     if not raw:
-        from ghost_backend.execution.options import automatic_policy_requested
-        return 1024 if automatic_policy_requested() else HMATRIX_MIN_UNKNOWNS
+        from ghost_backend.execution.options import automatic_policy_requested, hmatrix_retry_requested
+        return 1024 if automatic_policy_requested() or hmatrix_retry_requested() else HMATRIX_MIN_UNKNOWNS
     try:
         value = int(raw)
     except ValueError:

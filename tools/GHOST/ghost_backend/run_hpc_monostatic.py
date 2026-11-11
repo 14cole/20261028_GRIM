@@ -30,9 +30,9 @@ ACCURACY_TARGET = "standard"     # "standard" | "tight"
 
 # --- Advanced numerical controls (recommended defaults below) ---------------
 FACTORIZATION = "automatic"      # automatic (default) | dense | compressed
-# Compressed is the lower-memory default; choose dense explicitly to override.
-# Dense uses LU / hierarchical internally, with LU fallback. Legacy "auto"
-# remains an alias for dense; it is NOT the adaptive dense/compressed selector.
+# Automatic picks dense LU below 10,000 unknowns when it fits the RAM budget and
+# compressed otherwise; dense and compressed stay fixed when chosen explicitly.
+# Dense 2D uses LU. Legacy "auto" remains an alias for dense; it is NOT Automatic.
 # "hierarchical" remains supported for saved profiles and diagnostic runs.
 MESH_STRATEGY = "adaptive"       # adaptive | local | global
 BASIS_ORDER = 1                   # 1 | 2 | 3; applies only to local/global meshes.
