@@ -1,0 +1,2774 @@
+{
+  "attempts": 51,
+  "completed_solves": 38,
+  "field_checks_passed": 35,
+  "field_checks_failed": 3,
+  "failures": [
+    {
+      "case": "coated-auto-2.8-0",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.769 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 1.553 GiB, available RAM 13.096229553222656).",
+      "rejected": [
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.7686622619628904,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.7686622619628904,
+            "stable_reservation_gib": 2.8,
+            "available_gib": 13.096187591552734,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.8,
+              "initial_physical_ram": 13.619503784179688,
+              "cohort_remaining_reservation": 13.619503784179688
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 1.5525934100151062,
+            "credited_resident_gib": 1.6077424883842468,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.7686622619628904,
+              "live_physical_ram": 11.582909393310548
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 2640958208,
+            "system_dofs": 9720,
+            "paired_assembly": true,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 2134262736,
+              "factorization": 2546781824,
+              "solve": 2640958208
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 1403676240,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 2275890611,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.8,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 3.0287609100341797
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.7686546325683592,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.7686546325683592,
+            "stable_reservation_gib": 2.8,
+            "available_gib": 13.096229553222656,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.8,
+              "initial_physical_ram": 13.619503784179688,
+              "cohort_remaining_reservation": 13.619503784179688
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 1.5525934100151062,
+            "credited_resident_gib": 1.6077424883842468,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.7686546325683592,
+              "live_physical_ram": 11.58295135498047
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 2640958208,
+            "system_dofs": 9720,
+            "paired_assembly": true,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 2134262736,
+              "factorization": 2546781824,
+              "solve": 2640958208
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 1403676240,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 2275890611,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.8,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 3.028768539428711
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            2.4595839977264404,
+            2.8
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-auto-2.2-0",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.978 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.880 GiB, available RAM 13.902660369873047).",
+      "rejected": [
+        {
+          "required": 0.9974050521850586,
+          "allowed": 0.977233123779297,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.977233123779297,
+            "stable_reservation_gib": 2.2,
+            "available_gib": 13.90255355834961,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.2,
+              "initial_physical_ram": 13.619593048095703,
+              "cohort_remaining_reservation": 13.619593048095703
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8852836564183235,
+            "credited_resident_gib": 0.9405433610081673,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.977233123779297,
+              "live_physical_ram": 12.389265441894532
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1631645516,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.2,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974050521850586,
+            "reserved_usage_after_reload_gib": 2.2201719284057617
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 231, in build\n    node.u21,node.v21,_=self.compress_block(oracle,right,left)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974050521850586,
+          "allowed": 0.9775192260742189,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.9775192260742189,
+            "stable_reservation_gib": 2.2,
+            "available_gib": 13.902660369873047,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.2,
+              "initial_physical_ram": 13.619593048095703,
+              "cohort_remaining_reservation": 13.619593048095703
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8802142813801765,
+            "credited_resident_gib": 0.9354739859700203,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.9775192260742189,
+              "live_physical_ram": 12.389372253417969
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1631645516,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.2,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974050521850586,
+            "reserved_usage_after_reload_gib": 2.21988582611084
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 231, in build\n    node.u21,node.v21,_=self.compress_block(oracle,right,left)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            1.8059463128447533,
+            2.2
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-auto-1.9-0",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.830 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.800 GiB, available RAM 14.056110382080078).",
+      "rejected": [
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.8326782226562499,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.8326782226562499,
+            "stable_reservation_gib": 1.9,
+            "available_gib": 14.05832290649414,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 1.9,
+              "initial_physical_ram": 13.61950035095215,
+              "cohort_remaining_reservation": 13.61950035095215
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8002629950642586,
+            "credited_resident_gib": 0.8554082587361336,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.8326782226562499,
+              "live_physical_ram": 12.545045089721679
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1309522969,
+            "storage_fits": false,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 1.9,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 2.0647449493408203
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.8303588867187499,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.8303588867187499,
+            "stable_reservation_gib": 1.9,
+            "available_gib": 14.056110382080078,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 1.9,
+              "initial_physical_ram": 13.61950035095215,
+              "cohort_remaining_reservation": 13.61950035095215
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8002629950642586,
+            "credited_resident_gib": 0.8554082587361336,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.8303588867187499,
+              "live_physical_ram": 12.542832565307616
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1309522969,
+            "storage_fits": false,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 1.9,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 2.0670642852783203
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            1.8059463128447533,
+            1.9
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-auto-1.9-1",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.861 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.800 GiB, available RAM 14.083885192871094).",
+      "rejected": [
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.8308433532714843,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.8308433532714843,
+            "stable_reservation_gib": 1.9,
+            "available_gib": 14.055400848388672,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 1.9,
+              "initial_physical_ram": 13.619393920898437,
+              "cohort_remaining_reservation": 13.619393920898437
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8002629950642586,
+            "credited_resident_gib": 0.8553968146443367,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.8308433532714843,
+              "live_physical_ram": 12.542134857177734
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1309522969,
+            "storage_fits": false,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 1.9,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 2.066579818725586
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.8608421325683593,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.8608421325683593,
+            "stable_reservation_gib": 1.9,
+            "available_gib": 14.083885192871094,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 1.9,
+              "initial_physical_ram": 13.619393920898437,
+              "cohort_remaining_reservation": 13.619393920898437
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8002629950642586,
+            "credited_resident_gib": 0.8553968146443367,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.8608421325683593,
+              "live_physical_ram": 12.570619201660156
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1309522969,
+            "storage_fits": false,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 1.9,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 2.036581039428711
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            1.8059463128447533,
+            1.9
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-auto-2.2-1",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.995 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.880 GiB, available RAM 13.923526763916016).",
+      "rejected": [
+        {
+          "required": 0.9974050521850586,
+          "allowed": 0.9906265258789064,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.9906265258789064,
+            "stable_reservation_gib": 2.2,
+            "available_gib": 13.91756820678711,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.2,
+              "initial_physical_ram": 13.619524383544922,
+              "cohort_remaining_reservation": 13.619524383544922
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8852836564183235,
+            "credited_resident_gib": 0.9404251053929329,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.9906265258789064,
+              "live_physical_ram": 12.404287719726563
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1631645516,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.2,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974050521850586,
+            "reserved_usage_after_reload_gib": 2.2067785263061523
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 231, in build\n    node.u21,node.v21,_=self.compress_block(oracle,right,left)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974050521850586,
+          "allowed": 0.9953338623046877,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.9953338623046877,
+            "stable_reservation_gib": 2.2,
+            "available_gib": 13.923526763916016,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.2,
+              "initial_physical_ram": 13.619524383544922,
+              "cohort_remaining_reservation": 13.619524383544922
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 0.8802142813801765,
+            "credited_resident_gib": 0.9353557303547859,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.9953338623046877,
+              "live_physical_ram": 12.410246276855469
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 1939120088,
+            "system_dofs": 9720,
+            "paired_assembly": false,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 1153411560,
+              "factorization": 1844943704,
+              "solve": 1939120088
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 701838120,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 1631645516,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.2,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974050521850586,
+            "reserved_usage_after_reload_gib": 2.202071189880371
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 231, in build\n    node.u21,node.v21,_=self.compress_block(oracle,right,left)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            1.8059463128447533,
+            2.2
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-auto-2.8-1",
+      "error": "MemoryError: Compressed inverse projected inverse block requires 0.997 GiB additional allocation; 0.796 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 1.553 GiB, available RAM 13.118019104003906).",
+      "rejected": [
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.7979705810546873,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.7979705810546873,
+            "stable_reservation_gib": 2.8,
+            "available_gib": 13.12032699584961,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.8,
+              "initial_physical_ram": 13.618933868408204,
+              "cohort_remaining_reservation": 13.618933868408204
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 1.5525934100151062,
+            "credited_resident_gib": 1.607750117778778,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.7979705810546873,
+              "live_physical_ram": 11.60711212158203
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 2640958208,
+            "system_dofs": 9720,
+            "paired_assembly": true,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 2134262736,
+              "factorization": 2546781824,
+              "solve": 2640958208
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 1403676240,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 2275890611,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.8,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 2.999452590942383
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        },
+        {
+          "required": 0.9974231719970703,
+          "allowed": 0.7956474304199217,
+          "context": "Compressed inverse projected inverse block",
+          "last": {
+            "binding_constraint": "stable_reservation",
+            "limit_gib": 0.7956474304199217,
+            "stable_reservation_gib": 2.8,
+            "available_gib": 13.118019104003906,
+            "reservation_constraints_gib": {
+              "explicit_ram_budget": 2.8,
+              "initial_physical_ram": 13.618933868408204,
+              "cohort_remaining_reservation": 13.618933868408204
+            },
+            "reservation_binding_constraint": "explicit_ram_budget",
+            "available_commit_gib": null,
+            "system_commit": null,
+            "owned_numeric_gib": 1.5525934100151062,
+            "credited_resident_gib": 1.607750117778778,
+            "owned_worker_resident_gib": 0.0,
+            "owned_worker_commit_gib": 0.0,
+            "worker_measurement": "live_incremental_charge",
+            "credited_commit_gib": 0.0,
+            "limits_gib": {
+              "stable_reservation": 0.7956474304199217,
+              "live_physical_ram": 11.604804229736327
+            },
+            "check_units": "additional_allocation_gib",
+            "worker_charge_refined": false
+          },
+          "plan": {
+            "model": "compressed_hmatrix_v2",
+            "peak_bytes": 2640958208,
+            "system_dofs": 9720,
+            "paired_assembly": true,
+            "nonstorage_phase_bytes": {
+              "assembly": 730586496,
+              "factorization": 530411904,
+              "solve": 624588288
+            },
+            "process_baseline_bytes": 134217728,
+            "medium_wavenumbers": [
+              {
+                "real": 305.8448710408334,
+                "imag": 0.0,
+                "magnitude": 305.8448710408334
+              },
+              {
+                "real": 529.7653395096958,
+                "imag": -5.297123735684035,
+                "magnitude": 529.791821818433
+              }
+            ],
+            "medium_count": 2,
+            "medium_list_truncated": false,
+            "attenuation_calibrated": false,
+            "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance.",
+            "phase_bytes": {
+              "assembly": 2134262736,
+              "factorization": 2546781824,
+              "solve": 2640958208
+            },
+            "operator_bytes": 701838120,
+            "operator_allowance_bytes": 701838120,
+            "resident_operator_bytes": 1403676240,
+            "inverse_ceiling_bytes": 612693680,
+            "inverse_construction_bytes": 970545200,
+            "process_geometry_bytes": 172560384,
+            "rhs_workspace_bytes": 371343872,
+            "gmres_workspace_bytes": 72295424,
+            "projection_cache_bytes": 8388608,
+            "moment_cache_bytes": 0,
+            "retained_worker_allowance_bytes": 0,
+            "retained_polynomial_operator_bytes": 0,
+            "assembly_workspace_bytes": 279013056,
+            "assembly_sample_workspace_bytes": 131492160,
+            "adaptive_sample_growth_admitted": true,
+            "storage_limit_bytes": 2275890611,
+            "storage_fits": true,
+            "temporary_disk_bytes": 0,
+            "storage_method": "hmatrix_model",
+            "sampled": false,
+            "samples": 0,
+            "coefficients": 71534448,
+            "inverse_rank": 767,
+            "safety": 1.0,
+            "floor_gb": 0.0,
+            "forecast_is_hard_limit": false,
+            "storage_policy": "reservation_minus_phase_workspace"
+          },
+          "options": {
+            "version": 1,
+            "factorization": "compressed",
+            "mesh_strategy": "adaptive",
+            "basis_order": 1,
+            "mesh_grading": true,
+            "enforce_mesh_density": true,
+            "compressed_storage_mib": 2048,
+            "ram_budget_gib": 2.8,
+            "temporary_directory": "",
+            "assembly_threads": "auto",
+            "blas_threads": "auto",
+            "rhs_compression": "auto",
+            "angle_batch_size": 256,
+            "assembly_tile": 0,
+            "far_quadrature_order": 0,
+            "far_grading": true,
+            "dense_residual_storage": "auto",
+            "compressed_far_method": "full"
+          },
+          "pending": 0,
+          "details": {
+            "additional_allocation_gib": 0.9974231719970703,
+            "reserved_usage_after_reload_gib": 3.0017757415771484
+          },
+          "stack": [
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/metrics.py\", line 228, in measured\n    return function(*args, **kwargs)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 88, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/inverse.py\", line 229, in build\n    node.u12,node.v12,_=self.compress_block(oracle,left,right)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 109, in compress_block\n    u, v, error = hf.compress_sampled(block, max(norm, 1e-300)*self.tolerance*.25, MAX_INVERSE_RANK, rng)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/linalg/hierarchical.py\", line 353, in compress_sampled\n    with workspace(block, 'projected inverse block', product_bytes(block, q.shape[1], True)+16*n*q.shape[1], q):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 86, in workspace\n    with guard.step(label, additional, *live):\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/compressed/construction.py\", line 70, in step\n    with mb.construction_allocation(additional, 'Compressed inverse '+label) as observation:\n",
+            "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 500, in construction_allocation\n    observation = state.require_construction(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 390, in require_construction\n    self.require_reload(count, context)\n",
+            "  File \"/workspace/cap-resolution-fix/tools/GHOST/ghost_backend/execution/memory_budget.py\", line 332, in require_reload\n    self._check(extra, limits[reason], context,\n",
+            "  File \"/workspace/dense-memory-review/profile_independent.py\", line 61, in check\n    details=details,stack=traceback.format_stack(limit=14)))\n"
+          ]
+        }
+      ],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            2.4595839977264404,
+            2.8
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "pec8-disk-refused",
+      "error": "MemoryError: The multi_region 2-D solve requires an estimated 2.33 GiB, but 15.09 GiB is currently available; the safe allocation limit is 2.00 GiB. Planned system: 8000 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            8000,
+            2.331024169921875,
+            2.0
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated9720-disk-refused",
+      "error": "MemoryError: The multi_region 2-D solve requires an estimated 3.30 GiB, but 15.10 GiB is currently available; the safe allocation limit is 2.20 GiB. Planned system: 9720 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            3.2950196266174316,
+            2.2
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "pec14-disk-refused",
+      "error": "MemoryError: The multi_region 2-D solve requires an estimated 6.46 GiB, but 15.07 GiB is currently available; the safe allocation limit is 5.50 GiB. Planned system: 14000 DOFs across 1 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            14000,
+            6.459122657775879,
+            5.5
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "diel8-disk-refused",
+      "error": "MemoryError: The single_dielectric 2-D solve requires an estimated 2.33 GiB, but 15.11 GiB is currently available; the safe allocation limit is 1.60 GiB. Planned system: 8000 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "single_dielectric",
+            8000,
+            2.331024169921875,
+            1.6
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": null
+    },
+    {
+      "case": "coated-lean-model-1.9",
+      "error": "MemoryError: The multi_region 2-D solve requires an estimated 1.96 GiB, but 15.10 GiB is currently available; the safe allocation limit is 1.90 GiB. Planned system: 9720 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "multi_region",
+            9720,
+            1.9613394737243652,
+            1.9
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": [
+        {
+          "n": 6120,
+          "d": 9720,
+          "matrix": 1511654400,
+          "assembly": 1954435208,
+          "solve": 2004567552,
+          "extra": 100663296,
+          "batch": 181,
+          "formulation": "multi_region"
+        }
+      ]
+    },
+    {
+      "case": "diel8-lean-model-1.6",
+      "error": "MemoryError: The single_dielectric 2-D solve requires an estimated 2.00 GiB, but 15.11 GiB is currently available; the safe allocation limit is 1.60 GiB. Planned system: 8000 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "single_dielectric",
+            8000,
+            2.0045509338378906,
+            1.6
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": [
+        {
+          "n": 4000,
+          "d": 8000,
+          "matrix": 1024000000,
+          "assembly": 2050965504,
+          "solve": 1443049472,
+          "extra": 100663296,
+          "batch": 181,
+          "formulation": "single_dielectric"
+        }
+      ]
+    },
+    {
+      "case": "diel8-lean-model-2",
+      "error": "MemoryError: The single_dielectric 2-D solve requires an estimated 2.00 GiB, but 15.11 GiB is currently available; the safe allocation limit is 2.00 GiB. Planned system: 8000 DOFs across 2 region(s). Current angle batch: 256. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "rejected": [],
+      "pair_plans": [
+        {
+          "arguments": [
+            "TE",
+            "single_dielectric",
+            8000,
+            2.0045509338378906,
+            2.0
+          ],
+          "kwargs": {},
+          "paired": false
+        }
+      ],
+      "experimental_forecast": [
+        {
+          "n": 4000,
+          "d": 8000,
+          "matrix": 1024000000,
+          "assembly": 2050965504,
+          "solve": 1443049472,
+          "extra": 100663296,
+          "batch": 181,
+          "formulation": "single_dielectric"
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "pec8-default-0",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-lean-0",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.245439942112167e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated9720-default-0",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated9720-lean-0",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil3-default-0",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil3-lean-0",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-default-0",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-lean-0",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 9.42683382539496e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "diel8-default-0",
+      "body": "diel8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "diel8-lean-0",
+      "body": "diel8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-lean-1",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.245439942112167e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-default-1",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated9720-lean-1",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated9720-default-1",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil3-lean-1",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil3-default-1",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-lean-1",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 9.42683382539496e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-default-1",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "diel8-lean-1",
+      "body": "diel8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "diel8-default-1",
+      "body": "diel8",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-disk-paired",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 4.483118255863844e-16,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-memory-unpaired",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 4.951765961875905e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-auto-3.4-0",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.0412790866727405e-07,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-auto-3.4-1",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.0412790866727405e-07,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-auto-2.4-0",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.3895524756623258e-06,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": false
+    },
+    {
+      "case": "coated-auto-2.4-1",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.3895524756623258e-06,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": false
+    },
+    {
+      "case": "pec14-compressed-0",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 4.8263114046825655e-12,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil-compressed-0",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 2.1614166419527262e-10,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-compressed-1",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 4.8263114046825655e-12,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "airfoil-compressed-1",
+      "body": "airfoil3",
+      "samples": 362,
+      "relative_error": 2.1614166419527262e-10,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-auto-residual-2.4",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.245439942112167e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-lean-model-2",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.245439942112167e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-lean-model-2.2",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 0.0,
+      "threshold": 1e-11,
+      "bitwise_equal": true,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec14-lean-model-5.5",
+      "body": "pec14",
+      "samples": 362,
+      "relative_error": 9.42683382539496e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-trace-4threads",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.245439942112167e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "pec8-trace-1thread",
+      "body": "pec8",
+      "samples": 362,
+      "relative_error": 5.617331073990004e-15,
+      "threshold": 1e-11,
+      "bitwise_equal": false,
+      "backend": "cpu",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-bounded-projection-2.8",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.0412790866727405e-07,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": true
+    },
+    {
+      "case": "coated-bounded-projection-1.9",
+      "body": "coated9720",
+      "samples": 362,
+      "relative_error": 1.3895524756623258e-06,
+      "threshold": 1e-06,
+      "bitwise_equal": false,
+      "backend": "cpu_hmatrix",
+      "quality_passed": true,
+      "field_check_passed": false
+    }
+  ],
+  "groups": {
+    "pec8-default": {
+      "runs": 2,
+      "wall_median": 27.515,
+      "wall_range": [
+        25.93,
+        29.1
+      ],
+      "rss_gib_range": [
+        3.1935653686523438,
+        3.1936874389648438
+      ],
+      "rss_growth_gib_range": [
+        3.1375653686523437,
+        3.1376874389648437
+      ],
+      "cgroup_growth_gib_range": [
+        3.140155792236328,
+        3.140277862548828
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ],
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "pec8-lean": {
+      "runs": 2,
+      "wall_median": 36.4,
+      "wall_range": [
+        35.14,
+        37.66
+      ],
+      "rss_gib_range": [
+        1.47589111328125,
+        1.4886703491210938
+      ],
+      "rss_growth_gib_range": [
+        1.41989111328125,
+        1.4326703491210937
+      ],
+      "cgroup_growth_gib_range": [
+        2.3984146118164062,
+        2.4111557006835938
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ],
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "coated9720-default": {
+      "runs": 2,
+      "wall_median": 33.114999999999995,
+      "wall_range": [
+        32.16,
+        34.07
+      ],
+      "rss_gib_range": [
+        4.541748046875,
+        4.542522430419922
+      ],
+      "rss_growth_gib_range": [
+        4.486748046875,
+        4.487522430419922
+      ],
+      "cgroup_growth_gib_range": [
+        4.4618072509765625,
+        4.471538543701172
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ],
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "coated9720-lean": {
+      "runs": 2,
+      "wall_median": 44.71,
+      "wall_range": [
+        44.15,
+        45.27
+      ],
+      "rss_gib_range": [
+        1.8638687133789062,
+        1.86676025390625
+      ],
+      "rss_growth_gib_range": [
+        1.8088687133789063,
+        1.81176025390625
+      ],
+      "cgroup_growth_gib_range": [
+        3.2530479431152344,
+        3.2543067932128906
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ],
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "airfoil3-default": {
+      "runs": 2,
+      "wall_median": 22.130000000000003,
+      "wall_range": [
+        21.46,
+        22.8
+      ],
+      "rss_gib_range": [
+        3.6529312133789062,
+        3.653667449951172
+      ],
+      "rss_growth_gib_range": [
+        3.5999312133789063,
+        3.600667449951172
+      ],
+      "cgroup_growth_gib_range": [
+        3.5754776000976562,
+        3.5764427185058594
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ],
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "airfoil3-lean": {
+      "runs": 2,
+      "wall_median": 28.2,
+      "wall_range": [
+        26.43,
+        29.97
+      ],
+      "rss_gib_range": [
+        1.6187744140625,
+        1.6522064208984375
+      ],
+      "rss_growth_gib_range": [
+        1.5657744140625,
+        1.5992064208984376
+      ],
+      "cgroup_growth_gib_range": [
+        2.6940841674804688,
+        2.7242050170898438
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ],
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "pec14-default": {
+      "runs": 2,
+      "wall_median": 98.87,
+      "wall_range": [
+        96.5,
+        101.24
+      ],
+      "rss_gib_range": [
+        9.271720886230469,
+        9.27298355102539
+      ],
+      "rss_growth_gib_range": [
+        9.213720886230469,
+        9.213983551025391
+      ],
+      "cgroup_growth_gib_range": [
+        9.22653579711914,
+        9.235595703125
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ],
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "pec14-lean": {
+      "runs": 2,
+      "wall_median": 126.77,
+      "wall_range": [
+        124.82,
+        128.72
+      ],
+      "rss_gib_range": [
+        3.64129638671875,
+        3.6574630737304688
+      ],
+      "rss_growth_gib_range": [
+        3.58329638671875,
+        3.5984630737304686
+      ],
+      "cgroup_growth_gib_range": [
+        6.531856536865234,
+        6.586662292480469
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ],
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "diel8-default": {
+      "runs": 2,
+      "wall_median": 20.44,
+      "wall_range": [
+        19.21,
+        21.67
+      ],
+      "rss_gib_range": [
+        2.1712188720703125,
+        2.171886444091797
+      ],
+      "rss_growth_gib_range": [
+        2.1172188720703127,
+        2.117886444091797
+      ],
+      "cgroup_growth_gib_range": [
+        2.0976028442382812,
+        2.0980072021484375
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ],
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "diel8-lean": {
+      "runs": 2,
+      "wall_median": 20.380000000000003,
+      "wall_range": [
+        20.14,
+        20.62
+      ],
+      "rss_gib_range": [
+        1.2343368530273438,
+        1.2370452880859375
+      ],
+      "rss_growth_gib_range": [
+        1.1803368530273437,
+        1.1830452880859375
+      ],
+      "cgroup_growth_gib_range": [
+        2.1580734252929688,
+        2.160175323486328
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ],
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "pec8-disk-paired": {
+      "runs": 1,
+      "wall_median": 28.03,
+      "wall_range": [
+        28.03,
+        28.03
+      ],
+      "rss_gib_range": [
+        2.263660430908203,
+        2.263660430908203
+      ],
+      "rss_growth_gib_range": [
+        2.207660430908203,
+        2.207660430908203
+      ],
+      "cgroup_growth_gib_range": [
+        3.1881980895996094,
+        3.1881980895996094
+      ],
+      "storage": [
+        [
+          "disk",
+          "disk"
+        ]
+      ]
+    },
+    "pec8-memory-unpaired": {
+      "runs": 1,
+      "wall_median": 34.72,
+      "wall_range": [
+        34.72,
+        34.72
+      ],
+      "rss_gib_range": [
+        2.418018341064453,
+        2.418018341064453
+      ],
+      "rss_growth_gib_range": [
+        2.362018341064453,
+        2.362018341064453
+      ],
+      "cgroup_growth_gib_range": [
+        2.3536605834960938,
+        2.3536605834960938
+      ],
+      "storage": [
+        [
+          "memory",
+          "memory"
+        ]
+      ]
+    },
+    "coated-auto-3.4": {
+      "runs": 2,
+      "wall_median": 66.78,
+      "wall_range": [
+        65.94,
+        67.62
+      ],
+      "rss_gib_range": [
+        2.535381317138672,
+        2.6317367553710938
+      ],
+      "rss_growth_gib_range": [
+        2.4803813171386717,
+        2.5767367553710936
+      ],
+      "cgroup_growth_gib_range": [
+        2.4867897033691406,
+        2.5854339599609375
+      ],
+      "storage": [
+        [],
+        []
+      ]
+    },
+    "coated-auto-2.4": {
+      "runs": 2,
+      "wall_median": 87.88,
+      "wall_range": [
+        87.12,
+        88.64
+      ],
+      "rss_gib_range": [
+        1.7868232727050781,
+        1.8049545288085938
+      ],
+      "rss_growth_gib_range": [
+        1.730823272705078,
+        1.7489545288085937
+      ],
+      "cgroup_growth_gib_range": [
+        1.7493133544921875,
+        1.7663307189941406
+      ],
+      "storage": [
+        [],
+        []
+      ]
+    },
+    "pec14-compressed": {
+      "runs": 2,
+      "wall_median": 60.285,
+      "wall_range": [
+        59.86,
+        60.71
+      ],
+      "rss_gib_range": [
+        1.9821319580078125,
+        2.0301475524902344
+      ],
+      "rss_growth_gib_range": [
+        1.9231319580078126,
+        1.9711475524902344
+      ],
+      "cgroup_growth_gib_range": [
+        1.9230270385742188,
+        1.9714698791503906
+      ],
+      "storage": [
+        [],
+        []
+      ]
+    },
+    "airfoil-compressed": {
+      "runs": 2,
+      "wall_median": 23.22,
+      "wall_range": [
+        22.73,
+        23.71
+      ],
+      "rss_gib_range": [
+        0.8362770080566406,
+        0.8667068481445312
+      ],
+      "rss_growth_gib_range": [
+        0.7822770080566406,
+        0.8127068481445312
+      ],
+      "cgroup_growth_gib_range": [
+        0.7554092407226562,
+        0.8106193542480469
+      ],
+      "storage": [
+        [],
+        []
+      ]
+    },
+    "pec8-auto-residual-2.4": {
+      "runs": 1,
+      "wall_median": 34.66,
+      "wall_range": [
+        34.66,
+        34.66
+      ],
+      "rss_gib_range": [
+        2.240070343017578,
+        2.240070343017578
+      ],
+      "rss_growth_gib_range": [
+        2.183070343017578,
+        2.183070343017578
+      ],
+      "cgroup_growth_gib_range": [
+        2.423748016357422,
+        2.423748016357422
+      ],
+      "storage": [
+        [
+          "memory",
+          "disk"
+        ]
+      ]
+    }
+  }
+}

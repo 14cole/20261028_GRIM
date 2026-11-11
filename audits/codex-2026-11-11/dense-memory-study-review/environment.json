@@ -1,0 +1,22 @@
+{
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "affinity_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cpu_max": "400000 100000",
+  "memory_max": "17179869184",
+  "runtime_source": "d162169876cf53d10ca0f1b7382c94ba5301fb82",
+  "study_source": "29a9749ce87426c7307a7d68e2f968c7a835dc90",
+  "benchmark_launch_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "note": "GHOST_* overrides removed; requested assembly/BLAS auto. Actual default assembly=5 under quota=4. Four-CPU controls explicitly bound solver allocation.",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0"
+}

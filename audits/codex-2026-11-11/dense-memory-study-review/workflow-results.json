@@ -1,0 +1,303 @@
+[
+  {
+    "case": "survey",
+    "relative_error": 0.0,
+    "samples": 38,
+    "details": [
+      {
+        "storage": "memory",
+        "backend": "cpu",
+        "disk_factors": 0,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      },
+      {
+        "storage": "disk",
+        "backend": "cpu",
+        "disk_factors": 2,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      }
+    ]
+  },
+  {
+    "case": "certified",
+    "relative_error": 0.0,
+    "samples": 38,
+    "details": [
+      {
+        "storage": "memory",
+        "backend": "cpu",
+        "disk_factors": 0,
+        "certified": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      },
+      {
+        "storage": "disk",
+        "backend": "cpu",
+        "disk_factors": 4,
+        "certified": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      }
+    ]
+  },
+  {
+    "case": "adaptive",
+    "relative_error": 0.0,
+    "samples": 38,
+    "details": [
+      {
+        "storage": "memory",
+        "backend": "cpu",
+        "disk_factors": 0,
+        "certified": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      },
+      {
+        "storage": "disk",
+        "backend": "cpu",
+        "disk_factors": 4,
+        "certified": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      }
+    ]
+  },
+  {
+    "case": "polynomial2",
+    "relative_error": 0.0,
+    "samples": 38,
+    "details": [
+      {
+        "storage": "memory",
+        "backend": "cpu",
+        "disk_factors": 0,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      },
+      {
+        "storage": "disk",
+        "backend": "cpu",
+        "disk_factors": 2,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 3,
+        "execution": null
+      }
+    ]
+  },
+  {
+    "case": "frequency_workers",
+    "relative_error": 0.0,
+    "samples": 76,
+    "details": [
+      {
+        "storage": "memory",
+        "backend": "cpu",
+        "disk_factors": 0,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 9,
+        "execution": {
+          "mode": "parallel",
+          "workers": 2,
+          "maximum_active_workers": 2,
+          "cpu_budget": 4,
+          "memory_budget_gib": 8.0,
+          "peak_reserved_gib": 1.8472100086510181,
+          "interpreter_reservation_gib": 1.0,
+          "units_lost_to_worker_failure": 0,
+          "computed_frequencies": 2,
+          "reused_frequencies": 0,
+          "persistent_solve_cache": false
+        }
+      },
+      {
+        "storage": "disk",
+        "backend": "cpu",
+        "disk_factors": 8,
+        "certified": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "quality_gates": 9,
+        "execution": {
+          "mode": "parallel",
+          "workers": 2,
+          "maximum_active_workers": 2,
+          "cpu_budget": 4,
+          "memory_budget_gib": 8.0,
+          "peak_reserved_gib": 1.8472100086510181,
+          "interpreter_reservation_gib": 1.0,
+          "units_lost_to_worker_failure": 0,
+          "computed_frequencies": 2,
+          "reused_frequencies": 0,
+          "persistent_solve_cache": false
+        }
+      }
+    ]
+  }
+]
