@@ -1,0 +1,85 @@
+--- a/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py
++++ b/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py
+@@ -21,6 +21,7 @@
+                                              CONDITION_PROBE_BACKWARD_ERROR_LIMIT)
+ from ghost_backend.compressed.hmatrix import HMatrixRejected, DENSE_FALLBACK_LIMIT as HMATRIX_DENSE_FALLBACK_LIMIT
+ from ghost_backend.execution.metrics import timed_stage
++from ghost_backend.execution.options import factor_blas_threads
+ 
+ # Hierarchical inverse ranks of electrically large 2-D bodies exceed the 256
+ # of the tile backend's cross approximation; storage still caps the build.
+@@ -114,6 +115,9 @@
+ class HMatrixFactor(CompressedFactor):
+     """CompressedFactor for ``HMatrixOperator`` with the exact sample-row gate."""
+ 
++    automatic_blas_threads = 1
++
++    @factor_blas_threads
+     def __init__(self, operator, *args, storage_budget_bytes=None, **kwargs):
+         from ghost_backend.execution.memory_budget import current
+         ledger = current()
+@@ -146,6 +150,7 @@
+         denominator = np.maximum(norm*np.max(abs(x), axis=0) + np.max(abs(b), axis=0), 1e-300)
+         return np.max(abs(residual), axis=0)/denominator
+ 
++    @factor_blas_threads
+     def inverse(self, rhs, trans=0, return_residual=False, limit=SOLVE_BACKWARD_ERROR_LIMIT):
+         b = np.asarray(rhs, complex); vector = b.ndim == 1
+         if vector:
+@@ -177,6 +182,7 @@
+         return solution
+ 
+     @timed_stage('condition_estimation')
++    @factor_blas_threads
+     def _condition(self):
+         blocks = self.diagnostics.get('condition_balance_blocks')
+         if blocks is None:
+@@ -201,6 +207,7 @@
+             condition_method='equilibrated_1norm_hmatrix_refined_inverse_block_balanced')
+ 
+     @timed_stage('linear_solve')
++    @factor_blas_threads
+     def solve(self, rhs):
+         import ghost_backend.twod.solver as rcs
+         b = np.asarray(rhs, complex); vector = b.ndim == 1
+--- a/tools/GHOST/ghost_backend/execution/options.py
++++ b/tools/GHOST/ghost_backend/execution/options.py
+@@ -529,6 +529,21 @@
+                     pools=[{key: row.get(key) for key in ('internal_api', 'prefix', 'num_threads')}
+                            for row in threadpool_info() if row.get('user_api') == 'blas']))
+             yield target
++
++
++def factor_blas_threads(function):
++    """Apply a factor's small-product policy only to automatic BLAS requests.
++
++    Hold the same process-wide lock as ordinary linear algebra. Nested scopes
++    restore their caller's limits even after a rejected solve or cancellation.
++    """
++    @wraps(function)
++    def call(factor, *args, **kwargs):
++        if option('blas_threads') == 'auto' and getattr(factor, 'automatic_blas_threads', None) == 1:
++            with _held_blas_lock(), single_thread_blas():
++                return function(factor, *args, **kwargs)
++        return function(factor, *args, **kwargs)
++    return call
+ 
+ 
+ def configured_execution(function):
+--- a/tools/GHOST/ghost_backend/linalg/sweep.py
++++ b/tools/GHOST/ghost_backend/linalg/sweep.py
+@@ -1,5 +1,5 @@
+ """Bounded, incrementally shared QR incident basis with original-RHS checks."""
+-from ghost_backend.execution.options import environment_value
++from ghost_backend.execution.options import environment_value, factor_blas_threads
+ import math
+ import os
+ import threading
+@@ -236,6 +236,7 @@
+ 
+ 
+ @timed_stage('rhs_compression')
++@factor_blas_threads
+ def solve(factor, rhs, basis_state=None, setting=None, hint=None):
+     """Solve ``factor`` for the columns of ``rhs``, reusing an incident basis.
+ 

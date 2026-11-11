@@ -1,0 +1,105 @@
+{
+  "checks": [
+    "startup preserves automatic checked selection policy",
+    "check preserves all specified settings",
+    "automatic preserves backend and grading",
+    "return from automatic restores manual order and sizing",
+    "single and check share method and backend",
+    "single hides irrelevant comparison target",
+    "BOR defaults to checked mesh without automatic option",
+    "BOR single request disables only mesh comparison",
+    "2D settings survive BOR mode",
+    "bistatic request retains dense path",
+    "monostatic choice survives bistatic mode",
+    "workflow and advanced controls locked while running",
+    "bundled geometry loads",
+    "find action selects without changing mesh",
+    "assignment available for conductor and impedance",
+    "assignment action changes selected conductor flag",
+    "assignment disabled on dielectric boundary",
+    "thin layer action creates material definition",
+    "thin dielectric cannot be assigned as conductor impedance",
+    "thin layer creation disabled for BOR",
+    "remove action needs explicit material selection",
+    "dense/single real solve returns correct certification state",
+    "dense/single keeps selected backend",
+    "dense/check real solve returns correct certification state",
+    "dense/check keeps selected backend",
+    "dense/automatic real solve returns correct certification state",
+    "dense/automatic keeps selected backend",
+    "compressed/single real solve returns correct certification state",
+    "compressed/single keeps selected backend",
+    "compressed/check real solve returns correct certification state",
+    "compressed/check keeps selected backend",
+    "compressed/automatic real solve returns correct certification state",
+    "compressed/automatic keeps selected backend"
+  ],
+  "solves": [
+    {
+      "backend": "dense",
+      "workflow": "single",
+      "certified": false,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 48
+    },
+    {
+      "backend": "dense",
+      "workflow": "check",
+      "certified": true,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "dense",
+      "workflow": "automatic",
+      "certified": true,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "compressed",
+      "workflow": "single",
+      "certified": false,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 48
+    },
+    {
+      "backend": "compressed",
+      "workflow": "check",
+      "certified": true,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "compressed",
+      "workflow": "automatic",
+      "certified": true,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 72
+    }
+  ]
+}

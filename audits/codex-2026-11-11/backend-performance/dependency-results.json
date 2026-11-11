@@ -1,0 +1,6003 @@
+[
+  {
+    "name": "hmatrix_native_calls",
+    "samples": 6,
+    "backend": "cpu_hmatrix",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "PairedOracle",
+        "n": 1200,
+        "returned": "list",
+        "reason": null
+      }
+    ],
+    "calls": [
+      {
+        "file": "compressed/block_products.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "ProductTeam",
+        "count": 1
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "prepared_product",
+        "count": 2
+      },
+      {
+        "file": "compressed/coefficients.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/coefficients.py",
+        "function": "NativeOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/coefficients.py",
+        "function": "PairedNativeOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "Construction",
+        "count": 1
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "array_bytes",
+        "count": 790
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "owner",
+        "count": 1584
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "product_bytes",
+        "count": 182
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "sample",
+        "count": 12
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "step",
+        "count": 1580
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "track",
+        "count": 4
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "workspace",
+        "count": 1092
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "<lambda>",
+        "count": 8
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "CompressedFactor",
+        "count": 1
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_backward_errors",
+        "count": 20
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_condition",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_fresh_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_refine",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "inverse",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "physical_errors",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "relative_errors",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "<genexpr>",
+        "count": 5378
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "<lambda>",
+        "count": 1233
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__call__",
+        "count": 113
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__init__",
+        "count": 154
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__len__",
+        "count": 14
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_absolute",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_assemble",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_blocks",
+        "count": 210
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_cross_allocation",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_evidence",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_fresh",
+        "count": 49
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_get",
+        "count": 32
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_get_positions",
+        "count": 34
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_index",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_initial_skeleton_factor",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_leading_columns",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_map",
+        "count": 462
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_norms",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_passes",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_range_ids",
+        "count": 120
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_ranges",
+        "count": 40
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_reserve",
+        "count": 38
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_run",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_sample",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_sample_row_norm",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_solve",
+        "count": 144
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_spread",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_validate",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_within",
+        "count": 484
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "adj",
+        "count": 512
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "build_pair",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "check",
+        "count": 195
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "close",
+        "count": 26
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "compress",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "configuration_unsupported",
+        "count": 8
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "count",
+        "count": 41
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "cross_approximation",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "distance",
+        "count": 735
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "equilibrate",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "exact",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "factor_class",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "forecast_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "inverse_storage",
+        "count": 62
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "leaf",
+        "count": 668
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "leaf_size",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "load",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "local_columns",
+        "count": 176
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "matmul",
+        "count": 20
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "matmul_positions",
+        "count": 20
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "minimum_unknowns",
+        "count": 12
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "multiplicity",
+        "count": 8
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "nbytes",
+        "count": 128
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "part",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "partition",
+        "count": 3
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "product_scope",
+        "count": 52
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "range_matmul",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "range_workspace_bytes",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "rank",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "recompress",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "reserve",
+        "count": 62
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "run",
+        "count": 41
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "sample_residual",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "selected",
+        "count": 12
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "size",
+        "count": 878
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_far",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_near",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_sample",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "support_radius",
+        "count": 3
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "unsupported",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "values",
+        "count": 272
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "visit",
+        "count": 1480
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "HMatrixFactor",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "HMatrixSystem",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_RangeBlock",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "__init__",
+        "count": 64
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_condition",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_span",
+        "count": 120
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "compress_block",
+        "count": 60
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "inverse",
+        "count": 10
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "matmul",
+        "count": 182
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "product_workspace",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "project",
+        "count": 60
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "sampled_errors",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "solve",
+        "count": 2
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Block",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "CompressedSystem",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Node",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Oracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "PreparedAccess",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "apply",
+        "count": 20
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "build",
+        "count": 62
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "check_storage",
+        "count": 368
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "factor",
+        "count": 62
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "reserve",
+        "count": 184
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "solve",
+        "count": 80
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "<genexpr>",
+        "count": 4802
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "<lambda>",
+        "count": 2
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "correction_workspace",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "forecast",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "hmatrix_forecast",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "hmatrix_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "StreamedOperator",
+        "count": 1
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "TileWriter",
+        "count": 1
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_thread_budget",
+        "count": 504
+      },
+      {
+        "file": "compressed/pilots.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/polarization_cache.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/polarization_cache.py",
+        "function": "SpooledOperator",
+        "count": 1
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "<genexpr>",
+        "count": 10
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "_key",
+        "count": 6
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "observe_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "remember",
+        "count": 2
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "scope",
+        "count": 8
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "try_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "<genexpr>",
+        "count": 8104
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "PairedOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "PreparedOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "__init__",
+        "count": 3
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_route_plan",
+        "count": 2
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_selected_route",
+        "count": 226
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_span",
+        "count": 454
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "assemble_groups",
+        "count": 113
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "get_with_error",
+        "count": 339
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "prepare",
+        "count": 4
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "select",
+        "count": 452
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "_projected_regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "_regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "automatic_storage_bytes",
+        "count": 3
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "checkpoint",
+        "count": 2463
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "enabled",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hierarchical",
+        "count": 1
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hierarchical_selected",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hmatrix_storage_budget",
+        "count": 3
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "pairable",
+        "count": 1
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "planned_forecast",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "planned_storage_bytes",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "price",
+        "count": 4
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "release_obsolete_tile_workers",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "WorkerPool",
+        "count": 1
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "_release_idle",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "_retained_bytes",
+        "count": 4
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "release_idle",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "retained_bytes",
+        "count": 4
+      },
+      {
+        "file": "execution/angle_batch.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/angle_batch.py",
+        "function": "events",
+        "count": 8
+      },
+      {
+        "file": "execution/angle_batch.py",
+        "function": "limit",
+        "count": 14
+      },
+      {
+        "file": "execution/angle_batch.py",
+        "function": "recover",
+        "count": 2
+      },
+      {
+        "file": "execution/angle_batch.py",
+        "function": "scope",
+        "count": 2
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "call",
+        "count": 117
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "checkpoint",
+        "count": 7460
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "configured_batch_size",
+        "count": 10
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "current_state",
+        "count": 2981
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "report",
+        "count": 1
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "requested_cpu",
+        "count": 4
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "requested_precision_solve",
+        "count": 4
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "select",
+        "count": 2
+      },
+      {
+        "file": "execution/cpu.py",
+        "function": "select_formulation",
+        "count": 2
+      },
+      {
+        "file": "execution/failure.py",
+        "function": "invoke",
+        "count": 4
+      },
+      {
+        "file": "execution/memory.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/memory.py",
+        "function": "_windows_performance_api",
+        "count": 1
+      },
+      {
+        "file": "execution/memory.py",
+        "function": "windows_available_commit_bytes",
+        "count": 49
+      },
+      {
+        "file": "execution/memory.py",
+        "function": "windows_system_commit",
+        "count": 54
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "<genexpr>",
+        "count": 943
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "_check",
+        "count": 46
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "_reservation_exhausted",
+        "count": 1
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "admit_phase",
+        "count": 12
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "baseline_credit",
+        "count": 48
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "caps",
+        "count": 987
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "construction_allocation",
+        "count": 1676
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "construction_numeric",
+        "count": 838
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "current",
+        "count": 931
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "enrol",
+        "count": 54
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "limit",
+        "count": 48
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "owned",
+        "count": 48
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "payload_bytes",
+        "count": 2977
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "process_memory",
+        "count": 53
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "record_plan",
+        "count": 4
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "register",
+        "count": 12
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "report",
+        "count": 1
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "require_construction",
+        "count": 838
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "require_reload",
+        "count": 34
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "scope",
+        "count": 2
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "stable",
+        "count": 53
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "<genexpr>",
+        "count": 116
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "_sample_process_tree",
+        "count": 29
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "active_metrics",
+        "count": 144
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "decorate",
+        "count": 20
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "finish",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "measured",
+        "count": 144
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "poll",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "publish",
+        "count": 249
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "report",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "sample_memory",
+        "count": 110
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "stage",
+        "count": 280
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "start",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "timed_stage",
+        "count": 20
+      },
+      {
+        "file": "execution/options.py",
+        "function": "<genexpr>",
+        "count": 854
+      },
+      {
+        "file": "execution/options.py",
+        "function": "_held_blas_lock",
+        "count": 6
+      },
+      {
+        "file": "execution/options.py",
+        "function": "_usable_logical_cpus",
+        "count": 1500
+      },
+      {
+        "file": "execution/options.py",
+        "function": "allocated_cpu_budget",
+        "count": 1500
+      },
+      {
+        "file": "execution/options.py",
+        "function": "allocated_memory_budget",
+        "count": 991
+      },
+      {
+        "file": "execution/options.py",
+        "function": "blas_lock_held",
+        "count": 1
+      },
+      {
+        "file": "execution/options.py",
+        "function": "blas_thread_reservation",
+        "count": 1
+      },
+      {
+        "file": "execution/options.py",
+        "function": "call",
+        "count": 22
+      },
+      {
+        "file": "execution/options.py",
+        "function": "cpu_allocation_scope",
+        "count": 82
+      },
+      {
+        "file": "execution/options.py",
+        "function": "current_options",
+        "count": 121
+      },
+      {
+        "file": "execution/options.py",
+        "function": "effective_assembly_threads",
+        "count": 952
+      },
+      {
+        "file": "execution/options.py",
+        "function": "environment_value",
+        "count": 1034
+      },
+      {
+        "file": "execution/options.py",
+        "function": "execution_scope",
+        "count": 412
+      },
+      {
+        "file": "execution/options.py",
+        "function": "factor_blas_threads",
+        "count": 5
+      },
+      {
+        "file": "execution/options.py",
+        "function": "from_environment",
+        "count": 1
+      },
+      {
+        "file": "execution/options.py",
+        "function": "invoke",
+        "count": 4
+      },
+      {
+        "file": "execution/options.py",
+        "function": "invoke_configured",
+        "count": 4
+      },
+      {
+        "file": "execution/options.py",
+        "function": "linear_algebra_threads",
+        "count": 4
+      },
+      {
+        "file": "execution/options.py",
+        "function": "option",
+        "count": 884
+      },
+      {
+        "file": "execution/options.py",
+        "function": "single_thread_blas",
+        "count": 4
+      },
+      {
+        "file": "execution/options.py",
+        "function": "validate_for_run",
+        "count": 4
+      },
+      {
+        "file": "execution/options.py",
+        "function": "validate_options",
+        "count": 212
+      },
+      {
+        "file": "execution/policy.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "__init__",
+        "count": 10
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "get",
+        "count": 14252
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "override",
+        "count": 3522
+      },
+      {
+        "file": "execution/selection.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/selection.py",
+        "function": "request_selection_scope",
+        "count": 4
+      },
+      {
+        "file": "execution/thread_control/__init__.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "<genexpr>",
+        "count": 134
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "BLISController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "FlexiBLASController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "LibController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "MKLController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "OpenBLASController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "OpenMPController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "ThreadpoolController",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_ThreadpoolLimiter",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_ThreadpoolLimiterDecorator",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "__enter__",
+        "count": 3
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "__exit__",
+        "count": 3
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "__init__",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_check_params",
+        "count": 3
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_check_prefix",
+        "count": 3110
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_dl_phdr_info",
+        "count": 1
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_find_affixes",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_find_libraries_with_dl_iterate_phdr",
+        "count": 7
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_format_docstring",
+        "count": 4
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_architecture",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_libc",
+        "count": 7
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_symbol",
+        "count": 68
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_threading_layer",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_load_libraries",
+        "count": 7
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_make_controller_from_path",
+        "count": 622
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_realpath",
+        "count": 94
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_set_threadpool_limits",
+        "count": 3
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_warn_if_incompatible_openmp",
+        "count": 7
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "decorator",
+        "count": 4
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "get_num_threads",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "get_version",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "info",
+        "count": 21
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "match_library_callback",
+        "count": 629
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "num_threads",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "restore_original_limits",
+        "count": 3
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "set_additional_attributes",
+        "count": 14
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "set_num_threads",
+        "count": 12
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "threadpool_info",
+        "count": 4
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "threadpool_limits",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "<genexpr>",
+        "count": 8411
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_chain_area2",
+        "count": 3
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_chain_is_closed",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_depth",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_enclosing",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_flag",
+        "count": 3
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_rep_point",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_revisited_vertex",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_weld_point_keys",
+        "count": 2
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "chains_from_snapshot_segments",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "check_orientation_consistency",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "<genexpr>",
+        "count": 33605
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "ClosureFailure",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "ErrorItem",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "NearMiss",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "PointWelder",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "Region",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "RegionConflict",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "RegionPrimitive",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "RegionReport",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "__init__",
+        "count": 10
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_build_primitives",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_flag",
+        "count": 3
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_nearest",
+        "count": 8401
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_weld",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "analyze_regions",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "dielectric",
+        "count": 4
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "error_items",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "find",
+        "count": 2402
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "key",
+        "count": 15602
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "merge_orientation_findings",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "near_misses_of_type",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "numerical_bor_axis_tolerance",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "primitives_from_snapshot_segments",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "side_media",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "unbounded",
+        "count": 2
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "<genexpr>",
+        "count": 14412
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "<lambda>",
+        "count": 2400
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "overlapping_pairs",
+        "count": 1202
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "point_proximity_pairs",
+        "count": 1
+      },
+      {
+        "file": "linalg/crossover.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "linalg/crossover.py",
+        "function": "_validated",
+        "count": 1
+      },
+      {
+        "file": "linalg/crossover.py",
+        "function": "scope",
+        "count": 2
+      },
+      {
+        "file": "linalg/dense.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "linalg/dense.py",
+        "function": "DenseFactor",
+        "count": 1
+      },
+      {
+        "file": "linalg/dense.py",
+        "function": "_timed_factor_work",
+        "count": 1
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "adj",
+        "count": 480
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "compress_sampled",
+        "count": 60
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "factor_mode",
+        "count": 9
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve",
+        "count": 80
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve_into",
+        "count": 816
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "spatial_order",
+        "count": 186
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "_parallel",
+        "count": 2
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "_signs",
+        "count": 4
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "onenormest",
+        "count": 2
+      },
+      {
+        "file": "linalg/refined_lu.py",
+        "function": "requested_precision",
+        "count": 15
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "CompressionHint",
+        "count": 1
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "SweepBasis",
+        "count": 1
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "_evidence",
+        "count": 2
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "mode",
+        "count": 4
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "solve",
+        "count": 2
+      },
+      {
+        "file": "linalg/workspace.py",
+        "function": "first_nonfinite",
+        "count": 2
+      },
+      {
+        "file": "linalg/workspace.py",
+        "function": "strict_lu_factor",
+        "count": 62
+      },
+      {
+        "file": "twod/adaptive_geometry.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/adaptive_geometry.py",
+        "function": "ProtectedVertices",
+        "count": 1
+      },
+      {
+        "file": "twod/adaptivity.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/adaptivity.py",
+        "function": "Indicators",
+        "count": 1
+      },
+      {
+        "file": "twod/adaptivity.py",
+        "function": "observe",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/compact.py",
+        "function": "_ids",
+        "count": 2946
+      },
+      {
+        "file": "twod/assembly/geometry_plan.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/geometry_plan.py",
+        "function": "AssemblyGeometry",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/geometry_plan.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/geometry_plan.py",
+        "function": "elements_touching",
+        "count": 452
+      },
+      {
+        "file": "twod/assembly/geometry_plan.py",
+        "function": "validate",
+        "count": 113
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "<genexpr>",
+        "count": 3
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "DomainRejected",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "GridProjection",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "KernelTable",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "Rejected",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_admit_table",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_cached_loads",
+        "count": 4
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_chebyshev_to_power",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_load_cache",
+        "count": 6
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_load_key",
+        "count": 6
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "_next_bound",
+        "count": 4272
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "directions",
+        "count": 6
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "dot2",
+        "count": 30
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "evaluator",
+        "count": 226
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "farfield",
+        "count": 4
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "geometry_arrays",
+        "count": 9
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "incident_loads",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "mesh_key",
+        "count": 3
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "select_far_kernels",
+        "count": 113
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "sinc_and_derivative",
+        "count": 10
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "table_reach",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/kernels.py",
+        "function": "values",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/mass.py",
+        "function": "sparse_mass",
+        "count": 3
+      },
+      {
+        "file": "twod/assembly/native/__init__.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "<genexpr>",
+        "count": 792
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_dll",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_double",
+        "count": 1188
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_element_strides",
+        "count": 4752
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "buffer",
+        "count": 594
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "far_block",
+        "count": 198
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "fma",
+        "count": 128
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "library",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "numpy_fused_product",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "run",
+        "count": 198
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "scatter_tile",
+        "count": 1584
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "tile_library",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/table.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/table.py",
+        "function": "evaluate",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/table.py",
+        "function": "library",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "NearStore",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "__enter__",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "__exit__",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "__init__",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "close",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "read",
+        "count": 102
+      },
+      {
+        "file": "twod/assembly/near_store.py",
+        "function": "write",
+        "count": 51
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "PolynomialPair",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "current_pair",
+        "count": 8
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "retained_bytes",
+        "count": 6
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "assembly_component",
+        "count": 227
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "decorate",
+        "count": 227
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "evidence",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "measured",
+        "count": 498
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "profile_scope",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/profiling.py",
+        "function": "record",
+        "count": 498
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "MatrixDestination",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "SystemScatter",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "__init__",
+        "count": 1247
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "multi_outputs",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "scatter_add",
+        "count": 113
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "scatter_pairs",
+        "count": 85
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "scatter_target",
+        "count": 565
+      },
+      {
+        "file": "twod/assembly/scatter.py",
+        "function": "scatter_tile",
+        "count": 1980
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "<genexpr>",
+        "count": 85
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "adaptive_pairs",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "cross",
+        "count": 51
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "point_distance",
+        "count": 68
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "requires_adaptive",
+        "count": 576
+      },
+      {
+        "file": "twod/assembly/separation.py",
+        "function": "segment_distance",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "<genexpr>",
+        "count": 3603
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "call",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "current_session",
+        "count": 17
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "plan_paired_assembly",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "reusable_dense_bytes",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "save",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "system_key",
+        "count": 3
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "take",
+        "count": 2
+      },
+      {
+        "file": "twod/assembly/thin_gap.py",
+        "function": "<genexpr>",
+        "count": 8
+      },
+      {
+        "file": "twod/assembly/thin_gap.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "abscissae",
+        "count": 1
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "coefficients",
+        "count": 1
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "derivative_matrix",
+        "count": 1
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "enrich",
+        "count": 1
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "integral_bounds",
+        "count": 7200
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "mesh_degree",
+        "count": 117
+      },
+      {
+        "file": "twod/basis.py",
+        "function": "values",
+        "count": 134
+      },
+      {
+        "file": "twod/fields.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/fields.py",
+        "function": "_solve_fields",
+        "count": 2
+      },
+      {
+        "file": "twod/fields.py",
+        "function": "solve_fields",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "<genexpr>",
+        "count": 14436
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "_junction_flux_entries",
+        "count": 226
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "_route_conductor_rows",
+        "count": 226
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "_source_columns",
+        "count": 226
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "_trace_jump_mass",
+        "count": 1
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "condition_balance_blocks",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "couplings",
+        "count": 242
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "density",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "exterior_double_density",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/combined_regions.py",
+        "function": "fused_outputs",
+        "count": 226
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "<genexpr>",
+        "count": 7232
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "_sparse_mass",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "assemble_system",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "build_layout",
+        "count": 12
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "density",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "dof_coordinates",
+        "count": 5
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "exterior_projection",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "geometric_near_pair_count",
+        "count": 1
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "mesh_near_pair_count",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "near_pair_memo",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "operator_plan",
+        "count": 6
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "rhs_many",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/regions.py",
+        "function": "storage_resources",
+        "count": 2
+      },
+      {
+        "file": "twod/formulations/robin.py",
+        "function": "<genexpr>",
+        "count": 12010
+      },
+      {
+        "file": "twod/formulations/robin.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/formulations/robin.py",
+        "function": "combined_layout",
+        "count": 10
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "<genexpr>",
+        "count": 18017
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "__init__",
+        "count": 10
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_apply_user_convention_flip",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_boundary_condition_junctions",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_build_coupled_panel_info",
+        "count": 4
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_build_linear_mesh_interface_aware",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_build_panels",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_causal_medium_index",
+        "count": 8
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_check_segment_orientation_or_raise",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_closed_conductor_loop_panels",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_discretize_primitive",
+        "count": 1200
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_end_impedance",
+        "count": 2
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_ensure_finite_complex",
+        "count": 16
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_faceting_sagitta",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_linear_node_snap_key",
+        "count": 6001
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_linear_panel_signature_from_info",
+        "count": 2400
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_material_base_dir_for_snapshot",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_medium_n",
+        "count": 8
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_medium_wavenumber",
+        "count": 8
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_mesh_wavelength_for_snapshot",
+        "count": 2
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_normalize_segment_orientation",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_orient_te_sheet_panels",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_outgoing",
+        "count": 2400
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_panel_count_from_n",
+        "count": 1200
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_flag",
+        "count": 26
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_float",
+        "count": 4804
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_geometry_float",
+        "count": 4800
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_geometry_integer",
+        "count": 6
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_int",
+        "count": 4
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_passivity_tolerance",
+        "count": 16
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_points_close",
+        "count": 2399
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_positive_frequencies",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_primitive_length",
+        "count": 1200
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_q_plus_beta",
+        "count": 4800
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_region_medium",
+        "count": 8
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_reject_open_dielectric_boundaries",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_reverse_point_pairs",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_safe_complex_div",
+        "count": 4800
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_segment_material_wavelength",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_segment_mesh_flags",
+        "count": 4
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_sharp_vertices",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_snapshot_segments",
+        "count": 3
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_surface_wave_mesh_wavelength",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_surface_wave_sampling",
+        "count": 2
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_unit_scale_to_meters",
+        "count": 3
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_validate_passive_medium",
+        "count": 8
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "from_entries",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "get_node_id",
+        "count": 2400
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "impedance_jump_is_graded",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "key",
+        "count": 12002
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "local_tolerance",
+        "count": 1200
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "panel_impedance",
+        "count": 4800
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "region_state",
+        "count": 9600
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "validate_geometry_snapshot_for_solver",
+        "count": 1
+      },
+      {
+        "file": "twod/meshing.py",
+        "function": "segment_wavelengths",
+        "count": 1
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "<genexpr>",
+        "count": 23945
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "<lambda>",
+        "count": 202
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_assemble_linear_operator_matrices_multi",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_assemble_multi",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_assembly_tile_size",
+        "count": 115
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_bernstein_rho",
+        "count": 316
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_build_linear_junction_constraints",
+        "count": 2
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_commit_far",
+        "count": 198
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_divide_nonzero",
+        "count": 156
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_endpoint_node",
+        "count": 5022
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_expand_near_chunks",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_far_tile",
+        "count": 198
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_farfield_linear_density_many",
+        "count": 4
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_fixed_batch",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_get_quadrature",
+        "count": 1286
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_graded_far_order",
+        "count": 396
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_graded_w_far_floor",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_graded_w_far_order",
+        "count": 198
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_hankel2_1_array",
+        "count": 576
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_integrate_linear_pair_box_sk_vectorized",
+        "count": 576
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_integrate_linear_pairs_box_sk_batched",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_integrate_linear_touching_duffy_sk_vectorized",
+        "count": 138
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_integrate_linear_touching_pairs_sk_batched",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_coupled_interface_signature",
+        "count": 4800
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_coupled_node_report",
+        "count": 2
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_interval_length",
+        "count": 276
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_mass_block",
+        "count": 3600
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_param_to_point",
+        "count": 2856
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_linear_shared_interval_endpoint_info",
+        "count": 714
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_maue_blocks",
+        "count": 17
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_near_fixed_order_positions",
+        "count": 17
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_near_kernel_values",
+        "count": 156
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_near_pair_blocks",
+        "count": 17
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_near_singular_scheme",
+        "count": 576
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_quadrature_nodes",
+        "count": 5
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_rule",
+        "count": 396
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_run_ordered_tiles",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_shared_endpoints",
+        "count": 34
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_single_layer_self_blocks_exact_many",
+        "count": 17
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_sk_blocks_near_linear",
+        "count": 714
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_stable_hankel2_array",
+        "count": 576
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_thin_gap_mask",
+        "count": 17
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_angular_poles",
+        "count": 158
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_directions",
+        "count": 138
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_frame",
+        "count": 552
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_geometry",
+        "count": 138
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_geometry_arrays",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_is_acute",
+        "count": 158
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_order",
+        "count": 173
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_touching_rule",
+        "count": 156
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_validated_slp_coeff",
+        "count": 226
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_warn_far_quadrature_override",
+        "count": 2
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "_wavenumber_is_real",
+        "count": 113
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "acute_touching_report",
+        "count": 2
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "blocks",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "get_assembly_threads",
+        "count": 444
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "integrate_touching",
+        "count": 18
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "run",
+        "count": 198
+      },
+      {
+        "file": "twod/operators.py",
+        "function": "scatter_chunks",
+        "count": 170
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "MomentCache",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_PairGeometry",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_Task",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_TaskBatch",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_kernels",
+        "count": 174
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_nodes",
+        "count": 1
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "_table_for_ends",
+        "count": 18
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "map_checked",
+        "count": 70
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "moment_cache_scope",
+        "count": 2
+      },
+      {
+        "file": "twod/polynomial_quadrature.py",
+        "function": "solve_checkpoint",
+        "count": 51
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "<genexpr>",
+        "count": 2
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "call",
+        "count": 4
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "material_fingerprints",
+        "count": 2
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "preparation_scope",
+        "count": 8
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "prepare_geometry",
+        "count": 1
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "run_resources",
+        "count": 6
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "sweep_mesh_scope",
+        "count": 8
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "InterleavedSamples",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "LabeledSamples",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "SampleChunks",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "SampleSelection",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "SampleTable",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "sample_buffer",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "<genexpr>",
+        "count": 22940
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "<lambda>",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_assert_air_exterior",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_assert_no_type1_sheet_for_mixed",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_assert_supported_te_type2_contours",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_build_linear_coupled_infos",
+        "count": 3
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_canonical_user_polarization_label",
+        "count": 12
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_cgroup_available_bytes",
+        "count": 49
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_co_polarized_progress_callback",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_consume_condition_estimate",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_count_distinct_regions",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_dense_backend_summary",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_dense_formulation_resources",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_detect_available_gb",
+        "count": 49
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_estimate_memory_gb",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_finite_metadata_max",
+        "count": 10
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_has_sheet",
+        "count": 6
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_is_all_robin",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_is_all_sheet",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_is_multi_region",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_is_sheet_plus_pec",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_is_single_dielectric_body",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_low_frequency_condition_scale",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_mark_co_polarized_survey_result",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_merge_co_polarized_2d_results",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_merged_extreme",
+        "count": 10
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_normalize_polarization",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_normalize_public_2d_solver_method",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_normalize_rcs_normalization_mode",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_note_acute_corners",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_note_electrically_long_panels",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_note_unprotected_closed_conductor",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_panel_notice_kwargs",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_primary_alias_for_user_polarization",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_psutil_available_bytes",
+        "count": 49
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_rcs_db_from_sigma",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_rcs_sigma_from_amp",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_read_cgroup_int",
+        "count": 98
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_record_dense_backend_event",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_reject_duplicate_angles",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_reported",
+        "count": 6
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_requested_dense_backend",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_reset_dense_backend_telemetry",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_slurm_available_bytes",
+        "count": 49
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_solve_fields",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_solve_memory_limit_gb",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_solve_multi_region_indirect",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_solve_robin_bie",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_summarize_residuals",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_validate_disabled_2d_cfie_alpha",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "available_system_memory",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "batch_progress",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "check_abort",
+        "count": 6
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "emit_progress",
+        "count": 10
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "estimate_system_memory",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "evaluate_quality_gate",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "record_samples",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "reported_information",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "reported_warnings",
+        "count": 4
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "sample_key",
+        "count": 6
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "solve_monostatic_rcs_2d",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "solve_monostatic_rcs_2d_single_polarization",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "solve_monostatic_rcs_2d_survey",
+        "count": 1
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "unique_records",
+        "count": 6
+      },
+      {
+        "file": "twod/special.py",
+        "function": "_complex_hankel_backend_name",
+        "count": 2
+      },
+      {
+        "file": "twod/special.py",
+        "function": "_raise_if_untrusted_math_backends",
+        "count": 2
+      },
+      {
+        "file": "twod/special.py",
+        "function": "backend_name",
+        "count": 4
+      }
+    ]
+  },
+  {
+    "name": "ordinary_dielectric_thin_layer",
+    "samples": 6,
+    "backend": "mixed",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "NativeOracle",
+        "n": 256,
+        "returned": null,
+        "reason": "thin dielectric layer with a magnetic contrast couples rows through the inverse mass matrix"
+      },
+      {
+        "oracle": "NativeOracle",
+        "n": 128,
+        "returned": "HMatrixOperator",
+        "reason": null
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "hmatrix_rejection_falls_back_to_tiles",
+    "samples": 6,
+    "backend": "cpu_compressed",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "PairedOracle",
+        "n": 128,
+        "returned": null,
+        "reason": "HMatrixRejected: injected measured-error rejection"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "bor_compressed_uses_tiles",
+    "samples": 6,
+    "backend": null,
+    "quality_passed": true,
+    "hierarchical_attempts": [],
+    "calls": [
+      {
+        "file": "bor/cache.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "TileCache",
+        "count": 1
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "cache_scope",
+        "count": 10
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "current_cache",
+        "count": 18
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "evidence",
+        "count": 5
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "get",
+        "count": 2420
+      },
+      {
+        "file": "bor/cache.py",
+        "function": "put",
+        "count": 1442
+      },
+      {
+        "file": "bor/constraints.py",
+        "function": "_reduce_constrained_operator",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "<genexpr>",
+        "count": 19
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_axis_tip_exponent",
+        "count": 6
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_bor_surface_layout",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_bor_surface_runs",
+        "count": 2
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_chain_element_count",
+        "count": 240
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_chains_from_snapshot",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_classify",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_conductor_formulation",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_configure_surface_wave_mesh",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_element_count",
+        "count": 240
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_enforce_total_element_limit",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_mark_impedance_junctions",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_mesh_generatrix",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_parse_flag",
+        "count": 6
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_parse_int",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_preflight_generatrix",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_prepare_bor_groups",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_primitive_mesh_plan",
+        "count": 80
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_reject_unsupported_bor_ibc_interfaces",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_run_element_count",
+        "count": 2
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_sharp_run_levels",
+        "count": 3
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_stitch_generatrix",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_surface_wave_sampling",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_unit_scale_to_meters",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "_validate_bor_far_controls",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "check_abort",
+        "count": 4290
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "left_angle",
+        "count": 117
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "points_for",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "record",
+        "count": 2
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "report",
+        "count": 7
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "solve_monostatic_rcs_bor",
+        "count": 1
+      },
+      {
+        "file": "bor/dispatch.py",
+        "function": "solve_monostatic_rcs_bor_survey",
+        "count": 1
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "<lambda>",
+        "count": 56
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "MirrorSplit",
+        "count": 1
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "ModalFactor",
+        "count": 1
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "compressed_factor",
+        "count": 7
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "compressed_storage_budget",
+        "count": 9
+      },
+      {
+        "file": "bor/factor.py",
+        "function": "residual_storage_settings",
+        "count": 1
+      },
+      {
+        "file": "bor/geometry.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/geometry.py",
+        "function": "_included_angles",
+        "count": 4
+      },
+      {
+        "file": "bor/geometry.py",
+        "function": "require_resolved_corners",
+        "count": 4
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "<genexpr>",
+        "count": 35491
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "__init__",
+        "count": 84
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "__iter__",
+        "count": 3358
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "__post_init__",
+        "count": 1
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_check_out_dtype",
+        "count": 1442
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_far_sample_counts",
+        "count": 2885
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_graded_near_kernels",
+        "count": 54
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_half_grid_projection_method",
+        "count": 3190
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_half_grid_tables",
+        "count": 3190
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_layout_groups",
+        "count": 54
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_native_entry",
+        "count": 1614
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_native_library",
+        "count": 1614
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_native_pair_sampler",
+        "count": 1442
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_check",
+        "count": 529
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_check_stride",
+        "count": 539
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_layout",
+        "count": 54
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_panel_geometry",
+        "count": 128
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_piece_orders",
+        "count": 126
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_publish_coarse",
+        "count": 508
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_rule_moments",
+        "count": 1058
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_rule_parts",
+        "count": 1058
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_near_shared_nodes",
+        "count": 1058
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_project_half_grid",
+        "count": 8326
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_refine_near_chunk",
+        "count": 529
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_remember_local_table",
+        "count": 84
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_run_near_group",
+        "count": 529
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "_unit_gauss",
+        "count": 4
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "banded_modal_kernels",
+        "count": 1442
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "cached_leggauss",
+        "count": 12
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "evaluate",
+        "count": 1058
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "gauss_on_generatrix",
+        "count": 1
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "mfie_kernels_near",
+        "count": 27
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "modal_kernels_near",
+        "count": 27
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "n_elems",
+        "count": 3640
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "n_nodes",
+        "count": 1
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "n_xi_for_pairs",
+        "count": 1443
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "next_orders",
+        "count": 529
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "node_on_axis",
+        "count": 12
+      },
+      {
+        "file": "bor/kernels.py",
+        "function": "sample",
+        "count": 3190
+      },
+      {
+        "file": "bor/memory.py",
+        "function": "solve_memory_limit_gb",
+        "count": 2
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "<lambda>",
+        "count": 268
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "NearTask",
+        "count": 1
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "_points",
+        "count": 126
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "close_near_process_pool",
+        "count": 1
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "process_backend_possible",
+        "count": 1
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "process_scope",
+        "count": 2
+      },
+      {
+        "file": "bor/near_parallel.py",
+        "function": "run_batch",
+        "count": 9
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "add",
+        "count": 268
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "compact_layout",
+        "count": 2
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "mode_sign",
+        "count": 5768
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "reciprocal_pair_order",
+        "count": 1
+      },
+      {
+        "file": "bor/near_storage.py",
+        "function": "value",
+        "count": 1
+      },
+      {
+        "file": "bor/options.py",
+        "function": "<genexpr>",
+        "count": 2
+      },
+      {
+        "file": "bor/options.py",
+        "function": "_caller_assembly",
+        "count": 3
+      },
+      {
+        "file": "bor/options.py",
+        "function": "_keyword_catchall",
+        "count": 1
+      },
+      {
+        "file": "bor/options.py",
+        "function": "_run_configured",
+        "count": 3
+      },
+      {
+        "file": "bor/options.py",
+        "function": "bounded_rhs_count",
+        "count": 2
+      },
+      {
+        "file": "bor/options.py",
+        "function": "call",
+        "count": 1
+      },
+      {
+        "file": "bor/options.py",
+        "function": "compressed_requested",
+        "count": 7
+      },
+      {
+        "file": "bor/options.py",
+        "function": "current_checkpoint",
+        "count": 5
+      },
+      {
+        "file": "bor/options.py",
+        "function": "current_mode_resume",
+        "count": 1
+      },
+      {
+        "file": "bor/options.py",
+        "function": "current_options",
+        "count": 17
+      },
+      {
+        "file": "bor/options.py",
+        "function": "estimate_output_gb",
+        "count": 2
+      },
+      {
+        "file": "bor/options.py",
+        "function": "option_scope",
+        "count": 7
+      },
+      {
+        "file": "bor/options.py",
+        "function": "output_reserved_gb",
+        "count": 6
+      },
+      {
+        "file": "bor/options.py",
+        "function": "resolved_compression_tile",
+        "count": 7
+      },
+      {
+        "file": "bor/options.py",
+        "function": "validate_options",
+        "count": 1
+      },
+      {
+        "file": "bor/options.py",
+        "function": "wrapped",
+        "count": 3
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "__init__",
+        "count": 3
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "begin_attempt",
+        "count": 3
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "close",
+        "count": 3
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "evidence",
+        "count": 1
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "numerical_preparation",
+        "count": 6
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "prepared_surface",
+        "count": 1
+      },
+      {
+        "file": "bor/preparation.py",
+        "function": "surface",
+        "count": 1
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "<genexpr>",
+        "count": 34
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "<lambda>",
+        "count": 6
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "channel_buffers",
+        "count": 1
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "finish_channels",
+        "count": 1
+      },
+      {
+        "file": "bor/samples.py",
+        "function": "nonfinite_sample_count",
+        "count": 1
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "<genexpr>",
+        "count": 796
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "<lambda>",
+        "count": 118
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "GradedRule",
+        "count": 1
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "__new__",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_angle_degrees",
+        "count": 239
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_bernstein_rho",
+        "count": 166
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_cached_rule",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_diagonal_rule",
+        "count": 38
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_floor",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_pieces",
+        "count": 10
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_record",
+        "count": 118
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_ring_factor",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_ring_ratio",
+        "count": 196
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_rule",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_same_surface_geometry",
+        "count": 244
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_self_rule",
+        "count": 43
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_thin",
+        "count": 405
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_touching_rule",
+        "count": 83
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_toward_pole",
+        "count": 166
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_toward_zero",
+        "count": 244
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "_unit_gauss",
+        "count": 214
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "check_probes",
+        "count": 1
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "pair_points",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "points_per_piece",
+        "count": 126
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "relative_change",
+        "count": 8
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "same_surface_pair",
+        "count": 118
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "severity",
+        "count": 118
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "sharp_report",
+        "count": 4
+      },
+      {
+        "file": "bor/sharp_pairs.py",
+        "function": "touching_class",
+        "count": 161
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "<genexpr>",
+        "count": 2807
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "<lambda>",
+        "count": 1443
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_all_axial_aspects",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_angular_batch",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_angular_checkpoint_orders",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_bessel_triplet",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_bor_mode_limits",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_bounded_blas_threads",
+        "count": 4
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_build_point_matrices",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_configure_near_pair_routing",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_contract_near_batch",
+        "count": 27
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_contract_near_chunk",
+        "count": 510
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_converged_disjoint_batch",
+        "count": 9
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_factor_pricing",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_far_gap",
+        "count": 1443
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_guard_bor_dense_memory",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_initial_mode_horizon",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_iter_near_pairs",
+        "count": 269
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_mode_cap_warning",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_mode_sweep",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_mode_sweep_impl",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_near_chunk_kernels",
+        "count": 27
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_near_point_chunks",
+        "count": 321
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_near_preparation_workers",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_near_quadrature_summary",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_pair_blocks",
+        "count": 721
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_points_on_element",
+        "count": 1020
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_predicted_mode_horizon",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_prepare_near_families",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_prepare_near_family_band",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_prepared_near",
+        "count": 1442
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_regular_cell_points",
+        "count": 195
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_release_angular_bytes",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_require_mode_convergence",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_reserve_angular_bytes",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_same_surface_points",
+        "count": 118
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_segment_distance",
+        "count": 259
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_shared_angular_chunk",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_sharp_pair_summary",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_test_accumulate",
+        "count": 28
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_touching_pair_summary",
+        "count": 4
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_touching_probes",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_warn_near_asymmetry",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "_warn_touching_pairs",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "angular_cache_bound_bytes",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "assemble",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "assemble_mfie_mode",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "assemble_mode",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "basis_mask",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "basis_transform",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "block_error",
+        "count": 45
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "checkpoint",
+        "count": 1519
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "close_streaming",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "contract",
+        "count": 6120
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "dot",
+        "count": 28
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "effective",
+        "count": 72
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "estimate_bor_dense_peak_gb",
+        "count": 2
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "estimate_bor_total_peak_gb",
+        "count": 6
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "evaluate",
+        "count": 18
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "farfield_batch",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "farfield_vv_hh_batch",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "fit",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "flush",
+        "count": 27
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "mirror_map",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "mirror_split_pays",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "order",
+        "count": 214
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "plan_bor_mode_workers",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "plan_compressed_far_cache",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "plan_near_preparation",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "prepare",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "prepare_operators",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "pt_seg",
+        "count": 1036
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "rhs_batch",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "rhs_vv_hh_batch",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "rows",
+        "count": 2040
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "run",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "scoped_solve_am",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "solve_am",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "solve_bor",
+        "count": 1
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "task_checkpoint",
+        "count": 7
+      },
+      {
+        "file": "bor/solver.py",
+        "function": "triplet",
+        "count": 7
+      },
+      {
+        "file": "bor/storage.py",
+        "function": "bor_near_cache_bytes",
+        "count": 2
+      },
+      {
+        "file": "bor/storage.py",
+        "function": "bor_operator_storage_bytes",
+        "count": 2
+      },
+      {
+        "file": "bor/storage.py",
+        "function": "conductor_operator_kinds",
+        "count": 2
+      },
+      {
+        "file": "bor/storage.py",
+        "function": "estimate_bor_operator_storage_gb",
+        "count": 2
+      },
+      {
+        "file": "bor/storage.py",
+        "function": "estimate_bor_table_gb",
+        "count": 1
+      },
+      {
+        "file": "bor/streaming.py",
+        "function": "_dp",
+        "count": 32836
+      },
+      {
+        "file": "bor/surface_waves.py",
+        "function": "<module>",
+        "count": 1
+      },
+      {
+        "file": "bor/surface_waves.py",
+        "function": "direct_surface_wave_sampling",
+        "count": 1
+      },
+      {
+        "file": "bor/surface_waves.py",
+        "function": "surface_wave_indices",
+        "count": 1
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "<lambda>",
+        "count": 432
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "__add__",
+        "count": 7
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "__getitem__",
+        "count": 6
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "__init__",
+        "count": 777
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "__mul__",
+        "count": 14
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "blocks",
+        "count": 1442
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "expression",
+        "count": 7
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "get",
+        "count": 833
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "get_with_error",
+        "count": 112
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "ids",
+        "count": 12
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "mass_expression",
+        "count": 721
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "primitive",
+        "count": 14
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "projected_coordinates",
+        "count": 2
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "query",
+        "count": 945
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "reduce",
+        "count": 1
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "reduced",
+        "count": 16
+      },
+      {
+        "file": "bor/tiled.py",
+        "function": "support",
+        "count": 3605
+      },
+      {
+        "file": "bor/validation.py",
+        "function": "_bor_axis_tolerance",
+        "count": 6
+      },
+      {
+        "file": "bor/validation.py",
+        "function": "_validate_solve_bor_generatrix",
+        "count": 1
+      },
+      {
+        "file": "bor/validation.py",
+        "function": "_validated_bor_aspects",
+        "count": 1
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "close",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "prepared_product",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "product_scope",
+        "count": 14
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "array_bytes",
+        "count": 14
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "owner",
+        "count": 28
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "sample",
+        "count": 7
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "step",
+        "count": 28
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "track",
+        "count": 14
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_backward_errors",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_fresh_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_refine",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "inverse",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "physical_errors",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "relative_errors",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "solve",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "<genexpr>",
+        "count": 42
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "__init__",
+        "count": 14
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "apply",
+        "count": 63
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "build",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "check_storage",
+        "count": 28
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "factor",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "reserve",
+        "count": 14
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "solve",
+        "count": 63
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "inverse_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "visit",
+        "count": 2
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "<genexpr>",
+        "count": 602
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "<lambda>",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__enter__",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__exit__",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__init__",
+        "count": 14
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__len__",
+        "count": 77
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_get",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_thread_budget",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "adj",
+        "count": 448
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "assemble_tiles",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "assembly_tasks",
+        "count": 119
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "compress_tile",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "finalize",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "matmul",
+        "count": 63
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "plan",
+        "count": 14
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "reciprocal_enabled",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "separated",
+        "count": 84
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "store_tile",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "submit",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "take_pilot",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_batch_values",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_payload",
+        "count": 84
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_values",
+        "count": 112
+      },
+      {
+        "file": "compressed/pilots.py",
+        "function": "_state",
+        "count": 7
+      },
+      {
+        "file": "compressed/pilots.py",
+        "function": "take",
+        "count": 7
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "_key",
+        "count": 7
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "try_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "automatic_storage_bytes",
+        "count": 9
+      },
+      {
+        "file": "compressed/tile_processes.py",
+        "function": "prepare",
+        "count": 7
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "admit_phase",
+        "count": 70
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "admit_reload",
+        "count": 14
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "construction_allocation",
+        "count": 28
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "current",
+        "count": 160
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "process_memory",
+        "count": 14
+      },
+      {
+        "file": "execution/memory_budget.py",
+        "function": "register",
+        "count": 14
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "<genexpr>",
+        "count": 92
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "_sample_process_tree",
+        "count": 23
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "active_metrics",
+        "count": 256
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "decorate",
+        "count": 7
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "finish",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "measured",
+        "count": 277
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "metrics_scope",
+        "count": 7
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "poll",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "publish",
+        "count": 368
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "report",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "sample_memory",
+        "count": 95
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "stage",
+        "count": 548
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "start",
+        "count": 1
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "timed_stage",
+        "count": 7
+      },
+      {
+        "file": "execution/metrics.py",
+        "function": "wrap",
+        "count": 6
+      },
+      {
+        "file": "execution/options.py",
+        "function": "<genexpr>",
+        "count": 21
+      },
+      {
+        "file": "execution/options.py",
+        "function": "_optional_psutil",
+        "count": 1
+      },
+      {
+        "file": "execution/options.py",
+        "function": "_usable_logical_cpus",
+        "count": 33
+      },
+      {
+        "file": "execution/options.py",
+        "function": "allocated_cpu_budget",
+        "count": 33
+      },
+      {
+        "file": "execution/options.py",
+        "function": "allocated_memory_budget",
+        "count": 25
+      },
+      {
+        "file": "execution/options.py",
+        "function": "blas_core_budget",
+        "count": 2
+      },
+      {
+        "file": "execution/options.py",
+        "function": "call",
+        "count": 7
+      },
+      {
+        "file": "execution/options.py",
+        "function": "cpu_allocation_scope",
+        "count": 14
+      },
+      {
+        "file": "execution/options.py",
+        "function": "effective_assembly_threads",
+        "count": 7
+      },
+      {
+        "file": "execution/options.py",
+        "function": "environment_value",
+        "count": 46
+      },
+      {
+        "file": "execution/options.py",
+        "function": "option",
+        "count": 135
+      },
+      {
+        "file": "execution/options.py",
+        "function": "physical_core_count",
+        "count": 2
+      },
+      {
+        "file": "execution/options.py",
+        "function": "single_thread_blas",
+        "count": 14
+      },
+      {
+        "file": "execution/options.py",
+        "function": "temporary_directory",
+        "count": 1
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "get",
+        "count": 761
+      },
+      {
+        "file": "execution/runtime.py",
+        "function": "override",
+        "count": 144
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "<genexpr>",
+        "count": 171
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "__init__",
+        "count": 36
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_check_prefix",
+        "count": 4320
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_find_affixes",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_find_libraries_with_dl_iterate_phdr",
+        "count": 9
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_architecture",
+        "count": 18
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_libc",
+        "count": 9
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_symbol",
+        "count": 72
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_get_threading_layer",
+        "count": 18
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_load_libraries",
+        "count": 9
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_make_controller_from_path",
+        "count": 864
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "_warn_if_incompatible_openmp",
+        "count": 9
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "get_num_threads",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "get_version",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "info",
+        "count": 36
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "match_library_callback",
+        "count": 873
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "num_threads",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "set_additional_attributes",
+        "count": 27
+      },
+      {
+        "file": "execution/thread_control/_threadpoolctl.py",
+        "function": "threadpool_info",
+        "count": 9
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_chain_is_closed",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_flag",
+        "count": 3
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "_weld_point_keys",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "chains_from_snapshot_segments",
+        "count": 1
+      },
+      {
+        "file": "geometry/io.py",
+        "function": "check_orientation_consistency",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "<genexpr>",
+        "count": 539
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "<lambda>",
+        "count": 2
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "__init__",
+        "count": 3
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_build_primitives",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_flag",
+        "count": 3
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_nearest",
+        "count": 84
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "_weld",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "analyze_regions",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "dielectric",
+        "count": 4
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "error_items",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "errors",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "find",
+        "count": 84
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "key",
+        "count": 162
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "numerical_bor_axis_tolerance",
+        "count": 7
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "primitives_from_snapshot_segments",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "side_media",
+        "count": 1
+      },
+      {
+        "file": "geometry/regions.py",
+        "function": "unbounded",
+        "count": 2
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "<genexpr>",
+        "count": 498
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "<lambda>",
+        "count": 81
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "overlapping_pairs",
+        "count": 41
+      },
+      {
+        "file": "geometry/spatial.py",
+        "function": "point_proximity_pairs",
+        "count": 1
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve",
+        "count": 63
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve_into",
+        "count": 63
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "spatial_order",
+        "count": 56
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "_parallel",
+        "count": 7
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "_signs",
+        "count": 14
+      },
+      {
+        "file": "linalg/onenorm.py",
+        "function": "onenormest",
+        "count": 7
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "__init__",
+        "count": 8
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "_evidence",
+        "count": 7
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "_qr_basis",
+        "count": 84
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "evidence",
+        "count": 1
+      },
+      {
+        "file": "linalg/sweep.py",
+        "function": "solve",
+        "count": 7
+      },
+      {
+        "file": "linalg/workspace.py",
+        "function": "first_nonfinite",
+        "count": 7
+      },
+      {
+        "file": "linalg/workspace.py",
+        "function": "strict_lu_factor",
+        "count": 7
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "current_pair",
+        "count": 7
+      },
+      {
+        "file": "twod/assembly/polynomial_pair.py",
+        "function": "retained_bytes",
+        "count": 7
+      },
+      {
+        "file": "twod/assembly/session.py",
+        "function": "current_session",
+        "count": 7
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "<genexpr>",
+        "count": 292
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "__init__",
+        "count": 3
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_bound_surface_wave_index",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_check_segment_orientation_or_raise",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_conservative_mesh_wavelength_for_frequencies",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_linear_node_snap_key",
+        "count": 41
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_material_base_dir_for_snapshot",
+        "count": 2
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_mesh_wavelength_for_snapshot",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_flag",
+        "count": 4
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_geometry_float",
+        "count": 160
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_parse_geometry_integer",
+        "count": 6
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_points_close",
+        "count": 79
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_snapshot_segments",
+        "count": 2
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_surface_wave_mesh_wavelength",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "_unit_scale_to_meters",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "check_bor_regions_or_raise",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "from_entries",
+        "count": 1
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "key",
+        "count": 80
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "local_tolerance",
+        "count": 41
+      },
+      {
+        "file": "twod/geometry.py",
+        "function": "validate_geometry_snapshot_for_solver",
+        "count": 1
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "__init__",
+        "count": 1
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "material_fingerprints",
+        "count": 2
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "preparation_scope",
+        "count": 6
+      },
+      {
+        "file": "twod/preparation.py",
+        "function": "prepare_geometry",
+        "count": 1
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "compact_samples_enabled",
+        "count": 2
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "sample_buffer",
+        "count": 2
+      },
+      {
+        "file": "twod/samples.py",
+        "function": "sample_column",
+        "count": 2
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_cgroup_available_bytes",
+        "count": 25
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_configured_solve_memory_limit_gb",
+        "count": 25
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_detect_available_gb",
+        "count": 25
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_process_rss_bytes",
+        "count": 14
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_psutil_available_bytes",
+        "count": 25
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_read_cgroup_int",
+        "count": 50
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_record_dense_backend_event",
+        "count": 7
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_slurm_available_bytes",
+        "count": 25
+      },
+      {
+        "file": "twod/solver.py",
+        "function": "_solve_memory_limit_gb",
+        "count": 25
+      }
+    ]
+  }
+]

@@ -1,0 +1,272 @@
+GHOST PERFORMANCE IMPLEMENTATION AND INDEPENDENT VALIDATION
+2026-11-11 — Codex handoff for Claude's second audit
+
+REVIEW TARGETS
+
+Baseline: distribution/grim-driver-simplification-2026-11-11
+          c20b9edbce8c4b652312ca8ea206a4e5c198f0c2
+Claude study: claude/festive-keller-nj5bje
+              96f71b27e5535aa6c0cee8c655e806b967654266
+Study: audits/claude-2026-11-11/backend-refactor-study/HANDOFF_REFACTOR_STUDY.md
+Prior Codex review: codex/backend-refactor-study-review-2026-11-11
+                   61c99970635c0763e9f339033d04c206c7e3877e
+Implementation: distribution/grim-performance-2026-11-11
+                49bd93fa0ab2ccef0eb94312fd825683acf082fd
+Evidence: codex/backend-performance-2026-11-11
+          audits/codex-2026-11-11/backend-performance/
+
+The implementation branch contains only 23 changed production/documentation
+files and no audits. Its parent is the accepted baseline above. Native sources,
+DLLs and shared objects are unchanged. No native rebuild was necessary.
+The evidence branch adds this directory to the exact production commit.
+
+CONCLUSION AND RESPONSE TO THE STUDY
+
+Independent measurements support the study's concerns about compressed defaults,
+small H-matrix BLAS operations, and automatically switching dense 2D to HODLR.
+The changes implement R4 and bounded portions of R1/R2. I retained the tile and
+shared hierarchical code implicated by R3: executable dependency probes confirm
+these paths remain necessary. The native streaming route already executes; R5
+needs finer profiling before another native batching implementation is justified.
+
+No correctness regression was found in the checks below. This is evidence for
+the tested formulations, meshes and Linux environment, not proof of a universal
+crossover or a Windows/SLURM release certification. I did not rerun all 193
+attempts in Claude's timing matrix. Representative fresh-process comparisons,
+complete fields, native-free checks, policy boundaries and workflow tests are
+archived here so the conclusions can be independently challenged.
+
+IMPLEMENTATION DETAILS TO AUDIT
+
+1. New deterministic factorization='automatic' is the recommended setting for
+   new 2D GUI, automatic API and normal local/HPC driver runs. Full memory
+   admission and the existing margin apply first. Among admitted candidates,
+   prefer dense below 10,000 forecast unknowns and compressed at/above 10,000.
+   Use the largest forecast mesh, not the panel count. The 10,000 boundary is a
+   conservative small-host starting heuristic, not a measured universal optimum.
+   Admitted retry paths remain; fixed explicit selections stay fixed.
+
+   The new mode does not read/write the old timing history. Legacy 'adaptive'
+   still uses timing-based selection; legacy 'auto' remains the dense alias.
+   The ScopedValue automatic-policy flag survives resolution to dense/compressed,
+   nested candidate forecasts and adaptive mesh scopes. Forecast cache keys now
+   include that flag. Selection metadata identifies memory_and_size_v1 and
+   objective memory_and_size. The internal requested='adaptive' marker is kept
+   for compatibility with existing batch/forecast plumbing; distinguish it with
+   automatic_policy and requested_execution_options.factorization.
+
+2. When automatic chooses compressed, H-matrix is eligible from 1,024 unknowns,
+   allowing smaller low-RAM solves to use it. Explicit compressed retains its
+   old 8,192 threshold. GHOST_HMATRIX_MIN_UNKNOWNS overrides both, including zero
+   to retain tiles. Representation eligibility, validation and tile fallback
+   remain. This is not a deletion of the tile implementation.
+
+3. HMatrixFactor construction, condition estimation, inverse, solve and the full
+   RHS compression solve use one BLAS thread when blas_threads='auto'. They hold
+   the existing process-wide linear-algebra lock and restore previous limits
+   even on failure. Dense LU remains multithreaded. Explicit numeric BLAS
+   requests retain their previous semantics. Existing inverse/assembly-local
+   single-thread scopes are retained. Metadata records solve_blas_threads=1.
+
+4. Ordinary dense 2D defaults to LU rather than switching at 10,000 unknowns.
+   Execution and memory/work forecasts use the same 2D helper. Explicit
+   hierarchical, launch threshold and legacy timing opt-ins remain available.
+   BoR keeps its old automatic HODLR policy and threshold. Shared primitives
+   remain because H-matrix inverse and BoR still use them.
+
+5. HPC batch Automatic chooses by the same RAM/size rule instead of the legacy
+   whole-batch timing search. Existing dispatch enforces live aggregate CPU/RAM
+   reservations. Batch retry alternatives cannot exceed the selected unit's
+   reserved memory. Frequency-sweep planning and frozen-worker reconstruction
+   recognize the new mode. They still reforecast under actual allocations.
+
+6. GUI label: Automatic (recommended), alongside Dense and Compressed. Changing
+   mesh workflow preserves the selected solver policy, order and grading.
+   README, RUN_PROFILES and NUMERICAL_METHODS describe the behavior. Historical
+   HODLR calibration tables are identified as historical observations.
+
+PERFORMANCE: SAME 4-CPU ALLOCATION, 181 ANGLES, BOTH POLARIZATIONS
+
+Times are end-to-end solve wall seconds from fresh processes, including quality
+checks, with result serialization outside the timer. Benchmark processes ran
+serially without concurrent numerical tests. Four-thousand-unknown cases were
+repeated in reversed order; larger cases have one run per configuration. CPU:
+AMD EPYC 9V45, Linux, cgroup quota 4 CPUs/16 GiB, Python 3.12.14, NumPy 2.3.5,
+SciPy 1.17.0. Each solve explicitly receives a four-CPU allocation and assembly
+threads=4; BLAS is auto. These are one-shot runs, not mesh certificates.
+
+Default comparison: baseline compressed versus new Automatic, except dense10k
+which explicitly requests dense on both sides. Storage allowance is automatic.
+
+Case / unknowns           Baseline seconds       New seconds       Observation
+PEC / 4,000               12.65, 13.22           7.05, 7.06        ~1.83x
+Dielectric / 4,000        19.51, 19.43           4.41, 4.39        ~4.43x
+Coated PEC / 6,480        rank-256 rejection     15.62             recovered
+PEC / 8,000               rank-256 rejection     33.10             recovered
+Dielectric / 8,000        62.77                  19.04             ~3.30x
+PEC / 12,000              55.59                  45.98             ~1.21x
+Explicit dense / 10,000   56.53 (HODLR)          40.99 (LU)        ~1.38x
+
+Recovered cases are not speed ratios: the baseline failed. New outputs match
+baseline explicit-dense references bitwise across all 362 complex amplitudes.
+The PEC reference was independently captured in the preceding study review;
+the coated reference was freshly computed here with matched four-thread BLAS.
+Reference timings overlapped validations and are excluded from speed claims.
+
+Isolated BLAS comparison used a checkpoint containing ONLY the BLAS patch,
+explicit compressed, H-matrix threshold 1,024 and 2 GiB compressed storage:
+
+PEC / 4,000               11.94, 10.95           9.00, 7.91
+Dielectric / 4,000        12.70, 12.06           8.14, 7.88
+PEC / 8,000               27.99                  22.23
+Coated PEC / 9,720        74.76                  64.95
+
+This isolates the BLAS improvement from changing the default backend. The final
+tree includes the same numerical BLAS patch. The isolated checkpoint predates
+the final solve_blas_threads metadata addition; that addition changes no math.
+
+Tradeoff: Automatic can consume more RAM. For dielectric 8,000, observed process
+tree peak rose from 1.314 to 2.143 GiB; PEC 4,000 from about 0.52 to 0.92 GiB.
+The successful PEC 8,000 dense solve peaked at 3.18 GiB. Keep explicit Compressed
+for a fixed lower-memory choice. Forecast admission is enforced but, as before,
+is an estimate rather than an exact RSS guarantee. These measurements do not
+establish optimal whole-batch throughput or the best policy on many-core hosts.
+
+CORRECTNESS AND WORKFLOW RESULTS
+
+* Full inherited regression: 207 checks passed across 11 scripts, no failures.
+  Includes physics, input validation, concurrency, thread state, worker death,
+  quadrature, near/far assembly and BoR publishing. See regression.log.
+* Fresh native/native-free baseline versus new: 31 field sets each, 62/62
+  bitwise equal. Explicit dense/compressed, all supplied 2D families, bistatic,
+  and six BoR cases. Native-free checkouts physically omit .so/.dll files.
+* Additional forced H-matrix native-free checks: six real PEC/dielectric
+  solves at 1,200 unknowns, comparing baseline native-free, new native-free
+  and new native. All four complete-field comparisons pass below 1e-9; every
+  solve uses cpu_hmatrix and passes quality gates. See hmatrix-fallback-results.
+  These are correctness runs, excluded from performance timing claims.
+* Automatic versus fresh dense references: 12 2D formulation families pass.
+  Forecast-cache policy isolation and reuse also pass.
+* Full benchmark fields: six BLAS pairs and seven successful default pairs,
+  362 complex samples each. Worst norm-scaled max difference: 1.212e-13 for
+  isolated BLAS and 7.272e-10 for the default comparison. Every successful
+  benchmark passes its solver quality gate. See verify_archived_fields.py.
+  This metric divides maximum absolute field difference by the reference's
+  maximum field amplitude; it is not pointwise relative error near field zeros.
+* Two recovered cases match explicit-dense references bitwise. An initial
+  coated reference at one BLAS thread differed from the four-thread result by
+  1.24e-9 norm-scaled (8.33e-9 dB); matching four threads gave bitwise equality.
+  That is pre-existing floating-point thread dependence, not evidence of a
+  policy-induced field change. No claim of bitwise invariance across threads.
+* 26 policy/thread checks: 9,999/10,000 boundary, memory admission, overrides,
+  BoR separation, explicit settings, cancellation restoration, concurrent auto
+  and numeric-thread requests, batch choice/retry reservation, saved aliases.
+* Nine workflow groups: global/local/adaptive x survey/certified real solves,
+  real memory-limited 4,000-unknown H-matrix selection, injected automatic retry
+  versus explicit failure, GUI policy persistence. Timing-cache calls are
+  patched to fail and are not touched by Automatic.
+* Actual spawned frequency workers: three frequencies, sequential versus two
+  workers, survey and certified. Four runs pass with equivalent fields and
+  expected metadata.
+* 33 offscreen full-window GUI checks pass. Only the inherited harness's
+  expected startup policy was updated from compressed to automatic.
+* Eight local/frozen-HPC driver cases: 2D and BoR, certification on and off.
+  All pass; 392 arrays bitwise equal to the accepted baseline driver evidence.
+  Resume rewrites nothing; partial restart restores only missing artifacts;
+  input tampering rejects without publishing the deleted artifact. HPC workers
+  execute locally with SUBMIT=False; this does not test a real SLURM cluster.
+* Dependency probes execute native H-matrix kernels and shared helpers, ordinary
+  nonmagnetic thin-layer H-matrix exclusions, injected H-matrix rejection with
+  tile fallback, and BoR tile execution. This directly rejects broad deletion
+  of compressed/tile, hierarchical shared primitives or native entry points.
+* Python compilation and whitespace checks pass. All 523 production files
+  match baseline blobs except the 23 manifest entries. No new source modules,
+  deleted numerical paths or modified native binaries.
+
+USER-FACING CONSEQUENCES
+
+New runs recommend Automatic. For fastest one-shot use, select Single solve,
+retain the intended mesh/order/density settings and choose Automatic (or Dense
+for a known small fitting case). Algebraic quality checks still run; a single
+solve does not certify mesh convergence. Mesh generation and density enforcement
+retain their previous meaning and are not silently bypassed by this work.
+
+Existing explicit Dense/Compressed profiles remain explicit. Loading an old
+Compressed profile will not silently gain Automatic's backend choice. New
+profiles containing factorization='automatic' require this version; older
+versions reject the unknown value. New settings retain the existing version-1
+schema with the added accepted enum value. Scientific precision, certification
+criteria and output formats are unchanged. Line-expansion work is outside this
+performance change; no earlier issue in that area is claimed resolved here.
+
+WHAT CLAUDE SHOULD AUDIT NEXT
+
+1. Review process-wide BLAS lock ordering and nested restoration, especially
+   callbacks/cancellation and simultaneous direct/GUI solver requests. The
+   concurrency harness uses both auto and explicit thread counts; expand it
+   with realistic concurrent H-matrix and dense workloads on another machine.
+2. Verify automatic-policy propagation through candidate scopes, adaptive mesh
+   growth, forecast cache keys, frequency workers and frozen HPC reconstruction.
+   Confirm no untested call path mistakes legacy 'auto' for new 'automatic'.
+3. Challenge the 10,000/1,024 heuristics on many-core Windows/Linux machines,
+   larger electrical sizes, difficult corners/coatings, high polynomial order
+   and RAM-constrained batches. Recalibrate only from complete fields and stages.
+4. Audit RAM reservation/retry behavior when multiple heterogeneous units run
+   together, especially compressed-to-dense retry after mesh growth. The new
+   deterministic rule prioritizes simplicity; it does not optimize global
+   throughput by modeling concurrency like legacy adaptive can.
+5. Confirm retained tile/shared code with dependency-results.json before
+   proposing deletions. Profile existing native sampling before implementing
+   R5. No additional low-level performance rewrite is justified by this report.
+6. Independently rerun compiled Windows libraries and an actual SLURM job before
+   making platform-wide distribution claims. Existing DLLs are preserved, not
+   rebuilt or executed in this Linux validation.
+
+REPRODUCTION AND EVIDENCE
+
+Use separate clean checkouts at the pinned baseline and production commits.
+Install the repository dependencies, including NumPy, SciPy, psutil, threadpoolctl
+and PySide6. Extract validation-scripts.zip beside this file; it supplies the
+inherited regression/ and calibration/ fixtures. Extract reference-fields.zip
+for the four archived golden arrays. Set QT_QPA_PLATFORM=offscreen for GUI tests.
+Benchmarks should run alone; do not overlap them with the regression suite.
+
+  python bench_default.py /path/to/baseline /path/to/production
+  python test_policy.py /path/to/production
+  QT_QPA_PLATFORM=offscreen python test_workflows.py /path/to/production
+  python test_frequency_sweep.py /path/to/production
+  python test_automatic_fields.py /path/to/production
+  python probe_dependencies.py /path/to/production
+  python test_hmatrix_fallback.py /path/to/base-native-free /path/to/new-native-free /path/to/production
+  python run_driver_checks.py /path/to/production
+  PYTHONPATH=/path/to/production/tools/GHOST QT_QPA_PLATFORM=offscreen python ux_checks.py
+  GHOST_AUDIT_ROOT=/path/to/production OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python regression/run_all.py
+  python verify_archived_fields.py
+
+Run benchmarks in a copy of the evidence directory: timings.jsonl appends and
+samples overwrite existing tags. Isolated BLAS reproduction: apply
+isolated-blas.patch to a separate baseline checkout, then pass that checkout as
+bench_blas.py's second root. The patch is the actual checkpoint used for those
+measurements. Full-production compressed timings should be numerically the same
+but need not reproduce identical wall time.
+
+For fresh golden comparisons, run regression/golden.py ROOT OUTPUT.npz for each
+baseline/new native and native-free checkout. run_field_checks.py accepts those
+four roots in that order. It creates and compares all four archives. Use fresh
+copies without any .so/.dll files for native-free runs. It is not sufficient to
+rename an imported library after a process has already loaded it.
+
+driver-evidence.zip contains baseline/new arrays and new events/tamper logs.
+Drivers use temporary frozen runtime snapshots; only the compact outputs are
+archived. case.py captures all fields, while the JSONL rows show only a few
+display amplitudes. fields.npz preserves every angle/polarization, with columns
+frequency, incident angle, scattered angle, amplitude real, amplitude imaginary,
+RCS dB; each tag also has a __polarization array. metadata-summary.json preserves
+quality status, stages, options, selection and backend. Stage timers may overlap
+and should not be summed into wall time. A benchmark subprocess can exit zero
+while its captured row records an error; the verifier explicitly checks both.
+
+environment.json, production-manifest.json and evidence-sha256.json document
+environment and artifact integrity. Scripts retaining the original workspace as
+a default also accept roots where shown; do not mistake the historical paths in
+logs for a required installation location.

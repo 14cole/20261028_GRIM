@@ -1,0 +1,4 @@
+hmatrix_native_calls OK 6 cpu_hmatrix [{'oracle': 'PairedOracle', 'n': 1200, 'returned': 'list', 'reason': None}]
+ordinary_dielectric_thin_layer OK 6 mixed [{'oracle': 'NativeOracle', 'n': 256, 'returned': None, 'reason': 'thin dielectric layer with a magnetic contrast couples rows through the inverse mass matrix'}, {'oracle': 'NativeOracle', 'n': 128, 'returned': 'HMatrixOperator', 'reason': None}]
+hmatrix_rejection_falls_back_to_tiles OK 6 cpu_compressed [{'oracle': 'PairedOracle', 'n': 128, 'returned': None, 'reason': 'HMatrixRejected: injected measured-error rejection'}]
+bor_compressed_uses_tiles OK 6 None []

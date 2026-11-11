@@ -1,0 +1,106 @@
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+PASS startup preserves automatic checked selection policy
+PASS check preserves all specified settings
+PASS automatic preserves backend and grading
+PASS return from automatic restores manual order and sizing
+PASS single and check share method and backend
+PASS single hides irrelevant comparison target
+PASS BOR defaults to checked mesh without automatic option
+PASS BOR single request disables only mesh comparison
+PASS 2D settings survive BOR mode
+PASS bistatic request retains dense path
+PASS monostatic choice survives bistatic mode
+PASS workflow and advanced controls locked while running
+PASS bundled geometry loads
+PASS find action selects without changing mesh
+PASS assignment available for conductor and impedance
+PASS assignment action changes selected conductor flag
+PASS assignment disabled on dielectric boundary
+PASS thin layer action creates material definition
+PASS thin dielectric cannot be assigned as conductor impedance
+PASS thin layer creation disabled for BOR
+PASS remove action needs explicit material selection
+PASS dense/single real solve returns correct certification state
+PASS dense/single keeps selected backend
+PASS dense/check real solve returns correct certification state
+PASS dense/check keeps selected backend
+PASS dense/automatic real solve returns correct certification state
+PASS dense/automatic keeps selected backend
+PASS compressed/single real solve returns correct certification state
+PASS compressed/single keeps selected backend
+PASS compressed/check real solve returns correct certification state
+PASS compressed/check keeps selected backend
+PASS compressed/automatic real solve returns correct certification state
+PASS compressed/automatic keeps selected backend
+{
+  "passed": 33,
+  "solves": [
+    {
+      "backend": "dense",
+      "workflow": "single",
+      "certified": false,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 48
+    },
+    {
+      "backend": "dense",
+      "workflow": "check",
+      "certified": true,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "dense",
+      "workflow": "automatic",
+      "certified": true,
+      "recorded_backends": [
+        "dense",
+        "dense",
+        "dense"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "compressed",
+      "workflow": "single",
+      "certified": false,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 48
+    },
+    {
+      "backend": "compressed",
+      "workflow": "check",
+      "certified": true,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 72
+    },
+    {
+      "backend": "compressed",
+      "workflow": "automatic",
+      "certified": true,
+      "recorded_backends": [
+        "compressed",
+        "compressed",
+        "compressed"
+      ],
+      "panels": 72
+    }
+  ]
+}

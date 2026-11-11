@@ -1,0 +1,1362 @@
+[
+  {
+    "case": "global-survey",
+    "samples": 6,
+    "certified": false,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.16463088989257812,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.10260177134933333,
+          "peak_gb": 0.16463088989257812
+        },
+        "compressed": {
+          "cost": 0.10261854856533333,
+          "peak_gb": 0.28322720527648926
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.735366439819336,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 128,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.735366439819336,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 128,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 128 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.13197674699767958
+    },
+    "adaptive_mesh": null
+  },
+  {
+    "case": "global-certified",
+    "samples": 6,
+    "certified": true,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.17675114423036575,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.26846583125333334,
+          "peak_gb": 0.17675114423036575
+        },
+        "compressed": {
+          "cost": 0.2685392315733333,
+          "peak_gb": 0.2843925952911377
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.695232772827149,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 4,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 192,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.695232772827149,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 192,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 192 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.029719742997258436
+    },
+    "adaptive_mesh": null
+  },
+  {
+    "case": "local-survey",
+    "samples": 6,
+    "certified": false,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.16463088989257812,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.10260177134933333,
+          "peak_gb": 0.16463088989257812
+        },
+        "compressed": {
+          "cost": 0.10261854856533333,
+          "peak_gb": 0.28322720527648926
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.702446365356446,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 128,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.702446365356446,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 128,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 128 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.013285991000884678
+    },
+    "adaptive_mesh": null
+  },
+  {
+    "case": "local-certified",
+    "samples": 6,
+    "certified": true,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.17675114423036575,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.26846583125333334,
+          "peak_gb": 0.17675114423036575
+        },
+        "compressed": {
+          "cost": 0.2685392315733333,
+          "peak_gb": 0.2843925952911377
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.683289718627929,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 4,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 192,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.683289718627929,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 192,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 192 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.028720037997118197
+    },
+    "adaptive_mesh": null
+  },
+  {
+    "case": "adaptive-survey",
+    "samples": 6,
+    "certified": false,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.16463088989257812,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.10260177134933333,
+          "peak_gb": 0.16463088989257812
+        },
+        "compressed": {
+          "cost": 0.10261854856533333,
+          "peak_gb": 0.28322720527648926
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.691251373291015,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 128,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.691251373291015,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 128,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 128 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.012237971997819841
+    },
+    "adaptive_mesh": null
+  },
+  {
+    "case": "adaptive-certified",
+    "samples": 6,
+    "certified": true,
+    "backend": "cpu",
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.17675114423036575,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 0.26846583125333334,
+          "peak_gb": 0.17675114423036575
+        },
+        "compressed": {
+          "cost": 0.2685392315733333,
+          "peak_gb": 0.2843925952911377
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.691155242919923,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 128,
+          "unknowns": 128,
+          "dense_peak_gib": 0.16463088989257812,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.16463088989257812,
+            "compressed": 0.28322720527648926
+          },
+          "resources": {
+            "nodes": 128,
+            "panels": 128,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 128,
+            "operator_matrices": 4,
+            "operator_entries": 32768,
+            "geometric_near_pairs": 896,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 41984,
+            "mass_workspace_bytes": 21512,
+            "block_workspace_bytes": 1572864,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 58949632
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        },
+        {
+          "frequency_ghz": 0.3,
+          "phase": "fine",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 192,
+          "unknowns": 192,
+          "dense_peak_gib": 0.17675114423036575,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.17675114423036575,
+            "compressed": 0.2843925952911377
+          },
+          "resources": {
+            "nodes": 192,
+            "panels": 192,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 192,
+            "operator_matrices": 5,
+            "operator_entries": 73728,
+            "geometric_near_pairs": 1344,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 62976,
+            "mass_workspace_bytes": 32264,
+            "block_workspace_bytes": 2359296,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 88424448
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 4,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 128,
+        "initial_candidate_unknowns_max": 192,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.691155242919923,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 192,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 192 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.030240364001656417
+    },
+    "adaptive_mesh": {
+      "used": false,
+      "reason": "Explicit fixed panel counts retain their requested discretization."
+    }
+  },
+  {
+    "case": "limited-ram-hmatrix",
+    "budget": 0.5556991100311279,
+    "unlimited_forecast": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.6430568695068359,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 48.35357333333332,
+          "peak_gb": 0.6430568695068359
+        },
+        "compressed": {
+          "cost": 38.812731105759994,
+          "peak_gb": 0.4683413505554199,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.688772583007813,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.6430568695068359,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.6430568695068359,
+            "compressed": 0.4683413505554199
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 263168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 8064000,
+              "assembly_sample_workspace_bytes": 3008000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.6430568695068359,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.6430568695068359,
+            "compressed": 0.4683413505554199
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 263168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 8064000,
+              "assembly_sample_workspace_bytes": 3008000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.688772583007813,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": true,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission."
+    },
+    "selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.6430568695068359,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 48.35357333333332,
+          "peak_gb": 0.6430568695068359
+        },
+        "compressed": {
+          "cost": 38.812731105759994,
+          "peak_gb": 0.4683413505554199,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 0.5556991100311279,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.6430568695068359,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.6430568695068359,
+            "compressed": 0.4683413505554199
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 263168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 8064000,
+              "assembly_sample_workspace_bytes": 3008000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.6430568695068359,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.6430568695068359,
+            "compressed": 0.4683413505554199
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 263168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 8064000,
+              "assembly_sample_workspace_bytes": 3008000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "compressed",
+      "retry_order": [],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "compressed",
+        "admitted": [
+          "compressed"
+        ],
+        "budget_gib": 0.5556991100311279,
+        "margin_fraction": 0.2,
+        "margin_applied": false,
+        "excluded": {
+          "dense": "exceeds_budget"
+        },
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected compressed at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.49540191300184233
+    },
+    "backend": "cpu_hmatrix"
+  },
+  {
+    "case": "admitted-retry-and-fixed-override",
+    "passed": true
+  },
+  {
+    "case": "ui-roundtrip-five-policies",
+    "passed": true
+  }
+]

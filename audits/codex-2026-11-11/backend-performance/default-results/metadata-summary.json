@@ -1,0 +1,2071 @@
+[
+  {
+    "case": "coated6480-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 5.904023196002527,
+      "condition_scaling": 0.06194211600086419,
+      "factorization": 4.685737225998309,
+      "condition_estimation": 0.4002172119944589,
+      "excitation": 0.10165948699432192,
+      "rhs_solve": 0.5203971869996167,
+      "linear_solve": 1.1527431680005975,
+      "rhs_compression": 1.1546743590006372,
+      "far_field": 0.03590364899719134
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 1.6258916854858398,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 31.736909823999998,
+          "peak_gb": 1.6258916854858398
+        },
+        "compressed": {
+          "cost": 57.1599969107,
+          "peak_gb": 1.4106061309576035,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.778218841552734,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.728609632787515,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4080,
+          "unknowns": 6480,
+          "dense_peak_gib": 1.6258916854858398,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.6258916854858398,
+            "compressed": 1.4106061309576035
+          },
+          "resources": {
+            "nodes": 4080,
+            "panels": 4080,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "multi_region",
+            "system_dofs": 6480,
+            "operator_matrices": 286,
+            "operator_entries": 75916800,
+            "geometric_near_pairs": 28560,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 3281280,
+            "mass_workspace_bytes": 685448,
+            "block_workspace_bytes": 29491200,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 281976960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 372219408,
+              "operator_allowance_bytes": 372219408,
+              "inverse_bytes": 294783696,
+              "inverse_peak_bytes": 459323856,
+              "assembly_workspace_bytes": 106997760,
+              "assembly_sample_workspace_bytes": 50388480,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 33477062,
+              "retained_entries": 22741968,
+              "inverse_rank": 529,
+              "density_multiplicity": 1.588235294117647,
+              "wavenumber": 353.19454787895535,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 203.89658069388892,
+                  "imag": 0.0,
+                  "magnitude": 203.89658069388892
+                },
+                {
+                  "real": 353.1768930064638,
+                  "imag": -3.5314158237893563,
+                  "magnitude": 353.19454787895535
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.728609632787515,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4080,
+          "unknowns": 6480,
+          "dense_peak_gib": 1.6258916854858398,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 1.6258916854858398,
+            "compressed": 1.4106061309576035
+          },
+          "resources": {
+            "nodes": 4080,
+            "panels": 4080,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "multi_region",
+            "system_dofs": 6480,
+            "operator_matrices": 286,
+            "operator_entries": 75916800,
+            "geometric_near_pairs": 28560,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 3281280,
+            "mass_workspace_bytes": 685448,
+            "block_workspace_bytes": 29491200,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 281976960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 372219408,
+              "operator_allowance_bytes": 372219408,
+              "inverse_bytes": 294783696,
+              "inverse_peak_bytes": 459323856,
+              "assembly_workspace_bytes": 106997760,
+              "assembly_sample_workspace_bytes": 50388480,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 33477062,
+              "retained_entries": 22741968,
+              "inverse_rank": 529,
+              "density_multiplicity": 1.588235294117647,
+              "wavenumber": 353.19454787895535,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 203.89658069388892,
+                  "imag": 0.0,
+                  "magnitude": 203.89658069388892
+                },
+                {
+                  "real": 353.1768930064638,
+                  "imag": -3.5314158237893563,
+                  "magnitude": 353.19454787895535
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 6480,
+        "initial_candidate_unknowns_max": 6480,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.778218841552734,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 6480,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 6480 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.5559845239986316
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "dense10k-base-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 14.53495886499877,
+      "condition_scaling": 0.12013283699343447,
+      "factorization": 28.683134984996286,
+      "condition_estimation": 1.2087749159909436,
+      "excitation": 0.3954004050028743,
+      "rhs_solve": 9.269490247999784,
+      "linear_solve": 9.308365085991682,
+      "rhs_compression": 9.485076400007529,
+      "far_field": 0.13288681598351104
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_hierarchical"
+  },
+  {
+    "case": "dense10k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 15.431901557996753,
+      "condition_scaling": 0.12157137900067028,
+      "factorization": 16.68639276099566,
+      "condition_estimation": 0.9118280679977033,
+      "excitation": 0.4380310289998306,
+      "rhs_solve": 2.2711184290019446,
+      "linear_solve": 4.724479233002057,
+      "rhs_compression": 4.727261008003552,
+      "far_field": 0.13193235200742492
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "diel4k-base-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.0028252310075913556,
+      "operators": 9.119315336043655,
+      "compressed_coefficients": 9.425858317983511,
+      "compressed_tile_compression": 4.708794120029779,
+      "compressed_spool_write": 0.1712717159971362,
+      "factorization": 2.6424920999997994,
+      "condition_estimation": 0.7897658590009087,
+      "excitation": 0.1443855870020343,
+      "linear_solve": 5.601769555003557,
+      "rhs_compression": 5.74526757800777,
+      "far_field": 0.028392009990056977,
+      "compressed_spool_read": 0.15622982799686724
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_compressed"
+  },
+  {
+    "case": "diel4k-base-r2",
+    "quality_passed": true,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.00289842500933446,
+      "operators": 9.098265857013757,
+      "compressed_coefficients": 9.37457185900712,
+      "compressed_tile_compression": 5.03210277899052,
+      "compressed_spool_write": 0.16168823801126564,
+      "factorization": 2.5772866849947604,
+      "condition_estimation": 0.7961932769976556,
+      "excitation": 0.1418291070003761,
+      "linear_solve": 5.740720082991174,
+      "rhs_compression": 5.794606381998165,
+      "far_field": 0.03186133200506447,
+      "compressed_spool_read": 0.179625187003694
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_compressed"
+  },
+  {
+    "case": "diel4k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 1.9850894519986468,
+      "condition_scaling": 0.030421629999182187,
+      "factorization": 1.0125409229949582,
+      "condition_estimation": 0.20201379399804864,
+      "excitation": 0.07227495700499276,
+      "rhs_solve": 0.19915784100157907,
+      "linear_solve": 0.5057355879980605,
+      "rhs_compression": 0.5067384489957476,
+      "far_field": 0.03254267500597052
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.9702224731445312,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 1.8676,
+          "peak_gb": 0.9702224731445312
+        },
+        "compressed": {
+          "cost": 21.156651590299997,
+          "peak_gb": 0.7500828355550766,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.78569679260254,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 4.768926290582116,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 2000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.9702224731445312,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 0.9702224731445312,
+            "compressed": 0.7500828355550766
+          },
+          "resources": {
+            "nodes": 2000,
+            "panels": 2000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 4000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 147591344,
+              "operator_allowance_bytes": 147591344,
+              "inverse_bytes": 152184336,
+              "inverse_peak_bytes": 229944336,
+              "assembly_workspace_bytes": 64000000,
+              "assembly_sample_workspace_bytes": 22016000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 12312000,
+              "retained_entries": 8920000,
+              "inverse_rank": 405,
+              "density_multiplicity": 2.0,
+              "wavenumber": 200.02342819617556,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 99.94930426171028,
+                  "imag": 0.0,
+                  "magnitude": 99.94930426171028
+                },
+                {
+                  "real": 199.9610280991653,
+                  "imag": -4.995905210812245,
+                  "magnitude": 200.02342819617556
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 4.768926290582116,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 2000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.9702224731445312,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 0.9702224731445312,
+            "compressed": 0.7500828355550766
+          },
+          "resources": {
+            "nodes": 2000,
+            "panels": 2000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 4000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 147591344,
+              "operator_allowance_bytes": 147591344,
+              "inverse_bytes": 152184336,
+              "inverse_peak_bytes": 229944336,
+              "assembly_workspace_bytes": 64000000,
+              "assembly_sample_workspace_bytes": 22016000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 12312000,
+              "retained_entries": 8920000,
+              "inverse_rank": 405,
+              "density_multiplicity": 2.0,
+              "wavenumber": 200.02342819617556,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 99.94930426171028,
+                  "imag": 0.0,
+                  "magnitude": 99.94930426171028
+                },
+                {
+                  "real": 199.9610280991653,
+                  "imag": -4.995905210812245,
+                  "magnitude": 200.02342819617556
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.78569679260254,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.287866471997404
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "diel4k-new-r2",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 1.8664251859954675,
+      "condition_scaling": 0.027763485006289557,
+      "factorization": 1.1462626940046903,
+      "condition_estimation": 0.18977790499775438,
+      "excitation": 0.0751192110037664,
+      "rhs_solve": 0.19054682600108208,
+      "linear_solve": 0.5058924770055455,
+      "rhs_compression": 0.5068709010010934,
+      "far_field": 0.02933825999207329
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.9702224731445312,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 1.8676,
+          "peak_gb": 0.9702224731445312
+        },
+        "compressed": {
+          "cost": 21.156651590299997,
+          "peak_gb": 0.7500828355550766,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.783623886108398,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 4.768926290582116,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 2000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.9702224731445312,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 0.9702224731445312,
+            "compressed": 0.7500828355550766
+          },
+          "resources": {
+            "nodes": 2000,
+            "panels": 2000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 4000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 147591344,
+              "operator_allowance_bytes": 147591344,
+              "inverse_bytes": 152184336,
+              "inverse_peak_bytes": 229944336,
+              "assembly_workspace_bytes": 64000000,
+              "assembly_sample_workspace_bytes": 22016000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 12312000,
+              "retained_entries": 8920000,
+              "inverse_rank": 405,
+              "density_multiplicity": 2.0,
+              "wavenumber": 200.02342819617556,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 99.94930426171028,
+                  "imag": 0.0,
+                  "magnitude": 99.94930426171028
+                },
+                {
+                  "real": 199.9610280991653,
+                  "imag": -4.995905210812245,
+                  "magnitude": 200.02342819617556
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 4.768926290582116,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 2000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.9702224731445312,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 0.9702224731445312,
+            "compressed": 0.7500828355550766
+          },
+          "resources": {
+            "nodes": 2000,
+            "panels": 2000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 4000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 147591344,
+              "operator_allowance_bytes": 147591344,
+              "inverse_bytes": 152184336,
+              "inverse_peak_bytes": 229944336,
+              "assembly_workspace_bytes": 64000000,
+              "assembly_sample_workspace_bytes": 22016000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 12312000,
+              "retained_entries": 8920000,
+              "inverse_rank": 405,
+              "density_multiplicity": 2.0,
+              "wavenumber": 200.02342819617556,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 99.94930426171028,
+                  "imag": 0.0,
+                  "magnitude": 99.94930426171028
+                },
+                {
+                  "real": 199.9610280991653,
+                  "imag": -4.995905210812245,
+                  "magnitude": 200.02342819617556
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.783623886108398,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.2777238880007644
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "diel8k-base-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.005226785004197154,
+      "operators": 32.92420466301701,
+      "compressed_coefficients": 34.127566729039245,
+      "compressed_tile_compression": 21.69564710296254,
+      "compressed_spool_write": 0.7153400689931004,
+      "factorization": 10.33757152200269,
+      "condition_estimation": 2.7478370139942854,
+      "excitation": 0.18025069299619645,
+      "linear_solve": 13.200149200005399,
+      "rhs_compression": 13.37256077100028,
+      "far_field": 0.06607707800139906,
+      "compressed_spool_read": 0.5955560479997075
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_compressed"
+  },
+  {
+    "case": "diel8k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 6.774796063997201,
+      "condition_scaling": 0.07997406299546128,
+      "factorization": 8.467013094006688,
+      "condition_estimation": 0.7286440739990212,
+      "excitation": 0.14753316400310723,
+      "rhs_solve": 0.7640552070006379,
+      "linear_solve": 1.5767750160011929,
+      "rhs_compression": 1.5789394870007527,
+      "far_field": 0.07938137900782749
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 2.331024169921875,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 7.8324,
+          "peak_gb": 2.331024169921875
+        },
+        "compressed": {
+          "cost": 85.7249570324,
+          "peak_gb": 1.7851639091968536,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.778693008422852,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 8000,
+          "dense_peak_gib": 2.331024169921875,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 2.331024169921875,
+            "compressed": 1.7851639091968536
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 8000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 440141488,
+              "operator_allowance_bytes": 440141488,
+              "inverse_bytes": 497501888,
+              "inverse_peak_bytes": 783197888,
+              "assembly_workspace_bytes": 222208000,
+              "assembly_sample_workspace_bytes": 73472000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 40896000,
+              "retained_entries": 26880000,
+              "inverse_rank": 744,
+              "density_multiplicity": 2.0,
+              "wavenumber": 400.0468563923511,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                },
+                {
+                  "real": 399.9220561983306,
+                  "imag": -9.99181042162449,
+                  "magnitude": 400.0468563923511
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 8000,
+          "dense_peak_gib": 2.331024169921875,
+          "formulation": "single_dielectric",
+          "backend_peak_gib": {
+            "dense": 2.331024169921875,
+            "compressed": 1.7851639091968536
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 2,
+            "formulation": "single_dielectric",
+            "system_dofs": 8000,
+            "operator_matrices": 2,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 440141488,
+              "operator_allowance_bytes": 440141488,
+              "inverse_bytes": 497501888,
+              "inverse_peak_bytes": 783197888,
+              "assembly_workspace_bytes": 222208000,
+              "assembly_sample_workspace_bytes": 73472000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 40896000,
+              "retained_entries": 26880000,
+              "inverse_rank": 744,
+              "density_multiplicity": 2.0,
+              "wavenumber": 400.0468563923511,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                },
+                {
+                  "real": 399.9220561983306,
+                  "imag": -9.99181042162449,
+                  "magnitude": 400.0468563923511
+                }
+              ],
+              "medium_count": 2,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 8000,
+        "initial_candidate_unknowns_max": 8000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.778693008422852,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 8000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 8000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.4676639520039316
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "pec12k-base-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 70.56822061396815,
+      "hmatrix_norms": 0.8630247950059129,
+      "hmatrix_validation": 0.1248032899966347,
+      "hmatrix_assembly": 25.8346535410019,
+      "compressed_assembly": 26.418252474999463,
+      "factorization": 10.425456090000807,
+      "condition_estimation": 4.68729232899932,
+      "excitation": 0.45857397700456204,
+      "linear_solve": 13.807654130003357,
+      "rhs_compression": 13.95171185000072,
+      "far_field": 0.16663672900176607
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_hmatrix"
+  },
+  {
+    "case": "pec12k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 71.64295555803983,
+      "hmatrix_norms": 0.8918698849956854,
+      "hmatrix_validation": 0.1148954060045071,
+      "hmatrix_assembly": 26.169155875002616,
+      "compressed_assembly": 26.721077262998733,
+      "factorization": 10.785462156003632,
+      "condition_estimation": 3.9737586960109184,
+      "excitation": 0.42085981700074626,
+      "linear_solve": 2.4083040700061247,
+      "rhs_compression": 2.570280071995512,
+      "far_field": 0.1829260620070272
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 4.844671249389648,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 114.36039999999998,
+          "peak_gb": 4.844671249389648
+        },
+        "compressed": {
+          "cost": 86.2424136212,
+          "peak_gb": 2.078224241733551,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.763528823852539,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 28.6135577434927,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 12000,
+          "unknowns": 12000,
+          "dense_peak_gib": 4.844671249389648,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 4.844671249389648,
+            "compressed": 2.078224241733551
+          },
+          "resources": {
+            "nodes": 12000,
+            "panels": 12000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 12000,
+            "operator_matrices": 190,
+            "operator_entries": 288000000,
+            "geometric_near_pairs": 84000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 3936000,
+            "mass_workspace_bytes": 2016008,
+            "block_workspace_bytes": 147456000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 357032960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 465208656,
+              "operator_allowance_bytes": 465208656,
+              "inverse_bytes": 544182688,
+              "inverse_peak_bytes": 856374688,
+              "assembly_workspace_bytes": 236544000,
+              "assembly_sample_workspace_bytes": 79872000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 46180083,
+              "retained_entries": 27302266,
+              "inverse_rank": 542,
+              "density_multiplicity": 1.0,
+              "wavenumber": 599.6958255702617,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 599.6958255702617,
+                  "imag": 0.0,
+                  "magnitude": 599.6958255702617
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 28.6135577434927,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 12000,
+          "unknowns": 12000,
+          "dense_peak_gib": 4.844671249389648,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 4.844671249389648,
+            "compressed": 2.078224241733551
+          },
+          "resources": {
+            "nodes": 12000,
+            "panels": 12000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 12000,
+            "operator_matrices": 190,
+            "operator_entries": 288000000,
+            "geometric_near_pairs": 84000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 3936000,
+            "mass_workspace_bytes": 2016008,
+            "block_workspace_bytes": 147456000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 357032960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 465208656,
+              "operator_allowance_bytes": 465208656,
+              "inverse_bytes": 544182688,
+              "inverse_peak_bytes": 856374688,
+              "assembly_workspace_bytes": 236544000,
+              "assembly_sample_workspace_bytes": 79872000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 46180083,
+              "retained_entries": 27302266,
+              "inverse_rank": 542,
+              "density_multiplicity": 1.0,
+              "wavenumber": 599.6958255702617,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 599.6958255702617,
+                  "imag": 0.0,
+                  "magnitude": 599.6958255702617
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 12000,
+        "initial_candidate_unknowns_max": 12000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "compressed",
+      "retry_order": [
+        "dense"
+      ],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "compressed",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.763528823852539,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 12000,
+        "dense_limit": 10000,
+        "preferred": "compressed"
+      },
+      "reason": "Automatic memory-and-size policy selected compressed at 12000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 1.768233805996715
+    },
+    "linear_backend": "cpu_hmatrix"
+  },
+  {
+    "case": "pec4k-base-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.005401988004450686,
+      "operators": 7.071337205998134,
+      "compressed_coefficients": 7.458077099028742,
+      "compressed_tile_compression": 4.652110876981169,
+      "compressed_spool_write": 0.11028396601614077,
+      "compressed_assembly": 7.847205442005361,
+      "factorization": 0.8715816489930148,
+      "condition_estimation": 0.3430947590022697,
+      "excitation": 0.17306733100122074,
+      "linear_solve": 2.6626243599966983,
+      "rhs_compression": 2.742684596007166,
+      "far_field": 0.04871524398913607,
+      "compressed_spool_read": 0.06956583799910732
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_compressed"
+  },
+  {
+    "case": "pec4k-base-r2",
+    "quality_passed": true,
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.006886640992888715,
+      "operators": 6.58908349199919,
+      "compressed_coefficients": 6.960950479966414,
+      "compressed_tile_compression": 4.259391187013534,
+      "compressed_spool_write": 0.09102732598694274,
+      "compressed_assembly": 7.2819609150028555,
+      "factorization": 0.8631820869995863,
+      "condition_estimation": 0.3521758549977676,
+      "excitation": 0.1950325639991206,
+      "linear_solve": 3.6856809060045634,
+      "rhs_compression": 3.841505383999902,
+      "far_field": 0.046786702012468595,
+      "compressed_spool_read": 0.06517063899809727
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": null,
+    "linear_backend": "cpu_compressed"
+  },
+  {
+    "case": "pec4k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 3.1511033040005714,
+      "condition_scaling": 0.02297074800299015,
+      "factorization": 1.0850808610048261,
+      "condition_estimation": 0.15346984600182623,
+      "excitation": 0.1566195709965541,
+      "rhs_solve": 0.4537141709952266,
+      "linear_solve": 1.0953387179979472,
+      "rhs_compression": 1.0964473180065397,
+      "far_field": 0.059680761987692676
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.7710514068603516,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 12.516933333333332,
+          "peak_gb": 0.7710514068603516
+        },
+        "compressed": {
+          "cost": 11.2862055594,
+          "peak_gb": 0.6047369837760925,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.780802536010743,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.7710514068603516,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.7710514068603516,
+            "compressed": 0.6047369837760925
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 267168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 32256000,
+              "assembly_sample_workspace_bytes": 12032000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.7710514068603516,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.7710514068603516,
+            "compressed": 0.6047369837760925
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 267168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 32256000,
+              "assembly_sample_workspace_bytes": 12032000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.780802536010743,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": true,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.6434090949987876
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "pec4k-new-r2",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 3.1908676410021144,
+      "condition_scaling": 0.029432529998302925,
+      "factorization": 1.2527193409987376,
+      "condition_estimation": 0.17616999599704286,
+      "excitation": 0.16000169799372088,
+      "rhs_solve": 0.4714727989921812,
+      "linear_solve": 1.0542583910064423,
+      "rhs_compression": 1.0553556029990432,
+      "far_field": 0.05114273400977254
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 0.7710514068603516,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 12.516933333333332,
+          "peak_gb": 0.7710514068603516
+        },
+        "compressed": {
+          "cost": 11.2862055594,
+          "peak_gb": 0.6047369837760925,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.777959060668945,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.7710514068603516,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.7710514068603516,
+            "compressed": 0.6047369837760925
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 267168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 32256000,
+              "assembly_sample_workspace_bytes": 12032000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 9.537852581164232,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 4000,
+          "unknowns": 4000,
+          "dense_peak_gib": 0.7710514068603516,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 0.7710514068603516,
+            "compressed": 0.6047369837760925
+          },
+          "resources": {
+            "nodes": 4000,
+            "panels": 4000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 4000,
+            "operator_matrices": 65,
+            "operator_entries": 32000000,
+            "geometric_near_pairs": 28000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 1312000,
+            "mass_workspace_bytes": 672008,
+            "block_workspace_bytes": 49152000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 267168000,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 87277488,
+              "operator_allowance_bytes": 87277488,
+              "inverse_bytes": 104460128,
+              "inverse_peak_bytes": 169516704,
+              "assembly_workspace_bytes": 32256000,
+              "assembly_sample_workspace_bytes": 12032000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 7508000,
+              "retained_entries": 5140000,
+              "inverse_rank": 202,
+              "density_multiplicity": 1.0,
+              "wavenumber": 199.89860852342056,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 199.89860852342056,
+                  "imag": 0.0,
+                  "magnitude": 199.89860852342056
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 4000,
+        "initial_candidate_unknowns_max": 4000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.777959060668945,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": true,
+        "policy": "memory_and_size_v1",
+        "unknowns": 4000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 4000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 0.5306226690008771
+    },
+    "linear_backend": "cpu"
+  },
+  {
+    "case": "pec8k-new-r1",
+    "quality_passed": true,
+    "stage_seconds": {
+      "operators": 10.472302237001713,
+      "condition_scaling": 0.09716850900440477,
+      "factorization": 9.57293139900139,
+      "condition_estimation": 0.7430788499987102,
+      "excitation": 0.3639911690042936,
+      "rhs_solve": 1.5891492509908858,
+      "linear_solve": 3.2445110359985847,
+      "rhs_compression": 3.2468312610071735,
+      "far_field": 0.11451377300545573
+    },
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": "auto",
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "backend_selection": {
+      "requested": "adaptive",
+      "automatic_policy": true,
+      "dense_peak_gib": 2.331024169921875,
+      "model": "stage_work_v6",
+      "objective": "predicted_solve_completion",
+      "candidates": {
+        "dense": {
+          "cost": 50.35133333333333,
+          "peak_gb": 2.331024169921875
+        },
+        "compressed": {
+          "cost": 38.658254368399994,
+          "peak_gb": 1.261821061372757,
+          "hmatrix": true
+        }
+      },
+      "cost_source": "stage_work_prior",
+      "exclusions": {},
+      "optimality_guaranteed": false,
+      "admission_budget_gib": 13.771908569335938,
+      "dense_margin_fraction": 0.2,
+      "angle_batch_size": 256,
+      "meshes": [
+        {
+          "frequency_ghz": 19.075705162328465,
+          "phase": "base",
+          "polarization": "TE",
+          "polynomial_degree": 1,
+          "panels": 8000,
+          "unknowns": 8000,
+          "dense_peak_gib": 2.331024169921875,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.331024169921875,
+            "compressed": 1.261821061372757
+          },
+          "resources": {
+            "nodes": 8000,
+            "panels": 8000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 8000,
+            "operator_matrices": 127,
+            "operator_entries": 128000000,
+            "geometric_near_pairs": 56000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 2624000,
+            "mass_workspace_bytes": 1344008,
+            "block_workspace_bytes": 98304000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 349864960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 246297776,
+              "operator_allowance_bytes": 246297776,
+              "inverse_bytes": 298678208,
+              "inverse_peak_bytes": 441526208,
+              "assembly_workspace_bytes": 110592000,
+              "assembly_sample_workspace_bytes": 38656000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 23051200,
+              "retained_entries": 14744000,
+              "inverse_rank": 372,
+              "density_multiplicity": 1.0,
+              "wavenumber": 399.7972170468411,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 399.7972170468411,
+                  "imag": 0.0,
+                  "magnitude": 399.7972170468411
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        },
+        {
+          "frequency_ghz": 19.075705162328465,
+          "phase": "base",
+          "polarization": "TM",
+          "polynomial_degree": 1,
+          "panels": 8000,
+          "unknowns": 8000,
+          "dense_peak_gib": 2.331024169921875,
+          "formulation": "multi_region",
+          "backend_peak_gib": {
+            "dense": 2.331024169921875,
+            "compressed": 1.261821061372757
+          },
+          "resources": {
+            "nodes": 8000,
+            "panels": 8000,
+            "basis_width": 2,
+            "n_regions": 1,
+            "formulation": "multi_region",
+            "system_dofs": 8000,
+            "operator_matrices": 127,
+            "operator_entries": 128000000,
+            "geometric_near_pairs": 56000,
+            "assembly_operator_entries": 0,
+            "operator_map_bytes": 2624000,
+            "mass_workspace_bytes": 1344008,
+            "block_workspace_bytes": 98304000,
+            "moment_cache_bytes": 0,
+            "assembly_workspace_bytes": 349864960,
+            "hmatrix_storage": {
+              "method": "hmatrix_model",
+              "operator_bytes": 246297776,
+              "operator_allowance_bytes": 246297776,
+              "inverse_bytes": 298678208,
+              "inverse_peak_bytes": 441526208,
+              "assembly_workspace_bytes": 110592000,
+              "assembly_sample_workspace_bytes": 38656000,
+              "adaptive_sample_growth_admitted": true,
+              "coefficients": 23051200,
+              "retained_entries": 14744000,
+              "inverse_rank": 372,
+              "density_multiplicity": 1.0,
+              "wavenumber": 399.7972170468411,
+              "sampled": false,
+              "samples": 0,
+              "hmatrix": true,
+              "medium_wavenumbers": [
+                {
+                  "real": 399.7972170468411,
+                  "imag": 0.0,
+                  "magnitude": 399.7972170468411
+                }
+              ],
+              "medium_count": 1,
+              "medium_list_truncated": false,
+              "attenuation_calibrated": false,
+              "rank_model_note": "Magnitude-only rank estimate; material loss does not reduce the admission allowance."
+            }
+          }
+        }
+      ],
+      "cost_scope": {
+        "kind": "aggregate_forecast_meshes",
+        "systems": 2,
+        "polynomial_degrees": [
+          1
+        ]
+      },
+      "mesh_forecast_scope": {
+        "initial_candidate_unknowns_min": 8000,
+        "initial_candidate_unknowns_max": 8000,
+        "final_size_guaranteed": false,
+        "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+      },
+      "selected": "dense",
+      "retry_order": [
+        "compressed"
+      ],
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 13.771908569335938,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": true,
+        "policy": "memory_and_size_v1",
+        "unknowns": 8000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "reason": "Automatic memory-and-size policy selected dense at 8000 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+      "planning_seconds": 1.06606420299795
+    },
+    "linear_backend": "cpu"
+  }
+]
