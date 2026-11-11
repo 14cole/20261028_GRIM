@@ -1,0 +1,44 @@
+[
+  {
+    "case": "native-dense",
+    "samples": 62,
+    "backend": "cpu",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 0.0
+  },
+  {
+    "case": "native-tile",
+    "samples": 62,
+    "backend": "cpu_compressed",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 2.3152172754381257e-15
+  },
+  {
+    "case": "native-hmatrix",
+    "samples": 62,
+    "backend": "cpu_hmatrix",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 2.8207618651986227e-15
+  },
+  {
+    "case": "fallback-dense",
+    "samples": 62,
+    "backend": "cpu",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 2.0904129490117216e-15
+  },
+  {
+    "case": "fallback-tile",
+    "samples": 62,
+    "backend": "cpu_compressed",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 2.6381055401901196e-15
+  },
+  {
+    "case": "fallback-hmatrix",
+    "samples": 62,
+    "backend": "cpu_hmatrix",
+    "quality_passed": true,
+    "relative_amplitude_error_vs_native_dense": 2.3094292231943663e-15
+  }
+]

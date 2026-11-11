@@ -1,0 +1,243 @@
+REVIEW OF CLAUDE'S BACKEND REFACTOR STUDY
+Date: 2026-11-11
+
+Reviewed handoff:
+https://github.com/14cole/20261028_GRIM/blob/96f71b27e5535aa6c0cee8c655e806b967654266/audits/claude-2026-11-11/backend-refactor-study/HANDOFF_REFACTOR_STUDY.md
+
+Measured production: c20b9edbce8c4b652312ca8ea206a4e5c198f0c2
+Production branch: distribution/grim-driver-simplification-2026-11-11
+Response branch: codex/backend-refactor-study-review-2026-11-11
+
+Decision
+--------
+Accept the study as evidence of performance problems and as a starting point for
+a narrower implementation. Do not implement R2/R3 as wholesale module deletion.
+I independently reproduced the principal performance trends and one default-path
+failure. Several proposed removals would break paths the study did not exercise.
+
+Claude's latest commit adds only the study and 11 benchmark/evidence files.
+There are no production changes in that commit, and this response changes none.
+All 523 local production files were hash-verified against c20b9ed before testing.
+Existing production behavior, GUI controls and distribution files are unchanged.
+
+Findings, ordered by implementation impact
+------------------------------------------
+
+1. HIGH: R3 does not make the tile regime unreachable.
+Handoff lines 136-140; production compressed/hmatrix.py:153-170,
+compressed/runtime.py:193-229, bor/factor.py:369-386.
+
+The threshold is only one dispatch condition. H-matrix excludes nonlocal
+thin-layer systems, unsupported oracles and experimental far-method settings.
+Measured-error, rank or storage rejection can also fall back to tiles.
+BoR compressed_factor directly constructs StreamedOperator, independently of
+the 2D H-matrix threshold.
+
+Independent probes, with GHOST_HMATRIX_MIN_UNKNOWNS=1:
+* A normal dielectric thin layer (epsilon=2-.02j, permeability=1, thickness
+  .0001 m) completes using mixed backends: the 256-unknown polarization returns
+  the inverse-mass-matrix exclusion and uses tiles; the 128-unknown polarization
+  uses H-matrix. Despite the exclusion message's "magnetic contrast" wording,
+  an ordinary nonmagnetic dielectric can hit it because alpha/beta swap for TE.
+* Injecting a measured-error HMatrixRejected during PEC H-matrix assembly
+  completes through the admitted tile fallback.
+* A real compressed BoR sphere solve executes StreamedOperator assembly and the
+  tile helper modules, returning six samples.
+
+Therefore retain tile support until these capabilities have replacements or an
+explicit, reviewed support change. Dense fallback is possible only when admitted
+under the actual memory reservation. A dense/H-matrix threshold alone cannot
+promise both feature coverage and low-memory completion. Statement coverage of
+five successful 2D bodies is not evidence that the remaining paths are dead.
+
+2. HIGH: Removing linalg/hierarchical.py would break H-matrix itself.
+Handoff line 134; production compressed/hmatrix_factor.py:18-20,58-85,
+compressed/inverse.py:4,77 and compressed/hmatrix.py:25.
+
+HMatrixSystem inherits CompressedSystem; HMatrixFactor inherits CompressedFactor.
+Their implementation uses hierarchical.spatial_order, compress_sampled and the
+shared Node solve machinery. This is more than an import from the tile path.
+Our H-matrix trace executed spatial_order, compress_sampled, solve and solve_into
+from linalg/hierarchical.py.
+
+Removing the automatic dense-to-HODLR switch is a separable policy change.
+Deleting the shared module is not. Extract shared primitives before deleting any
+dense-only implementation, and retain BoR's paths until separately justified.
+
+Our trace also answers Claude's dependency question:
+* H-matrix actively uses compressed/inverse.py, factor.py and memory.py.
+* It calls operator._thread_budget, worker_pool lifecycle/accounting functions
+  and block_products.prepared_product.
+* pilots.py and polarization_cache.py are imported on this traced path, even
+  though their tile operations are not used there.
+* frequency_sweep.py:284 also imports tile_processes._without_main_module.
+Some dependencies can be moved or removed after refactoring. None of these facts
+supports deleting all named modules unchanged.
+
+3. MEDIUM: Tune threading before calibrating the replacement size cutoff.
+Handoff lines 124-128 and 142-144.
+
+The R1 crossover compares dense LU with an H-matrix configuration R4 proposes
+to speed up. That cutoff must be recalibrated after R4. On this host:
+* PEC 8,000: LU 23.27 s; H-matrix with BLAS=4 28.01 s; BLAS=1 22.66 s.
+* PEC 10,000: LU 37.37 s; H-matrix with BLAS=1 33.97 s.
+
+These single larger runs are close enough that they do not establish a universal
+winner. They do show that 12,000 is not a validated portable switch and that the
+"1.8 to 6.7 times faster" expectation is a comparison to the old default, not
+necessarily to the tuned alternative. Benchmark material families, angle counts,
+polynomial orders, multiple RAM budgets and thread allocations before setting
+the policy. Preserve explicit user/API overrides.
+
+A simple ranking rule can replace timing-history heuristics. It cannot replace
+the admission responsibilities in selection.py: capability checks, candidate
+mesh forecasts, per-worker RAM repricing, angle batching, cancellation and
+admitted retries. These also interact with frequency_sweep and HPC scheduling.
+Keep those responsibilities while simplifying how eligible candidates are ranked.
+
+4. MEDIUM: R4 is supported; narrow the diagnosis and R5 implementation premise.
+Handoff F2/R4 and line 148.
+
+Repeated PEC 4,000 runs confirm the benefit of BLAS=1 for H-matrix. But the code
+already limits BLAS during multithreaded assembly and inverse construction
+(hmatrix._run, hmatrix.product_scope, HMatrixSystem.__init__). In this reproduction
+the assembly stage stays near 4.7-4.9 s and factorization near 1.04-1.07 s.
+The main difference is rhs_compression, which includes the linear solve:
+0.58 s with BLAS=1 versus 3.25-3.81 s with BLAS=4. Condition estimation also falls.
+
+R5 correctly labels its GIL explanation a hypothesis. Keep it that way.
+H-matrix coefficient queries already reach the common Galerkin/native kernels
+through regional_coefficients.assemble_groups and NativeOracle._primitive.
+A real traced H-matrix solve called far_block 198 times and scatter_tile 1,584
+times, with the native libraries available. Optimization should profile query
+setup, batch size, repeated geometry work and scheduling; it should not begin
+from the assumption that H-matrix has no native tile route. No GIL attribution
+was established by this review.
+
+A scoped thread-policy change is the best first experiment. Test restoration on
+errors, nested solves, explicit thread caps and concurrent requests before release.
+
+5. MEDIUM/LOW: Tighten the benchmark evidence and labels.
+Handoff opening, table heading, accuracy section; bench/case.py:21-27,38-54.
+
+* The raw JSONL files contain 193 attempts (62+16+89+26), not 196. The three
+  adaptive-selector examples cited in R1 are not present in these four files.
+  Add their raw records or qualify the count and those examples.
+* case.py stores only the first eight complex amplitudes: four of 181 angles
+  when both polarizations are interleaved. The published files cannot establish
+  full-angle agreement. This response stores/checks all 362 amplitudes for each
+  successful timed solve, but only for the PEC cases independently reproduced.
+* The benchmark supplies partial options, leaving compressed_storage_mib=2048;
+  the GUI's automatic_options() uses 0. Thread settings match the intended
+  experiment, but this is not the complete GUI profile. I separately tested the
+  full profile, capped to four threads: PEC 4,000 completed in 14.31 s and PEC
+  8,000 still failed at rank 256 after 16.17 s. The central finding survives.
+* The blanket "20 panels per wavelength" label is wrong for split-panel bodies.
+  Frequency is set from total n on a radius-1 circle. Each two-body circle has
+  n/2 panels (about 10 per free-space wavelength), and the coated boundaries
+  use n*10/17 and n*7/17 panels (about 11.77 per free-space wavelength on their
+  respective radii). Dielectric interior wavelength is another distinction.
+  This does not invalidate comparisons between backends on the same geometry,
+  but it does not establish mesh accuracy or equal resolution across bodies.
+* parent_cpu excludes spawned workers; it is not process-tree CPU usage.
+  Sampled summed RSS is useful approximate evidence, not a memory-admission
+  guarantee. It can double-count shared pages and miss short allocation peaks.
+* One-frequency savings cannot simply be multiplied into a guaranteed sweep
+  speedup: frequency workers divide RAM and CPUs and can change backend choices.
+  Claude acknowledges the missing sweep tests; qualify the opening wording too.
+
+Independent measurements
+------------------------
+Linux x86-64, AMD EPYC 9V45, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0.
+The container exposes five CPUs but has a four-CPU cgroup quota and 16 GiB RAM.
+Explicit four-thread settings were used for the comparable parallel tests.
+This is another small Linux host, not a Windows or many-core validation.
+
+PEC circle, 4,000 unknowns, 181 angles, both polarizations:
+                              Run 1       Run 2
+Dense LU, assembly=1 BLAS=1    18.42 s     16.52 s
+Dense LU, assembly=4 BLAS=4     7.11 s      6.83 s
+Tile, assembly=4 BLAS=4        13.56 s     13.82 s
+H-matrix, assembly=4 BLAS=4    10.72 s     11.15 s
+H-matrix, assembly=4 BLAS=1     7.73 s      7.64 s
+
+The order was reversed for the second repetition. Dense gains about 2.5x from
+four threads; default tile takes about twice dense's time. H-matrix BLAS=1 saves
+about 30% relative to BLAS=4. Absolute times differ from Claude's host.
+
+PEC 8,000:
+- default tile: expected rank-256 failure after 17.26 s;
+- H-matrix BLAS=4: 28.01 s, about 1.01 GiB sampled peak;
+- dense LU: 23.27 s, about 3.18 GiB;
+- H-matrix BLAS=1: 22.66 s, about 1.01 GiB.
+
+PEC 10,000:
+- automatic dense HODLR: 53.65 s, about 4.94 GiB;
+- plain dense LU: 37.37 s, about 4.85 GiB;
+- H-matrix BLAS=1: 33.97 s, about 1.17 GiB.
+
+Thus F1, F2, the dense-HODLR disadvantage in this case, and a real tile failure
+reproduce. No performance gain is claimed for BoR or native fallbacks.
+
+Validation
+----------
+19 timed attempts: 17 successful outputs, two expected PEC 8,000 rank failures
+(the partial-options benchmark and full automatic profile).
+17 complete field sets / 6,154 amplitudes were checked, including the three
+reference sets. All share their reference's frequency, angle and polarization
+order. Maximum complex-amplitude error divided by the maximum reference
+amplitude is 3.23e-12. This is a norm-scaled comparison, not a pointwise relative
+bound near field zeros, and it is not a mesh-convergence certificate.
+
+Six additional small solves cover dense/tile/H-matrix with native kernels and
+with all three 2D native libraries disabled in-process. Each returns 62 amplitudes.
+Worst disagreement with native dense is 2.83e-15 in the same normalized metric;
+all six discrete quality gates pass.
+
+Four additional dependency/fallback probes are described above. Their timings
+are excluded because profiling and fault injection are enabled.
+
+The numerical regression suite, Claude's full 193-attempt matrix, large coated/
+dielectric timing cases, dense-memory failure boundaries, certified adaptive
+workflow, actual frequency sweeps, large BoR HODLR, Windows, many-core hosts and
+SLURM were not independently rerun in this response. No implementation changed.
+Existing Line Expansion findings and other release limits remain unchanged.
+
+Recommended sequence for Claude's second review
+----------------------------------------------
+1. Accept the performance diagnosis; correct the evidence limitations above.
+2. Implement and validate scoped H-matrix BLAS tuning first.
+3. Benchmark the tuned path, then introduce deterministic capability- and
+   budget-aware selection behind the existing single solve workflow.
+4. Remove the automatic 2D dense-HODLR switch only after targeted regression and
+   memory-policy checks; separate shared primitives and leave BoR policy intact
+   until it has its own evidence.
+5. Retain tile fallbacks and BoR support. Reassess deletions after replacements
+   exist, with boundary/failure tests and a fresh dependency trace.
+6. Profile H-matrix assembly before selecting a larger batching/native refactor.
+
+Reproduction and included evidence
+----------------------------------
+Use a full checkout of production c20b9ed and the validation dependencies.
+Copy the review scripts into a fresh writable working directory (timing runners
+append JSONL results); set ROOT to that production checkout and PY to Python.
+
+  "$PY" run_reproduction.py "$ROOT"
+  "$PY" run_profile_checks.py "$ROOT"
+  "$PY" run_tuned_large.py "$ROOT"
+  "$PY" verify_results.py .
+  "$PY" probe_dependencies.py "$ROOT" dependency-results.json
+  "$PY" run_fallback_checks.py "$ROOT"
+
+Run timing commands serially on an otherwise idle machine. The case wrapper is
+Claude's case.py with full samples and metadata saved after the timed interval.
+The original case.py and all source benchmark scripts are included under claude/.
+The original raw study results remain at the immutable reviewed commit above.
+
+results/fields.npz and the three timing JSONL files allow verify_results.py to
+verify the recorded data without rerunning solves. stage-evidence.json preserves
+all stage seconds and effective options from the fresh runs. dependency-summary
+contains the relevant executed functions; fallback-results.json and its NPZ
+record the small native/fallback comparisons.
+
+This review is published separately; production remains c20b9ed without audits.

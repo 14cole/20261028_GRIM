@@ -1,0 +1,1298 @@
+[
+  {
+    "name": "hmatrix_native_calls",
+    "samples": 6,
+    "backend": "cpu_hmatrix",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "PairedOracle",
+        "n": 1200,
+        "returned": "list",
+        "reason": null
+      }
+    ],
+    "calls": [
+      {
+        "file": "compressed/block_products.py",
+        "function": "ProductTeam",
+        "count": 1
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "prepared_product",
+        "count": 2
+      },
+      {
+        "file": "compressed/coefficients.py",
+        "function": "NativeOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/coefficients.py",
+        "function": "PairedNativeOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "Construction",
+        "count": 1
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "array_bytes",
+        "count": 790
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "owner",
+        "count": 1584
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "product_bytes",
+        "count": 182
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "sample",
+        "count": 12
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "step",
+        "count": 1580
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "track",
+        "count": 4
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "workspace",
+        "count": 1092
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "<lambda>",
+        "count": 8
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "CompressedFactor",
+        "count": 1
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_backward_errors",
+        "count": 20
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_condition",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_fresh_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_refine",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "inverse",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "physical_errors",
+        "count": 10
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "relative_errors",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "<genexpr>",
+        "count": 5378
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "<lambda>",
+        "count": 1233
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__call__",
+        "count": 113
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__init__",
+        "count": 154
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "__len__",
+        "count": 14
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_absolute",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_assemble",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_blocks",
+        "count": 210
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_cross_allocation",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_evidence",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_fresh",
+        "count": 49
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_get",
+        "count": 32
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_get_positions",
+        "count": 34
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_index",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_initial_skeleton_factor",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_leading_columns",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_map",
+        "count": 462
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_norms",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_passes",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_range_ids",
+        "count": 120
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_ranges",
+        "count": 40
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_reserve",
+        "count": 38
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_run",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_sample",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_sample_row_norm",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_solve",
+        "count": 144
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_spread",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_validate",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "_within",
+        "count": 484
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "adj",
+        "count": 512
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "build_pair",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "check",
+        "count": 195
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "close",
+        "count": 26
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "compress",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "configuration_unsupported",
+        "count": 8
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "count",
+        "count": 41
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "cross_approximation",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "distance",
+        "count": 735
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "equilibrate",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "exact",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "factor_class",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "forecast_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "inverse_storage",
+        "count": 62
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "leaf",
+        "count": 668
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "leaf_size",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "load",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "local_columns",
+        "count": 176
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "matmul",
+        "count": 20
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "matmul_positions",
+        "count": 20
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "minimum_unknowns",
+        "count": 12
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "multiplicity",
+        "count": 8
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "nbytes",
+        "count": 128
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "part",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "partition",
+        "count": 3
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "product_scope",
+        "count": 52
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "range_matmul",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "range_workspace_bytes",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "rank",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "recompress",
+        "count": 48
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "reserve",
+        "count": 62
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "run",
+        "count": 41
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "sample_residual",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "selected",
+        "count": 12
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "size",
+        "count": 878
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_far",
+        "count": 24
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_near",
+        "count": 16
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "store_sample",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "support_radius",
+        "count": 3
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "unsupported",
+        "count": 4
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "values",
+        "count": 272
+      },
+      {
+        "file": "compressed/hmatrix.py",
+        "function": "visit",
+        "count": 1480
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "HMatrixFactor",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "HMatrixSystem",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_RangeBlock",
+        "count": 1
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "__init__",
+        "count": 64
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_condition",
+        "count": 2
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "_span",
+        "count": 120
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "compress_block",
+        "count": 60
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "inverse",
+        "count": 10
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "matmul",
+        "count": 182
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "product_workspace",
+        "count": 242
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "project",
+        "count": 60
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "sampled_errors",
+        "count": 6
+      },
+      {
+        "file": "compressed/hmatrix_factor.py",
+        "function": "solve",
+        "count": 2
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Block",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "CompressedSystem",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Node",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "Oracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "PreparedAccess",
+        "count": 1
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "__init__",
+        "count": 2
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "apply",
+        "count": 20
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "build",
+        "count": 62
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "check_storage",
+        "count": 368
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "factor",
+        "count": 62
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "reserve",
+        "count": 184
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "solve",
+        "count": 80
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "<genexpr>",
+        "count": 4802
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "<lambda>",
+        "count": 2
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "correction_workspace",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "forecast",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "hmatrix_forecast",
+        "count": 4
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "hmatrix_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "StreamedOperator",
+        "count": 1
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "TileWriter",
+        "count": 1
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_thread_budget",
+        "count": 504
+      },
+      {
+        "file": "compressed/polarization_cache.py",
+        "function": "SpooledOperator",
+        "count": 1
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "<genexpr>",
+        "count": 10
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "_key",
+        "count": 6
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "observe_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "remember",
+        "count": 2
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "scope",
+        "count": 8
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "try_build",
+        "count": 2
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "<genexpr>",
+        "count": 8104
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "PairedOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "PreparedOracle",
+        "count": 1
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "__init__",
+        "count": 3
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_route_plan",
+        "count": 2
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_selected_route",
+        "count": 226
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "_span",
+        "count": 454
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "assemble_groups",
+        "count": 113
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "get_with_error",
+        "count": 339
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "prepare",
+        "count": 4
+      },
+      {
+        "file": "compressed/regional_coefficients.py",
+        "function": "select",
+        "count": 452
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "_projected_regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "_regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "automatic_storage_bytes",
+        "count": 3
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "checkpoint",
+        "count": 2463
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "enabled",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hierarchical",
+        "count": 1
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hierarchical_selected",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "hmatrix_storage_budget",
+        "count": 3
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "pairable",
+        "count": 1
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "planned_forecast",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "planned_storage_bytes",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "price",
+        "count": 4
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "regional",
+        "count": 2
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "release_obsolete_tile_workers",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "WorkerPool",
+        "count": 1
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "_release_idle",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "_retained_bytes",
+        "count": 4
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "release_idle",
+        "count": 2
+      },
+      {
+        "file": "compressed/worker_pool.py",
+        "function": "retained_bytes",
+        "count": 4
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "adj",
+        "count": 480
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "compress_sampled",
+        "count": 60
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "factor_mode",
+        "count": 9
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve",
+        "count": 80
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve_into",
+        "count": 816
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "spatial_order",
+        "count": 186
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "<genexpr>",
+        "count": 792
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_dll",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_double",
+        "count": 1188
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "_element_strides",
+        "count": 4752
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "buffer",
+        "count": 594
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "far_block",
+        "count": 198
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "fma",
+        "count": 128
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "library",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "numpy_fused_product",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "run",
+        "count": 198
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "scatter_tile",
+        "count": 1584
+      },
+      {
+        "file": "twod/assembly/native/far.py",
+        "function": "tile_library",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/table.py",
+        "function": "evaluate",
+        "count": 1
+      },
+      {
+        "file": "twod/assembly/native/table.py",
+        "function": "library",
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "ordinary_dielectric_thin_layer",
+    "samples": 6,
+    "backend": "mixed",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "NativeOracle",
+        "n": 256,
+        "returned": null,
+        "reason": "thin dielectric layer with a magnetic contrast couples rows through the inverse mass matrix"
+      },
+      {
+        "oracle": "NativeOracle",
+        "n": 128,
+        "returned": "HMatrixOperator",
+        "reason": null
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "hmatrix_rejection_falls_back_to_tiles",
+    "samples": 6,
+    "backend": "cpu_compressed",
+    "quality_passed": true,
+    "hierarchical_attempts": [
+      {
+        "oracle": "PairedOracle",
+        "n": 128,
+        "returned": null,
+        "reason": "HMatrixRejected: injected measured-error rejection"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "bor_compressed_uses_tiles",
+    "samples": 6,
+    "backend": null,
+    "quality_passed": true,
+    "hierarchical_attempts": [],
+    "calls": [
+      {
+        "file": "compressed/block_products.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "close",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "prepared_product",
+        "count": 7
+      },
+      {
+        "file": "compressed/block_products.py",
+        "function": "product_scope",
+        "count": 14
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "array_bytes",
+        "count": 14
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "owner",
+        "count": 28
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "sample",
+        "count": 7
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "step",
+        "count": 28
+      },
+      {
+        "file": "compressed/construction.py",
+        "function": "track",
+        "count": 14
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "__init__",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_backward_errors",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_fresh_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "_refine",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "inverse",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "physical_errors",
+        "count": 63
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "relative_errors",
+        "count": 7
+      },
+      {
+        "file": "compressed/factor.py",
+        "function": "solve",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "<genexpr>",
+        "count": 42
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "__init__",
+        "count": 14
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "apply",
+        "count": 63
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "build",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "check_storage",
+        "count": 28
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "factor",
+        "count": 7
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "reserve",
+        "count": 14
+      },
+      {
+        "file": "compressed/inverse.py",
+        "function": "solve",
+        "count": 63
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "inverse_storage",
+        "count": 2
+      },
+      {
+        "file": "compressed/memory.py",
+        "function": "visit",
+        "count": 2
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "<genexpr>",
+        "count": 602
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "<lambda>",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__enter__",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__exit__",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__init__",
+        "count": 14
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "__len__",
+        "count": 77
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_get",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "_thread_budget",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "adj",
+        "count": 448
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "assemble_tiles",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "assembly_tasks",
+        "count": 119
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "compress_tile",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "finalize",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "matmul",
+        "count": 63
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "plan",
+        "count": 14
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "reciprocal_enabled",
+        "count": 7
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "separated",
+        "count": 84
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "store_tile",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "submit",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "take_pilot",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_batch_values",
+        "count": 112
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_payload",
+        "count": 84
+      },
+      {
+        "file": "compressed/operator.py",
+        "function": "tile_values",
+        "count": 112
+      },
+      {
+        "file": "compressed/pilots.py",
+        "function": "_state",
+        "count": 7
+      },
+      {
+        "file": "compressed/pilots.py",
+        "function": "take",
+        "count": 7
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "_key",
+        "count": 7
+      },
+      {
+        "file": "compressed/preconditioner_hints.py",
+        "function": "try_build",
+        "count": 7
+      },
+      {
+        "file": "compressed/runtime.py",
+        "function": "automatic_storage_bytes",
+        "count": 9
+      },
+      {
+        "file": "compressed/tile_processes.py",
+        "function": "prepare",
+        "count": 7
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve",
+        "count": 63
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "solve_into",
+        "count": 63
+      },
+      {
+        "file": "linalg/hierarchical.py",
+        "function": "spatial_order",
+        "count": 56
+      }
+    ]
+  }
+]

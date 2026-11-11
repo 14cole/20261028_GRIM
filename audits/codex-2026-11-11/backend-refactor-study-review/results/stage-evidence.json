@@ -1,0 +1,691 @@
+[
+  {
+    "case": "pec10000-h4b1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 56.90295446001983,
+      "hmatrix_norms": 0.48101822099852143,
+      "hmatrix_validation": 0.1098623830039287,
+      "hmatrix_assembly": 21.423630009005137,
+      "compressed_assembly": 21.913926326000364,
+      "factorization": 6.877411465000478,
+      "condition_estimation": 2.7285681489956914,
+      "excitation": 0.3198725039983401,
+      "linear_solve": 1.7342568390013184,
+      "rhs_compression": 1.8297561669969582,
+      "far_field": 0.12037657398468582
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec10000-hodlr",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 14.049861391002196,
+      "condition_scaling": 0.10545166400697781,
+      "factorization": 26.27688292300445,
+      "condition_estimation": 1.2114601329958532,
+      "excitation": 0.38401156599866226,
+      "rhs_solve": 9.237421228004678,
+      "linear_solve": 9.275547774006554,
+      "rhs_compression": 9.44965675700223,
+      "far_field": 0.1364183310070075
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec10000-lu",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 13.821147492002638,
+      "condition_scaling": 0.11172336499294033,
+      "factorization": 15.448496417993738,
+      "condition_estimation": 0.8998325080028735,
+      "excitation": 0.36162753300595796,
+      "rhs_solve": 2.167446540996025,
+      "linear_solve": 4.510876995998842,
+      "rhs_compression": 4.514185398002155,
+      "far_field": 0.12258438700519037
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-dense1-r1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 1,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 1,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 9.763665635000507,
+      "condition_scaling": 0.02572311900439672,
+      "factorization": 3.339127245999407,
+      "condition_estimation": 0.1854799809952965,
+      "excitation": 0.1454816729965387,
+      "rhs_solve": 0.9712029049915145,
+      "linear_solve": 2.0533576360030565,
+      "rhs_compression": 2.0544822910014773,
+      "far_field": 0.04990866201114841
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-dense1-r2",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 1,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 1,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 9.842719883999962,
+      "condition_scaling": 0.025065172994800378,
+      "factorization": 3.277009562996682,
+      "condition_estimation": 0.16989122400264023,
+      "excitation": 0.14189086799888173,
+      "rhs_solve": 0.9872424950008281,
+      "linear_solve": 2.0646487229969352,
+      "rhs_compression": 2.0657508529984625,
+      "far_field": 0.04361019400676014
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-dense4-r1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 3.1957488900006865,
+      "condition_scaling": 0.031660592001571786,
+      "factorization": 1.4533049140009098,
+      "condition_estimation": 0.1770541710066027,
+      "excitation": 0.1923114790042746,
+      "rhs_solve": 0.574605324989534,
+      "linear_solve": 1.1823269449960208,
+      "rhs_compression": 1.183674592000898,
+      "far_field": 0.06081668799743056
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-dense4-r2",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 3.216360516002169,
+      "condition_scaling": 0.02304551399720367,
+      "factorization": 1.1697648710032809,
+      "condition_estimation": 0.27752754199900664,
+      "excitation": 0.1589967709951452,
+      "rhs_solve": 0.5121101390031981,
+      "linear_solve": 1.1080052999968757,
+      "rhs_compression": 1.109092648999649,
+      "far_field": 0.0473477880077553
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-gui-profile",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 0,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.00545546999637736,
+      "operators": 6.943550739000784,
+      "compressed_coefficients": 7.314464085960935,
+      "compressed_tile_compression": 4.383445551982732,
+      "compressed_spool_write": 0.09812929597683251,
+      "compressed_assembly": 7.6505840530007845,
+      "factorization": 0.9150779260016861,
+      "condition_estimation": 0.32982730799994897,
+      "excitation": 0.19645508599933237,
+      "linear_solve": 4.354537478000566,
+      "rhs_compression": 4.497355206003704,
+      "far_field": 0.04634301399346441,
+      "compressed_spool_read": 0.06963355799962301
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-h4b1-r1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 12.946029647006071,
+      "hmatrix_norms": 0.07274032800341956,
+      "hmatrix_validation": 0.02610770799947204,
+      "hmatrix_assembly": 4.778144712996436,
+      "compressed_assembly": 4.9564142800008995,
+      "factorization": 1.0423272470070515,
+      "condition_estimation": 0.6690940460030106,
+      "excitation": 0.13668911200511502,
+      "linear_solve": 0.54536418600037,
+      "rhs_compression": 0.5811054050063831,
+      "far_field": 0.04553263799607521
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-h4b1-r2",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 13.090479441954813,
+      "hmatrix_norms": 0.0635997010031133,
+      "hmatrix_validation": 0.02531945700320648,
+      "hmatrix_assembly": 4.718642678002652,
+      "compressed_assembly": 4.867920457007131,
+      "factorization": 1.039370411002892,
+      "condition_estimation": 0.6732514670002274,
+      "excitation": 0.12928043699503178,
+      "linear_solve": 0.5430162949996884,
+      "rhs_compression": 0.5775801769996178,
+      "far_field": 0.046374607998586725
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-h4b4-r1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 13.011384580953745,
+      "hmatrix_norms": 0.09673387800285127,
+      "hmatrix_validation": 0.054679362998285796,
+      "hmatrix_assembly": 4.854496664003818,
+      "compressed_assembly": 5.051434288994642,
+      "factorization": 1.0679925849981373,
+      "condition_estimation": 0.9608431399974506,
+      "excitation": 0.2038555230028578,
+      "linear_solve": 3.1536607129964978,
+      "rhs_compression": 3.2482282310011215,
+      "far_field": 0.04510111800482264
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-h4b4-r2",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 12.796827560014208,
+      "hmatrix_norms": 0.08447411799716065,
+      "hmatrix_validation": 0.042176181996183004,
+      "hmatrix_assembly": 4.699163271005091,
+      "compressed_assembly": 4.884313109992945,
+      "factorization": 1.0605746500077657,
+      "condition_estimation": 0.9037051440027426,
+      "excitation": 0.2065968100068858,
+      "linear_solve": 3.6523141780053265,
+      "rhs_compression": 3.8085882070081425,
+      "far_field": 0.07312482398265274
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-tile4-r1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.006396750999556389,
+      "operators": 6.7104969740103115,
+      "compressed_coefficients": 7.109141159984574,
+      "compressed_tile_compression": 4.133736054020119,
+      "compressed_spool_write": 0.14447999498224817,
+      "compressed_assembly": 7.496157109999331,
+      "factorization": 0.9484512679919135,
+      "condition_estimation": 0.35884940800315235,
+      "excitation": 0.19203342500259168,
+      "linear_solve": 3.726373744000739,
+      "rhs_compression": 3.8717777380006737,
+      "far_field": 0.046991000992420595,
+      "compressed_spool_read": 0.06975754200539086
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec4000-tile4-r2",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "compressed_memory_sampling": 0.005640305003907997,
+      "operators": 6.532779573994048,
+      "compressed_coefficients": 6.871841345986468,
+      "compressed_tile_compression": 4.129063350985234,
+      "compressed_spool_write": 0.09782962996541755,
+      "compressed_assembly": 7.260205303995463,
+      "factorization": 0.8631523459916934,
+      "condition_estimation": 0.3062344839927391,
+      "excitation": 0.19029745299485512,
+      "linear_solve": 4.437582922000729,
+      "rhs_compression": 4.580553064995911,
+      "far_field": 0.04307304999383632,
+      "compressed_spool_read": 0.06586201499885647
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec8000-dense",
+    "execution_options": {
+      "version": 1,
+      "factorization": "dense",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 9.49347580200265,
+      "condition_scaling": 0.07602079199568834,
+      "factorization": 7.891866336998646,
+      "condition_estimation": 0.5737355730016134,
+      "excitation": 0.28087597099511186,
+      "rhs_solve": 1.5228890770085854,
+      "linear_solve": 3.083053018002829,
+      "rhs_compression": 3.085213093996572,
+      "far_field": 0.10815998801263049
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec8000-h4b1",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 1,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 1
+    },
+    "stage_seconds": {
+      "operators": 37.21672223004862,
+      "hmatrix_norms": 0.3256666329980362,
+      "hmatrix_validation": 0.054816130999824964,
+      "hmatrix_assembly": 13.331567014996835,
+      "compressed_assembly": 13.742050362001464,
+      "factorization": 4.3732711929988,
+      "condition_estimation": 2.1206147739940207,
+      "excitation": 0.3102301949984394,
+      "linear_solve": 1.652062836998084,
+      "rhs_compression": 1.729381639001076,
+      "far_field": 0.0982949310055119
+    },
+    "quality_gate_passed": true
+  },
+  {
+    "case": "pec8000-hmatrix",
+    "execution_options": {
+      "version": 1,
+      "factorization": "compressed",
+      "mesh_strategy": "adaptive",
+      "basis_order": 1,
+      "mesh_grading": true,
+      "enforce_mesh_density": true,
+      "compressed_storage_mib": 2048,
+      "ram_budget_gib": null,
+      "temporary_directory": "",
+      "assembly_threads": 4,
+      "blas_threads": 4,
+      "rhs_compression": "auto",
+      "angle_batch_size": 256,
+      "assembly_tile": 0,
+      "far_quadrature_order": 0,
+      "far_grading": true,
+      "dense_residual_storage": "auto",
+      "compressed_far_method": "full"
+    },
+    "execution_threads": {
+      "assembly": 4,
+      "blas": 4
+    },
+    "stage_seconds": {
+      "operators": 35.50024511387892,
+      "hmatrix_norms": 0.351547999001923,
+      "hmatrix_validation": 0.06734991000848822,
+      "hmatrix_assembly": 12.923390629002824,
+      "compressed_assembly": 13.266784270002972,
+      "factorization": 4.113282792000973,
+      "condition_estimation": 2.1332625879877014,
+      "excitation": 0.307038475999434,
+      "linear_solve": 7.779070196011162,
+      "rhs_compression": 7.918118685003719,
+      "far_field": 0.10481781700218562
+    },
+    "quality_gate_passed": true
+  }
+]
