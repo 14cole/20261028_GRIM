@@ -1,0 +1,46 @@
+======================================================================
+  Slot 0/0  (submission=0, task=0)
+  Units in run   : 4   planned for this slot: 4   (then 0 stealable)
+  Cores detected : 5   pool size: 1   (CPU reservation per solve, assembly and BLAS alike: 5; BLAS team at most 5)
+  Memory         : 16.0 GB allocated, 13.6 GB schedulable
+======================================================================
+  [   1/4] skipped  0.300GHz_ellipse.grim
+  [   2/4] skipped  0.900GHz_ellipse.grim
+  [   3/4] FAILED   0.300GHz_circle.grim
+      Traceback (most recent call last):
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 367, in _solve_and_export_star
+          status, path = _solve_and_export(unit, context, run_dir_str)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/execution.py", line 76, in call
+          return function(unit, context, destination)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 340, in _solve_and_export
+          return run_twod_unit(unit, context, run_dir_str, adapter)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/worker_pipeline.py", line 38, in run_twod_unit
+          adapter.check_inputs([unit], context)
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/worker_pipeline.py", line 29, in check_inputs
+          self.verify_input(unit, context)
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 246, in _verify_unit_input
+          raise RuntimeError(
+      RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/inputs/0000_circle/circle.geo
+  [   4/4] FAILED   0.900GHz_circle.grim
+      Traceback (most recent call last):
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 367, in _solve_and_export_star
+          status, path = _solve_and_export(unit, context, run_dir_str)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/execution.py", line 76, in call
+          return function(unit, context, destination)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 340, in _solve_and_export
+          return run_twod_unit(unit, context, run_dir_str, adapter)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/worker_pipeline.py", line 38, in run_twod_unit
+          adapter.check_inputs([unit], context)
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/runs/worker_pipeline.py", line 29, in check_inputs
+          self.verify_input(unit, context)
+        File "/workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/runtime/ghost_backend/hpc/twod_driver.py", line 246, in _verify_unit_input
+          raise RuntimeError(
+      RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_035245_022833/inputs/0000_circle/circle.geo
+
+  Slot complete. wrote=0, skipped=2, failed=2, observed on peer tasks=0.  0.6 s elapsed.

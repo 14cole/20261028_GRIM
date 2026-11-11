@@ -1,0 +1,203 @@
+{
+  "total": 54,
+  "identical": 53,
+  "differences": [
+    {
+      "base": {
+        "driver": "hpc.bor_driver",
+        "case": "no_metadata",
+        "result": null,
+        "error": [
+          "KeyError",
+          "'metadata'"
+        ],
+        "events": [
+          [
+            "source",
+            1
+          ],
+          [
+            "input",
+            "VV",
+            "same"
+          ],
+          [
+            "input",
+            "HH",
+            "same"
+          ],
+          [
+            "solve",
+            "solve_monostatic_rcs_bor_survey",
+            {
+              "geometry_snapshot": {
+                "source_path": "fixture.geo",
+                "segments": []
+              },
+              "frequencies_ghz": [
+                1.0
+              ],
+              "elevations_deg": [
+                0.0,
+                90.0
+              ],
+              "geometry_units": "meters",
+              "material_base_dir": "materials",
+              "cfie_alpha": 0.5,
+              "n_modes": 3,
+              "mode_tol": 1e-06,
+              "max_elements": 200,
+              "workers": 1,
+              "table_precision": "double",
+              "assembly": "streaming",
+              "stream_budget_gb": 0.1,
+              "bor_options": {},
+              "expand_to_360": false
+            }
+          ]
+        ],
+        "files": []
+      },
+      "new": {
+        "driver": "hpc.bor_driver",
+        "case": "no_metadata",
+        "result": [
+          "written",
+          "<destination>/results/by_frequency/VV_1.000GHz_fixture.grim, <destination>/results/by_frequency/HH_1.000GHz_fixture.grim"
+        ],
+        "error": null,
+        "events": [
+          [
+            "source",
+            1
+          ],
+          [
+            "input",
+            "VV",
+            "same"
+          ],
+          [
+            "input",
+            "HH",
+            "same"
+          ],
+          [
+            "solve",
+            "solve_monostatic_rcs_bor_survey",
+            {
+              "geometry_snapshot": {
+                "source_path": "fixture.geo",
+                "segments": []
+              },
+              "frequencies_ghz": [
+                1.0
+              ],
+              "elevations_deg": [
+                0.0,
+                90.0
+              ],
+              "geometry_units": "meters",
+              "material_base_dir": "materials",
+              "cfie_alpha": 0.5,
+              "n_modes": 3,
+              "mode_tol": 1e-06,
+              "max_elements": 200,
+              "workers": 1,
+              "table_precision": "double",
+              "assembly": "streaming",
+              "stream_budget_gb": 0.1,
+              "bor_options": {},
+              "expand_to_360": false
+            }
+          ],
+          [
+            "source",
+            2
+          ],
+          [
+            "input",
+            "VV",
+            "same"
+          ],
+          [
+            "input",
+            "HH",
+            "same"
+          ],
+          [
+            "attestation",
+            "VV"
+          ],
+          [
+            "embed",
+            {
+              "frequency": 1.0,
+              "polarization": "VV"
+            }
+          ],
+          [
+            "export",
+            "results/by_frequency/VV_1.000GHz_fixture.grim",
+            {
+              "samples": [
+                {
+                  "value": 1
+                }
+              ],
+              "polarization": "VV",
+              "polarization_export": "VV",
+              "metadata": {
+                "attestation": {
+                  "frequency": 1.0,
+                  "polarization": "VV"
+                }
+              }
+            },
+            {
+              "source_path": "fixture.geo",
+              "history": "run_hpc_bor_monostatic.py pol=VV freq=1.0GHz"
+            }
+          ],
+          [
+            "attestation",
+            "HH"
+          ],
+          [
+            "embed",
+            {
+              "frequency": 1.0,
+              "polarization": "HH"
+            }
+          ],
+          [
+            "export",
+            "results/by_frequency/HH_1.000GHz_fixture.grim",
+            {
+              "samples": [
+                {
+                  "value": 2
+                }
+              ],
+              "polarization": "HH",
+              "polarization_export": "HH",
+              "metadata": {
+                "attestation": {
+                  "frequency": 1.0,
+                  "polarization": "HH"
+                }
+              }
+            },
+            {
+              "source_path": "fixture.geo",
+              "history": "run_hpc_bor_monostatic.py pol=HH freq=1.0GHz"
+            }
+          ]
+        ],
+        "files": [
+          "results/by_frequency/HH_1.000GHz_fixture.grim:new",
+          "results/by_frequency/VV_1.000GHz_fixture.grim:new"
+        ]
+      }
+    }
+  ]
+}

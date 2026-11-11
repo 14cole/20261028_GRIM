@@ -1,0 +1,408 @@
+{
+  "pairs": 8,
+  "numeric_arrays_compared": 392,
+  "all_bitwise_equal": true,
+  "all_restart_assertions_passed": true,
+  "cases": [
+    {
+      "case": "local-twod-0",
+      "artifacts": 4,
+      "arrays": 24,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 209,
+        "kind": "local-twod",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 214,
+        "kind": "local-twod",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      }
+    },
+    {
+      "case": "local-twod-1",
+      "artifacts": 4,
+      "arrays": 24,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 209,
+        "kind": "local-twod",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 214,
+        "kind": "local-twod",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      }
+    },
+    {
+      "case": "hpc-twod-0",
+      "artifacts": 4,
+      "arrays": 24,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 209,
+        "kind": "hpc-twod",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 3,
+        "tamper_message": "RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/base-hpc-twod-0/runs/run_20261111_0352",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 214,
+        "kind": "hpc-twod",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 3,
+        "tamper_message": "RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/new-hpc-twod-0/runs/run_20261111_03525",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      }
+    },
+    {
+      "case": "hpc-twod-1",
+      "artifacts": 4,
+      "arrays": 24,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 209,
+        "kind": "hpc-twod",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 3,
+        "tamper_message": "RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/base-hpc-twod-1/runs/run_20261111_0352",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/FRD/0.300GHz_circle.grim",
+          "results/FRD/0.900GHz_circle.grim",
+          "results/OPN/0.300GHz_ellipse.grim",
+          "results/OPN/0.900GHz_ellipse.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 214,
+        "kind": "hpc-twod",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 3,
+        "tamper_message": "RuntimeError: Frozen geometry/material input changed during the HPC unit: /workspace/backend-simplification-review/drvout/new-hpc-twod-1/runs/run_20261111_03524",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      }
+    },
+    {
+      "case": "local-bor-0",
+      "artifacts": 10,
+      "arrays": 74,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 209,
+        "kind": "local-bor",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 214,
+        "kind": "local-bor",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      }
+    },
+    {
+      "case": "local-bor-1",
+      "artifacts": 10,
+      "arrays": 74,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 209,
+        "kind": "local-bor",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 214,
+        "kind": "local-bor",
+        "settings_not_in_driver": [],
+        "submit_rc": 0
+      }
+    },
+    {
+      "case": "hpc-bor-0",
+      "artifacts": 10,
+      "arrays": 74,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 209,
+        "kind": "hpc-bor",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 9,
+        "tamper_message": "Frozen geometry/material input fingerprint mismatch for /workspace/backend-simplification-review/drvout/base-hpc-bor-0/runs/run_20261111_035307_676018/inputs/00",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": false,
+        "frozen_runtime_files": 214,
+        "kind": "hpc-bor",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 9,
+        "tamper_message": "Frozen geometry/material input fingerprint mismatch for /workspace/backend-simplification-review/drvout/new-hpc-bor-0/runs/run_20261111_035307_939121/inputs/000",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      }
+    },
+    {
+      "case": "hpc-bor-1",
+      "artifacts": 10,
+      "arrays": 74,
+      "bitwise_equal": true,
+      "baseline_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 209,
+        "kind": "hpc-bor",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 9,
+        "tamper_message": "Frozen geometry/material input fingerprint mismatch for /workspace/backend-simplification-review/drvout/base-hpc-bor-1/runs/run_20261111_035254_574391/inputs/00",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      },
+      "new_events": {
+        "artifacts": [
+          "results/by_frequency/HH_0.300GHz_ibc.grim",
+          "results/by_frequency/HH_0.300GHz_sphere.grim",
+          "results/by_frequency/HH_0.900GHz_ibc.grim",
+          "results/by_frequency/HH_0.900GHz_sphere.grim",
+          "results/by_frequency/VV_0.300GHz_ibc.grim",
+          "results/by_frequency/VV_0.300GHz_sphere.grim",
+          "results/by_frequency/VV_0.900GHz_ibc.grim",
+          "results/by_frequency/VV_0.900GHz_sphere.grim",
+          "results/ibc.grim",
+          "results/sphere.grim"
+        ],
+        "certify": true,
+        "frozen_runtime_files": 214,
+        "kind": "hpc-bor",
+        "partial_arrays_equal": true,
+        "partial_claims_removed": 2,
+        "partial_rc": 0,
+        "partial_restored_victim": true,
+        "partial_rewrote_others": [],
+        "resume_rc": 0,
+        "resume_rewrote": [],
+        "settings_not_in_driver": [],
+        "submit_rc": 0,
+        "tamper_artifact_count": 9,
+        "tamper_message": "Frozen geometry/material input fingerprint mismatch for /workspace/backend-simplification-review/drvout/new-hpc-bor-1/runs/run_20261111_035254_722075/inputs/000",
+        "tamper_rc": 1,
+        "tamper_restored_victim": false,
+        "worker_rc": 0
+      }
+    }
+  ]
+}

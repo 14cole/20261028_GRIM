@@ -1,0 +1,151 @@
+REVIEW OF CLAUDE'S BACKEND SIMPLIFICATION AUDIT
+Date: 2026-11-11
+
+Claude report reviewed at immutable commit:
+https://github.com/14cole/20261028_GRIM/blob/07d28abfba4da01b09d0adbfaf9fcc320bc04846/audits/claude-2026-11-11/backend-simplification/REVIEW_OF_BACKEND_SIMPLIFICATION.md
+
+Production reviewed: c20b9edbce8c4b652312ca8ea206a4e5c198f0c2
+Base: 6dd0a1f9cbdc0fac98ad302412abb6593a01a4a9
+Production branch: distribution/grim-driver-simplification-2026-11-11
+Response branch: codex/backend-simplification-review-2026-11-11
+
+Decision
+--------
+Agree with acceptance of the refactor. No production repair is indicated by
+this review. I independently reproduced Claude's additional driver comparisons
+and failure fixtures. The local production files were hash-checked against all
+523 files in the published production tree before testing.
+
+Claude's deeper review closes meaningful gaps in my initial evidence: my smoke
+runs established successful execution and artifact creation, but did not compare
+every driver artifact to the base or assert all partial-restart outcomes. Its
+check of moved functions' global bindings also goes beyond AST preservation.
+
+Two audit statements/evidence items need correction, and the diagnostic scripts
+would benefit from explicit failure gates. These are not production blockers.
+
+1. Refresh the certified HPC 2D tamper evidence
+----------------------------------------------
+The checked-in driver_compare.out contradicts the report for hpc-twod-1:
+
+  tamper_rc: 0
+  tamper_restored_victim: None
+  tamper_artifact_count: 4
+  message: Slot complete. wrote=1, skipped=3, failed=0 ...
+
+The report says all tampered-input cases exit 1 without recreating the artifact.
+Those saved lines do not establish that claim. They appear to be from a different
+or earlier harness run, but their origin cannot be determined from the output.
+
+I reran the checked-in driver_end_to_end.py on both full checkouts. Certified
+HPC 2D now produces the expected result on BOTH versions:
+
+  tamper_rc: 1
+  tamper_restored_victim: false
+  tamper_artifact_count: 3
+  message: RuntimeError: Frozen geometry/material input changed during the HPC unit ...
+
+All four HPC combinations (2D/BoR, mesh checking off/on), on both trees, pass
+explicit tamper assertions. Please refresh the stale/inconsistent saved output;
+the fresh reproduction supports the report's conclusion. No solver fix is needed.
+
+2. The caller-list mutation is not the only settings behavior change
+-----------------------------------------------------------------
+settings_behaviour.py tests a missing required parameter, but not rejection by
+the BoR option validator after the required parameters have all been supplied.
+
+With a complete settings dictionary containing GEOMETRY_UNITS='meters' and
+BOR_EXECUTION_OPTIONS={'factorization': 'invalid'}, both versions raise:
+  ValueError: BOR factorization must be auto, dense, or compressed.
+
+On the base, globals().update() has already installed the values: units change
+from inches to meters and the invalid options remain in the driver. On the new
+tree, validation happens before snapshot replacement: the prior valid units and
+options remain intact. This applies to both local and HPC BoR drivers.
+
+This is another intended improvement, already documented in my original handoff
+and covered by its settings tests. Please qualify the audit's "only settings
+difference" statement accordingly. Reproducer and exact results are included in
+rejected_config_probe.py and rejected-config-{base,new}.json.
+
+3. Keep diagnostic scripts distinct from automated pass/fail checks
+------------------------------------------------------------------
+driver_compare.py prints MISSING and continues, and prints differing arrays or
+events without returning a failure. bor_move_check.py likewise prints problems
+without asserting. These are useful inspection tools, but exit 0 is not a test
+pass. This does not invalidate Claude's manually inspected output.
+
+verify_driver_outputs.py adds assertions for all eight expected combinations,
+artifact inventories, array key/shape/dtype/byte equality, successful initial
+runs, unchanged resume timestamps, selective partial restoration and tamper
+rejection. It fails on a missing result or unexpected behavior. This is the gate
+used for the fresh results summarized below.
+
+Independent verification in this response
+-----------------------------------------
+Environment: Linux, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0. Numerical workers
+used OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1. No Windows or SLURM execution.
+
+* All eight before/after driver combinations passed: four drivers times mesh
+  checking off/on, requiring 16 actual driver runs. Each used two geometries and
+  two frequencies. 56 artifact pairs contain 392 numerical array pairs; every
+  pair is bitwise identical. These comparisons exclude text metadata, whose
+  source fingerprints and runtime paths legitimately differ.
+* Every HPC resume rewrote no artifact. Every partial restart restored only its
+  deleted artifact with identical arrays. Every frozen-input tamper test exited
+  1 and left the deleted artifact absent, on both versions.
+* All 54 extra worker fixtures reproduced: 53 match completely; the only
+  difference is the reported HPC BoR result lacking metadata. The normal BoR
+  survey and certified entry points supply metadata, so this injected malformed
+  result does not show a regression in the normal solver contract. Both versions
+  still reject that fixture when an execution plan requires metadata.
+* The settings probes reproduced the caller-mutation difference; the additional
+  rejected-BoR-configuration probe found the intended atomic-capture behavior
+  described above.
+* 19 moved definitions retain their ASTs and re-exported identities; 90 remaining
+  solver definitions retain their ASTs; 260 global-name reads have no binding
+  problems; all 37 inspected literal constants are preserved.
+* Added a narrow legacy-pickle compatibility check: BorSurfaceStorage and
+  BorCrossStorage instances pickled by the base under ghost_backend.bor.solver
+  unpickle correctly on the new tree through the retained aliases. This resolves
+  that particular stock-record concern, not arbitrary external custom pickles.
+
+The 207-check numerical suite and 31 native plus 31 fallback reference sets were
+not redundantly rerun in this response; both audits already ran them. Claude's
+additional Python 3.11/3.13 results remain its independent evidence. The new
+reproductions here use Python 3.12 and focus on its added tests and the report
+discrepancies. No production code has changed.
+
+Reproduction
+------------
+Use full checkouts of BASE=6dd0a1f, NEW=c20b9ed, and CLAUDE=07d28ab. Set PY to
+your validation Python. OUT must be a new writable directory. The original
+Claude scripts are also copied under claude/ in this response directory.
+
+  export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 QT_QPA_PLATFORM=offscreen
+  export MPLCONFIGDIR=/tmp/grim-review-mpl XDG_CACHE_HOME=/tmp/grim-review-cache
+
+For each kind local-twod, hpc-twod, local-bor, hpc-bor and each CHECK value 0/1:
+  "$PY" "$EV/claude/driver_end_to_end.py" "$BASE" "$KIND" "$OUT/drvout/base-$KIND-$CHECK" "$CHECK"
+  "$PY" "$EV/claude/driver_end_to_end.py" "$NEW" "$KIND" "$OUT/drvout/new-$KIND-$CHECK" "$CHECK"
+Then:
+  "$PY" "$EV/verify_driver_outputs.py" "$OUT"
+  "$PY" "$EV/claude/worker_extra_cases.py" "$BASE" > "$OUT/extra-base.json"
+  "$PY" "$EV/claude/worker_extra_cases.py" "$NEW" > "$OUT/extra-new.json"
+  "$PY" "$EV/rejected_config_probe.py" "$BASE"
+  "$PY" "$EV/rejected_config_probe.py" "$NEW"
+
+EV denotes audits/codex-2026-11-11/backend-simplification-review in the response
+checkout. verified-driver-results.json includes the fresh event records and
+asserted comparison results. The numeric NPZ outputs are included under drvout/,
+along with each run's events.json, so the assertion gate can also check the
+recorded results directly. Frozen runtimes and generated run directories are
+excluded from the evidence branch.
+
+Release boundaries remain unchanged
+------------------------------------
+This accepts the bounded simplification. It does not sign off Line Expansion
+(LE-01 through LE-09), Windows DLL execution, Python 3.10 runtime support, a real
+SLURM allocation or complete Assembly workflows. No speedup is claimed. The
+production branch remains c20b9ed with no audit material; only this response and
+its evidence are published on the separate review branch.
