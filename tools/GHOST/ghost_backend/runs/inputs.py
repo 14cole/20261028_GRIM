@@ -1,4 +1,7 @@
 """Shared driver input checks, geometry loading, and durable submission journals."""
+from ghost_backend.execution.provenance import (
+    describe_source_mismatch, verify_runtime_environment, unit_solve_spec_fingerprint,
+)
 
 import json
 import os
@@ -65,3 +68,52 @@ def load_geometry_snapshot(geometry_path: 'str', cache: 'Dict[str, Any]') -> 'Tu
     entry = (snapshot, str(path.parent))
     cache[geometry_path] = entry
     return entry
+
+
+def verify_local_run_provenance(context, source_fingerprint, source_inventory):
+    """Re-check that the solver source and numerical runtime still match the run.
+
+    Called around every unit. The file hashes underneath come from
+    `hpc_scheduler.install_fingerprint_cache`, so a repeat check is a stat per
+    backend file rather than a full re-read, and the cache expires on a timer
+    so full re-reads keep happening inside long-lived workers.
+    """
+
+    if source_fingerprint() != context.get("solver_source_sha256"):
+        detail = describe_source_mismatch(
+            context.get("solver_source_inventory") or {},
+            source_inventory(),
+        )
+        raise RuntimeError(
+            "Local-run solver source/native artifacts changed; no mixed-state "
+            f"field will be written or reused. ({detail})"
+        )
+    verify_runtime_environment(
+        str(context.get("runtime_environment_sha256", "")),
+        context.get("submission_runtime_environment"), origin="the local run manifest",
+    )
+
+
+def unit_attestation_fields(context, unit, angular_grid_kind, polarizations=None):
+    """Bind a normalized local/2D context to one published unit."""
+    fields = {
+        "run_id": str(context["run_id"]),
+        "solver_source_sha256": str(context["solver_source_sha256"]),
+        "runtime_environment_sha256":
+            str(context["runtime_environment_sha256"]),
+        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
+        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
+        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
+        "solver_config_sha256": str(context["solver_config_sha256"]),
+        "angular_grid_kind": angular_grid_kind,
+        # The grid is a run-level property, so it is bound by hash here and
+        # stored once in the manifest instead of being repeated in every unit
+        # record and every attestation.
+        "angular_grid_sha256": str(context["angular_grid_sha256"]),
+        "frequency_ghz": float(unit["frequency_ghz"]),
+    }
+    if polarizations is None:
+        fields["polarization"] = str(unit["polarization"])
+    else:
+        fields["polarizations"] = list(polarizations)
+    return fields

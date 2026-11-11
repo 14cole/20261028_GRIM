@@ -384,23 +384,6 @@ def _numpy_trig_moments(rows, xi, count, want_cos=True, want_sin=False, start_or
     return cosine, sine
 
 
-def _cosine_moments(weights, xi, count):
-    """``2 * sum_a weights[:, a] cos(m xi[:, a])`` for ``m = 0..count-1``,
-    ``weights`` complex ``[n, na]``: the modal projection of the near Green's
-    rules.  Native recurrence when available, else the trigonometric table."""
-    native = _native_trig_moments(np.stack([weights.real, weights.imag], axis=1), xi, count, False)
-    if native is not None:
-        cosine = native[0]
-        return 2.0 * (cosine[:, 0] + 1j * cosine[:, 1])
-    _notice_native_fallback(('trig_moments',))
-    out = np.empty((weights.shape[0], count), complex)
-    orders = np.arange(count)
-    for m0 in range(0, count, 32):
-        table = np.cos(xi[:, :, None] * orders[None, None, m0:m0 + 32])
-        out[:, m0:m0 + 32] = 2.0 * np.matmul(weights[:, None, :], table).squeeze(1)
-    return out
-
-
 def _parity_moments(even, odd, xi, count):
     """Cosine moments of the ``even`` rows and sine moments of the ``odd`` rows
     (``[n, 4, na]`` each) on the per-pair grids ``xi`` ``[n, na]``.
@@ -980,28 +963,6 @@ def mfie_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
     return tuple(o.reshape(shape + (2 * m_max + 1,)) for o in out)
 
 
-def _project_parity_brackets(Fp, w_pos, xi_pos, m):
-    """Exact angular parity of the MFIE/IBC tangential bracket components.
-
-    tt/ff are even in xi; tf/ft are odd, for real and complex k. Thus their
-    half-range contributions are 2 F cos(m xi) and -2j F sin(m xi).
-    Preserve the generic signed-mode output without evaluating -xi or
-    multiplying the identically zero/unused rows of the generic projector.
-    The cosine moments of the even rows and the sine moments of the odd rows
-    come from one fused native pass when available (``_parity_moments``).
-    """
-    m = np.asarray(m, dtype=int)
-    magnitude = np.abs(m)
-    count = int(magnitude.max()) + 1 if m.size else 0
-    weighted = [2 * value * w_pos for value in Fp]
-    even = np.stack([weighted[0].real, weighted[3].real,
-                     weighted[0].imag, weighted[3].imag], axis=1)
-    odd = np.stack([weighted[1].real, weighted[2].real,
-                    weighted[1].imag, weighted[2].imag], axis=1)
-    cosines, sines = _parity_moments(even, odd, np.asarray(xi_pos, dtype=float), count)
-    return _parity_outputs(cosines, sines, m)
-
-
 def _stable_brackets(points, k, xi, family):
     """The four MFIE or IBC brackets without the cancellations of the sampled forms.
 
@@ -1162,111 +1123,6 @@ def ibc_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
             o[i0:i1] = np.fft.fft(F, axis=-1)[:, bins] * phase
         del Fs, F
     return tuple(o.reshape(Pp, Pq, -1) for o in out)
-
-
-def _checked_near_kernels(rule, args, k, m_max, order, tail_order, bracket):
-    """Resolve core and tail oscillation, check refinement, and bound scratch
-    (legacy two-piece rules ``_*_kernels_near_rule``).
-
-    A refinement step compares a coarse and a fine result only when BOTH the
-    core and the tail order increased: an order held at
-    NEAR_ANGULAR_MAX_ORDER would be shared by the two results, its error
-    would cancel out of their difference and the step could accept an
-    unconverged kernel.  When a capped order prevents a valid comparison the
-    bracket rules restart with the cancellation-free forms, and otherwise the
-    call raises.
-
-    The limit applies to temporary point/angular/mode arrays. The returned
-    point-by-mode arrays are owned by the caller and must be budgeted there.
-    """
-    args = tuple(np.ravel(a) for a in np.broadcast_arrays(
-        *[np.atleast_1d(np.asarray(a, dtype=float)) for a in args]))
-    q = 4 if bracket else 2
-    rp, zp, rq, zq = args[0], args[1], args[q], args[q + 1]
-    n = len(rp)
-    nm = 2 * m_max + 1 if bracket else m_max + 2
-    outputs = tuple(np.empty((n, nm), complex) for _ in range(4 if bracket else 1))
-    if n == 0:
-        return outputs if bracket else outputs[0]
-    a = np.sqrt(np.maximum(4 * rp * rq, 0.0))
-    d = np.hypot(rp - rq, zp - zq)
-    s0 = np.minimum(0.25, 20 * d / np.maximum(a, 1e-150))
-    xi0 = 2 * np.arcsin(s0)
-    core_phase = abs(complex(k)) * a * s0 + (m_max + 2) * xi0
-    if bracket:
-        core_phase = np.where(a <= 1e-15, (m_max + 2) * np.pi, core_phase)
-    core = max(int(order), 48, int(math.ceil(24 + 2 * np.max(core_phase))))
-    tail = max(int(tail_order), 64, int(math.ceil(
-        4 * (abs(complex(k)) * float(np.max(a)) / math.pi + m_max + 2))))
-    if max(core, tail) > NEAR_ANGULAR_MAX_ORDER:
-        raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
-
-
-    point_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
-                            (128 * (core + tail) * max(min(nm, 32), 16))))
-    for start in range(0, n, point_chunk):
-        stop = min(n, start + point_chunk)
-        # Absolute indices of the points in this chunk that still need a
-        # higher angular order.  Each point's kernel depends only on its own
-        # coordinates, so refining a subset reproduces its per-point values;
-        # points that already meet the tolerance keep their accepted result.
-        active = np.arange(start, stop)
-        part = tuple(a[start:stop] for a in args)
-
-
-        c, t = max(16, core // 2), max(16, tail // 2)
-        coarse = rule(*part, k, m_max, order=c, tail_order=t)
-        coarse = coarse if bracket else (coarse,)
-        # Sampled brackets reach a rounding floor above the tolerance once two
-        # points are closer than about 5e-6 rho (tiny or graded elements).
-        # Points still pending at the maximum order restart with the
-        # cancellation-free closed forms; everything that converged before is
-        # untouched, so existing results do not change.
-        options = {}
-        error = scale = None
-        while True:
-            cf = min(NEAR_ANGULAR_MAX_ORDER, max(core, c + 16, int(math.ceil(1.5 * c))))
-            tf = min(NEAR_ANGULAR_MAX_ORDER, max(tail, t + 16, int(math.ceil(1.5 * t))))
-            if cf <= c or tf <= t:
-                # A capped order cannot increase: no valid comparison remains.
-                if bracket and not options:
-                    options = {'stable': True}
-                    c, t = max(16, core // 2), max(16, tail // 2)
-                    coarse = rule(*part, k, m_max, order=c, tail_order=t, **options)
-                    continue
-                if error is None:
-                    raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
-                worst = int(np.argmax(error / np.maximum(scale, 1e-280)))
-                coordinates = tuple(float(a[worst]) for a in part)
-                raise ValueError(f"BoR near angular quadrature did not converge at the maximum order: {rule.__name__}, point={coordinates}, relative change={float(error[worst] / max(scale[worst], 1e-280)):.3g}.")
-
-
-            fine_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
-                                   (128 * (cf + tf) * max(min(nm, 32), 16))))
-            fine = tuple(np.empty_like(x) for x in coarse)
-            for i in range(0, len(active), fine_chunk):
-                val = rule(*(a[i:i + fine_chunk] for a in part), k, m_max,
-                           order=cf, tail_order=tf, **options)
-                val = val if bracket else (val,)
-                for out, x in zip(fine, val):
-                    out[i:i + fine_chunk] = x
-            scale = np.maximum.reduce([np.max(np.abs(x), axis=1) for x in fine])
-            error = np.maximum.reduce([np.max(np.abs(x - y), axis=1)
-                                       for x, y in zip(fine, coarse)])
-            converged = np.isfinite(error) & (
-                error <= NEAR_ANGULAR_RTOL * np.maximum(scale, 1e-280)
-            )
-            for out, x in zip(outputs, fine):
-                out[active[converged]] = x[converged]
-            if np.all(converged):
-                break
-            pending = ~converged
-            active = active[pending]
-            part = tuple(a[pending] for a in part)
-            coarse = tuple(x[pending] for x in fine)
-            error, scale = error[pending], scale[pending]
-            c, t = cf, tf
-    return outputs if bracket else outputs[0]
 
 
 # --------------------------------------------------------------------------

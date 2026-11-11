@@ -562,11 +562,11 @@ For `k = 80`, 93 modes and two point pairs that share one layout, the probes
 agreed to 1.2e-9 while the coarse value of an unprobed pair was 3.2e-7 from the
 exact kernel, sixteen times `NEAR_ANGULAR_RTOL = 2e-8`; the fine level is
 9e-14 there. The regression script
-`audits/claude-2026-11-10/regression/test_s5_bor_near_publish.py` holds that
+[development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/regression/test_s5_bor_near_publish.py) holds that
 case for the native and the NumPy path.
 
 What the experiment measured, for whoever qualifies it later
-(`audits/claude-2026-11-10/calibration/bor_near_publish.py`, two mode workers,
+([development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/calibration/bor_near_publish.py), two mode workers,
 single runs): largest coarse/fine discrepancy at any probe, operator time fine
 and coarse, largest RCS change. None of these bodies exceeds `ka = 30`.
 

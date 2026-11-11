@@ -281,10 +281,11 @@ retain their existing storage. Spools close on completion or failure. BoR modal
 factors follow the same policy: a mode worker whose copy does not fit factors a
 system of 512 MiB or more in place and computes its residuals from the spool.
 
-A dense double-precision system of at least 10,000 unknowns
-(`linalg.hierarchical.HIERARCHICAL_MIN_UNKNOWNS`; the environment variable
-`GHOST_HIERARCHICAL_MIN_UNKNOWNS` overrides it, 0 keeps LU) is factored as a
-HODLR inverse under the `dense` and `auto` factorizations. Its off-diagonal
+Dense 2D systems now use LU by default. Explicit `hierarchical` factorization,
+`GHOST_HIERARCHICAL_MIN_UNKNOWNS` (0 keeps LU), and legacy timing choices retain
+the HODLR implementation. BoR retains its existing automatic 10,000-unknown
+threshold. The measurements below describe the earlier HODLR calibration and
+are not a portable performance guarantee. Its off-diagonal
 blocks are compressed by an adaptive randomized range finder (products of the
 block with 32 Gaussian probes at a time, re-orthogonalized, until fresh
 samples leave less than `1e-10 ||A||_inf`; then a truncated SVD through the QR
@@ -312,13 +313,15 @@ and takes 88 s (11.5 GB).
 
 ## Hierarchical 2-D operator
 
-From 8,192 unknowns (`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`;
-`GHOST_HMATRIX_MIN_UNKNOWNS` overrides it, 0 disables it) the compressed
-backend assembles an H-matrix instead of evaluating every coefficient tile.
-Below the threshold, and whenever the automatic policy admits dense storage,
-nothing changes: results are bit-identical, and the automatic policy keeps
-dense LU/HODLR wherever it is admitted (the hierarchical backend is for the
-systems dense storage cannot hold). The threshold is where the tile operator
+Explicit compressed execution uses H-matrix from 8,192 unknowns
+(`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`). The new `automatic` policy permits
+it from 1,024 unknowns when compressed execution is selected; this also serves
+smaller memory-limited systems. `GHOST_HMATRIX_MIN_UNKNOWNS` overrides either
+threshold, with 0 disabling H-matrix. Tiles remain for excluded formulations,
+small systems and rejected H-matrix assembly. Automatic prefers admitted dense
+LU below 10,000 forecast unknowns and compressed above; memory admission takes
+precedence. Switching regimes preserves the numerical acceptance gates, not a
+bitwise identity guarantee. The original 8,192 threshold is where the tile operator
 stops being practical: at 10,000 PEC unknowns its retained payload exceeded the
 2-GiB default cap, while the hierarchical operator kept 15% of the dense
 storage (dense was 1.2 times faster there; from 15,000 unknowns the
@@ -1097,8 +1100,8 @@ This prevents a material definition from being silently interpreted as air.
 ## November 2026 audit changes
 
 These follow the independent audit and its cross-examination
-(`SOLVER_AUDIT_2D_BOR.md`, `audits/`). Regression scripts and calibration data
-are in `audits/claude-2026-11-10/`. On 31 reference field sets (every 2-D
+([development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/SOLVER_AUDIT_2D_BOR.md), [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/)). Regression scripts and calibration data
+are in [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/). On 31 reference field sets (every 2-D
 formulation family on the dense and compressed backends, and six BoR bodies)
 the correctness changes leave every field bit for bit; the W far-rule change
 moves 2-D fields by at most 3.1e-12 of the largest amplitude, and BoR fields
@@ -1149,7 +1152,7 @@ the far and touching rules are calibrated to that length (see below), and an
 exact solve of an inaccurate operator shows no residual symptom.
 
 *W far rule.* For the linear basis the far order of the hypersingular block is
-graded per tile like S and K'. `audits/claude-2026-11-10/calibration/` compares
+graded per tile like S and K'. [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/calibration/) compares
 the completed Maue block with a 48-point rule over `|k| L` from 1e-8 to 3,
 `arg k` from 0 to -90 degrees, length ratios from 1 to 1e-6, separations of 3
 to 30 panel lengths and all orientations. Orders by `|k| L` bound and smallest

@@ -14,6 +14,34 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
+from ghost_backend.bor.constraints import (
+    _ConstraintEntries,
+    _constraint_structure,
+    _reduce_constrained_operator,
+    _constraint_coordinates,
+    _rotate_test_rows,
+    _mix_dual_ibc_in_place,
+    _scaled_add_into,
+)
+from ghost_backend.bor.validation import (
+    _bor_axis_tolerance,
+    _segments_intersect_2d,
+    _validate_solve_bor_generatrix,
+    _validated_bor_aspects,
+)
+from ghost_backend.bor.storage import (
+    bor_impedance_map_bytes,
+    estimate_bor_table_gb,
+    estimate_bor_cross_table_gb,
+    conductor_operator_kinds,
+    bor_near_cache_bytes,
+    bor_cross_near_cache_bytes,
+    bor_operator_storage_bytes,
+    estimate_bor_operator_storage_gb,
+    BOR_RETAINED_STORAGE_FACTOR,
+    BorSurfaceStorage,
+    BorCrossStorage,
+)
 from ghost_backend.execution.metrics import active_metrics, profiled_solve, timed_stage, metrics_scope
 from scipy import special as sp
 from scipy.linalg import get_lapack_funcs
@@ -66,11 +94,6 @@ BOR_CONDITION_EST_MAX = 1.0e12
 BOR_ENDPOINT_WELD_TOLERANCE_M = 1.0e-9
 
 
-def _bor_axis_tolerance(points):
-    """Numerical zero in radius; never a drawing/feature-size tolerance."""
-    return numerical_bor_axis_tolerance(points)
-
-
 # Per concurrent mode worker: the reduced system matrix plus its LAPACK LU copy
 # are retained for the mode's lifetime, and the in-place assembly of the
 # conductor solvers (``BorPecSolver.assemble_mode`` writing straight into the
@@ -91,160 +114,6 @@ BOR_TABLE_BUILD_PEAK_FACTOR = 3.5
 BOR_PEAK_SAFETY_FACTOR = 1.20
 BOR_PEAK_FIXED_MARGIN_GB = 0.5
 _COMPLEX128_BYTES = np.dtype(np.complex128).itemsize
-
-
-class _ConstraintEntries:
-    """Builder of a pole/junction transform ``Q = S + E``.
-
-    ``S`` selects the active full-system rows (one column each, value 1);
-    ``E`` holds the few relations of inactive rows (axis-pole phi components,
-    junction slaves) to their master columns.  Item assignment records ``E``
-    with matrix semantics (the last value written to a position wins), so
-    the existing ``Q[row, column] = value`` code builds it unchanged.
-    """
-
-    def __init__(self, n_rows: 'int', n_cols: 'int'):
-        self.shape = (int(n_rows), int(n_cols))
-        self.primary = np.full(int(n_cols), -1, dtype=np.intp)
-        self.extra: 'Dict[Tuple[int, int], complex]' = {}
-
-    def select(self, rows, columns) -> 'None':
-        self.primary[np.asarray(columns, dtype=np.intp)] = np.asarray(rows, dtype=np.intp)
-
-    def __setitem__(self, key, value) -> 'None':
-        row, column = key
-        self.extra[(int(row), int(column))] = complex(value)
-
-    def tocsr(self):
-        if np.any(self.primary < 0):
-            raise ValueError("BoR constraint transform has a column without an active row.")
-        extra = sorted(self.extra.items())
-        extra_rows = np.array([rc[0] for rc, _ in extra], dtype=np.intp)
-        extra_cols = np.array([rc[1] for rc, _ in extra], dtype=np.intp)
-        extra_vals = np.array([value for _, value in extra], dtype=complex)
-        if np.intersect1d(extra_rows, self.primary).size:
-            raise ValueError("BoR constraint relations must act on inactive rows.")
-        rows = np.concatenate([self.primary, extra_rows])
-        cols = np.concatenate([np.arange(self.shape[1], dtype=np.intp), extra_cols])
-        data = np.concatenate([np.ones(self.shape[1], dtype=complex), extra_vals])
-        Q = csr_matrix((data, (rows, cols)), shape=self.shape)
-        Q._ghost_constraint = (self.primary.copy(), extra_rows, extra_cols, extra_vals)
-        return Q
-
-
-def _constraint_structure(transform):
-    """``(primary, extra_rows, extra_cols, extra_vals)`` with ``Q = S + E``.
-
-    Transforms built by ``_ConstraintEntries`` carry it; otherwise it is
-    inferred when unambiguous (every column has exactly one row whose only
-    entry is 1, as in the block-diagonal pole transforms) or None.
-    """
-    explicit = getattr(transform, '_ghost_constraint', None)
-    if explicit is not None:
-        return explicit
-    q = transform.tocsr() if issparse(transform) else csr_matrix(transform)
-    n_rows, n_cols = q.shape
-    counts = np.diff(q.indptr)
-    rows = np.repeat(np.arange(n_rows), counts)
-    single = counts[rows] == 1
-    is_primary = single & (q.data == 1.0)
-    primary_cols = q.indices[is_primary]
-    if primary_cols.size != n_cols or np.unique(primary_cols).size != n_cols:
-        return None
-    primary = np.empty(n_cols, dtype=np.intp)
-    primary[primary_cols] = rows[is_primary]
-    extra = ~is_primary
-    if np.intersect1d(rows[extra], primary).size:
-        return None
-    return primary, rows[extra], q.indices[extra].astype(np.intp), q.data[extra]
-
-
-def _reduce_constrained_operator(matrix, transform):
-    """``Q^H A Q`` for sparse pole/junction relations.
-
-    With ``Q = S + E`` (selection plus a few relations of inactive rows) this
-    is one gathered copy of ``A`` plus rank-one row/column updates -- the
-    generalization of ``BorPecSolver.reduce_pole_operator``.  The former
-    sparse product copied ``A`` about three times (SciPy ravels F-ordered
-    operands) and ran 6.7x slower at 2,400 unknowns.
-    """
-    if isinstance(matrix, TileExpression):
-        return matrix.reduce(transform)
-    structure = _constraint_structure(transform)
-    if structure is None:
-        q = csr_matrix(transform)
-        return q.conj().T @ (q.T @ matrix.T).T
-    primary, extra_rows, extra_cols, extra_vals = structure
-    reduced = matrix[np.ix_(primary, primary)]
-    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
-        reduced[:, column] += value * matrix[primary, row]
-        reduced[column, :] += np.conj(value) * matrix[row, primary]
-    for row, column, value in zip(extra_rows, extra_cols, extra_vals):
-        for row2, column2, value2 in zip(extra_rows, extra_cols, extra_vals):
-            reduced[column, column2] += np.conj(value) * value2 * matrix[row, row2]
-    return reduced
-
-
-def _constraint_coordinates(full_coordinates, transform):
-    """Positions of reduced unknowns; used only to order a checked factor.
-
-    Selecting each constraint's primary unknown preserves colocated electric
-    and magnetic components. General sparse relations use a weighted centroid;
-    neither choice changes matrix entries or the original-matrix checks.
-    """
-    structure = _constraint_structure(transform)
-    if structure is not None:
-        return np.asarray(full_coordinates)[structure[0]]
-    weights = abs(csr_matrix(transform))
-    totals = np.asarray(weights.sum(axis=0)).ravel()
-    return (weights.T @ np.asarray(full_coordinates)) / np.maximum(totals[:, None], 1e-300)
-
-
-def _rotate_test_rows(matrix, nodes):
-    """Test n x field in (t, phi) coordinates: (-field_phi, field_t)."""
-    return modal_block([[-matrix[nodes:, :]], [matrix[:nodes, :]]])
-
-
-def _mix_dual_ibc_in_place(quads, alpha, scale, weights, chunk_rows: 'int' = 256) -> 'None':
-    """Turn the EFIE quadrants ``T`` into ``alpha*T + scale*dual(T)*diag(w)``.
-
-    ``dual(T) = [[T_ff, -T_ft], [-T_tf, T_tt]]`` is the EFIE operator acting on
-    the magnetic current ``M = -Zs n x J`` of an impedance surface; ``w`` is the
-    scalar impedance or the nodal impedance applied to the source columns.
-    The quadrant pairs (tt, ff) and (tf, ft) are mixed through row chunks, so
-    no second full matrix is ever formed (the former path held ``Z``, the dual
-    copy and its column-scaled product at once).
-    """
-    tt, tf, ft, ff = quads
-    columns = weights if np.ndim(weights) == 0 else np.asarray(weights)[None, :]
-    rows = tt.shape[0]
-    for start in range(0, rows, chunk_rows):
-        piece = slice(start, min(rows, start + chunk_rows))
-        a, d = tt[piece].copy(), ff[piece].copy()
-        tt[piece] = alpha * a + scale * (d * columns)
-        ff[piece] = alpha * d + scale * (a * columns)
-        b, c = tf[piece].copy(), ft[piece].copy()
-        tf[piece] = alpha * b - scale * (c * columns)
-        ft[piece] = alpha * c - scale * (b * columns)
-
-
-def _scaled_add_into(target, source, scale, chunk_rows: 'int' = 256):
-    """``target += scale * source`` through bounded row chunks.
-
-    ``source`` may alias read-only single-precision storage; only a
-    ``chunk_rows``-row temporary is ever formed, so a full-matrix copy is
-    never needed to combine one operator family into the system matrix.
-    """
-    if scale == 0:
-        return
-    rows = target.shape[0]
-    for start in range(0, rows, chunk_rows):
-        stop = min(rows, start + chunk_rows)
-        piece = source[start:stop]
-        if scale == 1:
-            target[start:stop] += piece
-        else:
-            target[start:stop] += piece * scale
 
 
 # Material interfaces combine the equations of their two regions.  PMCHWT adds
@@ -280,14 +149,6 @@ def _region_equation_weights(media, exterior=0):
     rank = [levels.index(round(value, 12)) for value in density]
     theta = math.radians(BOR_INTERFACE_WEIGHT_PHASE_DEGREES)
     return [complex(np.exp(-1j * theta * (r - rank[exterior]))) for r in rank]
-
-
-def bor_impedance_map_bytes(nodes: 'int') -> 'float':
-    """Bound on the sparse ``2N x 2N`` J-to-M impedance map of a bare IBC piece
-    with ``nodes`` nodes: 2N complex nonzeros plus CSR indices, priced with
-    64-bit indices so a preview never falls below the gate's exact size."""
-    count = 2 * int(nodes)
-    return float(count * (16 + 8) + (count + 1) * 8)
 
 
 def _rotation_mass(solver):
@@ -756,34 +617,6 @@ def _iter_near_pairs(function: 'Callable', pairs, workers: 'int', process_functi
             blas.__exit__(None, None, None)
 
 
-def _graded_cells(kind: 'str', depth: 'int' = 4) -> 'List[Tuple[float, float, float, float]]':
-    """Cells (s0, s1, sp0, sp1) covering [0,1]^2 refined toward the singular
-    set: kind = 'diag' (s == s'), 'corner00', 'corner01', 'corner10', 'corner11'
-    where cornerAB means singular at s = A, s' = B."""
-
-    cells = []
-
-    def touches(kind, s0, s1, p0, p1):
-        if kind == "diag":
-            return not (s1 <= p0 or p1 <= s0)
-        a = 0.0 if kind[6] == "0" else 1.0
-        b = 0.0 if kind[7] == "0" else 1.0
-        return (s0 <= a <= s1) and (p0 <= b <= p1)
-
-    def recurse(s0, s1, p0, p1, d):
-        if not touches(kind, s0, s1, p0, p1) or d >= depth:
-            cells.append((s0, s1, p0, p1))
-            return
-        sm, pm = 0.5 * (s0 + s1), 0.5 * (p0 + p1)
-        recurse(s0, sm, p0, pm, d + 1)
-        recurse(s0, sm, pm, p1, d + 1)
-        recurse(sm, s1, p0, pm, d + 1)
-        recurse(sm, s1, pm, p1, d + 1)
-
-    recurse(0.0, 1.0, 0.0, 1.0, 0)
-    return cells
-
-
 _CELL_CACHE: 'Dict[str, Tuple[np.ndarray, np.ndarray, np.ndarray]]' = {}
 
 
@@ -818,35 +651,6 @@ def _touching_probes(owner, records):
     from ghost_backend.bor.sharp_pairs import check_probes
     owner.__dict__.setdefault('touching_pair_records', {}).update(records)
     return check_probes([record for _, record in records], _near_check_stride())
-
-
-def _cell_points(kind: 'str', gorder: 'int' = 4,
-                 depth: 'int' = 4) -> 'Tuple[np.ndarray, np.ndarray, np.ndarray]':
-    """(s_points, sp_points, weights) for the graded cell set of `kind`."""
-
-    depth = max(0, int(depth))
-    key = f"{kind}:{gorder}:{depth}"
-    if key in _CELL_CACHE:
-        return _CELL_CACHE[key]
-    xg, wg = cached_leggauss(gorder)
-    u = 0.5 * (xg + 1.0)
-    w = 0.5 * wg
-
-
-    xq, wq_ = cached_leggauss(gorder + 1)
-    uq = 0.5 * (xq + 1.0)
-    wq = 0.5 * wq_
-    S, SP, W = [], [], []
-    for (s0, s1, p0, p1) in _graded_cells(kind, depth=depth):
-        hs, hp = s1 - s0, p1 - p0
-        ss = s0 + u * hs
-        pp = p0 + uq * hp
-        SS, PP = np.meshgrid(ss, pp, indexing="ij")
-        WW = np.outer(w * hs, wq * hp)
-        S.append(SS.ravel()); SP.append(PP.ravel()); W.append(WW.ravel())
-    out = (np.concatenate(S), np.concatenate(SP), np.concatenate(W))
-    _CELL_CACHE[key] = out
-    return out
 
 
 def _same_surface_points(gen, e: 'int', f: 'int', kinds, depth: 'int', m_max=None):
@@ -3399,418 +3203,6 @@ def _require_mode_convergence(stats: 'Dict', mode_tol: 'float') -> 'None':
         )
 
 
-def _segments_intersect_2d(
-    a: 'np.ndarray',
-    b: 'np.ndarray',
-    c: 'np.ndarray',
-    d: 'np.ndarray',
-    tol: 'float',
-) -> 'bool':
-    """Inclusive segment intersection with a length-scaled cross tolerance."""
-
-    def cross(p, q, r) -> 'float':
-        return float((q[0] - p[0]) * (r[1] - p[1])
-                     - (q[1] - p[1]) * (r[0] - p[0]))
-
-    def on_segment(p, q, r, cross_tol) -> 'bool':
-        return (
-            abs(cross(p, q, r)) <= cross_tol
-            and min(p[0], r[0]) - tol <= q[0] <= max(p[0], r[0]) + tol
-            and min(p[1], r[1]) - tol <= q[1] <= max(p[1], r[1]) + tol
-        )
-
-    length_scale = max(
-        float(np.linalg.norm(b - a)),
-        float(np.linalg.norm(d - c)),
-        tol,
-    )
-    cross_tol = tol * length_scale
-    o1 = cross(a, b, c)
-    o2 = cross(a, b, d)
-    o3 = cross(c, d, a)
-    o4 = cross(c, d, b)
-    if (
-        ((o1 > cross_tol and o2 < -cross_tol)
-         or (o1 < -cross_tol and o2 > cross_tol))
-        and ((o3 > cross_tol and o4 < -cross_tol)
-             or (o3 < -cross_tol and o4 > cross_tol))
-    ):
-        return True
-    return (
-        on_segment(a, c, b, cross_tol)
-        or on_segment(a, d, b, cross_tol)
-        or on_segment(c, a, d, cross_tol)
-        or on_segment(c, b, d, cross_tol)
-    )
-
-
-def _validate_solve_bor_generatrix(points, formulation: 'str') -> 'np.ndarray':
-    """Validate the direct single-surface ``solve_bor`` geometry.
-
-    EFIE may represent an open shell.  CFIE/MFIE require the supported
-    closed-body topology: both ends on the rotation axis and traversal from
-    the +z pole to the -z pole.  Every path rejects intersections because a
-    self-crossing meridian generates an overlapping/non-manifold surface.
-    """
-
-    raw = np.asarray(points)
-    if raw.ndim != 2 or raw.shape[1:] != (2,) or raw.shape[0] < 2:
-        raise ValueError(
-            "BoR generatrix must be a finite (N, 2) array of (rho, z) "
-            "nodes with N >= 2."
-        )
-    if np.iscomplexobj(raw) and np.any(np.imag(raw) != 0.0):
-        raise ValueError("BoR generatrix coordinates must be real.")
-    try:
-        pts = np.asarray(np.real(raw), dtype=float).copy()
-    except (TypeError, ValueError) as exc:
-        raise ValueError("BoR generatrix coordinates must be real numbers.") from exc
-    if not np.all(np.isfinite(pts)):
-        raise ValueError("BoR generatrix coordinates must all be finite.")
-
-    diag = max(
-        float(np.ptp(pts[:, 0])),
-        float(np.ptp(pts[:, 1])),
-        1.0e-15,
-    )
-    geom_tol = max(1.0e-14, 1.0e-10 * diag)
-    axis_tol = _bor_axis_tolerance(pts)
-    if np.any(pts[:, 0] < -axis_tol):
-        bad = float(np.min(pts[:, 0]))
-        raise ValueError(
-            f"BoR generatrix rho coordinates must be >= 0; found {bad:.6g}."
-        )
-    pts[np.abs(pts[:, 0]) <= axis_tol, 0] = 0.0
-
-    lengths = np.linalg.norm(np.diff(pts, axis=0), axis=1)
-    if np.any(lengths <= geom_tol):
-        idx = int(np.argmin(lengths))
-        raise ValueError(
-            f"BoR generatrix element {idx} has zero or near-zero length "
-            f"({lengths[idx]:.3g})."
-        )
-    if float(np.max(pts[:, 0])) <= axis_tol:
-        raise ValueError(
-            "BoR generatrix lies entirely on the rotation axis and sweeps "
-            "zero surface area."
-        )
-    # Only the two end points may lie on the axis. An interior axis node is a
-    # pinched (non-manifold) surface, and an element on the axis sweeps no
-    # area: its rows vanish and the system loses rank (LAPACK info = 1,
-    # condition 1e37 on a graded needle tip whose inner nodes a mesher had
-    # snapped onto the axis).
-    interior = np.flatnonzero(pts[1:-1, 0] == 0.0) + 1
-    if interior.size:
-        index = int(interior[0])
-        raise ValueError(
-            f"BoR generatrix node {index} of {len(pts)} (rho = {float(raw[index, 0].real):.3g}) "
-            "lies on the rotation axis; only the end points may. A mesher "
-            "that snaps small radii onto the axis must spare interior nodes.")
-
-
-    n_elem = len(pts) - 1
-    seg_a = pts[:-1]
-    seg_b = pts[1:]
-    mids = 0.5 * (seg_a + seg_b)
-    half = 0.5 * lengths
-    max_half = float(np.max(half))
-    tree = cKDTree(mids)
-    # A possible contact has center distance <= half[i]+half[j]+tol.
-    # Let the longer panel own the pair, so a single long panel does not
-    # inflate every short panel's query. Uniform meshes keep the cheaper
-    # index ordering, whose bound is already within a factor of two.
-    local_owner = max_half > 2.0 * float(np.min(half))
-    roundoff = 32.0 * np.finfo(float).eps * max(float(np.max(np.abs(pts))), diag)
-    checkpoint = current_checkpoint()
-    for i in range(n_elem):
-        if checkpoint is not None:
-            checkpoint()
-        radius = (2.0 * float(half[i]) if local_owner else float(half[i]) + max_half)
-        radius += geom_tol + roundoff
-        for candidate_index, j in enumerate(tree.query_ball_point(mids[i], radius)):
-            if checkpoint is not None and candidate_index % 256 == 0:
-                checkpoint()
-            j = int(j)
-            if local_owner:
-                if abs(j - i) <= 1 or half[j] > half[i] or (half[j] == half[i] and j <= i):
-                    continue
-            elif j <= i + 1:
-                continue
-            lower = (
-                float(np.linalg.norm(mids[i] - mids[j]))
-                - float(half[i]) - float(half[j])
-            )
-            if lower > geom_tol + roundoff:
-                continue
-            if _segments_intersect_2d(
-                pts[i], pts[i + 1], pts[j], pts[j + 1], geom_tol
-            ):
-                raise ValueError(
-                    "BoR generatrix self-intersection/overlap between "
-                    f"elements {i} and {j} is not supported."
-                )
-
-    start_on_axis = pts[0, 0] == 0.0
-    end_on_axis = pts[-1, 0] == 0.0
-    closed_body = start_on_axis and end_on_axis
-    if formulation in {"cfie", "mfie"} and not closed_body:
-        raise ValueError(
-            f"{formulation.upper()} requires a closed BoR whose two "
-            "generatrix endpoints lie on the rotation axis; use EFIE for "
-            "an intentionally open shell."
-        )
-    if closed_body and not (pts[0, 1] > pts[-1, 1] + geom_tol):
-        raise ValueError(
-            "A closed BoR generatrix must be traversed from its +z axis "
-            "endpoint to its -z axis endpoint so the left-of-travel normal "
-            "faces the exterior."
-        )
-    from ghost_backend.bor.geometry import require_resolved_corners
-    require_resolved_corners(pts)
-    return pts
-
-
-def estimate_bor_table_gb(n_elems: 'int', m_max: 'int', formulation: 'str' = "cfie",
-                          has_ibc: 'bool' = False, gauss_order: 'int' = FAR_GAUSS_ORDER,
-                          single_tables: 'bool' = False) -> 'float':
-    """Estimate persistent far-table storage for all modal FFT tables in GB."""
-
-    P = float(gauss_order * n_elems)
-    per = 8.0 if single_tables else 16.0
-    total = P * P * (m_max + 2) * per
-    if formulation in ("cfie", "mfie"):
-        total += 4.0 * P * P * (m_max + 1) * per
-    if has_ibc:
-        total += 4.0 * P * P * (m_max + 1) * per
-    return total / 1e9
-
-
-def estimate_bor_cross_table_gb(
-    n_test_elements: 'int', n_source_elements: 'int', m_max: 'int',
-    test_gauss_order: 'int' = FAR_GAUSS_ORDER, source_gauss_order: 'int' = FAR_GAUSS_ORDER,
-    single_tables: 'bool' = False, has_rotated_pv: 'bool' = True,
-) -> 'float':
-    """Persistent far tables for one directed rectangular T/P mapping."""
-
-    test_points = float(int(test_gauss_order) * int(n_test_elements))
-    source_points = float(int(source_gauss_order) * int(n_source_elements))
-    modes = int(m_max)
-    if test_points <= 0.0 or source_points <= 0.0 or modes < 0:
-        raise ValueError("Cross-table estimate dimensions are invalid.")
-    item_bytes = 8.0 if single_tables else 16.0
-    modal_values = (modes + 2) + int(has_rotated_pv) * 4.0 * (modes + 1)
-    return test_points * source_points * modal_values * item_bytes / 1.0e9
-
-
-# Allowance on retained operator storage, applied by the run-time gates and by
-# the dispatch previews that mirror them from mesh counts.
-BOR_RETAINED_STORAGE_FACTOR = 1.10
-
-
-def conductor_operator_kinds(formulation: 'str', has_impedance: 'bool'):
-    """``(efie, mfie, ibc)``: the operator families a conductor solve prepares.
-
-    One description for ``solve_bor``, its admission gate and the dispatch
-    previews. Every enabled family retains its own far tables and its own
-    same-surface near contractions, so a CFIE with a nonzero impedance holds
-    three of each. The previews assumed two per surface and could fall below
-    the gate they predict on bodies with many geometrically close panels.
-    """
-    efie, mfie = formulation in ("efie", "cfie"), formulation in ("cfie", "mfie")
-    return efie, mfie, bool(has_impedance) and efie
-
-
-def bor_near_cache_bytes(pair_count, node_count, kinds, modes) -> 'float':
-    """Retained same-surface near contractions of one medium side.
-
-    ``kinds`` operator families, each holding four component blocks of
-    ``4*pair_count`` basis pairs per retained mode and its routing indices.
-    The run-time gate and the snapshot preview both price them here.
-    """
-    index_bytes = np.dtype(np.intp).itemsize
-    values = int(kinds) * 4.0 * (int(modes) + 1) * (4 * int(pair_count)) * _COMPLEX128_BYTES
-    return values + int(kinds) * (4.0 * (4 * int(pair_count)) + int(node_count) + 1) * index_bytes
-
-
-def bor_cross_near_cache_bytes(pair_count, modes, has_rotated_pv=True) -> 'float':
-    """Retained near contractions of one directed cross-surface operator."""
-    return int(pair_count) * (1 + int(has_rotated_pv)) * 4 * (int(modes) + 1) * 4 * _COMPLEX128_BYTES
-
-
-from collections import namedtuple
-
-# What one medium side of a surface, and one directed cross-surface operator,
-# contribute to operator storage.  The run-time gate fills these from the
-# constructed solvers; the dispatch previews fill them from mesh counts and
-# geometric near-pair counts.  ``fft_samples`` is ``(scalar, bracket)`` angular
-# sample counts, or ``None`` where only the bound ``FFT_BUILD_BUDGET`` is known.
-BorSurfaceStorage = namedtuple(
-    'BorSurfaceStorage', 'points nodes table_bytes near_pairs efie mfie ibc fft_samples')
-BorCrossStorage = namedtuple(
-    'BorCrossStorage', 'points_p points_q table_bytes near_pairs near_max_order fft_samples has_rotated_pv',
-    defaults=(True,))
-
-
-def bor_operator_storage_bytes(modes, surfaces, crosses=(), constraint_dofs=0,
-                               streaming=False, compressed=False):
-    """The one BoR operator-storage model, in bytes, by component.
-
-    ``tables`` are the retained far tables (absent when streaming, whose
-    planner prices far blocks itself). ``basis`` is retained as a zero-valued
-    reporting field: production contracts local bases without dense matrices.
-    ``near`` the same- and cross-surface near contractions, ``projection`` the
-    junction projection matrices, ``fft_workspace`` and ``near_workspace`` the
-    largest build scratch of each kind.  A gate needs
-    ``BOR_RETAINED_STORAGE_FACTOR * (tables + basis + near + projection) +
-    max(fft_workspace, near_workspace)``; the previews add the two workspaces
-    instead, so they never fall below the gate they predict.  The function is
-    monotone in every record field: records that bound the solvers' own bound
-    the result.
-    """
-
-    from ghost_backend.bor import kernels
-    modes = int(modes)
-    signed_modes = 2 * modes + 1
-    budget = float(FFT_BUILD_BUDGET)
-    tables = basis = near = fft_workspace = near_workspace = 0.0
-
-    def fft_bytes(pair_points, samples, arrays):
-        if samples is None:
-            return budget
-        return min(budget, pair_points * samples * arrays * _COMPLEX128_BYTES)
-
-    for surface in surfaces:
-        kinds = int(bool(surface.efie)) + int(bool(surface.mfie)) + int(bool(surface.ibc))
-        square = float(surface.points) ** 2
-        if not streaming and kinds:
-            if surface.efie:
-                tables += square * (modes + 2) * surface.table_bytes
-            if surface.mfie:
-                tables += 4.0 * square * (modes + 1) * surface.table_bytes
-            if surface.ibc:
-                tables += 4.0 * square * (modes + 1) * surface.table_bytes
-        near += bor_near_cache_bytes(surface.near_pairs, surface.nodes, kinds, modes)
-        if kinds:
-            near_workspace = max(near_workspace, 128.0e6)
-        if not streaming and kinds:
-            if (surface.mfie or surface.ibc) and not kernels.BANDED_FFT:
-                fft_workspace = max(fft_workspace, 4.0 * square * signed_modes * _COMPLEX128_BYTES)
-            scalar, bracket = surface.fft_samples if surface.fft_samples is not None else (None, None)
-            if surface.efie:
-                fft_workspace = max(fft_workspace, fft_bytes(square, scalar, 4.0))
-            if surface.mfie or surface.ibc:
-                fft_workspace = max(fft_workspace, fft_bytes(square, bracket, 18.0 if surface.ibc else 16.0))
-
-    for cross in crosses:
-        pair_points = float(cross.points_p) * float(cross.points_q)
-        if not streaming:
-            tables += pair_points * (modes + 2) * cross.table_bytes
-            if cross.has_rotated_pv:
-                tables += 4.0 * pair_points * (modes + 1) * cross.table_bytes
-            if cross.has_rotated_pv and not kernels.BANDED_FFT:
-                fft_workspace = max(fft_workspace, 4.0 * pair_points * signed_modes * _COMPLEX128_BYTES)
-            scalar, bracket = cross.fft_samples if cross.fft_samples is not None else (None, None)
-            fft_workspace = max(fft_workspace, fft_bytes(pair_points, scalar, 4.0))
-            if cross.has_rotated_pv:
-                fft_workspace = max(fft_workspace, fft_bytes(pair_points, bracket, 18.0))
-        near += bor_cross_near_cache_bytes(cross.near_pairs, modes, cross.has_rotated_pv)
-        if cross.near_pairs:
-            near_workspace = max(near_workspace, 128.0e6, 64.0e6 + 768 * int(cross.near_max_order) ** 2)
-
-    projection = 0.0
-    if constraint_dofs:
-        # Categories m = 0, 1 and |m| >= 2 (signed-mode symmetry never builds
-        # m = -1).  Every backend stores the transforms sparse: one selection
-        # entry per column plus a few relations, priced with CSR overhead
-        # (value, column index and row pointer, about 6 complex values per row).
-        category_count = 1 if modes == 0 else (2 if modes == 1 else 3)
-        projection = category_count * float(constraint_dofs) * 6 * _COMPLEX128_BYTES
-    return dict(tables=tables, basis=basis, near=near, projection=projection,
-                fft_workspace=fft_workspace, near_workspace=near_workspace)
-
-
-def estimate_bor_operator_storage_gb(
-    m_max: 'int',
-    solver_requirements,
-    cross_operators=(),
-    constraint_dofs: 'int' = 0,
-    streaming: 'bool' = False,
-) -> 'float':
-    """Estimate retained operator auxiliaries and their build workspace.
-
-    ``solver_requirements`` contains ``(solver, efie, mfie, ibc)`` tuples.
-    Repeated solver instances are merged so their tables are counted once.
-    Cross-surface operators are counted independently.
-    ``constraint_dofs`` adds the sparse junction projection transforms retained by
-    the partial/multiregion paths.  With ``streaming=True``, far tables and
-    their FFT workspace are excluded because the combined streaming planner
-    accounts for those blocks and sampling tiles separately; exact same- and
-    cross-surface near caches plus junction projections remain included.
-    """
-
-    try:
-        modes = int(m_max)
-        constraint_size = int(constraint_dofs)
-    except (TypeError, ValueError, OverflowError) as exc:
-        raise ValueError(
-            "BoR operator estimates require integer mode and constraint sizes."
-        ) from exc
-    if modes != m_max or modes < 0:
-        raise ValueError("BoR operator mode cap must be a non-negative integer.")
-    if constraint_size != constraint_dofs or constraint_size < 0:
-        raise ValueError("BoR constraint DOFs must be a non-negative integer.")
-
-    merged = {}
-    for requirement in solver_requirements:
-        if len(requirement) != 4:
-            raise ValueError(
-                "Each BoR solver requirement must be (solver, efie, mfie, ibc)."
-            )
-        solver, efie, mfie, ibc = requirement
-        key = id(solver)
-        if key in merged:
-            previous = merged[key]
-            merged[key] = (
-                solver,
-                previous[1] or bool(efie),
-                previous[2] or bool(mfie),
-                previous[3] or bool(ibc),
-            )
-        else:
-            merged[key] = (solver, bool(efie), bool(mfie), bool(ibc))
-
-    compressed = compressed_requested()
-    streaming = streaming or compressed
-
-    def samples(wavenumber, rho_max, far_gap):
-        return (n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=False),
-                n_xi_for_pairs(wavenumber, rho_max, modes, far_gap, bracket=True))
-
-    surfaces = []
-    for solver, efie, mfie, ibc in merged.values():
-        tabled = not streaming and (efie or mfie or ibc)
-        surfaces.append(BorSurfaceStorage(
-            int(solver.P), int(solver.Nn), np.dtype(solver._table_dtype).itemsize,
-            int(solver._near_pair_count), efie, mfie, ibc,
-            samples(solver.k, float(np.max(solver.gen.nodes[:, 0])), float(solver._far_gap())) if tabled else None))
-    crosses, seen_crosses = [], set()
-    for cross in cross_operators:
-        # Derived reverse operators retain nothing of their own.
-        if id(cross) in seen_crosses or getattr(cross, 'derived', False):
-            continue
-        seen_crosses.add(id(cross))
-        rho_max = max(float(np.max(cross.sp.gen.nodes[:, 0])), float(np.max(cross.sq.gen.nodes[:, 0])))
-        crosses.append(BorCrossStorage(
-            int(cross.sp.P), int(cross.sq.P), np.dtype(cross.sp._table_dtype).itemsize,
-            len(cross.near_pairs), int(cross.near_max_order),
-            samples(cross.k, rho_max, float(cross._far_gap)) if not streaming else None,
-            cross.need_p))
-    parts = bor_operator_storage_bytes(modes, surfaces, crosses, constraint_size, streaming, compressed)
-    retained = parts['tables'] + parts['basis'] + parts['near'] + parts['projection']
-    build_workspace = max(parts['fft_workspace'], parts['near_workspace'])
-    return (BOR_RETAINED_STORAGE_FACTOR * retained + build_workspace) / 1.0e9
-
-
 def _plan_multisurface_assembly(
     m_max: 'int',
     solver_requirements,
@@ -4028,19 +3420,6 @@ def mirror_map(solver, element_values=()) -> 'Optional[Callable]':
             return None
         return target, np.where(component == 0, -1.0, 1.0)
     return mirror
-
-
-def _validated_bor_aspects(thetas_deg) -> 'np.ndarray':
-    """Validate the direct-solver monostatic aspect grid."""
-
-    thetas = np.atleast_1d(np.asarray(thetas_deg, dtype=float))
-    if thetas.ndim != 1 or thetas.size == 0:
-        raise ValueError("BoR aspect grid must be a non-empty one-dimensional array.")
-    if not np.all(np.isfinite(thetas)):
-        raise ValueError("BoR aspect angles must all be finite.")
-    if np.any(thetas < 0.0) or np.any(thetas > 180.0):
-        raise ValueError("BoR aspect angles must lie in [0, 180] degrees.")
-    return thetas
 
 
 COMPRESSED_FAR_CACHE_MIN_NODES = 256

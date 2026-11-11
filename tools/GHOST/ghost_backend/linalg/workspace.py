@@ -1,4 +1,4 @@
-"""Linear-system checks with bounded temporary arrays (Python 3.6+)."""
+"""Linear-system checks with bounded temporary arrays (Python 3.10+)."""
 import numpy as np
 from ghost_backend.execution.metrics import timed_stage
 

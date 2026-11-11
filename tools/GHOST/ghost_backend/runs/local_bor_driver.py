@@ -27,6 +27,11 @@ Edit the CONFIG block and run:
 
     python run_local_bor.py
 """
+from ghost_backend.runs.driver_settings import DriverSettings
+from ghost_backend.runs.inputs import unit_attestation_fields, verify_local_run_provenance
+from ghost_backend.runs.worker_pipeline import (
+    WorkerAdapter, run_bor_pair, solve_bor_result, channel_result as _channel_result,
+)
 from ghost_backend.execution.paths import backend_root as _backend_root
 
 import json
@@ -68,7 +73,7 @@ from ghost_backend.runs.config import (
     configuration_source_records,
 )
 from ghost_backend.bor.options import validate_options as validate_bor_options
-BOR_EXECUTION_OPTIONS = validate_bor_options({})
+_SETTINGS = DriverSettings({"BOR_EXECUTION_OPTIONS": validate_bor_options({})})
 
 _CONFIG_KIND = 'bor'
 _CONFIG_KEYS = (
@@ -102,29 +107,23 @@ _SCRIPT = None
 
 
 def current_settings():
-    """The run's parameters, as configure() received them."""
-    return {key: globals()[key] for key in _CONFIG_KEYS if key in globals()}
+    """Return an independent parameter dictionary for manifests and spawned workers."""
+    return _SETTINGS.snapshot()
 
 
 def configure(settings, *, script, configuration=None, load_config_file=False):
-    """Install the parameter-block values of the user-facing driver script.
-
-    With ``load_config_file`` an explicit ``--config`` or the script's
-    adjacent ``.config.json`` is applied on top, exactly as before.
-    """
-    global _ACTIVE_CONFIG_PATH, _SCRIPT, BOR_EXECUTION_OPTIONS
-    namespace = {key: value for key, value in dict(settings).items() if key in _CONFIG_KEYS}
-    namespace.setdefault("BOR_EXECUTION_OPTIONS", BOR_EXECUTION_OPTIONS)
-    missing = sorted(set(_CONFIG_KEYS) - set(namespace))
-    if missing:
-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
+    """Capture the parameter block and optional JSON overrides for this process."""
+    global _SETTINGS, _ACTIVE_CONFIG_PATH, _SCRIPT
+    candidate = DriverSettings.capture(
+        settings, _CONFIG_KEYS,
+        {"BOR_EXECUTION_OPTIONS": _SETTINGS.BOR_EXECUTION_OPTIONS}).snapshot()
     if load_config_file:
-        namespace["__name__"] = "__main__"
-        configuration = load_driver_configuration(namespace, script, _CONFIG_KIND, _CONFIG_KEYS)
-    globals().update({key: namespace[key] for key in _CONFIG_KEYS})
-    BOR_EXECUTION_OPTIONS = validate_bor_options(BOR_EXECUTION_OPTIONS)
-    _SCRIPT = str(Path(script).resolve())
-    _ACTIVE_CONFIG_PATH = configuration
+        candidate["__name__"] = "__main__"
+        configuration = load_driver_configuration(candidate, script, _CONFIG_KIND, _CONFIG_KEYS)
+    candidate["BOR_EXECUTION_OPTIONS"] = validate_bor_options(candidate["BOR_EXECUTION_OPTIONS"])
+    captured = DriverSettings.capture(candidate, _CONFIG_KEYS)
+    script_path = str(Path(script).resolve())
+    _SETTINGS, _SCRIPT, _ACTIVE_CONFIG_PATH = captured, script_path, configuration
 
 
 MANIFEST_SCHEMA = "ghost.local.bor-run.v2"
@@ -160,57 +159,18 @@ def _write_json_atomic(path: 'Path', payload: 'Dict[str, Any]') -> 'None':
     os.replace(str(temporary), str(path))
 
 
-def _verify_run_provenance(context: 'Dict[str, Any]') -> 'None':
-    """Re-check that the solver source and numerical runtime still match the run.
-
-    The file hashes underneath come from `hpc_scheduler.install_fingerprint_cache`,
-    so a repeat check is a stat per backend file rather than a full re-read, and
-    the cache expires on a timer so full re-reads keep happening inside
-    long-lived workers.
-    """
-
-    if _solver_source_fingerprint() != context.get("solver_source_sha256"):
-        detail = describe_source_mismatch(
-            context.get("solver_source_inventory") or {},
-            _solver_source_inventory(),
-        )
-        raise RuntimeError(
-            "Local-run solver source/native artifacts changed; no mixed-state "
-            f"field will be written or reused. ({detail})"
-        )
-    verify_runtime_environment(
-        str(context.get("runtime_environment_sha256", "")),
-        context.get("submission_runtime_environment"), origin="the local run manifest",
-    )
+def _verify_run_provenance(context):
+    return verify_local_run_provenance(context, _solver_source_fingerprint, _solver_source_inventory)
 
 
-def _unit_attestation_fields(
-    context: 'Dict[str, Any]',
-    unit: 'Dict[str, Any]',
-) -> 'Dict[str, Any]':
-    return {
-        "run_id": str(context["run_id"]),
-        "solver_source_sha256": str(context["solver_source_sha256"]),
-        "runtime_environment_sha256":
-            str(context["runtime_environment_sha256"]),
-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
-        "solver_config_sha256": str(context["solver_config_sha256"]),
-        "angular_grid_kind": "aspects_deg",
-        # The grid is a run-level property, so it is bound by hash here and
-        # stored once in the manifest instead of being repeated in every unit
-        # record and every attestation.
-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
-        "polarization": str(unit["polarization"]),
-        "frequency_ghz": float(unit["frequency_ghz"]),
-    }
+def _unit_attestation_fields(context, unit):
+    return unit_attestation_fields(context, unit, 'aspects_deg', None)
 
 
 def _discover_geometries() -> 'List[Path]':
     found: 'List[Path]' = []
     seen: 'set' = set()
-    for d in GEOMETRY_DIRS:
+    for d in _SETTINGS.GEOMETRY_DIRS:
         root = Path(d)
         if not root.is_dir():
             print(f"  [warn] dir not found: {root}", file=sys.stderr)
@@ -264,23 +224,7 @@ def _pair_name(pair: 'Dict[str, Any]') -> 'str':
             f"{pair['geometry_stem']}")
 
 
-def _channel_result(
-    result: 'Dict[str, Any]', polarization: 'str'
-) -> 'Dict[str, Any]':
-    samples = (result.get("co_solved_samples", {}) or {}).get(polarization, [])
-    if not samples:
-        raise RuntimeError(
-            f"BoR solve did not return its co-solved {polarization} channel."
-        )
-    channel = dict(result)
-    channel["samples"] = samples
-    channel["polarization"] = polarization
-    channel["polarization_export"] = polarization
-    channel.pop("polarizations", None)
-    channel.pop("polarization_mapping", None)
-    channel.pop("co_solved_samples", None)
-    channel["metadata"] = dict(result.get("metadata", {}) or {})
-    return channel
+
 
 
 def _load_snapshot(geometry_path: 'str') -> 'Tuple[Dict[str, Any], str]':
@@ -303,86 +247,34 @@ def _pool_initializer(blas_threads: 'int', settings=None, script=None, configura
 from ghost_backend.hpc.common import ExecutorPool as _ExecutorPool
 
 
-def _solve_and_export(
-    pair: 'Dict[str, Any]',
-    context: 'Dict[str, Any]',
-    results_dir_str: 'str',
-) -> 'Tuple[str, str]':
-    """Solve one geometry/frequency pair and export its requested channels."""
-
-    results_dir = Path(results_dir_str)
-    channel_units = list(pair["channel_units"])
-    _verify_run_provenance(context)
-    _verify_channel_inputs(channel_units, context)
-    missing = []
-    paths = []
-    for unit in channel_units:
-        out_path = _unit_output_path(results_dir, unit)
-        paths.append(out_path)
-        if out_path.exists():
-            verify_embedded_attestation(
-                str(out_path), _unit_attestation_fields(context, unit)
-            )
-        else:
-            missing.append(unit)
-    if not missing:
-        return ("skipped", ", ".join(str(path) for path in paths))
-
-    snapshot, material_base = _load_snapshot(str(pair["geometry"]))
-
-    from ghost_backend.bor.dispatch import (
-        solve_monostatic_rcs_bor_certified,
-        solve_monostatic_rcs_bor_survey,
-    )
-    solve = (solve_monostatic_rcs_bor_certified if context["mesh_certification"]
-             else solve_monostatic_rcs_bor_survey)
-    from ghost_backend.twod.samples import compact_samples
-    solve = compact_samples()(solve)
-    quality_kwargs = ({"mesh_convergence_policy": validate_mesh_convergence_policy(
-        context.get("mesh_convergence_policy")
-    )} if context["mesh_certification"] else {})
-    result = solve(
-        geometry_snapshot=snapshot,
-        frequencies_ghz=[float(pair["frequency_ghz"])],
-        elevations_deg=[float(a) for a in context["aspects_deg"]],
-        geometry_units=context["geometry_units"],
-        material_base_dir=material_base,
-        cfie_alpha=context["cfie_alpha"],
-        n_modes=context["n_modes"],
-        mode_tol=context["mode_tol"],
-        max_elements=context["max_elements"],
-        workers=context["workers_per_unit"],
-        table_precision=context["table_precision"],
-        assembly=context["assembly"],
-        stream_budget_gb=context["stream_budget_gb"],
-        bor_options=context.get("bor_execution_options", {}),
-        expand_to_360=context["expand_to_360"],
-        **quality_kwargs,
-    )
-    for warning in result.get("metadata", {}).get("warnings", []) or []:
-        print(f"      [warn] {pair['geometry_stem']}: {warning}", flush=True)
-    _verify_run_provenance(context)
-    _verify_channel_inputs(channel_units, context)
-
-    from ghost_backend.io.grim import export_result_to_grim
-    actual_paths = []
-    for unit in missing:
-        out_path = _unit_output_path(results_dir, unit)
-        channel_result = _channel_result(result, str(unit["polarization"]))
-        embed_output_attestation(
-            channel_result, _unit_attestation_fields(context, unit)
+def _solve_and_export(pair, context, results_dir_str):
+    """Run the shared BoR pipeline with local input deduplication and paths."""
+    def solve(snapshot, material_base):
+        solve_kwargs = dict(
+            geometry_snapshot=snapshot,
+            frequencies_ghz=[float(pair["frequency_ghz"])],
+            elevations_deg=[float(a) for a in context["aspects_deg"]],
+            geometry_units=context["geometry_units"],
+            material_base_dir=material_base,
+            cfie_alpha=context["cfie_alpha"],
+            n_modes=context["n_modes"],
+            mode_tol=context["mode_tol"],
+            max_elements=context["max_elements"],
+            workers=context["workers_per_unit"],
+            table_precision=context["table_precision"],
+            assembly=context["assembly"],
+            stream_budget_gb=context["stream_budget_gb"],
+            bor_options=context.get("bor_execution_options", {}),
+            expand_to_360=context["expand_to_360"],
         )
-        written = export_result_to_grim(
-            channel_result, str(out_path),
-            source_path=str(snapshot.get("source_path", "") or ""),
-            history=(f"run_local_bor.py pol={unit['polarization']} "
-                     f"freq={unit['frequency_ghz']}GHz"),
-        )
-        actual_paths.append(str(written[0]) if written else str(out_path))
-    # The run state was verified before the solve and again before the
-    # export; a third check after the artifact is published could only
-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
-    return ("written", ", ".join(actual_paths))
+        return solve_bor_result(solve_kwargs, context["mesh_certification"],
+                                context.get("mesh_convergence_policy"))
+
+    adapter = WorkerAdapter(
+        _unit_output_path, _verify_run_provenance, _verify_unit_input,
+        _unit_attestation_fields, _load_snapshot, "run_local_bor.py",
+        verify_channels=_verify_channel_inputs)
+    return run_bor_pair(pair, context, results_dir_str, adapter, solve)
 
 
 def _verify_channel_inputs(channel_units, context):
@@ -490,7 +382,7 @@ def _plan(
         path = str(unit["geometry"])
         if path not in extents:
             extents[path] = hpc_scheduler.predict_bor_extent(
-                path, GEOMETRY_UNITS
+                path, _SETTINGS.GEOMETRY_UNITS
             )
         arc, radius = extents[path]
         costs[_pair_name(unit)] = hpc_scheduler.bor_unit_cost(
@@ -498,43 +390,43 @@ def _plan(
         )
         snapshot, material_base = _load_snapshot(path)
         if path not in checked_profiles:
-            bor_output_profile(snapshot, GEOMETRY_UNITS)
+            bor_output_profile(snapshot, _SETTINGS.GEOMETRY_UNITS)
             checked_profiles.add(path)
         unit["resource_estimate"] = estimate_bor_resources(
             snapshot,
             float(unit["frequency_ghz"]),
             aspects_deg,
-            geometry_units=GEOMETRY_UNITS,
+            geometry_units=_SETTINGS.GEOMETRY_UNITS,
             material_base_dir=material_base,
-            n_modes=N_MODES,
-            max_elements=MAX_ELEMENTS,
-            workers=WORKERS_PER_UNIT,
-            table_precision=TABLE_PRECISION,
-            assembly=ASSEMBLY,
-            stream_budget_gb=STREAM_BUDGET_GB,
-            bor_options=BOR_EXECUTION_OPTIONS,
-            mesh_certification=bool(MESH_CERTIFICATION),
-            fine_factor=float(accuracy_target_policy(ACCURACY_TARGET)["fine_factor"]),
+            n_modes=_SETTINGS.N_MODES,
+            max_elements=_SETTINGS.MAX_ELEMENTS,
+            workers=_SETTINGS.WORKERS_PER_UNIT,
+            table_precision=_SETTINGS.TABLE_PRECISION,
+            assembly=_SETTINGS.ASSEMBLY,
+            stream_budget_gb=_SETTINGS.STREAM_BUDGET_GB,
+            bor_options=_SETTINGS.BOR_EXECUTION_OPTIONS,
+            mesh_certification=bool(_SETTINGS.MESH_CERTIFICATION),
+            fine_factor=float(accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)["fine_factor"]),
         )
     return costs
 
 
 def _validate_config() -> 'List[float]':
-    if ACCURACY_TARGET not in ("standard", "tight"):
+    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
     try:
         from ghost_backend.assembly.fields import radar_grid_aspects, validate_radar_grid
-        validate_radar_grid(AZIMUTHS_DEG, ELEVATIONS_DEG)
+        validate_radar_grid(_SETTINGS.AZIMUTHS_DEG, _SETTINGS.ELEVATIONS_DEG)
         aspects = radar_grid_aspects(
-            AZIMUTHS_DEG,
-            ELEVATIONS_DEG,
-            BODY_AXIS_AZ_DEG,
-            BODY_AXIS_EL_DEG,
+            _SETTINGS.AZIMUTHS_DEG,
+            _SETTINGS.ELEVATIONS_DEG,
+            _SETTINGS.BODY_AXIS_AZ_DEG,
+            _SETTINGS.BODY_AXIS_EL_DEG,
         )
     except ValueError as exc:
         sys.exit(f"ERROR: radar grid is invalid -- {exc}")
-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
+    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
     if (
         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
         or len(set(frequencies)) != len(frequencies)
@@ -545,29 +437,29 @@ def _validate_config() -> 'List[float]':
             "distinct at the 0.001 GHz output-name precision."
         )
     if not all(math.isfinite(float(value)) for value in (
-        BODY_AXIS_AZ_DEG, BODY_AXIS_EL_DEG, BODY_ROLL_DEG
+        _SETTINGS.BODY_AXIS_AZ_DEG, _SETTINGS.BODY_AXIS_EL_DEG, _SETTINGS.BODY_ROLL_DEG
     )):
         sys.exit("ERROR: body-axis attitude angles must be finite.")
-    if str(ASSEMBLY).strip().lower() not in {"auto", "tables", "streaming"}:
+    if str(_SETTINGS.ASSEMBLY).strip().lower() not in {"auto", "tables", "streaming"}:
         sys.exit("ERROR: ASSEMBLY must be auto, tables, or streaming.")
-    if str(TABLE_PRECISION).strip().lower() not in {"auto", "single", "double"}:
+    if str(_SETTINGS.TABLE_PRECISION).strip().lower() not in {"auto", "single", "double"}:
         sys.exit("ERROR: TABLE_PRECISION must be auto, single, or double.")
     if (
-        not math.isfinite(float(CFIE_ALPHA))
-        or not 0.0 < float(CFIE_ALPHA) < 1.0
+        not math.isfinite(float(_SETTINGS.CFIE_ALPHA))
+        or not 0.0 < float(_SETTINGS.CFIE_ALPHA) < 1.0
     ):
         sys.exit(
             "ERROR: CFIE_ALPHA must be finite and lie strictly between 0 and 1."
         )
-    if float(STREAM_BUDGET_GB) <= 0.0:
+    if float(_SETTINGS.STREAM_BUDGET_GB) <= 0.0:
         sys.exit("ERROR: STREAM_BUDGET_GB must be positive.")
-    if not 0.0 < float(MEMORY_HEADROOM) <= 1.0:
+    if not 0.0 < float(_SETTINGS.MEMORY_HEADROOM) <= 1.0:
         sys.exit("ERROR: MEMORY_HEADROOM must be in (0, 1].")
-    if int(WORKERS_PER_UNIT) < 1:
+    if int(_SETTINGS.WORKERS_PER_UNIT) < 1:
         sys.exit("ERROR: WORKERS_PER_UNIT must be >= 1.")
-    if int(TASKS_PER_CHILD) < 1:
+    if int(_SETTINGS.TASKS_PER_CHILD) < 1:
         sys.exit("ERROR: TASKS_PER_CHILD must be >= 1.")
-    if WORKERS is not None and int(WORKERS) < 1:
+    if _SETTINGS.WORKERS is not None and int(_SETTINGS.WORKERS) < 1:
         sys.exit("ERROR: WORKERS must be a positive integer or None.")
     return [float(value) for value in aspects]
 
@@ -600,9 +492,9 @@ def _freeze_runtime(run_dir):
 
 def main() -> 'None':
     aspects = _validate_config()
-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
+    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
     pols = ["VV", "HH"]
-    hpc_scheduler.pin_blas_threads(int(BLAS_THREADS_PER_WORKER))
+    hpc_scheduler.pin_blas_threads(int(_SETTINGS.BLAS_THREADS_PER_WORKER))
     hpc_scheduler.install_fingerprint_cache()
     # Spill left by a killed earlier solve would otherwise shrink the space
     # the previews below see (and keep tens of GB of disk occupied).
@@ -622,10 +514,10 @@ def main() -> 'None':
     from ghost_backend.assembly.fields import geometry_input_fingerprint
     for geom in geometries:
         input_fingerprint = geometry_input_fingerprint(
-            str(geom), GEOMETRY_UNITS
+            str(geom), _SETTINGS.GEOMETRY_UNITS
         )
         for pol in pols:
-            for f in FREQUENCIES_GHZ:
+            for f in _SETTINGS.FREQUENCIES_GHZ:
                 # The aspect grid is deliberately NOT repeated per unit: it is
                 # identical for every unit in the run, and carrying it here made
                 # the manifest grow with (units x aspects) instead of with the
@@ -640,7 +532,7 @@ def main() -> 'None':
                 })
 
     run_id = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
-    run_dir = Path(OUTPUT_DIR).resolve() / run_id
+    run_dir = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
     results_dir = run_dir / "results"
     unit_dir = results_dir / "by_frequency"
     run_dir.mkdir(parents=True, exist_ok=False)
@@ -648,21 +540,21 @@ def main() -> 'None':
     _freeze_runtime(run_dir)
     unit_dir.mkdir()
     solver_config = {
-        "geometry_units": GEOMETRY_UNITS,
-        "cfie_alpha": float(CFIE_ALPHA),
-        "n_modes": N_MODES,
-        "mode_tol": float(MODE_TOL),
-        "max_elements": int(MAX_ELEMENTS),
-        "assembly": ASSEMBLY,
-        "table_precision": TABLE_PRECISION,
-        "stream_budget_gb": float(STREAM_BUDGET_GB),
-        "bor_execution_options": dict(BOR_EXECUTION_OPTIONS),
+        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
+        "cfie_alpha": float(_SETTINGS.CFIE_ALPHA),
+        "n_modes": _SETTINGS.N_MODES,
+        "mode_tol": float(_SETTINGS.MODE_TOL),
+        "max_elements": int(_SETTINGS.MAX_ELEMENTS),
+        "assembly": _SETTINGS.ASSEMBLY,
+        "table_precision": _SETTINGS.TABLE_PRECISION,
+        "stream_budget_gb": float(_SETTINGS.STREAM_BUDGET_GB),
+        "bor_execution_options": dict(_SETTINGS.BOR_EXECUTION_OPTIONS),
         "expand_to_360": False,
-        "mesh_certification": bool(MESH_CERTIFICATION),
-        "accuracy_target": ACCURACY_TARGET,
+        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
+        "accuracy_target": _SETTINGS.ACCURACY_TARGET,
         "mesh_convergence_policy": mesh_policy,
-        "workers_per_unit": int(WORKERS_PER_UNIT),
-        "blas_threads_per_worker": int(BLAS_THREADS_PER_WORKER),
+        "workers_per_unit": int(_SETTINGS.WORKERS_PER_UNIT),
+        "blas_threads_per_worker": int(_SETTINGS.BLAS_THREADS_PER_WORKER),
     }
     manifest: 'Dict[str, Any]' = {
         "schema": MANIFEST_SCHEMA,
@@ -670,16 +562,16 @@ def main() -> 'None':
         "run_id": run_id,
         "created": datetime.now().isoformat(),
         "solver": "bor_mom_rcs",
-        "frequencies_ghz": [float(f) for f in FREQUENCIES_GHZ],
+        "frequencies_ghz": [float(f) for f in _SETTINGS.FREQUENCIES_GHZ],
         "aspects_deg": aspects,
         "polarizations": pols,
         "unit_output_dir": "results/by_frequency",
         "radar_grid": {
-            "azimuths_deg": [float(value) for value in AZIMUTHS_DEG],
-            "elevations_deg": [float(value) for value in ELEVATIONS_DEG],
-            "axis_az_deg": float(BODY_AXIS_AZ_DEG),
-            "axis_el_deg": float(BODY_AXIS_EL_DEG),
-            "roll_deg": float(BODY_ROLL_DEG),
+            "azimuths_deg": [float(value) for value in _SETTINGS.AZIMUTHS_DEG],
+            "elevations_deg": [float(value) for value in _SETTINGS.ELEVATIONS_DEG],
+            "axis_az_deg": float(_SETTINGS.BODY_AXIS_AZ_DEG),
+            "axis_el_deg": float(_SETTINGS.BODY_AXIS_EL_DEG),
+            "roll_deg": float(_SETTINGS.BODY_ROLL_DEG),
         },
         "n_units": len(units),
         "solver_source_sha256": _solver_source_fingerprint(),
@@ -704,19 +596,19 @@ def main() -> 'None':
         "submission_runtime_environment": manifest.get("submission_runtime_environment"),
         "run_solve_spec_sha256": manifest_solve_spec_fingerprint(manifest),
         "solver_config_sha256": stable_json_fingerprint(solver_config),
-        "geometry_units": GEOMETRY_UNITS,
-        "cfie_alpha": float(CFIE_ALPHA),
-        "n_modes": N_MODES,
-        "mode_tol": float(MODE_TOL),
-        "max_elements": int(MAX_ELEMENTS),
-        "assembly": ASSEMBLY,
-        "table_precision": TABLE_PRECISION,
-        "stream_budget_gb": float(STREAM_BUDGET_GB),
-        "bor_execution_options": dict(BOR_EXECUTION_OPTIONS),
+        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
+        "cfie_alpha": float(_SETTINGS.CFIE_ALPHA),
+        "n_modes": _SETTINGS.N_MODES,
+        "mode_tol": float(_SETTINGS.MODE_TOL),
+        "max_elements": int(_SETTINGS.MAX_ELEMENTS),
+        "assembly": _SETTINGS.ASSEMBLY,
+        "table_precision": _SETTINGS.TABLE_PRECISION,
+        "stream_budget_gb": float(_SETTINGS.STREAM_BUDGET_GB),
+        "bor_execution_options": dict(_SETTINGS.BOR_EXECUTION_OPTIONS),
         "expand_to_360": False,
-        "mesh_certification": bool(MESH_CERTIFICATION),
+        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
         "mesh_convergence_policy": mesh_policy,
-        "workers_per_unit": int(WORKERS_PER_UNIT),
+        "workers_per_unit": int(_SETTINGS.WORKERS_PER_UNIT),
         "aspects_deg": aspects,
         "angular_grid_sha256": stable_json_fingerprint(
             aspects
@@ -742,10 +634,10 @@ def main() -> 'None':
     # sizing itself to the whole host.
     cores = hpc_scheduler.detect_cores()
     budget_gb, memory_gb, available_gb = hpc_scheduler.local_memory_budget_gb(
-        float(MEMORY_HEADROOM)
+        float(_SETTINGS.MEMORY_HEADROOM)
     )
-    by_threads = max(1, cores // max(1, int(WORKERS_PER_UNIT)))
-    worker_cap = by_threads if WORKERS is None else int(WORKERS)
+    by_threads = max(1, cores // max(1, int(_SETTINGS.WORKERS_PER_UNIT)))
+    worker_cap = by_threads if _SETTINGS.WORKERS is None else int(_SETTINGS.WORKERS)
     pool_size = max(1, min(by_threads, worker_cap, len(ordered)))
     # The planner prices decimal GB; the scheduler budgets GiB.
     reservations_gib = {
@@ -777,20 +669,20 @@ def main() -> 'None':
     print(f"  Run dir       : {run_dir}")
     print(f"  Geometries    : {len(geometries)}")
     print(f"  Polarizations : {', '.join(pols)}")
-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
-    print(f"  Radar grid    : {len(AZIMUTHS_DEG)} az x "
-          f"{len(ELEVATIONS_DEG)} el")
+    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
+          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
+    print(f"  Radar grid    : {len(_SETTINGS.AZIMUTHS_DEG)} az x "
+          f"{len(_SETTINGS.ELEVATIONS_DEG)} el")
     print(f"  Solver aspects: {len(aspects)} exact body-aspect RHS columns")
     print(f"  Deliverables  : {len(geometries)} monostatic GRIM(s)")
     print(f"  Physical solves: {len(ordered)}  (VV/HH co-solved)")
-    print(f"  Mesh check    : {'base + fine comparison' if MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
+    print(f"  Mesh check    : {'base + fine comparison' if _SETTINGS.MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
     cpu_counts = sorted(set(unit_cpus.values()))
     cpu_label = (str(cpu_counts[0]) if len(cpu_counts) == 1
                  else f"{cpu_counts[0]}-{cpu_counts[-1]}")
-    print(f"  Workers       : {pool_size} procs x {WORKERS_PER_UNIT} threads "
+    print(f"  Workers       : {pool_size} procs x {_SETTINGS.WORKERS_PER_UNIT} threads "
           f"of {cores} cpus; {cpu_label} cpus reserved per solve  "
-          f"(BLAS threads/worker: {BLAS_THREADS_PER_WORKER})")
+          f"(BLAS threads/worker: {_SETTINGS.BLAS_THREADS_PER_WORKER})")
     reservations = list(reservations_gib.values())
     available_text = (f", {available_gb:.1f} GiB available"
                       if available_gb is not None else "")
@@ -851,8 +743,8 @@ def main() -> 'None':
         with _ExecutorPool(
             processes=pool_size,
             initializer=_pool_initializer,
-            initargs=(int(BLAS_THREADS_PER_WORKER), current_settings(), _SCRIPT, _ACTIVE_CONFIG_PATH),
-            max_tasks_per_child=int(TASKS_PER_CHILD),
+            initargs=(int(_SETTINGS.BLAS_THREADS_PER_WORKER), current_settings(), _SCRIPT, _ACTIVE_CONFIG_PATH),
+            max_tasks_per_child=int(_SETTINGS.TASKS_PER_CHILD),
         ) as pool:
             dispatcher = hpc_scheduler.MemoryAwareDispatcher(
                 pool, budget_gb=budget_gb, max_concurrent=pool_size,
@@ -902,16 +794,16 @@ def main() -> 'None':
             records, stem=stem
         )
         snapshot, _material_base = _load_snapshot(str(matching[0]["geometry"]))
-        profile = bor_output_profile(snapshot, GEOMETRY_UNITS)
+        profile = bor_output_profile(snapshot, _SETTINGS.GEOMETRY_UNITS)
         save_monostatic_grim(
             bodies_from_units(records, stem=stem),
             profile,
             str(results_dir / f"{stem}.grim"),
-            azimuths_deg=AZIMUTHS_DEG,
-            elevations_deg=ELEVATIONS_DEG,
-            axis_az_deg=BODY_AXIS_AZ_DEG,
-            axis_el_deg=BODY_AXIS_EL_DEG,
-            roll_deg=BODY_ROLL_DEG,
+            azimuths_deg=_SETTINGS.AZIMUTHS_DEG,
+            elevations_deg=_SETTINGS.ELEVATIONS_DEG,
+            axis_az_deg=_SETTINGS.BODY_AXIS_AZ_DEG,
+            axis_el_deg=_SETTINGS.BODY_AXIS_EL_DEG,
+            roll_deg=_SETTINGS.BODY_ROLL_DEG,
             history="run_local_bor.py monostatic response",
             source_path=str(matching[0]["geometry"]),
             solver_diagnostics=solver_diagnostics,
@@ -942,3 +834,10 @@ def run(namespace, script):
     """Entry point used by the user-facing run_local_bor.py parameter script."""
     configure(namespace, script=script, load_config_file=True)
     main()
+
+
+def __getattr__(name):
+    """Keep reads of configured parameter attributes compatible with old callers."""
+    if name in _SETTINGS:
+        return _SETTINGS[name]
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

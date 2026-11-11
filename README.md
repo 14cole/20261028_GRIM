@@ -14,7 +14,9 @@ Python and third-party dependencies are installed separately; they are not
 embedded in this repository. The supplied native solver DLLs target Windows
 x64 and require no C compiler on the user's computer.
 [Native library checksums](tools/GHOST/NATIVE_LIBRARIES.json) identify their
-source and binary versions.
+source and binary versions. Linux x86-64 shared libraries are also included;
+see the [Linux requirements](tools/GHOST/DISTRIBUTION.md#linux-x86-64) and
+[Linux library checksums](tools/GHOST/NATIVE_LIBRARIES_LINUX.json).
 
 The standalone launchers are tools/GHOST/Launch_GHOST_GUI.bat and
 tools/FREDDY/Launch_FREDDY_GUI.bat; both prefer the shared .venv.

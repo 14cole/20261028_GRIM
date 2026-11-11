@@ -9,6 +9,26 @@ import math
 MODEL = 'stage_work_v6'
 BACKENDS = ('dense', 'compressed')
 
+# Conservative small-host starting policy, not a universal time crossover.
+# Both candidates must still pass full per-solve memory admission.
+AUTOMATIC_DENSE_LIMIT = 10000
+
+
+def rank_automatic(candidates, budget_gib, unknowns, *, diagnostics=None, margin=.2):
+    decision = {}
+    ranked = rank_candidates(candidates, budget_gib, margin, diagnostics=decision, prefer_dense=False)
+    preferred = 'dense' if int(unknowns) < AUTOMATIC_DENSE_LIMIT else 'compressed'
+    if preferred in ranked:
+        ranked.remove(preferred)
+        ranked.insert(0, preferred)
+    decision.update(selected=ranked[0], policy='memory_and_size_v1',
+                    unknowns=int(unknowns), dense_limit=AUTOMATIC_DENSE_LIMIT,
+                    preferred=preferred, preference_changed_winner=ranked[0] != decision['cost_winner'])
+    if diagnostics is not None:
+        diagnostics.clear()
+        diagnostics.update(decision)
+    return ranked
+
 
 def work_threads(dofs, options):
     """The assembly and matrix-size BLAS teams used by the configured solver."""
@@ -26,7 +46,7 @@ def stage_work(resources, n_angles, mode, assembly_threads=1, blas_threads=1):
     can bound their contributions without fitting an underdetermined mixture.
     The compressed inverse has no promised rank advantage in the prior.
     """
-    from ghost_backend.linalg.hierarchical import automatic_hierarchical, HIERARCHICAL_MIN_UNKNOWNS
+    from ghost_backend.linalg.hierarchical import automatic_twod_hierarchical, HIERARCHICAL_MIN_UNKNOWNS
     import os
     if mode not in BACKENDS:raise ValueError('Unknown automatic backend.')
     n=max(1,int(resources['nodes'])); d=max(1,int(resources['system_dofs']))
@@ -36,7 +56,7 @@ def stage_work(resources, n_angles, mode, assembly_threads=1, blas_threads=1):
     near=max(0.,float(resources.get('geometric_near_pairs',0)))*width*width*kernels
     assembly_threads=max(1,int(assembly_threads));blas_threads=max(1,int(blas_threads))
     threshold=int(os.environ.get('GHOST_HIERARCHICAL_MIN_UNKNOWNS','') or HIERARCHICAL_MIN_UNKNOWNS)
-    hierarchical=automatic_hierarchical(d)
+    hierarchical=automatic_twod_hierarchical(d)
     # Continuous at the actual LU/HODLR switch. Unknown rank does not promise
     # a compressed speedup; local measured stages supersede the work prior.
     factor=(min(d,max(1,threshold))*d*d*max(1.,math.log2(d)/math.log2(max(2,threshold)))
@@ -135,6 +155,10 @@ def rank_candidates(candidates, budget_gib, margin=.2, *, diagnostics=None, pref
 
 def ranking_reason(decision):
     """Describe the actual policy, independently of the source of its costs."""
+    if decision.get('policy') == 'memory_and_size_v1':
+        return ('Automatic memory-and-size policy selected {} at {} unknowns; '
+                'dense preference is below {} unknowns, subject to RAM admission.').format(
+                    decision['selected'], decision['unknowns'], decision['dense_limit'])
     if decision['preference_changed_winner']:
         return ('Dense-first policy selected dense over the lower-cost compressed candidate; '
                 'both are admitted by the memory policy.')

@@ -208,6 +208,11 @@ GHOST_MODULE_LOCATIONS = {
 }
 
 GHOST_SENTINELS = (
+    "runs/driver_settings.py",
+    "runs/worker_pipeline.py",
+    "bor/constraints.py",
+    "bor/validation.py",
+    "bor/storage.py",
     "execution/errors.py",
     "execution/policy.py",
     "runs/batch.py",
@@ -217,13 +222,11 @@ GHOST_SENTINELS = (
     "twod/assembly/native/table.py",
     "execution/thread_control/__init__.py",
     "execution/thread_control/_threadpoolctl.py",
-    "execution/thread_control/_threadpoolctl_py36.py",
     "bor/native/__init__.py",
     "bor/native/build_kernel.py",
     "assembly/create_feature_manifest.py",
     "assembly/place_features.py",
     "io/import_3d_reference.py",
-    "execution/_dataclasses.py",
     "hpc/check_environment.py",
     "validation/feature_family.py",
     "assembly/__init__.py",
@@ -564,7 +567,7 @@ def _bundled_thread_control_result(backend: Path) -> DiagnosticResult:
     directory = backend / "execution" / "thread_control"
     name = "_grim_thread_control_" + uuid.uuid4().hex
     try:
-        for version in ("3.6.0", "2.2.0"):
+        for version in ("3.6.0",):
             if not (directory / f"LICENSE-{version}.txt").is_file():
                 raise FileNotFoundError(directory / f"LICENSE-{version}.txt")
         spec = util.spec_from_file_location(name, directory / "__init__.py",

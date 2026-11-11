@@ -157,7 +157,7 @@ def _plan(arguments, options, certified, frequencies, workers, budget, cores):
             # its full reservation after the worker pool has been released.
             continue
         mode = options['factorization']
-        mode = selection['selected'] if mode == 'adaptive' else ('compressed' if mode == 'compressed' else 'dense')
+        mode = selection['selected'] if mode in ('adaptive', 'automatic') else ('compressed' if mode == 'compressed' else 'dense')
         candidate = selection['candidates'][mode]
         if candidate['peak_gb'] > budget:
             # A forecast may admit only the other backend. Fixed requests stay
@@ -172,7 +172,7 @@ def _plan(arguments, options, certified, frequencies, workers, budget, cores):
                             cost=float(candidate['cost']),
                             angle_batch_size=min(options['angle_batch_size'],
                                 selection.get('angle_batch_size', options['angle_batch_size'])),
-                            selection=selection if options['factorization'] == 'adaptive' else None))
+                            selection=selection if options['factorization'] in ('adaptive', 'automatic') else None))
     return sorted(records, key=lambda r: (-r['cost'], r['frequency']))
 
 

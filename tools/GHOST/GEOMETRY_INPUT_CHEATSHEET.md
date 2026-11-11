@@ -138,18 +138,20 @@ properties: TYPE N IBC_FLAG POS_MAT NEG_MAT
 base/fine complex-field mesh-convergence check.
 It uses the same nominal density as `N = -20`, rather than searching for an
 optimal value of `N`. The actual panel count depends on primitive length,
-frequency, materials, and geometry refinement rules. The GUI's **Certify mesh
-convergence** option is enabled by default and provides a separate accuracy
-check. Eligible 2D monostatic cases can adapt the mesh and element order;
-BoR compares a base mesh with a finer one. These checks preserve the drawn
-geometry, so they do not repair an overly coarse polygon used to represent
-a curved surface.
+frequency, materials, and geometry refinement rules. In the GUI, **Find
+converged mesh automatically** is the default for 2D monostatic runs and can
+adapt the mesh and polynomial order. **Check specified mesh** instead compares
+the specified mesh with a finer copy; it is the default for BoR and bistatic
+runs. **Solve specified mesh** skips that comparison. These checks preserve
+the drawn geometry, so they do not repair an overly coarse polygon used to
+represent a curved surface.
 There is no longer an implicit 2,000-element-per-primitive cap; explicit
-global panel limits and resource checks still apply. **Find corners/junctions**
-and **Refine selected 2x** help adjust local density in Geometry. These buttons
-apply manual refinements without changing the material syntax.
+global panel limits and resource checks still apply. In Geometry, **Segment
+tools > Select corners / junctions** selects candidate rows without changing
+the mesh. **Segment tools > Refine selected 2x** increases their mesh density
+without changing the material syntax.
 
-In the Geometry table, select one or more rows and click **Reverse selected**
+In the Geometry table, select rows and use **Segment tools > Reverse selected direction**
 to reverse their traversal direction and normals. **Show Normals** displays
 the resulting orientation. The shape and material callouts stay the same;
 start/end-defined impedance tapers follow the new direction. Reverse the same
@@ -214,7 +216,7 @@ Check the full requested frequency band. Passing
 these limits or converging the mesh does not certify the physical thin-layer
 approximation; compare important cases against explicit thickness.
 
-In the GUI, add the dielectric first, then choose **+ Thin layer**, select its
+In the GUI, add the dielectric first, then choose **Add surface material > Thin dielectric layer (2D)**, select its
 dielectric flag and enter thickness in **inches**. The material table also
 displays and edits thin-layer thickness in inches. The saved row converts thickness
 to **meters**, independently of coordinate units. Assign its new surface flag
@@ -528,8 +530,7 @@ sets material flags; it does not offset the geometry.
 
 In FREDDY, use **Check GHOST coating approximation**, then export the nominal
 IBC and attach it to the current saved GHOST geometry. In Geometry, select
-the TYPE 2 segments and material row, use **Apply IBC to selected TYPE 2
-segments**, and save. An uncertainty or analysis export is not a nominal
+the TYPE 2 segments and material row, use **Assign material > Assign selected surface impedance**, and save. An uncertainty or analysis export is not a nominal
 material table. The scalar IBC retains the planar normal-incidence response;
 the coating check assesses planar angle sensitivity and interpolation, not
 finite-body RCS accuracy. It does not implement an IBC on a bulk dielectric
@@ -681,7 +682,7 @@ before adapting an example.
 - Using an IBC flag on TYPE 3 or TYPE 5.
 - Assigning a `thin_dielectric` flag to TYPE 2 or TYPE 4.
 - Saving thin-layer thickness in inches or millimeters; the row always stores
-  meters, while the **+ Thin layer** dialog and material table accept inches.
+  meters, while the **Thin dielectric layer (2D)** dialog and material table accept inches.
 - Mixing thin-layer and bulk/conductor segments in the same scene.
 - Treating a TYPE 1 freestanding layer as a PEC-backed coating.
 - Referencing a material flag without defining it in the matching section.

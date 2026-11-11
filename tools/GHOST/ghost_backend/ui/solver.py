@@ -80,7 +80,7 @@ def _2d_panel_limit() -> 'int':
     from ghost_backend.compressed.runtime import enabled
     from ghost_backend.twod.constants import MAX_PANELS_DEFAULT
     from ghost_backend.execution.options import option
-    return 100_000 if enabled() or option('factorization') == 'adaptive' else MAX_PANELS_DEFAULT
+    return 100_000 if enabled() or option('factorization') in ('adaptive', 'automatic') else MAX_PANELS_DEFAULT
 
 
 def _result_kind(result: 'Dict[str, Any]') -> 'str':
@@ -745,6 +745,10 @@ class SolverTab(RunSetupMixin, QWidget):
     def __init__(self, geometry_tab=None, parent=None):
         super().__init__(parent)
         self.geometry_tab = geometry_tab
+        self._mesh_workflow_kind = '2d_monostatic'
+        self._mesh_workflow_by_kind = {
+            '2d_monostatic': 'automatic', '2d_bistatic': 'check', 'bor': 'check',
+        }
         self.last_result: 'Optional[Dict[str, Any]]' = None
         self.last_source_path: 'str' = ""
         self.last_solve_context: 'Optional[Dict[str, Any]]' = None
@@ -942,6 +946,7 @@ class SolverTab(RunSetupMixin, QWidget):
 
         options_group = QGroupBox("Solve Options")
         options_form = QFormLayout(options_group)
+        self.solve_options_form = options_form
 
         self.cmb_solver_kind = QComboBox()
         self.cmb_solver_kind.addItem("2D (cylindrical, dBke)", userData="2d")
@@ -963,14 +968,20 @@ class SolverTab(RunSetupMixin, QWidget):
         self.cmb_units.addItems(["inches", "meters"])
         self.cmb_units.setCurrentText("inches")
 
-        self.chk_mesh_certification = QCheckBox(
-            "Certify mesh convergence (compare base/fine meshes)"
-        )
-        self.chk_mesh_certification.setToolTip(
-            "Recommended: compare discretizations and publish the refined result only when both channels pass. "
-            "When disabled: Survey \u2014 mesh convergence not checked; residual and condition checks remain."
-        )
-        self.chk_mesh_certification.setChecked(True)
+        self.cmb_mesh_workflow = QComboBox()
+        self.cmb_mesh_workflow.addItem('Solve specified mesh', 'single')
+        self.cmb_mesh_workflow.addItem('Check specified mesh', 'check')
+        self.cmb_mesh_workflow.addItem('Find converged mesh automatically', 'automatic')
+        # Preserve the previous checked/adaptive startup policy, now explicit.
+        self.cmb_mesh_workflow.setCurrentIndex(2)
+        self.cmb_mesh_workflow.setToolTip(
+            'A mesh comparison checks numerical agreement, not correctness of the physical model. '
+            'All workflows retain algebraic quality checks. Changing this choice preserves '
+            'the selected linear solver, specified-mesh order, and corner grading.')
+        self.lbl_mesh_workflow = QLabel()
+        self.lbl_mesh_workflow.setWordWrap(True)
+        self.lbl_linear_solver = QLabel()
+        self.lbl_linear_solver.setWordWrap(True)
 
         self.btn_tools = QToolButton()
         self.btn_tools.setText("Advanced / Tools")
@@ -1085,17 +1096,6 @@ class SolverTab(RunSetupMixin, QWidget):
             "These are numerical tolerances, not a guarantee about a reduced "
             "material model."
         )
-        self.btn_one_shot = QPushButton('Use one-shot preset (no mesh certification)')
-        self.btn_one_shot.setToolTip(
-            '2D monostatic: use the accelerated CPU method, compressed factorization, '
-            'and a single P1 reference mesh per frequency, for both VV and HH. '
-            'Skips base/fine mesh comparisons. Residual and condition checks remain. '
-            'This is a fast starting point; the fastest factorization depends on the geometry. '
-            'Re-enable mesh certification below for a checked solve.')
-        self.btn_one_shot.clicked.connect(self._use_one_shot_preset)
-        tools_form.addRow(self.btn_one_shot)
-        tools_form.addRow(self.chk_mesh_certification)
-        tools_form.addRow('Accuracy target', self.cmb_accuracy_target)
         from ghost_backend.ui.bor_options import BorOptionsWidget
         self.bor_options_widget = BorOptionsWidget()
         self.bor_options_widget.setVisible(False)
@@ -1105,7 +1105,7 @@ class SolverTab(RunSetupMixin, QWidget):
         self.lbl_run_policy = QLabel()
         self.lbl_run_policy.setWordWrap(True)
         self.twod_options_widget.changed.connect(self._update_run_policy)
-        self.chk_mesh_certification.toggled.connect(self._update_run_policy)
+        self.cmb_mesh_workflow.currentIndexChanged.connect(self._on_mesh_workflow_changed)
         self.btn_solver_report = QPushButton("Accuracy and performance report...")
         self.btn_solver_report.clicked.connect(self._show_solver_report)
         tools_form.addRow(self.btn_solver_report)
@@ -1137,6 +1137,10 @@ class SolverTab(RunSetupMixin, QWidget):
         tools_form.addRow(self.lbl_run_policy)
         options_form.addRow(self.lbl_cfie_alpha, self.edit_cfie_alpha)
         options_form.addRow(self.bor_options_widget)
+        options_form.addRow('Mesh workflow', self.cmb_mesh_workflow)
+        options_form.addRow(self.lbl_mesh_workflow)
+        options_form.addRow('Comparison target', self.cmb_accuracy_target)
+        options_form.addRow(self.lbl_linear_solver)
         tools_form.addRow(self.lbl_run_dimensions)
         self.run_output_notice = QLabel('Output: automatic unique GRIM file after solving.')
         self.run_output_notice.setWordWrap(True)
@@ -1588,10 +1592,9 @@ class SolverTab(RunSetupMixin, QWidget):
         self.cmb_elev_mode.setEnabled(not busy)
         self._update_mode_enables()
         self.chk_export_after_solve.setEnabled(not busy)
-        self.chk_mesh_certification.setEnabled(not busy)
-        self.cmb_accuracy_target.setEnabled(not busy and self.chk_mesh_certification.isChecked())
-        self.btn_one_shot.setVisible(not is_bor and not is_bistatic)
-        self.btn_one_shot.setEnabled(not busy and not is_bor and not is_bistatic)
+        self.cmb_mesh_workflow.setEnabled(not busy)
+        self._sync_mesh_workflow()
+        self.cmb_accuracy_target.setEnabled(not busy and self._mesh_check_enabled())
         self.bor_options_widget.setEnabled(not busy and is_bor)
         self.twod_options_widget.setVisible(not is_bor and not is_bistatic)
         self.twod_options_widget.setEnabled(not busy and not is_bor and not is_bistatic)
@@ -1621,24 +1624,73 @@ class SolverTab(RunSetupMixin, QWidget):
         self._is_computing_density = bool(computing)
         self._apply_job_state()
 
+    def _mesh_check_enabled(self):
+        return self.cmb_mesh_workflow.currentData() != 'single'
+
+    def _sync_mesh_workflow(self):
+        kind = ('bor' if self.cmb_solver_kind.currentData() == 'bor' else
+                '2d_' + str(self.cmb_scatter_mode.currentData()))
+        if kind != self._mesh_workflow_kind:
+            self._mesh_workflow_by_kind[self._mesh_workflow_kind] = self.cmb_mesh_workflow.currentData()
+            self._mesh_workflow_kind = kind
+            blocked = self.cmb_mesh_workflow.blockSignals(True)
+            self.cmb_mesh_workflow.setCurrentIndex(self.cmb_mesh_workflow.findData(
+                self._mesh_workflow_by_kind[kind]))
+            self.cmb_mesh_workflow.blockSignals(blocked)
+        available = kind == '2d_monostatic'
+        self.cmb_mesh_workflow.model().item(self.cmb_mesh_workflow.findData('automatic')).setEnabled(available)
+        self.twod_options_widget.set_automatic_mesh(
+            available and self.cmb_mesh_workflow.currentData() == 'automatic')
+
+    def _on_mesh_workflow_changed(self, *_):
+        if (self._mesh_workflow_kind != '2d_monostatic'
+                and self.cmb_mesh_workflow.currentData() == 'automatic'):
+            self.cmb_mesh_workflow.setCurrentIndex(self.cmb_mesh_workflow.findData('check'))
+            return
+        self._mesh_workflow_by_kind[self._mesh_workflow_kind] = self.cmb_mesh_workflow.currentData()
+        self._sync_mesh_workflow()
+        self._update_run_policy()
+
     def _update_run_policy(self, *_):
         from ghost_backend.runs.controls import run_control_options, run_control_summary
         from ghost_backend.execution.options import automatic_run
+        is_bor = self.cmb_solver_kind.currentData() == 'bor'
         scattering = self.cmb_scatter_mode.currentData()
-        options = (run_control_options(self.twod_options_widget.value()) if scattering == 'monostatic'
-                   else automatic_run(scattering)['execution_options'])
-        self.lbl_run_policy.setText(run_control_summary(options, self.chk_mesh_certification.isChecked()))
-        self.cmb_accuracy_target.setEnabled(
-            not self._job_is_active() and self.chk_mesh_certification.isChecked())
-
-    def _use_one_shot_preset(self):
-        if (self._job_is_active() or self.cmb_solver_kind.currentData() != '2d'
-                or self.cmb_scatter_mode.currentData() != 'monostatic'):
-            return
-        self.twod_options_widget.set_value(dict(
-            factorization='compressed', mesh_strategy='adaptive', basis_order=1, mesh_grading=True))
-        self.chk_mesh_certification.setChecked(False)
-        self._update_run_policy()
+        if is_bor:
+            # The 2D policy row is hidden in BoR; do not retain stale 2D text.
+            self.lbl_run_policy.clear()
+        else:
+            options = (run_control_options(self.twod_options_widget.value()) if scattering == 'monostatic'
+                       else automatic_run(scattering)['execution_options'])
+            self.lbl_run_policy.setText(run_control_summary(options, self._mesh_check_enabled()))
+        self.cmb_accuracy_target.setEnabled(not self._job_is_active() and self._mesh_check_enabled())
+        self.solve_options_form.setRowVisible(self.cmb_accuracy_target, self._mesh_check_enabled())
+        workflow = self.cmb_mesh_workflow.currentData()
+        if workflow == 'single':
+            message = ('One mesh per frequency using your geometry and mesh settings. '
+                       'No mesh-convergence comparison; algebraic checks remain enabled.')
+        elif workflow == 'check':
+            message = ('Solve the specified mesh and a finer copy. Publish the finer result only '
+                       'when both polarizations meet the comparison target. The selected linear solver is retained.')
+        else:
+            message = ('Choose P2/P3 meshes when suitable, refine if needed, with P1 fallback. '
+                       'Publish only after convergence checks pass. The selected linear solver is retained.')
+        if is_bor and workflow == 'single':
+            message += ' Fourier-mode convergence is still checked.'
+        if not is_bor and scattering == 'monostatic' and workflow != 'automatic':
+            message += ' P{}, {} sizing; corner grading {}.'.format(
+                options['basis_order'], options['mesh_strategy'], 'on' if options['mesh_grading'] else 'off')
+        self.lbl_mesh_workflow.setText(message)
+        if is_bor:
+            backend = 'BoR modal solver'
+        elif scattering == 'bistatic':
+            backend = 'Dense (2D bistatic)'
+        else:
+            backend = self.twod_options_widget.factorization.currentText()
+        self.lbl_linear_solver.setText('Linear solver: ' + backend)
+        self.lbl_linear_solver.setToolTip(
+            'Mesh checking changes the discretizations evaluated, not the selected linear solver. '
+            'The default for 2D monostatic is Compressed. Choose Dense in Advanced when appropriate.')
 
     def _on_scatter_mode_changed(self, _index: 'int' = 0) -> 'None':
         is_bistatic = (self.cmb_scatter_mode.currentData() == "bistatic")
@@ -1917,7 +1969,7 @@ class SolverTab(RunSetupMixin, QWidget):
                 reason = str(mesh.get("reason", "") or "criteria not met")
                 mesh_suffix = f" Mesh convergence: FAIL ({reason})."
         elif bool(metadata.get("survey_mode", False)):
-            mesh_suffix = " Survey mode: base mesh only (not mesh-certified)."
+            mesh_suffix = " Specified mesh solved; mesh convergence not checked."
         if metadata.get('frequency_checkpoints', {}).get('write_warnings') and not partial:
             mesh_suffix += ' Checkpoint storage warning: computed samples are available, but some frequencies cannot be resumed.'
         for note in list(getattr(self, "_sweep_notes", []) or []):
@@ -2043,7 +2095,7 @@ class SolverTab(RunSetupMixin, QWidget):
             elevations = self._collect_elevation_values()
             snapshot, source_path, base_dir = self._load_geometry_for_solver()
             units = self.cmb_units.currentText()
-            mesh_certification = bool(self.chk_mesh_certification.isChecked())
+            mesh_certification = bool(self._mesh_check_enabled())
             solver_kind = str(self.cmb_solver_kind.currentData() or "2d")
             quality_thresholds = dict(DEFAULT_QUALITY) if solver_kind == "2d" else {}
             cfie_text = self.edit_cfie_alpha.text().strip()

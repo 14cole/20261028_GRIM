@@ -343,7 +343,7 @@ def runtime_environment_payload() -> 'Dict[str, Any]':
         "cpu_factorization": factorization,
         # Automatic storage follows free memory at solve time, so record the setting, not bytes.
         "compressed_storage_budget_bytes": (('automatic' if automatic_storage() else storage_budget())
-                                            if factorization in ('compressed', 'adaptive') else None),
+                                            if factorization in ('compressed', 'adaptive', 'automatic') else None),
         "cpu_rhs_compression": compression_mode(),
         "python_version": sys.version,
         "python_implementation": getattr(implementation, "name", ""),
