@@ -62,24 +62,7 @@ MESH_N_TOOLTIP = (
 )
 
 
-def _parse_mesh_n_token(token: 'Any') -> 'int':
-    """Parse the geometry N field without changing its solver semantics.
 
-    Blank or zero selects automatic 20-panels-per-wavelength meshing, a
-    positive integer is an explicit panel count per primitive, and a negative
-    integer selects its absolute value in panels per wavelength.
-    """
-
-    text = str(token or "").strip()
-    if not text:
-        return 0
-    try:
-        value = float(text)
-    except (TypeError, ValueError) as exc:
-        raise ValueError("N must be an integer.") from exc
-    if not math.isfinite(value) or not value.is_integer():
-        raise ValueError("N must be an integer.")
-    return int(value)
 
 
 class MplCanvas(FigureCanvas):

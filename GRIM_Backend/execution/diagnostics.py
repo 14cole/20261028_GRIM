@@ -208,6 +208,11 @@ GHOST_MODULE_LOCATIONS = {
 }
 
 GHOST_SENTINELS = (
+    "runs/driver_settings.py",
+    "runs/worker_pipeline.py",
+    "bor/constraints.py",
+    "bor/validation.py",
+    "bor/storage.py",
     "execution/errors.py",
     "execution/policy.py",
     "runs/batch.py",

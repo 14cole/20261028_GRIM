@@ -18,6 +18,9 @@ Edit the CONFIG block and run:
 
     python run_local_monostatic.py
 """
+from ghost_backend.runs.driver_settings import DriverSettings
+from ghost_backend.runs.inputs import unit_attestation_fields, verify_local_run_provenance
+from ghost_backend.runs.worker_pipeline import WorkerAdapter, run_twod_unit, record_memory_evidence
 from ghost_backend.execution.paths import backend_root as _backend_root
 from ghost_backend.execution.options import (
     blas_thread_reservation,
@@ -73,24 +76,21 @@ _PARAMETER_KEYS = (
     'MAX_SOLVE_GB',
     *DRIVER_CONTROL_DEFAULTS,
 )
+_SETTINGS = DriverSettings()
 _SCRIPT = None
 
 
 def current_settings():
-    """The run's parameters, as configure() received them."""
-    return {key: globals()[key] for key in _PARAMETER_KEYS if key in globals()}
+    """Return an independent parameter dictionary for manifests and spawned workers."""
+    return _SETTINGS.snapshot()
 
 
 def configure(settings, *, script):
-    """Install the parameter-block values of the user-facing driver script."""
-    global _SCRIPT
-    # Older parameter scripts omit the advanced controls and keep defaults.
-    settings = dict(DRIVER_CONTROL_DEFAULTS, **settings)
-    missing = sorted(set(_PARAMETER_KEYS) - set(settings))
-    if missing:
-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
-    globals().update({key: settings[key] for key in _PARAMETER_KEYS})
-    _SCRIPT = str(Path(script).resolve())
+    """Capture a parameter block, keeping defaults for older advanced controls."""
+    global _SETTINGS, _SCRIPT
+    captured = DriverSettings.capture(settings, _PARAMETER_KEYS, DRIVER_CONTROL_DEFAULTS)
+    script_path = str(Path(script).resolve())
+    _SETTINGS, _SCRIPT = captured, script_path
 
 # Internal scheduling constants.
 # Fraction of detected RAM the scheduler may reserve for solves; a workstation
@@ -137,57 +137,18 @@ def _write_json_atomic(path: 'Path', payload: 'Dict[str, Any]') -> 'None':
     os.replace(str(temporary), str(path))
 
 
-def _verify_run_provenance(context: 'Dict[str, Any]') -> 'None':
-    """Re-check that the solver source and numerical runtime still match the run.
-
-    Called around every unit. The file hashes underneath come from
-    `hpc_scheduler.install_fingerprint_cache`, so a repeat check is a stat per
-    backend file rather than a full re-read, and the cache expires on a timer
-    so full re-reads keep happening inside long-lived workers.
-    """
-
-    if _solver_source_fingerprint() != context.get("solver_source_sha256"):
-        detail = describe_source_mismatch(
-            context.get("solver_source_inventory") or {},
-            _solver_source_inventory(),
-        )
-        raise RuntimeError(
-            "Local-run solver source/native artifacts changed; no mixed-state "
-            f"field will be written or reused. ({detail})"
-        )
-    verify_runtime_environment(
-        str(context.get("runtime_environment_sha256", "")),
-        context.get("submission_runtime_environment"), origin="the local run manifest",
-    )
+def _verify_run_provenance(context):
+    return verify_local_run_provenance(context, _solver_source_fingerprint, _solver_source_inventory)
 
 
-def _unit_attestation_fields(
-    context: 'Dict[str, Any]',
-    unit: 'Dict[str, Any]',
-) -> 'Dict[str, Any]':
-    return {
-        "run_id": str(context["run_id"]),
-        "solver_source_sha256": str(context["solver_source_sha256"]),
-        "runtime_environment_sha256":
-            str(context["runtime_environment_sha256"]),
-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
-        "solver_config_sha256": str(context["solver_config_sha256"]),
-        "angular_grid_kind": "azimuths_deg",
-        # The grid is a run-level property, so it is bound by hash here and
-        # stored once in the manifest instead of being repeated in every unit
-        # record and every attestation.
-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
-        "polarizations": list(OUTPUT_POLARIZATIONS),
-        "frequency_ghz": float(unit["frequency_ghz"]),
-    }
+def _unit_attestation_fields(context, unit):
+    return unit_attestation_fields(context, unit, 'azimuths_deg', OUTPUT_POLARIZATIONS)
 
 
 def _discover_geometries() -> 'List[Path]':
     found: 'List[Path]' = []
     seen: 'set' = set()
-    for d in (FRD_DIR, OPN_DIR):
+    for d in (_SETTINGS.FRD_DIR, _SETTINGS.OPN_DIR):
         root = Path(d)
         if not root.is_dir():
             print(f"  [warn] dir not found: {root}", file=sys.stderr)
@@ -204,7 +165,7 @@ def _discover_geometries() -> 'List[Path]':
 
 def _geometry_role(path: 'Path') -> 'str':
     resolved = Path(path).resolve()
-    for role, directory in (("FRD", FRD_DIR), ("OPN", OPN_DIR)):
+    for role, directory in (("FRD", _SETTINGS.FRD_DIR), ("OPN", _SETTINGS.OPN_DIR)):
         try:
             resolved.relative_to(Path(directory).resolve())
             return role
@@ -246,86 +207,16 @@ def _solve_and_export(
     context: 'Dict[str, Any]',
     results_dir_str: 'str',
 ) -> 'Tuple[str, str]':
-    """Pool-worker entry point: solve one unit, export .grim. Idempotent."""
-
-    results_dir = Path(results_dir_str)
-    out_path = _unit_output_path(results_dir, unit)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    _verify_run_provenance(context)
-    _verify_unit_input(unit, context)
-    attestation = _unit_attestation_fields(context, unit)
-    if out_path.exists():
-        verify_embedded_attestation(str(out_path), attestation)
-        return ("skipped", str(out_path))
-
-    snapshot, material_base = _load_snapshot(str(unit["geometry"]))
-
-    solve_kwargs = dict(
-        geometry_snapshot=snapshot,
-        frequencies_ghz=[float(unit["frequency_ghz"])],
-        elevations_deg=[float(a) for a in context["azimuths_deg"]],
-        geometry_units=context["geometry_units"],
-        material_base_dir=material_base,
-        max_panels=context["max_panels"],
-        solver_method=context.get("solver_method", "direct"),
-    )
-    # Select precision inside each worker; context variables are process-local.
-    from ghost_backend.linalg.refined_lu import linear_precision
-    from ghost_backend.twod.samples import compact_samples
-    peak_reset = hpc_scheduler.reset_peak_rss()
-    with compact_samples(), linear_precision(context.get("lu_precision", "double")):
-        if context["mesh_certification"]:
-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
-            result = solve_monostatic_rcs_2d_certified(
-                mesh_convergence_policy=context["mesh_convergence_policy"],
-                **solve_kwargs
-            )
-        else:
-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_survey
-            result = solve_monostatic_rcs_2d_survey(**solve_kwargs)
-    _verify_run_provenance(context)
-    _verify_unit_input(unit, context)
-    _record_memory_evidence(result, context, unit, peak_reset)
-
-    # Bind the result to its run state inside the artifact, before export, so
-    # results/ holds one file per unit instead of a .grim and a sidecar.
-    embed_output_attestation(result, attestation)
-
-    from ghost_backend.io.grim import export_result_to_grim
-    written = export_result_to_grim(
-        result, str(out_path),
-        source_path=str(snapshot.get("source_path", "") or ""),
-        history=(f"run_local_monostatic.py pols=VV,HH "
-                 f"freq={unit['frequency_ghz']}GHz"),
-    )
-    actual_path = str(written[0]) if written else str(out_path)
-    # The run state was verified before the solve and again before the
-    # export; a third check after the artifact is published could only
-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
-    return ("written", actual_path)
+    """Run the shared 2D pipeline using this driver's paths and verifiers."""
+    adapter = WorkerAdapter(
+        _unit_output_path, _verify_run_provenance, _verify_unit_input,
+        _unit_attestation_fields, _load_snapshot, 'run_local_monostatic.py',
+        record_memory=_record_memory_evidence)
+    return run_twod_unit(unit, context, results_dir_str, adapter)
 
 
 def _record_memory_evidence(result, context, unit, peak_reset):
-    """Measured peak resident size of this worker against the planner's
-    forecast, in the artifact metadata and the run log."""
-    measured = hpc_scheduler.peak_rss_gib()
-    forecast = context.get("forecast_peak_gib")
-    evidence = {
-        "forecast_peak_gib": (float(forecast) if forecast is not None else None),
-        "measured_peak_gib": measured,
-        "scope": ("worker_process_since_unit_start" if peak_reset
-                  else "worker_process_lifetime"),
-        "note": "Compressed tile processes are children of the worker and are not "
-                "included; the forecast covers the whole unit.",
-    }
-    metadata = result.setdefault("metadata", {})
-    if isinstance(metadata, dict):
-        metadata["execution_memory"] = evidence
-    if measured is not None:
-        ratio = ("" if not forecast else f", {measured / float(forecast):.2f} of forecast")
-        print(f"      memory {_unit_name(unit)}: forecast "
-              f"{(float(forecast) if forecast else 0.0):.2f} GiB, measured peak "
-              f"{measured:.2f} GiB ({evidence['scope']}{ratio})", flush=True)
+    return record_memory_evidence(result, context, unit, peak_reset, _unit_name)
 
 
 def _solve_and_export_star(args: 'tuple') -> 'tuple':
@@ -361,9 +252,9 @@ def _plan(units, fine_factor, n_angles, records_out=None):
     costs, peaks = {}, {}
     batches = hpc_scheduler.predict_2d_resources_for_geometries(
         {geometry: sorted({float(u['frequency_ghz']) for u in group}) for geometry, group in grouped.items()},
-        ['TM', 'TE'], GEOMETRY_UNITS, _MAX_PANELS, fine_factor=fine_factor,
+        ['TM', 'TE'], _SETTINGS.GEOMETRY_UNITS, _MAX_PANELS, fine_factor=fine_factor,
         n_angles=n_angles, safety=_MEMORY_SAFETY, solver_method=AUTOMATIC_SOLVER_METHOD,
-        workers=PLANNING_WORKERS)
+        workers=_SETTINGS.PLANNING_WORKERS)
     for geometry, group in grouped.items():
         batch = batches[geometry]
         for unit in group:
@@ -387,13 +278,13 @@ def _unit_assembly_threads(
 
 
 def _validate_config() -> 'Tuple[List[float], List[float]]':
-    if ACCURACY_TARGET not in ("standard", "tight"):
+    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
-    if type(MESH_CERTIFICATION) is not bool:
+    if type(_SETTINGS.MESH_CERTIFICATION) is not bool:
         sys.exit("ERROR: MESH_CERTIFICATION must be True or False.")
-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
-    if not AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
+    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+    if not _SETTINGS.AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
+    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
     if (
         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
         or len(set(frequencies)) != len(frequencies)
@@ -403,17 +294,17 @@ def _validate_config() -> 'Tuple[List[float], List[float]]':
             "ERROR: frequencies must be finite, positive, unique, and "
             "distinct at the 0.001 GHz output-name precision."
         )
-    azimuths = [float(value) for value in AZIMUTHS_DEG]
+    azimuths = [float(value) for value in _SETTINGS.AZIMUTHS_DEG]
     if (
         not all(math.isfinite(value) for value in azimuths)
         or len(set(azimuths)) != len(azimuths)
     ):
         sys.exit("ERROR: AZIMUTHS_DEG must be finite and unique.")
-    if str(GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
+    if str(_SETTINGS.GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
         sys.exit("ERROR: GEOMETRY_UNITS must be 'inches' or 'meters'.")
-    if MAX_SOLVE_GB is not None and float(MAX_SOLVE_GB) <= 0.0:
+    if _SETTINGS.MAX_SOLVE_GB is not None and float(_SETTINGS.MAX_SOLVE_GB) <= 0.0:
         sys.exit("ERROR: MAX_SOLVE_GB must be positive or None.")
-    if WORKERS is not None and int(WORKERS) < 1:
+    if _SETTINGS.WORKERS is not None and int(_SETTINGS.WORKERS) < 1:
         sys.exit("ERROR: WORKERS must be a positive integer or None.")
     return frequencies, azimuths
 
@@ -441,10 +332,10 @@ def _freeze_runtime(run_dir):
 @driver_execution
 def main() -> 'None':
     frequencies, azimuths = _validate_config()
-    if MAX_SOLVE_GB:
+    if _SETTINGS.MAX_SOLVE_GB:
         # Read by the solver's own memory gate, in this process and every
         # forked worker.
-        os.environ["GHOST_MAX_SOLVE_GB"] = f"{float(MAX_SOLVE_GB):g}"
+        os.environ["GHOST_MAX_SOLVE_GB"] = f"{float(_SETTINGS.MAX_SOLVE_GB):g}"
     blas_threads = blas_thread_reservation()
     hpc_scheduler.pin_blas_threads(blas_threads)
     hpc_scheduler.install_fingerprint_cache()
@@ -463,7 +354,7 @@ def main() -> 'None':
     from ghost_backend.assembly.fields import geometry_input_fingerprint
     for geom in geometries:
         input_fingerprint = geometry_input_fingerprint(
-            str(geom), GEOMETRY_UNITS
+            str(geom), _SETTINGS.GEOMETRY_UNITS
         )
         for f in frequencies:
             # The azimuth grid is deliberately NOT repeated per unit: it is
@@ -477,9 +368,9 @@ def main() -> 'None':
                 "frequency_ghz": float(f),
             })
 
-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
+    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
     run_id = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
-    run_dir     = Path(OUTPUT_DIR).resolve() / run_id
+    run_dir     = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
     results_dir = run_dir / "results"
     run_dir.mkdir(parents=True, exist_ok=False)
     _freeze_runtime(run_dir)
@@ -487,17 +378,17 @@ def main() -> 'None':
     (results_dir / "FRD").mkdir()
     (results_dir / "OPN").mkdir()
     solver_config = {
-        "geometry_units": GEOMETRY_UNITS,
+        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
         "linear_solver": "dense_lu",
         "polarizations": list(OUTPUT_POLARIZATIONS),
         "max_panels": _MAX_PANELS,
         "blas_threads_per_worker": blas_threads,
         "mesh_convergence_policy": mesh_policy,
-        "accuracy_target": ACCURACY_TARGET,
+        "accuracy_target": _SETTINGS.ACCURACY_TARGET,
         "lu_precision": AUTOMATIC_LU_PRECISION,
         "solver_method": AUTOMATIC_SOLVER_METHOD,
         "execution_options": current_options(),
-        "mesh_certification": bool(MESH_CERTIFICATION),
+        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
     }
     manifest: 'Dict[str, Any]' = {
         "schema": MANIFEST_SCHEMA,
@@ -529,13 +420,13 @@ def main() -> 'None':
         "submission_runtime_environment": manifest.get("submission_runtime_environment"),
         "run_solve_spec_sha256": manifest_solve_spec_fingerprint(manifest),
         "solver_config_sha256": stable_json_fingerprint(solver_config),
-        "geometry_units": GEOMETRY_UNITS,
+        "geometry_units": _SETTINGS.GEOMETRY_UNITS,
         "max_panels": _MAX_PANELS,
         "mesh_convergence_policy": mesh_policy,
         "lu_precision": AUTOMATIC_LU_PRECISION,
         "solver_method": AUTOMATIC_SOLVER_METHOD,
         "execution_options": current_options(),
-        "mesh_certification": bool(MESH_CERTIFICATION),
+        "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
         "azimuths_deg": azimuths,
         "angular_grid_sha256": stable_json_fingerprint(
             azimuths
@@ -547,7 +438,7 @@ def main() -> 'None':
     # count), and starting with the cheap end leaves the expensive tail with
     # nothing to overlap against.
     fine_factor = (
-        float(mesh_policy["fine_factor"]) if MESH_CERTIFICATION else 1.0
+        float(mesh_policy["fine_factor"]) if _SETTINGS.MESH_CERTIFICATION else 1.0
     )
     planning_records = []
     costs, peaks = _plan(units, fine_factor, len(azimuths), planning_records)
@@ -570,7 +461,7 @@ def main() -> 'None':
     )
     if budget_gb <= 0:
         raise MemoryError('No RAM is currently available for the local solve reservation.')
-    worker_cap = max(1, cores - 1) if WORKERS is None else int(WORKERS)
+    worker_cap = max(1, cores - 1) if _SETTINGS.WORKERS is None else int(_SETTINGS.WORKERS)
     pool_size = max(1, min(cores, worker_cap, len(ordered)))
     from ghost_backend.runs.batch import apply_batch_choices
     resolved, batch_selections, batch_summary = apply_batch_choices(
@@ -603,14 +494,14 @@ def main() -> 'None':
     print(f"  Run dir       : {run_dir}")
     print(f"  Geometries    : {len(geometries)}")
     print("  Polarizations : VV, HH (co-solved)")
-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
-    print(f"  Azimuths      : {len(AZIMUTHS_DEG)}")
+    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
+          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
+    print(f"  Azimuths      : {len(_SETTINGS.AZIMUTHS_DEG)}")
     print(f"  Units total   : {len(ordered)}  (geometry x frequency)")
-    print(f"  Mesh check    : {'base + fine comparison' if MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
-    print(f"  Run policy    : {run_control_summary(current_options(), MESH_CERTIFICATION)}")
-    if MESH_STRATEGY == 'adaptive' and BASIS_ORDER != 1:
-        print(f"  Order note    : requested P{BASIS_ORDER} is ignored; adaptive controls polynomial order.")
+    print(f"  Mesh check    : {'base + fine comparison' if _SETTINGS.MESH_CERTIFICATION else 'base only (no mesh comparison)'}")
+    print(f"  Run policy    : {run_control_summary(current_options(), _SETTINGS.MESH_CERTIFICATION)}")
+    if _SETTINGS.MESH_STRATEGY == 'adaptive' and _SETTINGS.BASIS_ORDER != 1:
+        print(f"  Order note    : requested P{_SETTINGS.BASIS_ORDER} is ignored; adaptive controls polynomial order.")
     print(f"  Workers       : {pool_size} of {cores} cpus  "
           f"(CPU reservation per solve, assembly and BLAS alike; BLAS team at most {blas_cap}, "
           f"assembly threads/solve: {thread_label})")
@@ -621,7 +512,7 @@ def main() -> 'None':
                       if available_gb is not None else "")
     print(f"  Memory        : {memory_gb:.1f} GiB installed{available_text}, "
           f"{budget_gb:.1f} GiB schedulable")
-    if not MESH_CERTIFICATION:
+    if not _SETTINGS.MESH_CERTIFICATION:
         print("  Mesh comparison is off: downstream use remains enabled; the")
         print("  user owns the mesh-resolution decision.")
     print("=" * 70, flush=True)
@@ -730,3 +621,10 @@ def run(namespace, script):
     """Entry point used by the user-facing run_local_monostatic.py parameter script."""
     configure(namespace, script=script)
     main()
+
+
+def __getattr__(name):
+    """Keep reads of configured parameter attributes compatible with old callers."""
+    if name in _SETTINGS:
+        return _SETTINGS[name]
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

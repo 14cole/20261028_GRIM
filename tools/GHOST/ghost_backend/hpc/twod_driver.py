@@ -44,6 +44,9 @@ verifies, so canceling and resubmitting is always safe.
 Internal worker invocation (called by SLURM, not by the user):
     python run_hpc_monostatic.py --worker <run_dir> <submission_index> <task_index>
 """
+from ghost_backend.runs.driver_settings import DriverSettings
+from ghost_backend.runs.inputs import unit_attestation_fields
+from ghost_backend.runs.worker_pipeline import WorkerAdapter, run_twod_unit, record_memory_evidence
 from ghost_backend.execution.paths import backend_root as _backend_root
 from ghost_backend.execution.options import (
     blas_thread_reservation,
@@ -121,24 +124,21 @@ _PARAMETER_KEYS = (
     'SUBMIT',
     *DRIVER_CONTROL_DEFAULTS,
 )
+_SETTINGS = DriverSettings()
 _SCRIPT = None
 
 
 def current_settings():
-    """The run's parameters, as configure() received them."""
-    return {key: globals()[key] for key in _PARAMETER_KEYS if key in globals()}
+    """Return an independent parameter dictionary for manifests and spawned workers."""
+    return _SETTINGS.snapshot()
 
 
 def configure(settings, *, script):
-    """Install the parameter-block values of the user-facing driver script."""
-    global _SCRIPT
-    # Older parameter scripts omit the advanced controls and keep defaults.
-    settings = dict(DRIVER_CONTROL_DEFAULTS, **settings)
-    missing = sorted(set(_PARAMETER_KEYS) - set(settings))
-    if missing:
-        raise ValueError("Driver script is missing parameter(s): " + ", ".join(missing))
-    globals().update({key: settings[key] for key in _PARAMETER_KEYS})
-    _SCRIPT = str(Path(script).resolve())
+    """Capture a parameter block, keeping defaults for older advanced controls."""
+    global _SETTINGS, _SCRIPT
+    captured = DriverSettings.capture(settings, _PARAMETER_KEYS, DRIVER_CONTROL_DEFAULTS)
+    script_path = str(Path(script).resolve())
+    _SETTINGS, _SCRIPT = captured, script_path
 
 
 # Internal scheduling constants.
@@ -233,20 +233,7 @@ def _verify_run_provenance(context):
 
 
 def _unit_attestation_fields(context, unit):
-    # type: (Dict[str, Any], Dict[str, Any]) -> Dict[str, Any]
-    return {
-        "run_id": str(context["run_id"]),
-        "solver_source_sha256": str(context["solver_source_sha256"]),
-        "runtime_environment_sha256": str(context["runtime_environment_sha256"]),
-        "geometry_input_sha256": str(unit["geometry_input_sha256"]),
-        "run_solve_spec_sha256": str(context["run_solve_spec_sha256"]),
-        "unit_solve_spec_sha256": unit_solve_spec_fingerprint(unit),
-        "solver_config_sha256": str(context["solver_config_sha256"]),
-        "angular_grid_kind": "azimuths_deg",
-        "angular_grid_sha256": str(context["angular_grid_sha256"]),
-        "polarizations": list(OUTPUT_POLARIZATIONS),
-        "frequency_ghz": float(unit["frequency_ghz"]),
-    }
+    return unit_attestation_fields(context, unit, 'azimuths_deg', OUTPUT_POLARIZATIONS)
 
 
 def _verify_unit_input(unit, context):
@@ -267,7 +254,7 @@ def _discover_geometries():
     """Return every geometry file under FRD_DIR/OPN_DIR (deduplicated)."""
     found = []   # type: List[Path]
     seen = set()  # type: set
-    for d in (FRD_DIR, OPN_DIR):
+    for d in (_SETTINGS.FRD_DIR, _SETTINGS.OPN_DIR):
         root = Path(d)
         if not root.is_dir():
             print(f"  [warn] dir not found: {root}", file=sys.stderr)
@@ -287,7 +274,7 @@ def _geometry_role(path):
     """Return the configured FRD/OPN role for a discovered geometry."""
 
     resolved = Path(path).resolve()
-    for role, directory in (("FRD", FRD_DIR), ("OPN", OPN_DIR)):
+    for role, directory in (("FRD", _SETTINGS.FRD_DIR), ("OPN", _SETTINGS.OPN_DIR)):
         try:
             resolved.relative_to(Path(directory).resolve())
             return role
@@ -345,87 +332,16 @@ def _pool_initializer(blas_threads, settings=None, script=None):
 @unit_execution
 def _solve_and_export(unit, context, run_dir_str):
     # type: (Dict[str, Any], Dict[str, Any], str) -> Tuple[str, str]
-    """Pool-worker entry point: solve one unit, export .grim. Idempotent."""
-
-    run_dir = Path(run_dir_str)
-    out_path = _unit_output_path(run_dir, unit)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    _verify_run_provenance(context)
-    _verify_unit_input(unit, context)
-    attestation = _unit_attestation_fields(context, unit)
-    if out_path.exists():
-        verify_embedded_attestation(str(out_path), attestation)
-        return ("skipped", str(out_path))
-
-    snapshot, material_base = _load_snapshot(str(unit["geometry"]))
-
-    solve_kwargs = dict(
-        geometry_snapshot=snapshot,
-        frequencies_ghz=[float(unit["frequency_ghz"])],
-        elevations_deg=[float(a) for a in context["azimuths_deg"]],
-        geometry_units=context["geometry_units"],
-        material_base_dir=material_base,
-        max_panels=context["max_panels"],
-        solver_method=context.get("solver_method", "direct"),
-    )
-    # Select precision inside each worker; context variables are process-local.
-    from ghost_backend.linalg.refined_lu import linear_precision
-    from ghost_backend.twod.samples import compact_samples
-    peak_reset = hpc_scheduler.reset_peak_rss()
-    with compact_samples(), linear_precision(context.get("lu_precision", "double")):
-        if context["mesh_certification"]:
-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_certified
-            result = solve_monostatic_rcs_2d_certified(
-                mesh_convergence_policy=context["mesh_convergence_policy"],
-                **solve_kwargs
-            )
-        else:
-            from ghost_backend.twod.solver import solve_monostatic_rcs_2d_survey
-            result = solve_monostatic_rcs_2d_survey(**solve_kwargs)
-    _verify_run_provenance(context)
-    _verify_unit_input(unit, context)
-    _record_memory_evidence(result, context, unit, peak_reset)
-
-    # Bind the result to its run state inside the artifact, before export, so
-    # results/ holds one file per unit instead of a .grim and a sidecar.
-    embed_output_attestation(result, attestation)
-
-    from ghost_backend.io.grim import export_result_to_grim
-    written = export_result_to_grim(
-        result, str(out_path),
-        source_path=str(snapshot.get("source_path", "") or ""),
-        history=(f"run_hpc_monostatic.py pols=VV,HH "
-                 f"freq={unit['frequency_ghz']}GHz"),
-    )
-    actual_path = str(written[0]) if written else str(out_path)
-    # The run state was verified before the solve and again before the
-    # export; a third check after the artifact is published could only
-    # report a change it can no longer prevent (October 2026 audit, R-D-1).
-    return ("written", actual_path)
+    """Run the shared 2D pipeline using this driver's paths and verifiers."""
+    adapter = WorkerAdapter(
+        _unit_output_path, _verify_run_provenance, _verify_unit_input,
+        _unit_attestation_fields, _load_snapshot, 'run_hpc_monostatic.py',
+        record_memory=_record_memory_evidence)
+    return run_twod_unit(unit, context, run_dir_str, adapter)
 
 
 def _record_memory_evidence(result, context, unit, peak_reset):
-    """Measured peak resident size of this worker against the planner's
-    forecast, in the artifact metadata and the task log: the evidence for
-    tightening the 1.35x / 0.85 memory factors on a given cluster."""
-    measured = hpc_scheduler.peak_rss_gib()
-    forecast = context.get("forecast_peak_gib")
-    evidence = {
-        "forecast_peak_gib": (float(forecast) if forecast is not None else None),
-        "measured_peak_gib": measured,
-        "scope": ("worker_process_since_unit_start" if peak_reset
-                  else "worker_process_lifetime"),
-        "note": "Compressed tile processes are children of the worker and are not "
-                "included; the forecast covers the whole unit.",
-    }
-    metadata = result.setdefault("metadata", {})
-    if isinstance(metadata, dict):
-        metadata["execution_memory"] = evidence
-    if measured is not None:
-        ratio = ("" if not forecast else f", {measured / float(forecast):.2f} of forecast")
-        print(f"      memory {_unit_name(unit)}: forecast "
-              f"{(float(forecast) if forecast else 0.0):.2f} GiB, measured peak "
-              f"{measured:.2f} GiB ({evidence['scope']}{ratio})", flush=True)
+    return record_memory_evidence(result, context, unit, peak_reset, _unit_name)
 
 
 def _solve_and_export_star(args):
@@ -478,7 +394,7 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
 
     total = len(grouped)
     records_total = sum(len(group["frequencies"]) * 2 for group in grouped.values())
-    workers = hpc_scheduler.planning_worker_count(PLANNING_WORKERS, total)
+    workers = hpc_scheduler.planning_worker_count(_SETTINGS.PLANNING_WORKERS, total)
     started = time.monotonic()
     report_step = max(1, total // 20)
     state = {"next_report": report_step, "last_report": started}
@@ -508,7 +424,7 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
     batches = hpc_scheduler.predict_2d_resources_for_geometries(
         {geometry: list(group["frequencies"]) for geometry, group in grouped.items()},
         ["TM", "TE"],
-        GEOMETRY_UNITS,
+        _SETTINGS.GEOMETRY_UNITS,
         _MAX_PANELS,
         fine_factor=fine_factor,
         n_angles=n_angles,
@@ -578,13 +494,13 @@ def _plan_schedule(units, n_slots, fine_factor, n_angles):
 
 def _validate_config():
     # type: () -> Tuple[List[float], List[float]]
-    if ACCURACY_TARGET not in ("standard", "tight"):
+    if _SETTINGS.ACCURACY_TARGET not in ("standard", "tight"):
         sys.exit("ERROR: ACCURACY_TARGET must be 'standard' or 'tight'.")
-    if type(MESH_CERTIFICATION) is not bool:
+    if type(_SETTINGS.MESH_CERTIFICATION) is not bool:
         sys.exit("ERROR: MESH_CERTIFICATION must be True or False.")
-    if not FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
-    if not AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
-    frequencies = [float(value) for value in FREQUENCIES_GHZ]
+    if not _SETTINGS.FREQUENCIES_GHZ: sys.exit("ERROR: FREQUENCIES_GHZ is empty.")
+    if not _SETTINGS.AZIMUTHS_DEG:    sys.exit("ERROR: AZIMUTHS_DEG is empty.")
+    frequencies = [float(value) for value in _SETTINGS.FREQUENCIES_GHZ]
     if (
         not all(math.isfinite(value) and value > 0.0 for value in frequencies)
         or len(set(frequencies)) != len(frequencies)
@@ -594,19 +510,19 @@ def _validate_config():
             "ERROR: frequencies must be finite, positive, unique, and "
             "distinct at the 0.001 GHz output-name precision."
         )
-    azimuths = [float(value) for value in AZIMUTHS_DEG]
+    azimuths = [float(value) for value in _SETTINGS.AZIMUTHS_DEG]
     if (
         not all(math.isfinite(value) for value in azimuths)
         or len(set(azimuths)) != len(azimuths)
     ):
         sys.exit("ERROR: AZIMUTHS_DEG must be finite and unique.")
-    if str(GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
+    if str(_SETTINGS.GEOMETRY_UNITS).strip().lower() not in {"inches", "meters"}:
         sys.exit("ERROR: GEOMETRY_UNITS must be 'inches' or 'meters'.")
-    if int(N_NODES) < 1 or int(N_JOBS) < 1:
+    if int(_SETTINGS.N_NODES) < 1 or int(_SETTINGS.N_JOBS) < 1:
         sys.exit("ERROR: N_NODES and N_JOBS must be >= 1.")
-    if ARRAY_THROTTLE is not None and int(ARRAY_THROTTLE) < 1:
+    if _SETTINGS.ARRAY_THROTTLE is not None and int(_SETTINGS.ARRAY_THROTTLE) < 1:
         sys.exit("ERROR: ARRAY_THROTTLE must be None or >= 1.")
-    if MAX_SOLVE_GB is not None and float(MAX_SOLVE_GB) <= 0.0:
+    if _SETTINGS.MAX_SOLVE_GB is not None and float(_SETTINGS.MAX_SOLVE_GB) <= 0.0:
         sys.exit("ERROR: MAX_SOLVE_GB must be positive or None.")
     return frequencies, azimuths
 
@@ -626,7 +542,7 @@ def submit():
                  "would otherwise overwrite one another.")
 
     run_id  = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
-    run_dir = Path(OUTPUT_DIR).resolve() / run_id
+    run_dir = Path(_SETTINGS.OUTPUT_DIR).resolve() / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     (run_dir / "logs").mkdir()
     (run_dir / "results").mkdir()
@@ -651,7 +567,7 @@ def submit():
     units = []  # type: List[Dict[str, Any]]
     from ghost_backend.assembly.fields import geometry_input_fingerprint
     for original, geom in frozen_geometries:
-        input_fingerprint = geometry_input_fingerprint(str(geom), GEOMETRY_UNITS)
+        input_fingerprint = geometry_input_fingerprint(str(geom), _SETTINGS.GEOMETRY_UNITS)
         for f in frequencies:
             # The angular grid is identical for every unit and is recorded
             # once at manifest level.
@@ -665,7 +581,7 @@ def submit():
                 "frequency_ghz": float(f),
             })
 
-    mesh_policy = accuracy_target_policy(ACCURACY_TARGET)
+    mesh_policy = accuracy_target_policy(_SETTINGS.ACCURACY_TARGET)
     # Workers import their own immutable backend, including native kernels.
     from ghost_backend.hpc.runtime_snapshot import snapshot_backend_runtime
     source_driver = Path(_SCRIPT).resolve()
@@ -678,15 +594,15 @@ def submit():
         "schema":          MANIFEST_SCHEMA,
         "run_id":          run_id,
         "created":         datetime.now().isoformat(),
-        "frd_dir":         str(Path(FRD_DIR).resolve()),
-        "opn_dir":         str(Path(OPN_DIR).resolve()),
+        "frd_dir":         str(Path(_SETTINGS.FRD_DIR).resolve()),
+        "opn_dir":         str(Path(_SETTINGS.OPN_DIR).resolve()),
         "output_dir":      str(run_dir),
         "frequencies_ghz": frequencies,
         "azimuths_deg":    azimuths,
         "polarizations":   list(OUTPUT_POLARIZATIONS),
-        "n_nodes":         int(N_NODES),
-        "n_jobs":          int(N_JOBS),
-        "n_slots":         int(N_NODES) * int(N_JOBS),
+        "n_nodes":         int(_SETTINGS.N_NODES),
+        "n_jobs":          int(_SETTINGS.N_JOBS),
+        "n_slots":         int(_SETTINGS.N_NODES) * int(_SETTINGS.N_JOBS),
         "n_units":         len(units),
         "solver_source_sha256": backend_source_fingerprint(frozen_backend, source_records),
         # Per-file hashes behind that fingerprint, so a later mismatch can say
@@ -696,18 +612,18 @@ def submit():
         "runtime_environment_sha256": runtime_environment_fingerprint(),
         "submission_runtime_environment": runtime_environment_payload(),
         "solver_config": {
-            "geometry_units":          GEOMETRY_UNITS,
+            "geometry_units":          _SETTINGS.GEOMETRY_UNITS,
             "linear_solver":           "dense_lu",
             "polarizations":           list(OUTPUT_POLARIZATIONS),
             "max_panels":              _MAX_PANELS,
             "blas_threads_per_worker": blas_thread_reservation(),
-            "cores_per_node":          CORES_PER_NODE,
+            "cores_per_node":          _SETTINGS.CORES_PER_NODE,
             "mesh_convergence_policy": mesh_policy,
-            "accuracy_target":         ACCURACY_TARGET,
+            "accuracy_target":         _SETTINGS.ACCURACY_TARGET,
             "lu_precision":            AUTOMATIC_LU_PRECISION,
             "solver_method":           AUTOMATIC_SOLVER_METHOD,
             "execution_options": current_options(),
-            "mesh_certification": bool(MESH_CERTIFICATION),
+            "mesh_certification": bool(_SETTINGS.MESH_CERTIFICATION),
         },
         "units": units,
     }
@@ -716,48 +632,48 @@ def submit():
     # The schedule lives beside the manifest rather than inside it: it says
     # where work should run, not what is solved, and the manifest fingerprint
     # that per-unit attestations bind to must cover only the latter.
-    n_slots = int(N_NODES) * int(N_JOBS)
+    n_slots = int(_SETTINGS.N_NODES) * int(_SETTINGS.N_JOBS)
     # fine_factor <= 1 tells the cost model there is only one mesh to solve.
     schedule = _plan_schedule(
         units, n_slots,
-        float(mesh_policy["fine_factor"]) if MESH_CERTIFICATION else 1.0,
+        float(mesh_policy["fine_factor"]) if _SETTINGS.MESH_CERTIFICATION else 1.0,
         len(azimuths),
     )
     (run_dir / "schedule.json").write_text(json.dumps(schedule, indent=2))
 
     slurm_paths = []  # type: List[Path]
-    for j in range(int(N_JOBS)):
+    for j in range(int(_SETTINGS.N_JOBS)):
         sp = run_dir / f"submit_job{j}.slurm"
         sp.write_text(hpc_scheduler.build_sbatch_script(
             job_name=f"rcs_{run_dir.name}_j{j}",
             run_dir=run_dir,
             script_path=script_path,
-            array_size=int(N_NODES),
-            array_throttle=ARRAY_THROTTLE,
-            partition=SLURM_PARTITION,
-            cpus_per_node=CORES_PER_NODE,
-            mem_per_node=MEM_PER_NODE,
-            walltime=SLURM_TIME,
-            account=SLURM_ACCOUNT,
-            qos=SLURM_QOS,
-            mail_type=SLURM_MAIL_TYPE,
-            mail_user=SLURM_MAIL_USER,
-            extra_sbatch=SLURM_EXTRA_SBATCH,
+            array_size=int(_SETTINGS.N_NODES),
+            array_throttle=_SETTINGS.ARRAY_THROTTLE,
+            partition=_SETTINGS.SLURM_PARTITION,
+            cpus_per_node=_SETTINGS.CORES_PER_NODE,
+            mem_per_node=_SETTINGS.MEM_PER_NODE,
+            walltime=_SETTINGS.SLURM_TIME,
+            account=_SETTINGS.SLURM_ACCOUNT,
+            qos=_SETTINGS.SLURM_QOS,
+            mail_type=_SETTINGS.SLURM_MAIL_TYPE,
+            mail_user=_SETTINGS.SLURM_MAIL_USER,
+            extra_sbatch=_SETTINGS.SLURM_EXTRA_SBATCH,
             # Module setup cannot replace the run's frozen backend.
             prologue=[
-                *JOB_PROLOGUE,
+                *_SETTINGS.JOB_PROLOGUE,
                 ("export PYTHONPATH="
                  f"{shlex.quote(str(runtime_parent))}"
                  ":${PYTHONPATH:-}"),
             ],
-            python_exe=PYTHON_EXE,
+            python_exe=_SETTINGS.PYTHON_EXE,
             worker_args=(f"--worker {shlex.quote(str(run_dir))} {j} "
                          "${SLURM_ARRAY_TASK_ID}"),
             submission_index=j,
             blas_threads=blas_thread_reservation(),
             extra_env=(
-                {"GHOST_MAX_SOLVE_GB": f"{float(MAX_SOLVE_GB):g}"}
-                if MAX_SOLVE_GB else {}
+                {"GHOST_MAX_SOLVE_GB": f"{float(_SETTINGS.MAX_SOLVE_GB):g}"}
+                if _SETTINGS.MAX_SOLVE_GB else {}
             ),
         ))
         sp.chmod(0o755)
@@ -771,29 +687,29 @@ def submit():
     print(f"  Run dir       : {run_dir}")
     print(f"  Geometries    : {len(geometries)}")
     print("  Polarizations : VV, HH (co-solved)")
-    print(f"  Frequencies   : {len(FREQUENCIES_GHZ)}  "
-          f"({min(FREQUENCIES_GHZ):g}-{max(FREQUENCIES_GHZ):g} GHz)")
-    print(f"  Azimuths      : {len(AZIMUTHS_DEG)}")
+    print(f"  Frequencies   : {len(_SETTINGS.FREQUENCIES_GHZ)}  "
+          f"({min(_SETTINGS.FREQUENCIES_GHZ):g}-{max(_SETTINGS.FREQUENCIES_GHZ):g} GHz)")
+    print(f"  Azimuths      : {len(_SETTINGS.AZIMUTHS_DEG)}")
     print(f"  Units total   : {len(units)}  (geometry x frequency)")
-    print(f"  Run policy    : {run_control_summary(current_options(), MESH_CERTIFICATION)}")
-    if MESH_STRATEGY == 'adaptive' and BASIS_ORDER != 1:
-        print(f"  Order note    : requested P{BASIS_ORDER} is ignored; adaptive controls polynomial order.")
-    print(f"  Slots         : {N_JOBS} job(s) x {N_NODES} node(s) "
+    print(f"  Run policy    : {run_control_summary(current_options(), _SETTINGS.MESH_CERTIFICATION)}")
+    if _SETTINGS.MESH_STRATEGY == 'adaptive' and _SETTINGS.BASIS_ORDER != 1:
+        print(f"  Order note    : requested P{_SETTINGS.BASIS_ORDER} is ignored; adaptive controls polynomial order.")
+    print(f"  Slots         : {_SETTINGS.N_JOBS} job(s) x {_SETTINGS.N_NODES} node(s) "
           f"= {n_slots} parallel nodes")
-    cores_str = str(CORES_PER_NODE) if CORES_PER_NODE is not None else "auto (--exclusive)"
-    mem_str   = str(MEM_PER_NODE) if MEM_PER_NODE else "unlimited"
-    time_str  = str(SLURM_TIME) if SLURM_TIME else "unlimited"
+    cores_str = str(_SETTINGS.CORES_PER_NODE) if _SETTINGS.CORES_PER_NODE is not None else "auto (--exclusive)"
+    mem_str   = str(_SETTINGS.MEM_PER_NODE) if _SETTINGS.MEM_PER_NODE else "unlimited"
+    time_str  = str(_SETTINGS.SLURM_TIME) if _SETTINGS.SLURM_TIME else "unlimited"
     print(f"  Per node      : {cores_str} cores, {mem_str} RAM, "
           f"{time_str} walltime")
     if peaks:
         print(f"  Unit peak RAM : {min(peaks):.2f}-{max(peaks):.2f} GB "
               f"estimated (incl. {_MEMORY_SAFETY:g}x safety)")
     hp_units = sum(int(r.get("fine_polynomial_degree", 1)) > 1 for r in schedule["units"])
-    if MESH_CERTIFICATION and current_options()['mesh_strategy'] == 'adaptive':
+    if _SETTINGS.MESH_CERTIFICATION and current_options()['mesh_strategy'] == 'adaptive':
         print(f"  Mesh path     : {hp_units} unit(s) on the hp pair (P2/P3, one coarsened "
               f"mesh), {len(schedule['units']) - hp_units} on the linear pair "
               f"(P1 and P1 x{float(mesh_policy['fine_factor']):g})")
-    elif MESH_CERTIFICATION:
+    elif _SETTINGS.MESH_CERTIFICATION:
         print(f"  Mesh path     : P{current_options()['basis_order']} base/fine meshes; "
               f"requested density refinement x{float(mesh_policy['fine_factor']):g}")
     else:
@@ -801,10 +717,10 @@ def submit():
               "uncertified (MESH_CERTIFICATION = False)")
         import ghost_backend.twod.solver as _solver
         ceiling = (
-            float(MAX_SOLVE_GB) if MAX_SOLVE_GB
+            float(_SETTINGS.MAX_SOLVE_GB) if _SETTINGS.MAX_SOLVE_GB
             else _solver._solve_memory_limit_gb()
         )
-        source = ("MAX_SOLVE_GB" if MAX_SOLVE_GB
+        source = ("MAX_SOLVE_GB" if _SETTINGS.MAX_SOLVE_GB
                   else f"{(_solver._detect_available_gb() or 0):.0f} GiB detected here")
         print(f"  Solve ceiling : {ceiling:.1f} GB per solve ({source})")
         if max(peaks) > ceiling:
@@ -819,13 +735,13 @@ def submit():
     if idle:
         print(f"                  {idle} of {n_slots} slot(s) have no planned "
               "work -- fewer units than nodes, so those tasks exit at once")
-    if not MESH_CERTIFICATION:
+    if not _SETTINGS.MESH_CERTIFICATION:
         print("  Certification : Survey \u2014 mesh convergence not checked")
         print("                  Downstream use remains enabled; the user owns the")
         print("                  mesh-resolution decision.")
     print(f"  Slurm scripts : {len(slurm_paths)} files in {run_dir}")
 
-    if not SUBMIT:
+    if not _SETTINGS.SUBMIT:
         print("\n  SUBMIT=False -- submit manually with:")
         for sp in slurm_paths:
             print(f"    sbatch {sp}")
@@ -993,7 +909,7 @@ def worker(run_dir_str, submission_index, task_index):
     blas_cap = hpc_scheduler.blas_thread_cap(cores)
     memory_gb = hpc_scheduler.detect_memory_gb()
     budget_gb = max(1.0, memory_gb * _MEMORY_HEADROOM)
-    worker_cap = cores if MAX_WORKERS_PER_NODE is None else max(1, int(MAX_WORKERS_PER_NODE))
+    worker_cap = cores if _SETTINGS.MAX_WORKERS_PER_NODE is None else max(1, int(_SETTINGS.MAX_WORKERS_PER_NODE))
     # Concurrency is sized from this task's OWN share, not from the whole
     # sweep. Sizing it from the total let one task claim every unit before the
     # others had started; it also left each solve with a sliver of the node
@@ -1244,3 +1160,10 @@ def run(namespace, script):
     """Entry point used by the user-facing run_hpc_*.py parameter script."""
     configure(namespace, script=script)
     main()
+
+
+def __getattr__(name):
+    """Keep reads of configured parameter attributes compatible with old callers."""
+    if name in _SETTINGS:
+        return _SETTINGS[name]
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
