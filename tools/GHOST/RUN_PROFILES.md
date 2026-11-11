@@ -1,8 +1,8 @@
 # Running 2D solves
 
 The GHOST solver tab separates mesh workflow from the linear solver.
-Compressed is the default for 2D monostatic runs in every workflow; Dense is
-an independent Advanced setting. Changing the mesh workflow does not reset
+Automatic is the default linear-solver policy for 2D monostatic runs. Dense and
+Compressed remain explicit Advanced choices. Changing the mesh workflow does not reset
 the selected backend, manual polynomial order, or corner grading.
 
 ## What you choose
@@ -38,27 +38,39 @@ The reported certificate and quality metadata retain their existing meanings.
 
 The one-shot preset and certification checkbox have been replaced by this
 workflow selector. Specified-mesh order and sizing are retained when visiting
-Automatic and restored when returning; the workflow never silently changes
-Compressed to Dense or vice versa. Backend-specific factorization details and
+Automatic and restored when returning; the workflow does not change the selected
+linear-solver policy. Automatic may select different backends as mesh size changes;
+explicit Dense and Compressed requests remain fixed. Backend-specific details and
 fallbacks remain part of the chosen solver. There is no universal fastest backend.
 
 For an already validated mesh, select **Solve specified mesh**, open Advanced,
 and match its polynomial order, sizing, and grading. Positive N specifies
 panels per drawn primitive; N=0 or negative N still requests wavelength sizing.
 An existing certified result's refined mesh is not automatically reused.
-Compare Dense and Compressed on the same mesh and frequency if speed matters.
+Leave the linear solver on Automatic for budget-aware selection, or compare explicit
+Dense and Compressed on the same mesh and frequency for your particular workload.
 A larger single P1 solve can take longer than an automatic checked P2/P3 pair.
 The GUI makes no promise that an unchecked solve is the fastest configuration.
 
 The original checked/adaptive startup behavior remains the default. Batch
-configuration flags and solver APIs are unchanged.
+configuration field names and solver entry points are unchanged. New profiles use
+`factorization="automatic"`; older versions cannot read that new value. Saved explicit
+Dense/Compressed choices are preserved.
 
 ## What is automatic
 
 Monostatic runs:
 
-- **Backend.** Compressed Galerkin is the monostatic default. Dense is a
-  manual override; automatic runs do not select it from predicted timings.
+- **Backend.** Automatic first admits candidates against the solve RAM budget.
+  It prefers dense LU below 10,000 forecast unknowns and compressed execution
+  at or above that size, using an admitted alternative if the preference cannot
+  fit. This conservative policy is not a universal speed crossover. It does not
+  read or write timing history. Adaptive refinements are admitted again.
+  Automatic compressed execution permits H-matrix from 1,024 unknowns, retaining
+  tile support for small systems, excluded formulations and rejected assembly.
+  Explicit Compressed keeps its existing 8,192-unknown threshold. Dense uses LU
+  unless an explicit hierarchical/launch or legacy timing override requests HODLR.
+  BoR retains its existing factor policy.
   Within compressed solving, the planner prices operator storage, inverse
   construction, assembly workspace and angle batches. Retained storage uses
   the remaining reservation after phase workspace, without a 2-GiB minimum.
@@ -81,7 +93,10 @@ Monostatic runs:
   a cheaper compression proposal; the probe checks, backtracking and error
   thresholds remain unchanged. Small dense blocks inside the compressed inverse
   can avoid unnecessary mesh retries; they do not select the dense backend.
-- **Threads.** Assembly threads default to the physical cores of the solving
+- **Threads.** Automatic BLAS uses one thread for H-matrix condition probes,
+  inverse applications and the full RHS compression/solve operation. Dense LU
+  retains its parallel BLAS policy. Explicit numeric BLAS settings remain honored.
+  Assembly threads default to the physical cores of the solving
   machine (at most 16), or the per-unit allocation a batch driver computed for
   a scheduled solve. Compressed tile operators are
   assembled in worker processes instead: up to eight (half the host cores) for

@@ -71,7 +71,7 @@ Both monostatic scripts expose the same choices in their CONFIG blocks:
 
 | Setting | Recommended default | Alternatives and behavior |
 | --- | --- | --- |
-| `FACTORIZATION` | `"compressed"` | Dense is a manual override. Legacy `"adaptive"` uses compressed; `"auto"` maps to dense. Dense may use hierarchical factorization internally, with LU fallback. |
+| `FACTORIZATION` | `"automatic"` | Chooses dense LU below 10,000 forecast unknowns and compressed above, subject to RAM admission. Explicit `"dense"` / `"compressed"` remain fixed. Legacy `"adaptive"` retains timing-based selection; `"auto"` maps to dense. |
 | `MESH_STRATEGY` | `"adaptive"` | Adaptive certification selects polynomial meshes. `"local"` and `"global"` use the manual order. |
 | `BASIS_ORDER` | `1` | Choose 1, 2, or 3 for local/global meshes. Ignored for adaptive meshes; the GUI displays **Automatic**. |
 | `MESH_GRADING` | `True` | Grades corners, open ends, and material junctions. |

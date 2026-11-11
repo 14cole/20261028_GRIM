@@ -916,7 +916,7 @@ def worker(run_dir_str, submission_index, task_index):
     # when the run was smaller than the cluster.
     pool_size = max(1, min(cores, worker_cap, max(1, planned)))
     batch_selections = {}
-    if context['execution_options']['factorization'] == 'adaptive':
+    if context['execution_options']['factorization'] in ('adaptive', 'automatic'):
         from ghost_backend.runs.batch import apply_batch_choices
         records = json.loads((run_dir / 'schedule.json').read_text())['units']
         if any('backend_candidates' not in r for r in records):

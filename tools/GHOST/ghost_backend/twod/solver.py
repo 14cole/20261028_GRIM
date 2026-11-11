@@ -1699,12 +1699,12 @@ def _estimate_memory_gb(
 
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
     solve = 2*matrix + 16*12*d*batch + 64*1024**2 + PROJECTION_CACHE_BYTES
-    from ghost_backend.linalg.hierarchical import automatic_hierarchical
-    # A large dense system is factored hierarchically by default: priced as the
-    # matrix and a factor within its storage budget (an LU fallback that finds
+    from ghost_backend.linalg.hierarchical import automatic_twod_hierarchical
+    # Explicit/legacy hierarchical overrides are priced as the matrix and
+    # a factor within its storage budget (an LU fallback that finds
     # no room for its copy spools the original, as any unforeseen shortage does).
     hierarchical_default = (factorization in ('dense', 'auto') and not gpu
-                            and requested_precision() == 'double' and automatic_hierarchical(d))
+                            and requested_precision() == 'double' and automatic_twod_hierarchical(d))
     if factorization == 'hierarchical' or hierarchical_default:
 
 

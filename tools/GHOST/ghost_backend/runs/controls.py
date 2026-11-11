@@ -3,7 +3,7 @@ from ghost_backend.execution.options import automatic_options, validate_options
 
 
 DRIVER_CONTROL_DEFAULTS = {
-    'FACTORIZATION': 'compressed',
+    'FACTORIZATION': 'automatic',
     'MESH_STRATEGY': 'adaptive',
     'BASIS_ORDER': 1,
     'MESH_GRADING': True,
@@ -13,7 +13,8 @@ CONTROL_FIELDS = {
     'BASIS_ORDER': 'basis_order', 'MESH_GRADING': 'mesh_grading',
 }
 FACTORIZATION_LABELS = {
-    'compressed': 'Compressed (default, lower memory)',
+    'automatic': 'Automatic (recommended)',
+    'compressed': 'Compressed (lower memory)',
     'dense': 'Dense',
 }
 # Accepted by APIs, drivers, and saved profiles, but not offered for new GUI runs.

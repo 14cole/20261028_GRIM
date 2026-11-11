@@ -109,7 +109,7 @@ class RunSetupMixin:
         selection_note = ''
         if not forecast_frequencies:
             selection_note = 'Matching checkpoints found for every frequency; no new solve forecast needed.\n'
-        elif value['execution_options']['factorization'] == 'adaptive':
+        elif value['execution_options']['factorization'] in ('adaptive', 'automatic'):
             from ghost_backend.execution.selection import select_backend
             from ghost_backend.runs.quality import accuracy_target_policy
             arguments = dict(geometry_snapshot=snapshot, material_base_dir=base_dir,

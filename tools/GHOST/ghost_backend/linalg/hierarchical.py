@@ -55,6 +55,18 @@ def automatic_hierarchical(n):
     return threshold > 0 and int(n) >= threshold
 
 
+def automatic_twod_hierarchical(n):
+    """2D dense uses LU unless a launch override or legacy timing choice opts in.
+
+    BoR retains automatic_hierarchical and its existing threshold. The shared
+    HODLR primitives also remain in use by the compressed H-matrix inverse.
+    """
+    if os.environ.get('GHOST_HIERARCHICAL_MIN_UNKNOWNS', '').strip():
+        return automatic_hierarchical(n)
+    from ghost_backend.linalg.crossover import chosen
+    return chosen(n) == 'hodlr'
+
+
 def factor_storage_budget(matrix_bytes):
 
 

@@ -21,6 +21,7 @@ from ghost_backend.compressed.factor import (CompressedFactor, SOLVE_BACKWARD_ER
                                              CONDITION_PROBE_BACKWARD_ERROR_LIMIT)
 from ghost_backend.compressed.hmatrix import HMatrixRejected, DENSE_FALLBACK_LIMIT as HMATRIX_DENSE_FALLBACK_LIMIT
 from ghost_backend.execution.metrics import timed_stage
+from ghost_backend.execution.options import factor_blas_threads, option
 
 # Hierarchical inverse ranks of electrically large 2-D bodies exceed the 256
 # of the tile backend's cross approximation; storage still caps the build.
@@ -114,6 +115,9 @@ class HMatrixSystem(CompressedSystem):
 class HMatrixFactor(CompressedFactor):
     """CompressedFactor for ``HMatrixOperator`` with the exact sample-row gate."""
 
+    automatic_blas_threads = 1
+
+    @factor_blas_threads
     def __init__(self, operator, *args, storage_budget_bytes=None, **kwargs):
         from ghost_backend.execution.memory_budget import current
         ledger = current()
@@ -123,6 +127,8 @@ class HMatrixFactor(CompressedFactor):
             storage_budget_bytes = hmatrix_storage_budget()
         self.storage_allowance = int(storage_budget_bytes)
         super().__init__(operator, *args, storage_budget_bytes=storage_budget_bytes, **kwargs)
+        if option('blas_threads') == 'auto':
+            self.event['solve_blas_threads'] = 1
 
     def _refresh_inverse_budget(self):
         from ghost_backend.twod.assembly.polynomial_pair import retained_bytes
@@ -146,6 +152,7 @@ class HMatrixFactor(CompressedFactor):
         denominator = np.maximum(norm*np.max(abs(x), axis=0) + np.max(abs(b), axis=0), 1e-300)
         return np.max(abs(residual), axis=0)/denominator
 
+    @factor_blas_threads
     def inverse(self, rhs, trans=0, return_residual=False, limit=SOLVE_BACKWARD_ERROR_LIMIT):
         b = np.asarray(rhs, complex); vector = b.ndim == 1
         if vector:
@@ -177,6 +184,7 @@ class HMatrixFactor(CompressedFactor):
         return solution
 
     @timed_stage('condition_estimation')
+    @factor_blas_threads
     def _condition(self):
         blocks = self.diagnostics.get('condition_balance_blocks')
         if blocks is None:
@@ -201,6 +209,7 @@ class HMatrixFactor(CompressedFactor):
             condition_method='equilibrated_1norm_hmatrix_refined_inverse_block_balanced')
 
     @timed_stage('linear_solve')
+    @factor_blas_threads
     def solve(self, rhs):
         import ghost_backend.twod.solver as rcs
         b = np.asarray(rhs, complex); vector = b.ndim == 1

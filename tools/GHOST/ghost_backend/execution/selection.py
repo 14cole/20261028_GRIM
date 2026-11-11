@@ -11,6 +11,15 @@ _BATCH_SELECTION = ScopedValue('ghost_batch_backend_selection', default=None)
 _REQUEST_SELECTION = ScopedValue('ghost_request_backend_selection', default=None)
 
 
+def rank_forecast(result, budget, diagnostics=None):
+    if result.get('automatic_policy'):
+        from ghost_backend.execution.policy import rank_automatic
+        result['objective'] = 'memory_and_size'
+        size = max(row['unknowns'] for row in result['meshes'])
+        return rank_automatic(result['candidates'], budget, size, diagnostics=diagnostics)
+    return rank_candidates(result['candidates'], budget, diagnostics=diagnostics)
+
+
 def request_selection_scope(value):
     """The forecast made at the public boundary of the running request (or None)."""
     return _REQUEST_SELECTION.override(value)
@@ -35,7 +44,7 @@ def current_batch_selection():
 
 def select_backend(arguments, options, certified=False, checkpoint=None):
     from ghost_backend.twod.preparation import sweep_mesh_scope
-    with sweep_mesh_scope(arguments['frequencies_ghz']):
+    with execution_scope(options), sweep_mesh_scope(arguments['frequencies_ghz']):
         return _select_backend(arguments, options, certified, checkpoint)
 
 
@@ -67,7 +76,8 @@ def _select_backend(arguments, options, certified=False, checkpoint=None):
     # allocation (_refresh_memory_forecast), so the sweep planner, which
     # selects under each worker's share, reuses the preview's records instead
     # of building every candidate mesh again (October 2026 audit, R-2D-7).
-    key = hashlib.sha256(json.dumps([inputs, normalized, requested_precision()], sort_keys=True).encode('utf-8')).digest() if cache is not None else None
+    from ghost_backend.execution.options import automatic_policy_requested
+    key = hashlib.sha256(json.dumps([inputs, normalized, requested_precision(), automatic_policy_requested()], sort_keys=True).encode('utf-8')).digest() if cache is not None else None
     if cache is not None and key in cache:
         cached, resource_records = cache[key]
         result = copy.deepcopy(cached)
@@ -155,7 +165,7 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
     describe_mesh_scope(result)
     decision = {}
     try:
-        ranked = rank_candidates(result['candidates'], budget, diagnostics=decision)
+        ranked = rank_forecast(result, budget, diagnostics=decision)
     except MemoryError:
         if not recover:
             raise
@@ -192,7 +202,7 @@ def _recover_memory_forecast(result, resource_records, arguments, options, check
         return
     # Return the final, most restrictive forecast's failure, not a timing claim.
     try:
-        rank_candidates(result['candidates'], result['admission_budget_gib'])
+        rank_forecast(result, result['admission_budget_gib'])
     except MemoryError as exc:
         formulations = sorted({r.get('formulation', r.get('resources', {}).get('formulation', 'unknown'))
                                for r in result['meshes']})
@@ -306,7 +316,8 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                             formulation=resources['formulation'],backend_peak_gib=peaks, resources=dict(resources)))
     peak = max(r['dense_peak_gib'] for r in records)
     candidates={m:c for m,c in candidates.items() if m not in exclusions}
-    result = dict(requested='adaptive', dense_peak_gib=peak,
+    from ghost_backend.execution.options import automatic_policy_requested
+    result = dict(requested='adaptive', automatic_policy=automatic_policy_requested(), dense_peak_gib=peak,
         model=MODEL,objective='predicted_solve_completion',candidates=candidates,
         cost_source='stage_work_prior',
         exclusions=exclusions,optimality_guaranteed=False,
@@ -316,7 +327,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
     describe_mesh_scope(result)
     decision={}
     try:
-        ranked=rank_candidates(candidates,budget,diagnostics=decision)
+        ranked=rank_forecast(result,budget,diagnostics=decision)
     except MemoryError:
         repricing = [(r['resources'], dict(options, basis_order=r['polynomial_degree'])) for r in records]
         _recover_memory_forecast(result, repricing, arguments, options, checkpoint)

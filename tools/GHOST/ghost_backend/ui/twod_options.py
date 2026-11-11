@@ -19,9 +19,9 @@ class TwoDOptionsWidget(QWidget):
         for key, label in FACTORIZATION_LABELS.items():
             self.factorization.addItem(label, key)
         self.factorization.setToolTip(
-            'Shared by all mesh workflows. Compressed uses less memory; Dense can be faster '
-            'on smaller problems. Mesh checking does not change this selection. Dense may '
-            'use hierarchical factors internally, with LU fallback.')
+            'Automatic chooses Dense for smaller systems when RAM permits and Compressed '
+            'for larger or memory-limited systems. Explicit choices stay fixed. '
+            'Mesh checking does not change your selected policy.')
         self.form.addRow('Linear solver', self.factorization)
         self.mesh = QComboBox()
         self.mesh.addItem('Global wavelength sizing', 'global')

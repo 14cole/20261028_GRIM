@@ -29,7 +29,7 @@ MESH_CERTIFICATION = True        # Recommended. False: Survey \u2014 mesh conver
 ACCURACY_TARGET = "standard"     # "standard" | "tight"
 
 # --- Advanced numerical controls (recommended defaults below) ---------------
-FACTORIZATION = "compressed"     # compressed (default) | dense (manual override)
+FACTORIZATION = "automatic"      # automatic (default) | dense | compressed
 # Compressed is the lower-memory default; choose dense explicitly to override.
 # Dense uses LU / hierarchical internally, with LU fallback. Legacy "auto"
 # remains an alias for dense; it is NOT the adaptive dense/compressed selector.

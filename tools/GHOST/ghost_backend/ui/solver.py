@@ -80,7 +80,7 @@ def _2d_panel_limit() -> 'int':
     from ghost_backend.compressed.runtime import enabled
     from ghost_backend.twod.constants import MAX_PANELS_DEFAULT
     from ghost_backend.execution.options import option
-    return 100_000 if enabled() or option('factorization') == 'adaptive' else MAX_PANELS_DEFAULT
+    return 100_000 if enabled() or option('factorization') in ('adaptive', 'automatic') else MAX_PANELS_DEFAULT
 
 
 def _result_kind(result: 'Dict[str, Any]') -> 'str':
