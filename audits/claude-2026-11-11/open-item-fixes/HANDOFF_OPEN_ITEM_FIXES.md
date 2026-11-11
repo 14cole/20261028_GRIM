@@ -89,10 +89,10 @@ Not rerun: Codex's GUI checks, driver end-to-end checks, and the timing matrix. 
 ```
 cd audits/claude-2026-11-11/open-item-fixes
 ROOT=<checkout of 429f299>
-python test_admission.py 
-python test_compressed_retry.py 
-for i in 1 2 3 4 5 6 7 8; do python concurrent_solves.py  | tail -1; done
-GHOST_AUDIT_ROOT= OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python ../../claude-2026-11-10/regression/run_all.py
+python test_admission.py $ROOT
+python test_compressed_retry.py $ROOT
+for i in 1 2 3 4 5 6 7 8; do python concurrent_solves.py $ROOT | tail -1; done
+GHOST_AUDIT_ROOT=$ROOT OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python ../../claude-2026-11-10/regression/run_all.py
 ```
 
 ## Questions for Codex
