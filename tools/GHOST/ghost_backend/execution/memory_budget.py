@@ -395,13 +395,22 @@ class MemoryBudget:
         return dict(live_check=True, process_sample=self.last_process_sample)
 
 
-def _reservation_exhausted():
-    """Another request of this process holds, or is about to take, every byte.
+# An uncapped request that overlaps other solves of this process is not worth
+# admitting with less than this: no 2D system fits a smaller reservation.
+MINIMUM_SHARED_RESERVATION_GIB = .5
+
+
+def _reservation_exhausted(wanted_gib=None):
+    """Other requests of this process leave less than this one can use.
 
     The first request of a cohort reserves the whole capacity unless a cap
     limits it, so a request that overlapped it used to be admitted with a
     0 GiB limit and failed with a MemoryError naming gigabytes of free RAM.
-    Call with _LOCK held.
+    A small positive remainder is no better: the request was admitted with a
+    few hundredths of a GiB and no backend fitted.  A request therefore waits
+    until the remainder covers its own RAM cap (``wanted_gib``), or, without
+    a cap, ``MINIMUM_SHARED_RESERVATION_GIB``; neither exceeds the capacity,
+    so a request alone in the process never waits.  Call with _LOCK held.
     """
     others = list(_REQUESTS)
     if not others:
@@ -409,11 +418,19 @@ def _reservation_exhausted():
     if any(other.ceiling is None for other in others):
         return True   # enrolled, reservation not taken yet: its size is unknown
     capacity = others[0].cohort['capacity']
-    return capacity is not None and capacity-sum(other.ceiling for other in others) <= 0.
+    if capacity is None:
+        return False
+    remaining = capacity-sum(other.ceiling for other in others)
+    if remaining <= 0.:
+        return True
+    needed = MINIMUM_SHARED_RESERVATION_GIB
+    if wanted_gib is not None and math.isfinite(wanted_gib) and wanted_gib > 0:
+        needed = wanted_gib
+    return remaining < min(needed, capacity)
 
 
 @contextmanager
-def scope(abort_event=None):
+def scope(abort_event=None, wanted_gib=None):
     if _STATE.get() is not None:
         yield _STATE.get()
         return
@@ -428,7 +445,7 @@ def scope(abort_event=None):
         # Wait before sampling this request's baseline.  Requests whose caps
         # leave room for each other still overlap; the aggregate reservation
         # is never exceeded either way.
-        while may_wait and _reservation_exhausted():
+        while may_wait and _reservation_exhausted(wanted_gib):
             if abort_event is not None and abort_event.is_set():
                 raise InterruptedError('Solve aborted while waiting for another solve of this process '
                                        'to release its memory reservation.')
