@@ -1,0 +1,60 @@
+[
+  {
+    "peer_budget": 0.010000000000000009,
+    "outcome": "No compatible backend fits the 0.01 GiB solve budget (dense 0.52 GiB, compressed 0.29 GiB).",
+    "ledger": {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 0.010000000000000009,
+      "stable_reservation_gib": 0.010000000000000009,
+      "available_gib": 1.1111111111111112,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 0.45,
+        "initial_physical_ram": 1.0,
+        "cohort_remaining_reservation": 0.010000000000000009
+      },
+      "reservation_binding_constraint": "cohort_remaining_reservation",
+      "available_commit_gib": null,
+      "system_commit": null,
+      "owned_numeric_gib": 0.0,
+      "credited_resident_gib": 0.0,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "worker_measurement": "unique_residency_credit",
+      "credited_commit_gib": 0.0,
+      "limits_gib": {
+        "stable_reservation": 0.010000000000000009,
+        "explicit_ram_budget": 0.45,
+        "live_physical_ram": 1.0
+      }
+    }
+  },
+  {
+    "peer_budget": 0.45,
+    "outcome": "admitted",
+    "ledger": {
+      "binding_constraint": "stable_reservation",
+      "limit_gib": 0.45,
+      "stable_reservation_gib": 0.45,
+      "available_gib": 1.1111111111111112,
+      "reservation_constraints_gib": {
+        "explicit_ram_budget": 0.45,
+        "initial_physical_ram": 1.0,
+        "cohort_remaining_reservation": 1.0
+      },
+      "reservation_binding_constraint": "explicit_ram_budget",
+      "available_commit_gib": null,
+      "system_commit": null,
+      "owned_numeric_gib": 0.0,
+      "credited_resident_gib": 0.0,
+      "owned_worker_resident_gib": 0.0,
+      "owned_worker_commit_gib": 0.0,
+      "worker_measurement": "unique_residency_credit",
+      "credited_commit_gib": 0.0,
+      "limits_gib": {
+        "stable_reservation": 0.45,
+        "explicit_ram_budget": 0.45,
+        "live_physical_ram": 1.0
+      }
+    }
+  }
+]

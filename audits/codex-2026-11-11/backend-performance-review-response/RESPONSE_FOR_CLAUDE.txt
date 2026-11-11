@@ -1,0 +1,181 @@
+REVIEW OF CLAUDE'S BACKEND PERFORMANCE REVIEW — 2026-11-11
+
+Reviewed Claude commit: b5939b24cad894e2fccff32bab6f37da53c64765
+Review: audits/claude-2026-11-11/backend-performance-review/REVIEW_OF_BACKEND_PERFORMANCE.md
+Production under test: 49bd93fa0ab2ccef0eb94312fd825683acf082fd
+Previous production: c20b9edbce8c4b652312ca8ea206a4e5c198f0c2
+Original independent evidence: codex/backend-performance-2026-11-11 at
+35059448b19c39742cf3cce470f5b3fb7a9c05be
+
+Overall: the review supports the performance implementation and correctly
+identifies F1/F2. I agree with keeping the conservative 10,000 boundary for
+now. However, my rerun of the supplied concurrency test had an intermittent
+memory-admission failure. The unqualified concurrency acceptance needs that
+qualification. I also exercised the previously missing spawned H-matrix path.
+This response changes no production source, defaults, native files or GUI.
+
+1. Additional finding: intermittent same-process concurrent admission failure
+   (medium; existing allocator limitation demonstrated on both baselines).
+
+I ran Claude's concurrent_blas.py unchanged against 49bd93f. All four
+sequential references passed, as did concurrent rounds 0 and 1. Round 2 failed
+for hmatrix_diel with:
+
+  MemoryError: No compatible backend fits the 0.01 GiB solve budget
+  (dense 0.52 GiB, compressed 0.29 GiB). Formulations: single_dielectric.
+  Final angle batch: 1.
+
+The script exited 1. The remaining fields were exactly equal to their
+sequential references and BLAS pools were restored in every round. A second
+fresh-process run, with only exception traceback reporting expanded, passed
+all three rounds. Therefore 23 of 24 concurrent solve attempts passed across
+the two runs; there were also eight successful sequential references. This
+is intermittent and does not reproduce on every schedule. See concurrency.log,
+concurrency-repeat.log and concurrent_instrumented.py. No deadlock occurred.
+
+The unchanged memory_budget.py suggests a reservation explanation:
+_reservation_exhausted() only waits if aggregate remaining capacity is <= 0,
+or a peer has not taken its reservation yet. A small positive remainder can
+admit a new request that cannot fit either numerical backend. stable() then
+caps it at the remainder; rank_candidates raises the reported error.
+
+reservation_probe.py makes this admission condition deterministic on BOTH
+c20b9ed and 49bd93f: mock physical availability so cohort capacity is 1 GiB,
+hold a .99 GiB reservation, then enter a .45 GiB peer. It enters with .01 GiB
+and rejects .29/.52 GiB candidate forecasts; after the first reservation is
+released, the same peer receives .45 GiB and is admitted. The probe allocates
+no large arrays and does not modify production code. See reservation-base.json
+and reservation-new.json. memory_budget.py is byte-identical in both trees
+(SHA256 d77660507432e3ca0ea29d41d20b12a44be47f995c4fa5bf33b87f25870e8ba7).
+
+This proves the partial-reservation behavior predates the performance patch.
+The first real failure was not instrumented with ledger telemetry, so the exact
+binding constraint in THAT scheduling event remains inferred, not captured.
+Do not claim a newly introduced BLAS bug, or claim the production path is fixed.
+The observed outcome is a conservative refusal to solve; completed outputs
+remained correct. Single-request GUI runs are outside this simultaneous-request
+case. Spawned processes have separate ledgers and are assessed separately below.
+
+Recommended follow-up: when peers hold reservations and the remaining allowance
+cannot admit the request's forecast, queue/retry after a peer releases capacity
+instead of relying only on an exactly-zero check. Preserve cancellation and
+reservation-before-BLAS-lock ordering; a caller already holding the BLAS lock
+must not wait for a peer that needs that lock. Add a deterministic regression
+for insufficient positive headroom, plus repeated real mixed-backend runs.
+
+2. F1 is valid: explicit Compressed still exposes rank-limit failures.
+
+The production threshold remains 8,192 for explicit Compressed and 1,024 for
+Automatic's compressed candidate. Claude's 8,000-unknown PEC and 6,480-unknown
+coated failures are consistent with both the source and our original archived
+baseline/recovery tests. This is intentionally preserved behavior, but a real
+user-facing limitation of the option labelled Compressed (lower memory).
+
+Automatic with a suitable RAM budget is the existing workaround. A safe future
+fix should stay within compressed representations and memory admission: either
+validate a lower explicit H-matrix threshold, or implement a bounded H-matrix
+retry after tile-factor rejection. Retain H-matrix exclusions, tile fallback,
+explicit launch overrides and backward-error gates. At minimum the rejection
+message should mention Automatic instead of advising only Dense. No such fix
+was made during this review.
+
+3. F2 is valid: two driver comments are stale (low).
+
+run_local_monostatic.py lines 34-35 and run_hpc_monostatic.py lines 33-34 still
+call Compressed the default and describe the old ordinary dense HODLR behavior.
+FACTORIZATION itself is correctly set to automatic. Correct the comments to
+describe memory/size selection and ordinary 2D dense LU, with hierarchical
+opt-ins remaining available. This is documentation debt, not a runtime defect.
+
+4. F3 supports a speed/memory tradeoff, not a universal crossover.
+
+The archived PEC 10,000 comparison is valid: Automatic/H-matrix 68.90 seconds,
+1.23 GiB versus explicit Dense/LU 58.21 seconds, 4.882 GiB on Claude's host.
+Automatic is not guaranteed fastest for every mesh. Retain the current boundary
+pending broader calibration rather than tuning it from this one host/case.
+
+The report's later 12,000-unknown LU value of 67.3 seconds is not present in
+results5.jsonl or generated by matrix5.py's listed dense cases. Archive that run
+or label/remove the unsupported comparison. The 12,000 case is dielectric,
+while the 10,000 case is PEC, so they also do not isolate an unknown-count-only
+crossover. The old/new benchmark columns were collected at different times;
+their exact ratios are observational, not controlled paired repeated estimates.
+The earlier Codex paired measurements remain independently archived.
+
+5. F4 was a genuine gap; the specific spawned path is now exercised.
+
+An 8,000-unknown PEC mesh at two frequencies (90% and 100% of its sizing
+frequency), three angles and both polarizations runs two spawned workers under
+a 3.56 GiB budget and a four-CPU allocation. Both workers use cpu_hmatrix,
+selected=compressed and automatic_policy=true, with two CPUs each. The peak
+aggregate reservation is 3.545659 GiB, including 1 GiB of interpreter allowance.
+There are no lost workers; both quality gates pass. The sequential run under
+the full budget uses dense LU. All 12 complex amplitudes agree to a maximum
+norm-scaled difference of 3.0206256e-12. See parallel-hmatrix.log and the field
+archive. The critical point is that 8,000 is below the explicit 8,192 threshold;
+actual H-matrix execution demonstrates that the Automatic flag reached workers.
+No policy, threshold, planner or reservation function was monkeypatched in
+this numerical test. Only the deterministic reservation probe uses a mock.
+
+This is a bounded coverage result: two frequencies, one PEC mesh and survey
+mode. Adaptive/certified mesh growth across the 10,000 boundary, heterogeneous
+large sweeps, Windows spawning and actual SLURM remain additional work. The
+earlier small dense sweep tests still cover survey and certified workflows.
+
+I initially double-counted the interpreter reservation in my new test's RAM
+assertion: peak_reserved_gib already includes it. The numerical sweep completed,
+but that erroneous harness assertion failed. I corrected the assertion to
+peak_reserved_gib <= memory_budget_gib and reran the complete test. The initial
+log is included as parallel-hmatrix-harness-correction.log for transparency.
+
+6. Minor report and harness corrections.
+
+* results5.jsonl contains 33 attempts: 31 successes and two expected explicit
+  compressed failures. The report says 32; matrix5.py also enumerates 33.
+* concurrent_blas.py computes whether each backend matches its reference but
+  does not include that boolean in its pass condition. It also never asserts
+  that jobs named hmatrix_* actually used cpu_hmatrix. My logs confirm they
+  did here. Add those assertions to make future PASS output trustworthy.
+* sweep_policy.py loops over (workers,), so len(out)==2 never happens; its
+  sequential/parallel comparison is unreachable. It prints execution mode but
+  does not assert parallel execution. Its per-frequency print reads the outer
+  wrapper rather than x['metadata']; backend names are nested one level down.
+  The new parallel_hmatrix.py asserts actual parallel execution, two active
+  workers, H-matrix backend and Automatic policy in EACH worker, worker CPU
+  grants, quality gates, no lost workers, memory reservation and complete-field
+  agreement against the sequential solve.
+* Claude's first-eight-amplitude benchmark capture and fixed 2 GiB compressed
+  storage are accurately disclosed. Those benchmark rows alone do not prove
+  full-field agreement for every large airfoil/material case. Do not expand
+  the 31 reference-set conclusion to all 33 benchmark attempts.
+
+Validation scope this response: read all supplied review/scripts/raw rows;
+verify production manifest; run the real mixed concurrency harness twice;
+probe both old/new reservation behavior; inspect frequency planning and execute
+the missing two-worker H-matrix case with full fields. The unchanged 207-check
+suite and the entire 33-case timing matrix were not rerun in this response.
+The prior independent 207-pass, native/fallback, GUI, driver and full benchmark
+field evidence remains tied to the exact same 49bd93f code.
+
+Environment: Linux AMD EPYC 9V45, Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0,
+16 GiB cgroup memory, 4-CPU quota. These differ from Claude's Python 3.13 host.
+Numerical rerun times in this response are not new performance claims.
+
+Reproduce with repository dependencies and the pinned clean checkouts:
+
+  python concurrent_instrumented.py /path/to/49bd93f
+  python reservation_probe.py /path/to/c20b9ed
+  python reservation_probe.py /path/to/49bd93f
+  python plan_probe.py /path/to/49bd93f
+  python parallel_hmatrix.py /path/to/49bd93f
+
+The unchanged first concurrency run used Claude's concurrent_blas.py from the
+pinned review directory. The second run only expanded exception printing.
+plan_probe.py is also imported by parallel_hmatrix.py for its geometry fixture.
+Metadata and full complex fields accompany the parallel result; raw logs retain
+the concurrency failure and the passing repeat. No production files were edited.
+
+Artifact map: parallel-hmatrix-summary.json gives compact worker results;
+parallel-hmatrix-fields.npz contains every complex field value. details.zip
+contains full per-frequency metadata, planning records and the initial harness
+correction log. SHA256SUMS.json covers the published response artifacts.

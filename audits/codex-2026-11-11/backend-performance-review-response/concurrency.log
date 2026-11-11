@@ -1,0 +1,20 @@
+sequential hmatrix_pec cpu_hmatrix 6.8s
+sequential dense_pec cpu 3.6s
+sequential hmatrix_diel cpu_hmatrix 5.3s
+sequential dense_blas2 cpu 2.6s
+round 0 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 0 dense_pec cpu diff 0.0e+00 
+round 0 hmatrix_diel cpu_hmatrix diff 0.0e+00 
+round 0 dense_blas2 cpu diff 0.0e+00 
+round 0 wall 18.1s pools restored True
+round 1 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 1 dense_pec cpu diff 0.0e+00 
+round 1 hmatrix_diel cpu_hmatrix diff 0.0e+00 
+round 1 dense_blas2 cpu diff 0.0e+00 
+round 1 wall 21.8s pools restored True
+round 2 hmatrix_pec cpu_hmatrix diff 0.0e+00 
+round 2 dense_pec cpu diff 0.0e+00 
+round 2 hmatrix_diel ERROR MemoryError('No compatible backend fits the 0.01 GiB solve budget (dense 0.52 GiB, compressed 0.29 GiB). Formulations: single_dielectric. Final angle batch: 1.')
+round 2 dense_blas2 cpu diff 0.0e+00 
+round 2 wall 13.2s pools restored True
+FAIL
