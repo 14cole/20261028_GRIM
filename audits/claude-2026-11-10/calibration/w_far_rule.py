@@ -13,7 +13,9 @@ import math
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "tools", "GHOST")))
+# GHOST_AUDIT_ROOT selects the checkout under test, as in regression/common.py.
+sys.path.insert(0, os.path.join(os.environ.get("GHOST_AUDIT_ROOT") or os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..")), "tools", "GHOST"))
 import numpy as np
 import ghost_backend.twod.operators as ops
 from ghost_backend.twod.geometry import LinearElement, LinearMesh, LinearNode, _linear_node_snap_key
