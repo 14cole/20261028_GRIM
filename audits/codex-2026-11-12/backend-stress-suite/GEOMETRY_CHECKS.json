@@ -1,0 +1,36 @@
+{
+  "check": "Angular-sector simplicity and strict radial containment on all vertex rays",
+  "pec_control_uses_exact_same_outer_polygon": true,
+  "rows": [
+    {
+      "geometry": "20ft-complex-thin-coating",
+      "outer_panels": 6085,
+      "inner_panels": 6083,
+      "simple_star_shaped_polygons": true,
+      "inner_strictly_contained": true,
+      "vertex_ray_min_clearance_m": 0.0006398152120641321,
+      "vertex_ray_max_clearance_m": 0.0010097542333120657,
+      "sha256": "1554b463eb938326c754aab739b9607072212b1d10f4c22d6d0953f88beb6013"
+    },
+    {
+      "geometry": "20ft-complex-coating-thicker",
+      "outer_panels": 6085,
+      "inner_panels": 6079,
+      "simple_star_shaped_polygons": true,
+      "inner_strictly_contained": true,
+      "vertex_ray_min_clearance_m": 0.0019454575854420675,
+      "vertex_ray_max_clearance_m": 0.003051917272359983,
+      "sha256": "0f63772c71a817ea166743973e376e11e74285fb6479cca43831a779b2f01ba4"
+    },
+    {
+      "geometry": "20ft-complex-coating-1GHz",
+      "outer_panels": 3043,
+      "inner_panels": 3042,
+      "simple_star_shaped_polygons": true,
+      "inner_strictly_contained": true,
+      "vertex_ray_min_clearance_m": 0.0006297649073352396,
+      "vertex_ray_max_clearance_m": 0.001021495424756047,
+      "sha256": "d78c6da9c38912752aebdc5f10a2dbaf1cdc58a33b23ee7b099ed2a356905a94"
+    }
+  ]
+}
