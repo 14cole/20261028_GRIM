@@ -1,0 +1,13 @@
+d8000-reference 24.95 1.221 None
+d8000-candidate 25.88 1.222 None
+d12000-reference 63.48 2.512 None
+d12000-candidate 67.14 2.383 None
+serial-reference 14.47 0.416 None
+serial-candidate 14.41 0.421 None
+comb-reference 10.6 0.204 None
+comb-candidate 10.91 0.204 None
+alloc-fused 0.6 0.173 None
+alloc-unequal 0.83 0.174 None
+d8000-refuse-1.3 0.71 0.101 MemoryError: The single_dielectric 2-D solve requires an estimated 1.51 GiB, but 15.05 GiB is currently available; the safe allocation limit is 1.30 GiB. Planned system: 8000 DOFs across 2 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.
+d8000-default 24.8 1.218 None
+d12000-matched-batch 66.65 2.383 None
