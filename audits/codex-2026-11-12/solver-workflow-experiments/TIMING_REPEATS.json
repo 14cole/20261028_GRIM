@@ -1,0 +1,393 @@
+{
+  "capture_runs_excluded": true,
+  "groups": [
+    {
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "cases": [
+        "diel8k-compressed-baseline-r1",
+        "diel8k-compressed-baseline-r2",
+        "diel8k-compressed-baseline"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 37.86326651699983,
+        "minimum": 36.02574957700017,
+        "maximum": 41.10141571200029
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.8266105651855469,
+        "minimum": 0.8212318420410156,
+        "maximum": 0.853363037109375
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 92.05664999999999,
+        "minimum": 89.18977100000001,
+        "maximum": 98.002278
+      },
+      "factor_work_seconds": null
+    },
+    {
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "cases": [
+        "diel8k-compressed-inverse32_build-r1",
+        "diel8k-compressed-inverse32_build-r2",
+        "diel8k-compressed-inverse32_build"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 40.244469536999986,
+        "minimum": 38.14093826299995,
+        "maximum": 43.82413467900005
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.7992782592773438,
+        "minimum": 0.7941665649414062,
+        "maximum": 0.8281822204589844
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 93.172137,
+        "minimum": 91.991851,
+        "maximum": 105.453056
+      },
+      "factor_work_seconds": null
+    },
+    {
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "cases": [
+        "pec4k-dense-baseline-r1",
+        "pec4k-dense-baseline-r2",
+        "pec4k-dense-baseline-r3"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 14.978984651000246,
+        "minimum": 13.591605958999935,
+        "maximum": 19.401722159999736
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.847747802734375,
+        "minimum": 0.8463783264160156,
+        "maximum": 0.8504867553710938
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 52.067123,
+        "minimum": 46.266077,
+        "maximum": 64.914073
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 5.525341628000206,
+        "minimum": 5.052932354000404,
+        "maximum": 7.93715252300035
+      }
+    },
+    {
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "fourier",
+      "cases": [
+        "pec4k-dense-fourier-r1",
+        "pec4k-dense-fourier-r2",
+        "pec4k-dense-fourier"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 14.40081251699985,
+        "minimum": 9.805853136000223,
+        "maximum": 20.300428504000024
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.7366867065429688,
+        "minimum": 0.6936912536621094,
+        "maximum": 0.7430953979492188
+      },
+      "process_cpu_seconds": {
+        "count": 2,
+        "median": 34.886114,
+        "minimum": 29.659216999999998,
+        "maximum": 40.113011
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 1.5144675970004755,
+        "minimum": 1.3039394810002705,
+        "maximum": 1.7303129809999973
+      }
+    },
+    {
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "cases": [
+        "pec8k-dense-baseline-r1",
+        "pec8k-dense-baseline-r2",
+        "pec8k-dense-baseline-r3"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 69.67271711100057,
+        "minimum": 61.28059543600011,
+        "maximum": 75.69045563000009
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 3.033946990966797,
+        "minimum": 3.0323486328125,
+        "maximum": 3.040210723876953
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 242.026705,
+        "minimum": 215.302209,
+        "maximum": 243.33820599999999
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 38.20640386299965,
+        "minimum": 35.291811186999894,
+        "maximum": 38.21952035600043
+      }
+    },
+    {
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "cases": [
+        "pec8k-dense-disk32-r2",
+        "pec8k-dense-disk32-r3",
+        "pec8k-dense-disk32"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 85.887960518,
+        "minimum": 69.77819090600019,
+        "maximum": 174.5592672800003
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 1.298980712890625,
+        "minimum": 1.2764930725097656,
+        "maximum": 1.3480186462402344
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 313.035459,
+        "minimum": 253.956944,
+        "maximum": 549.913015
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 39.762199984999825,
+        "minimum": 29.288284281999495,
+        "maximum": 74.64875678700173
+      }
+    },
+    {
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "fourier",
+      "cases": [
+        "pec8k-dense-fourier-r1",
+        "pec8k-dense-fourier-r2",
+        "pec8k-dense-fourier"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 35.29866784499973,
+        "minimum": 33.92485150199991,
+        "maximum": 55.05580034600007
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 2.1762924194335938,
+        "minimum": 2.139312744140625,
+        "maximum": 2.195331573486328
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 103.289989,
+        "minimum": 100.319693,
+        "maximum": 135.445821
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 5.972284960000252,
+        "minimum": 5.773336011000538,
+        "maximum": 6.212389462999909
+      }
+    },
+    {
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "mixed",
+      "cases": [
+        "pec8k-dense-mixed-r1",
+        "pec8k-dense-mixed-r2",
+        "pec8k-dense-mixed"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 73.80509012199991,
+        "minimum": 70.0964357920002,
+        "maximum": 75.68069266400016
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 2.5936546325683594,
+        "minimum": 2.5936203002929688,
+        "maximum": 2.5982666015625
+      },
+      "process_cpu_seconds": {
+        "count": 3,
+        "median": 261.035959,
+        "minimum": 251.54454700000002,
+        "maximum": 268.441115
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 45.41532653399963,
+        "minimum": 40.21852035400025,
+        "maximum": 46.13030383000023
+      }
+    },
+    {
+      "model": "star",
+      "backend": "compressed",
+      "variant": "baseline",
+      "cases": [
+        "star-compressed-baseline-r1",
+        "star-compressed-baseline-r2",
+        "star-compressed-baseline"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 29.725190935000228,
+        "minimum": 28.594584961000237,
+        "maximum": 71.15868856899988
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.4730339050292969,
+        "minimum": 0.47104644775390625,
+        "maximum": 0.48111724853515625
+      },
+      "process_cpu_seconds": {
+        "count": 2,
+        "median": 58.633953999999996,
+        "minimum": 57.53814799999999,
+        "maximum": 59.72976
+      },
+      "factor_work_seconds": null
+    },
+    {
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "cases": [
+        "star-compressed-inverse32_build-r1",
+        "star-compressed-inverse32_build-r2",
+        "star-compressed-inverse32_build"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 30.968698700999994,
+        "minimum": 28.881812824000008,
+        "maximum": 85.98112161800009
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.4467811584472656,
+        "minimum": 0.4400749206542969,
+        "maximum": 0.44918060302734375
+      },
+      "process_cpu_seconds": {
+        "count": 2,
+        "median": 58.9453125,
+        "minimum": 57.618006,
+        "maximum": 60.272619
+      },
+      "factor_work_seconds": null
+    },
+    {
+      "model": "star",
+      "backend": "dense",
+      "variant": "baseline",
+      "cases": [
+        "star-dense-baseline-r1",
+        "star-dense-baseline-r2",
+        "star-dense-baseline"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 18.48645244699992,
+        "minimum": 18.34809069999983,
+        "maximum": 70.17036681500008
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 1.1245155334472656,
+        "minimum": 1.1243247985839844,
+        "maximum": 1.1272544860839844
+      },
+      "process_cpu_seconds": {
+        "count": 2,
+        "median": 61.2512675,
+        "minimum": 60.548888999999996,
+        "maximum": 61.953646
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 7.912239981999392,
+        "minimum": 7.530197700999906,
+        "maximum": 60.36639687399975
+      }
+    },
+    {
+      "model": "star",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "cases": [
+        "star-dense-scaled_mixed-r1",
+        "star-dense-scaled_mixed-r2",
+        "star-dense-scaled_mixed"
+      ],
+      "wall_seconds": {
+        "count": 3,
+        "median": 22.11258354499978,
+        "minimum": 20.483672210000123,
+        "maximum": 22.538545642999907
+      },
+      "peak_rss_gib": {
+        "count": 3,
+        "median": 0.9674720764160156,
+        "minimum": 0.9657783508300781,
+        "maximum": 0.9721221923828125
+      },
+      "process_cpu_seconds": {
+        "count": 2,
+        "median": 76.251694,
+        "minimum": 76.04784599999999,
+        "maximum": 76.45554200000001
+      },
+      "factor_work_seconds": {
+        "count": 3,
+        "median": 13.292174925999916,
+        "minimum": 11.431455040999936,
+        "maximum": 13.472958702000142
+      }
+    }
+  ]
+}

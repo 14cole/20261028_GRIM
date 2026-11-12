@@ -1,0 +1,5937 @@
+{
+  "cases": [
+    {
+      "case": "coated4k-compressed-baseline",
+      "model": "coated4k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 40.19022797299999,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.42858123779296875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 7.101293926162531e-10,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 57.966336876999094,
+        "hmatrix_norms": 0.27992102000007435,
+        "hmatrix_validation": 0.2262606249998953,
+        "hmatrix_assembly": 30.653960976000008,
+        "compressed_assembly": 30.955816034999998,
+        "factorization": 6.105958467000164,
+        "condition_estimation": 3.0698438290000922,
+        "excitation": 0.029486451999900964,
+        "linear_solve": 0.42666095500021584,
+        "rhs_compression": 0.4303415589999986,
+        "far_field": 0.059590215000298485
+      },
+      "condition_est_max": 47541.24283284858,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        52274288,
+        50560312
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 3.281175115385262e-16
+    },
+    {
+      "case": "coated4k-compressed-compact",
+      "model": "coated4k",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 30.560470861000113,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4119720458984375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 7.100670171256045e-10,
+      "vs_backend_relative_max_norm": 2.829894551038993e-11,
+      "stages": {
+        "operators": 46.23328417799917,
+        "hmatrix_norms": 0.19779745200003163,
+        "hmatrix_validation": 0.1002515840000342,
+        "hmatrix_assembly": 23.493258348999916,
+        "compressed_assembly": 23.82850262000011,
+        "factorization": 3.647732451000138,
+        "condition_estimation": 3.199632463999933,
+        "excitation": 0.017996649999986403,
+        "linear_solve": 0.4579862270002195,
+        "rhs_compression": 0.46266638000020066,
+        "far_field": 0.041064891999894826
+      },
+      "condition_est_max": 47541.24283284082,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        45570192,
+        44122808
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.4933107708587215e-15
+    },
+    {
+      "case": "coated4k-compressed-inverse32",
+      "model": "coated4k",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 32.34732409100002,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4193115234375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 7.122754238229852e-10,
+      "vs_backend_relative_max_norm": 6.678680435815258e-12,
+      "stages": {
+        "operators": 48.71628725600749,
+        "hmatrix_norms": 0.19373404299994945,
+        "hmatrix_validation": 0.1160494830000971,
+        "hmatrix_assembly": 24.80195233900008,
+        "compressed_assembly": 25.103543615000035,
+        "factorization": 4.039102705999994,
+        "condition_estimation": 3.243115403000047,
+        "excitation": 0.017573558000094636,
+        "linear_solve": 0.43521832500005075,
+        "rhs_compression": 0.4391818079998302,
+        "far_field": 0.026445630999887726
+      },
+      "condition_est_max": 47541.24283284509,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        26178624,
+        25321368
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 52274288,
+          "retained_bytes": 26178624,
+          "saved_bytes": 26095664,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 50560312,
+          "retained_bytes": 25321368,
+          "saved_bytes": 25238944,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 4.735851012110507e-16
+    },
+    {
+      "case": "coated4k-compressed-inverse32_build",
+      "model": "coated4k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 28.434618495999985,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4065437316894531,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 7.096202637582703e-10,
+      "vs_backend_relative_max_norm": 6.667429914217145e-12,
+      "stages": {
+        "operators": 41.842878262001705,
+        "hmatrix_norms": 0.24629354800026704,
+        "hmatrix_validation": 0.08159473499995329,
+        "hmatrix_assembly": 21.068027690000008,
+        "compressed_assembly": 21.41950377100011,
+        "factorization": 3.9470314889997553,
+        "condition_estimation": 3.0599898030000077,
+        "excitation": 0.016152336000004652,
+        "linear_solve": 0.4146602599998914,
+        "rhs_compression": 0.41750238099984927,
+        "far_field": 0.032163416000685174
+      },
+      "condition_est_max": 47541.24283284527,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        26178624,
+        25321368
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 52274288,
+          "retained_bytes": 26178624,
+          "saved_bytes": 26095664,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 50560312,
+          "retained_bytes": 25321368,
+          "saved_bytes": 25238944,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 4.0308553712565865e-16
+    },
+    {
+      "case": "coated4k-dense-baseline",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 18.838216170000123,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.8638038635253906,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 7.048470409999936,
+        "condition_scaling": 0.26840054499984944,
+        "factorization": 8.389392790000102,
+        "condition_estimation": 0.6833201420001842,
+        "excitation": 0.01872142899969731,
+        "rhs_solve": 0.3919778080000924,
+        "linear_solve": 0.7358473480001066,
+        "rhs_compression": 0.7365550479999001,
+        "far_field": 0.034966574999998556
+      },
+      "condition_est_max": 47541.24283291602,
+      "factor_work_seconds": 10.486195491999752,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.278285722314295e-14
+    },
+    {
+      "case": "coated4k-dense-disk32",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 16.50636353599998,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.5154190063476562,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 9.444451886000024,
+        "condition_scaling": 0.1376028419999784,
+        "factorization": 3.5282968630001506,
+        "condition_estimation": 0.4815030930001285,
+        "excitation": 0.03480907600010141,
+        "rhs_solve": 0.21489417499969932,
+        "linear_solve": 0.5851976260000811,
+        "rhs_compression": 0.5884726780002438,
+        "far_field": 0.06416706100026204
+      },
+      "condition_est_max": 47541.24283291602,
+      "factor_work_seconds": 5.461066242000243,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.278285722314295e-14
+    },
+    {
+      "case": "coated4k-dense-disk4",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 20.137592793000067,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.449676513671875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.498981031000312,
+        "condition_scaling": 0.12386068399973738,
+        "factorization": 3.422361983000201,
+        "condition_estimation": 0.33954355700007,
+        "excitation": 0.028077286000097956,
+        "rhs_solve": 0.15351207200001227,
+        "linear_solve": 0.565672405999976,
+        "rhs_compression": 0.5668616010000278,
+        "far_field": 0.03963293000037993
+      },
+      "condition_est_max": 47541.24283291602,
+      "factor_work_seconds": 5.796603387000005,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.278285722314295e-14
+    },
+    {
+      "case": "coated4k-dense-disk_zstd",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 23.43170087700014,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.44181060791015625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.354856913000049,
+        "condition_scaling": 0.1966285280000193,
+        "factorization": 4.990566415000103,
+        "condition_estimation": 0.4486359699997138,
+        "excitation": 0.034313254999915443,
+        "rhs_solve": 0.22473723600023732,
+        "linear_solve": 1.406067946000121,
+        "rhs_compression": 1.4072187009999197,
+        "far_field": 0.0330142700001943
+      },
+      "condition_est_max": 47541.24283291602,
+      "factor_work_seconds": 9.04072568499987,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 262440000,
+          "compressed_bytes": 62142834,
+          "write_seconds": 0.8141513650000434,
+          "read_seconds": 0.8269352760000857,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 262440000,
+          "compressed_bytes": 63373470,
+          "write_seconds": 1.0001848720000908,
+          "read_seconds": 0.5133289579982829,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 1.278285722314295e-14
+    },
+    {
+      "case": "coated4k-dense-mixed",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 21.810299615000076,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.7463645935058594,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.222555143568494e-11,
+      "vs_backend_relative_max_norm": 1.222555143568494e-11,
+      "stages": {
+        "operators": 8.660566074999906,
+        "condition_scaling": 0.197848095000154,
+        "mixed_factorization": 2.675062112999967,
+        "mixed_rhs_and_refinement": 8.57533331899981,
+        "condition_estimation": 4.860465117000103,
+        "excitation": 0.038187389000086114,
+        "linear_solve": 3.750781280999945,
+        "rhs_compression": 3.752456238999912,
+        "far_field": 0.15243478399997912
+      },
+      "condition_est_max": 47541.242832907104,
+      "factor_work_seconds": 11.68460418099994,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.0625108454841313e-16
+    },
+    {
+      "case": "coated4k-dense-scaled_mixed",
+      "model": "coated4k",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 17.386249092999833,
+      "unknowns": 4050,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.7443008422851562,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.2229743383882927e-11,
+      "vs_backend_relative_max_norm": 1.2229743383882927e-11,
+      "stages": {
+        "operators": 5.932973362999974,
+        "condition_scaling": 0.296967789999826,
+        "condition_estimation": 3.8312454320000597,
+        "excitation": 0.04605185300010817,
+        "linear_solve": 3.221607572999801,
+        "rhs_compression": 3.2224899960001494,
+        "far_field": 0.08457644300005995
+      },
+      "condition_est_max": 47541.242832915384,
+      "factor_work_seconds": 9.998209347000511,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.046227322548754e-17
+    },
+    {
+      "case": "diel15GHz-compressed-baseline",
+      "model": "diel15GHz",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 15.374611240999911,
+      "unknowns": 4000,
+      "process_cpu_seconds": 34.737902,
+      "peak_tree_rss_gib": 0.40291595458984375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.1385802354121712e-07,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 23.719729572001597,
+        "hmatrix_norms": 0.13731169699985912,
+        "hmatrix_validation": 0.0468626209994909,
+        "hmatrix_assembly": 8.976595447000363,
+        "factorization": 2.7499988670006132,
+        "condition_estimation": 4.2906077360012205,
+        "excitation": 0.023684046999733255,
+        "linear_solve": 0.6227578010002617,
+        "rhs_compression": 0.6270929060001436,
+        "far_field": 0.03076488599890581
+      },
+      "condition_est_max": 1862.2785744201992,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        41832104,
+        46808744
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 5.204309537347239e-16
+    },
+    {
+      "case": "diel15GHz-compressed-inverse32_fast",
+      "model": "diel15GHz",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 15.151731748000202,
+      "unknowns": 4000,
+      "process_cpu_seconds": 32.960800000000006,
+      "peak_tree_rss_gib": 0.4211692810058594,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.1397271752993365e-07,
+      "vs_backend_relative_max_norm": 1.7451885532319588e-10,
+      "stages": {
+        "operators": 21.32737371199255,
+        "hmatrix_norms": 0.14439050600049086,
+        "hmatrix_validation": 0.04945542099994782,
+        "hmatrix_assembly": 7.831873785000425,
+        "factorization": 3.7933015309999973,
+        "condition_estimation": 6.783225417000722,
+        "excitation": 0.021752183998614782,
+        "linear_solve": 0.43324122600006376,
+        "rhs_compression": 0.43675986000107514,
+        "far_field": 0.02976005599794007
+      },
+      "condition_est_max": 1862.2785705895787,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 4,
+      "factorizations": 3,
+      "retained_inverse_bytes": [
+        20951808,
+        25782128,
+        25868848
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 41832104,
+          "retained_bytes": 20951808,
+          "saved_bytes": 20880296,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 51490616,
+          "retained_bytes": 25782128,
+          "saved_bytes": 25708488,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 51664008,
+          "retained_bytes": 25868848,
+          "saved_bytes": 25795160,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.9972650529653806e-15
+    },
+    {
+      "case": "diel15GHz-compressed-operator14",
+      "model": "diel15GHz",
+      "backend": "compressed",
+      "variant": "operator14",
+      "error": null,
+      "wall_seconds": 57.76333958599935,
+      "unknowns": 4000,
+      "process_cpu_seconds": 122.588937,
+      "peak_tree_rss_gib": 0.6600303649902344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.5690495855897425e-10,
+      "vs_backend_relative_max_norm": 1.1388737367037936e-07,
+      "stages": {
+        "operators": 109.88587593599732,
+        "hmatrix_norms": 0.3769321449990457,
+        "hmatrix_validation": 0.07782166699962545,
+        "hmatrix_assembly": 42.15631375400062,
+        "factorization": 7.439980679000655,
+        "condition_estimation": 8.763323877000403,
+        "excitation": 0.03631286600102612,
+        "linear_solve": 1.401080612999067,
+        "rhs_compression": 1.4121157039999161,
+        "far_field": 0.08081467000101838
+      },
+      "condition_est_max": 1862.2785633697504,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        41832104,
+        46808744
+      ],
+      "inverse_experiments": [
+        {
+          "operator_tolerance": 1e-14,
+          "purpose": "scale-sensitivity diagnostic"
+        },
+        {
+          "operator_tolerance": 1e-14,
+          "purpose": "scale-sensitivity diagnostic"
+        }
+      ],
+      "max_backward_error": 5.204196350668572e-16
+    },
+    {
+      "case": "diel15GHz-dense-baseline",
+      "model": "diel15GHz",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 9.551916829999755,
+      "unknowns": 4000,
+      "process_cpu_seconds": 32.915763,
+      "peak_tree_rss_gib": 0.6041603088378906,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 4.367597725999985,
+        "condition_scaling": 0.1011827380007162,
+        "factorization": 3.0261823090004327,
+        "condition_estimation": 0.4523873899997852,
+        "excitation": 0.026097529999788094,
+        "rhs_solve": 0.13907640099932905,
+        "linear_solve": 0.36079250799957663,
+        "rhs_compression": 0.3613391300004878,
+        "far_field": 0.05282963299941912
+      },
+      "condition_est_max": 1862.2785595405783,
+      "factor_work_seconds": 4.1918813190004585,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.720379870814968e-15
+    },
+    {
+      "case": "diel15GHz-dense-scaled_mixed",
+      "model": "diel15GHz",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 14.595285112000056,
+      "unknowns": 4000,
+      "process_cpu_seconds": 51.154540000000004,
+      "peak_tree_rss_gib": 0.4793586730957031,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.331317048795769e-12,
+      "vs_backend_relative_max_norm": 6.331317048795769e-12,
+      "stages": {
+        "operators": 4.453865215000405,
+        "condition_scaling": 0.22483138799998414,
+        "condition_estimation": 4.442585429000246,
+        "excitation": 0.02715912900021067,
+        "linear_solve": 2.297298012000283,
+        "rhs_compression": 2.2980153090002204,
+        "far_field": 0.12534185999993497
+      },
+      "condition_est_max": 1862.2785595408268,
+      "factor_work_seconds": 9.167143577001298,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.0706301171670851e-17
+    },
+    {
+      "case": "diel4k-compressed-baseline",
+      "model": "diel4k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 13.865112292999925,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4210166931152344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.500664221633974e-11,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 21.812579650999965,
+        "hmatrix_norms": 0.16206098299994665,
+        "hmatrix_validation": 0.03901845099994716,
+        "hmatrix_assembly": 8.560649666000018,
+        "factorization": 2.8898672129998886,
+        "condition_estimation": 2.26392629399993,
+        "excitation": 0.023115952999887668,
+        "linear_solve": 0.30303744200011806,
+        "rhs_compression": 0.3061335299998973,
+        "far_field": 0.03374565100000382
+      },
+      "condition_est_max": 1862.2785595473122,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        49984416,
+        50321960
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.5188855238496856e-15
+    },
+    {
+      "case": "diel4k-compressed-compact",
+      "model": "diel4k",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 14.893474280999953,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4074211120605469,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.218335049444396e-11,
+      "vs_backend_relative_max_norm": 1.0076581882645097e-11,
+      "stages": {
+        "operators": 23.91025258999946,
+        "hmatrix_norms": 0.17437858300002063,
+        "hmatrix_validation": 0.05418757400002505,
+        "hmatrix_assembly": 8.955193250999969,
+        "factorization": 2.5226886899999954,
+        "condition_estimation": 3.922797567999851,
+        "excitation": 0.022316459999842664,
+        "linear_solve": 0.4680822939999416,
+        "rhs_compression": 0.47104881300003854,
+        "far_field": 0.03391032900015034
+      },
+      "condition_est_max": 1862.2785595517294,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        44909192,
+        45417336
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.363318957235456e-15
+    },
+    {
+      "case": "diel4k-compressed-inverse32",
+      "model": "diel4k",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 16.311773233000054,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4196586608886719,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.50061065523236e-11,
+      "vs_backend_relative_max_norm": 9.512801391406453e-12,
+      "stages": {
+        "operators": 26.096924263998858,
+        "hmatrix_norms": 0.1996818310000208,
+        "hmatrix_validation": 0.05746209699998417,
+        "hmatrix_assembly": 10.42305912200004,
+        "factorization": 2.8140905029999885,
+        "condition_estimation": 3.6105906629999254,
+        "excitation": 0.02644748799991703,
+        "linear_solve": 0.3741252730000042,
+        "rhs_compression": 0.37745003899999574,
+        "far_field": 0.028681849999884435
+      },
+      "condition_est_max": 1862.2785595509686,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        25028784,
+        25197584
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 49984416,
+          "retained_bytes": 25028784,
+          "saved_bytes": 24955632,
+          "arrays": 91,
+          "quantize_during_construction": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 50321960,
+          "retained_bytes": 25197584,
+          "saved_bytes": 25124376,
+          "arrays": 91,
+          "quantize_during_construction": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.292207132930389e-16
+    },
+    {
+      "case": "diel4k-compressed-inverse32_build",
+      "model": "diel4k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 14.5807872339999,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.40167236328125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.500761953101158e-11,
+      "vs_backend_relative_max_norm": 9.516922621521051e-12,
+      "stages": {
+        "operators": 22.924917414999754,
+        "hmatrix_norms": 0.16594479800005502,
+        "hmatrix_validation": 0.04305792299987843,
+        "hmatrix_assembly": 8.719365040999946,
+        "factorization": 2.753208418999975,
+        "condition_estimation": 3.4139613610000197,
+        "excitation": 0.03418836200012265,
+        "linear_solve": 0.431745453999838,
+        "rhs_compression": 0.4393912560001354,
+        "far_field": 0.05483131000028152
+      },
+      "condition_est_max": 1862.278559550969,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        25028784,
+        25197584
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 49984416,
+          "retained_bytes": 25028784,
+          "saved_bytes": 24955632,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 50321960,
+          "retained_bytes": 25197584,
+          "saved_bytes": 25124376,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.6216870063339416e-16
+    },
+    {
+      "case": "diel4k-compressed-inverse32_fast",
+      "model": "diel4k",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 15.286006898999858,
+      "unknowns": 4000,
+      "process_cpu_seconds": 33.1453,
+      "peak_tree_rss_gib": 0.4031524658203125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.500875745712226e-11,
+      "vs_backend_relative_max_norm": 9.516561183468211e-12,
+      "stages": {
+        "operators": 20.779096512001615,
+        "hmatrix_norms": 0.2195928860001004,
+        "hmatrix_validation": 0.03702771999996912,
+        "hmatrix_assembly": 8.219863024999995,
+        "factorization": 3.085697746999813,
+        "condition_estimation": 4.929310450999765,
+        "excitation": 0.045871321000504395,
+        "linear_solve": 0.6166846080000141,
+        "rhs_compression": 0.6226336780000565,
+        "far_field": 0.055796215000100347
+      },
+      "condition_est_max": 1862.2785595510259,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        25028784,
+        25197584
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 49984416,
+          "retained_bytes": 25028784,
+          "saved_bytes": 24955632,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 50321960,
+          "retained_bytes": 25197584,
+          "saved_bytes": 25124376,
+          "arrays": 91,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.5688782132837827e-17
+    },
+    {
+      "case": "diel4k-dense-baseline",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 10.644413047000057,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.5961723327636719,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 4.140552258999946,
+        "condition_scaling": 0.09697253299998465,
+        "factorization": 3.895327011999939,
+        "condition_estimation": 0.5564470150001171,
+        "excitation": 0.02846864299999652,
+        "rhs_solve": 0.1607398060000378,
+        "linear_solve": 0.5661566159999438,
+        "rhs_compression": 0.5668133310000485,
+        "far_field": 0.05209942999999839
+      },
+      "condition_est_max": 1862.2785595406135,
+      "factor_work_seconds": 5.445958118000135,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.599010307797992e-14
+    },
+    {
+      "case": "diel4k-dense-disk32",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 9.810768979000045,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.410980224609375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 3.975054746000069,
+        "condition_scaling": 0.1269431480000094,
+        "factorization": 2.9764952420000554,
+        "condition_estimation": 0.6156390980000879,
+        "excitation": 0.046916758000065784,
+        "rhs_solve": 0.15037500400001136,
+        "linear_solve": 0.4458656180000844,
+        "rhs_compression": 0.4464891390000503,
+        "far_field": 0.037752254999759316
+      },
+      "condition_est_max": 1862.2785595406135,
+      "factor_work_seconds": 4.789713683999935,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.599010307797992e-14
+    },
+    {
+      "case": "diel4k-dense-disk4",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 10.332688414000017,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4083595275878906,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 4.0608693650000305,
+        "condition_scaling": 0.11947103699992567,
+        "factorization": 3.2400733889999174,
+        "condition_estimation": 0.3888582759999508,
+        "excitation": 0.033794385000078364,
+        "rhs_solve": 0.180152608999947,
+        "linear_solve": 0.5958460100000593,
+        "rhs_compression": 0.5964890129998821,
+        "far_field": 0.04994053600000825
+      },
+      "condition_est_max": 1862.2785595406135,
+      "factor_work_seconds": 5.176707603999944,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.599010307797992e-14
+    },
+    {
+      "case": "diel4k-dense-disk_zstd",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 14.204576513000006,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.41265869140625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 4.809418622999942,
+        "condition_scaling": 0.15022499300005165,
+        "factorization": 3.5670217950000733,
+        "condition_estimation": 0.6163815769999701,
+        "excitation": 0.02652364599998691,
+        "rhs_solve": 0.19130225100002463,
+        "linear_solve": 1.468574326999942,
+        "rhs_compression": 1.4690306210000017,
+        "far_field": 0.06807189199992081
+      },
+      "condition_est_max": 1862.2785595406135,
+      "factor_work_seconds": 7.8165594190001,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 256000000,
+          "compressed_bytes": 61649376,
+          "write_seconds": 0.9927433130000054,
+          "read_seconds": 1.1501427270009117,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 256000000,
+          "compressed_bytes": 61622314,
+          "write_seconds": 0.9036706019999201,
+          "read_seconds": 0.39034798400007276,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 4.599010307797992e-14
+    },
+    {
+      "case": "diel4k-dense-fourier",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 7.924686513999859,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4128379821777344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.2683929124427117e-12,
+      "vs_backend_relative_max_norm": 3.2683929124427117e-12,
+      "stages": {
+        "operators": 4.474336355999867,
+        "condition_scaling": 0.1655199920000996,
+        "condition_estimation": 0.016227203999960693,
+        "excitation": 0.04376895600012176,
+        "linear_solve": 0.4264955190001274,
+        "rhs_compression": 0.4275518079998619,
+        "far_field": 0.06746467199991457
+      },
+      "condition_est_max": 1862.2785595404903,
+      "factor_work_seconds": 1.883034901999963,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 6.796456297012235e-14,
+          "parts": 2,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 6.796456297012235e-14,
+          "parts": 2,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 2.664946333825885e-16
+    },
+    {
+      "case": "diel4k-dense-mixed",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 15.920401603999949,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.47928619384765625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.3044661629065716e-12,
+      "vs_backend_relative_max_norm": 3.3044661629065716e-12,
+      "stages": {
+        "operators": 4.189957825000079,
+        "condition_scaling": 0.12351441299995258,
+        "mixed_factorization": 2.595380926999951,
+        "mixed_rhs_and_refinement": 7.820370029000173,
+        "condition_estimation": 5.492708968000102,
+        "excitation": 0.029152843000019857,
+        "linear_solve": 2.3468344069999603,
+        "rhs_compression": 2.3472946610000918,
+        "far_field": 0.18146362899994983
+      },
+      "condition_est_max": 1862.2785595405142,
+      "factor_work_seconds": 10.659645337000029,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.5444607533835084e-15
+    },
+    {
+      "case": "diel4k-dense-scaled_mixed",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 14.99694934699994,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4840888977050781,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.278978760221402e-12,
+      "vs_backend_relative_max_norm": 3.278978760221402e-12,
+      "stages": {
+        "operators": 4.953186999999957,
+        "condition_scaling": 0.2737244150000606,
+        "condition_estimation": 4.2059018010000955,
+        "excitation": 0.031249139999999898,
+        "linear_solve": 2.1384631089999857,
+        "rhs_compression": 2.139237583999943,
+        "far_field": 0.1713267249999717
+      },
+      "condition_est_max": 1862.278559540842,
+      "factor_work_seconds": 8.954893939000044,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.8754047682123225e-16
+    },
+    {
+      "case": "diel4k-dense-schur",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "schur",
+      "error": null,
+      "wall_seconds": 10.225310130999787,
+      "unknowns": 4000,
+      "process_cpu_seconds": 33.288767,
+      "peak_tree_rss_gib": 0.6515083312988281,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.7192565752841445e-12,
+      "vs_backend_relative_max_norm": 4.7192565752841445e-12,
+      "stages": {
+        "operators": 4.682633246000478,
+        "condition_scaling": 0.09533581499999855,
+        "condition_estimation": 1.0276234239991027,
+        "excitation": 0.070767416000308,
+        "linear_solve": 0.4959658039997521,
+        "rhs_compression": 0.49668366400055675,
+        "far_field": 0.08559069800048746
+      },
+      "condition_est_max": 1862.2785595406453,
+      "factor_work_seconds": 4.482374330000312,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "common_blocks_reused": false,
+          "retained_factor_bytes": 192000000,
+          "shared_product_bytes": 64000000
+        },
+        {
+          "common_blocks_reused": true,
+          "retained_factor_bytes": 192000000,
+          "shared_product_bytes": 64000000
+        }
+      ],
+      "max_backward_error": 9.081407784201004e-15
+    },
+    {
+      "case": "diel4k-dense-tile128",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "tile128",
+      "error": null,
+      "wall_seconds": 9.649444780000067,
+      "unknowns": 4000,
+      "process_cpu_seconds": 33.475844,
+      "peak_tree_rss_gib": 0.5983848571777344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.5847093253190606e-11,
+      "vs_backend_relative_max_norm": 1.5847093253190606e-11,
+      "stages": {
+        "operators": 4.318321933999869,
+        "condition_scaling": 0.12082547799991517,
+        "factorization": 3.140219444000195,
+        "condition_estimation": 0.4195798810001179,
+        "excitation": 0.02242818200011243,
+        "rhs_solve": 0.14572713600000498,
+        "linear_solve": 0.3573471029999382,
+        "rhs_compression": 0.35794122800007244,
+        "far_field": 0.029501372998765873
+      },
+      "condition_est_max": 1862.2785595406676,
+      "factor_work_seconds": 4.309736756000348,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.910363040964348e-14
+    },
+    {
+      "case": "diel4k-dense-tile64",
+      "model": "diel4k",
+      "backend": "dense",
+      "variant": "tile64",
+      "error": null,
+      "wall_seconds": 10.126705970999865,
+      "unknowns": 4000,
+      "process_cpu_seconds": 33.590354,
+      "peak_tree_rss_gib": 0.5989189147949219,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.975604428396475e-12,
+      "vs_backend_relative_max_norm": 9.975604428396475e-12,
+      "stages": {
+        "operators": 4.563433331999931,
+        "condition_scaling": 0.09138913200058596,
+        "factorization": 3.301508550000108,
+        "condition_estimation": 0.4697941639997225,
+        "excitation": 0.029785186000026442,
+        "rhs_solve": 0.16161050499977136,
+        "linear_solve": 0.5052451389997259,
+        "rhs_compression": 0.5059148850000383,
+        "far_field": 0.06815671700042003
+      },
+      "condition_est_max": 1862.2785595406344,
+      "factor_work_seconds": 4.6718687030002,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.602724144757013e-14
+    },
+    {
+      "case": "diel8k-181-compressed-baseline",
+      "model": "diel8k-181",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 43.65123731899985,
+      "unknowns": 8000,
+      "process_cpu_seconds": 99.834245,
+      "peak_tree_rss_gib": 1.0209312438964844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 362,
+      "vs_dense_relative_max_norm": 8.413773576498657e-10,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 59.78116051600318,
+        "hmatrix_norms": 0.7466074150006534,
+        "hmatrix_validation": 0.1835378630003106,
+        "hmatrix_assembly": 22.883146836999913,
+        "factorization": 9.285513012000592,
+        "condition_estimation": 7.725166647999686,
+        "excitation": 0.31352480000077776,
+        "linear_solve": 5.19908143199973,
+        "rhs_compression": 5.509596997000699,
+        "far_field": 0.15044770699932997
+      },
+      "condition_est_max": 3226.800871586332,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        116311904,
+        129206192
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 8.858009109202452e-18
+    },
+    {
+      "case": "diel8k-181-compressed-inverse32_fast",
+      "model": "diel8k-181",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 43.2654576570003,
+      "unknowns": 8000,
+      "process_cpu_seconds": 100.280886,
+      "peak_tree_rss_gib": 1.0047607421875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 362,
+      "vs_dense_relative_max_norm": 8.414125256682987e-10,
+      "vs_backend_relative_max_norm": 3.482304167379081e-13,
+      "stages": {
+        "operators": 59.37305918500533,
+        "hmatrix_norms": 0.6866552110004704,
+        "hmatrix_validation": 0.22275426699980017,
+        "hmatrix_assembly": 22.44687058099953,
+        "factorization": 8.214941918000477,
+        "condition_estimation": 9.706186628000069,
+        "excitation": 0.28476739899997483,
+        "linear_solve": 5.35506973900101,
+        "rhs_compression": 5.631625775999964,
+        "far_field": 0.12077225900065969
+      },
+      "condition_est_max": 3226.800871598371,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 8.368424624049282e-16
+    },
+    {
+      "case": "diel8k-181-dense-baseline",
+      "model": "diel8k-181",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 43.821461620000264,
+      "unknowns": 8000,
+      "process_cpu_seconds": 161.281768,
+      "peak_tree_rss_gib": 2.1675262451171875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 362,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.820147938999071,
+        "condition_scaling": 0.27547857599984127,
+        "factorization": 22.822227052000017,
+        "condition_estimation": 1.6714121559998603,
+        "excitation": 0.34421365599973797,
+        "rhs_solve": 1.808183542999359,
+        "linear_solve": 3.5547919849996106,
+        "rhs_compression": 3.56452866699874,
+        "far_field": 0.13082368599953043
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 29.327704888998596,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.654944888353068e-13
+    },
+    {
+      "case": "diel8k-181-dense-disk32",
+      "model": "diel8k-181",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 54.964983140000186,
+      "unknowns": 8000,
+      "process_cpu_seconds": 194.163487,
+      "peak_tree_rss_gib": 1.1999740600585938,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 362,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 13.715747479999663,
+        "condition_scaling": 0.3898691869999311,
+        "factorization": 28.08282947600037,
+        "condition_estimation": 2.2127234489998955,
+        "excitation": 0.3962272970002232,
+        "rhs_solve": 2.0465556089993697,
+        "linear_solve": 4.993166075999397,
+        "rhs_compression": 5.002361450000535,
+        "far_field": 0.14993312599926867
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 38.51783075599997,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.654944888353068e-13
+    },
+    {
+      "case": "diel8k-181-dense-mixed",
+      "model": "diel8k-181",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 66.70226151099996,
+      "unknowns": 8000,
+      "process_cpu_seconds": 231.662256,
+      "peak_tree_rss_gib": 1.78948974609375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 362,
+      "vs_dense_relative_max_norm": 3.582744285045842e-11,
+      "vs_backend_relative_max_norm": 3.582744285045842e-11,
+      "stages": {
+        "operators": 14.785274788000606,
+        "condition_scaling": 0.3296738210010517,
+        "mixed_factorization": 12.64685709999867,
+        "mixed_rhs_and_refinement": 35.05288110799847,
+        "condition_estimation": 19.157003541999984,
+        "excitation": 0.31074139699921943,
+        "linear_solve": 16.026345183000558,
+        "rhs_compression": 16.26117832700038,
+        "far_field": 1.6184024519998275
+      },
+      "condition_est_max": 3226.8008715493656,
+      "factor_work_seconds": 48.44038756899954,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.310201993223495e-17
+    },
+    {
+      "case": "diel8k-compressed-baseline-r1",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 41.10141571200029,
+      "unknowns": 8000,
+      "process_cpu_seconds": 98.002278,
+      "peak_tree_rss_gib": 0.8266105651855469,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.865113784655235e-10,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 66.87488445400504,
+        "hmatrix_norms": 0.6092770199998085,
+        "hmatrix_validation": 0.12111999300032039,
+        "hmatrix_assembly": 25.82415539700014,
+        "factorization": 8.785653194000133,
+        "condition_estimation": 7.82883615800074,
+        "excitation": 0.053697725999882095,
+        "linear_solve": 0.8723085939996054,
+        "rhs_compression": 0.8764590759997191,
+        "far_field": 0.06442870699993364
+      },
+      "condition_est_max": 3226.800871586332,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        116311904,
+        129206192
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 6.304373353880754e-18
+    },
+    {
+      "case": "diel8k-compressed-baseline-r2",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 37.86326651699983,
+      "unknowns": 8000,
+      "process_cpu_seconds": 92.05664999999999,
+      "peak_tree_rss_gib": 0.853363037109375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.865113784655235e-10,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 62.52644539799576,
+        "hmatrix_norms": 0.6506216089996997,
+        "hmatrix_validation": 0.11173291799968865,
+        "hmatrix_assembly": 23.03937731499991,
+        "factorization": 8.297032453999691,
+        "condition_estimation": 7.806062240000756,
+        "excitation": 0.06638195400000768,
+        "linear_solve": 0.7780772179999076,
+        "rhs_compression": 0.7824029710000104,
+        "far_field": 0.0705247529999724
+      },
+      "condition_est_max": 3226.800871586332,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        116311904,
+        129206192
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 6.304373353880754e-18
+    },
+    {
+      "case": "diel8k-compressed-baseline",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 36.02574957700017,
+      "unknowns": 8000,
+      "process_cpu_seconds": 89.18977100000001,
+      "peak_tree_rss_gib": 0.8212318420410156,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.865113784655235e-10,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 59.101798229004544,
+        "hmatrix_norms": 0.6309895669996877,
+        "hmatrix_validation": 0.13645892400018056,
+        "hmatrix_assembly": 22.18872751700019,
+        "factorization": 8.041691898999943,
+        "condition_estimation": 6.998114290000103,
+        "excitation": 0.04587359799961632,
+        "linear_solve": 0.8286948290001419,
+        "rhs_compression": 0.8327743189997818,
+        "far_field": 0.06701836399997774
+      },
+      "condition_est_max": 3226.800871586332,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        116311904,
+        129206192
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 6.304373353880754e-18
+    },
+    {
+      "case": "diel8k-compressed-compact",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 39.7033638920002,
+      "unknowns": 8000,
+      "process_cpu_seconds": 90.075699,
+      "peak_tree_rss_gib": 0.9887123107910156,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.865346551438363e-10,
+      "vs_backend_relative_max_norm": 7.272571574223995e-14,
+      "stages": {
+        "operators": 56.89026818599223,
+        "hmatrix_norms": 0.6321222619999389,
+        "hmatrix_validation": 0.16401437100012117,
+        "hmatrix_assembly": 21.45215418700036,
+        "factorization": 12.373597410999992,
+        "condition_estimation": 17.860541385000033,
+        "excitation": 0.04480317900015507,
+        "linear_solve": 0.5655492940004478,
+        "rhs_compression": 0.5691993489999732,
+        "far_field": 0.06334801900038656
+      },
+      "condition_est_max": 3226.8008715930778,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 3,
+      "retained_inverse_bytes": [
+        95185776,
+        145791472,
+        146727832
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.2673478007517818e-17
+    },
+    {
+      "case": "diel8k-compressed-inverse32",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 36.685914324999885,
+      "unknowns": 8000,
+      "process_cpu_seconds": 87.160808,
+      "peak_tree_rss_gib": 0.8264045715332031,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.869306377945418e-10,
+      "vs_backend_relative_max_norm": 4.5046210563441555e-12,
+      "stages": {
+        "operators": 58.02559704099076,
+        "hmatrix_norms": 0.6221759669997482,
+        "hmatrix_validation": 0.1759567710000738,
+        "hmatrix_assembly": 21.99200633700002,
+        "factorization": 8.0773111970002,
+        "condition_estimation": 8.50482347199977,
+        "excitation": 0.045265866999670834,
+        "linear_solve": 0.8073546460000216,
+        "rhs_compression": 0.8118732540001474,
+        "far_field": 0.06306936500050142
+      },
+      "condition_est_max": 3226.8008715930914,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.931019765844906e-15
+    },
+    {
+      "case": "diel8k-compressed-inverse32_build-r1",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 43.82413467900005,
+      "unknowns": 8000,
+      "process_cpu_seconds": 105.453056,
+      "peak_tree_rss_gib": 0.7941665649414062,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.863616750922813e-10,
+      "vs_backend_relative_max_norm": 5.6191188626765955e-12,
+      "stages": {
+        "operators": 73.3575062339969,
+        "hmatrix_norms": 0.734655352000118,
+        "hmatrix_validation": 0.24942824900017513,
+        "hmatrix_assembly": 27.223133256999972,
+        "factorization": 9.654937572999643,
+        "condition_estimation": 9.126543917000618,
+        "excitation": 0.06497107099994537,
+        "linear_solve": 0.9319216339995364,
+        "rhs_compression": 0.9354311070001131,
+        "far_field": 0.07071648500004812
+      },
+      "condition_est_max": 3226.8008715930837,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.5630019132380086e-15
+    },
+    {
+      "case": "diel8k-compressed-inverse32_build-r2",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 40.244469536999986,
+      "unknowns": 8000,
+      "process_cpu_seconds": 93.172137,
+      "peak_tree_rss_gib": 0.8281822204589844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.863616750922813e-10,
+      "vs_backend_relative_max_norm": 5.6191188626765955e-12,
+      "stages": {
+        "operators": 60.33275338699286,
+        "hmatrix_norms": 0.7135011430000304,
+        "hmatrix_validation": 0.15452957600018635,
+        "hmatrix_assembly": 22.93825684400008,
+        "factorization": 9.933950051000465,
+        "condition_estimation": 9.636335280999901,
+        "excitation": 0.04420661400035897,
+        "linear_solve": 0.9343229400001292,
+        "rhs_compression": 0.9382865420006965,
+        "far_field": 0.0691380349994688
+      },
+      "condition_est_max": 3226.8008715930837,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.5630019132380086e-15
+    },
+    {
+      "case": "diel8k-compressed-inverse32_build",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 38.14093826299995,
+      "unknowns": 8000,
+      "process_cpu_seconds": 91.991851,
+      "peak_tree_rss_gib": 0.7992782592773438,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.863616750922813e-10,
+      "vs_backend_relative_max_norm": 5.6191188626765955e-12,
+      "stages": {
+        "operators": 61.85222390000945,
+        "hmatrix_norms": 0.6478481270005432,
+        "hmatrix_validation": 0.16012757999988025,
+        "hmatrix_assembly": 22.923279763999744,
+        "factorization": 8.312583178000295,
+        "condition_estimation": 9.221180000000004,
+        "excitation": 0.056699884999943606,
+        "linear_solve": 0.7974244439997165,
+        "rhs_compression": 0.8039431160000277,
+        "far_field": 0.07264213500047845
+      },
+      "condition_est_max": 3226.8008715930837,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.5630019132380086e-15
+    },
+    {
+      "case": "diel8k-compressed-inverse32_fast",
+      "model": "diel8k",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 35.477155273999415,
+      "unknowns": 8000,
+      "process_cpu_seconds": 83.990526,
+      "peak_tree_rss_gib": 0.8661956787109375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.865447629783395e-10,
+      "vs_backend_relative_max_norm": 1.5032612058123392e-13,
+      "stages": {
+        "operators": 55.082402757005184,
+        "hmatrix_norms": 0.6060238729996854,
+        "hmatrix_validation": 0.12935409199963033,
+        "hmatrix_assembly": 20.94928380300007,
+        "factorization": 7.572919294000712,
+        "condition_estimation": 9.216327699999965,
+        "excitation": 0.03976926899940736,
+        "linear_solve": 0.8675089560001652,
+        "rhs_compression": 0.8709985999994387,
+        "far_field": 0.07563514300090901
+      },
+      "condition_est_max": 3226.800871598371,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        58228208,
+        64675792
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 116311904,
+          "retained_bytes": 58228208,
+          "saved_bytes": 58083696,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 129206192,
+          "retained_bytes": 64675792,
+          "saved_bytes": 64530400,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 6.61192879244945e-16
+    },
+    {
+      "case": "diel8k-dense-baseline",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 43.299288371999864,
+      "unknowns": 8000,
+      "process_cpu_seconds": 151.872575,
+      "peak_tree_rss_gib": 2.055980682373047,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.434789261000333,
+        "condition_scaling": 0.35943752900038817,
+        "factorization": 22.62775523800019,
+        "condition_estimation": 1.725133127999925,
+        "excitation": 0.07074541000019963,
+        "rhs_solve": 0.5711999459999788,
+        "linear_solve": 1.1533944650000194,
+        "rhs_compression": 1.154395846999705,
+        "far_field": 0.06388253500017527
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 29.276791027999934,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.1192681537133591e-13
+    },
+    {
+      "case": "diel8k-dense-disk32",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 67.5920428710001,
+      "unknowns": 8000,
+      "process_cpu_seconds": 215.92677200000003,
+      "peak_tree_rss_gib": 1.1641197204589844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 24.96172903700017,
+        "condition_scaling": 0.41209984300030555,
+        "factorization": 31.514432824000323,
+        "condition_estimation": 1.6406327330005297,
+        "excitation": 0.09980485999994926,
+        "rhs_solve": 0.6637228069998855,
+        "linear_solve": 1.6149301099994773,
+        "rhs_compression": 1.6161302080004134,
+        "far_field": 0.11493429500023922
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 38.99154490899991,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.1192681537133591e-13
+    },
+    {
+      "case": "diel8k-dense-disk4",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 49.64836136699978,
+      "unknowns": 8000,
+      "process_cpu_seconds": 172.970189,
+      "peak_tree_rss_gib": 1.1718330383300781,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 15.370619303999774,
+        "condition_scaling": 0.2926298380002663,
+        "factorization": 24.992165761999786,
+        "condition_estimation": 1.919001832000049,
+        "excitation": 0.09079459399981715,
+        "rhs_solve": 0.5995647780000581,
+        "linear_solve": 1.5971259609996196,
+        "rhs_compression": 1.5984717510000337,
+        "far_field": 0.11760215600043011
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 32.175200571999994,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.1192681537133591e-13
+    },
+    {
+      "case": "diel8k-dense-disk_zstd",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 60.27893775500024,
+      "unknowns": 8000,
+      "process_cpu_seconds": 194.22860599999998,
+      "peak_tree_rss_gib": 1.1632614135742188,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 20.720657157999995,
+        "condition_scaling": 0.3369082479998724,
+        "factorization": 23.18898459600041,
+        "condition_estimation": 2.149678909999693,
+        "excitation": 0.08167396299950269,
+        "rhs_solve": 0.5811299490001147,
+        "linear_solve": 4.506150994000109,
+        "rhs_compression": 4.506974415000059,
+        "far_field": 0.07713023400037855
+      },
+      "condition_est_max": 3226.8008715473375,
+      "factor_work_seconds": 36.1565140609996,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 1024000000,
+          "compressed_bytes": 259316170,
+          "write_seconds": 2.6847608670000227,
+          "read_seconds": 2.878771011007302,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 1024000000,
+          "compressed_bytes": 259190085,
+          "write_seconds": 2.9550917609999487,
+          "read_seconds": 1.9211517629983064,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 1.1192681537133591e-13
+    },
+    {
+      "case": "diel8k-dense-fourier",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 20.584126735000154,
+      "unknowns": 8000,
+      "process_cpu_seconds": 61.097277,
+      "peak_tree_rss_gib": 1.170135498046875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.7176507960061177e-11,
+      "vs_backend_relative_max_norm": 1.7176507960061177e-11,
+      "stages": {
+        "operators": 13.438174049999816,
+        "condition_scaling": 0.30897834699999294,
+        "condition_estimation": 0.03309364399956394,
+        "excitation": 0.057998870000119496,
+        "linear_solve": 0.6119669040003828,
+        "rhs_compression": 0.6130063000000519,
+        "far_field": 0.10991768499980026
+      },
+      "condition_est_max": 3226.800871547348,
+      "factor_work_seconds": 5.693716815999323,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 1.5359229471788666e-13,
+          "parts": 2,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 1.5359229471788666e-13,
+          "parts": 2,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 2.5036095148944686e-16
+    },
+    {
+      "case": "diel8k-dense-mixed",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 52.63027501700026,
+      "unknowns": 8000,
+      "process_cpu_seconds": 191.874306,
+      "peak_tree_rss_gib": 1.5994758605957031,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.7220949784283616e-11,
+      "vs_backend_relative_max_norm": 1.7220949784283616e-11,
+      "stages": {
+        "operators": 13.1995171880003,
+        "condition_scaling": 0.332175129999996,
+        "mixed_factorization": 12.58604273399942,
+        "mixed_rhs_and_refinement": 24.256069559999105,
+        "condition_estimation": 16.948499439999978,
+        "excitation": 0.1110745969999698,
+        "linear_solve": 7.346186413999931,
+        "rhs_compression": 7.347751266999694,
+        "far_field": 0.23492310799974803
+      },
+      "condition_est_max": 3226.8008715493656,
+      "factor_work_seconds": 37.55919376600059,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.6116176837666094e-17
+    },
+    {
+      "case": "diel8k-dense-scaled_mixed",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 60.035795144000076,
+      "unknowns": 8000,
+      "process_cpu_seconds": 208.786344,
+      "peak_tree_rss_gib": 1.5975418090820312,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.7213910251537795e-11,
+      "vs_backend_relative_max_norm": 1.7213910251537795e-11,
+      "stages": {
+        "operators": 15.939323028999752,
+        "condition_scaling": 0.9401075029995809,
+        "condition_estimation": 17.403979804999835,
+        "excitation": 0.07676225999966846,
+        "linear_solve": 8.29697207900017,
+        "rhs_compression": 8.319413490999978,
+        "far_field": 0.23028818000011597
+      },
+      "condition_est_max": 3226.8008715475125,
+      "factor_work_seconds": 42.27806370999997,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.665288859529417e-18
+    },
+    {
+      "case": "diel8k-dense-schur",
+      "model": "diel8k",
+      "backend": "dense",
+      "variant": "schur",
+      "error": null,
+      "wall_seconds": 36.75602518300002,
+      "unknowns": 8000,
+      "process_cpu_seconds": 122.409886,
+      "peak_tree_rss_gib": 2.29443359375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.366220192904723e-10,
+      "vs_backend_relative_max_norm": 1.366220192904723e-10,
+      "stages": {
+        "operators": 12.301211869000326,
+        "condition_scaling": 0.28532616599932226,
+        "condition_estimation": 2.9973409770000217,
+        "excitation": 0.07378964699910284,
+        "linear_solve": 1.3316620909999983,
+        "rhs_compression": 1.3331360169995605,
+        "far_field": 0.07435201599946595
+      },
+      "condition_est_max": 3226.8008715485025,
+      "factor_work_seconds": 22.96077303200036,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "common_blocks_reused": false,
+          "retained_factor_bytes": 768000000,
+          "shared_product_bytes": 256000000
+        },
+        {
+          "common_blocks_reused": true,
+          "retained_factor_bytes": 768000000,
+          "shared_product_bytes": 256000000
+        }
+      ],
+      "max_backward_error": 1.4336114084997447e-14
+    },
+    {
+      "case": "ellipse-fourier-rejection",
+      "model": "ellipse-fourier",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": "ValueError: Matrix is not sufficiently block circulant",
+      "wall_seconds": 1.7640334539992182,
+      "unknowns": null,
+      "process_cpu_seconds": 4.447325,
+      "peak_tree_rss_gib": 0.1860809326171875,
+      "termination": null
+    },
+    {
+      "case": "pec4k-compressed-baseline",
+      "model": "pec4k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 14.398675988000036,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.2954292297363281,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.97716339585257e-13,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 24.784404004000294,
+        "hmatrix_norms": 0.1502166610000586,
+        "hmatrix_validation": 0.08223022500010302,
+        "hmatrix_assembly": 9.652148402999956,
+        "compressed_assembly": 10.005983669999978,
+        "factorization": 1.917821401000083,
+        "condition_estimation": 1.530812611999977,
+        "excitation": 0.04903834999993251,
+        "linear_solve": 0.2435962220001784,
+        "rhs_compression": 0.2470866930000284,
+        "far_field": 0.05955044400002407
+      },
+      "condition_est_max": 273.4662478411851,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        26617264,
+        25358224
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 3.891749176454151e-16
+    },
+    {
+      "case": "pec4k-compressed-compact",
+      "model": "pec4k",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 15.236066464000032,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.294219970703125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.971888330530555e-13,
+      "vs_backend_relative_max_norm": 2.6141342440885756e-14,
+      "stages": {
+        "operators": 27.243014517999654,
+        "hmatrix_norms": 0.19513675799998964,
+        "hmatrix_validation": 0.08034894200000053,
+        "hmatrix_assembly": 10.409405335000088,
+        "compressed_assembly": 10.75067118000004,
+        "factorization": 1.6266725990001305,
+        "condition_estimation": 1.7148484409999583,
+        "excitation": 0.05663249300005191,
+        "linear_solve": 0.36162245499997425,
+        "rhs_compression": 0.3645477170000504,
+        "far_field": 0.07345418099987455
+      },
+      "condition_est_max": 273.4662478411869,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        23910256,
+        22713776
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.2446377364550044e-15
+    },
+    {
+      "case": "pec4k-compressed-inverse32",
+      "model": "pec4k",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 14.618596430000025,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.2925453186035156,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.983264381368501e-13,
+      "vs_backend_relative_max_norm": 6.96697861826184e-15,
+      "stages": {
+        "operators": 23.851444711000113,
+        "hmatrix_norms": 0.1452239449999979,
+        "hmatrix_validation": 0.08440307600005781,
+        "hmatrix_assembly": 9.235967767000034,
+        "compressed_assembly": 9.588198547000047,
+        "factorization": 1.9141710200000261,
+        "condition_estimation": 1.9695696780000844,
+        "excitation": 0.051189990000011676,
+        "linear_solve": 0.4406359090000933,
+        "rhs_compression": 0.44422283899996273,
+        "far_field": 0.07489205000013044
+      },
+      "condition_est_max": 273.46624784118524,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        13344832,
+        12714992
+      ],
+      "inverse_experiments": [
+        {
+          "original_bytes": 26617264,
+          "retained_bytes": 13344832,
+          "saved_bytes": 13272432,
+          "arrays": 187,
+          "construction_precision": "complex128",
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_bytes": 25358224,
+          "retained_bytes": 12714992,
+          "saved_bytes": 12643232,
+          "arrays": 187,
+          "construction_precision": "complex128",
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.2815384429103633e-15
+    },
+    {
+      "case": "pec4k-compressed-inverse32_build",
+      "model": "pec4k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 17.768731594999963,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.2900352478027344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.976260148890575e-13,
+      "vs_backend_relative_max_norm": 1.3386819118574486e-14,
+      "stages": {
+        "operators": 29.657143641000403,
+        "hmatrix_norms": 0.1646927339999138,
+        "hmatrix_validation": 0.08528026399994815,
+        "hmatrix_assembly": 11.52459986100007,
+        "compressed_assembly": 11.957843354000033,
+        "factorization": 2.313569462000032,
+        "condition_estimation": 2.241173845999924,
+        "excitation": 0.04647763599996324,
+        "linear_solve": 0.4910997109999471,
+        "rhs_compression": 0.49508240399995884,
+        "far_field": 0.06972153100002743
+      },
+      "condition_est_max": 273.46624784118535,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        13344832,
+        12714992
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 26617264,
+          "retained_bytes": 13344832,
+          "saved_bytes": 13272432,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 25358224,
+          "retained_bytes": 12714992,
+          "saved_bytes": 12643232,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.5563409522196852e-15
+    },
+    {
+      "case": "pec4k-compressed-inverse32_fast",
+      "model": "pec4k",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 14.041399328999887,
+      "unknowns": 4000,
+      "process_cpu_seconds": 31.018390000000004,
+      "peak_tree_rss_gib": 0.2871856689453125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.973284732095355e-13,
+      "vs_backend_relative_max_norm": 2.0708619568147476e-15,
+      "stages": {
+        "operators": 23.137948805001997,
+        "hmatrix_norms": 0.16183300200009398,
+        "hmatrix_validation": 0.06621661800045331,
+        "hmatrix_assembly": 8.919660626999757,
+        "compressed_assembly": 9.195188669999425,
+        "factorization": 1.9532380639998337,
+        "condition_estimation": 2.0700330380000196,
+        "excitation": 0.040593821999664215,
+        "linear_solve": 0.4098953630000324,
+        "rhs_compression": 0.41294640099977187,
+        "far_field": 0.058150953000222216
+      },
+      "condition_est_max": 273.46624784118524,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        13344832,
+        12714992
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 26617264,
+          "retained_bytes": 13344832,
+          "saved_bytes": 13272432,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 25358224,
+          "retained_bytes": 12714992,
+          "saved_bytes": 12643232,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.876209606118345e-16
+    },
+    {
+      "case": "pec4k-dense-baseline-r1",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 19.401722159999736,
+      "unknowns": 4000,
+      "process_cpu_seconds": 64.914073,
+      "peak_tree_rss_gib": 0.8463783264160156,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 9.740257474999908,
+        "condition_scaling": 0.13648388499996145,
+        "factorization": 4.982692564999525,
+        "condition_estimation": 0.5529076579996399,
+        "excitation": 0.07386944000018048,
+        "rhs_solve": 0.7450010869997641,
+        "linear_solve": 1.9025129839997135,
+        "rhs_compression": 1.9034988299999895,
+        "far_field": 0.06751026099891533
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 7.93715252300035,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-baseline-r2",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 14.978984651000246,
+      "unknowns": 4000,
+      "process_cpu_seconds": 52.067123,
+      "peak_tree_rss_gib": 0.8504867553710938,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 7.472635497999818,
+        "condition_scaling": 0.1348139629999423,
+        "factorization": 3.8524102250003125,
+        "condition_estimation": 0.3500656870005514,
+        "excitation": 0.12154317300019102,
+        "rhs_solve": 0.44346771200025614,
+        "linear_solve": 0.8837658249995002,
+        "rhs_compression": 0.8845760559997871,
+        "far_field": 0.08172091900087253
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 5.525341628000206,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-baseline-r3",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 13.591605958999935,
+      "unknowns": 4000,
+      "process_cpu_seconds": 46.266077,
+      "peak_tree_rss_gib": 0.847747802734375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 6.905387544000405,
+        "condition_scaling": 0.11943846499889332,
+        "factorization": 3.270133910000368,
+        "condition_estimation": 0.34534541300035926,
+        "excitation": 0.06233647600038239,
+        "rhs_solve": 0.3563072600009036,
+        "linear_solve": 1.0188810050003667,
+        "rhs_compression": 1.0198791470002107,
+        "far_field": 0.06264858999838907
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 5.052932354000404,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-baseline",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 14.928064462000009,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.8511505126953125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 7.789490179999973,
+        "condition_scaling": 0.09162840999999844,
+        "factorization": 3.3567088649999732,
+        "condition_estimation": 0.37233346600004325,
+        "excitation": 0.052321272000028785,
+        "rhs_solve": 0.4657067359999587,
+        "linear_solve": 0.91040771400003,
+        "rhs_compression": 0.9108706990000428,
+        "far_field": 0.08469856800002162
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 5.001355645999979,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-disk32",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 18.494078142000035,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.5580596923828125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.2635304384132889e-15,
+      "vs_backend_relative_max_norm": 1.2635304384132889e-15,
+      "stages": {
+        "operators": 11.34902145000001,
+        "condition_scaling": 0.12948564600003465,
+        "factorization": 2.973127622999982,
+        "condition_estimation": 0.36538695500007634,
+        "excitation": 0.09325346500008891,
+        "rhs_solve": 0.4097278560001314,
+        "linear_solve": 1.0196427299999868,
+        "rhs_compression": 1.0203563999999687,
+        "far_field": 0.05758816300010494
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 5.1882281840000815,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-disk4",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 19.561456860000078,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4708137512207031,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.2635304384132889e-15,
+      "vs_backend_relative_max_norm": 1.2635304384132889e-15,
+      "stages": {
+        "operators": 11.662742704999971,
+        "condition_scaling": 0.1250985610000157,
+        "factorization": 3.1211944500000186,
+        "condition_estimation": 0.3730633690000218,
+        "excitation": 0.09805168700000877,
+        "rhs_solve": 0.45714295700008734,
+        "linear_solve": 1.2849515450000126,
+        "rhs_compression": 1.2856303189998926,
+        "far_field": 0.0977639980000049
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 5.7355021509999915,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-disk_zstd",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 26.787917945000004,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.46791839599609375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.2635304384132889e-15,
+      "vs_backend_relative_max_norm": 1.2635304384132889e-15,
+      "stages": {
+        "operators": 14.551222916999905,
+        "condition_scaling": 0.15708742900005745,
+        "factorization": 3.9357134580000093,
+        "condition_estimation": 0.38295221600003515,
+        "excitation": 0.065833631999908,
+        "rhs_solve": 0.4816741650000722,
+        "linear_solve": 2.9033069609998847,
+        "rhs_compression": 2.9042228569999224,
+        "far_field": 0.08532621999984258
+      },
+      "condition_est_max": 273.46624784119575,
+      "factor_work_seconds": 9.54109125399998,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 256000000,
+          "compressed_bytes": 46684968,
+          "write_seconds": 1.0628058220000867,
+          "read_seconds": 1.2578447649998452,
+          "products": 2,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 256000000,
+          "compressed_bytes": 65581483,
+          "write_seconds": 0.9472851430000446,
+          "read_seconds": 0.9841330639999342,
+          "products": 2,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 2.8060713923299874e-16
+    },
+    {
+      "case": "pec4k-dense-fourier-r1",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 14.40081251699985,
+      "unknowns": 4000,
+      "process_cpu_seconds": 40.113011,
+      "peak_tree_rss_gib": 0.7430953979492188,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.6828474737370456e-14,
+      "vs_backend_relative_max_norm": 4.6828474737370456e-14,
+      "stages": {
+        "operators": 10.975956675999896,
+        "condition_scaling": 0.11704886799998349,
+        "condition_estimation": 0.012681212999723357,
+        "excitation": 0.0463326839999354,
+        "linear_solve": 0.1252227960003438,
+        "rhs_compression": 0.12651449099985257,
+        "far_field": 0.10853127399968798
+      },
+      "condition_est_max": 273.4662478411763,
+      "factor_work_seconds": 1.3039394810002705,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 1.519428417633582e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 2.456003555712949e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 9.985431960433679e-15
+    },
+    {
+      "case": "pec4k-dense-fourier-r2",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 9.805853136000223,
+      "unknowns": 4000,
+      "process_cpu_seconds": 29.659216999999998,
+      "peak_tree_rss_gib": 0.6936912536621094,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.6828474737370456e-14,
+      "vs_backend_relative_max_norm": 4.6828474737370456e-14,
+      "stages": {
+        "operators": 6.604133790000105,
+        "condition_scaling": 0.12105628299968885,
+        "condition_estimation": 0.06557319499961523,
+        "excitation": 0.04812544900005378,
+        "linear_solve": 0.14633320099983393,
+        "rhs_compression": 0.1468664819994956,
+        "far_field": 0.11100916499981395
+      },
+      "condition_est_max": 273.4662478411763,
+      "factor_work_seconds": 1.5144675970004755,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 1.519428417633582e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 2.456003555712949e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 9.985431960433679e-15
+    },
+    {
+      "case": "pec4k-dense-fourier",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 20.300428504000024,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.7366867065429688,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.6828474737370456e-14,
+      "vs_backend_relative_max_norm": 4.6828474737370456e-14,
+      "stages": {
+        "operators": 16.474011236000024,
+        "condition_scaling": 0.13811508899993896,
+        "condition_estimation": 0.015264260999970247,
+        "excitation": 0.04088225499992859,
+        "linear_solve": 0.17883050000011735,
+        "rhs_compression": 0.1798507310001014,
+        "far_field": 0.13446473300018624
+      },
+      "condition_est_max": 273.4662478411763,
+      "factor_work_seconds": 1.7303129809999973,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 1.519428417633582e-13,
+          "parts": 1,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 2.456003555712949e-13,
+          "parts": 1,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 9.985431960433679e-15
+    },
+    {
+      "case": "pec4k-dense-mixed",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 19.849636249000014,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.7461509704589844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.785507844587563e-14,
+      "vs_backend_relative_max_norm": 9.785507844587563e-14,
+      "stages": {
+        "operators": 8.945176919999994,
+        "condition_scaling": 0.11232771300001332,
+        "mixed_factorization": 1.8553406280000218,
+        "mixed_rhs_and_refinement": 6.583859908000022,
+        "condition_estimation": 4.276802757999974,
+        "excitation": 0.10134685500003116,
+        "linear_solve": 2.322889016999966,
+        "rhs_compression": 2.3239669870000057,
+        "far_field": 0.27415849700003037
+      },
+      "condition_est_max": 273.466247841191,
+      "factor_work_seconds": 8.666128909000008,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 8.191658564811475e-14
+    },
+    {
+      "case": "pec4k-dense-scaled_mixed",
+      "model": "pec4k",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 18.356045566000034,
+      "unknowns": 4000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.745208740234375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 7.352340867710064e-14,
+      "vs_backend_relative_max_norm": 7.352340867710064e-14,
+      "stages": {
+        "operators": 7.039495898000041,
+        "condition_scaling": 0.26258265799998526,
+        "condition_estimation": 4.502941330999988,
+        "excitation": 0.08643520399999716,
+        "linear_solve": 2.326042425999958,
+        "rhs_compression": 2.3268761600000403,
+        "far_field": 0.24477778500005343
+      },
+      "condition_est_max": 273.4662478411913,
+      "factor_work_seconds": 9.400197291999973,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 7.343633808981239e-14
+    },
+    {
+      "case": "pec8k-compressed-baseline",
+      "model": "pec8k",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 41.59495991199992,
+      "unknowns": 8000,
+      "process_cpu_seconds": 96.233566,
+      "peak_tree_rss_gib": 0.5759353637695312,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.046326652807184e-12,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 78.22426866500246,
+        "hmatrix_norms": 0.49151627700030076,
+        "hmatrix_validation": 0.10519106899982944,
+        "hmatrix_assembly": 30.49596450299987,
+        "compressed_assembly": 31.39547403900042,
+        "factorization": 5.178620852999757,
+        "condition_estimation": 3.5351339440003358,
+        "excitation": 0.0910476860003655,
+        "linear_solve": 0.47248196400005327,
+        "rhs_compression": 0.4757707849998951,
+        "far_field": 0.12706176400070035
+      },
+      "condition_est_max": 477.78309511860084,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        72482280,
+        69671408
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.0513981753478233e-16
+    },
+    {
+      "case": "pec8k-compressed-compact",
+      "model": "pec8k",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 42.28963136400034,
+      "unknowns": 8000,
+      "process_cpu_seconds": 95.139955,
+      "peak_tree_rss_gib": 0.5472869873046875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.0472171955896606e-12,
+      "vs_backend_relative_max_norm": 1.2745133861815487e-14,
+      "stages": {
+        "operators": 73.45084089000011,
+        "hmatrix_norms": 0.7802416579997953,
+        "hmatrix_validation": 0.10008150099974955,
+        "hmatrix_assembly": 28.77156166299983,
+        "compressed_assembly": 29.46100543700004,
+        "factorization": 6.730324914000448,
+        "condition_estimation": 4.886433607000072,
+        "excitation": 0.11195941899995887,
+        "linear_solve": 0.7624077390000821,
+        "rhs_compression": 0.7674575390001337,
+        "far_field": 0.17761759999939386
+      },
+      "condition_est_max": 477.7830951185934,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        65798976,
+        62719600
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.135225095997096e-15
+    },
+    {
+      "case": "pec8k-compressed-inverse32",
+      "model": "pec8k",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 37.966961011999956,
+      "unknowns": 8000,
+      "process_cpu_seconds": 83.807618,
+      "peak_tree_rss_gib": 0.5635833740234375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.045979377094384e-12,
+      "vs_backend_relative_max_norm": 4.758396939076661e-15,
+      "stages": {
+        "operators": 62.75981625499935,
+        "hmatrix_norms": 0.5793126929993377,
+        "hmatrix_validation": 0.126322756999798,
+        "hmatrix_assembly": 25.19742882799983,
+        "compressed_assembly": 25.938884782999594,
+        "factorization": 5.338245555999947,
+        "condition_estimation": 5.868345333999969,
+        "excitation": 0.09727592399985951,
+        "linear_solve": 1.07988394899985,
+        "rhs_compression": 1.0842787079996015,
+        "far_field": 0.12964397299901975
+      },
+      "condition_est_max": 477.78309511860084,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        36313664,
+        34907632
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 72482280,
+          "retained_bytes": 36313664,
+          "saved_bytes": 36168616,
+          "arrays": 379,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 69671408,
+          "retained_bytes": 34907632,
+          "saved_bytes": 34763776,
+          "arrays": 379,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.6089924934308742e-16
+    },
+    {
+      "case": "pec8k-compressed-inverse32_build",
+      "model": "pec8k",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 43.52678926700037,
+      "unknowns": 8000,
+      "process_cpu_seconds": 94.14280099999999,
+      "peak_tree_rss_gib": 0.5538330078125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.0454490931062362e-12,
+      "vs_backend_relative_max_norm": 3.864064732445014e-14,
+      "stages": {
+        "operators": 70.87299263399882,
+        "hmatrix_norms": 0.5490662610000072,
+        "hmatrix_validation": 0.22915031899992755,
+        "hmatrix_assembly": 27.552129498999875,
+        "compressed_assembly": 28.267418252000425,
+        "factorization": 7.395977537999897,
+        "condition_estimation": 6.0016629330002615,
+        "excitation": 0.09971498200002316,
+        "linear_solve": 0.938625846999912,
+        "rhs_compression": 0.9422331840000879,
+        "far_field": 0.12105937200021799
+      },
+      "condition_est_max": 477.7830951186007,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        36313664,
+        34907632
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 72482280,
+          "retained_bytes": 36313664,
+          "saved_bytes": 36168616,
+          "arrays": 379,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 69671408,
+          "retained_bytes": 34907632,
+          "saved_bytes": 34763776,
+          "arrays": 379,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.0836242516458806e-15
+    },
+    {
+      "case": "pec8k-compressed-inverse32_fast",
+      "model": "pec8k",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 42.57380957400028,
+      "unknowns": 8000,
+      "process_cpu_seconds": 94.21364,
+      "peak_tree_rss_gib": 0.5800094604492188,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.045996677822744e-12,
+      "vs_backend_relative_max_norm": 1.7670531767265287e-14,
+      "stages": {
+        "operators": 70.40173160499171,
+        "hmatrix_norms": 0.8842183889992157,
+        "hmatrix_validation": 0.19441950700002053,
+        "hmatrix_assembly": 26.467484906999744,
+        "compressed_assembly": 27.16589850299897,
+        "factorization": 8.263468870999532,
+        "condition_estimation": 11.13543141899845,
+        "excitation": 0.09259708100034914,
+        "linear_solve": 1.1425776790001692,
+        "rhs_compression": 1.1471305340000981,
+        "far_field": 0.13192981300016982
+      },
+      "condition_est_max": 477.7830951186007,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 4,
+      "factorizations": 3,
+      "retained_inverse_bytes": [
+        36313664,
+        39854352,
+        37944352
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 72482280,
+          "retained_bytes": 36313664,
+          "saved_bytes": 36168616,
+          "arrays": 379,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 79560424,
+          "retained_bytes": 39854352,
+          "saved_bytes": 39706072,
+          "arrays": 379,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 75742368,
+          "retained_bytes": 37944352,
+          "saved_bytes": 37798016,
+          "arrays": 379,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.9463335694442842e-15
+    },
+    {
+      "case": "pec8k-dense-baseline-r1",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 75.69045563000009,
+      "unknowns": 8000,
+      "process_cpu_seconds": 242.026705,
+      "peak_tree_rss_gib": 3.033946990966797,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 33.045938225999635,
+        "condition_scaling": 0.34422338600006697,
+        "factorization": 24.926747803000126,
+        "condition_estimation": 1.5560346980000759,
+        "excitation": 0.1644231279997257,
+        "rhs_solve": 1.6910822319996441,
+        "linear_solve": 2.654955961999349,
+        "rhs_compression": 2.6560893680002664,
+        "far_field": 0.17760375700026998
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 38.20640386299965,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-baseline-r2",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 61.28059543600011,
+      "unknowns": 8000,
+      "process_cpu_seconds": 215.302209,
+      "peak_tree_rss_gib": 3.0323486328125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 22.01280869099992,
+        "condition_scaling": 0.5459519340001862,
+        "factorization": 27.952315372000157,
+        "condition_estimation": 2.1230408259998512,
+        "excitation": 0.15789789100017515,
+        "rhs_solve": 1.8091254470000422,
+        "linear_solve": 3.550462289999814,
+        "rhs_compression": 3.552107415000137,
+        "far_field": 0.2342604439995739
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 35.291811186999894,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-baseline-r3",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 69.67271711100057,
+      "unknowns": 8000,
+      "process_cpu_seconds": 243.33820599999999,
+      "peak_tree_rss_gib": 3.040210723876953,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 26.961950224000248,
+        "condition_scaling": 0.8115579429995705,
+        "factorization": 30.791760384000554,
+        "condition_estimation": 1.9250448419998065,
+        "excitation": 0.21536147799997707,
+        "rhs_solve": 1.7068843030010612,
+        "linear_solve": 2.9422423040005015,
+        "rhs_compression": 2.9437640619999,
+        "far_field": 0.28517573100180016
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 38.21952035600043,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-baseline",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 85.51246561800008,
+      "unknowns": 8000,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 3.0304489135742188,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 34.631593458,
+        "condition_scaling": 0.29208711100000073,
+        "factorization": 26.59162790000005,
+        "condition_estimation": 1.261498832999905,
+        "excitation": 0.14580274799982362,
+        "rhs_solve": 1.3306905959998403,
+        "linear_solve": 2.3316606229998342,
+        "rhs_compression": 2.3326581229998737,
+        "far_field": 0.20954096600030425
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 31.406580847000214,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk32-r1",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 76.14655103299992,
+      "unknowns": 8000,
+      "process_cpu_seconds": 272.05875699999996,
+      "peak_tree_rss_gib": 1.3396568298339844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 36.56267030399977,
+        "condition_scaling": 0.29644939999980124,
+        "factorization": 26.665586923999854,
+        "condition_estimation": 2.0011866209997606,
+        "excitation": 0.2526644449999367,
+        "rhs_solve": 1.4418884389997402,
+        "linear_solve": 3.32979573800003,
+        "rhs_compression": 3.330887315999462,
+        "far_field": 0.2143218920000436
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 35.11841110400019,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk32-r2",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 85.887960518,
+      "unknowns": 8000,
+      "process_cpu_seconds": 313.035459,
+      "peak_tree_rss_gib": 1.3480186462402344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 41.965263869999944,
+        "condition_scaling": 0.30295549600032246,
+        "factorization": 31.24535115400022,
+        "condition_estimation": 1.8700471379997907,
+        "excitation": 0.20257996899999853,
+        "rhs_solve": 1.5437593950000519,
+        "linear_solve": 3.2901794810004503,
+        "rhs_compression": 3.2913373159999537,
+        "far_field": 0.17438520399946356
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 39.762199984999825,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk32-r3",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 174.5592672800003,
+      "unknowns": 8000,
+      "process_cpu_seconds": 549.913015,
+      "peak_tree_rss_gib": 1.2764930725097656,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 94.90876210399983,
+        "condition_scaling": 0.2935647889989923,
+        "factorization": 66.29400543400061,
+        "condition_estimation": 1.6316869519996544,
+        "excitation": 0.2307713620002687,
+        "rhs_solve": 1.4769167539998307,
+        "linear_solve": 3.6211004840006353,
+        "rhs_compression": 3.622977864000859,
+        "far_field": 0.17951602199991612
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 74.64875678700173,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk32",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 69.77819090600019,
+      "unknowns": 8000,
+      "process_cpu_seconds": 253.956944,
+      "peak_tree_rss_gib": 1.298980712890625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 36.46402447000014,
+        "condition_scaling": 0.2998882520000734,
+        "factorization": 22.099309878999975,
+        "condition_estimation": 1.2773176580003565,
+        "excitation": 0.21539879500005554,
+        "rhs_solve": 1.3217583079999713,
+        "linear_solve": 2.9917680339999606,
+        "rhs_compression": 2.9929408270004387,
+        "far_field": 0.20898236999983055
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 29.288284281999495,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk4",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 67.17236323199995,
+      "unknowns": 8000,
+      "process_cpu_seconds": 243.059926,
+      "peak_tree_rss_gib": 1.2220458984375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 33.581531607000215,
+        "condition_scaling": 0.26848127000016575,
+        "factorization": 22.24377865700012,
+        "condition_estimation": 1.2887526580000213,
+        "excitation": 0.17645643699984248,
+        "rhs_solve": 1.2709440589999303,
+        "linear_solve": 3.1164861909999217,
+        "rhs_compression": 3.117795458999808,
+        "far_field": 0.17010975300013342
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 29.99354552600016,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-disk_zstd",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 84.98741663200008,
+      "unknowns": 8000,
+      "process_cpu_seconds": 299.29176700000005,
+      "peak_tree_rss_gib": 1.21435546875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.986311432935073e-15,
+      "vs_backend_relative_max_norm": 2.986311432935073e-15,
+      "stages": {
+        "operators": 34.93040831600001,
+        "condition_scaling": 0.2920499580000069,
+        "factorization": 26.89777911400006,
+        "condition_estimation": 1.2845001119994777,
+        "excitation": 0.19870205300003363,
+        "rhs_solve": 1.9562189349994696,
+        "linear_solve": 10.253790798999944,
+        "rhs_compression": 10.255105668999931,
+        "far_field": 0.15149655899904246
+      },
+      "condition_est_max": 477.7830951179269,
+      "factor_work_seconds": 45.11701317300003,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 1024000000,
+          "compressed_bytes": 201964159,
+          "write_seconds": 3.2967151370003194,
+          "read_seconds": 5.026707575000728,
+          "products": 2,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 1024000000,
+          "compressed_bytes": 269922131,
+          "write_seconds": 2.7892727019998347,
+          "read_seconds": 2.680825988000379,
+          "products": 2,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 1.9264687740865871e-16
+    },
+    {
+      "case": "pec8k-dense-fourier-r1",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 33.92485150199991,
+      "unknowns": 8000,
+      "process_cpu_seconds": 100.319693,
+      "peak_tree_rss_gib": 2.195331573486328,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.6174877927743404e-13,
+      "vs_backend_relative_max_norm": 1.6174877927743404e-13,
+      "stages": {
+        "operators": 24.470577206000144,
+        "condition_scaling": 0.33348971899977187,
+        "condition_estimation": 0.02748875199995382,
+        "excitation": 0.10241594800027087,
+        "linear_solve": 0.5137553509998725,
+        "rhs_compression": 0.515075178999723,
+        "far_field": 0.1262560620007207
+      },
+      "condition_est_max": 477.78309511868076,
+      "factor_work_seconds": 5.972284960000252,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 3.873633871547565e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 7.634521529439526e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 2.045907067774087e-14
+    },
+    {
+      "case": "pec8k-dense-fourier-r2",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 35.29866784499973,
+      "unknowns": 8000,
+      "process_cpu_seconds": 103.289989,
+      "peak_tree_rss_gib": 2.1762924194335938,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.6174877927743404e-13,
+      "vs_backend_relative_max_norm": 1.6174877927743404e-13,
+      "stages": {
+        "operators": 25.205504053999903,
+        "condition_scaling": 0.4019852949995766,
+        "condition_estimation": 0.025276642000335414,
+        "excitation": 0.12199034000013853,
+        "linear_solve": 0.49262015199974485,
+        "rhs_compression": 0.49360558699981993,
+        "far_field": 0.12896540599922446
+      },
+      "condition_est_max": 477.78309511868076,
+      "factor_work_seconds": 6.212389462999909,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 3.873633871547565e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 7.634521529439526e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 2.045907067774087e-14
+    },
+    {
+      "case": "pec8k-dense-fourier",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "fourier",
+      "error": null,
+      "wall_seconds": 55.05580034600007,
+      "unknowns": 8000,
+      "process_cpu_seconds": 135.445821,
+      "peak_tree_rss_gib": 2.139312744140625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 1.6174877927743404e-13,
+      "vs_backend_relative_max_norm": 1.6174877927743404e-13,
+      "stages": {
+        "operators": 24.49351283199985,
+        "condition_scaling": 0.33884416000000783,
+        "condition_estimation": 0.024815476999719976,
+        "excitation": 0.11445444099990709,
+        "linear_solve": 0.5391571929999373,
+        "rhs_compression": 0.5402512129999195,
+        "far_field": 0.21046808500022962
+      },
+      "condition_est_max": 477.78309511868076,
+      "factor_work_seconds": 5.773336011000538,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 3.873633871547565e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 7.634521529439526e-13,
+          "parts": 1,
+          "sectors": null,
+          "retained_bytes": null,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 2.045907067774087e-14
+    },
+    {
+      "case": "pec8k-dense-mixed-r1",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 73.80509012199991,
+      "unknowns": 8000,
+      "process_cpu_seconds": 261.035959,
+      "peak_tree_rss_gib": 2.5936203002929688,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 8.482165830787597e-15,
+      "vs_backend_relative_max_norm": 8.482165830787597e-15,
+      "stages": {
+        "operators": 23.814358887999788,
+        "condition_scaling": 0.33403861600027085,
+        "mixed_factorization": 13.023055099999965,
+        "mixed_rhs_and_refinement": 15.886564869999802,
+        "condition_estimation": 12.982060586000443,
+        "excitation": 0.19887987100037208,
+        "linear_solve": 4.916281172999788,
+        "rhs_compression": 4.917641276000268,
+        "far_field": 0.4308302620001996,
+        "factorization": 14.188706442000239,
+        "rhs_solve": 0.6101350740000271
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 46.13030383000023,
+      "factor_variants": [
+        "mixed_lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        true
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 3,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.930649570283512e-15
+    },
+    {
+      "case": "pec8k-dense-mixed-r2",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 70.0964357920002,
+      "unknowns": 8000,
+      "process_cpu_seconds": 251.54454700000002,
+      "peak_tree_rss_gib": 2.5936546325683594,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 8.482165830787597e-15,
+      "vs_backend_relative_max_norm": 8.482165830787597e-15,
+      "stages": {
+        "operators": 20.881906889999755,
+        "condition_scaling": 0.3137796639998669,
+        "mixed_factorization": 12.462354239999513,
+        "mixed_rhs_and_refinement": 15.106994389000192,
+        "condition_estimation": 12.157290796000325,
+        "excitation": 0.18826322099994286,
+        "linear_solve": 5.061001632999705,
+        "rhs_compression": 5.062287849999848,
+        "far_field": 0.4848376090003512,
+        "factorization": 14.63934521200008,
+        "rhs_solve": 0.6534893510001893
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 45.41532653399963,
+      "factor_variants": [
+        "mixed_lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        true
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 3,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.930649570283512e-15
+    },
+    {
+      "case": "pec8k-dense-mixed",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 75.68069266400016,
+      "unknowns": 8000,
+      "process_cpu_seconds": 268.441115,
+      "peak_tree_rss_gib": 2.5982666015625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 8.482165830787597e-15,
+      "vs_backend_relative_max_norm": 8.482165830787597e-15,
+      "stages": {
+        "operators": 31.634456700999863,
+        "condition_scaling": 0.3012203890002638,
+        "mixed_factorization": 12.103972683999928,
+        "mixed_rhs_and_refinement": 14.512946322999824,
+        "condition_estimation": 11.463766725999903,
+        "excitation": 0.16140873899985309,
+        "linear_solve": 4.737078802999804,
+        "rhs_compression": 4.738235907999979,
+        "far_field": 0.5064136039998175,
+        "factorization": 10.979170552999904,
+        "rhs_solve": 0.6223513709999224
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 40.21852035400025,
+      "factor_variants": [
+        "mixed_lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        true
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 3,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 4.930649570283512e-15
+    },
+    {
+      "case": "pec8k-dense-scaled_mixed",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 66.33647169000005,
+      "unknowns": 8000,
+      "process_cpu_seconds": 236.93464699999998,
+      "peak_tree_rss_gib": 2.598590850830078,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 9.827117550007004e-15,
+      "vs_backend_relative_max_norm": 9.827117550007004e-15,
+      "stages": {
+        "operators": 20.877242259000013,
+        "condition_scaling": 0.7394423629998528,
+        "condition_estimation": 11.338288169999942,
+        "excitation": 0.11887935599997945,
+        "linear_solve": 5.301528203000316,
+        "rhs_compression": 5.30273208199992,
+        "far_field": 0.4659632870000223,
+        "factorization": 10.890992422999943,
+        "rhs_solve": 0.6342709709999781
+      },
+      "condition_est_max": 477.7830951214531,
+      "factor_work_seconds": 41.92038687500008,
+      "factor_variants": [
+        "mixed_lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        true
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 3,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.586470956375188e-15
+    },
+    {
+      "case": "pec8k-dense-tile128",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "tile128",
+      "error": null,
+      "wall_seconds": 52.97795578599971,
+      "unknowns": 8000,
+      "process_cpu_seconds": 187.200713,
+      "peak_tree_rss_gib": 3.037220001220703,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.7102257265558044e-15,
+      "vs_backend_relative_max_norm": 3.7102257265558044e-15,
+      "stages": {
+        "operators": 19.495407783000246,
+        "condition_scaling": 0.35933510099994237,
+        "factorization": 23.07609120999996,
+        "condition_estimation": 1.8716299529996832,
+        "excitation": 0.23392839900043327,
+        "rhs_solve": 1.6270901289999529,
+        "linear_solve": 2.7188956410000173,
+        "rhs_compression": 2.731500999000218,
+        "far_field": 0.2038993300002403
+      },
+      "condition_est_max": 477.7830951168144,
+      "factor_work_seconds": 29.244028077000166,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9531521013311405e-16
+    },
+    {
+      "case": "pec8k-dense-tile64",
+      "model": "pec8k",
+      "backend": "dense",
+      "variant": "tile64",
+      "error": null,
+      "wall_seconds": 63.60652853700003,
+      "unknowns": 8000,
+      "process_cpu_seconds": 211.32723699999997,
+      "peak_tree_rss_gib": 3.0306968688964844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.8898021398724505e-15,
+      "vs_backend_relative_max_norm": 3.8898021398724505e-15,
+      "stages": {
+        "operators": 30.369945736999853,
+        "condition_scaling": 0.32619770600013,
+        "factorization": 23.725952579000023,
+        "condition_estimation": 1.9028873749998638,
+        "excitation": 0.26369871999941097,
+        "rhs_solve": 1.4195030300002145,
+        "linear_solve": 2.5034664569998313,
+        "rhs_compression": 2.5049737999997888,
+        "far_field": 0.1415244029999485
+      },
+      "condition_est_max": 477.78309512118,
+      "factor_work_seconds": 29.69361712699947,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.9450075752807247e-16
+    },
+    {
+      "case": "star-compressed-baseline-r1",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 29.725190935000228,
+      "unknowns": 4720,
+      "process_cpu_seconds": 59.72976,
+      "peak_tree_rss_gib": 0.48111724853515625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.4522095944523484e-11,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 44.22499430799644,
+        "hmatrix_norms": 0.2286316749996331,
+        "hmatrix_validation": 0.09801337099997909,
+        "hmatrix_assembly": 21.598621174000073,
+        "compressed_assembly": 22.039615488000436,
+        "factorization": 4.669579693999822,
+        "condition_estimation": 2.9261752610004805,
+        "excitation": 0.01794858999983262,
+        "linear_solve": 0.3026592870000968,
+        "rhs_compression": 0.30565647599996737,
+        "far_field": 0.025690341999506927
+      },
+      "condition_est_max": 40203.12409511318,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        69910296,
+        64411088
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.391726063003436e-16
+    },
+    {
+      "case": "star-compressed-baseline-r2",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 28.594584961000237,
+      "unknowns": 4720,
+      "process_cpu_seconds": 57.53814799999999,
+      "peak_tree_rss_gib": 0.47104644775390625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.4522095944523484e-11,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 42.56971914300266,
+        "hmatrix_norms": 0.20183509800017418,
+        "hmatrix_validation": 0.06884444400020584,
+        "hmatrix_assembly": 20.69532417399978,
+        "compressed_assembly": 21.006907917999797,
+        "factorization": 4.596084423999855,
+        "condition_estimation": 3.2396293729998433,
+        "excitation": 0.01986579599952165,
+        "linear_solve": 0.32740231500019945,
+        "rhs_compression": 0.33021005399996284,
+        "far_field": 0.03476143499983664
+      },
+      "condition_est_max": 40203.12409511318,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        69910296,
+        64411088
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.391726063003436e-16
+    },
+    {
+      "case": "star-compressed-baseline",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 71.15868856899988,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4730339050292969,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.4522095944523484e-11,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 55.82018273500148,
+        "hmatrix_norms": 0.2227298749999136,
+        "hmatrix_validation": 0.13799659399978736,
+        "hmatrix_assembly": 25.901943849999952,
+        "compressed_assembly": 26.243115128,
+        "factorization": 41.80145890300014,
+        "condition_estimation": 2.983333137000045,
+        "excitation": 0.028940105999708976,
+        "linear_solve": 0.3347658460002094,
+        "rhs_compression": 0.3382992040001227,
+        "far_field": 0.03177587100026358
+      },
+      "condition_est_max": 40203.12409511318,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        69910296,
+        64411088
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.391726063003436e-16
+    },
+    {
+      "case": "star-compressed-compact",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "compact",
+      "error": null,
+      "wall_seconds": 31.956350049000093,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.45209503173828125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.4514646296666385e-11,
+      "vs_backend_relative_max_norm": 5.893874967056287e-14,
+      "stages": {
+        "operators": 42.47093434699627,
+        "hmatrix_norms": 0.2120566849998795,
+        "hmatrix_validation": 0.07046345299977474,
+        "hmatrix_assembly": 20.853772403999983,
+        "compressed_assembly": 21.182848633000276,
+        "factorization": 3.798932761999822,
+        "condition_estimation": 10.319881565999822,
+        "excitation": 0.024602966000202287,
+        "linear_solve": 0.6952440019999813,
+        "rhs_compression": 0.7002879999997731,
+        "far_field": 0.03085835699994277
+      },
+      "condition_est_max": 40203.1240951124,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 2,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        57280496,
+        51837352
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.119722452914386e-16
+    },
+    {
+      "case": "star-compressed-inverse32",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32",
+      "error": null,
+      "wall_seconds": 30.881716862000076,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4669685363769531,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.452980547430342e-11,
+      "vs_backend_relative_max_norm": 4.04592195450446e-14,
+      "stages": {
+        "operators": 46.60141924800382,
+        "hmatrix_norms": 0.24029803500002345,
+        "hmatrix_validation": 0.07489035100002184,
+        "hmatrix_assembly": 21.656254450000006,
+        "compressed_assembly": 21.978967323999996,
+        "factorization": 4.5448270689998935,
+        "condition_estimation": 5.0561379910002415,
+        "excitation": 0.02575686099999075,
+        "linear_solve": 0.7063810740000918,
+        "rhs_compression": 0.7116806930000621,
+        "far_field": 0.04256647700049143
+      },
+      "condition_est_max": 40203.124095112915,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        35005392,
+        32254744
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 69910296,
+          "retained_bytes": 35005392,
+          "saved_bytes": 34904904,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 64411088,
+          "retained_bytes": 32254744,
+          "saved_bytes": 32156344,
+          "arrays": 187,
+          "quantize_during_construction": false,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.0558432284786443e-16
+    },
+    {
+      "case": "star-compressed-inverse32_build-r1",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 30.968698700999994,
+      "unknowns": 4720,
+      "process_cpu_seconds": 60.272619,
+      "peak_tree_rss_gib": 0.44918060302734375,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.3940672459760845e-11,
+      "vs_backend_relative_max_norm": 8.929531049270063e-13,
+      "stages": {
+        "operators": 43.892776750989015,
+        "hmatrix_norms": 0.1989009049998458,
+        "hmatrix_validation": 0.07296754799972405,
+        "hmatrix_assembly": 21.783488572999886,
+        "compressed_assembly": 22.161031626000295,
+        "factorization": 4.676056943999811,
+        "condition_estimation": 4.479267618000449,
+        "excitation": 0.018418682000174158,
+        "linear_solve": 0.6194742350003253,
+        "rhs_compression": 0.6229764260001502,
+        "far_field": 0.04278773699888916
+      },
+      "condition_est_max": 40203.124095112995,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        35005392,
+        32254744
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 69910296,
+          "retained_bytes": 35005392,
+          "saved_bytes": 34904904,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 64411088,
+          "retained_bytes": 32254744,
+          "saved_bytes": 32156344,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.8548366943961504e-15
+    },
+    {
+      "case": "star-compressed-inverse32_build-r2",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 28.881812824000008,
+      "unknowns": 4720,
+      "process_cpu_seconds": 57.618006,
+      "peak_tree_rss_gib": 0.4400749206542969,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.3940672459760845e-11,
+      "vs_backend_relative_max_norm": 8.929531049270063e-13,
+      "stages": {
+        "operators": 42.19599006899989,
+        "hmatrix_norms": 0.183254308999949,
+        "hmatrix_validation": 0.07272986900034084,
+        "hmatrix_assembly": 19.834950882999692,
+        "compressed_assembly": 20.15647884100008,
+        "factorization": 4.875104712999928,
+        "condition_estimation": 4.241384657999788,
+        "excitation": 0.02090699800010043,
+        "linear_solve": 0.5554530069998691,
+        "rhs_compression": 0.5589610670003822,
+        "far_field": 0.030064160000620177
+      },
+      "condition_est_max": 40203.124095112995,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        35005392,
+        32254744
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 69910296,
+          "retained_bytes": 35005392,
+          "saved_bytes": 34904904,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 64411088,
+          "retained_bytes": 32254744,
+          "saved_bytes": 32156344,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.8548366943961504e-15
+    },
+    {
+      "case": "star-compressed-inverse32_build",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32_build",
+      "error": null,
+      "wall_seconds": 85.98112161800009,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.4467811584472656,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.3940672459760845e-11,
+      "vs_backend_relative_max_norm": 8.929531049270063e-13,
+      "stages": {
+        "operators": 122.9990442330004,
+        "hmatrix_norms": 0.3536043700000846,
+        "hmatrix_validation": 0.11600148800016541,
+        "hmatrix_assembly": 76.80011670399995,
+        "compressed_assembly": 77.11303766700007,
+        "factorization": 4.902087575999985,
+        "condition_estimation": 4.602798310999788,
+        "excitation": 0.0208178279999629,
+        "linear_solve": 0.5451230749999922,
+        "rhs_compression": 0.5496208170002319,
+        "far_field": 0.029627058999494693
+      },
+      "condition_est_max": 40203.124095112995,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 3,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        35005392,
+        32254744
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 69910296,
+          "retained_bytes": 35005392,
+          "saved_bytes": 34904904,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 64411088,
+          "retained_bytes": 32254744,
+          "saved_bytes": 32156344,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": false,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 1.8548366943961504e-15
+    },
+    {
+      "case": "star-compressed-inverse32_fast",
+      "model": "star",
+      "backend": "compressed",
+      "variant": "inverse32_fast",
+      "error": null,
+      "wall_seconds": 35.42889215699961,
+      "unknowns": 4720,
+      "process_cpu_seconds": 66.100256,
+      "peak_tree_rss_gib": 0.4952545166015625,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 4.452943814322841e-11,
+      "vs_backend_relative_max_norm": 1.5187943352176868e-13,
+      "stages": {
+        "operators": 44.44386936999808,
+        "hmatrix_norms": 0.4429337079996003,
+        "hmatrix_validation": 0.1843554479996783,
+        "hmatrix_assembly": 21.899660201000188,
+        "compressed_assembly": 22.19766581499971,
+        "factorization": 8.108398131000286,
+        "condition_estimation": 12.24611003200016,
+        "excitation": 0.019901941000171064,
+        "linear_solve": 0.7430540579998706,
+        "rhs_compression": 0.7466349230003289,
+        "far_field": 0.030459439999958704
+      },
+      "condition_est_max": 40203.124095112835,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 4,
+      "factorizations": 3,
+      "retained_inverse_bytes": [
+        35005392,
+        40819600,
+        38234888
+      ],
+      "inverse_experiments": [
+        {
+          "original_equivalent_bytes": 69910296,
+          "retained_bytes": 35005392,
+          "saved_bytes": 34904904,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 81534424,
+          "retained_bytes": 40819600,
+          "saved_bytes": 40714824,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        },
+        {
+          "original_equivalent_bytes": 76366880,
+          "retained_bytes": 38234888,
+          "saved_bytes": 38131992,
+          "arrays": 187,
+          "quantize_during_construction": true,
+          "single_precision_products": true,
+          "retained_precision": "complex64",
+          "operator_precision": "complex128"
+        }
+      ],
+      "max_backward_error": 2.877652820681465e-15
+    },
+    {
+      "case": "star-dense-baseline-r1",
+      "model": "star",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 18.34809069999983,
+      "unknowns": 4720,
+      "process_cpu_seconds": 60.548888999999996,
+      "peak_tree_rss_gib": 1.1272544860839844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 8.609160759000133,
+        "condition_scaling": 0.1428734309997708,
+        "factorization": 5.791442112000368,
+        "condition_estimation": 0.865452582999751,
+        "excitation": 0.0844086380002409,
+        "rhs_solve": 0.29648613899962584,
+        "linear_solve": 0.6523162170001342,
+        "rhs_compression": 0.6531832609998673,
+        "far_field": 0.09937218599998232
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 7.912239981999392,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-baseline-r2",
+      "model": "star",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 18.48645244699992,
+      "unknowns": 4720,
+      "process_cpu_seconds": 61.953646,
+      "peak_tree_rss_gib": 1.1243247985839844,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 9.454640731999461,
+        "condition_scaling": 0.13782329099967683,
+        "factorization": 5.694506859999819,
+        "condition_estimation": 0.7219302230000721,
+        "excitation": 0.021480869999777497,
+        "rhs_solve": 0.2162194859997726,
+        "linear_solve": 0.53231214599964,
+        "rhs_compression": 0.5328747859998657,
+        "far_field": 0.029974899000080768
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 7.530197700999906,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-baseline",
+      "model": "star",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 70.17036681500008,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 1.1245155334472656,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 8.175631516000067,
+        "condition_scaling": 0.2848283870000614,
+        "factorization": 57.081195131000186,
+        "condition_estimation": 1.2415548989999934,
+        "excitation": 0.01914371799989567,
+        "rhs_solve": 0.548243507000052,
+        "linear_solve": 1.1140295190000415,
+        "rhs_compression": 1.1146976099998938,
+        "far_field": 0.06144500800019159
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 60.36639687399975,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-disk32",
+      "model": "star",
+      "backend": "dense",
+      "variant": "disk32",
+      "error": null,
+      "wall_seconds": 21.026059196999995,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.6515274047851562,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.000492388000112,
+        "condition_scaling": 0.1754446850000022,
+        "factorization": 4.884506383000144,
+        "condition_estimation": 0.6761914009998691,
+        "excitation": 0.03944459099989217,
+        "rhs_solve": 0.21573115999990478,
+        "linear_solve": 0.5676330650001091,
+        "rhs_compression": 0.5685008210000433,
+        "far_field": 0.03421818299989354
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 7.32988721300012,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-disk4",
+      "model": "star",
+      "backend": "dense",
+      "variant": "disk4",
+      "error": null,
+      "wall_seconds": 22.739174082999853,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.5545272827148438,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 13.20665470799986,
+        "condition_scaling": 0.16375867000010658,
+        "factorization": 4.937054016999809,
+        "condition_estimation": 0.6458302669998375,
+        "excitation": 0.03184525799997573,
+        "rhs_solve": 0.19234093400018537,
+        "linear_solve": 0.5982775940001375,
+        "rhs_compression": 0.5992605240001012,
+        "far_field": 0.046622010999954
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 7.81921560800015,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-disk_zstd",
+      "model": "star",
+      "backend": "dense",
+      "variant": "disk_zstd",
+      "error": null,
+      "wall_seconds": 27.510582296999928,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.5457801818847656,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 13.242007863999788,
+        "condition_scaling": 0.10336888000006184,
+        "factorization": 4.893925807999949,
+        "condition_estimation": 0.6026676769999995,
+        "excitation": 0.032339001999844186,
+        "rhs_solve": 0.23802561399998012,
+        "linear_solve": 2.298762902000135,
+        "rhs_compression": 2.2995704629997817,
+        "far_field": 0.044996045999823764
+      },
+      "condition_est_max": 40203.124095319174,
+      "factor_work_seconds": 11.712445122999725,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "original_bytes": 356454400,
+          "compressed_bytes": 253019726,
+          "write_seconds": 1.7690934750000906,
+          "read_seconds": 1.5166430050014696,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        },
+        {
+          "original_bytes": 356454400,
+          "compressed_bytes": 260411377,
+          "write_seconds": 1.5500312729998313,
+          "read_seconds": 0.9969134060008855,
+          "products": 1,
+          "codec": "zstd1-byte-shuffle-checksum",
+          "workspace_accounting": "research only; no production admission discount"
+        }
+      ],
+      "max_backward_error": 6.688671101206399e-15
+    },
+    {
+      "case": "star-dense-mixed",
+      "model": "star",
+      "backend": "dense",
+      "variant": "mixed",
+      "error": null,
+      "wall_seconds": 38.52906584000016,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.9627685546875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.243052165450658e-13,
+      "vs_backend_relative_max_norm": 3.243052165450658e-13,
+      "stages": {
+        "operators": 12.207938876999833,
+        "condition_scaling": 0.4614600039999459,
+        "mixed_factorization": 8.251195322000285,
+        "mixed_rhs_and_refinement": 13.000851697999906,
+        "condition_estimation": 9.822209508000242,
+        "excitation": 0.029096267000113585,
+        "linear_solve": 3.229553096000018,
+        "rhs_compression": 3.230250950000027,
+        "far_field": 0.22013001699997403
+      },
+      "condition_est_max": 40203.12409531377,
+      "factor_work_seconds": 22.134695260999933,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 1.168330280802513e-16
+    },
+    {
+      "case": "star-dense-scaled_mixed-r1",
+      "model": "star",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 22.11258354499978,
+      "unknowns": 4720,
+      "process_cpu_seconds": 76.04784599999999,
+      "peak_tree_rss_gib": 0.9674720764160156,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.247211674216677e-13,
+      "vs_backend_relative_max_norm": 3.247211674216677e-13,
+      "stages": {
+        "operators": 7.176355273999434,
+        "condition_scaling": 0.5255767319995357,
+        "condition_estimation": 5.881784099000015,
+        "excitation": 0.07815104800010886,
+        "linear_solve": 3.1859592840000914,
+        "rhs_compression": 3.186981170999843,
+        "far_field": 0.087064910999743
+      },
+      "condition_est_max": 40203.12409531762,
+      "factor_work_seconds": 13.292174925999916,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 9.036111516201286e-17
+    },
+    {
+      "case": "star-dense-scaled_mixed-r2",
+      "model": "star",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 22.538545642999907,
+      "unknowns": 4720,
+      "process_cpu_seconds": 76.45554200000001,
+      "peak_tree_rss_gib": 0.9657783508300781,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.247211674216677e-13,
+      "vs_backend_relative_max_norm": 3.247211674216677e-13,
+      "stages": {
+        "operators": 7.374151360999804,
+        "condition_scaling": 0.4277763359996243,
+        "condition_estimation": 6.580447369000012,
+        "excitation": 0.10270189299990307,
+        "linear_solve": 2.544009592999828,
+        "rhs_compression": 2.5447418789999574,
+        "far_field": 0.08756953600004636
+      },
+      "condition_est_max": 40203.12409531762,
+      "factor_work_seconds": 13.472958702000142,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 9.036111516201286e-17
+    },
+    {
+      "case": "star-dense-scaled_mixed",
+      "model": "star",
+      "backend": "dense",
+      "variant": "scaled_mixed",
+      "error": null,
+      "wall_seconds": 20.483672210000123,
+      "unknowns": 4720,
+      "process_cpu_seconds": null,
+      "peak_tree_rss_gib": 0.9721221923828125,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 3.247211674216677e-13,
+      "vs_backend_relative_max_norm": 3.247211674216677e-13,
+      "stages": {
+        "operators": 7.395732983000016,
+        "condition_scaling": 0.31014340199999424,
+        "condition_estimation": 5.250555319000114,
+        "excitation": 0.06787814299991624,
+        "linear_solve": 2.4968386119999195,
+        "rhs_compression": 2.498074860000088,
+        "far_field": 0.10286265900003855
+      },
+      "condition_est_max": 40203.12409531762,
+      "factor_work_seconds": 11.431455040999936,
+      "factor_variants": [
+        "mixed_lu",
+        "mixed_lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 9.036111516201286e-17
+    },
+    {
+      "case": "star7-1792-compressed-baseline",
+      "model": "star7-1792",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 7.640919904999464,
+      "unknowns": 1792,
+      "process_cpu_seconds": 17.123312,
+      "peak_tree_rss_gib": 0.20946502685546875,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.665424003729054e-13,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 12.323834451999574,
+        "hmatrix_norms": 0.03908262900040427,
+        "hmatrix_validation": 0.0374594929999148,
+        "hmatrix_assembly": 4.9877635140001075,
+        "compressed_assembly": 5.156721707999168,
+        "factorization": 1.1648306850001973,
+        "condition_estimation": 0.6801983459990879,
+        "excitation": 0.02265182300016022,
+        "linear_solve": 0.10498231800102076,
+        "rhs_compression": 0.1090268850002758,
+        "far_field": 0.024067017000561464
+      },
+      "condition_est_max": 397.78256207007354,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        13649840,
+        13093656
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 1.014773563551425e-16
+    },
+    {
+      "case": "star7-1792-dense-baseline",
+      "model": "star7-1792",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 3.9039196859994263,
+      "unknowns": 1792,
+      "process_cpu_seconds": 11.318673,
+      "peak_tree_rss_gib": 0.2642784118652344,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 1.8723806489997514,
+        "condition_scaling": 0.031503589999374526,
+        "factorization": 0.39208559799953946,
+        "condition_estimation": 0.06411576199934643,
+        "excitation": 0.030855307000820176,
+        "rhs_solve": 0.03189175600073213,
+        "linear_solve": 0.13359615600074903,
+        "rhs_compression": 0.13405837699974654,
+        "far_field": 0.05726785299975745
+      },
+      "condition_est_max": 397.7825620700717,
+      "factor_work_seconds": 0.6862701999998535,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 2.678140888530596e-13
+    },
+    {
+      "case": "star7-1792-dense-sector7",
+      "model": "star7-1792",
+      "backend": "dense",
+      "variant": "sector7",
+      "error": null,
+      "wall_seconds": 3.111384134000218,
+      "unknowns": 1792,
+      "process_cpu_seconds": 9.360024,
+      "peak_tree_rss_gib": 0.2730979919433594,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 6.438079283757681e-13,
+      "vs_backend_relative_max_norm": 6.438079283757681e-13,
+      "stages": {
+        "operators": 1.728606765999757,
+        "condition_scaling": 0.03372975999991468,
+        "condition_estimation": 0.01926971200009575,
+        "excitation": 0.02465227200082154,
+        "linear_solve": 0.06636264700046013,
+        "rhs_compression": 0.06678720600029919,
+        "far_field": 0.12593289899905358
+      },
+      "condition_est_max": 397.7825620700737,
+      "factor_work_seconds": 0.3472028920004959,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 1.1162719938064935e-13,
+          "parts": null,
+          "sectors": 7,
+          "retained_bytes": 7347200,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 1.9468465864473735e-13,
+          "parts": null,
+          "sectors": 7,
+          "retained_bytes": 7347200,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 1.2475394098343094e-14
+    },
+    {
+      "case": "star7-7168-compressed-baseline",
+      "model": "star7-7168",
+      "backend": "compressed",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 40.39998285100046,
+      "unknowns": 7168,
+      "process_cpu_seconds": 90.95128,
+      "peak_tree_rss_gib": 0.4848670959472656,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 5.35480549421888e-13,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 75.474348877995,
+        "hmatrix_norms": 0.43397959400044783,
+        "hmatrix_validation": 0.16562711500046134,
+        "hmatrix_assembly": 30.363833621000595,
+        "compressed_assembly": 30.9684220299996,
+        "factorization": 4.975762869999926,
+        "condition_estimation": 3.1514909129982698,
+        "excitation": 0.09539493800002674,
+        "linear_solve": 0.5003894669998772,
+        "rhs_compression": 0.5043618360004984,
+        "far_field": 0.11791039800118597
+      },
+      "condition_est_max": 606.403096950085,
+      "factor_work_seconds": null,
+      "factor_variants": [
+        null,
+        null
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 1,
+      "factorizations": 2,
+      "retained_inverse_bytes": [
+        64179240,
+        60218728
+      ],
+      "inverse_experiments": [],
+      "max_backward_error": 2.198636274127941e-16
+    },
+    {
+      "case": "star7-7168-dense-baseline",
+      "model": "star7-7168",
+      "backend": "dense",
+      "variant": "baseline",
+      "error": null,
+      "wall_seconds": 43.471507088999715,
+      "unknowns": 7168,
+      "process_cpu_seconds": 158.41323699999998,
+      "peak_tree_rss_gib": 2.4718551635742188,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 0.0,
+      "vs_backend_relative_max_norm": 0.0,
+      "stages": {
+        "operators": 19.50358514799973,
+        "condition_scaling": 0.23001690700039035,
+        "factorization": 17.022703753001224,
+        "condition_estimation": 1.3086657849999028,
+        "excitation": 0.16373460599970713,
+        "rhs_solve": 0.7440531620004549,
+        "linear_solve": 1.4190373649998946,
+        "rhs_compression": 1.4208070459999362,
+        "far_field": 0.19710370100256114
+      },
+      "condition_est_max": 606.4030969501614,
+      "factor_work_seconds": 20.82106922499861,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [],
+      "max_backward_error": 9.438761246259651e-13
+    },
+    {
+      "case": "star7-7168-dense-sector7",
+      "model": "star7-7168",
+      "backend": "dense",
+      "variant": "sector7",
+      "error": null,
+      "wall_seconds": 30.159295992999432,
+      "unknowns": 7168,
+      "process_cpu_seconds": 93.99536599999999,
+      "peak_tree_rss_gib": 1.9881668090820312,
+      "termination": null,
+      "quality_gate_passed": true,
+      "fields": 38,
+      "vs_dense_relative_max_norm": 2.8657263316997154e-13,
+      "vs_backend_relative_max_norm": 2.8657263316997154e-13,
+      "stages": {
+        "operators": 23.382582573000036,
+        "condition_scaling": 0.22434269499990478,
+        "condition_estimation": 0.24669633899975452,
+        "excitation": 0.14721823800027778,
+        "linear_solve": 0.6499552029999904,
+        "rhs_compression": 0.6510232300006464,
+        "far_field": 0.1503589149997424
+      },
+      "condition_est_max": 606.403096950072,
+      "factor_work_seconds": 3.5503765639996345,
+      "factor_variants": [
+        "lu",
+        "lu"
+      ],
+      "factor_fallbacks": [
+        false,
+        false
+      ],
+      "maximum_refinements": 0,
+      "factorizations": 2,
+      "retained_inverse_bytes": [],
+      "inverse_experiments": [
+        {
+          "symmetry_error": 4.689815894022687e-13,
+          "parts": null,
+          "sectors": 7,
+          "retained_bytes": 117469184,
+          "all_entries_checked": true
+        },
+        {
+          "symmetry_error": 1.0706910606277473e-12,
+          "parts": null,
+          "sectors": 7,
+          "retained_bytes": 117469184,
+          "all_entries_checked": true
+        }
+      ],
+      "max_backward_error": 5.362338201868099e-14
+    }
+  ],
+  "successful": 118,
+  "failed": 1
+}

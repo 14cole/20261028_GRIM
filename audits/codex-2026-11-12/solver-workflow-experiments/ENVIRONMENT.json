@@ -1,0 +1,32 @@
+{
+  "system": "Linux",
+  "release": "6.18.57",
+  "machine": "x86_64",
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "psutil": "7.2.2",
+  "zstandard": "0.25.0",
+  "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cpu_quota": "800000 200000",
+  "memory_limit": "17179869184",
+  "solve_cpu_allocation": 4,
+  "solve_ram_budget_gib": 8.0,
+  "workflow_watchdog_gib": 10.0,
+  "factor_watchdog_gib": 8.0,
+  "filesystem": "overlay; backing device not identified",
+  "libraries": [
+    {
+      "internal_api": "openblas",
+      "version": "0.3.30",
+      "architecture": "SkylakeX"
+    }
+  ]
+}

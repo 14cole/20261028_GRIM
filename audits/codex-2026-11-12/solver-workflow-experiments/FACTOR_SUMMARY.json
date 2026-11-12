@@ -1,0 +1,623 @@
+{
+  "cases": [
+    {
+      "source": "diel4k.npy",
+      "variant": "dense",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 3.0670296980000558,
+      "peak_rss_gib": 0.5663337707519531,
+      "peak_cgroup_anon_gib": 0.6202468872070312,
+      "peak_cgroup_file_gib": 0.5297508239746094,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1171456,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 0.07845694600007391,
+          "backward_error": 6.619564685023149e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.04222294999999576,
+          "backward_error": 5.793642587694831e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.03687722399990889,
+          "backward_error": 5.634591666006183e-15
+        }
+      ],
+      "factor_seconds_including_input_read": 1.9885279710000532,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 0.0,
+      "max_backward_error": 5.793642587694831e-15
+    },
+    {
+      "source": "diel4k.npy",
+      "variant": "disk128",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 82.22679317899997,
+      "peak_rss_gib": 0.08870315551757812,
+      "peak_cgroup_anon_gib": 0.15042495727539062,
+      "peak_cgroup_file_gib": 0.5580253601074219,
+      "io_read_bytes": 35700670464,
+      "io_write_bytes": 11202273280,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 2.5770446420000326,
+          "backward_error": 5.997924113893989e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.9928293970000368,
+          "backward_error": 5.977854144287364e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 1.8710110429999531,
+          "backward_error": 6.064083353666752e-15
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 10732027904,
+      "logical_write_bytes": 10988027904,
+      "flushes": 1552,
+      "factor_seconds_including_input_read": 75.77234194899995,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 1.1766966107915241e-11,
+      "max_backward_error": 6.064083353666752e-15
+    },
+    {
+      "source": "diel4k.npy",
+      "variant": "disk512",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 21.634612059000006,
+      "peak_rss_gib": 0.18288040161132812,
+      "peak_cgroup_anon_gib": 0.21392822265625,
+      "peak_cgroup_file_gib": 0.5775260925292969,
+      "io_read_bytes": 6232715264,
+      "io_write_bytes": 2931429376,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 0.9994758189999402,
+          "backward_error": 6.734888136013449e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.6365854539999418,
+          "backward_error": 5.6825366214454764e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 1.226054191000003,
+          "backward_error": 4.8305905098963525e-15
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 2592194560,
+      "logical_write_bytes": 2848194560,
+      "flushes": 100,
+      "factor_seconds_including_input_read": 18.000593211000023,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 9.299729932308575e-12,
+      "max_backward_error": 5.6825366214454764e-15
+    },
+    {
+      "source": "diel4k.npy",
+      "variant": "fused512",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 14.06803628599937,
+      "peak_rss_gib": 0.1838531494140625,
+      "peak_cgroup_anon_gib": 0.22022628784179688,
+      "peak_cgroup_file_gib": 1.2797393798828125,
+      "io_read_bytes": 5094387712,
+      "io_write_bytes": 2238869504,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 0.8675602359999175,
+          "backward_error": 6.734888136013449e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.5252704419999645,
+          "backward_error": 5.6825366214454764e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.5728215649996855,
+          "backward_error": 4.8305905098963525e-15
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 1936064512,
+      "logical_write_bytes": 2192064512,
+      "flushes": 72,
+      "factor_seconds_including_input_read": 11.405274648000159,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 9.299729932308575e-12,
+      "max_backward_error": 5.6825366214454764e-15
+    },
+    {
+      "source": "diel4k.npy",
+      "variant": "mixed",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 4.607308051000018,
+      "peak_rss_gib": 0.4875946044921875,
+      "peak_cgroup_anon_gib": 0.4992942810058594,
+      "peak_cgroup_file_gib": 0.5330963134765625,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1179648,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.4355957779999926,
+          "backward_error": 5.439280555375115e-19
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.492875099999992,
+          "backward_error": 1.6881285588044531e-18
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.4709692260000793,
+          "backward_error": 2.493187521760821e-18
+        }
+      ],
+      "factor_seconds_including_input_read": 1.3225242810000282,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 8.52190715844346e-12,
+      "max_backward_error": 2.493187521760821e-18
+    },
+    {
+      "source": "diel4k.npy",
+      "variant": "scaled_mixed",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 5.415346881999994,
+      "peak_rss_gib": 0.5063705444335938,
+      "peak_cgroup_anon_gib": 0.5055503845214844,
+      "peak_cgroup_file_gib": 0.5341987609863281,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1171456,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.241057516000069,
+          "backward_error": 1.998780077640565e-18
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.32427217300005395,
+          "backward_error": 2.0205874791595874e-18
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.4996121020000146,
+          "backward_error": 2.489755181210197e-18
+        }
+      ],
+      "factor_seconds_including_input_read": 2.2382821439999816,
+      "comparison_reference": "diel4k-dense.npz",
+      "relative_max_norm_vs_dense": 8.522011292384133e-12,
+      "max_backward_error": 2.489755181210197e-18
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "dense",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 3.0372951510000803,
+      "peak_rss_gib": 0.5662994384765625,
+      "peak_cgroup_anon_gib": 0.6202545166015625,
+      "peak_cgroup_file_gib": 0.5242042541503906,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1171456,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 0.07477419199994984,
+          "backward_error": 4.864127143271974e-13
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.04377301499994246,
+          "backward_error": 3.7705550388244005e-13
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.05057823399999961,
+          "backward_error": 2.577394907242163e-13
+        }
+      ],
+      "factor_seconds_including_input_read": 1.949454300999946,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 0.0,
+      "max_backward_error": 4.864127143271974e-13
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "disk128",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 78.87434170199992,
+      "peak_rss_gib": 0.0887603759765625,
+      "peak_cgroup_anon_gib": 0.16105270385742188,
+      "peak_cgroup_file_gib": 0.54876708984375,
+      "io_read_bytes": 35701239808,
+      "io_write_bytes": 11202260992,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.8903434740000193,
+          "backward_error": 5.528327661371553e-13
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.8553553199999442,
+          "backward_error": 5.177025978045561e-13
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.8427994900000613,
+          "backward_error": 2.6732577904797834e-13
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 10732027904,
+      "logical_write_bytes": 10988027904,
+      "flushes": 1552,
+      "factor_seconds_including_input_read": 74.20309527299992,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 2.920464783497189e-12,
+      "max_backward_error": 5.528327661371553e-13
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "disk512",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 15.319873944999927,
+      "peak_rss_gib": 0.1828765869140625,
+      "peak_cgroup_anon_gib": 0.23257064819335938,
+      "peak_cgroup_file_gib": 0.571990966796875,
+      "io_read_bytes": 6232715264,
+      "io_write_bytes": 2931417088,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.1129124599999614,
+          "backward_error": 4.76904029264452e-13
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.8309319700000515,
+          "backward_error": 5.64986770458178e-13
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.5767548779999743,
+          "backward_error": 4.1137923094429156e-13
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 2592194560,
+      "logical_write_bytes": 2848194560,
+      "flushes": 100,
+      "factor_seconds_including_input_read": 11.927935812999976,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 3.2848777677169602e-12,
+      "max_backward_error": 5.64986770458178e-13
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "fused512",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 14.638968837999528,
+      "peak_rss_gib": 0.18380355834960938,
+      "peak_cgroup_anon_gib": 0.21999740600585938,
+      "peak_cgroup_file_gib": 1.1348457336425781,
+      "io_read_bytes": 5094387712,
+      "io_write_bytes": 2238832640,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 0.9865011709998726,
+          "backward_error": 4.76904029264452e-13
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.5682204830000046,
+          "backward_error": 5.64986770458178e-13
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.7830813090004085,
+          "backward_error": 4.1137923094429156e-13
+        }
+      ],
+      "disk_factor_bytes": 256000000,
+      "logical_read_bytes": 1936064512,
+      "logical_write_bytes": 2192064512,
+      "flushes": 72,
+      "factor_seconds_including_input_read": 11.487147171000288,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 3.2848777677169602e-12,
+      "max_backward_error": 5.64986770458178e-13
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "mixed",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 3.4768168350000224,
+      "peak_rss_gib": 0.4577598571777344,
+      "peak_cgroup_anon_gib": 0.4994697570800781,
+      "peak_cgroup_file_gib": 0.5275497436523438,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1167360,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.103273968999929,
+          "backward_error": 7.254881505911363e-15
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.24023752599998716,
+          "backward_error": 6.527525618943113e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.21231200900001568,
+          "backward_error": 4.454829912147285e-15
+        }
+      ],
+      "factor_seconds_including_input_read": 1.2003082449999738,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 2.2992532353972477e-12,
+      "max_backward_error": 7.254881505911363e-15
+    },
+    {
+      "source": "pec4k.npy",
+      "variant": "scaled_mixed",
+      "error": null,
+      "n": 4000,
+      "wall_seconds": 3.8517517289999432,
+      "peak_rss_gib": 0.4864616394042969,
+      "peak_cgroup_anon_gib": 0.5056724548339844,
+      "peak_cgroup_file_gib": 0.5286483764648438,
+      "io_read_bytes": 256004096,
+      "io_write_bytes": 1171456,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.0297180119999894,
+          "backward_error": 8.650583320112688e-15
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.253775883000003,
+          "backward_error": 7.205172397360762e-15
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.32718344300008084,
+          "backward_error": 3.8387960033606704e-15
+        }
+      ],
+      "factor_seconds_including_input_read": 1.4131548029999976,
+      "comparison_reference": "pec4k-dense.npz",
+      "relative_max_norm_vs_dense": 2.2994500019610553e-12,
+      "max_backward_error": 8.650583320112688e-15
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "dense",
+      "error": "AssertionError: ('dense', 0, 4.020969762366885e-12)",
+      "n": 8000,
+      "wall_seconds": 15.285272621000331,
+      "peak_rss_gib": 2.0330886840820312,
+      "peak_cgroup_anon_gib": 2.0979156494140625,
+      "peak_cgroup_file_gib": 1.4979171752929688,
+      "io_read_bytes": 1024004096,
+      "io_write_bytes": 4096,
+      "metrics": [],
+      "factor_seconds_including_input_read": 13.890455699000086,
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/solver-workflow-evidence/factor_benchmark.py\", line 42, in <module>\n    assert np.isfinite(back) and back<=1e-12,(variant,trans,back)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('dense', 0, 4.020969762366885e-12)\n"
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "dense_refined",
+      "error": null,
+      "n": 8000,
+      "wall_seconds": 18.778150981999715,
+      "peak_rss_gib": 2.036388397216797,
+      "peak_cgroup_anon_gib": 2.0830459594726562,
+      "peak_cgroup_file_gib": 1.4669265747070312,
+      "io_read_bytes": 1024004096,
+      "io_write_bytes": 2334720,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 1.1243649150001147,
+          "backward_error": 2.1750761959363893e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 0.897994397999355,
+          "backward_error": 1.8802049928289137e-16
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 0.7327415950003342,
+          "backward_error": 2.022960458314664e-16
+        }
+      ],
+      "refinement_events": [
+        {
+          "trans": 0,
+          "corrections": 1,
+          "backward_error": 2.1684030301278686e-16
+        },
+        {
+          "trans": 1,
+          "corrections": 1,
+          "backward_error": 1.8802049928289137e-16
+        },
+        {
+          "trans": 2,
+          "corrections": 1,
+          "backward_error": 2.022960458314664e-16
+        }
+      ],
+      "factor_seconds_including_input_read": 13.340310941000098,
+      "comparison_reference": "pec8k-dense_refined.npz",
+      "relative_max_norm_vs_dense": 0.0,
+      "max_backward_error": 2.1750761959363893e-16
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "disk512",
+      "error": "AssertionError: ('disk512', 0, 4.8024526552787624e-12)",
+      "n": 8000,
+      "wall_seconds": 108.54035909999948,
+      "peak_rss_gib": 0.3176116943359375,
+      "peak_cgroup_anon_gib": 0.32421875,
+      "peak_cgroup_file_gib": 1.5780715942382812,
+      "io_read_bytes": 32840921088,
+      "io_write_bytes": 22690230272,
+      "metrics": [],
+      "disk_factor_bytes": 1024000000,
+      "logical_read_bytes": 21216296960,
+      "logical_write_bytes": 22240296960,
+      "flushes": 392,
+      "factor_seconds_including_input_read": 104.69281685399983,
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/solver-workflow-evidence/factor_benchmark.py\", line 42, in <module>\n    assert np.isfinite(back) and back<=1e-12,(variant,trans,back)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('disk512', 0, 4.8024526552787624e-12)\n"
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "fused512",
+      "error": "AssertionError: ('fused512', 0, 4.8024526552787624e-12)",
+      "n": 8000,
+      "wall_seconds": 86.58900319500026,
+      "peak_rss_gib": 0.3176841735839844,
+      "peak_cgroup_anon_gib": 0.3242340087890625,
+      "peak_cgroup_file_gib": 1.5780258178710938,
+      "io_read_bytes": 23843020800,
+      "io_write_bytes": 17221255168,
+      "metrics": [],
+      "disk_factor_bytes": 1024000000,
+      "logical_read_bytes": 15904276480,
+      "logical_write_bytes": 16928276480,
+      "flushes": 272,
+      "factor_seconds_including_input_read": 81.80276103100005,
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/solver-workflow-evidence/factor_benchmark.py\", line 42, in <module>\n    x+=raw_solve(residual,trans)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('fused512', 0, 4.8024526552787624e-12)\n"
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "fused512_refined",
+      "error": null,
+      "n": 8000,
+      "wall_seconds": 149.8123308919994,
+      "peak_rss_gib": 0.31787109375,
+      "peak_cgroup_anon_gib": 0.3196907043457031,
+      "peak_cgroup_file_gib": 1.5470314025878906,
+      "io_read_bytes": 35815186432,
+      "io_write_bytes": 17223692288,
+      "metrics": [
+        {
+          "trans": 0,
+          "rhs_columns": 19,
+          "solve_seconds": 11.726530566999827,
+          "backward_error": 2.390468455133926e-16
+        },
+        {
+          "trans": 1,
+          "rhs_columns": 2,
+          "solve_seconds": 5.7618381279999085,
+          "backward_error": 1.7115263527102194e-16
+        },
+        {
+          "trans": 2,
+          "rhs_columns": 2,
+          "solve_seconds": 7.416533009999512,
+          "backward_error": 1.82783584422754e-16
+        }
+      ],
+      "disk_factor_bytes": 1024000000,
+      "logical_read_bytes": 15904276480,
+      "logical_write_bytes": 16928276480,
+      "flushes": 272,
+      "refinement_events": [
+        {
+          "trans": 0,
+          "corrections": 1,
+          "backward_error": 2.390468455133926e-16
+        },
+        {
+          "trans": 1,
+          "corrections": 1,
+          "backward_error": 1.7115263527102194e-16
+        },
+        {
+          "trans": 2,
+          "corrections": 1,
+          "backward_error": 1.82783584422754e-16
+        }
+      ],
+      "factor_seconds_including_input_read": 121.60980510399986,
+      "comparison_reference": "pec8k-dense_refined.npz",
+      "relative_max_norm_vs_dense": 1.5312670283545772e-15,
+      "max_backward_error": 2.390468455133926e-16
+    }
+  ]
+}

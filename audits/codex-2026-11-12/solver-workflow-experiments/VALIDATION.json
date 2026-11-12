@@ -1,0 +1,1468 @@
+{
+  "workflow_catalog_cases": 119,
+  "successful_workflows": 118,
+  "refusals": [
+    {
+      "case": "ellipse-fourier-rejection",
+      "error": "ValueError: Matrix is not sufficiently block circulant"
+    }
+  ],
+  "worst_field_relative_max_norm_vs_dense": 1.1397271752993365e-07,
+  "workflow_comparison_check": 1e-08,
+  "workflow_comparison_flags": [
+    {
+      "case": "diel15GHz-compressed-baseline",
+      "relative_max_norm": 1.1385802354121712e-07
+    },
+    {
+      "case": "diel15GHz-compressed-inverse32_fast",
+      "relative_max_norm": 1.1397271752993365e-07
+    }
+  ],
+  "comparison_check_is_study_only": true,
+  "source_blobs_reverified": 633,
+  "all_original_repository_files_unchanged": true,
+  "factor_cases": 17,
+  "factor_failures": [
+    {
+      "source": "pec8k.npy",
+      "variant": "dense",
+      "error": "AssertionError: ('dense', 0, 4.020969762366885e-12)"
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "disk512",
+      "error": "AssertionError: ('disk512', 0, 4.8024526552787624e-12)"
+    },
+    {
+      "source": "pec8k.npy",
+      "variant": "fused512",
+      "error": "AssertionError: ('fused512', 0, 4.8024526552787624e-12)"
+    }
+  ],
+  "max_factor_backward_error": 5.64986770458178e-13,
+  "analytic": {
+    "checks": [
+      {
+        "case": "coated4k-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525642444823937,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222662572934811,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-compact",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525642385409508,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-compact",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222662523979662,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-inverse32",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525642528258602,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-inverse32",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222662605359399,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-inverse32_build",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525642528779106,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-compressed-inverse32_build",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222662536020738,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628369253243,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222622483065652,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628369253243,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222622483065652,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk4",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628369253243,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk4",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222622483065652,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk_zstd",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628369253243,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-disk_zstd",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222622483065652,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628282473864,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.000522262189078647,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 0.0019525628282811226,
+        "samples": 19
+      },
+      {
+        "case": "coated4k-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 0.0005222621891403713,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.341318026671696e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.662827583638841e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.341290644292122e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.662779637285665e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-operator14",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847875197483868e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-compressed-operator14",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.386214500645441e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847818882855074e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379086810065665e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.284778959149493e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel15GHz-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379016462385693e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2848097331587292e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.380187059352341e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-compact",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2848100344137382e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-compact",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.380211823278614e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2848098469490333e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.380215179137782e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32_build",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2848098324841643e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32_build",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.380217078862655e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2848098340270836e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.380215632371635e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847815200099374e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379187013320304e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847815200099374e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379187013320304e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk4",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847815200099374e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk4",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379187013320304e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk_zstd",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847815200099374e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-disk_zstd",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379187013320304e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-fourier",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847789510491662e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-fourier",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379015777713278e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847790650323357e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.37901623094713e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.284778965417603e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.37901648167224e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-schur",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847794213502806e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-schur",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379216299941836e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-tile128",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847824089243664e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-tile128",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379513486343667e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-tile64",
+        "polarization": "TE",
+        "max_rcs_error_db": 1.2847813893439522e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel4k-dense-tile64",
+        "polarization": "TM",
+        "max_rcs_error_db": 5.379138324432548e-07,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-181-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7159138709849684e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2892125738440303e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.71591385912387e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2892125804014376e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154356390894894e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888578391308678e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154356390894894e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888578391308678e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.71541578852769e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-181-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888273601088153e-05,
+        "samples": 181
+      },
+      {
+        "case": "diel8k-compressed-baseline-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7158609557291935e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-baseline-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047221065551e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-baseline-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7158609557291935e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-baseline-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047221065551e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7158609557291935e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047221065551e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-compact",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715860964890206e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-compact",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047243245017e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7158611857187974e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047045558473e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715860902788191e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888048685874626e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715860902788191e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888048685874626e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715860902788191e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_build",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888048685874626e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715860951100472e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888047141990934e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154186345164406e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888355318919486e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154186345164406e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888355318919486e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk4",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154186345164406e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk4",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888355318919486e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk_zstd",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154186345164406e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-disk_zstd",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888355318919486e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-fourier",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.7154157397332495e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-fourier",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888273201857766e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715415780427426e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888273624231945e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715415778691656e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.288827360880275e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-schur",
+        "polarization": "TE",
+        "max_rcs_error_db": 4.715461833217784e-05,
+        "samples": 19
+      },
+      {
+        "case": "diel8k-dense-schur",
+        "polarization": "TM",
+        "max_rcs_error_db": 1.2888282510483177e-05,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.049921681292608e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910485178167077e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-compact",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499216861142433e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-compact",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910485168523802e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.049921681292608e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910485216740183e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32_build",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499216031821207e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32_build",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910485274599842e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.049921690935879e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910485236026735e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472974600765e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472974600765e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r3",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline-r3",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472974600765e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472974600765e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472960135851e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk4",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk4",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472960135851e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk_zstd",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499161846286436e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-disk_zstd",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910472960135851e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499158856872702e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910476889770992e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499158856872702e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910476889770992e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499158856872702e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-fourier",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910476889770992e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.0499162627391315e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910480814584497e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.04991623091634e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec4k-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 7.910474199296872e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500857614208955e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909847844664017e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-compact",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250085864121824e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-compact",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909847844664017e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250085739241352e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909848664342406e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32_build",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500857517776156e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32_build",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909845723143464e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32_fast",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500857517776156e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-compressed-inverse32_fast",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490985011083369e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965006108928e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965006108928e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r3",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline-r3",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965006108928e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-baseline",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965006108928e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r3",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32-r3",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk32",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk4",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk4",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk_zstd",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757516966063e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-disk_zstd",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965150758056e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500744903556266e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909520021522957e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500744903556266e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909520021522957e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500744903556266e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-fourier",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909520021522957e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed-r1",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250075764715034e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed-r1",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909648952112627e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed-r2",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250075764715034e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed-r2",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909648952112627e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250075764715034e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909648952112627e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-scaled_mixed",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.250075745428475e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-scaled_mixed",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909648952112627e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-tile128",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757550717544e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-tile128",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.490965213439345e-07,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-tile64",
+        "polarization": "TE",
+        "max_rcs_error_db": 2.2500757536252622e-06,
+        "samples": 19
+      },
+      {
+        "case": "pec8k-dense-tile64",
+        "polarization": "TM",
+        "max_rcs_error_db": 2.4909652616557215e-07,
+        "samples": 19
+      }
+    ],
+    "worst_db": 0.0019525642528779106
+  },
+  "controls": {
+    "LOSSLESS_CONTROLS.json": {
+      "bitwise_roundtrip": true,
+      "matmul": true,
+      "corruption_rejected": "ZstdError",
+      "truncation_rejected": true,
+      "vector_product": true,
+      "multiple_blocks_with_short_tail": true
+    },
+    "SCHUR_CONTROLS.json": [
+      {
+        "polarization_step": 0,
+        "trans": 0,
+        "reused": false,
+        "relative_residual": 6.845253234120744e-16
+      },
+      {
+        "polarization_step": 0,
+        "trans": 1,
+        "reused": false,
+        "relative_residual": 1.0957751723691032e-15
+      },
+      {
+        "polarization_step": 0,
+        "trans": 2,
+        "reused": false,
+        "relative_residual": 1.1017721624547992e-15
+      },
+      {
+        "polarization_step": 1,
+        "trans": 0,
+        "reused": true,
+        "relative_residual": 4.983419576435189e-16
+      },
+      {
+        "polarization_step": 1,
+        "trans": 1,
+        "reused": true,
+        "relative_residual": 6.8793943597989e-16
+      },
+      {
+        "polarization_step": 1,
+        "trans": 2,
+        "reused": true,
+        "relative_residual": 6.846456395553487e-16
+      },
+      {
+        "control": "changed_common_block",
+        "reused": false
+      },
+      {
+        "control": "invertible_but_singular_leading_block",
+        "rejected": true,
+        "needs_full_lu_fallback": true
+      }
+    ],
+    "PROTOTYPE_CONTROLS.json": [
+      {
+        "method": "DiskLU",
+        "n": 17,
+        "trans": 0,
+        "relative_difference": 1.5901524755930575e-15,
+        "backward_error": 7.751967509975295e-17
+      },
+      {
+        "method": "DiskLU",
+        "n": 17,
+        "trans": 1,
+        "relative_difference": 1.2084041891324044e-15,
+        "backward_error": 1.0524441091391822e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 17,
+        "trans": 2,
+        "relative_difference": 1.274105800655931e-15,
+        "backward_error": 1.0123249598641296e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 65,
+        "trans": 0,
+        "relative_difference": 7.56682148192379e-15,
+        "backward_error": 1.740696347773524e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 65,
+        "trans": 1,
+        "relative_difference": 7.103047565647991e-15,
+        "backward_error": 2.3437292528592586e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 65,
+        "trans": 2,
+        "relative_difference": 9.289544638763933e-15,
+        "backward_error": 1.795353729525218e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 128,
+        "trans": 0,
+        "relative_difference": 1.3405336230977055e-14,
+        "backward_error": 2.4343427990697344e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 128,
+        "trans": 1,
+        "relative_difference": 2.6977537896426123e-14,
+        "backward_error": 3.2032855142025096e-16
+      },
+      {
+        "method": "DiskLU",
+        "n": 128,
+        "trans": 2,
+        "relative_difference": 2.913420653548302e-14,
+        "backward_error": 3.7505973475766392e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 17,
+        "trans": 0,
+        "relative_difference": 2.8576022182847724e-15,
+        "backward_error": 6.368598147851316e-17
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 17,
+        "trans": 1,
+        "relative_difference": 4.4236876004674186e-15,
+        "backward_error": 1.0818420154165473e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 17,
+        "trans": 2,
+        "relative_difference": 5.5639914432602285e-15,
+        "backward_error": 1.238368518765829e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 65,
+        "trans": 0,
+        "relative_difference": 3.66512052129282e-14,
+        "backward_error": 1.586000025538169e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 65,
+        "trans": 1,
+        "relative_difference": 2.125652501629717e-14,
+        "backward_error": 1.3070684945371477e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 65,
+        "trans": 2,
+        "relative_difference": 2.3439125628666387e-14,
+        "backward_error": 1.5498511133289012e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 128,
+        "trans": 0,
+        "relative_difference": 2.2146803398308623e-14,
+        "backward_error": 2.0467255804278636e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 128,
+        "trans": 1,
+        "relative_difference": 3.10658409432576e-14,
+        "backward_error": 3.150740618193317e-16
+      },
+      {
+        "method": "FusedDiskLU",
+        "n": 128,
+        "trans": 2,
+        "relative_difference": 2.778588123641122e-14,
+        "backward_error": 2.7425690396915035e-16
+      },
+      {
+        "method": "scaled_mixed",
+        "n": 63,
+        "trans": 0,
+        "backward_error": 1.428024519998544e-15,
+        "corrections": 1
+      },
+      {
+        "method": "scaled_mixed",
+        "n": 63,
+        "trans": 1,
+        "backward_error": 6.2631315906101786e-15,
+        "corrections": 1
+      },
+      {
+        "method": "scaled_mixed",
+        "n": 63,
+        "trans": 2,
+        "backward_error": 5.732862474498141e-15,
+        "corrections": 1
+      },
+      {
+        "method": "DiskLU",
+        "control": "singular",
+        "rejected": true
+      },
+      {
+        "method": "FusedDiskLU",
+        "control": "singular",
+        "rejected": true
+      }
+    ],
+    "SECTOR_CONTROLS.json": [
+      {
+        "sectors": 3,
+        "trans": 0,
+        "relative_residual": 4.2833133683434044e-16
+      },
+      {
+        "sectors": 3,
+        "trans": 1,
+        "relative_residual": 4.591138639955548e-16
+      },
+      {
+        "sectors": 3,
+        "trans": 2,
+        "relative_residual": 3.672910911964439e-16
+      },
+      {
+        "sectors": 7,
+        "trans": 0,
+        "relative_residual": 1.122952446546477e-15
+      },
+      {
+        "sectors": 7,
+        "trans": 1,
+        "relative_residual": 1.5634078589231324e-15
+      },
+      {
+        "sectors": 7,
+        "trans": 2,
+        "relative_residual": 1.803526789519751e-15
+      },
+      {
+        "control": "asymmetric",
+        "rejected": true
+      }
+    ],
+    "FOURIER_CONTROLS.json": [
+      {
+        "parts": 1,
+        "trans": 0,
+        "relative_residual": 4.3296180751632524e-16
+      },
+      {
+        "parts": 1,
+        "trans": 1,
+        "relative_residual": 6.64470133624139e-16
+      },
+      {
+        "parts": 1,
+        "trans": 2,
+        "relative_residual": 3.7179017035279506e-16
+      },
+      {
+        "parts": 2,
+        "trans": 0,
+        "relative_residual": 7.139920468898864e-16
+      },
+      {
+        "parts": 2,
+        "trans": 1,
+        "relative_residual": 7.001268037772279e-16
+      },
+      {
+        "parts": 2,
+        "trans": 2,
+        "relative_residual": 7.079594169499278e-16
+      },
+      {
+        "parts": 3,
+        "trans": 0,
+        "relative_residual": 6.42182092060406e-16
+      },
+      {
+        "parts": 3,
+        "trans": 1,
+        "relative_residual": 7.326051058805406e-16
+      },
+      {
+        "parts": 3,
+        "trans": 2,
+        "relative_residual": 8.479145387857831e-16
+      },
+      {
+        "control": "broken_symmetry",
+        "rejected": true
+      }
+    ]
+  }
+}

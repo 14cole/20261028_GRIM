@@ -1,0 +1,15 @@
+{
+  "notes": [
+    "Prototype variants were added in phases while the first-pass suite ran; existing successful variants retained their arithmetic. Input guards, reporting fields, resource cleanup and new inactive branches were added later.",
+    "Early workflow runs omit the hook hash. Before hook_hash_time=module_start was added, that field hashes the file at report time rather than at module import. Treat those hashes as file-state evidence, not an exact imported-code attestation.",
+    "The follow-up runs use the final numerical implementations and record hook hashes at module start, except the first few repeats predating that instrumentation. Production source is independently hashed on every workflow run.",
+    "Initial baseline runs marked capture_matrix include writing a reference matrix and are excluded from repeated timing summaries.",
+    "RUN_NOTES.json identifies the sample spanning an environment reconnect; its numerical evidence is retained and its timing sample is replaced.",
+    "After the reconnect, the original controller exited between the completed workflow phase and the factor-benchmark phase. No numerical job was active at that boundary. Remaining phases were resumed under a fresh controller; completed evidence was preserved.",
+    "Final monitor cleanup removed only its unused historical catalog; the run function was unchanged. Final analysis reports unavailable factor-work time as null, not zero. Multi-block spool and both singular disk-factor controls were added before final control execution.",
+    "An additional dense_refined factor control was added after raw double LU missed the 1e-12 backward-error gate on the PEC8k random RHS. The failed raw result is preserved; successful PEC8k factors are compared against the refined control when available. Existing benchmark variants were not numerically changed.",
+    "The final aggregate comparison flagged two equal-electrical-size 15 GHz compressed cases above the study-only 1e-8 cross-backend field flag. Existing production gates were unchanged and passed. The 1e-8 comparison remains an explicit reported flag rather than silently discarding cases or changing a release gate. A final operator14 diagnostic tightens only operator compression tolerance; its inactive hook does not change earlier variants.",
+    "Final operator14 was an accuracy diagnostic and overlapped aggregate analysis; RUN_NOTES.json excludes its timing/RSS from performance conclusions. Aggregates were regenerated after it finished."
+  ],
+  "current_hook_sha256": "fcd8f3dba07ee9a0a63156cdaf94e59a4ffa76f9fa310c1fca178fbd291e4880"
+}
