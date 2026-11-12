@@ -24,7 +24,7 @@ The first, third and fourth items are small documentation/presentation follow-up
 
 Tests ran on the unchanged implementation, Linux/Python 3.12.14 with an explicit four-CPU allocation and local overlay-backed scratch. The machine still had a 16 GiB container allowance; 1.0/1.6 GiB below are **solver reservations**, not separately imposed OS memory limits.
 
-Eight public solve attempts produced five successful results and three expected refusals. Five separate policy examples also passed. Raw fields, complete metadata, measured estimates and copied Claude review inputs are retained in a local validation archive. This branch publishes the review, aggregate validation summary and reproduction scripts. Automatic approval review rejected adding the raw archive to the GitHub tree because it requires separate publication authorization; this is a publication restriction, not a numerical test failure.
+Eight public solve attempts produced five successful results and three expected refusals. Five separate policy examples also passed. Raw fields, complete metadata, measured estimates and copied Claude review inputs are included in `evidence.zip`, with member hashes and provenance in `evidence-manifest.json`. The user explicitly authorized publication of this archive after the initial report-only review. This branch includes the review, aggregate validation summary, reproduction scripts and approved raw evidence.
 
 ### Reference-frequency and tight-budget certification
 
@@ -90,7 +90,7 @@ From a checkout of this response branch:
 
 ```sh
 D=audits/codex-2026-11-12/dense-memory-review-response
-mkdir -p "$D/results"
+python -m zipfile -e "$D/evidence.zip" "$D"
 python "$D/check_review.py" . policy "$D/results"
 python "$D/check_review.py" . fixed-survey "$D/results"
 python "$D/check_review.py" . fixed-certified "$D/results"
@@ -100,4 +100,4 @@ python "$D/run_memory_checks.py" .
 python "$D/analyze.py"
 ```
 
-Set `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` at launch to match the import-time environment; solve options explicitly allocate the numerical teams. `run_memory_checks.py` accepts optional case names after the repository path. `check_review.py` observes estimates without altering their values or the solver's behavior. The commands regenerate all new full-field controls. The historical five-CPU comparison is optional: `analyze.py` includes it only if `references/diel8-default-0.npz` is present. Its source array was already published in `audits/codex-2026-11-11/dense-memory-study-review/validation-details.zip` at `baddd313de0c6f70ff89e3f1a1750f428d00cfe5`. The current local archive is `/workspace/dense-implementation-claude-review-2026-11-12/evidence.zip`; it is not included in this review branch.
+Set `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1` at launch to match the import-time environment; solve options explicitly allocate the numerical teams. `run_memory_checks.py` accepts optional case names after the repository path. `check_review.py` observes estimates without altering their values or the solver's behavior. The commands regenerate all new full-field controls. The historical five-CPU comparison is optional: `analyze.py` includes it only if `references/diel8-default-0.npz` is present. Its source array was already published in `audits/codex-2026-11-11/dense-memory-study-review/validation-details.zip` at `baddd313de0c6f70ff89e3f1a1750f428d00cfe5`. The approved archive is now included in this review branch; extracting it supplies the historical comparison array as well as all new raw results.
