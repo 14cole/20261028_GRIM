@@ -65,9 +65,8 @@ def scratch_available(required):
         return False, str(exc)
 
 
-def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False):
-    from ghost_backend.execution.options import option
-    from ghost_backend.execution.memory_budget import current as ledger
+def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False, execution=False):
+    from ghost_backend.execution.options import option, automatic_policy_requested
     from ghost_backend.twod.solver import _solve_memory_limit_gb
     from ghost_backend.linalg.residual_spool import ResidualSpool
     matrix = 16*d*d
@@ -75,8 +74,23 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
     # baseline is explicit so live gates can credit it without crediting caches.
     overhead = int(extra) + 128*MIB
     storage = option('dense_residual_storage', 'auto')
-    capacity = None if submission else int((ledger().stable() if ledger() is not None
-                                           else _solve_memory_limit_gb())*GIB)
+    # Use the live limit, including owned-residency credit, not just the
+    # original reservation: another process may have consumed RAM since then.
+    capacity = None if submission else int(_solve_memory_limit_gb()*GIB)
+    # Price the same lean plan before Automatic's headroom ranking and on
+    # the actual mesh. Explicit storage requests retain their meaning.
+    from ghost_backend.execution.policy import AUTOMATIC_MEMORY_MARGIN
+    margin = AUTOMATIC_MEMORY_MARGIN if automatic_policy_requested() and storage == 'auto' else 0.
+    target = int(capacity*(1.-margin)) if capacity is not None else None
+    carried = None
+    if execution and eligible and storage == 'auto':
+        from ghost_backend.execution.selection import current_request_selection
+        selection = current_request_selection() or {}
+        matching = [record.get('backend_memory_plans', {}).get('dense', {})
+                    for record in selection.get('meshes', ()) if record.get('unknowns') == d]
+        disk = [plan for plan in matching if plan.get('residual_storage') == 'disk']
+        if disk:
+            carried = min(disk, key=lambda plan: plan['angle_batch_size'])
     scratch_ok, scratch_reason = False, None
     if eligible and not submission and storage != 'memory':
         scratch_ok, scratch_reason = scratch_available(matrix)
@@ -94,18 +108,22 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
                       solve=execution+overhead)
         return phases, max(phases.values())
 
-    chosen = 'disk' if eligible and scratch_ok and storage == 'disk' else 'memory'
+    if carried and not scratch_ok:
+        raise MemoryError('Selected Dense disk residual plan is no longer available: '+str(scratch_reason))
+    if carried:
+        batch = min(batch, carried['angle_batch_size'])
+    chosen = 'disk' if eligible and scratch_ok and (storage == 'disk' or carried) else 'memory'
     phases, peak = price(chosen, batch)
-    initial_peak = peak
-    if eligible and capacity is not None and peak > capacity and storage != 'memory' and scratch_ok:
+    initial_peak = price('memory', original_batch)[1]
+    if eligible and target is not None and peak > target and storage != 'memory' and scratch_ok:
         chosen = 'disk'
         phases, peak = price(chosen, batch)
         # Narrow batches only for a constrained disk plan. Never spend their
         # saving on an optional retained TE/TM partner matrix.
-        while peak > capacity and batch > 1:
+        while peak > target and batch > 1:
             batch = max(1, min(64, batch//2))
             phases, peak = price(chosen, batch)
-    constrained = capacity is not None and initial_peak > capacity
+    constrained = bool(carried) or target is not None and initial_peak > target
     return dict(model=MODEL, system_dofs=d, matrix_bytes=matrix,
         peak_bytes=int(math.ceil(peak)), phase_bytes={k:int(v) for k,v in phases.items()},
         process_baseline_bytes=128*MIB, process_geometry_bytes=overhead,
@@ -116,6 +134,8 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
         scratch_checked=eligible and not submission and storage != 'memory',
         scratch_available=scratch_ok, scratch_failure=scratch_reason,
         submission_planning=bool(submission), capacity_bytes=capacity,
+        selection_target_bytes=target, selection_margin_fraction=margin,
+        selected_plan_carried=bool(carried),
         memory_recovery=constrained, assembly_tile=128 if constrained and eligible else 0,
         paired_assembly=False, partner_matrix_bytes=0,
         allow_optional_partner=not constrained and chosen == 'memory',
@@ -129,6 +149,9 @@ def pair(dofs, allowed):
         return allowed
     allowed = bool(allowed and plan['allow_optional_partner'])
     previous = plan['partner_matrix_bytes']
+    target = plan.get('selection_target_bytes')
+    if plan.get('selection_margin_fraction', 0.) and target is not None:
+        allowed = allowed and plan['peak_bytes']-previous+plan['matrix_bytes'] <= target
     partner = plan['matrix_bytes'] if allowed else 0
     plan['phase_bytes'] = {k:v-previous+partner for k,v in plan['phase_bytes'].items()}
     plan.update(paired_assembly=allowed, partner_matrix_bytes=partner,

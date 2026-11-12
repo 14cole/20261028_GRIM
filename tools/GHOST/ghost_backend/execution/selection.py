@@ -148,18 +148,21 @@ def _refresh_memory_forecast(result, resource_records, arguments, options, check
             if event is not None and event.is_set():
                 raise InterruptedError('Backend planning canceled.')
             peaks = {}
+            plans = {}
             for mode in result['candidates']:
+                measured = dict(resources)
                 with execution_scope(dict(mesh_options, factorization=mode)):
                     peaks[mode] = s._estimate_memory_gb(resources['nodes'], False,
                         n_regions=resources['n_regions'], system_dofs=resources['system_dofs'],
-                        operator_matrices=resources['operator_matrices'], dense_resources=dict(resources),
+                        operator_matrices=resources['operator_matrices'], dense_resources=measured,
                         n_rhs=len(arguments['elevations_deg']), solver_method='experimental_cpu')
+                plans[mode] = measured.get('memory_estimate', {})
                 result['candidates'][mode]['peak_gb'] = max(result['candidates'][mode]['peak_gb'], peaks[mode])
             with execution_scope(mesh_options):
                 threads = work_threads(resources['system_dofs'], mesh_options)
             for mode in result['candidates']:
                 result['candidates'][mode]['cost'] += relative_cost(resources, n_rhs, mode, *threads)
-            record.update(dense_peak_gib=peaks['dense'], backend_peak_gib=peaks)
+            record.update(dense_peak_gib=peaks['dense'], backend_peak_gib=peaks, backend_memory_plans=plans)
     result['admission_budget_gib'] = budget
     result['angle_batch_size'] = options['angle_batch_size']
     describe_mesh_scope(result)
@@ -299,6 +302,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                         if resource_records is not None:
                             resource_records.append((dict(resources), dict(mesh_options)))
                         peaks={}
+                        plans={}
                         for mode in BACKENDS:
                             with execution_scope(dict(dense,factorization=mode)):
                                 measured=dict(resources)
@@ -306,6 +310,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                                     n_regions=resources['n_regions'], system_dofs=resources['system_dofs'],
                                     operator_matrices=resources['operator_matrices'], dense_resources=measured,
                                     n_rhs=len(arguments['elevations_deg']), solver_method='experimental_cpu')
+                            plans[mode] = measured.get('memory_estimate', {})
                             threads=work_threads(resources['system_dofs'],mesh_options)
                             candidates[mode]['cost']+=relative_cost(resources,len(arguments['elevations_deg']),mode,*threads)
                             candidates[mode]['peak_gb']=max(candidates[mode]['peak_gb'],peaks[mode])
@@ -313,7 +318,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                                 candidates[mode]['hmatrix']=True
                         records.append(dict(frequency_ghz=float(freq), phase=phase, polarization=pol,
                             polynomial_degree=degree, panels=len(panels), unknowns=resources['system_dofs'], dense_peak_gib=peaks['dense'],
-                            formulation=resources['formulation'],backend_peak_gib=peaks, resources=dict(resources)))
+                            formulation=resources['formulation'],backend_peak_gib=peaks, backend_memory_plans=plans, resources=dict(resources)))
     peak = max(r['dense_peak_gib'] for r in records)
     candidates={m:c for m,c in candidates.items() if m not in exclusions}
     from ghost_backend.execution.options import automatic_policy_requested

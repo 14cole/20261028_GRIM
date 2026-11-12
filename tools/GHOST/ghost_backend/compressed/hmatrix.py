@@ -644,7 +644,7 @@ def _assemble(oracle, targets):
         # Tree order/position alias the operator's fields and are counted once.
         target._reserve(target.coordinates.nbytes + target.radius.nbytes
                         + sum(a.nbytes for a in vars(target.tree).values() if isinstance(a, np.ndarray))
-                        + 48*n)
+                        + 64*n)
     # Inadmissible blocks: exact coefficients, one query set per row cluster.
     plans = []
     for k in sorted(near, key=lambda c: tree.start[c]):
@@ -673,7 +673,7 @@ def _assemble(oracle, targets):
     near_entries = statistics['coefficients']
     # Operator scales from exact sample rows, with capped leaf coverage recorded.
     _sample(oracle, targets, count)
-    scales = [float(target.sample_norm.max()) for target in targets]
+    scales = [target.compression_norm for target in targets]
     if not all(scale > 0 for scale in scales):
         raise HMatrixRejected('Sampled operator rows vanish.')
     # Interaction lists, finest level first; a level's rank guess comes from
@@ -700,12 +700,20 @@ def _assemble(oracle, targets):
             # Partner lists are wider than their rows: sample (cheap) columns
             # and keep a skeleton of (long) rows, i.e. compress the transpose,
             # so long rows are evaluated about once per rank.
-            factors, _ = cross_approximation(lambda c: [value.T for value in fetch(np.arange(a, b), columns[c])],
-                                             lambda r: [value.T for value in fetch(a + r, columns)],
+            def normalized(rows, cols):
+                values = fetch(rows, cols)
+                for target, value in zip(targets, values):
+                    value *= target.compression_rows[rows, None]
+                    value *= target.compression_columns[None, cols]
+                return [value.T for value in values]
+            factors, _ = cross_approximation(lambda c: normalized(np.arange(a, b), columns[c]),
+                                             lambda r: normalized(a + r, columns),
                                              (w, m), targets_tolerance, guess, rng)
             result, ranks, dense = [], [], None
-            for vt, ut in factors:
+            for target, (vt, ut) in zip(targets, factors):
                 u, v = np.ascontiguousarray(ut.T), np.ascontiguousarray(vt.T)
+                u /= target.compression_rows[a:b, None]
+                v /= target.compression_columns[None, columns]
                 ranks.append(u.shape[1])
                 if u.shape[1]*(m + w) >= m*w:
                     # No storage gain: keep the exact coefficients instead.
@@ -803,6 +811,15 @@ def _sample(oracle, targets, count):
     _run([lambda check, s=s: part(s, check) for s in starts], store_sample, first.checkpoint)
     for target in targets:
         target.sample_norm = _sample_row_norm(target.sample_values, target.checkpoint) + target.sample_tail
+        normalized = np.empty(len(rows))
+        step = max(1, VALIDATION_CHUNK_BYTES // max(1, 16*n))
+        for start in range(0, len(rows), step):
+            target.checkpoint()
+            block = abs(target.sample_values[start:start+step])
+            block *= target.compression_columns[None, :]
+            normalized[start:start+step] = (block.sum(axis=1)
+                + target.sample_tail[start:start+step]*target.compression_columns.max())*target.compression_rows[rows[start:start+step]]
+        target.compression_norm = float(normalized.max())
 
 
 # Forecast ranks (calibration: PEC, coated and airfoil systems at 10 GHz,
@@ -844,7 +861,7 @@ def forecast_storage(coordinates, radius, wavenumber, leaf=None, eta=ETA):
     lists = list(near.items()) + list(far.items())
     metadata = (coordinates.nbytes + radius.nbytes
                 + sum(a.nbytes for a in vars(tree).values() if isinstance(a, np.ndarray))
-                + 48*n + 32*samples)
+                + 64*n + 32*samples)
     metadata += sum(8*sum(tree.size(b) for b in partners) + 8*(len(partners) + 1)
                     for _, partners in lists)
     metadata += 16*(len(lists) + len({int(a) for a, _ in lists}))
@@ -931,6 +948,10 @@ class HMatrixOperator:
         self.reserved_partner_bytes = 0
         self.entries = self.calls = self.max_entries = 0
         self.oracle = oracle
+        from ghost_backend.compressed.scaling import compression_scales
+        row_scale, column_scale, self.compression_scaling = compression_scales(oracle)
+        self.compression_rows = row_scale[self.order]
+        self.compression_columns = column_scale[self.order]
         self.bytes = 0
         from ghost_backend.execution.memory_budget import register
         register(self)
@@ -946,7 +967,8 @@ class HMatrixOperator:
         far_bytes = sum(row.nbytes for row in self.far); near_bytes = sum(row.nbytes for row in self.near + self.dense_far)
         far_ranks = [row.rank for row in self.far]
         self.evidence = dict(operator='hmatrix', unknowns=self.n, leaf=self.leaf, eta=self.eta,
-            tolerance=self.tolerance, retained_bytes=self.bytes, storage_budget=self.budget,
+            tolerance=self.tolerance, compression_scaling=self.compression_scaling,
+            scaled_sampled_row_error=self.scaled_sampled_row_error, retained_bytes=self.bytes, storage_budget=self.budget,
             near_bytes=near_bytes, far_bytes=far_bytes, dense_equivalent_bytes=16*self.n**2,
             near_rows=len(self.near), interaction_lists=len(self.far), dense_interaction_lists=self.dense_far_rows,
             max_rank=max(far_ranks or [0]), mean_rank=float(np.mean(far_ranks)) if far_ranks else 0.,
@@ -990,7 +1012,7 @@ class HMatrixOperator:
             for key in sorted(self.groups):
                 self._map(function, self.groups[key])
 
-    def _absolute(self, row_scale=None):
+    def _absolute(self, row_scale=None, dimensionless=False):
         """Row sums/maxima and column sums/maxima of |H| (optionally row-scaled), one pass.
 
         Column partial sums are kept per fixed chunk of block rows and added
@@ -1009,6 +1031,9 @@ class HMatrixOperator:
                 value = abs(row.values(None, slice(c0, c0 + width)))
                 if scale is not None:
                     value /= scale
+                if dimensionless:
+                    value *= self.compression_rows[a:b, None]
+                    value *= self.compression_columns[None, row.columns[c0:c0+width]]
                 local_sum += value.sum(axis=1); np.maximum(local_max, value.max(axis=1), out=local_max)
                 col_sum[c0:c0+width] = value.sum(axis=0); col_max[c0:c0+width] = value.max(axis=0)
             chunks[(row.kind, row.row)] = (row, local_sum, local_max, col_sum, col_max)
@@ -1033,22 +1058,37 @@ class HMatrixOperator:
         # the residual gate of hmatrix_factor uses the exact sample rows.
         self.row_error = np.zeros(self.n); self.row_error[self.order] = self.near_tail
         self.column_error = np.zeros(self.n)
+        if (np.all(self.compression_rows == self.compression_rows[0])
+                and np.all(self.compression_columns == self.compression_columns[0])):
+            scale = self.compression_rows[0]*self.compression_columns[0]
+            self.dimensionless_norms = (float(rows_sum.max()*scale), float(cols_sum.max()*scale))
+        else:
+            scaled_rows, _, scaled_columns, _ = self._absolute(dimensionless=True)
+            self.dimensionless_norms = (float(scaled_rows.max()), float(scaled_columns.max()))
 
     @timed_stage('hmatrix_validation')
     def _validate(self):
         columns = np.arange(self.n)
         difference = np.empty(len(self.sample_rows))
+        scaled_difference = np.empty(len(self.sample_rows))
         step = max(1, VALIDATION_CHUNK_BYTES // max(1, 16*self.n))
         for start in range(0, len(self.sample_rows), step):
             self.checkpoint()
             stop = start + step
             approximate = self._get_positions(self.sample_rows[start:stop], columns)
-            difference[start:stop] = np.sum(abs(self.sample_values[start:stop] - approximate), axis=1)
-            del approximate
+            error = abs(self.sample_values[start:stop] - approximate)
+            difference[start:stop] = np.sum(error, axis=1)
+            error *= self.compression_columns[None, :]
+            scaled_difference[start:stop] = (error.sum(axis=1)
+                + self.sample_tail[start:stop]*self.compression_columns.max())*self.compression_rows[self.sample_rows[start:stop]]
+            del approximate, error
         norm = max(float(self.row_norm.max()), float(self.sample_norm.max()))
         self.operator_norm = norm
         self.sampled_row_errors = (difference + self.sample_tail)/norm
         self.sampled_row_error = float(self.sampled_row_errors.max())
+        self.scaled_sampled_row_error = float(scaled_difference.max()/self.compression_norm)
+        if not np.isfinite(self.scaled_sampled_row_error) or self.scaled_sampled_row_error > OPERATOR_ERROR_LIMIT:
+            raise HMatrixRejected('Dimensionless sampled hierarchical operator error exceeds the release limit.')
         if not np.isfinite(self.sampled_row_error) or self.sampled_row_error > OPERATOR_ERROR_LIMIT:
             raise HMatrixRejected('Sampled hierarchical operator row error {:.3g} exceeds {:.3g}.'.format(
                 self.sampled_row_error, OPERATOR_ERROR_LIMIT))

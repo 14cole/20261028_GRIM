@@ -12,9 +12,10 @@ BACKENDS = ('dense', 'compressed')
 # Conservative small-host starting policy, not a universal time crossover.
 # Both candidates must still pass full per-solve memory admission.
 AUTOMATIC_DENSE_LIMIT = 10000
+AUTOMATIC_MEMORY_MARGIN = .2
 
 
-def rank_automatic(candidates, budget_gib, unknowns, *, diagnostics=None, margin=.2):
+def rank_automatic(candidates, budget_gib, unknowns, *, diagnostics=None, margin=AUTOMATIC_MEMORY_MARGIN):
     decision = {}
     ranked = rank_candidates(candidates, budget_gib, margin, diagnostics=decision, prefer_dense=False)
     preferred = 'dense' if int(unknowns) < AUTOMATIC_DENSE_LIMIT else 'compressed'

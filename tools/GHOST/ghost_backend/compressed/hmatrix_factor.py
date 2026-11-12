@@ -21,7 +21,7 @@ from ghost_backend.compressed.factor import (CompressedFactor, SOLVE_BACKWARD_ER
                                              CONDITION_PROBE_BACKWARD_ERROR_LIMIT)
 from ghost_backend.compressed.hmatrix import HMatrixRejected, DENSE_FALLBACK_LIMIT as HMATRIX_DENSE_FALLBACK_LIMIT
 from ghost_backend.execution.metrics import timed_stage
-from ghost_backend.execution.options import factor_blas_threads, option
+from ghost_backend.execution.options import factor_blas_threads
 
 # Hierarchical inverse ranks of electrically large 2-D bodies exceed the 256
 # of the tile backend's cross approximation; storage still caps the build.
@@ -130,7 +130,7 @@ class HMatrixSystem(CompressedSystem):
 class HMatrixFactor(CompressedFactor):
     """CompressedFactor for ``HMatrixOperator`` with the exact sample-row gate."""
 
-    automatic_blas_threads = 1
+    small_product_blas_threads = 1
 
     @factor_blas_threads
     def __init__(self, operator, *args, storage_budget_bytes=None, **kwargs):
@@ -142,8 +142,8 @@ class HMatrixFactor(CompressedFactor):
             storage_budget_bytes = hmatrix_storage_budget()
         self.storage_allowance = int(storage_budget_bytes)
         super().__init__(operator, *args, storage_budget_bytes=storage_budget_bytes, **kwargs)
-        if option('blas_threads') == 'auto':
-            self.event['solve_blas_threads'] = 1
+        self.event['solve_blas_threads'] = 1
+        self.event['solve_blas_policy'] = 'small_products_within_requested_cap'
 
     def _refresh_inverse_budget(self):
         from ghost_backend.twod.assembly.polynomial_pair import retained_bytes
@@ -160,12 +160,34 @@ class HMatrixFactor(CompressedFactor):
         self.tolerance = tolerance; self.event['factorizations'] += 1
         self.event['preconditioners'].append(self.factor.evidence)
 
+    def _dimensionless_denominator(self, x, b, trans=0):
+        rows = self.a.compression_rows[self.a.position]
+        columns = self.a.compression_columns[self.a.position]
+        if trans:
+            rows, columns = columns, rows
+        norm = self.a.dimensionless_norms[int(bool(trans))]
+        denominator = np.maximum(norm*np.max(abs(x)/columns[:, None], axis=0)
+                                 + np.max(abs(b)*rows[:, None], axis=0), 1e-300)
+        return rows, denominator
+
+    def _backward_errors(self, x, b, residual, trans):
+        physical, denominator = super()._backward_errors(x, b, residual, trans)
+        rows, scaled_denominator = self._dimensionless_denominator(x, b, trans)
+        scaled = np.max(abs(residual)*rows[:, None], axis=0)/scaled_denominator
+        # GMRES works in physical coordinates. This conservative absolute
+        # target also satisfies the dimensionless stopping criterion.
+        return np.maximum(physical, scaled), np.minimum(denominator, scaled_denominator/rows.max())
+
     def sampled_errors(self, x, b):
         """Normwise backward errors of ``x`` on the exactly evaluated sample rows."""
         residual, _ = self.a.sample_residual(x, b)
         norm = self.a.operator_norm
         denominator = np.maximum(norm*np.max(abs(x), axis=0) + np.max(abs(b), axis=0), 1e-300)
-        return np.max(abs(residual), axis=0)/denominator
+        physical = np.max(abs(residual), axis=0)/denominator
+        rows, scaled_denominator = self._dimensionless_denominator(x, b)
+        sample_rows = self.a.order[self.a.sample_rows]
+        scaled = np.max(abs(residual)*rows[sample_rows, None], axis=0)/scaled_denominator
+        return np.maximum(physical, scaled)
 
     @factor_blas_threads
     def inverse(self, rhs, trans=0, return_residual=False, limit=SOLVE_BACKWARD_ERROR_LIMIT):

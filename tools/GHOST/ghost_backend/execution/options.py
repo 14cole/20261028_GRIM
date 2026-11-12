@@ -538,14 +538,14 @@ def linear_algebra_threads(matrix_size=None):
 
 
 def factor_blas_threads(function):
-    """Apply a factor's small-product policy only to automatic BLAS requests.
+    """Apply a factor's small-product policy within the requested BLAS cap.
 
     Hold the same process-wide lock as ordinary linear algebra. Nested scopes
     restore their caller's limits even after a rejected solve or cancellation.
     """
     @wraps(function)
     def call(factor, *args, **kwargs):
-        if option('blas_threads') == 'auto' and getattr(factor, 'automatic_blas_threads', None) == 1:
+        if getattr(factor, 'small_product_blas_threads', None) == 1:
             with _held_blas_lock(), single_thread_blas():
                 return function(factor, *args, **kwargs)
         return function(factor, *args, **kwargs)
@@ -681,14 +681,14 @@ def configured_execution(function):
         def invoke():
             nonlocal value,selection
             from ghost_backend.execution.errors import BackendNumericalError
-            from ghost_backend.execution.selection import request_selection_scope
+            from ghost_backend.execution.selection import request_selection_scope, current_request_selection
             from numpy.linalg import LinAlgError
             failures=[]
             modes=[value['factorization']]+(selection.get('retry_order',[]) if selection else [])
             # The forecast of this request (its candidate meshes, priced and
             # admitted) is visible to the adaptive controller, which would
             # otherwise rebuild and re-price the same meshes per candidate step.
-            forecast=selection if selection is not None and selection.get('meshes') else None
+            forecast=selection if selection is not None and selection.get('meshes') else current_request_selection()
             for index,mode in enumerate(modes):
                 value=dict(value,factorization=mode)
                 attempt_start=time.perf_counter()

@@ -1730,7 +1730,7 @@ def _estimate_memory_gb(
                   and requested_precision() == 'double' and kind in
                   ('robin', 'te_robin', 'single_dielectric', 'multi_region', 'sheet',
                    'mixed_sheet_pec', 'thin_dielectric_layer')),
-        submission=submission_planning)
+        submission=submission_planning, execution=activate_memory_plan)
     if 'assembly_direct_destinations' in resources:
         plan['assembly_ownership'] = {key: resources[key] for key in
             ('assembly_operator_entries', 'assembly_direct_destinations',

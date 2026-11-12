@@ -1,0 +1,16 @@
+{
+  "preliminary_cases": [
+    "scale-first",
+    "scale-refined",
+    "auto-cap-0.85",
+    "auto-cap-1.0",
+    "sweep-profile"
+  ],
+  "preliminary_note": "Early numerical prototypes and pre-final plan/telemetry observations are retained. auto-final cases validate carried plans after the nested-scope fix. Initial scale cases predate the final uniform-scaling norm shortcut and telemetry/planning changes; the dimensional compression/refinement algorithm is the same.",
+  "timing_excluded": [
+    "bench-airfoil-before-0"
+  ],
+  "timing_exclusion": "Only the known environment-reconnect-spanning baseline is excluded. Other first runs and outliers remain.",
+  "source_hashes": "Later runs record the hash of all backend Python sources at process start. The final live-capacity planning correction changes that aggregate hash but is not used by explicitly compressed timing runs.",
+  "prototype_policy": "coarse_blas, parallel_solve, dense_extra_refinement and tile_extra_refinement are audit-only hooks, never imported by production. compression_only disables scaled refinement as a causal control."
+}

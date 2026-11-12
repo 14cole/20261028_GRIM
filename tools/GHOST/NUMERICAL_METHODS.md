@@ -272,8 +272,14 @@ the spool into the same buffer after solving. `dense_residual_storage` accepts `
 2D execution options. CPU Dense admission records one phase plan per actual
 mesh, including the original/LU storage policy, RHS width, optional paired
 polarization, retained workers and temporary-disk requirement. `auto` keeps
-in-memory residuals when the full forecast fits. With constrained RAM and
-usable disk-backed scratch it prices one owned matrix plus bounded spool buffers,
+in-memory residuals when the full forecast fits. Automatic applies its 20%
+headroom target before choosing this storage plan: a memory plan outside that
+target is repriced with disk residuals even if it fits the whole reservation.
+The selected per-mesh storage and batch plan survives nested polarization solves
+and cached-forecast repricing. Execution rechecks scratch and live RAM; a missing
+selected disk plan rejects that backend attempt instead of silently spending its
+RAM saving. With constrained RAM and usable disk-backed scratch it prices one
+owned matrix plus bounded spool buffers,
 then reduces the angle batch if needed; all requested angles are still solved.
 A constrained or disk plan does not retain an optional second TE/TM matrix.
 Automatic assembly tiles are capped at 128 in a constrained plan, while the
@@ -351,8 +357,14 @@ columns (spread, random and high-weight), a pivoted-QR skeleton of the long
 rows, and a least-squares fit over more samples than the rank (an
 interpolating cross would fit the coefficients' rounding noise, about 3e-13
 of a block, into unseen rows), validated by fresh random rows and columns,
-then recompressed by QR/SVD. The target is a mean row-sum error of `1e-12
-||A||_inf` per list, estimated from probes. Lists of one level are compressed
+then recompressed by QR/SVD. Rank selection operates on the dimensionless
+operator `R A C`: Galerkin single-layer, double-layer and hypersingular
+coefficients have length powers two, one and zero. Formulation-specific positive
+row/column multipliers formed from the exterior wavenumber remove those units
+(`compressed.scaling`). The target is a mean row-sum error of
+`1e-12 ||R A C||_inf` per list, estimated from probes. Factors are unscaled
+before storage, so public products, densities, physical residuals and field
+normalizations retain their original units. Lists of one level are compressed
 concurrently (single-threaded coefficient queries on all allocated logical
 CPUs; results do not depend on the thread count), finest level first, a pilot
 wave of eight lists calibrating each level's rank guess. TE and TM share one
@@ -366,12 +378,20 @@ that allowance permits. When there are too many leaves, a spread subset of
 leaf middle rows is used. Evidence records the total and sampled leaf counts,
 coverage fraction, whether coverage is limited, and retained sample-row bytes.
 After assembly the complete row errors `sum_j |A_ij - H_ij|` of these rows
-must stay below `1e-11 ||A||_inf` (measured 1-3e-12), otherwise the tile
-operator is used. Every field solve must then pass the backend's existing
+must stay below `1e-11 ||A||_inf`; the dimensionless sample-row error must
+also stay below `1e-11 ||R A C||_inf`, otherwise the tile operator is used. Every field solve must then pass the backend's existing
 gates against the retained operator (refinement to 3e-15, 1e-12 physical
 bound) and, in addition, a normwise backward error within 1e-12 of the dense
 gate on the exact sample rows (measured 1e-14 to 3e-13). A failure rebuilds the
-operator at a tenth of its tolerance once, then rejects the solve. Field
+operator at a tenth of its tolerance once, then rejects the solve. Refinement
+also checks the dimensionless normwise backward error using `y=C^-1 x` and
+`R b`; transpose/adjoint solves exchange R and C. Exact sample-row solve gates
+check both unit systems. The original physical gates are retained. Merely
+normalizing compression was insufficient on the scale test: the physical-only
+refinement criterion could still stop early. Six equal-electrical-size dielectric
+controls (radius 100 to 0.01 metres, 4,000 unknowns) now differ from Dense by
+4.7e-12 to 8.5e-12, compared with up to 2.1e-5 before this change. These are
+sampled validation results, not a general forward-error bound. Historical field
 changes against dense LU are therefore conditioning limited: 2e-12 to 4e-12 of
 the peak on 5,000-20,000-unknown PEC cylinders, 1e-10 to 4e-10 on the
 6 GHz airfoil, 6e-9 on a dielectric of condition 6e3 (where the tile backend
@@ -385,7 +405,15 @@ coefficient is read twice. Condition estimates use exact one-pass
 equilibration over the retained blocks. A factorization owns one lazily started
 thread team for its range products; it joins that team on success, failure or
 cancellation. Adjoint products reduce bounded batches of block contributions
-in a fixed order, avoiding a complete tree's temporary outputs.
+in a fixed order, avoiding a complete tree's temporary outputs. Its many small
+BLAS products use one thread under both automatic and numeric thread settings;
+a numeric setting is a cap, not a forced team size. Assembly/range-product
+workers retain the allocated CPU budget. The process-wide BLAS lock and nested
+restoration apply on successful solves, failures and cancellation. Process-tree
+telemetry enumerates descendants once per second and at solve start/finish;
+parent RSS still samples every 50 ms. These are sampled diagnostics, so brief
+child peaks can be missed. Admission and owned-worker memory checks remain live
+and independent of this telemetry throttle.
 
 The retained-storage ledger includes numeric geometry, tree and block indexes,
 sample rows and their diagnostics, and norm/error vectors as well as block
