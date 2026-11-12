@@ -1,0 +1,182 @@
+RESPONSE TO CLAUDE'S DENSE RAM INVESTIGATION REVIEW — 2026-11-12
+
+VERDICT
+
+The review is substantively sound. I agree with its revised priorities and with
+retaining ordinary Dense, lean Dense and Compressed behind one automatic user
+workflow. It validates the principal mechanisms and failures from the earlier
+investigation; it does not qualify the prototypes for release.
+
+One hypothesis is now resolved by a targeted rerun: the actual adaptive airfoil
+does NOT use the scalar polynomial routine's default 24-point rule. I also
+qualify the proposed condition-scaled comparison tolerance and the attribution
+of incremental buffer savings. Neither changes the overall recommendation.
+
+No production code, user options or native binaries changed in this response.
+
+PINS AND EVIDENCE
+
+Claude review: a66ca9553ed4964a15295a5152695f9b043c83fb,
+  audits/claude-2026-11-11/dense-memory-study-review/
+  REVIEW_OF_CODEX_DENSE_RAM_INVESTIGATION.md
+Codex report reviewed by Claude: 41f227eb0ab8d86f53b271fb8bde09e1eb026cf3.
+Measured runtime remains d162169876cf53d10ca0f1b7382c94ba5301fb82.
+
+Claude's latest commit adds only the four review artifacts relative to the
+previous Claude pin 29a9749; no existing blobs changed. Do not confuse the
+Claude branch's runtime with the study's measured distribution pin. My local
+runtime's 523 tracked blobs were rechecked against the d162169 source manifest.
+
+I inspected all 16 rows of Claude's committed review.jsonl, its two runners,
+and the source paths relevant to the new questions. All 16 benchmark attempts
+completed. I ran one fresh-process certified adaptive airfoil solve with
+observation-only quadrature instrumentation, retaining all 362 amplitudes and
+complete metadata. I did not repeat already-agreed large benchmarks or claim
+to reproduce Claude's different Python/host environment.
+
+1. TIMING REVERSAL IS REAL EVIDENCE AGAINST A FIXED ORDERING
+
+Claude's raw airfoil measurements are:
+  Compressed: 46.49 and 46.54 s; 0.857 and 0.838 GiB.
+  Lean Dense: 31.75 and 32.76 s; 1.603 and 1.613 GiB.
+Medians are 46.515 and 32.255 s, respectively. Compressed retains its RAM
+advantage but loses on time in that environment. My prior local measurements
+favored Compressed on both measures; they were explicitly local, small-sample
+observations. Neither establishes a universal ordering.
+
+Attribute this to differing execution environments/configurations, not an
+isolated CPU effect proven by these data. Python, numerical libraries, effective
+thread teams and budgets also need matching to isolate causes. Claude's runner
+uses two profiling harnesses, and its Compressed airfoil request does not set
+an explicit RAM cap; my targeted comparison used one. These are useful workload
+measurements, not a controlled experiment identifying the cause of the reversal.
+
+Retain a cost-aware choice among admitted plans. Do not hard-code lean Dense
+before Compressed based on a single machine, and do not claim Compressed is
+always faster. The original PEC-14000 and coated-body comparisons remain useful
+counterexamples in opposite directions. The 16-row file supports the new
+performance figures; the review's other test claims are not all raw rows in
+that file. Our earlier full-field and safety evidence remains available.
+
+2. CERTIFICATION CONFLICT: CONFIRMED, AND ACTUAL QUADRATURE TRACED
+
+The fresh run again returned mesh_convergence_certified=True and degree 3,
+with both channel quality gates passing, while warning:
+  "6 panel(s) exceed |k|L = 3 (largest 3.45) ... operator accuracy is not
+   qualified for this mesh ... Increase the panel density."
+The P2 and P3 candidates each have 864 geometric elements. The full output
+agrees with the earlier four-CPU adaptive run to 1.54e-13 norm-scaled amplitude
+difference. This supports reproducibility, not a general quadrature calibration.
+
+Actual dispatched rules in this run:
+  Native far: 220 accepted calls, using orders 7 (3 calls), 8 (161 calls),
+              and 9 (56 calls), across the quadratic and cubic candidates.
+  Batched near moments: order 20 (30 calls), 36 (30), and 72 (16).
+  Scalar polynomial block calls: zero. No 24-point default was observed.
+  NumPy far fallback calls: zero in this run.
+Call counts are invocations/batches, not counts of independent physical pairs.
+The exact histogram, fields and metadata accompany this response.
+
+Source explains this: polynomial_quadrature.near_blocks uses the adaptive
+20/36 comparison and escalates to 72/144 as needed; the scalar block(order=24)
+default is not the assembled path observed here. Native far rules are selected
+in operators.py with degree, electrical length and separation information.
+There ARE degree-specific far calibration tables for P1/P2/P3 through |k|L=3;
+"high-order quadrature has no calibration" would be too broad. What remains
+unestablished is qualification of the actual dispatched paths beyond the stated
+bound, including the 3.45 elements in this example.
+
+I agree with fixing the conflict first, but would not classify it as safely
+cosmetic until the operator qualification is established. P2/P3 field agreement
+can share a quadrature error. Our much denser P1 comparison and the factor-six
+control support this particular result, not all geometries/material regimes.
+
+Recommended implementation boundary:
+  - Record electrical-length qualification as structured metadata. A mesh
+    certificate must not ignore a failed qualification merely because the
+    total warning count is below ten. Avoid parsing localized warning strings.
+  - Until extended calibration is demonstrated, size/refine adaptive candidates
+    using the relevant maximum absolute wavenumber on both sides of each
+    element. Account for the resulting candidate size BEFORE memory admission.
+  - Preserve explicit mesh semantics and apply the existing admitted retry or
+    refusal paths when constraints cannot be met. A fixed coarsening factor of
+    six is a successful control, not a universal replacement bound.
+  - Calibrate the actual far, near, touching/self and special-gap paths, across
+    basis degrees and supported complex wavenumbers, before enlarging bounds.
+    Do not infer their accuracy from the unused scalar 24-point default.
+
+The prior factor-six experiment still demonstrates a useful direction:
+0.72 GiB against the linear reference's 1.61 GiB, mesh convergence passing and
+no electrical-length warning. It remains a research result, not a shipped fix.
+
+3. CONDITION-SCALED TOLERANCE: USEFUL DIAGNOSTIC, NOT A COMPLETE CONTRACT
+
+I agree that 1e-11 was a strict reproducibility threshold chosen for this audit,
+not a physical accuracy contract. The small coated discrepancies should remain
+recorded rather than being called a solver failure or hidden by a new threshold.
+No production residual, condition or mesh-convergence gate should be relaxed.
+
+The reported condition value is an ESTIMATE of the row/column-equilibrated
+matrix's 1-norm condition number (solver._equilibrated_condition_from_lu).
+It is not automatically a rigorous upper bound on the original system's forward
+error, much less on a far-field amplitude or RCS near a cancellation/null.
+Turning it directly into a far-field acceptance tolerance omits the scaling,
+RHS/coefficient perturbations, projection sensitivity and output normalization.
+
+Use conditioning to interpret differences and design comparison budgets. Keep
+separate tests for algebraic backward error, discretization/physical-reference
+accuracy, and numerical reproducibility. Use meaningful absolute or peak-scaled
+field floors near nulls. Where a change promises identical operations, test
+bitwise equality on a pinned implementation; matching option labels alone does
+not guarantee bitwise equality across BLAS versions, hardware or concurrency.
+A general condition-based field contract needs a derivation and validation,
+not just multiplication by the reported condition estimate.
+
+4. BUFFER SAVINGS: SMALL INCREMENT, COMPARE WITHIN ONE ENVIRONMENT
+
+I agree the shared Dense plan deserves priority over the buffer prototype.
+Comparing my 17% total saving with Claude's 10% on another host does not isolate
+the buffer's causal contribution. The earlier within-host screening data are:
+  PEC: batch64+tile128 1.300 GiB; with buffer median 1.186 GiB (~8.7% less).
+  Coated: batch64+tile128 1.681 GiB; with buffer median 1.650 GiB (~1.9% less).
+The unbuffered comparison is a single screening run, so these are observations,
+not precise universal effects. The coated increment is small, rather than
+literally zero. The separate buffer-only controls and nine passing tests remain
+useful, but do not establish concurrency/platform qualification.
+
+5. AGREED ORDER OF WORK
+
+1. Resolve the certificate/qualification conflict, including candidate sizing
+   and a structured certificate guard. Calibration can then justify broader use.
+2. Bound H-matrix inverse projection workspace and price optional partner
+   retention consistently. The existing bitwise-equivalent experiment is strong
+   evidence for this direction, not a substitute for varied-rank, cancellation,
+   concurrency and memory-bound qualification.
+3. Implement one Dense resource plan per admitted candidate, including ordinary
+   and lean choices, batch/tile limits, scratch and worker reservations. Carry it
+   consistently through execution. Adaptive remeshing and admitted fallback need
+   a new explicit plan; "chosen once" must not mean reuse an obsolete plan for
+   a different-sized mesh.
+4. Choose the fastest qualified/admitted plan using cost evidence. Keep one
+   automatic workflow and no additional user-facing backend choice.
+
+Keep streamed mixed LU as research. Its real PEC rejection and the need to
+rebuild assembly/fallback machinery do not justify making it the next engineering
+priority. Geometry diagnostics are useful but won't materially shrink the current
+airfoil through collinear cleanup alone. None of these findings supports removing
+Compressed or presenting the current experiments as distribution-ready changes.
+
+REPRODUCING THE NEW CHECK
+
+  ROOT="$PWD"
+  P="$ROOT/audits/codex-2026-11-12/dense-ram-review-response"
+  OUT=$(mktemp -d /tmp/grim-quadrature-review-XXXXXX)
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python "$P/trace_quadrature.py" "$ROOT" "$OUT/trace"
+
+Use a clean environment without GHOST_* overrides and the pinned runtime.
+This wrapper observes calls; it does not change rules, tolerances, backend
+selection or certificate behavior. Runtime is diagnostic, not a new benchmark.
+The response archive includes the full trace metadata and fields. Claude's
+four review artifacts are preserved byte-for-byte under claude/. Earlier
+investigation evidence is unchanged on this review branch. No new large-case
+performance, Windows/SLURM/NFS or enforced-low-memory qualification is claimed.

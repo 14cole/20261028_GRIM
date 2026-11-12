@@ -1,0 +1,239 @@
+{
+  "runtime_pin": "d162169876cf53d10ca0f1b7382c94ba5301fb82",
+  "wall_seconds": 7.427063989001908,
+  "counts": {
+    "native_far_accepted": 220,
+    "native_far_order_7_phi_shape_(7, 3)": 3,
+    "native_far_order_8_phi_shape_(8, 3)": 79,
+    "native_far_order_8_phi_shape_(8, 4)": 82,
+    "native_far_order_9_phi_shape_(9, 3)": 28,
+    "native_far_order_9_phi_shape_(9, 4)": 28,
+    "near_moment_order_20": 30,
+    "near_moment_order_36": 30,
+    "near_moment_order_72": 16
+  },
+  "certified": true,
+  "degree": 3,
+  "warnings": [
+    "Geometry contains 4 high-degree node(s) (>2 connected primitives).",
+    "Electrically long panels: 6 panel(s) exceed |k|L = 3 (largest 3.45). The boundary-integral quadrature is calibrated up to that length, so operator accuracy is not qualified for this mesh and a small linear residual does not certify it. Increase the panel density."
+  ],
+  "quality_gate": {
+    "passed": true,
+    "channels": {
+      "VV": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 3.411184698607385e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 3754.124616486233,
+          "condition_est_gate_value": 3754.124616486233,
+          "condition_est_computed": true,
+          "warnings_count": 2
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      },
+      "HH": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 3.606668466723773e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 9929.505197318596,
+          "condition_est_gate_value": 9929.505197318596,
+          "condition_est_computed": true,
+          "warnings_count": 2
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_and_mesh_convergence",
+        "mesh_convergence_certified": true,
+        "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+      }
+    },
+    "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+  },
+  "adaptive_steps": [
+    {
+      "polynomial_degree": 2,
+      "panels": 864,
+      "coarsening": 8.0,
+      "nodes": 1734,
+      "seconds": 3.436539401009213,
+      "backend": "dense",
+      "backend_selection": {
+        "requested": "adaptive",
+        "automatic_policy": true,
+        "dense_peak_gib": 1.0113418102264404,
+        "model": "stage_work_v6",
+        "objective": "memory_and_size",
+        "candidates": {
+          "dense": {
+            "cost": 10.157819081728,
+            "peak_gb": 1.0113418102264404
+          },
+          "compressed": {
+            "cost": 16.05171707664,
+            "peak_gb": 0.8747316598892212,
+            "hmatrix": true
+          }
+        },
+        "cost_source": "stage_work_prior",
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 12.803052520751953,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "cost_scope": {
+          "kind": "aggregate_forecast_meshes",
+          "systems": 4,
+          "polynomial_degrees": [
+            2,
+            3
+          ]
+        },
+        "mesh_forecast_scope": {
+          "initial_candidate_unknowns_min": 2646,
+          "initial_candidate_unknowns_max": 3964,
+          "final_size_guaranteed": false,
+          "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+        },
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ],
+        "ranking": {
+          "cost_winner": "dense",
+          "selected": "dense",
+          "admitted": [
+            "dense",
+            "compressed"
+          ],
+          "budget_gib": 12.803052520751953,
+          "margin_fraction": 0.2,
+          "margin_applied": true,
+          "excluded": {},
+          "dense_preference_applied": false,
+          "dense_preference_enabled": false,
+          "preference_changed_winner": false,
+          "policy": "memory_and_size_v1",
+          "unknowns": 3964,
+          "dense_limit": 10000,
+          "preferred": "dense"
+        },
+        "reason": "Retained request or batch preference after memory admission. Underlying forecast: Reused the admitted request forecast. Automatic memory-and-size policy selected dense at 3964 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+        "planning_seconds": 0.2985946199914906,
+        "forecast_reused": true,
+        "selection_context": "retained_request_or_batch_preference",
+        "selection_override": {
+          "source": "request_or_batch",
+          "selected": "dense",
+          "previous_selected": "dense",
+          "changed": false
+        }
+      },
+      "angle_batch_size": 256,
+      "failed_backends": [],
+      "marked_primitives": 0,
+      "indicators_computed": false
+    },
+    {
+      "polynomial_degree": 3,
+      "panels": 864,
+      "coarsening": 8.0,
+      "nodes": 2598,
+      "seconds": 3.6666009920008946,
+      "backend": "dense",
+      "backend_selection": {
+        "requested": "adaptive",
+        "automatic_policy": true,
+        "dense_peak_gib": 1.0113418102264404,
+        "model": "stage_work_v6",
+        "objective": "memory_and_size",
+        "candidates": {
+          "dense": {
+            "cost": 10.157819081728,
+            "peak_gb": 1.0113418102264404
+          },
+          "compressed": {
+            "cost": 16.05171707664,
+            "peak_gb": 0.8747316598892212,
+            "hmatrix": true
+          }
+        },
+        "cost_source": "stage_work_prior",
+        "exclusions": {},
+        "optimality_guaranteed": false,
+        "admission_budget_gib": 12.803052520751953,
+        "dense_margin_fraction": 0.2,
+        "angle_batch_size": 256,
+        "cost_scope": {
+          "kind": "aggregate_forecast_meshes",
+          "systems": 4,
+          "polynomial_degrees": [
+            2,
+            3
+          ]
+        },
+        "mesh_forecast_scope": {
+          "initial_candidate_unknowns_min": 2646,
+          "initial_candidate_unknowns_max": 3964,
+          "final_size_guaranteed": false,
+          "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+        },
+        "selected": "dense",
+        "retry_order": [
+          "compressed"
+        ],
+        "ranking": {
+          "cost_winner": "dense",
+          "selected": "dense",
+          "admitted": [
+            "dense",
+            "compressed"
+          ],
+          "budget_gib": 12.803052520751953,
+          "margin_fraction": 0.2,
+          "margin_applied": true,
+          "excluded": {},
+          "dense_preference_applied": false,
+          "dense_preference_enabled": false,
+          "preference_changed_winner": false,
+          "policy": "memory_and_size_v1",
+          "unknowns": 3964,
+          "dense_limit": 10000,
+          "preferred": "dense"
+        },
+        "reason": "Retained request or batch preference after memory admission. Underlying forecast: Reused the admitted request forecast. Automatic memory-and-size policy selected dense at 3964 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+        "planning_seconds": 0.2985946199914906,
+        "forecast_reused": true,
+        "selection_context": "retained_request_or_batch_preference",
+        "selection_override": {
+          "source": "request_or_batch",
+          "selected": "dense",
+          "previous_selected": "dense",
+          "changed": false
+        }
+      },
+      "angle_batch_size": 256,
+      "failed_backends": [],
+      "marked_primitives": 3,
+      "indicators_computed": true
+    }
+  ]
+}
