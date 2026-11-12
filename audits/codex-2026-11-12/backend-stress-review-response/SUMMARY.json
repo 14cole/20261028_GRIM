@@ -1,0 +1,181 @@
+{
+  "cases": [
+    {
+      "case": "auto181-2.3",
+      "wall_seconds": 23.12,
+      "parent_peak_rss_gib": 1.183,
+      "selected": "dense",
+      "dense_forecast_gib": 1.7661323547363281,
+      "backend": "cpu",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        false,
+        null
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 73
+    },
+    {
+      "case": "auto181-2.6",
+      "wall_seconds": 21.63,
+      "parent_peak_rss_gib": 1.018,
+      "selected": "compressed",
+      "dense_forecast_gib": 2.456024169921875,
+      "backend": "cpu_hmatrix",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        true
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 80
+    },
+    {
+      "case": "auto181-2.6-disk",
+      "wall_seconds": 24.64,
+      "parent_peak_rss_gib": 1.191,
+      "selected": "dense",
+      "dense_forecast_gib": 1.7661323547363281,
+      "backend": "cpu",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        false,
+        null
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 73
+    },
+    {
+      "case": "auto19-2.3",
+      "wall_seconds": 18.08,
+      "parent_peak_rss_gib": 0.823,
+      "selected": "compressed",
+      "dense_forecast_gib": 2.223663330078125,
+      "backend": "cpu_hmatrix",
+      "quality_gate_passed": true,
+      "field_count": 38,
+      "pairing_plans": [
+        true
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 80
+    },
+    {
+      "case": "coated-dense",
+      "wall_seconds": 37.35,
+      "parent_peak_rss_gib": 4.519,
+      "selected": null,
+      "dense_forecast_gib": null,
+      "backend": "cpu",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        true,
+        null,
+        false,
+        null
+      ],
+      "profiler_paired_flag": true,
+      "imported_modules": 72
+    },
+    {
+      "case": "coated-paired",
+      "wall_seconds": 78.42,
+      "parent_peak_rss_gib": 2.563,
+      "selected": null,
+      "dense_forecast_gib": null,
+      "backend": "cpu_hmatrix",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        true
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 79
+    },
+    {
+      "case": "coated-separate",
+      "wall_seconds": 100.11,
+      "parent_peak_rss_gib": 1.61,
+      "selected": null,
+      "dense_forecast_gib": null,
+      "backend": "cpu_hmatrix",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        false
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 79
+    },
+    {
+      "case": "coated-separate-previous",
+      "wall_seconds": 95.18,
+      "parent_peak_rss_gib": 1.647,
+      "selected": null,
+      "dense_forecast_gib": null,
+      "backend": "cpu_hmatrix",
+      "quality_gate_passed": true,
+      "field_count": 362,
+      "pairing_plans": [
+        false
+      ],
+      "profiler_paired_flag": false,
+      "imported_modules": 79
+    }
+  ],
+  "comparisons": [
+    {
+      "reference": "auto181-2.3",
+      "candidate": "auto181-2.6",
+      "field_count": 362,
+      "bitwise_equal": false,
+      "max_absolute_difference": 2.112478788134683e-07,
+      "relative_max_norm": 1.2624876907358133e-08
+    },
+    {
+      "reference": "auto181-2.3",
+      "candidate": "auto181-2.6-disk",
+      "field_count": 362,
+      "bitwise_equal": false,
+      "max_absolute_difference": 5.724835314001815e-10,
+      "relative_max_norm": 3.421352278665431e-11
+    },
+    {
+      "reference": "coated-dense",
+      "candidate": "coated-paired",
+      "field_count": 362,
+      "bitwise_equal": false,
+      "max_absolute_difference": 1.5455208510847312e-06,
+      "relative_max_norm": 1.043516830593649e-07
+    },
+    {
+      "reference": "coated-dense",
+      "candidate": "coated-separate",
+      "field_count": 362,
+      "bitwise_equal": false,
+      "max_absolute_difference": 2.057944415071416e-05,
+      "relative_max_norm": 1.3894989718488701e-06
+    },
+    {
+      "reference": "coated-separate-previous",
+      "candidate": "coated-separate",
+      "field_count": 362,
+      "bitwise_equal": true,
+      "max_absolute_difference": 0.0,
+      "relative_max_norm": 0.0
+    }
+  ],
+  "identity": [
+    {
+      "root": "/workspace/backend-stress-improvements",
+      "source_sha256": "7d234aff23e53ac0e4bdedf2732cf43875a6e7189222cc0d82159fb9f5a3da63"
+    },
+    {
+      "root": "/workspace/dense-memory-implementation",
+      "source_sha256": "20dcfd39928d69775da0bc57d9a509c8cc649e9a70d2e3034fe9ffbcd0f022fb"
+    }
+  ]
+}
