@@ -1,0 +1,35 @@
+{
+ "wall": 7.7,
+ "certified": true,
+ "backend": "cpu",
+ "polynomial_degree": 3,
+ "panels": 870,
+ "unknowns": null,
+ "adaptive": {
+  "used": true,
+  "strategy": "hp",
+  "initial_coarsening": 8.0,
+  "fallback": false
+ },
+ "steps": [
+  {
+   "polynomial_degree": 2,
+   "panels": 870,
+   "nodes": 1746,
+   "coarsening": 8.0,
+   "status": null
+  },
+  {
+   "polynomial_degree": 3,
+   "panels": 870,
+   "nodes": 2616,
+   "coarsening": 8.0,
+   "status": null
+  }
+ ],
+ "warning_count": 1,
+ "warnings": [
+  "Geometry contains 4 high-degree node(s) (>2 connected primitives)."
+ ],
+ "quality": "{'passed': True, 'channels': {'VV': {'passed': True, 'thresholds': {'residual_norm_max': 1e-06, 'constraint_residual_norm_max': 1e-08, 'condition_est_max': 1000000.0, 'warnings_max': 10}, 'values': {'residual_norm_max': 2.935051406273496e-13, 'residual_nonfinite_count': 0, 'constraint_residual_norm_"
+}
