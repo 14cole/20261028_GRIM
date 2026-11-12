@@ -69,7 +69,7 @@ I did not rerun Codex's 119 workflow attempts or 17 factor benchmarks. I read th
 | Scale-aware compression error budget (its question 8) | Pursue first | See Finding A; Codex found the symptom, the effect is larger than it reported |
 | Single-precision inverse storage | Do not pursue now | Codex's own result: about 3% memory, no speed gain, because the operator and construction workspace dominate |
 | Schur reuse across polarizations (single dielectric) | Low priority | 15% faster in one run, more memory, one formulation only, needs a full-LU fallback |
-| Out-of-core LU | Do not pursue | Eight to ten times slower in Codex's factor tests, needs disk assembly and a second platform implementation; Compressed already covers that size range in a fraction of the memory |
+| Out-of-core LU | Do not pursue | Five to eight times slower in Codex's factor tests, needs disk assembly and a second platform implementation; Compressed already covers that size range in a fraction of the memory |
 | Lossless residual compression | Do not pursue | Slower on local disk, small gain on irregular geometry (71 to 73% of original size), adds a dependency |
 | Dense mixed precision | Do not pursue | Codex's clean repeats show it slower after refinement |
 | Looser Compressed preconditioner | Do not pursue | Triggered a rebuild and used more memory |
