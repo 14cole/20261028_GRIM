@@ -29,7 +29,7 @@ from ghost_backend.execution.runtime import ScopedValue
 # Unknowns from which the compressed backend assembles this operator instead
 # of evaluating every coefficient tile (see NUMERICAL_METHODS.md, "Hierarchical
 # 2-D operator"); GHOST_HMATRIX_MIN_UNKNOWNS overrides it, 0 disables it.
-HMATRIX_MIN_UNKNOWNS = 8192
+HMATRIX_MIN_UNKNOWNS = 1024
 # Leaf clusters hold about this many distinct points: coincident densities
 # (coatings, region interfaces) multiply the unknowns per leaf (at most 512,
 # the inverse tree's leaf limit).
@@ -115,8 +115,7 @@ def minimum_unknowns():
     from ghost_backend.execution.options import environment_value
     raw = environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip()
     if not raw:
-        from ghost_backend.execution.options import automatic_policy_requested, hmatrix_retry_requested
-        return 1024 if automatic_policy_requested() or hmatrix_retry_requested() else HMATRIX_MIN_UNKNOWNS
+        return HMATRIX_MIN_UNKNOWNS
     try:
         value = int(raw)
     except ValueError:

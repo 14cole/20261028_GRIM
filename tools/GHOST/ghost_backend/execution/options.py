@@ -55,33 +55,10 @@ _PUBLIC_DEPTH = ScopedValue('ghost_public_execution_depth',default=0)
 _AUTOMATIC_REQUEST = ScopedValue('ghost_automatic_backend_request', default=False)
 _AUTOMATIC_POLICY = ScopedValue('ghost_automatic_backend_policy', default=False)
 _FACTOR_EVIDENCE = ScopedValue('ghost_measured_factor_evidence', default=None)
-_HMATRIX_RETRY = ScopedValue('ghost_compressed_hmatrix_retry', default=False)
 
 
 def automatic_policy_requested():
     return _AUTOMATIC_POLICY.get()
-
-
-def hmatrix_retry_requested():
-    """An explicit compressed request is being repeated after its tile inverse was rejected."""
-    return _HMATRIX_RETRY.get()
-
-
-def _hmatrix_retry_applies(exc, mode):
-    """A rejected tile-operator inverse that the hierarchical operator may still solve.
-
-    Only an explicit compressed request qualifies, only for a rank or accuracy
-    rejection that did not come from the hierarchical operator itself, and
-    never against a launch threshold override, which states the user's choice
-    (including 0, tiles only).  The retry stays within compressed execution
-    and passes the same memory admission and backward-error gates.
-    """
-    from ghost_backend.linalg.hierarchical import HierarchicalRejected
-    from ghost_backend.compressed.hmatrix import HMatrixRejected
-    # The outermost public call repeats the request, so its result carries the record.
-    return (mode == 'compressed' and _PUBLIC_DEPTH.get() == 1 and not _HMATRIX_RETRY.get() and not _AUTOMATIC_POLICY.get()
-            and isinstance(exc, HierarchicalRejected) and not isinstance(exc, HMatrixRejected)
-            and not environment_value('GHOST_HMATRIX_MIN_UNKNOWNS', '').strip())
 
 
 def automatic_backend_requested():
@@ -715,19 +692,11 @@ def configured_execution(function):
             for index,mode in enumerate(modes):
                 value=dict(value,factorization=mode)
                 attempt_start=time.perf_counter()
-                rejected=None
                 try:
                     with execution_scope(value), request_selection_scope(forecast):
                         result=function(*args,**kwargs)
                 except (MemoryError,BackendNumericalError,LinAlgError) as exc:
-                    if selection is None and _hmatrix_retry_applies(exc, mode):
-                        # Explicit Compressed: the tile inverse hit its rank or
-                        # accuracy limit.  Repeat the request once with the
-                        # hierarchical operator eligible from 1,024 unknowns,
-                        # as Automatic's compressed candidate is.
-                        rejected=dict(error=type(exc).__name__,message=str(exc).split(' Dense override',1)[0],
-                                      wall_seconds=time.perf_counter()-attempt_start)
-                    elif selection is None or index == len(modes)-1:
+                    if selection is None or index == len(modes)-1:
                         raise
                     failures.append(dict(backend=mode,error=type(exc).__name__,message=str(exc),
                                          wall_seconds=time.perf_counter()-attempt_start))
@@ -739,13 +708,6 @@ def configured_execution(function):
                 # Exception tracebacks no longer own failed native workspaces.
                 import gc
                 gc.collect()
-                if rejected is not None:
-                    with _HMATRIX_RETRY.override(True), execution_scope(value), request_selection_scope(forecast):
-                        result=function(*args,**kwargs)
-                    if isinstance(result,dict):
-                        result.setdefault('metadata',{})['compressed_hmatrix_retry']=dict(
-                            rejected_tile_attempt=rejected,hmatrix_minimum_unknowns=1024)
-                    return result
             raise RuntimeError('Automatic backend retry exhausted.')
 
         events = _BLAS_EVENTS.get()

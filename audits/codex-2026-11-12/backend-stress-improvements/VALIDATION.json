@@ -1,0 +1,310 @@
+{
+  "production": [
+    {
+      "case": "dielectric-P2-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "dielectric-P2-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "dielectric-P3-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "dielectric-P3-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-8000-1.8-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-8000-1.8-automatic",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-8000-2.3-automatic",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-8000-2.3-disk-automatic",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-16000-4.8-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-16000-matched-reference",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "ownership-8000-memory-refusal",
+      "expected_refusal": true,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-pec-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-dielectric-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-coated-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-pec-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-dielectric-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "full-fallback-small-coated-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-pec-native",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-pec-disabled",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-diel-native",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-diel-disabled",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-coated-native",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "fallback-h-coated-disabled",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "magnetic-thin-dense",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "magnetic-thin-compressed",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "forced-h-fallback-False",
+      "expected_refusal": false,
+      "passed": true
+    },
+    {
+      "case": "forced-h-fallback-True",
+      "expected_refusal": false,
+      "passed": true
+    }
+  ],
+  "native_fallback": [
+    {
+      "reference": "small-pec-dense",
+      "case": "full-fallback-small-pec-dense",
+      "fields": 38,
+      "relative_max_difference": 1.9707036492212665e-15,
+      "bitwise_equal": false,
+      "fallback_calls": 1
+    },
+    {
+      "reference": "small-dielectric-dense",
+      "case": "full-fallback-small-dielectric-dense",
+      "fields": 38,
+      "relative_max_difference": 2.077258954236227e-15,
+      "bitwise_equal": false,
+      "fallback_calls": 2
+    },
+    {
+      "reference": "small-coated-dense",
+      "case": "full-fallback-small-coated-dense",
+      "fields": 38,
+      "relative_max_difference": 2.847596516692549e-13,
+      "bitwise_equal": false,
+      "fallback_calls": 2
+    },
+    {
+      "reference": "small-pec-compressed",
+      "case": "full-fallback-small-pec-compressed",
+      "fields": 38,
+      "relative_max_difference": 1.9707036492212665e-15,
+      "bitwise_equal": false,
+      "fallback_calls": 1
+    },
+    {
+      "reference": "small-dielectric-compressed",
+      "case": "full-fallback-small-dielectric-compressed",
+      "fields": 38,
+      "relative_max_difference": 1.0705947600061293e-15,
+      "bitwise_equal": false,
+      "fallback_calls": 2
+    },
+    {
+      "reference": "small-coated-compressed",
+      "case": "full-fallback-small-coated-compressed",
+      "fields": 38,
+      "relative_max_difference": 3.615459300517997e-15,
+      "bitwise_equal": false,
+      "fallback_calls": 2
+    },
+    {
+      "reference": "fallback-h-pec-native",
+      "case": "fallback-h-pec-disabled",
+      "fields": 38,
+      "relative_max_difference": 1.8133301363743044e-14,
+      "bitwise_equal": false,
+      "fallback_calls": 224
+    },
+    {
+      "reference": "fallback-h-diel-native",
+      "case": "fallback-h-diel-disabled",
+      "fields": 38,
+      "relative_max_difference": 1.6594532567795274e-11,
+      "bitwise_equal": false,
+      "fallback_calls": 152
+    },
+    {
+      "reference": "fallback-h-coated-native",
+      "case": "fallback-h-coated-disabled",
+      "fields": 38,
+      "relative_max_difference": 4.1457084872882495e-12,
+      "bitwise_equal": false,
+      "fallback_calls": 144
+    }
+  ],
+  "matched_dense_budget": {
+    "reference": "ownership-16000-matched-reference",
+    "case": "ownership-16000-4.8-dense",
+    "fields": 38,
+    "relative_max_difference": 0.0,
+    "bitwise_equal": true
+  },
+  "automatic": [
+    {
+      "case": "ownership-8000-1.8-automatic",
+      "selected": "compressed",
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "compressed",
+        "admitted": [
+          "compressed"
+        ],
+        "budget_gib": 1.8,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {
+          "dense": "outside_memory_margin"
+        },
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 8000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "dense_forecast_gib": 1.7655143737792969
+    },
+    {
+      "case": "ownership-8000-2.3-automatic",
+      "selected": "compressed",
+      "ranking": {
+        "cost_winner": "compressed",
+        "selected": "compressed",
+        "admitted": [
+          "compressed"
+        ],
+        "budget_gib": 2.3,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {
+          "dense": "outside_memory_margin"
+        },
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 8000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "dense_forecast_gib": 2.223663330078125
+    },
+    {
+      "case": "ownership-8000-2.3-disk-automatic",
+      "selected": "dense",
+      "ranking": {
+        "cost_winner": "dense",
+        "selected": "dense",
+        "admitted": [
+          "dense",
+          "compressed"
+        ],
+        "budget_gib": 2.3,
+        "margin_fraction": 0.2,
+        "margin_applied": true,
+        "excluded": {},
+        "dense_preference_applied": false,
+        "dense_preference_enabled": false,
+        "preference_changed_winner": false,
+        "policy": "memory_and_size_v1",
+        "unknowns": 8000,
+        "dense_limit": 10000,
+        "preferred": "dense"
+      },
+      "dense_forecast_gib": 1.7655143737792969
+    }
+  ],
+  "forced_hierarchy_fallback": {
+    "reference": "forced-h-fallback-False",
+    "case": "forced-h-fallback-True",
+    "fields": 38,
+    "relative_max_difference": 9.12802249666886e-14,
+    "bitwise_equal": false
+  },
+  "magnetic_thin_layer": {
+    "reference": "magnetic-thin-dense",
+    "case": "magnetic-thin-compressed",
+    "fields": 38,
+    "relative_max_difference": 4.620496265583561e-14,
+    "bitwise_equal": false
+  }
+}

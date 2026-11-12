@@ -84,8 +84,9 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
         # representation even if a fresh tile forecast would now fit.
         resources = dict(resources, hmatrix_storage=resources['hmatrix_pressure_candidate'],
             memory_pressure_hmatrix=True)
-    def price(storage):
-        plan = forecast(n, d, count, batch, threads, storage, resources, safety, floor_gb)
+    def price(storage, pairing=None):
+        inputs = resources if pairing is None else dict(resources, hmatrix_pairing=pairing)
+        plan = forecast(n, d, count, batch, threads, storage, inputs, safety, floor_gb)
         if live_residency_bytes is not None:
             # Include unexplained live allocations before choosing an automatic
             # payload cap. Adding them afterward can reject a smaller fitting
@@ -109,17 +110,30 @@ def planned_forecast(n, d, count, batch, threads, resources, safety=1., floor_gb
         plan = price(initial)
         plan['storage_policy'] = 'submission_payload_forecast' if auto else 'explicit_payload_cap'
         return plan
-    if auto:
-        ledger = current()
-        reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
+    ledger = current()
+    reservation = int((ledger.stable() if ledger is not None else _solve_memory_limit_gb())*GIB)
     initial = planned_storage_bytes({}, reservation) if auto else storage_budget()
-    plan = price(initial)
-    if auto:
-        allowance = planned_storage_bytes(plan, reservation)
-        plan = price(allowance)
-        plan['storage_policy'] = 'reservation_minus_phase_workspace'
+    if hierarchical_plan:
+        def fixed_plan(pairing):
+            candidate = price(initial, pairing)
+            if auto:
+                allowance = planned_storage_bytes(candidate, reservation)
+                candidate = price(allowance, pairing)
+            return candidate
+        # Fix pairing before solving for the payload remainder. Otherwise the
+        # larger remainder can enable a second operator and invalidate the
+        # single-operator workspace used to compute that very remainder.
+        plan = fixed_plan(True)
+        if plan['peak_bytes'] <= reservation and plan['storage_fits']:
+            plan['pairing_reason'] = 'Paired operators, inverse and phase workspaces fit.'
+        else:
+            plan = fixed_plan(False)
+            plan['pairing_reason'] = 'Separate polarizations avoid an unfunded partner or paired workspace.'
     else:
-        plan['storage_policy'] = 'explicit_payload_cap'
+        plan = price(initial)
+        if auto:
+            plan = price(planned_storage_bytes(plan, reservation))
+    plan['storage_policy'] = 'reservation_minus_phase_workspace' if auto else 'explicit_payload_cap'
     if resources.get('memory_pressure_hmatrix'):
         plan['memory_pressure_hmatrix'] = True
     candidate = resources.get('hmatrix_pressure_candidate')

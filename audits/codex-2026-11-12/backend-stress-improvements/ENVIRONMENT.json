@@ -1,0 +1,38 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "host_memory_bytes": 18882662400,
+  "cgroup": {
+    "memory.max": "17179869184",
+    "cpu.max": "400000 100000"
+  },
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-fdde5778.so",
+      "version": "0.3.30",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ],
+  "default_solve_reservation_gib": 8,
+  "watchdog_process_tree_gib": 10,
+  "desktop_forecast_assumption": "32 GiB installed, 24 GiB one-solve reservation, adequate scratch; not executed on 32 GiB",
+  "lineage": {
+    "production_baseline": "ae08d66dc309c393ce62cc76bacd510a150ebf33",
+    "audit_parent": "bfcd255e76b12fc5ed13b44b1e276c4b7472a5ce",
+    "claude_head_observed": "252e9d3ab1971c6fb8c2d21e839d31ab36e6a54a"
+  }
+}

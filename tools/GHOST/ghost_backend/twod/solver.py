@@ -1714,7 +1714,10 @@ def _estimate_memory_gb(
         slots = {'single_dielectric': 1, 'sheet': 0, 'mixed_sheet_pec': 0,
                  'te_robin': 0, 'robin': 0, 'thin_dielectric_layer': 0}.get(kind,
                  max(0, int(operator_matrices)) if operator_matrices is not None else max(1,n_regions)*(8 if use_cfie else 4))
-        assembly = matrix + 16*slots*n*n + workspace
+        # Only an explicit formulation/rule resource record may remove the
+        # legacy allowance. Name-only/private estimates remain conservative.
+        entries = resources.get('assembly_operator_entries', slots*n*n)
+        assembly = matrix + 16*entries + workspace
 
     extra = CACHE_BYTES + TABLE_BYTES if solver_method == EXPERIMENTAL_METHOD or current_state() is not None else 0
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
@@ -1728,6 +1731,10 @@ def _estimate_memory_gb(
                   ('robin', 'te_robin', 'single_dielectric', 'multi_region', 'sheet',
                    'mixed_sheet_pec', 'thin_dielectric_layer')),
         submission=submission_planning)
+    if 'assembly_direct_destinations' in resources:
+        plan['assembly_ownership'] = {key: resources[key] for key in
+            ('assembly_operator_entries', 'assembly_direct_destinations',
+             'assembly_observer_order', 'assembly_source_order')}
     if dense_resources is not None:
         dense_resources['memory_estimate'] = plan
     if activate_memory_plan:
@@ -2059,6 +2066,8 @@ def _dense_formulation_resources(
     pol: 'str',
     thin_parameters=None,
     sample_compression=True,
+    obs_order=8,
+    src_order=8,
 ) -> 'Dict[str, Any]':
     """Return system dimensions and retained-operator/workspace requirements for the
     selected formulation.
@@ -2112,9 +2121,11 @@ def _dense_formulation_resources(
         storage = storage_resources(mesh, layout)
         operator_matrices = storage['operator_matrices']
     elif _is_single_dielectric_body(infos):
+        from ghost_backend.twod.formulations.dielectric import assembly_resources
         formulation = "single_dielectric"
         system_dofs = 2 * nnodes
         operator_matrices = 2
+        storage = assembly_resources(nnodes, obs_order, src_order)
     elif _is_all_robin(infos):
         formulation = "robin"
         system_dofs = nnodes

@@ -1,0 +1,56 @@
+{
+  "source_sha256": "7d234aff23e53ac0e4bdedf2732cf43875a6e7189222cc0d82159fb9f5a3da63",
+  "changed_files": [
+    "tools/GHOST/NUMERICAL_METHODS.md",
+    "tools/GHOST/ghost_backend/compressed/hmatrix.py",
+    "tools/GHOST/ghost_backend/compressed/memory.py",
+    "tools/GHOST/ghost_backend/compressed/runtime.py",
+    "tools/GHOST/ghost_backend/execution/options.py",
+    "tools/GHOST/ghost_backend/twod/formulations/dielectric.py",
+    "tools/GHOST/ghost_backend/twod/solver.py"
+  ],
+  "native_binaries_unchanged": [
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so",
+      "sha256": "cf05635e0dad323d065befe0d29c2a86f400835d968f686593bf3ace1801d287",
+      "bytes": 91688
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/bor/native/bor_stream_kernel.windows-amd64.dll",
+      "sha256": "f3668662feb457c341b8fc41d44b733659615e6ec010f9298f9a004f0c9ca07b",
+      "bytes": 448835
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_far.dll",
+      "sha256": "aa1bfa7c4eab8de6063818768c586efd03d2c8ce290159f2b473fe7ac27959ff",
+      "bytes": 68536
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_near.dll",
+      "sha256": "8e65a4e613ee3bf83e5b53c9bb6bffdede3fb86b0cb87f5c021a727837e40cb2",
+      "bytes": 68526
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/ghost_table.dll",
+      "sha256": "cf6144a802fac9787ed58b797069b8b97176cf192584c2e088e92a80d7ca628a",
+      "bytes": 24871
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_far.so",
+      "sha256": "aacfc3c069dc67a704609daeba33c2c98a990f7e9bb23fa427a767c588c48709",
+      "bytes": 48568
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_near.so",
+      "sha256": "38445ddcea6ad61bf5650aab851021f2048347e38ddef05eef54f2f03917b2ba",
+      "bytes": 52944
+    },
+    {
+      "path": "tools/GHOST/ghost_backend/twod/assembly/native/libghost_table.so",
+      "sha256": "b8bb1a4af83f3208a0d6ab5a116d0a4125a165a9b90018efcbfc1631939b7fa3",
+      "bytes": 15096
+    }
+  ],
+  "early_explicit_runs_sha256": "dc37e91c015799885dd0d1529ffbe5770147ee3381b100726ba34659ab7ffbe2",
+  "early_difference": "Only the Automatic retry attempt_start timer assignment was absent; explicit numerical paths identical."
+}

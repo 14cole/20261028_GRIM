@@ -299,7 +299,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
     from ghost_backend.compressed.runtime import hmatrix_storage_budget
     limit = hmatrix_storage_budget() if storage_limit is None else storage_limit
     operator, inverse, construction = model['operator_bytes'], model['inverse_bytes'], model['inverse_peak_bytes']
-    paired = 2*operator + inverse <= limit
+    pairing = resources.get('hmatrix_pairing')
+    paired = 2*operator + inverse <= limit if pairing is None else bool(pairing)
     resident = 2*operator if paired else operator
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
     moment_cache = resources.get('moment_cache_bytes', MOMENT_CACHE_BYTES if resources.get('basis_width', 2) > 2 else 0)
@@ -317,9 +318,12 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
     phases = dict(assembly=resident + (resident//operator)*model['assembly_workspace_bytes'] + overhead,
                   factorization=resident + construction + overhead,
                   solve=resident + inverse + solve_work + correction_work + PROJECTION_CACHE_BYTES + overhead)
-    # Reserve paired assembly workspace even when this particular cap admits
-    # only one operator. Enlarging the cap must not invalidate its own forecast.
-    nonstorage = dict(assembly=2*model['assembly_workspace_bytes']+overhead,
+    # Local automatic planning prices fixed paired and separate candidates.
+    # Their payload remainder must reserve the workspace they will actually
+    # use. Unqualified/submission callers keep the old paired reserve so a
+    # later change of payload cap cannot silently invalidate their forecast.
+    assembly_copies = (2 if paired else 1) if pairing is not None else 2
+    nonstorage = dict(assembly=assembly_copies*model['assembly_workspace_bytes']+overhead,
         factorization=max(0, construction-inverse)+overhead,
         solve=solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
@@ -341,7 +345,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
         assembly_workspace_bytes=int(model['assembly_workspace_bytes']),
         assembly_sample_workspace_bytes=int(model.get('assembly_sample_workspace_bytes', 0)),
         adaptive_sample_growth_admitted=bool(model.get('adaptive_sample_growth_admitted', False)),
-        storage_limit_bytes=int(limit), storage_fits=bool(operator + inverse <= limit),
+        storage_limit_bytes=int(limit), storage_fits=bool(resident + inverse <= limit),
+        pairing_fixed=pairing is not None,
         temporary_disk_bytes=0, storage_method=model['method'], sampled=False, samples=0,
         coefficients=int(model['coefficients']), inverse_rank=int(model['inverse_rank']),
         safety=1., floor_gb=float(floor_gb), forecast_is_hard_limit=False)

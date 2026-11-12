@@ -1,0 +1,512 @@
+{
+  "compared_cases": 83,
+  "compared_fields": 3154,
+  "worst_relative_max_difference": 3.4480243619688543e-09,
+  "outcome_changes": [
+    {
+      "case": "pressure-2.0-dense",
+      "before": "MemoryError: The single_dielectric 2-D solve requires an estimated 2.00 GiB, but 14.10 GiB is currently available; the safe allocation limit is 2.00 GiB. Planned system: 8000 DOFs across 2 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+      "after": null
+    }
+  ],
+  "rows": [
+    {
+      "case": "20ft-coated-2GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-coated-2GHz-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-diel-2GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-diel-2GHz-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-10GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-10GHz-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-15GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-15GHz-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-18GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "20ft-pec-2GHz-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 1.1803830514353736e-12
+    },
+    {
+      "case": "20ft-pec-2GHz-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-cavity-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-cavity-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-coated-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-coated-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-diel-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-diel-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-pec-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "certified-pec-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "fallback-small-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "fallback-small-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-coated-1000-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 1.7349560828146621e-10
+    },
+    {
+      "case": "ladder-coated-1000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-coated-3000-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 3.4480243619688543e-09
+    },
+    {
+      "case": "ladder-coated-3000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-coated-6000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-coated-6000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-diel-1000-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 2.958920683357836e-12
+    },
+    {
+      "case": "ladder-diel-1000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-diel-12000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-diel-4000-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 1.0382324048871441e-09
+    },
+    {
+      "case": "ladder-diel-4000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-diel-8000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-diel-8000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-16000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-16000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-2000-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 1.1611114993557157e-12
+    },
+    {
+      "case": "ladder-pec-2000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-24000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-8000-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "ladder-pec-8000-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "large-cavity-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 1.429289264893154e-13
+    },
+    {
+      "case": "large-cavity-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "large-comb-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 5.954846493588382e-13
+    },
+    {
+      "case": "large-comb-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "large-ellipse-dielectric-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 2.880280460561968e-10
+    },
+    {
+      "case": "large-ellipse-dielectric-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "large-multilayer-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 9.023481013975502e-10
+    },
+    {
+      "case": "large-multilayer-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "large-star-coated-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 6.814484804203758e-10
+    },
+    {
+      "case": "large-star-coated-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-high-loss-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-high-loss-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-lossless-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-lossless-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-moderate-loss-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "material-moderate-loss-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "polynomial-2-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 8.963427063006153e-11
+    },
+    {
+      "case": "polynomial-2-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "polynomial-3-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 3.172889730985338e-10
+    },
+    {
+      "case": "polynomial-3-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "pressure-1.0-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "pressure-2.0-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-cavity-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-cavity-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-coated-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-coated-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-comb-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-comb-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-dielectric-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-dielectric-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-high-eps-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-high-eps-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-multilayer-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-multilayer-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-pec-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-pec-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-star-coated-compressed",
+      "fields": 38,
+      "bitwise_equal": false,
+      "relative_max_difference": 5.858327081051409e-11
+    },
+    {
+      "case": "small-star-coated-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-star-pec-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-star-pec-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-thin-coated-compressed",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    },
+    {
+      "case": "small-thin-coated-dense",
+      "fields": 38,
+      "bitwise_equal": true,
+      "relative_max_difference": 0.0
+    }
+  ]
+}

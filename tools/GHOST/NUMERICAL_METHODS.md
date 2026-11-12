@@ -326,16 +326,15 @@ and takes 88 s (11.5 GB).
 
 ## Hierarchical 2-D operator
 
-Explicit compressed execution uses H-matrix from 8,192 unknowns
-(`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`). The new `automatic` policy permits
-it from 1,024 unknowns when compressed execution is selected; this also serves
-smaller memory-limited systems. `GHOST_HMATRIX_MIN_UNKNOWNS` overrides either
-threshold, with 0 disabling H-matrix. Tiles remain for excluded formulations,
+Explicit compressed and `automatic` execution both use H-matrix from 1,024
+unknowns (`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`). This avoids building and
+factoring a tile operator before retrying the same system hierarchically.
+`GHOST_HMATRIX_MIN_UNKNOWNS` overrides this threshold, with 0 disabling H-matrix. Tiles remain for excluded formulations,
 small systems and rejected H-matrix assembly. Automatic prefers admitted dense
 LU below 10,000 forecast unknowns and compressed above; memory admission takes
 precedence. Switching regimes preserves the numerical acceptance gates, not a
-bitwise identity guarantee. The original 8,192 threshold is where the tile operator
-stops being practical: at 10,000 PEC unknowns its retained payload exceeded the
+bitwise identity guarantee. The historical 8,192 threshold reflected where the tile operator
+stopped being practical: at 10,000 PEC unknowns its retained payload exceeded the
 2-GiB default cap, while the hierarchical operator kept 15% of the dense
 storage (dense was 1.2 times faster there; from 15,000 unknowns the
 hierarchical solve of a PEC cylinder was faster than dense, 43 against 50 s).
@@ -401,6 +400,20 @@ the inverse and concurrent assembly workspaces are priced, and the
 forecast is used by the solver's admission gate, the automatic planner, the
 HPC planner and the GUI setup. At the 2,048-MiB default (and at 0) the
 hierarchical storage cap is sized automatically from the solve RAM limit.
+The planner first prices paired TE/TM assembly including both retained
+operators and its paired workspace. If that plan does not fit, it prices
+separate assembly with one operator and one workspace. Each candidate fixes
+its pairing decision before calculating the payload remainder; increasing
+the separate plan's payload allowance cannot silently enable paired assembly.
+Explicit payload limits remain unchanged, and live allocation checks still
+apply. Submission forecasts retain their conservative workspace allowance.
+
+For a single dielectric body with equal observation and source quadrature
+orders, dense assembly scatters its operators directly into the final system
+matrix. The forecast no longer charges an additional standalone single-layer
+matrix on that path. Unequal rules retain that matrix and its allowance.
+Generic or unqualified resource estimates keep the conservative allowance;
+assembly workspace and residual-storage admission are otherwise unchanged.
 
 *Coverage.* Every formulation reached through the compressed coefficient
 oracles is covered: closed PEC/IBC combined potentials, single dielectric
