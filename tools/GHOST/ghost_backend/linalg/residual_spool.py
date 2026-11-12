@@ -8,7 +8,7 @@ import numpy as np
 
 
 class ResidualSpool:
-    block_bytes = 16 * 1024**2
+    block_bytes = 4 * 1024**2
 
     def __init__(self, matrix, directory, checkpoint):
         self.shape, self.dtype, self.ndim = matrix.shape, matrix.dtype, 2
@@ -29,7 +29,7 @@ class ResidualSpool:
 
     # Row blocks of at least this many rows: OpenBLAS products of fewer rows
     # can take seconds on many threads (see execution.options.blas_core_budget).
-    min_block_rows = 256
+    min_block_rows = 64
 
     def _block_rows(self):
         return max(self.min_block_rows, self.block_bytes // (16*self.shape[1]))
@@ -55,12 +55,18 @@ class ResidualSpool:
         if rhs.ndim != 2 or rhs.shape[0] != self.shape[1]:
             raise ValueError('Residual RHS does not match the original matrix.')
         result = np.empty((self.shape[0],rhs.shape[1]),complex)
+        buffer = np.empty((min(self.shape[0], self._block_rows()), self.shape[1]), complex)
         self.file.seek(0)
         for start, stop in self._rows():
             self.checkpoint()
-            block = np.fromfile(self.file,dtype=np.complex128,count=(stop-start)*self.shape[1])
-            if block.size != (stop-start)*self.shape[1]:
-                raise OSError('Original-matrix residual spool is incomplete.')
+            block = buffer[:stop-start]
+            view = memoryview(block).cast('B')
+            offset = 0
+            while offset < len(view):
+                count = self.file.readinto(view[offset:])
+                if not count:
+                    raise OSError('Original-matrix residual spool is incomplete.')
+                offset += count
             result[start:stop] = block.reshape(stop-start,self.shape[1]) @ rhs
         return result[:,0] if vector else result
 
@@ -69,12 +75,18 @@ class ResidualSpool:
 
     def restore_into(self, matrix):
         """Restore an owned assembly buffer needed by the next polarization."""
+        buffer = np.empty((min(self.shape[0], self._block_rows()), self.shape[1]), complex)
         self.file.seek(0)
         for start, stop in self._rows():
             self.checkpoint()
-            block = np.fromfile(self.file,dtype=np.complex128,count=(stop-start)*self.shape[1])
-            if block.size != (stop-start)*self.shape[1]:
-                raise OSError('Original-matrix residual spool is incomplete.')
+            block = buffer[:stop-start]
+            view = memoryview(block).cast('B')
+            offset = 0
+            while offset < len(view):
+                count = self.file.readinto(view[offset:])
+                if not count:
+                    raise OSError('Original-matrix residual spool is incomplete.')
+                offset += count
             matrix[start:stop] = block.reshape(stop-start,self.shape[1])
 
 
@@ -133,7 +145,9 @@ def copy_fits(nbytes, extra_bytes=0):
 
 def require_copy_capacity(nbytes):
     """Fail before allocating an unadmitted fallback matrix copy."""
-    if not copy_fits(nbytes):
+    from ghost_backend.execution.dense_memory import factor_workspace
+    import math
+    if not copy_fits(nbytes, extra_bytes=factor_workspace(math.isqrt(int(nbytes)//16))):
         raise MemoryError('Dense LU and its original-matrix residual copy do not fit the '
                           'remaining solve RAM budget. Use an owned matrix with automatic '
                           'or disk residual storage, or increase the RAM reservation.')
@@ -156,7 +170,10 @@ def auto_spooled(nbytes):
     from ghost_backend.execution.options import allocated_memory_budget, environment_value
     # Explicit reservations apply even below the usual disk-I/O threshold.
     reserved = allocated_memory_budget() is not None or bool(environment_value('GHOST_MAX_SOLVE_GB', '').strip())
-    return (reserved or nbytes >= AUTO_SPOOL_MIN_BYTES) and not copy_fits(nbytes)
+    from ghost_backend.execution.dense_memory import factor_workspace
+    import math
+    return (reserved or nbytes >= AUTO_SPOOL_MIN_BYTES) and not copy_fits(
+        nbytes, extra_bytes=factor_workspace(math.isqrt(int(nbytes)//16)))
 
 
 def selected(matrix, owned, factor_mode):
@@ -166,4 +183,13 @@ def selected(matrix, owned, factor_mode):
     # that finds no room for its copy spools the original like any other.
     eligible = (owned and factor_mode in ('dense', 'auto') and matrix.flags.owndata
                 and matrix.flags.f_contiguous and matrix.flags.writeable)
-    return eligible and (policy == 'disk' or policy == 'auto' and auto_spooled(matrix.nbytes))
+    from ghost_backend.execution.dense_memory import current as dense_plan
+    plan = dense_plan(len(matrix))
+    if plan and plan['residual_storage'] == 'disk':
+        if not eligible:
+            raise MemoryError('Admitted disk residual plan requires an owned writable Fortran matrix.')
+        return True
+    if eligible and policy == 'auto' and auto_spooled(matrix.nbytes):
+        from ghost_backend.execution.dense_memory import scratch_available
+        return scratch_available(matrix.nbytes)[0]
+    return eligible and policy == 'disk'

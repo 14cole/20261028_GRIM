@@ -139,6 +139,8 @@ class DenseFactor:
                 scaling = self._condition_scaling
                 if scaling is None and self.diagnostics is not None:
                     scaling = equilibrated_scaling_and_norm_1(self.a)
+                from ghost_backend.execution.dense_memory import admit_spool
+                admit_spool(self.a)
                 try:
                     spool = ResidualSpool(self.a, temporary_directory(), self.checkpoint)
                 except OSError:

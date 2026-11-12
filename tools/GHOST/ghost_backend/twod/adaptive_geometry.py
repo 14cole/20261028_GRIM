@@ -55,7 +55,7 @@ def protected_vertices(snapshot, scale):
 
 
 def panel_parameters(snapshot, segment, a, b, base_count, fixed_count, refinement, protected,
-                     max_panels=None):
+                     max_panels=None, max_panel_length=None):
     """Coarsen wavelength-based P1 reference counts, preserving explicit counts."""
     key = primitive_key(segment, a, b)
     coarsening = float(snapshot.get('_2d_hp_coarsening', 1.))
@@ -77,6 +77,17 @@ def panel_parameters(snapshot, segment, a, b, base_count, fixed_count, refinemen
     if left and right: t = .5 * (1 - np.cos(np.pi*t))
     elif left: t = t**1.7
     elif right: t = 1 - (1-t)**1.7
+    # Grading increases the longest interval. Split the actual graded intervals,
+    # rather than merely increasing the average count; keep the user's vertices.
+    if not fixed_count and max_panel_length is not None:
+        if not math.isfinite(max_panel_length) or max_panel_length <= 0:
+            raise ValueError('Invalid adaptive maximum panel length.')
+        lengths = np.diff(t) * float(np.linalg.norm(b-a))
+        splits = np.maximum(1, np.ceil(lengths / max_panel_length)).astype(np.int64)
+        if max_panels is not None and int(sum(splits)) > int(max_panels):
+            raise ValueError('Discretization exceeds the configured panel limit.')
+        t = np.concatenate([np.linspace(lo, hi, int(parts)+1)[:-1]
+                            for lo, hi, parts in zip(t[:-1], t[1:], splits)] + [np.array([1.])])
     points = a[None, :] + t[:, None] * (b-a)[None, :]
     # The ends are the primitive's own vertices: a + 1.0*(b - a) can miss b in
     # the last place and split the shared vertex from its neighbor's copy.

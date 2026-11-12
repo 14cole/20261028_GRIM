@@ -202,7 +202,7 @@ def storage_resources(mesh, layout):
 
     near_pairs = mesh_near_pair_count(mesh)
     import ghost_backend.twod.operators as ops
-    tile = ops._assembly_tile_size(len(mesh.elements), 312)
+    tile = ops._assembly_tile_size(len(mesh.elements), 312, planned=False)
     largest_group = max((len(requests) for _, requests in operator_plan(layout)), default=0)
     # Fused W also retains basis-pair Green moments and derivative moments.
     pair_bytes = max(1024, 256*width*width) if combined else 1024

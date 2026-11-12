@@ -175,6 +175,15 @@ optimizations require no additional Python package or higher minimum version.
 The mesh, precision selection, integration tolerances, retained modes, and
 physical acceptance checks keep their existing meanings.
 
+* RAM-constrained CPU Dense runs can automatically keep the full original
+  matrix on temporary disk, use smaller angle batches, and omit an optional
+  second polarization matrix. All requested angles and full residual checks
+  are retained. Fast local scratch helps; disk I/O can trade speed for lower
+  RAM use. Existing `auto`, `memory`, and `disk` settings remain available.
+* Mesh certification requires the base and refined panels to be within the
+  quadrature's qualified electrical-length range. Adaptive meshing enforces
+  that range after corner grading. Explicit panel counts remain unchanged;
+  an unqualified fixed mesh must be made denser before certification.
 * 2-D bistatic batches share bounded observation weights. Compressed dielectric
   coefficient queries fuse common kernel work and reuse the existing angular
   compression hint across compatible frequencies. Near coefficient storage is

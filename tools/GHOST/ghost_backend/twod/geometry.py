@@ -2443,9 +2443,11 @@ def _build_panels(
             if hp:
                 reference_n = _parse_int(base_segment_n[seg_idx], 0) if refinement_factor > 1 else n_prop
                 reference_count = _panel_count_from_n(reference_n, prim_len, wavelength)
+                from ghost_backend.twod.quadrature_quality import CALIBRATED_PANEL_KL_MAX
                 primitive_id, pts = panel_parameters(geometry_snapshot, seg_idx, p0, p1,
                     reference_count, reference_n > 0, refinement_factor, protected,
-                    max_panels=panel_limit - len(panels))
+                    max_panels=panel_limit - len(panels),
+                    max_panel_length=wavelength * CALIBRATED_PANEL_KL_MAX / (2*math.pi) * (1-1e-10))
                 count = len(pts) - 1
             else:
                 if len(panels) + count > panel_limit:

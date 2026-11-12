@@ -269,17 +269,30 @@ temporary disk storage and overwrite its RAM buffer with LU. Every residual
 product still uses every original row; condition scaling is computed before
 overwrite. Original TE coefficients needed for TM assembly are restored from
 the spool into the same buffer after solving. `dense_residual_storage` accepts `auto`, `memory`, or `disk` in the
-2D execution options. The admission estimates price the original next to its
-LU, so `auto` keeps it in memory whenever that copy fits: it spools an eligible
-matrix of at least 512 MiB only when the memory available as the matrix is
-factored cannot hold the copy (plus an eighth, at least 256 MiB), and falls
-back to memory if the spool cannot be created. Every residual product of a
-spooled matrix re-reads the whole file (on the certified 10 GHz airfoil, 64 s
-of 207 s for a 7.8 GB system; kept in memory the run took 145 s within its
-16.7 GB estimate). Non-owned arrays, mixed precision, and hierarchical factors
-retain their existing storage. Spools close on completion or failure. BoR modal
-factors follow the same policy: a mode worker whose copy does not fit factors a
-system of 512 MiB or more in place and computes its residuals from the spool.
+2D execution options. CPU Dense admission records one phase plan per actual
+mesh, including the original/LU storage policy, RHS width, optional paired
+polarization, retained workers and temporary-disk requirement. `auto` keeps
+in-memory residuals when the full forecast fits. With constrained RAM and
+usable disk-backed scratch it prices one owned matrix plus bounded spool buffers,
+then reduces the angle batch if needed; all requested angles are still solved.
+A constrained or disk plan does not retain an optional second TE/TM matrix.
+Automatic assembly tiles are capped at 128 in a constrained plan, while the
+forecast retains the conservative original assembly workspace allowance.
+Explicit tile settings remain respected. Every remesh replans; submitting-host
+forecasts retain both matrices because remote scratch is not yet known.
+
+The spool reads every original row with one reusable buffer (4 MiB target,
+at least 64 rows). Both the copy and spool paths recheck live RAM, including
+the planned RHS workspace. An automatic disk failure can fall back to a copy
+only after RAM admission; explicit `disk` propagates the disk error. Scratch
+checks reject known RAM-backed filesystems (and unknown backing); they cannot
+guarantee future free space, so creation/write failures remain
+checked and fail safely. Every residual product re-reads the full file;
+slower or network scratch can increase runtime. Non-owned arrays, mixed
+precision, GPU and hierarchical factors keep their conservative forecasts
+and existing ownership rules. Spools close on completion or failure. BoR
+retains its existing policy; its shared residual spool uses the same bounded
+read buffer.
 
 Dense 2D systems now use LU by default. Explicit `hierarchical` factorization,
 `GHOST_HIERARCHICAL_MIN_UNKNOWNS` (0 keeps LU), and legacy timing choices retain
@@ -1149,7 +1162,14 @@ that failed at `mode_tol=1e-13` agrees with an explicit cap to 5e-14.
 `N` (`N = -1 .. -3` are refused while `enforce_mesh_density` is on). When the
 floor is off, a mesh with panels beyond `|k| L = 3` is solved with a warning:
 the far and touching rules are calibrated to that length (see below), and an
-exact solve of an inaccurate operator shows no residual symptom.
+exact solve of an inaccurate operator shows no residual symptom. Certification
+now separately requires structured electrical-length qualification of every
+base and refined mesh, both polarizations and all solved frequencies; a small
+warning count cannot bypass it. Adaptive wavelength-based panels are split
+where their actual graded lengths would exceed `|k|L = 3`. Input vertices and
+explicit positive panel counts are preserved. An unqualified fixed mesh can
+still be used for an explicitly uncertified solve, with its warning, but cannot
+receive a mesh-convergence certificate.
 
 *W far rule.* For the linear basis the far order of the hypersingular block is
 graded per tile like S and K'. [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/calibration/) compares

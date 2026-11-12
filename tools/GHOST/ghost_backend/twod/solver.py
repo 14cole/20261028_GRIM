@@ -1164,26 +1164,21 @@ def _is_all_robin(infos: 'List[PanelCoupledInfo]') -> 'bool':
 
 # The far, touching and near quadrature rules are calibrated for panels of at
 # most this electrical length (NUMERICAL_METHODS.md, "2D transmission").
-CALIBRATED_PANEL_KL_MAX = 3.0
+from ghost_backend.twod.quadrature_quality import CALIBRATED_PANEL_KL_MAX, panel_qualification
 
 
 def _note_electrically_long_panels(mesh: 'LinearMesh', infos: 'List[PanelCoupledInfo]', notices) -> 'float':
     """Warn when a panel is longer than the operators' calibrated range.
 
-    Automatic and floor-checked meshes stay near |k|L = 1.6.  A mesh built with
+    Adaptive meshes cap graded panels at |k|L = 3. A mesh built with
     the density floor switched off can exceed 3, where the 8-point far rule of
     S and K' and the 20-point touching rule lose accuracy without any residual
     symptom (1e-7 at |k|L = 8, 1e-2 and worse at 20): the linear system is
     solved exactly for a wrong operator, so the quality gate cannot see it.
     """
-    worst = 0.0
-    count = 0
-    for element, info in zip(mesh.elements, infos):
-        value = float(element.length) * max(abs(complex(info.k_plus)), abs(complex(info.k_minus)))
-        if not math.isfinite(value):
-            continue
-        worst = max(worst, value)
-        count += value > CALIBRATED_PANEL_KL_MAX
+    qualification = panel_qualification(mesh, infos)
+    worst = qualification['maximum_panel_kl']
+    count = qualification['exceeded_panels']
     if count:
         notices.warn_once(
             'Electrically long panels: {} panel(s) exceed |k|L = {:g} (largest {:.3g}). '
@@ -1675,7 +1670,7 @@ def _estimate_memory_gb(
     factorization = factor_mode()
 
     gpu = factorization == 'dense' and (requested == 'gpu' or requested == 'auto' and d >= threshold)
-    batch = count if gpu else min(configured_batch_size(), count)
+    batch = count if gpu else min(configured_batch_size(planned=False), count)
     matrix = 16*d*d
     from ghost_backend.linalg.refined_lu import requested_precision
     if factorization == 'compressed':
@@ -1725,7 +1720,23 @@ def _estimate_memory_gb(
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
     extra += resources.get('moment_cache_bytes', MOMENT_CACHE_BYTES if resources.get('basis_width', 2) > 2 else 0)
     from ghost_backend.compressed.worker_pool import retained_bytes as retained_worker_bytes
-    return (max(assembly, solve) + extra + count*4096 + retained_worker_bytes()) / 1024**3
+    from ghost_backend.execution.dense_memory import forecast as dense_forecast
+    plan = dense_forecast(d, count, batch, assembly, solve,
+        extra + count*4096 + retained_worker_bytes(),
+        eligible=(not gpu and factorization in ('dense', 'auto') and not hierarchical_default
+                  and requested_precision() == 'double' and kind in
+                  ('robin', 'te_robin', 'single_dielectric', 'multi_region', 'sheet',
+                   'mixed_sheet_pec', 'thin_dielectric_layer')),
+        submission=submission_planning)
+    if dense_resources is not None:
+        dense_resources['memory_estimate'] = plan
+    if activate_memory_plan:
+        from ghost_backend.execution.memory_budget import record_plan
+        record_plan(plan)
+    state = current_state()
+    if state is not None and plan not in state.memory_estimates:
+        state.memory_estimates.append(plan)
+    return plan['peak_bytes'] / 1024**3
 
 
 def _has_sheet(infos: 'List[PanelCoupledInfo]') -> 'bool':
@@ -2307,6 +2318,7 @@ def solve_monostatic_rcs_2d_single_polarization(
     mesh_material_flags_used: 'Set[int]' = set()
     panel_count_values: 'List[int]' = []
     surface_wave_sampling = []
+    quadrature_qualification = []
     panel_length_min_values: 'List[float]' = []
     panel_length_max_values: 'List[float]' = []
     elevations_arr = np.asarray(elevations, dtype=float)
@@ -2551,6 +2563,8 @@ def solve_monostatic_rcs_2d_single_polarization(
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
         _note_electrically_long_panels(mesh, coupled_infos, notices)
+        quadrature_qualification.append(dict(panel_qualification(mesh, coupled_infos),
+            frequency_ghz=float(freq_ghz), polarization=pol))
         _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
 
@@ -2586,7 +2600,7 @@ def solve_monostatic_rcs_2d_single_polarization(
         memory_limit_gb = available_system_memory()
         from ghost_backend.execution.angle_batch import recover as recover_angle_batch
         from ghost_backend.execution.cpu import configured_batch_size
-        initial_batch = configured_batch_size()
+        initial_batch = configured_batch_size(planned=False)
         est_gb, memory_limit_gb = recover_angle_batch(est_gb, memory_limit_gb,
             estimate_system_memory, available_system_memory, check_abort, max(1, len(elevations)),
             frequency_ghz=float(freq_ghz), polarization=pol, system_dofs=resources['system_dofs'],
@@ -2875,6 +2889,7 @@ def solve_monostatic_rcs_2d_single_polarization(
         "mesh_max_refractive_index": float(np.max(mesh_max_index_values)) if mesh_max_index_values else 1.0,
         "mesh_material_flags": sorted(mesh_material_flags_used),
         "surface_wave_sampling": surface_wave_sampling,
+        "quadrature_qualification": quadrature_qualification,
         "polarization_internal": pol,
         "polarization_user": _canonical_user_polarization_label(polarization),
         "polarization_aliases": [_canonical_user_polarization_label(polarization)],
@@ -3236,6 +3251,8 @@ def _merge_co_polarized_2d_results(
         "dense_rhs_column_count": sum(m.get('dense_rhs_column_count', 0) for m in channel_metadata.values()),
         "dense_max_rhs_columns": max(m.get('dense_max_rhs_columns', 0) for m in channel_metadata.values()),
         "thin_layer": {label: channel_metadata[label].get("thin_layer", []) for label in expected_channels},
+        "quadrature_qualification": [record for label in expected_channels
+                                     for record in channel_metadata[label].get("quadrature_qualification", [])],
         "surface_wave_sampling": [record for label in expected_channels
                                   for record in channel_metadata[label].get('surface_wave_sampling', [])],
         "amplitude_version": RCS_AMPLITUDE_VERSION,
@@ -3629,6 +3646,7 @@ def solve_bistatic_rcs_2d_single_polarization(
     thin_layer_evidence = []
     panel_counts = []
     surface_wave_sampling = []
+    quadrature_qualification = []
     mesh_wavelength_values: 'List[float]' = []
     mesh_max_index_values: 'List[float]' = []
     mesh_material_flags_used: 'Set[int]' = set()
@@ -3701,6 +3719,8 @@ def solve_bistatic_rcs_2d_single_polarization(
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
         _note_electrically_long_panels(mesh, coupled_infos, notices)
+        quadrature_qualification.append(dict(panel_qualification(mesh, coupled_infos),
+            frequency_ghz=float(freq_ghz), polarization=pol))
         _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
         nnodes = len(mesh.nodes)
@@ -3857,6 +3877,7 @@ def solve_bistatic_rcs_2d_single_polarization(
         "mesh_max_refractive_index": float(np.max(mesh_max_index_values)) if mesh_max_index_values else 1.0,
         "mesh_material_flags": sorted(mesh_material_flags_used),
         "surface_wave_sampling": surface_wave_sampling,
+        "quadrature_qualification": quadrature_qualification,
         "residual_norm_max": residual_norm_max,
         "residual_norm_mean": residual_norm_mean,
         "residual_nonfinite_count": residual_nonfinite_count,
@@ -4049,6 +4070,7 @@ def _run_certified_2d_pair_impl(
     with solve_phase('Base mesh'):
         base_result = low_level_solver(**base_kwargs)
     _require_surface_wave_sampling(base_result, 'base')
+    _require_quadrature_qualification(base_result, 'base')
 
     fine_snapshot = scale_snapshot_panel_density(
         geometry_snapshot, policy["fine_factor"]
@@ -4101,6 +4123,15 @@ def _finish_certified_2d_pair(base_result, fine_result, policy):
     return _certify_2d_results(base_result, fine_result, policy)
 
 
+def _require_quadrature_qualification(result, phase):
+    records = result.get('metadata', {}).get('quadrature_qualification', [])
+    if not records or any(not record.get('qualified', False) for record in records):
+        raise ValueError('Certified 2-D mesh convergence failed: boundary-integral '
+            f'quadrature is not qualified on the {phase} mesh. Every panel must be '
+            f'within |k|L <= {CALIBRATED_PANEL_KL_MAX:g} in both adjacent media at '
+            'every solved frequency. Increase panel density before certification.')
+
+
 def _require_surface_wave_sampling(result, phase):
     """Do not certify a short-wavelength plateau from two unresolved meshes."""
     for record in result.get('metadata', {}).get('surface_wave_sampling', []):
@@ -4122,7 +4153,9 @@ def _require_surface_wave_sampling(result, phase):
 def _certify_2d_results(base_result, fine_result, policy):
     from ghost_backend.runs.quality import evaluate_mesh_convergence
     _require_surface_wave_sampling(base_result, 'base')
+    _require_quadrature_qualification(base_result, 'base')
     _require_surface_wave_sampling(fine_result, 'fine')
+    _require_quadrature_qualification(fine_result, 'fine')
     base_panel_count = int(
         base_result.get("metadata", {}).get("panel_count", 0) or 0
     )
@@ -4158,6 +4191,9 @@ def _certify_2d_results(base_result, fine_result, policy):
     mesh_gate["fine_factor"] = policy["fine_factor"]
     mesh_gate["published_mesh"] = "fine"
     mesh_gate["geometry_model"] = "piecewise_linear_input"
+    mesh_gate["quadrature_qualification_checked"] = True
+    mesh_gate["base_quadrature_qualification"] = base_result["metadata"]["quadrature_qualification"]
+    mesh_gate["fine_quadrature_qualification"] = fine_result["metadata"]["quadrature_qualification"]
     mesh_gate["geometry_approximation_certified"] = False
     mesh_gate['surface_wave_sampling_checked'] = bool(
         base_result.get('metadata', {}).get('surface_wave_sampling') or

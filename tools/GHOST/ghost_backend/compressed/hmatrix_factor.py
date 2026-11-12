@@ -27,6 +27,7 @@ from ghost_backend.execution.options import factor_blas_threads, option
 # of the tile backend's cross approximation; storage still caps the build.
 MAX_INVERSE_RANK = 2048
 PROBES = 8
+PROJECTION_COLUMNS = 64
 
 
 class _RangeBlock:
@@ -40,11 +41,25 @@ class _RangeBlock:
         return self.operator.range_matmul(self.r0, self.r1, self.c0, self.c1, np.asarray(rhs, complex))
 
     def project(self, basis):
-        return self.operator.range_matmul(self.r0, self.r1, self.c0, self.c1, np.asarray(basis, complex),
-                                          adjoint=True).conj().T
+        basis = np.asarray(basis, complex)
+        width = basis.shape[1]
+        # The caller prices the full output separately. Only the operator's
+        # adjoint product temporaries are bounded by this column block size.
+        result = np.empty((width, self.shape[1]), dtype=np.complex128)
+        for start in range(0, width, PROJECTION_COLUMNS):
+            self.checkpoint()
+            stop = min(width, start + PROJECTION_COLUMNS)
+            result[start:stop] = self.operator.range_matmul(
+                self.r0, self.r1, self.c0, self.c1, basis[:, start:stop], adjoint=True).conj().T
+        return result
 
     def product_workspace(self, width, adjoint=False):
-        return self.operator.range_workspace_bytes(self.r0, self.r1, self.c0, self.c1, width, adjoint)
+        active_width = min(width, PROJECTION_COLUMNS) if adjoint else width
+        required = self.operator.range_workspace_bytes(
+            self.r0, self.r1, self.c0, self.c1, active_width, adjoint)
+        # Conjugating the adjoint result briefly holds two block outputs after
+        # the range tasks finish, even for a structurally empty range.
+        return max(required, 32*self.shape[1]*active_width) if adjoint else required
 
 
 def _span(positions):

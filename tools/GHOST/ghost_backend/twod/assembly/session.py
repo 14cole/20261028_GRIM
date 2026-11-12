@@ -61,6 +61,8 @@ def plan_paired_assembly(polarization, formulation, dofs, estimated_gib, limit_g
         polarization == 'TE' and session.copolarized and formulation == 'multi_region'
         and factor_mode() == 'dense'
         and estimated_gib + 16.0 * dofs * dofs / 1024**3 <= limit_gib)
+    from ghost_backend.execution.dense_memory import pair
+    session.pair_dense = pair(dofs, session.pair_dense)
     return session.pair_dense
 
 
@@ -122,4 +124,6 @@ def system_key(mesh, infos, kind, obs_order, src_order):
     media = tuple((i.minus_region, i.plus_region, i.bc_kind, complex(i.k_minus),
                    complex(i.k_plus), complex(i.eps_minus), complex(i.eps_plus),
                    complex(i.mu_minus), complex(i.mu_plus), complex(i.robin_impedance)) for i in infos)
-    return kind, mesh_key(mesh), media, int(obs_order), int(src_order)
+    from ghost_backend.execution.dense_memory import assembly_tile_setting
+    from ghost_backend.twod.operators import _ASSEMBLY_TILE
+    return kind, mesh_key(mesh), media, int(obs_order), int(src_order), assembly_tile_setting(_ASSEMBLY_TILE)

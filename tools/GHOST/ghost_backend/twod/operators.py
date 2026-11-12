@@ -1950,7 +1950,7 @@ def get_assembly_threads() -> 'int':
     return int(effective_assembly_threads(_ASSEMBLY_THREADS))
 
 
-def _assembly_tile_size(nelems: 'int', bytes_per_entry: 'int') -> 'int':
+def _assembly_tile_size(nelems: 'int', bytes_per_entry: 'int', planned=True) -> 'int':
     """Pick an element-tile edge so one tile's working set stays cache-sized.
 
     When assembly threads are enabled the tile is also capped so there are
@@ -1960,8 +1960,10 @@ def _assembly_tile_size(nelems: 'int', bytes_per_entry: 'int') -> 'int':
     starve threads and hand them wildly unequal work.
     """
 
-    if option('assembly_tile', _ASSEMBLY_TILE) > 0:
-        return max(1, min(int(nelems), option('assembly_tile', _ASSEMBLY_TILE)))
+    from ghost_backend.execution.dense_memory import assembly_tile_setting
+    setting = assembly_tile_setting(_ASSEMBLY_TILE, planned=planned)
+    if setting > 0:
+        return max(1, min(int(nelems), setting))
     if nelems <= 192:
         return int(nelems)
     entries = float(_ASSEMBLY_TILE_TARGET_BYTES) / float(max(1, int(bytes_per_entry)))
