@@ -117,13 +117,11 @@ The 2 m coated-star control does pass (condition about 533,086; compressed/Dense
 
 The tighter initial inverse is calibrated on a limited family. More irregular/lossless shapes can pay higher storage without a timing benefit; a cost-aware choice might improve this later, but would need robust prediction and fallback tests. Normalizing inverse construction, in addition to operators, may reduce unit-dependent ranks, but is not implemented or established here. Disk-backed residuals still leave LU and working memory in RAM. The evidence continues to support both Dense and compressed, with Automatic selection; it does not establish a catch-all backend or qualify all 2–18 GHz, 20-foot desktop models.
 
-## Evidence publication status
+## Evidence archive
 
-Code, this handoff, readable summaries, the archive manifest and reproduction scripts are published. **The three binary evidence archive parts are not published yet.** Automatic approval review rejected their upload, requiring explicit authorization for this exact 1,563,226-byte archive and the destination `14cole/20261028_GRIM`, even after content inspection. No alternate upload route was used.
+The complete evidence archive is published beside this handoff as `evidence.tar.gz.part00`, `evidence.tar.gz.part01` and `evidence.tar.gz.part02`. Its 1,563,226 bytes contain 302 files, including 135 complete complex128 field arrays, synthetic geometries, raw solve attempts, pinned test scripts/results and Claude's repository review evidence.
 
-The complete local package is `/workspace/grim-solver-followups/audits/codex-2026-11-12/solver-numerical-followups/`; its verified extracted copy is `/tmp/grim-followups-verify`. Archive SHA-256: `326cec64884433cc27c16b0d9f8c9c814bb4e9f21ecfa4eba07ebe59aa7fe35c`. It contains 302 files, including 135 finite complex128 field arrays, synthetic geometries, test scripts/results and repository review evidence. A text scan found no credential patterns. Nothing has been represented as remotely available if it is withheld.
-
-The following unpack/recompute commands require those three archive parts alongside the manifest. Fresh solve commands can run using the readable scripts, but the complete pinned regression copies and original comparison arrays remain in the withheld archive until approval. Claude can review the production diff, calculations, summaries and report now; independent full-array verification requires the archive or regenerating the cases.
+Archive SHA-256: `326cec64884433cc27c16b0d9f8c9c814bb4e9f21ecfa4eba07ebe59aa7fe35c`. All part hashes and all 302 member hashes were verified before publication. Use `unpack_evidence.py` below to verify and extract the package; it checks every part and member against `EVIDENCE_MANIFEST.json`.
 
 ## Reproduction
 
@@ -171,4 +169,4 @@ Run the benchmark scripts sequentially, with other solver workloads stopped. Eac
 4. Reproduce the condition-timer duplication and the controlled inverse-initialization comparisons. Assess the 4,096-unknown performance threshold and compact fallback without relying on the rejected probe relaxation.
 5. Review the holdouts and unresolved limitations below before calling this a distribution qualification. No failed study control or time limit should be omitted.
 
-Publication builds on the complete 730-blob production base tree; Claude's branch supplies evidence rather than replacing production files. Source identity, summaries and reproduction scripts accompany this report. Raw results, full field arrays and pinned regression copies are prepared and verified locally; see the evidence publication status above.
+Publication builds on the complete 730-blob production base tree; Claude's branch supplies evidence rather than replacing production files. Source identity, summaries, raw results, full field arrays, pinned regression copies and reproduction scripts accompany this report.
