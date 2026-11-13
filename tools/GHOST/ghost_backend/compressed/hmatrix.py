@@ -25,6 +25,7 @@ import scipy.linalg as la
 from ghost_backend.linalg.hierarchical import spatial_order, HierarchicalRejected
 from ghost_backend.execution.metrics import timed_stage
 from ghost_backend.execution.runtime import ScopedValue
+from ghost_backend.linalg.products import adjoint_product
 
 # Unknowns from which the compressed backend assembles this operator instead
 # of evaluating every coefficient tile (see NUMERICAL_METHODS.md, "Hierarchical
@@ -1133,8 +1134,8 @@ class HMatrixOperator:
                 out[row.start:row.stop] += value
             self._passes(visit)
             return out
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
         from ghost_backend.compressed.operator import _thread_budget
         workers = min(8, _thread_budget())
         batch_bytes = max(1, ADJOINT_BATCH_BYTES // workers)
@@ -1154,7 +1155,7 @@ class HMatrixOperator:
             for row in batch:
                 self.checkpoint()
                 y = x[row.start:row.stop]
-                values.append(adj(row.u) @ y if row.v is None else adj(row.v) @ (adj(row.u) @ y))
+                values.append(product(row.u, y) if row.v is None else product(row.v, product(row.u, y)))
             return values
         # Batches keep BLAS jobs coarse enough to amortize dispatch. At most
         # one batch per worker is retained, reduced in the original order.
@@ -1215,8 +1216,8 @@ class HMatrixOperator:
         row_order, col_order = np.argsort(rows, kind='stable'), np.argsort(cols, kind='stable')
         sorted_rows, sorted_cols = rows[row_order], cols[col_order]
         x = np.asarray(x)
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
         if trans == 0:
             result = np.zeros((len(rows), x.shape[1]), complex)
         else:
@@ -1231,8 +1232,8 @@ class HMatrixOperator:
                 result[row_order[selected_rows]] += u[:, local_cols] @ rhs if row.v is None else u @ (row.v[:, local_cols] @ rhs)
             else:
                 rhs = x[row_order[selected_rows]]
-                result[col_order[selected_cols]] += (adj(u[:, local_cols]) @ rhs if row.v is None
-                                                     else adj(row.v[:, local_cols]) @ (adj(u) @ rhs))
+                result[col_order[selected_cols]] += (product(u[:, local_cols], rhs) if row.v is None
+                                                     else product(row.v[:, local_cols], product(u, rhs)))
         return result
 
     def _within(self, r0, r1, c0, c1):

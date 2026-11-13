@@ -1,0 +1,26 @@
+--- far.c
++++ far.c
+@@ -70,16 +70,13 @@
+     }
+     double x = (r - bounds[lo]) / (bounds[lo + 1] - bounds[lo]);
+     const double *base = t->coeff + (int64_t)lo * (degree + 1) * 4;
+-    for (int c = 0; c < 2; ++c) {
+-        int offset = 2 * c;
+-        double re = base[4 * degree + offset], im = base[4 * degree + offset + 1];
+-        for (int j = degree - 1; j >= 0; --j) {
+-            re = re * x + base[4 * j + offset];
+-            im = im * x + base[4 * j + offset + 1];
+-        }
+-        out[2 * c] = re;
+-        out[2 * c + 1] = im;
+-    }
++    /* Advance independent lanes without changing each recurrence. */
++    double lane[4];
++    for (int c = 0; c < 4; ++c) lane[c] = base[4 * degree + c];
++    for (int j = degree - 1; j >= 0; --j)
++        for (int c = 0; c < 4; ++c)
++            lane[c] = lane[c] * x + base[4 * j + c];
++    for (int c = 0; c < 4; ++c) out[c] = lane[c];
+     return 0;
+ }
+ 

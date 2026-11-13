@@ -11,6 +11,7 @@ import os
 import numpy as np
 import scipy.linalg as la
 from ghost_backend.linalg.workspace import matrix_inf_norm
+from ghost_backend.linalg.products import adjoint_product
 
 
 class HierarchicalRejected(BackendNumericalError):
@@ -402,13 +403,13 @@ class Node:
             z1 -= self.e1 @ correction[:r]
             z2 -= self.e2 @ correction[r:]
             return
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
-        small = np.vstack((adj(self.e1) @ b[:n], adj(self.e2) @ b[n:]))
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
+        small = np.vstack((product(self.e1, b[:n]), product(self.e2, b[n:])))
         correction = la.lu_solve(self.lu, small, trans=trans, check_finite=False)
         r = self.e1.shape[1]
-        result[:n] = b[:n]-adj(self.v21) @ correction[r:]
-        result[n:] = b[n:]-adj(self.v12) @ correction[:r]
+        result[:n] = b[:n]-product(self.v21, correction[r:])
+        result[n:] = b[n:]-product(self.v12, correction[:r])
         self.left.solve_into(result[:n], result[:n], trans)
         self.right.solve_into(result[n:], result[n:], trans)
 
