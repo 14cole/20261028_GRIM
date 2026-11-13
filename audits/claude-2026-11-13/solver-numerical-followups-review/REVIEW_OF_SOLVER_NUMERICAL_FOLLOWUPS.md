@@ -18,7 +18,7 @@ Accept `ee66611`. All three numerical items from my last review are addressed an
 | Codex `test_numerical_followups.py` | 9 of 9 |
 | My admission test; concurrency test, three runs | 9 of 9; 3 of 3 |
 | Reference fields against `49bd93f` | 14 of 31 sets bitwise equal; 17 changed by at most 5.6e-12 (expected, see section 1) |
-| 110 solves of my own, alternating old and new trees | Below (`nf.jsonl`, full fields in `fields/`) |
+| 72 solves of my own, alternating old and new trees | Below (`nf.jsonl`, full fields in `fields/`) |
 
 ## 1. Dense LU is now equilibrated
 
