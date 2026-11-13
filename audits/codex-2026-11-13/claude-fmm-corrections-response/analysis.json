@@ -1,0 +1,63 @@
+{
+  "metric_maxima_match_exactly": true,
+  "scale_counterexample_verified": true,
+  "comparisons": [
+    {
+      "method": "compressed",
+      "field_relative_max_error": 2.457124575792788e-13,
+      "density_relative_max_error": 2.890106235704439e-10
+    },
+    {
+      "method": "fmm",
+      "field_relative_max_error": 1.507579901551701e-14,
+      "density_relative_max_error": 1.0819013591802885e-11
+    }
+  ],
+  "exact_row_backward_errors": [
+    6.434876351614093e-17,
+    2.5283647997691877e-17
+  ],
+  "external_timings": {
+    "dense": {
+      "rc": 0,
+      "wall_s": 71.73194142899956,
+      "peak_gib": 2.1321868896484375,
+      "cpu_s": 71.565698,
+      "spec": {
+        "n": 4096,
+        "k": 80,
+        "pol": "TE",
+        "out": "results/matched-dense"
+      }
+    },
+    "compressed": {
+      "rc": 0,
+      "wall_s": 46.177854618999845,
+      "peak_gib": 0.5547676086425781,
+      "cpu_s": 46.107168,
+      "spec": {
+        "n": 4096,
+        "k": 80,
+        "pol": "TE",
+        "out": "results/matched-compressed"
+      }
+    },
+    "fmm": {
+      "rc": 0,
+      "wall_s": 282.02017954599796,
+      "peak_gib": 0.364532470703125,
+      "cpu_s": 281.38520300000005,
+      "spec": {
+        "n": 4096,
+        "k": 80,
+        "pol": "TE",
+        "out": "results/matched-fmm",
+        "op_tol": 0.01,
+        "inv_tol": 0.01,
+        "detach_operator": true
+      }
+    }
+  },
+  "fmm_time_ratio": 6.107260327983296,
+  "fmm_peak_saving": 0.3429095984982362
+}
