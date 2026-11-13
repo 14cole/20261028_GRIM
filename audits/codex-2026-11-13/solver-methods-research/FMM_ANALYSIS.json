@@ -1,0 +1,920 @@
+{
+  "points": [
+    {
+      "n": 128000,
+      "ghz": 15,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-128000-15-1.npy",
+      "seconds": 10.006155357001262,
+      "error": null,
+      "sampled_relative_max": 9.150276600441209e-14,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.052417755126953125,
+      "fmm_peak_rss_gib": 0.4497261047363281,
+      "dense_equivalent_gib": 244.140625,
+      "peak_rss_gib": 0.4497261047363281,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 128000,
+      "ghz": 2,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-128000-2-1.npy",
+      "seconds": 5.1981936219999625,
+      "error": null,
+      "sampled_relative_max": 7.66809424245417e-15,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.052227020263671875,
+      "fmm_peak_rss_gib": 0.4286918640136719,
+      "dense_equivalent_gib": 244.140625,
+      "peak_rss_gib": 0.4286918640136719,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 2000,
+      "ghz": 2,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-2000-2-1.npy",
+      "seconds": 0.09819213499940815,
+      "error": null,
+      "sampled_relative_max": 1.2560826694243201e-14,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.044612884521484375,
+      "fmm_peak_rss_gib": 0.051525115966796875,
+      "dense_equivalent_gib": 0.059604644775390625,
+      "peak_rss_gib": 0.051525115966796875,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 32000,
+      "ghz": 15,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-32000-15-1.npy",
+      "seconds": 1.5949456630005443,
+      "error": null,
+      "sampled_relative_max": 1.3172324047413377e-13,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.045429229736328125,
+      "fmm_peak_rss_gib": 0.15526962280273438,
+      "dense_equivalent_gib": 15.2587890625,
+      "peak_rss_gib": 0.15526962280273438,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 32000,
+      "ghz": 2,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-32000-2-1.npy",
+      "seconds": 1.221025044000271,
+      "error": null,
+      "sampled_relative_max": 1.618548138782319e-14,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.045246124267578125,
+      "fmm_peak_rss_gib": 0.13616943359375,
+      "dense_equivalent_gib": 15.2587890625,
+      "peak_rss_gib": 0.13616943359375,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 8000,
+      "ghz": 15,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-8000-15-1.npy",
+      "seconds": 0.5019943639999838,
+      "error": null,
+      "sampled_relative_max": 1.0357953092191812e-13,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.044620513916015625,
+      "fmm_peak_rss_gib": 0.08168411254882812,
+      "dense_equivalent_gib": 0.95367431640625,
+      "peak_rss_gib": 0.08168411254882812,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 8000,
+      "ghz": 2,
+      "rhs": 1,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-8000-2-1.npy",
+      "seconds": 0.3538823669987323,
+      "error": null,
+      "sampled_relative_max": 9.848844092598828e-15,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.045070648193359375,
+      "fmm_peak_rss_gib": 0.06627655029296875,
+      "dense_equivalent_gib": 0.95367431640625,
+      "peak_rss_gib": 0.06627655029296875,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 8000,
+      "ghz": 2,
+      "rhs": 32,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-8000-2-32.npy",
+      "seconds": 6.865353449000395,
+      "error": null,
+      "sampled_relative_max": 1.2208001293866353e-14,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.05223846435546875,
+      "fmm_peak_rss_gib": 0.706298828125,
+      "dense_equivalent_gib": 0.95367431640625,
+      "peak_rss_gib": 0.706298828125,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    },
+    {
+      "n": 8000,
+      "ghz": 2,
+      "rhs": 8,
+      "eps": 1e-12,
+      "out": "/workspace/solver-methods-evidence/fmm-points-8000-2-8.npy",
+      "seconds": 1.6197359210018476,
+      "error": null,
+      "sampled_relative_max": 9.482150662612913e-15,
+      "checked_targets": 32,
+      "baseline_peak_rss_gib": 0.04602813720703125,
+      "fmm_peak_rss_gib": 0.21258163452148438,
+      "dense_equivalent_gib": 0.95367431640625,
+      "peak_rss_gib": 0.21258163452148438,
+      "kind": "point_kernel_only_not_a_galerkin_solve"
+    }
+  ],
+  "systems": [
+    {
+      "n": 128,
+      "k": 3.0,
+      "kind": "PEC",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-PEC-128-3.0",
+      "operator_relative_max_error": 2.0581462195073477e-15,
+      "dense_reference_solve_seconds": 0.0007909080013632774,
+      "operator_setup_seconds": 0.15730270799758728,
+      "operator_retained_bytes_partial": 225304,
+      "fmm_calls": 206,
+      "condition_1_scaled": 36.317753319769096,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 8.010028977878392e-07,
+          "solve_seconds": 2.614325097998517,
+          "iterations": [
+            12,
+            12,
+            13
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.0191102404076292e-13,
+          "scaled_backward_error": 1.9665514176832273e-13,
+          "field_relative_max_error": 7.196594484598479e-13,
+          "analytic_backscatter_relative_error": 0.0012261520332942505,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 7.196594484598479e-13
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 71212,
+          "preconditioner_setup_seconds": 0.0013406859980023,
+          "solve_seconds": 4.068812143999821,
+          "iterations": [
+            18,
+            20,
+            19
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.0938865765809348e-13,
+          "scaled_backward_error": 1.8196935050200044e-13,
+          "field_relative_max_error": 1.6567117720451324e-14,
+          "analytic_backscatter_relative_error": 0.0012261520332944686,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 1.6567117720451324e-14
+        }
+      ],
+      "wall_seconds": 7.22642056100085,
+      "peak_rss_gib": 0.08161544799804688,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 256,
+      "k": 20.0,
+      "kind": "PEC",
+      "star": true,
+      "out": "/workspace/solver-methods-evidence/fmm-system-PEC-256-20.0",
+      "incident_angles": [
+        0.0
+      ],
+      "gmres_restart": 80,
+      "gmres_max_cycles": 2,
+      "operator_relative_max_error": 3.1413186405860027e-15,
+      "dense_reference_solve_seconds": 0.002664634997927351,
+      "operator_setup_seconds": 0.48899316899769474,
+      "operator_retained_bytes_partial": 452504,
+      "fmm_calls": 324,
+      "condition_1_scaled": 150.17203182187473,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.18200114229694e-06,
+          "solve_seconds": 12.78223228799834,
+          "iterations": [
+            71
+          ],
+          "statuses": [
+            0
+          ],
+          "physical_backward_error": 6.128866719019968e-14,
+          "scaled_backward_error": 7.391151211361805e-14,
+          "field_relative_max_error": 1.8073426501534014e-13,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 1.8073426501534014e-13
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 170556,
+          "preconditioner_setup_seconds": 0.004615152996848337,
+          "solve_seconds": 15.967358884998248,
+          "iterations": [
+            87
+          ],
+          "statuses": [
+            0
+          ],
+          "physical_backward_error": 7.983287837532642e-14,
+          "scaled_backward_error": 8.300152390958127e-14,
+          "field_relative_max_error": 2.0038942227186834e-13,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 2.0038942227186834e-13
+        }
+      ],
+      "wall_seconds": 30.32901360499818,
+      "peak_rss_gib": 0.088409423828125,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 64,
+      "k": 3.0,
+      "kind": "PEC",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-PEC-64-3.0",
+      "operator_relative_max_error": 9.670955833785805e-16,
+      "dense_reference_solve_seconds": 0.0005084699987492058,
+      "operator_setup_seconds": 0.11037646399927326,
+      "operator_retained_bytes_partial": 112664,
+      "fmm_calls": 190,
+      "condition_1_scaled": 32.16148954957471,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 9.300019883085042e-07,
+          "solve_seconds": 2.0802928789998987,
+          "iterations": [
+            15,
+            14,
+            14
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.2821330625222914e-13,
+          "scaled_backward_error": 2.1675521961853986e-13,
+          "field_relative_max_error": 7.026949247272288e-13,
+          "analytic_backscatter_relative_error": 0.004905188245717417,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 7.026949247272288e-13
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 39720,
+          "preconditioner_setup_seconds": 0.001171348001662409,
+          "solve_seconds": 2.1537190369999735,
+          "iterations": [
+            15,
+            15,
+            15
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 1.1188615220100697e-14,
+          "scaled_backward_error": 1.3229467867665906e-14,
+          "field_relative_max_error": 4.573908991315356e-15,
+          "analytic_backscatter_relative_error": 0.004905188245718513,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 4.573908991315356e-15
+        }
+      ],
+      "wall_seconds": 4.600697390000278,
+      "peak_rss_gib": 0.07598114013671875,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 128,
+      "k": 12.0,
+      "kind": "TE",
+      "star": true,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TE-128-12.0",
+      "operator_relative_max_error": 1.540851027666565e-15,
+      "dense_reference_solve_seconds": 0.003144338999845786,
+      "operator_setup_seconds": 0.9146773809989099,
+      "operator_retained_bytes_partial": 464048,
+      "fmm_calls": 5004,
+      "condition_1_scaled": 670.3161387118806,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 9.979994501918554e-07,
+          "solve_seconds": 200.050552804998,
+          "iterations": [
+            182,
+            223,
+            225
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 1.3364517616320363e-14,
+          "scaled_backward_error": 3.8574176078159265e-14,
+          "field_relative_max_error": 1.2654961160865303e-12,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 1.2654961160865303e-12
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 328036,
+          "preconditioner_setup_seconds": 0.00395067999852472,
+          "solve_seconds": 59.56698642500123,
+          "iterations": [
+            76,
+            57,
+            57
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.5177780291886483e-15,
+          "scaled_backward_error": 2.9966118329681137e-14,
+          "field_relative_max_error": 3.064579801467902e-13,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.064579801467902e-13
+        }
+      ],
+      "wall_seconds": 262.1709694389974,
+      "peak_rss_gib": 0.09414291381835938,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 128,
+      "k": 3.0,
+      "kind": "TE",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TE-128-3.0",
+      "operator_relative_max_error": 2.0493875284412503e-15,
+      "dense_reference_solve_seconds": 0.002341405001061503,
+      "operator_setup_seconds": 0.49326481699972646,
+      "operator_retained_bytes_partial": 450608,
+      "fmm_calls": 1104,
+      "condition_1_scaled": 379.7101852668861,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.1140000424347818e-06,
+          "solve_seconds": 19.64358132399866,
+          "iterations": [
+            28,
+            28,
+            28
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 7.922118630318018e-14,
+          "scaled_backward_error": 6.191462224788986e-14,
+          "field_relative_max_error": 6.069888962208799e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.005657555823878656,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 6.069888962208799e-15
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 328456,
+          "preconditioner_setup_seconds": 0.003289887998107588,
+          "solve_seconds": 21.138060200999462,
+          "iterations": [
+            31,
+            31,
+            31
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.2476813194130454e-14,
+          "scaled_backward_error": 7.71647274705209e-14,
+          "field_relative_max_error": 7.760479169820413e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.0056575558238652,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 7.760479169820413e-15
+        }
+      ],
+      "wall_seconds": 42.65316964399972,
+      "peak_rss_gib": 0.09388351440429688,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 64,
+      "k": 3.0,
+      "kind": "TE",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TE-64-3.0",
+      "operator_relative_max_error": 1.8959916753904266e-15,
+      "dense_reference_solve_seconds": 0.00107491600283538,
+      "operator_setup_seconds": 0.37668451499848743,
+      "operator_retained_bytes_partial": 225328,
+      "fmm_calls": 924,
+      "condition_1_scaled": 155.88824294621912,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.0309995559509844e-06,
+          "solve_seconds": 15.675855527999374,
+          "iterations": [
+            30,
+            30,
+            30
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 4.351334847019298e-14,
+          "scaled_backward_error": 6.465567210632711e-14,
+          "field_relative_max_error": 3.869309872275953e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.022643585952440703,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.869309872275953e-15
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 155912,
+          "preconditioner_setup_seconds": 0.0019232760023442097,
+          "solve_seconds": 8.89238456699968,
+          "iterations": [
+            19,
+            19,
+            19
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 1.3693487669805366e-14,
+          "scaled_backward_error": 6.86264646213261e-14,
+          "field_relative_max_error": 3.1945184072660635e-14,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.022643585952785233,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.1945184072660635e-14
+        }
+      ],
+      "wall_seconds": 25.573716073999094,
+      "peak_rss_gib": 0.0878448486328125,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 128,
+      "k": 12.0,
+      "kind": "TM",
+      "star": true,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TM-128-12.0",
+      "incident_angles": [
+        0.0
+      ],
+      "gmres_restart": 80,
+      "gmres_max_cycles": 2,
+      "operator_relative_max_error": 1.6600698761216446e-15,
+      "dense_reference_solve_seconds": 0.004539989000477362,
+      "operator_setup_seconds": 0.8427681569992274,
+      "operator_retained_bytes_partial": 464048,
+      "fmm_calls": 1218,
+      "condition_1_scaled": 385.90854720701367,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.4020006346981972e-06,
+          "solve_seconds": 41.930039365000994,
+          "iterations": [
+            133
+          ],
+          "statuses": [
+            0
+          ],
+          "physical_backward_error": 1.555718724617128e-14,
+          "scaled_backward_error": 4.082438073584351e-14,
+          "field_relative_max_error": 4.622745102891958e-13,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 4.622745102891958e-13
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 328456,
+          "preconditioner_setup_seconds": 0.004456668997590896,
+          "solve_seconds": 20.896203629999945,
+          "iterations": [
+            65
+          ],
+          "statuses": [
+            0
+          ],
+          "physical_backward_error": 3.7761304911284135e-15,
+          "scaled_backward_error": 2.461969001210948e-14,
+          "field_relative_max_error": 3.3749038301995545e-13,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": null,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.3749038301995545e-13
+        }
+      ],
+      "wall_seconds": 66.09863235800003,
+      "peak_rss_gib": 0.09420394897460938,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 128,
+      "k": 3.0,
+      "kind": "TM",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TM-128-3.0",
+      "operator_relative_max_error": 1.9428517059593753e-15,
+      "dense_reference_solve_seconds": 0.0027156659998581745,
+      "operator_setup_seconds": 0.5390771490019688,
+      "operator_retained_bytes_partial": 450608,
+      "fmm_calls": 1032,
+      "condition_1_scaled": 317.1139313726228,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.1949996405746788e-06,
+          "solve_seconds": 21.534599110000272,
+          "iterations": [
+            27,
+            27,
+            27
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 4.0529787890439544e-14,
+          "scaled_backward_error": 4.677625508374342e-14,
+          "field_relative_max_error": 1.3873781563281459e-14,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.0020940095393077313,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 1.3873781563281459e-14
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 328456,
+          "preconditioner_setup_seconds": 0.004595328002324095,
+          "solve_seconds": 20.84041435600011,
+          "iterations": [
+            28,
+            28,
+            28
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 2.3485427804782023e-15,
+          "scaled_backward_error": 1.1847351746971454e-14,
+          "field_relative_max_error": 4.9851262288158114e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.00209400953931269,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 4.9851262288158114e-15
+        }
+      ],
+      "wall_seconds": 44.478135705998284,
+      "peak_rss_gib": 0.09392929077148438,
+      "dense_validation_live": true,
+      "production_certified": false
+    },
+    {
+      "n": 64,
+      "k": 3.0,
+      "kind": "TM",
+      "star": false,
+      "out": "/workspace/solver-methods-evidence/fmm-system-TM-64-3.0",
+      "operator_relative_max_error": 1.7250585088940033e-15,
+      "dense_reference_solve_seconds": 0.0008132889997796156,
+      "operator_setup_seconds": 0.32770786399851204,
+      "operator_retained_bytes_partial": 225328,
+      "fmm_calls": 942,
+      "condition_1_scaled": 126.98202864028681,
+      "results": [
+        {
+          "preconditioner": "none",
+          "preconditioner_bytes": 0,
+          "preconditioner_setup_seconds": 1.2399978004395962e-06,
+          "solve_seconds": 13.558013278001454,
+          "iterations": [
+            29,
+            29,
+            29
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 1.490327322383817e-14,
+          "scaled_backward_error": 1.3488194003475844e-14,
+          "field_relative_max_error": 3.655022155865803e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.008423415537447451,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.655022155865803e-15
+        },
+        {
+          "preconditioner": "near_ilu",
+          "preconditioner_bytes": 155912,
+          "preconditioner_setup_seconds": 0.0020404890019563027,
+          "solve_seconds": 10.102305231001083,
+          "iterations": [
+            21,
+            21,
+            21
+          ],
+          "statuses": [
+            0,
+            0,
+            0
+          ],
+          "physical_backward_error": 5.873105059517566e-15,
+          "scaled_backward_error": 7.859775980425187e-15,
+          "field_relative_max_error": 3.614854748776183e-15,
+          "analytic_backscatter_relative_error": null,
+          "analytic_sigma_relative_error": 0.00842341553744707,
+          "linear_checks_passed": true,
+          "recomputed_field_error": 3.614854748776183e-15
+        }
+      ],
+      "wall_seconds": 24.550914504001412,
+      "peak_rss_gib": 0.08776092529296875,
+      "dense_validation_live": true,
+      "production_certified": false
+    }
+  ],
+  "galerkin": [
+    {
+      "n": 16000,
+      "ghz": 15,
+      "out": "/workspace/solver-methods-evidence/fmm-galerkin-16000-15",
+      "setup_seconds": 38.809129778997885,
+      "setup_peak_rss_gib": 0.2757072448730469,
+      "retained_bytes_partial": 28158424,
+      "near_pairs": 175980,
+      "quadrature_points": 128000,
+      "dense_operator_gib": 3.814697265625,
+      "checked_rows": [
+        881,
+        4051,
+        4126,
+        5825,
+        6583,
+        6856,
+        6888,
+        10828,
+        11305,
+        11469,
+        11691,
+        12205,
+        12952,
+        12956,
+        13921,
+        15281
+      ],
+      "results": [
+        {
+          "operator": "S",
+          "seconds": 6.555161944997963,
+          "apply_peak_rss_gib": 0.5031929016113281,
+          "sampled_relative_max": 6.068450031678681e-14,
+          "recomputed_sample_relative_max": 6.068450031678681e-14
+        },
+        {
+          "operator": "W",
+          "seconds": 14.500842909998028,
+          "apply_peak_rss_gib": 1.2396163940429688,
+          "sampled_relative_max": 8.441518441122899e-14,
+          "recomputed_sample_relative_max": 8.441518441122899e-14
+        }
+      ],
+      "peak_including_validation_gib": 1.2396163940429688,
+      "complete_solve": false
+    },
+    {
+      "n": 16000,
+      "ghz": 2,
+      "out": "/workspace/solver-methods-evidence/fmm-galerkin-16000-2",
+      "setup_seconds": 34.10982108099779,
+      "setup_peak_rss_gib": 0.2771568298339844,
+      "retained_bytes_partial": 28158424,
+      "near_pairs": 175980,
+      "quadrature_points": 128000,
+      "dense_operator_gib": 3.814697265625,
+      "checked_rows": [
+        881,
+        4051,
+        4126,
+        5825,
+        6583,
+        6856,
+        6888,
+        10828,
+        11305,
+        11469,
+        11691,
+        12205,
+        12952,
+        12956,
+        13921,
+        15281
+      ],
+      "results": [
+        {
+          "operator": "S",
+          "seconds": 6.8437624990001495,
+          "apply_peak_rss_gib": 0.4886436462402344,
+          "sampled_relative_max": 6.248707199876513e-15,
+          "recomputed_sample_relative_max": 6.248707199876513e-15
+        },
+        {
+          "operator": "W",
+          "seconds": 15.861514537002222,
+          "apply_peak_rss_gib": 1.1815528869628906,
+          "sampled_relative_max": 2.629529537330976e-14,
+          "recomputed_sample_relative_max": 2.629529537330976e-14
+        }
+      ],
+      "peak_including_validation_gib": 1.1815528869628906,
+      "complete_solve": false
+    },
+    {
+      "n": 4000,
+      "ghz": 15,
+      "out": "/workspace/solver-methods-evidence/fmm-galerkin-4000-15",
+      "setup_seconds": 9.441929541000718,
+      "setup_peak_rss_gib": 0.11232757568359375,
+      "retained_bytes_partial": 7038424,
+      "near_pairs": 43980,
+      "quadrature_points": 32000,
+      "dense_operator_gib": 0.2384185791015625,
+      "checked_rows": [
+        1016,
+        1366,
+        1379,
+        1458,
+        1616,
+        2739,
+        2848,
+        2892,
+        3285,
+        3288,
+        3431,
+        3497,
+        3609,
+        3815,
+        3830,
+        3849
+      ],
+      "results": [
+        {
+          "operator": "S",
+          "seconds": 1.832088325998484,
+          "apply_peak_rss_gib": 0.184539794921875,
+          "sampled_relative_max": 6.126115293929745e-14,
+          "recomputed_sample_relative_max": 6.126115293929745e-14
+        },
+        {
+          "operator": "W",
+          "seconds": 3.8844411700010824,
+          "apply_peak_rss_gib": 0.3866462707519531,
+          "sampled_relative_max": 8.604779322897956e-14,
+          "recomputed_sample_relative_max": 8.604779322897956e-14
+        }
+      ],
+      "peak_including_validation_gib": 0.3866462707519531,
+      "complete_solve": false
+    },
+    {
+      "n": 4000,
+      "ghz": 2,
+      "out": "/workspace/solver-methods-evidence/fmm-galerkin-4000-2",
+      "setup_seconds": 6.515133253000386,
+      "setup_peak_rss_gib": 0.111968994140625,
+      "retained_bytes_partial": 7038424,
+      "near_pairs": 43980,
+      "quadrature_points": 32000,
+      "dense_operator_gib": 0.2384185791015625,
+      "checked_rows": [
+        1016,
+        1366,
+        1379,
+        1458,
+        1616,
+        2739,
+        2848,
+        2892,
+        3285,
+        3288,
+        3431,
+        3497,
+        3609,
+        3815,
+        3830,
+        3849
+      ],
+      "results": [
+        {
+          "operator": "S",
+          "seconds": 1.4586800760007463,
+          "apply_peak_rss_gib": 0.16616439819335938,
+          "sampled_relative_max": 4.808329224534041e-15,
+          "recomputed_sample_relative_max": 4.808329224534041e-15
+        },
+        {
+          "operator": "W",
+          "seconds": 3.1322697830000834,
+          "apply_peak_rss_gib": 0.3330345153808594,
+          "sampled_relative_max": 8.933999262516413e-15,
+          "recomputed_sample_relative_max": 8.933999262516413e-15
+        }
+      ],
+      "peak_including_validation_gib": 0.3330345153808594,
+      "complete_solve": false
+    }
+  ],
+  "errors": []
+}
