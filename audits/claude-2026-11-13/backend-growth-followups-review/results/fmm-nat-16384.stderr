@@ -1,0 +1,20 @@
+{"stage": "compressed_operator", "elapsed": 139.27282673299987, "peak_gib": 1.1413497924804688, "bytes": 954915744}
+{"stage": "compressed_inverse", "elapsed": 168.53710443699993, "peak_gib": 1.6404647827148438, "bytes": 504646696}
+{"stage": "preconditioner_ready", "elapsed": 169.43525873, "peak_gib": 1.6404647827148438, "reachable_bytes": 504504844, "released_operator": true}
+{"stage": "fmm_ready", "elapsed": 395.347435399, "peak_gib": 1.6404647827148438, "bytes": 575086168}
+{"stage": "angle_done", "elapsed": 431.12414465599977, "peak_gib": 1.6404647827148438, "angle": 0.0, "iterations": 46, "status": 0, "seconds": 35.75278480499992, "scaled_relative_residual": 2.5856768055289454e-14}
+{"stage": "angle_done", "elapsed": 470.295297267, "peak_gib": 1.6404647827148438, "angle": 47.0, "iterations": 50, "status": 0, "seconds": 39.17041356699974, "scaled_relative_residual": 1.3618330170119461e-14}
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/gfrev/native_fmm_control.py", line 24, in <module>
+    with contextlib.redirect_stdout(capture):main(spec)
+                                             ~~~~^^^^^^
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/gfrev/fmm/preconditioned_solve.py", line 92, in main
+    exact=np.concatenate([oracle.get(sample[a:a+32],np.arange(nd)) for a in range(0,len(sample),32)])
+                          ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/gf/tools/GHOST/ghost_backend/compressed/coefficients.py", line 205, in get
+    def get(self,rows,cols):return self.get_with_error(rows,cols)[0]
+                                   ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/gf/tools/GHOST/ghost_backend/compressed/coefficients.py", line 165, in get_with_error
+    if len(rows)*len(cols)*24>16*1024**2:raise MemoryError('Native tile exceeds workspace cap.')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MemoryError: Native tile exceeds workspace cap.

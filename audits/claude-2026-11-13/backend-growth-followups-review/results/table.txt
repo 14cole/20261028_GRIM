@@ -1,0 +1,15 @@
+comp-base-4096 wall 42.0 peak 0.579 {'setup': 36.27, 'factor': 4.15, 'solve': 0.23}
+comp-cand-16384 wall 436.7 peak 3.239 {'setup': 379.95, 'factor': 53.01, 'solve': 2.42}
+comp-cand-4096 wall 39.1 peak 0.577 {'setup': 34.57, 'factor': 3.71, 'solve': 0.21}
+comp-cand-8192 wall 124.1 peak 1.359 {'setup': 105.91, 'factor': 16.67, 'solve': 0.71}
+fmm-nat-16384 FAILED rc 1 wall 470.9 peak 1.640
+fmm-nat-4096 FAILED rc 0 wall 94.3 peak 0.389
+fmm-nat-8192 FAILED rc 0 wall 208.1 peak 0.716
+fmm-ref-4096 FAILED rc 0 wall 221.7 peak 0.389
+norms-4096 wall 19.7 peak 0.306 {'setup': 12.92, 'factor': 1.49, 'solve': 0.07}
+comp-cand-4096.npz vs comp-base-4096.npz bitwise True field 0.00e+00 density 0.00e+00
+comp-cand-8192.npz vs c-comp-8192.npz bitwise True field 0.00e+00 density 0.00e+00
+comp-cand-16384.npz vs c-comp-16384.npz bitwise True field 0.00e+00 density 0.00e+00
+fmm-nat-4096.npz vs c-dense-4096.npz bitwise False field 1.12e-14 density 5.61e-12
+fmm-ref-4096.npz vs c-dense-4096.npz bitwise False field 1.23e-14 density 4.89e-12
+fmm-nat-8192.npz vs comp-cand-8192.npz bitwise False field 3.63e-13 density 4.48e-10
