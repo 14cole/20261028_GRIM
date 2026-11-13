@@ -1,0 +1,74 @@
+{
+ "cases": 3072,
+ "not_bitwise": [
+  {
+   "shape": [
+    300,
+    12
+   ],
+   "width": null,
+   "a": "complex128",
+   "b": "complex128",
+   "layout": "slice",
+   "rel": 6.028932949627874e-16
+  },
+  {
+   "shape": [
+    300,
+    12
+   ],
+   "width": null,
+   "a": "complex128",
+   "b": "complex64",
+   "layout": "slice",
+   "rel": 9.203996716540701e-16
+  },
+  {
+   "shape": [
+    300,
+    12
+   ],
+   "width": null,
+   "a": "complex128",
+   "b": "complex64",
+   "layout": "rev",
+   "rel": 1.5205260554232365e-15
+  },
+  {
+   "shape": [
+    300,
+    12
+   ],
+   "width": null,
+   "a": "complex128",
+   "b": "float64",
+   "layout": "slice",
+   "rel": 8.020428618553624e-16
+  },
+  {
+   "shape": [
+    300,
+    12
+   ],
+   "width": null,
+   "a": "complex128",
+   "b": "float64",
+   "layout": "rev",
+   "rel": 5.628169063218966e-16
+  }
+ ],
+ "dtype_mismatch": [],
+ "shape_mismatch": [],
+ "aliasing": [],
+ "max_rel": 2.0473084987315815e-06,
+ "branches": {
+  "direct": 2008,
+  "conjugated": 1064
+ },
+ "max_rel_double": 2.860932864220547e-15,
+ "max_rel_single_involved": 2.0473084987315815e-06,
+ "nonfinite_pattern_same": true,
+ "temporary_mib_old": 32.00852966308594,
+ "temporary_mib_new": 0.2585601806640625,
+ "not_bitwise_count": 116
+}

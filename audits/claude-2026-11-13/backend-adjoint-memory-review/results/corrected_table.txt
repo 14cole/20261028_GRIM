@@ -1,0 +1,15 @@
+c-comp-16384 wall 503.7 peak 3.239 {'setup': 442.56, 'factor': 56.88, 'solve': 3.0, 'tables': 2}
+c-comp-2048 wall 15.2 peak 0.306 {'setup': 13.02, 'factor': 1.52, 'solve': 0.09, 'tables': 2}
+c-comp-4096-fallback wall 137.3 peak 0.578 {'setup': 131.73, 'factor': 4.58, 'solve': 0.27, 'tables': 2}
+c-comp-4096 wall 44.6 peak 0.578 {'setup': 39.45, 'factor': 4.27, 'solve': 0.25, 'tables': 2}
+c-comp-8192 wall 135.8 peak 1.359 {'setup': 116.83, 'factor': 17.36, 'solve': 0.68, 'tables': 2}
+c-dense-4096 wall 53.3 peak 2.155 {'setup': 25.48, 'factor': 26.43, 'solve': 0.79, 'tables': 2}
+c-fmm-2048 wall 137.7 peak 0.241 {'pre_op': 10.23, 'fmm': 116.65, 'factor': 0.59, 'solve': 8.02, 'its': [42, 42], 'inv_mib': 25.05, 'fmm_mib': 73.1}
+c-fmm-4096 wall 237.6 peak 0.387 {'pre_op': 23.85, 'fmm': 188.77, 'factor': 1.56, 'solve': 18.8, 'its': [47, 48], 'inv_mib': 62.3, 'fmm_mib': 140.39}
+c-fmm-8192 wall 513.9 peak 0.715 {'pre_op': 60.96, 'fmm': 398.72, 'factor': 5.03, 'solve': 39.02, 'its': [44, 48], 'inv_mib': 165.04, 'fmm_mib': 275.84}
+c-comp-4096 vs c-dense-4096 field 2.46e-13 density 2.89e-10
+c-fmm-4096 vs c-dense-4096 field 1.23e-14 density 4.89e-12
+c-comp-4096-fallback vs c-dense-4096 field 2.46e-13 density 2.89e-10
+c-fmm-2048 vs c-comp-2048 field 2.76e-13 density 2.46e-10
+c-fmm-8192 vs c-comp-8192 field 3.62e-13 density 4.51e-10
+dense new vs last-round dense field 4.00e-15 density 5.38e-14
