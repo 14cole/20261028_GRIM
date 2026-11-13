@@ -79,7 +79,8 @@ for name in names:
                 else:
                     s, d = op._assemble_linear_operator_matrices_multi(mesh, k, kind == 'KP', [None], compute_single_layer=kind == 'S', compute_double_layer=kind != 'S', output_node_ids_many=[(rows, cols)])[0]
                     ref = (s if kind == 'S' else d).values
-                y = g.apply(x, kind)[rows]; target = ref if full else ref @ x
+                # apply in bounded column chunks: expansion scratch grows with the number of columns
+                y = np.concatenate([g.apply(x[:, c:c+48], kind)[rows] for c in range(0, x.shape[1], 48)], axis=1); target = ref if full else ref @ x
                 errors[kind] = float(np.max(abs(y - target))/np.max(abs(target)))
             row.update(full_matrix=full, errors=errors, worst=max(errors.values()))
     except Exception as exc:
