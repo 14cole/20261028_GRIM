@@ -75,7 +75,7 @@ Two things this table shows that the smaller sizes did not:
 - **The time gap is closing fast** (2.4 → 1.7 → about 1.1). One more validated point is needed before saying
   anything about a crossover.
 - **The FMM route's peak is now set by its preconditioner.** At 32,768 unknowns the loose compressed operator
-  alone is 0.95 GiB and the peak is reached while building the inverse from it, before any FMM operator
+  alone is 0.89 GiB and the peak is reached while building the inverse from it, before any FMM operator
   exists. The memory advantage over Compressed is still 2 to 1, but further FMM memory work will not lower
   this peak; the preconditioner construction will.
 
