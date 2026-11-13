@@ -1,0 +1,2865 @@
+{
+  "successful": 76,
+  "runtime_errors": {
+    "final-cavity-compressed": "TypeError: got an unexpected keyword argument 'mesh_strategy'",
+    "final-20ft-star-dense": "ValueError: Quality gate failed: condition_est_max=2.50349e+06 exceeds limit 1e+06",
+    "final-adaptive-cavity-compressed": "ValueError: Geometry orientation check failed:\n  - Segment 'body' (TYPE 2) is a closed contour drawn CCW, but the air side is the unbounded exterior, so the drawing convention (normal into air) requires CW winding. Reverse the segment's endpoint order. The region check agrees: the unbounded exterior (which must",
+    "final-adaptive-cavity-dense": "ValueError: Geometry orientation check failed:\n  - Segment 'body' (TYPE 2) is a closed contour drawn CCW, but the air side is the unbounded exterior, so the drawing convention (normal into air) requires CW winding. Reverse the segment's endpoint order. The region check agrees: the unbounded exterior (which must",
+    "final-cavity-dense": "TypeError: got an unexpected keyword argument 'mesh_strategy'"
+  },
+  "quality_failures": [],
+  "checks": [
+    {
+      "case": "final-coated-0.01-compressed",
+      "reference": "final-coated-0.01-dense",
+      "relative_max": 7.766445691941207e-10,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "tile-400-0.01-compressed",
+      "reference": "tile-400-0.01-dense",
+      "relative_max": 5.979309206042521e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-diel-100.0-compressed",
+      "reference": "final-diel-100.0-dense",
+      "relative_max": 1.8151494761709552e-12,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-coated-100.0-compressed",
+      "reference": "final-coated-100.0-dense",
+      "relative_max": 8.212861029967859e-10,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-certified-diel-compressed",
+      "reference": "final-certified-diel-dense",
+      "relative_max": 2.3197643047395884e-15,
+      "count": 6,
+      "finite": true
+    },
+    {
+      "case": "tile-600-0.01-compressed",
+      "reference": "tile-600-0.01-dense",
+      "relative_max": 1.3747156108899756e-14,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-thin-100.0-compressed",
+      "reference": "final-thin-100.0-dense",
+      "relative_max": 3.9518636921343175e-16,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-certified-coated-compressed",
+      "reference": "final-certified-coated-dense",
+      "relative_max": 8.025026626201484e-15,
+      "count": 6,
+      "finite": true
+    },
+    {
+      "case": "final-fallback-compressed",
+      "reference": "final-fallback-dense",
+      "relative_max": 1.2431152464734139e-14,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-frequency-sweep-compressed",
+      "reference": "final-frequency-sweep-dense",
+      "relative_max": 8.280611844104144e-14,
+      "count": 42,
+      "finite": true
+    },
+    {
+      "case": "final-diel-0.01-compressed",
+      "reference": "final-diel-0.01-dense",
+      "relative_max": 2.003590712385199e-12,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-p3-diel-compressed",
+      "reference": "final-p3-diel-dense",
+      "relative_max": 3.951148865555936e-12,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-star-compressed",
+      "reference": "final-star-dense",
+      "relative_max": 2.610617659960895e-11,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-thin-1.0-compressed",
+      "reference": "final-thin-1.0-dense",
+      "relative_max": 1.3187139970675558e-16,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-p2-coated-compressed",
+      "reference": "final-p2-coated-dense",
+      "relative_max": 4.5555444107723565e-11,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-adaptive-cavity-cw-compressed",
+      "reference": "final-adaptive-cavity-cw-dense",
+      "relative_max": 2.9347380171849597e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-regional-workers-compressed",
+      "reference": "final-regional-workers-dense",
+      "relative_max": 3.0233194675134764e-12,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "tile-600-100.0-compressed",
+      "reference": "tile-600-100.0-dense",
+      "relative_max": 5.3902132629688495e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "tile-400-100.0-compressed",
+      "reference": "tile-400-100.0-dense",
+      "relative_max": 4.747390511684047e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-thin-0.01-compressed",
+      "reference": "final-thin-0.01-dense",
+      "relative_max": 3.9492944880321344e-16,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-diel-0.01-dense",
+      "reference": "final-diel-100.0-dense",
+      "relative_max": 1.080646884081839e-13,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-diel-0.01-compressed",
+      "reference": "final-diel-100.0-dense",
+      "relative_max": 2.0497015679732164e-12,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-coated-0.01-dense",
+      "reference": "final-coated-100.0-dense",
+      "relative_max": 2.6275947594662742e-11,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-coated-0.01-compressed",
+      "reference": "final-coated-100.0-dense",
+      "relative_max": 7.76317823910364e-10,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-thin-0.01-dense",
+      "reference": "final-thin-100.0-dense",
+      "relative_max": 7.445103323309876e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-thin-0.01-compressed",
+      "reference": "final-thin-100.0-dense",
+      "relative_max": 7.456588188696271e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "holdout-thin-large-before",
+      "reference": "final-thin-large-dense",
+      "relative_max": 1.3151181354201534e-10,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "holdout-thin-large-after",
+      "reference": "final-thin-large-dense",
+      "relative_max": 2.7353136184590115e-15,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-coat-disk",
+      "reference": "final-coated-0.01-dense",
+      "relative_max": 0.0,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-workers",
+      "reference": "final-fallback-dense",
+      "relative_max": 1.440770988236205e-14,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "prior_reference/tile-0.01",
+      "reference": "final-fallback-dense",
+      "relative_max": 1.533010663917816e-07,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "dense-coat-small",
+      "reference": "dense-coat-large",
+      "relative_max": 1.3718929741829126e-11,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "prior_reference/scale-coated-0.01-dense",
+      "reference": "prior_reference/scale-coated-100-dense",
+      "relative_max": 2.901672479422584e-08,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-coated-0.01-dense",
+      "reference": "prior_reference/scale-coated-100-dense",
+      "relative_max": 2.2888335250681408e-11,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-coated-100.0-dense",
+      "reference": "prior_reference/scale-coated-100-dense",
+      "relative_max": 2.8614218621904823e-11,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "holdout-diel12000-after",
+      "reference": "holdout-diel12000-before",
+      "relative_max": 0.0,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "holdout-lossless-star-after",
+      "reference": "holdout-lossless-star-before",
+      "relative_max": 1.4049911532955907e-14,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "diel8k-probe-1",
+      "reference": "diel8k-before-1",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "holdout-airfoil3-after",
+      "reference": "holdout-airfoil3-before",
+      "relative_max": 0.0,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "diel8k-probe-0",
+      "reference": "diel8k-before-0",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "diel8k-tight-1",
+      "reference": "diel8k-before-1",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "holdout-diel6000-after",
+      "reference": "holdout-diel6000-before",
+      "relative_max": 0.0,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-diel8k-after-1",
+      "reference": "final-diel8k-before-1",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "holdout-thin-large-after",
+      "reference": "holdout-thin-large-before",
+      "relative_max": 1.3151179813996616e-10,
+      "count": 14,
+      "finite": true
+    },
+    {
+      "case": "final-diel8k-after-2",
+      "reference": "final-diel8k-before-2",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "final-diel8k-after-0",
+      "reference": "final-diel8k-before-0",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "diel8k-tight-0",
+      "reference": "diel8k-before-0",
+      "relative_max": 0.0,
+      "count": 362,
+      "finite": true
+    },
+    {
+      "case": "final-auto-0.85",
+      "reference": "final-diel-0.01-dense",
+      "relative_max": 2.003590712385199e-12,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-auto-single-0.85",
+      "reference": "final-diel-0.01-dense",
+      "relative_max": 8.279233748252292e-15,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-auto-1.0",
+      "reference": "final-diel-0.01-dense",
+      "relative_max": 2.003590712385199e-12,
+      "count": 38,
+      "finite": true
+    },
+    {
+      "case": "final-auto-single-1.0",
+      "reference": "final-diel-0.01-dense",
+      "relative_max": 7.416121687729413e-15,
+      "count": 38,
+      "finite": true
+    }
+  ],
+  "measurements": {
+    "final-coated-0.01-compressed": {
+      "wall": 22.3,
+      "cpu": 45.75,
+      "peak_rss_gib": 0.5151138305664062,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 29.06,
+        "compressed_assembly": 12.44,
+        "hmatrix_assembly": 12.27,
+        "factorization": 6.94,
+        "condition_estimation": 4.19,
+        "rhs_compression": 0.44,
+        "linear_solve": 0.43,
+        "hmatrix_norms": 0.22,
+        "hmatrix_validation": 0.03,
+        "far_field": 0.03
+      },
+      "stage_calls": {
+        "operators": 295,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.39538788914,
+      "mesh_convergence_certified": false
+    },
+    "tile-400-0.01-compressed": {
+      "wall": 2.31,
+      "cpu": 2.32,
+      "peak_rss_gib": 0.11188507080078125,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "compressed_coefficients": 1.28,
+        "operators": 1.26,
+        "factorization": 0.39,
+        "condition_estimation": 0.31,
+        "compressed_tile_compression": 0.16,
+        "rhs_compression": 0.03,
+        "linear_solve": 0.03,
+        "compressed_spool_write": 0.03,
+        "compressed_spool_read": 0.01,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "operators": 8,
+        "compressed_coefficients": 4,
+        "compressed_tile_compression": 8,
+        "compressed_spool_write": 4,
+        "factorization": 4,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 659.511777735182,
+      "mesh_convergence_certified": false
+    },
+    "final-diel-100.0-compressed": {
+      "wall": 17.25,
+      "cpu": 40.69,
+      "peak_rss_gib": 0.4986686706542969,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 27.31,
+        "hmatrix_assembly": 10.96,
+        "factorization": 3.94,
+        "condition_estimation": 1.23,
+        "hmatrix_norms": 0.37,
+        "rhs_compression": 0.28,
+        "linear_solve": 0.28,
+        "hmatrix_validation": 0.05,
+        "far_field": 0.04,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 425,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.56358691064,
+      "mesh_convergence_certified": false
+    },
+    "tile-400-0.01-dense": {
+      "wall": 1.75,
+      "cpu": 1.75,
+      "peak_rss_gib": 0.10390472412109375,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 1.23,
+        "factorization": 0.06,
+        "rhs_compression": 0.03,
+        "linear_solve": 0.03,
+        "condition_estimation": 0.02,
+        "condition_scaling": 0.02,
+        "rhs_solve": 0.01,
+        "far_field": 0.01,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 659.511777735,
+      "mesh_convergence_certified": false
+    },
+    "final-coated-100.0-compressed": {
+      "wall": 19.71,
+      "cpu": 43.32,
+      "peak_rss_gib": 0.486572265625,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 30.75,
+        "compressed_assembly": 13.41,
+        "hmatrix_assembly": 13.18,
+        "factorization": 3.91,
+        "condition_estimation": 0.97,
+        "rhs_compression": 0.29,
+        "linear_solve": 0.29,
+        "hmatrix_norms": 0.22,
+        "hmatrix_validation": 0.03,
+        "far_field": 0.02
+      },
+      "stage_calls": {
+        "operators": 295,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.395387901815,
+      "mesh_convergence_certified": false
+    },
+    "holdout-diel12000-after": {
+      "wall": 75.39,
+      "cpu": 191.85,
+      "peak_rss_gib": 1.2947044372558594,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 124.78,
+        "hmatrix_assembly": 50.42,
+        "factorization": 15.2,
+        "condition_estimation": 6.47,
+        "hmatrix_norms": 3.1,
+        "rhs_compression": 1.34,
+        "linear_solve": 1.34,
+        "hmatrix_validation": 0.23,
+        "far_field": 0.09,
+        "excitation": 0.07
+      },
+      "stage_calls": {
+        "operators": 1389,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 5037.82081715804,
+      "mesh_convergence_certified": false
+    },
+    "holdout-lossless-star-before": {
+      "wall": 24.89,
+      "cpu": 57.39,
+      "peak_rss_gib": 0.5919609069824219,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 37.59,
+        "hmatrix_assembly": 15.81,
+        "condition_estimation": 5.07,
+        "factorization": 4.69,
+        "rhs_compression": 0.76,
+        "linear_solve": 0.75,
+        "hmatrix_norms": 0.65,
+        "hmatrix_validation": 0.07,
+        "far_field": 0.05,
+        "excitation": 0.04
+      },
+      "stage_calls": {
+        "operators": 732,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 20723.90544638189,
+      "mesh_convergence_certified": false
+    },
+    "final-certified-diel-compressed": {
+      "wall": 3.02,
+      "cpu": 7.53,
+      "peak_rss_gib": 0.168609619140625,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "compressed_coefficients": 1.65,
+        "operators": 1.59,
+        "compressed_tile_compression": 0.56,
+        "factorization": 0.41,
+        "condition_estimation": 0.25,
+        "rhs_compression": 0.11,
+        "linear_solve": 0.11,
+        "compressed_spool_write": 0.06,
+        "compressed_spool_read": 0.03,
+        "far_field": 0.02
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 16,
+        "compressed_coefficients": 8,
+        "compressed_tile_compression": 16,
+        "compressed_spool_write": 8,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "compressed_spool_read": 2,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 3486.977871603376,
+      "mesh_convergence_certified": true
+    },
+    "final-cavity-compressed": {
+      "wall": 0.0,
+      "cpu": 0.0,
+      "peak_rss_gib": 0.053619384765625,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": null,
+      "stage_calls": {},
+      "condition_est_max": null,
+      "mesh_convergence_certified": null
+    },
+    "holdout-lossless-star-after": {
+      "wall": 24.61,
+      "cpu": 56.86,
+      "peak_rss_gib": 0.6169586181640625,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 36.9,
+        "hmatrix_assembly": 15.24,
+        "factorization": 5.74,
+        "condition_estimation": 1.93,
+        "hmatrix_norms": 0.71,
+        "rhs_compression": 0.61,
+        "linear_solve": 0.6,
+        "hmatrix_validation": 0.11,
+        "far_field": 0.05,
+        "excitation": 0.03
+      },
+      "stage_calls": {
+        "operators": 732,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 20723.905446382014,
+      "mesh_convergence_certified": false
+    },
+    "diel8k-probe-1": {
+      "wall": 58.63,
+      "cpu": 138.74,
+      "peak_rss_gib": 1.2365303039550781,
+      "source_sha256": "5e7b4284c6f5b3b29a94c26f84cd0b7edf19db7a2a9288d493bf85dcf228cde8",
+      "stages": {
+        "operators": 75.24,
+        "hmatrix_assembly": 29.56,
+        "rhs_compression": 14.48,
+        "linear_solve": 14.21,
+        "factorization": 13.81,
+        "condition_estimation": 4.36,
+        "hmatrix_norms": 1.58,
+        "excitation": 0.33,
+        "hmatrix_validation": 0.13,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.751789235157,
+      "mesh_convergence_certified": false
+    },
+    "final-auto-0.85": {
+      "wall": 26.39,
+      "cpu": 51.31,
+      "peak_rss_gib": 0.5190887451171875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 27.69,
+        "hmatrix_assembly": 10.94,
+        "condition_estimation": 9.09,
+        "factorization": 4.65,
+        "rhs_compression": 2.07,
+        "linear_solve": 2.07,
+        "hmatrix_norms": 0.49,
+        "hmatrix_validation": 0.05,
+        "far_field": 0.03,
+        "excitation": 0.03
+      },
+      "stage_calls": {
+        "operators": 419,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.5635869106636,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-large-dense": {
+      "wall": 16.32,
+      "cpu": 20.52,
+      "peak_rss_gib": 0.2664985656738281,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "thin_layer_operators_and_solve": 15.86,
+        "operators": 8.63,
+        "factorization": 4.5,
+        "near_and_hypersingular": 1.73,
+        "condition_estimation": 0.21,
+        "rhs_compression": 0.1,
+        "linear_solve": 0.1,
+        "condition_scaling": 0.03,
+        "rhs_solve": 0.03,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "operators": 2,
+        "near_and_hypersingular": 1,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 50.439275548801994,
+      "mesh_convergence_certified": false
+    },
+    "final-auto-single-1.0": {
+      "wall": 26.52,
+      "cpu": 28.34,
+      "peak_rss_gib": 0.5808067321777344,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 15.2,
+        "factorization": 6.6,
+        "condition_estimation": 1.75,
+        "rhs_compression": 1.34,
+        "linear_solve": 1.34,
+        "rhs_solve": 0.51,
+        "excitation": 0.09,
+        "condition_scaling": 0.08,
+        "far_field": 0.04
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.563586910395,
+      "mesh_convergence_certified": false
+    },
+    "final-20ft-star-dense": {
+      "wall": 288.13,
+      "cpu": 974.77,
+      "peak_rss_gib": 5.205177307128906,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": null,
+      "stage_calls": {},
+      "condition_est_max": null,
+      "mesh_convergence_certified": null
+    },
+    "tile-600-0.01-compressed": {
+      "wall": 4.93,
+      "cpu": 4.94,
+      "peak_rss_gib": 0.1216888427734375,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "compressed_coefficients": 2.74,
+        "operators": 2.65,
+        "factorization": 0.86,
+        "condition_estimation": 0.81,
+        "compressed_tile_compression": 0.46,
+        "rhs_compression": 0.08,
+        "linear_solve": 0.08,
+        "compressed_spool_write": 0.08,
+        "compressed_spool_read": 0.03,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "operators": 32,
+        "compressed_coefficients": 16,
+        "compressed_tile_compression": 32,
+        "compressed_spool_write": 16,
+        "factorization": 4,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 849.9260358570385,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-100.0-compressed": {
+      "wall": 3.28,
+      "cpu": 3.28,
+      "peak_rss_gib": 0.1022491455078125,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 3.02,
+        "compressed_assembly": 2.87,
+        "operators": 2.15,
+        "near_and_hypersingular": 0.62,
+        "compressed_coefficients": 0.24,
+        "factorization": 0.07,
+        "compressed_tile_compression": 0.04,
+        "condition_estimation": 0.03,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 13,
+        "near_and_hypersingular": 4,
+        "compressed_coefficients": 5,
+        "compressed_tile_compression": 5,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.334759481062607,
+      "mesh_convergence_certified": false
+    },
+    "final-certified-coated-compressed": {
+      "wall": 2.64,
+      "cpu": 6.48,
+      "peak_rss_gib": 0.15162277221679688,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "compressed_assembly": 1.5,
+        "compressed_coefficients": 1.34,
+        "operators": 1.27,
+        "factorization": 0.34,
+        "compressed_tile_compression": 0.25,
+        "condition_estimation": 0.19,
+        "rhs_compression": 0.13,
+        "linear_solve": 0.13,
+        "compressed_spool_write": 0.05,
+        "compressed_spool_read": 0.02
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 8,
+        "compressed_coefficients": 4,
+        "compressed_tile_compression": 10,
+        "compressed_spool_write": 5,
+        "compressed_assembly": 4,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "compressed_spool_read": 2,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 2538.6117171065575,
+      "mesh_convergence_certified": true
+    },
+    "holdout-airfoil3-after": {
+      "wall": 51.07,
+      "cpu": 93.65,
+      "peak_rss_gib": 0.6553153991699219,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 66.1,
+        "compressed_assembly": 39.51,
+        "hmatrix_assembly": 38.71,
+        "factorization": 5.92,
+        "condition_estimation": 3.64,
+        "hmatrix_norms": 1.24,
+        "rhs_compression": 0.83,
+        "linear_solve": 0.82,
+        "hmatrix_validation": 0.13,
+        "far_field": 0.05
+      },
+      "stage_calls": {
+        "operators": 1720,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 35317.539527525645,
+      "mesh_convergence_certified": false
+    },
+    "final-fallback-compressed": {
+      "wall": 9.9,
+      "cpu": 17.52,
+      "peak_rss_gib": 0.15673828125,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "compressed_coefficients": 7.28,
+        "operators": 7.18,
+        "condition_estimation": 0.97,
+        "factorization": 0.92,
+        "compressed_tile_compression": 0.88,
+        "rhs_compression": 0.77,
+        "linear_solve": 0.77,
+        "compressed_spool_write": 0.1,
+        "compressed_spool_read": 0.04,
+        "far_field": 0.02
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "operators": 32,
+        "compressed_coefficients": 16,
+        "compressed_tile_compression": 32,
+        "compressed_spool_write": 16,
+        "factorization": 4,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 849.9260358545531,
+      "mesh_convergence_certified": false
+    },
+    "diel8k-probe-0": {
+      "wall": 56.52,
+      "cpu": 137.52,
+      "peak_rss_gib": 1.3174018859863281,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 80.86,
+        "hmatrix_assembly": 31.33,
+        "factorization": 11.97,
+        "rhs_compression": 11.41,
+        "linear_solve": 11.18,
+        "condition_estimation": 8.13,
+        "hmatrix_norms": 1.55,
+        "excitation": 0.25,
+        "hmatrix_validation": 0.19,
+        "far_field": 0.1
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.751789235157,
+      "mesh_convergence_certified": false
+    },
+    "holdout-thin-large-before": {
+      "wall": 154.94,
+      "cpu": 170.87,
+      "peak_rss_gib": 0.18697738647460938,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "thin_layer_operators_and_solve": 154.47,
+        "compressed_assembly": 152.95,
+        "operators": 105.41,
+        "near_and_hypersingular": 39.91,
+        "hmatrix_assembly": 4.31,
+        "compressed_tile_compression": 1.86,
+        "factorization": 1.04,
+        "condition_estimation": 0.29,
+        "compressed_coefficients": 0.19,
+        "rhs_compression": 0.06
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 3,
+        "operators": 344,
+        "near_and_hypersingular": 76,
+        "compressed_tile_compression": 76,
+        "compressed_coefficients": 64,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 3,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2,
+        "hmatrix_norms": 1,
+        "hmatrix_validation": 1,
+        "hmatrix_assembly": 1
+      },
+      "condition_est_max": 50.43927554881416,
+      "mesh_convergence_certified": false
+    },
+    "final-p2-coated-dense": {
+      "wall": 3.05,
+      "cpu": 10.05,
+      "peak_rss_gib": 0.2991294860839844,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 1.82,
+        "factorization": 0.32,
+        "rhs_compression": 0.08,
+        "linear_solve": 0.08,
+        "condition_estimation": 0.07,
+        "condition_scaling": 0.05,
+        "rhs_solve": 0.02,
+        "far_field": 0.02,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 21758.909490022517,
+      "mesh_convergence_certified": false
+    },
+    "final-auto-1.0": {
+      "wall": 25.66,
+      "cpu": 55.76,
+      "peak_rss_gib": 0.5062141418457031,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 35.44,
+        "hmatrix_assembly": 13.1,
+        "condition_estimation": 7.31,
+        "factorization": 3.93,
+        "rhs_compression": 1.72,
+        "linear_solve": 1.72,
+        "hmatrix_norms": 0.38,
+        "hmatrix_validation": 0.05,
+        "far_field": 0.03,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 419,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.5635869106636,
+      "mesh_convergence_certified": false
+    },
+    "holdout-diel12000-before": {
+      "wall": 90.68,
+      "cpu": 218.93,
+      "peak_rss_gib": 1.4861564636230469,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 137.29,
+        "hmatrix_assembly": 56.11,
+        "condition_estimation": 31.81,
+        "factorization": 24.48,
+        "hmatrix_norms": 3.41,
+        "rhs_compression": 1.24,
+        "linear_solve": 1.24,
+        "hmatrix_validation": 0.31,
+        "far_field": 0.08,
+        "excitation": 0.07
+      },
+      "stage_calls": {
+        "operators": 1389,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 5037.82081715804,
+      "mesh_convergence_certified": false
+    },
+    "final-frequency-sweep-compressed": {
+      "wall": 7.97,
+      "cpu": 19.9,
+      "peak_rss_gib": 0.18704605102539062,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "compressed_assembly": 4.06,
+        "compressed_coefficients": 3.5,
+        "operators": 3.26,
+        "factorization": 1.24,
+        "compressed_tile_compression": 1.24,
+        "rhs_compression": 1.21,
+        "linear_solve": 1.21,
+        "condition_estimation": 0.65,
+        "compressed_spool_read": 0.17,
+        "compressed_spool_write": 0.16
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 6,
+        "operators": 18,
+        "compressed_coefficients": 9,
+        "compressed_tile_compression": 24,
+        "compressed_spool_write": 12,
+        "compressed_assembly": 6,
+        "factorization": 6,
+        "condition_estimation": 6,
+        "excitation": 6,
+        "linear_solve": 6,
+        "rhs_compression": 6,
+        "far_field": 24,
+        "compressed_spool_read": 3
+      },
+      "condition_est_max": 5551.245814370771,
+      "mesh_convergence_certified": false
+    },
+    "diel8k-before-0": {
+      "wall": 56.68,
+      "cpu": 135.51,
+      "peak_rss_gib": 1.1822242736816406,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 77.64,
+        "hmatrix_assembly": 30.15,
+        "condition_estimation": 19.32,
+        "factorization": 14.71,
+        "rhs_compression": 5.1,
+        "linear_solve": 4.88,
+        "hmatrix_norms": 1.7,
+        "excitation": 0.26,
+        "hmatrix_validation": 0.19,
+        "far_field": 0.13
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "dense-coat-large": {
+      "wall": 8.0,
+      "cpu": 21.95,
+      "peak_rss_gib": 0.5665168762207031,
+      "source_sha256": "b758d64959f5ce893317ccbfdf04d96e41ac36b6c0ddb7c7d19812bf12b03074",
+      "stages": {
+        "operators": 4.3,
+        "factorization": 1.89,
+        "condition_estimation": 0.25,
+        "rhs_compression": 0.22,
+        "linear_solve": 0.22,
+        "condition_scaling": 0.1,
+        "far_field": 0.09,
+        "rhs_solve": 0.08,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.39538799805,
+      "mesh_convergence_certified": false
+    },
+    "final-diel-0.01-compressed": {
+      "wall": 24.86,
+      "cpu": 51.65,
+      "peak_rss_gib": 0.4931068420410156,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 29.99,
+        "hmatrix_assembly": 11.4,
+        "condition_estimation": 7.89,
+        "factorization": 4.13,
+        "rhs_compression": 2.0,
+        "linear_solve": 1.99,
+        "hmatrix_norms": 0.42,
+        "hmatrix_validation": 0.05,
+        "far_field": 0.04,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 419,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.5635869106636,
+      "mesh_convergence_certified": false
+    },
+    "diel8k-tight-1": {
+      "wall": 49.96,
+      "cpu": 128.47,
+      "peak_rss_gib": 1.1835975646972656,
+      "source_sha256": "d3d70cd2d2c977cc856f8cfcb167924ab9ffb2473f8606d0fdede6c21fe67ef0",
+      "stages": {
+        "operators": 80.86,
+        "hmatrix_assembly": 30.9,
+        "factorization": 9.47,
+        "rhs_compression": 4.73,
+        "linear_solve": 4.47,
+        "condition_estimation": 3.23,
+        "hmatrix_norms": 1.52,
+        "excitation": 0.24,
+        "hmatrix_validation": 0.13,
+        "far_field": 0.1
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892358155,
+      "mesh_convergence_certified": false
+    },
+    "final-random-rhs": {
+      "wall": 11.36,
+      "cpu": 23.3,
+      "peak_rss_gib": 0.21001434326171875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 12.69,
+        "hmatrix_assembly": 2.58,
+        "factorization": 0.84,
+        "condition_estimation": 0.72,
+        "rhs_compression": 0.15,
+        "linear_solve": 0.14,
+        "hmatrix_norms": 0.04,
+        "far_field": 0.01,
+        "hmatrix_validation": 0.01,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 232,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 849.9260358545547,
+      "mesh_convergence_certified": false
+    },
+    "final-adaptive-cavity-cw-dense": {
+      "wall": 1.76,
+      "cpu": 5.08,
+      "peak_rss_gib": 0.17108535766601562,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 0.81,
+        "factorization": 0.14,
+        "rhs_compression": 0.08,
+        "linear_solve": 0.08,
+        "far_field": 0.02,
+        "condition_estimation": 0.02,
+        "excitation": 0.01,
+        "mesh_certification": 0.01,
+        "condition_scaling": 0.0,
+        "rhs_solve": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 4,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "rhs_solve": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 1023.6088736816362,
+      "mesh_convergence_certified": true
+    },
+    "final-coat-disk": {
+      "wall": 10.35,
+      "cpu": 34.53,
+      "peak_rss_gib": 0.3398704528808594,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 6.41,
+        "factorization": 1.4,
+        "rhs_compression": 0.41,
+        "linear_solve": 0.4,
+        "condition_estimation": 0.2,
+        "rhs_solve": 0.08,
+        "condition_scaling": 0.08,
+        "far_field": 0.04,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 4,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.395387993085,
+      "mesh_convergence_certified": false
+    },
+    "final-diel8k-before-2": {
+      "wall": 82.18,
+      "cpu": 187.49,
+      "peak_rss_gib": 1.2600860595703125,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 102.77,
+        "hmatrix_assembly": 43.49,
+        "condition_estimation": 33.2,
+        "factorization": 22.53,
+        "rhs_compression": 6.68,
+        "linear_solve": 6.4,
+        "hmatrix_norms": 3.04,
+        "excitation": 0.4,
+        "hmatrix_validation": 0.3,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-adaptive-cavity-compressed": {
+      "wall": 0.03,
+      "cpu": 0.05,
+      "peak_rss_gib": 0.05376434326171875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": null,
+      "stage_calls": {},
+      "condition_est_max": null,
+      "mesh_convergence_certified": null
+    },
+    "final-coated-0.01-dense": {
+      "wall": 6.68,
+      "cpu": 22.15,
+      "peak_rss_gib": 0.5683784484863281,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 3.44,
+        "factorization": 1.44,
+        "rhs_compression": 0.28,
+        "linear_solve": 0.28,
+        "condition_estimation": 0.2,
+        "rhs_solve": 0.1,
+        "condition_scaling": 0.07,
+        "far_field": 0.03,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.395387993085,
+      "mesh_convergence_certified": false
+    },
+    "final-certified-coated-dense": {
+      "wall": 1.72,
+      "cpu": 4.99,
+      "peak_rss_gib": 0.18236541748046875,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 0.85,
+        "factorization": 0.2,
+        "rhs_compression": 0.07,
+        "linear_solve": 0.07,
+        "condition_estimation": 0.02,
+        "far_field": 0.01,
+        "condition_scaling": 0.01,
+        "excitation": 0.01,
+        "rhs_solve": 0.0,
+        "mesh_certification": 0.0
+      },
+      "stage_calls": {
+        "operators": 4,
+        "condition_scaling": 4,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "rhs_solve": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 2538.6117171065575,
+      "mesh_convergence_certified": true
+    },
+    "final-star-dense": {
+      "wall": 50.44,
+      "cpu": 144.2,
+      "peak_rss_gib": 1.7177352905273438,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "rhs_compression": 23.32,
+        "linear_solve": 23.31,
+        "operators": 12.94,
+        "rhs_solve": 12.66,
+        "factorization": 9.49,
+        "condition_estimation": 0.83,
+        "far_field": 0.44,
+        "condition_scaling": 0.31,
+        "excitation": 0.13
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 3,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 533085.6233770958,
+      "mesh_convergence_certified": false
+    },
+    "final-workers": {
+      "wall": 4.66,
+      "cpu": 4.26,
+      "peak_rss_gib": 0.12737655639648438,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "factorization": 1.15,
+        "condition_estimation": 1.09,
+        "compressed_spool_write": 0.14,
+        "rhs_compression": 0.08,
+        "linear_solve": 0.07,
+        "compressed_spool_read": 0.06,
+        "far_field": 0.01,
+        "excitation": 0.0,
+        "compressed_memory_sampling": 0.0
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "compressed_spool_write": 16,
+        "factorization": 4,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 849.9260358545531,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-0.01-dense": {
+      "wall": 1.32,
+      "cpu": 1.32,
+      "peak_rss_gib": 0.098785400390625,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 1.06,
+        "operators": 0.67,
+        "near_and_hypersingular": 0.28,
+        "factorization": 0.02,
+        "condition_estimation": 0.01,
+        "condition_scaling": 0.01,
+        "far_field": 0.01,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "near_and_hypersingular": 1,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.33475948106056,
+      "mesh_convergence_certified": false
+    },
+    "tile-600-100.0-dense": {
+      "wall": 2.52,
+      "cpu": 2.53,
+      "peak_rss_gib": 0.12461090087890625,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 1.9,
+        "factorization": 0.16,
+        "rhs_compression": 0.05,
+        "linear_solve": 0.05,
+        "condition_estimation": 0.04,
+        "condition_scaling": 0.02,
+        "rhs_solve": 0.01,
+        "far_field": 0.01,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 594.9788564612902,
+      "mesh_convergence_certified": false
+    },
+    "holdout-airfoil3-before": {
+      "wall": 48.77,
+      "cpu": 92.15,
+      "peak_rss_gib": 0.6950340270996094,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 66.7,
+        "compressed_assembly": 38.3,
+        "hmatrix_assembly": 37.49,
+        "factorization": 5.61,
+        "condition_estimation": 2.86,
+        "hmatrix_norms": 1.13,
+        "rhs_compression": 0.82,
+        "linear_solve": 0.82,
+        "hmatrix_validation": 0.11,
+        "far_field": 0.05
+      },
+      "stage_calls": {
+        "operators": 1720,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 35317.539527525645,
+      "mesh_convergence_certified": false
+    },
+    "holdout-diel6000-after": {
+      "wall": 32.42,
+      "cpu": 77.9,
+      "peak_rss_gib": 0.6795387268066406,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 51.04,
+        "hmatrix_assembly": 20.47,
+        "factorization": 6.88,
+        "condition_estimation": 3.41,
+        "hmatrix_norms": 0.87,
+        "rhs_compression": 0.63,
+        "linear_solve": 0.63,
+        "hmatrix_validation": 0.11,
+        "far_field": 0.04,
+        "excitation": 0.04
+      },
+      "stage_calls": {
+        "operators": 675,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2844.2608602675427,
+      "mesh_convergence_certified": false
+    },
+    "final-p3-diel-compressed": {
+      "wall": 11.46,
+      "cpu": 23.36,
+      "peak_rss_gib": 0.38265228271484375,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 13.77,
+        "hmatrix_assembly": 6.1,
+        "condition_estimation": 2.78,
+        "factorization": 2.71,
+        "rhs_compression": 0.43,
+        "linear_solve": 0.43,
+        "hmatrix_norms": 0.28,
+        "hmatrix_validation": 0.04,
+        "far_field": 0.01,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 355,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2648.4783235907535,
+      "mesh_convergence_certified": false
+    },
+    "diel8k-before-1": {
+      "wall": 55.92,
+      "cpu": 135.27,
+      "peak_rss_gib": 1.1399383544921875,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 78.38,
+        "hmatrix_assembly": 30.33,
+        "condition_estimation": 20.54,
+        "factorization": 14.08,
+        "rhs_compression": 5.04,
+        "linear_solve": 4.75,
+        "hmatrix_norms": 1.58,
+        "excitation": 0.25,
+        "hmatrix_validation": 0.12,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "holdout-diel6000-before": {
+      "wall": 40.19,
+      "cpu": 92.53,
+      "peak_rss_gib": 0.7653541564941406,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 58.7,
+        "hmatrix_assembly": 23.15,
+        "condition_estimation": 14.36,
+        "factorization": 11.39,
+        "hmatrix_norms": 0.89,
+        "rhs_compression": 0.64,
+        "linear_solve": 0.64,
+        "hmatrix_validation": 0.1,
+        "far_field": 0.05,
+        "excitation": 0.03
+      },
+      "stage_calls": {
+        "operators": 675,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2844.2608602675427,
+      "mesh_convergence_certified": false
+    },
+    "final-diel8k-after-1": {
+      "wall": 56.68,
+      "cpu": 142.25,
+      "peak_rss_gib": 1.2597427368164062,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 88.04,
+        "hmatrix_assembly": 34.39,
+        "factorization": 10.52,
+        "rhs_compression": 5.39,
+        "linear_solve": 5.11,
+        "condition_estimation": 4.58,
+        "hmatrix_norms": 1.7,
+        "excitation": 0.31,
+        "hmatrix_validation": 0.14,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-star-compressed": {
+      "wall": 50.2,
+      "cpu": 105.86,
+      "peak_rss_gib": 0.6489448547363281,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 77.69,
+        "compressed_assembly": 37.4,
+        "hmatrix_assembly": 36.79,
+        "factorization": 7.42,
+        "condition_estimation": 2.42,
+        "hmatrix_norms": 0.86,
+        "rhs_compression": 0.58,
+        "linear_solve": 0.57,
+        "hmatrix_validation": 0.17,
+        "far_field": 0.04
+      },
+      "stage_calls": {
+        "operators": 820,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 533085.623355736,
+      "mesh_convergence_certified": false
+    },
+    "final-diel-100.0-dense": {
+      "wall": 9.39,
+      "cpu": 31.96,
+      "peak_rss_gib": 0.5942649841308594,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 3.95,
+        "factorization": 2.74,
+        "rhs_compression": 0.72,
+        "linear_solve": 0.71,
+        "condition_estimation": 0.48,
+        "rhs_solve": 0.37,
+        "condition_scaling": 0.11,
+        "far_field": 0.05,
+        "excitation": 0.05
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.5635869104376,
+      "mesh_convergence_certified": false
+    },
+    "final-fallback-dense": {
+      "wall": 6.83,
+      "cpu": 11.03,
+      "peak_rss_gib": 0.1858978271484375,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 6.07,
+        "factorization": 0.13,
+        "rhs_compression": 0.08,
+        "linear_solve": 0.08,
+        "condition_scaling": 0.06,
+        "condition_estimation": 0.04,
+        "rhs_solve": 0.03,
+        "far_field": 0.02,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 849.9260358545581,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-1.0-compressed": {
+      "wall": 3.1,
+      "cpu": 3.1,
+      "peak_rss_gib": 0.10361099243164062,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 2.8,
+        "compressed_assembly": 2.65,
+        "operators": 2.01,
+        "near_and_hypersingular": 0.54,
+        "compressed_coefficients": 0.25,
+        "factorization": 0.07,
+        "compressed_tile_compression": 0.04,
+        "condition_estimation": 0.03,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 13,
+        "near_and_hypersingular": 4,
+        "compressed_coefficients": 5,
+        "compressed_tile_compression": 5,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.334759481058327,
+      "mesh_convergence_certified": false
+    },
+    "final-frequency-sweep-dense": {
+      "wall": 5.09,
+      "cpu": 14.83,
+      "peak_rss_gib": 0.19802093505859375,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 3.53,
+        "factorization": 0.27,
+        "rhs_compression": 0.12,
+        "linear_solve": 0.12,
+        "condition_estimation": 0.07,
+        "condition_scaling": 0.04,
+        "far_field": 0.03,
+        "rhs_solve": 0.02,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 12,
+        "condition_scaling": 6,
+        "factorization": 6,
+        "condition_estimation": 6,
+        "excitation": 6,
+        "rhs_solve": 6,
+        "linear_solve": 6,
+        "rhs_compression": 6,
+        "far_field": 24
+      },
+      "condition_est_max": 5551.245814370774,
+      "mesh_convergence_certified": false
+    },
+    "tile-600-0.01-dense": {
+      "wall": 2.55,
+      "cpu": 2.56,
+      "peak_rss_gib": 0.12019729614257812,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 1.97,
+        "factorization": 0.16,
+        "rhs_compression": 0.05,
+        "linear_solve": 0.05,
+        "condition_estimation": 0.03,
+        "condition_scaling": 0.02,
+        "rhs_solve": 0.01,
+        "far_field": 0.01,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 849.9260358545548,
+      "mesh_convergence_certified": false
+    },
+    "final-p2-coated-compressed": {
+      "wall": 8.48,
+      "cpu": 17.39,
+      "peak_rss_gib": 0.2404022216796875,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 12.94,
+        "compressed_assembly": 6.2,
+        "hmatrix_assembly": 6.05,
+        "factorization": 1.13,
+        "condition_estimation": 0.53,
+        "rhs_compression": 0.15,
+        "linear_solve": 0.14,
+        "hmatrix_norms": 0.09,
+        "hmatrix_validation": 0.02,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "operators": 249,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 21758.909490023343,
+      "mesh_convergence_certified": false
+    },
+    "holdout-thin-large-after": {
+      "wall": 103.67,
+      "cpu": 108.65,
+      "peak_rss_gib": 0.19549560546875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "thin_layer_operators_and_solve": 103.27,
+        "compressed_assembly": 102.26,
+        "operators": 75.38,
+        "near_and_hypersingular": 21.31,
+        "hmatrix_assembly": 1.85,
+        "compressed_tile_compression": 1.51,
+        "factorization": 0.51,
+        "condition_estimation": 0.31,
+        "rhs_compression": 0.09,
+        "linear_solve": 0.09
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 3,
+        "operators": 344,
+        "near_and_hypersingular": 76,
+        "compressed_tile_compression": 76,
+        "compressed_coefficients": 64,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2,
+        "hmatrix_norms": 1,
+        "hmatrix_validation": 1,
+        "hmatrix_assembly": 1
+      },
+      "condition_est_max": 50.439275548801994,
+      "mesh_convergence_certified": false
+    },
+    "final-adaptive-cavity-dense": {
+      "wall": 0.1,
+      "cpu": 0.26,
+      "peak_rss_gib": 0.05452728271484375,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": null,
+      "stage_calls": {},
+      "condition_est_max": null,
+      "mesh_convergence_certified": null
+    },
+    "final-diel8k-before-0": {
+      "wall": 70.34,
+      "cpu": 156.61,
+      "peak_rss_gib": 1.3161964416503906,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 83.24,
+        "condition_estimation": 44.52,
+        "hmatrix_assembly": 32.0,
+        "factorization": 13.85,
+        "rhs_compression": 5.6,
+        "linear_solve": 5.34,
+        "hmatrix_norms": 1.6,
+        "excitation": 0.33,
+        "hmatrix_validation": 0.14,
+        "far_field": 0.1
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-cavity-dense": {
+      "wall": 0.0,
+      "cpu": 0.0,
+      "peak_rss_gib": 0.0535888671875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": null,
+      "stage_calls": {},
+      "condition_est_max": null,
+      "mesh_convergence_certified": null
+    },
+    "final-diel8k-after-2": {
+      "wall": 71.41,
+      "cpu": 168.38,
+      "peak_rss_gib": 1.2471504211425781,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 104.95,
+        "hmatrix_assembly": 47.64,
+        "factorization": 11.2,
+        "rhs_compression": 5.47,
+        "linear_solve": 5.16,
+        "condition_estimation": 4.67,
+        "hmatrix_norms": 1.63,
+        "excitation": 0.27,
+        "hmatrix_validation": 0.13,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-100.0-dense": {
+      "wall": 1.33,
+      "cpu": 1.33,
+      "peak_rss_gib": 0.09877777099609375,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 1.06,
+        "operators": 0.66,
+        "near_and_hypersingular": 0.3,
+        "factorization": 0.02,
+        "condition_estimation": 0.01,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01,
+        "far_field": 0.0,
+        "condition_scaling": 0.0,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "near_and_hypersingular": 1,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.334759481062607,
+      "mesh_convergence_certified": false
+    },
+    "final-diel8k-after-0": {
+      "wall": 53.2,
+      "cpu": 132.29,
+      "peak_rss_gib": 1.1527328491210938,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 80.0,
+        "hmatrix_assembly": 32.56,
+        "factorization": 9.66,
+        "rhs_compression": 5.0,
+        "linear_solve": 4.73,
+        "condition_estimation": 4.44,
+        "hmatrix_norms": 1.63,
+        "excitation": 0.26,
+        "far_field": 0.12,
+        "hmatrix_validation": 0.12
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-p3-diel-dense": {
+      "wall": 5.77,
+      "cpu": 20.0,
+      "peak_rss_gib": 0.5375289916992188,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 2.26,
+        "factorization": 1.97,
+        "condition_estimation": 0.26,
+        "rhs_compression": 0.21,
+        "linear_solve": 0.21,
+        "condition_scaling": 0.09,
+        "rhs_solve": 0.07,
+        "far_field": 0.03,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2648.478323591331,
+      "mesh_convergence_certified": false
+    },
+    "dense-coat-small": {
+      "wall": 11.61,
+      "cpu": 24.37,
+      "peak_rss_gib": 0.5748023986816406,
+      "source_sha256": "b758d64959f5ce893317ccbfdf04d96e41ac36b6c0ddb7c7d19812bf12b03074",
+      "stages": {
+        "operators": 6.65,
+        "factorization": 2.46,
+        "rhs_compression": 0.64,
+        "linear_solve": 0.64,
+        "rhs_solve": 0.32,
+        "condition_estimation": 0.26,
+        "condition_scaling": 0.08,
+        "far_field": 0.05,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 3,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.39538799601,
+      "mesh_convergence_certified": false
+    },
+    "final-adaptive-cavity-cw-compressed": {
+      "wall": 2.27,
+      "cpu": 6.32,
+      "peak_rss_gib": 0.144775390625,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "compressed_assembly": 0.93,
+        "compressed_coefficients": 0.83,
+        "operators": 0.82,
+        "rhs_compression": 0.46,
+        "linear_solve": 0.46,
+        "factorization": 0.19,
+        "condition_estimation": 0.16,
+        "compressed_spool_write": 0.02,
+        "compressed_tile_compression": 0.02,
+        "excitation": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 2,
+        "compressed_coefficients": 2,
+        "compressed_tile_compression": 4,
+        "compressed_spool_write": 2,
+        "compressed_assembly": 4,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "compressed_spool_read": 2,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 1023.6088736816339,
+      "mesh_convergence_certified": true
+    },
+    "diel8k-tight-0": {
+      "wall": 48.76,
+      "cpu": 124.07,
+      "peak_rss_gib": 1.1626243591308594,
+      "source_sha256": "5e7b4284c6f5b3b29a94c26f84cd0b7edf19db7a2a9288d493bf85dcf228cde8",
+      "stages": {
+        "operators": 76.65,
+        "hmatrix_assembly": 30.3,
+        "factorization": 8.62,
+        "rhs_compression": 5.06,
+        "linear_solve": 4.71,
+        "condition_estimation": 3.18,
+        "hmatrix_norms": 1.55,
+        "excitation": 0.26,
+        "hmatrix_validation": 0.15,
+        "far_field": 0.11
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892358155,
+      "mesh_convergence_certified": false
+    },
+    "final-diel-0.01-dense": {
+      "wall": 10.02,
+      "cpu": 34.18,
+      "peak_rss_gib": 0.58978271484375,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 4.16,
+        "factorization": 3.13,
+        "rhs_compression": 0.85,
+        "linear_solve": 0.85,
+        "condition_estimation": 0.55,
+        "rhs_solve": 0.42,
+        "condition_scaling": 0.12,
+        "far_field": 0.05,
+        "excitation": 0.04
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.5635869104076,
+      "mesh_convergence_certified": false
+    },
+    "final-diel8k-before-1": {
+      "wall": 62.63,
+      "cpu": 146.23,
+      "peak_rss_gib": 1.2556915283203125,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 79.61,
+        "hmatrix_assembly": 32.64,
+        "condition_estimation": 22.41,
+        "factorization": 16.42,
+        "rhs_compression": 6.28,
+        "linear_solve": 6.01,
+        "hmatrix_norms": 2.2,
+        "excitation": 0.33,
+        "hmatrix_validation": 0.31,
+        "far_field": 0.14
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-auto-single-0.85": {
+      "wall": 20.84,
+      "cpu": 21.2,
+      "peak_rss_gib": 0.345977783203125,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 11.18,
+        "factorization": 5.86,
+        "rhs_compression": 0.87,
+        "linear_solve": 0.87,
+        "condition_estimation": 0.43,
+        "rhs_solve": 0.33,
+        "condition_scaling": 0.07,
+        "far_field": 0.04,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 2052.563586910445,
+      "mesh_convergence_certified": false
+    },
+    "probe-after": {
+      "wall": 52.93,
+      "cpu": 128.93,
+      "peak_rss_gib": 1.3283538818359375,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 72.19,
+        "hmatrix_assembly": 27.95,
+        "rhs_compression": 12.21,
+        "factorization": 12.18,
+        "linear_solve": 11.93,
+        "condition_estimation": 7.31,
+        "hmatrix_norms": 1.43,
+        "excitation": 0.25,
+        "hmatrix_validation": 0.12,
+        "far_field": 0.1
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.751789235157,
+      "mesh_convergence_certified": false
+    },
+    "final-regional-workers-dense": {
+      "wall": 1.48,
+      "cpu": 2.71,
+      "peak_rss_gib": 0.15193939208984375,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 0.99,
+        "factorization": 0.06,
+        "condition_estimation": 0.02,
+        "condition_scaling": 0.02,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01,
+        "far_field": 0.01,
+        "rhs_solve": 0.0,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 7365.825772532779,
+      "mesh_convergence_certified": false
+    },
+    "tile-400-100.0-dense": {
+      "wall": 1.45,
+      "cpu": 1.46,
+      "peak_rss_gib": 0.10435104370117188,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "operators": 1.05,
+        "factorization": 0.05,
+        "rhs_compression": 0.02,
+        "linear_solve": 0.02,
+        "condition_estimation": 0.01,
+        "rhs_solve": 0.01,
+        "condition_scaling": 0.01,
+        "far_field": 0.01,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 205.474152886528,
+      "mesh_convergence_certified": false
+    },
+    "probe-before": {
+      "wall": 122.58,
+      "cpu": 232.64,
+      "peak_rss_gib": 1.3133506774902344,
+      "source_sha256": "243f210468dd3cf4aa1c78953ced1238c5f2b815fbf4b5faee1711ecfc124121",
+      "stages": {
+        "operators": 113.07,
+        "hmatrix_assembly": 46.47,
+        "factorization": 42.24,
+        "condition_estimation": 26.33,
+        "rhs_compression": 19.76,
+        "linear_solve": 19.52,
+        "hmatrix_norms": 3.14,
+        "far_field": 1.4,
+        "excitation": 1.06,
+        "hmatrix_validation": 0.16
+      },
+      "stage_calls": {
+        "operators": 854,
+        "hmatrix_norms": 2,
+        "hmatrix_validation": 2,
+        "hmatrix_assembly": 1,
+        "factorization": 3,
+        "condition_estimation": 4,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 3598.7517892362216,
+      "mesh_convergence_certified": false
+    },
+    "final-regional-workers-compressed": {
+      "wall": 3.08,
+      "cpu": 2.34,
+      "peak_rss_gib": 0.1334686279296875,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "compressed_assembly": 2.04,
+        "factorization": 0.41,
+        "condition_estimation": 0.21,
+        "compressed_spool_write": 0.06,
+        "rhs_compression": 0.05,
+        "linear_solve": 0.05,
+        "compressed_spool_read": 0.03,
+        "far_field": 0.01,
+        "excitation": 0.0,
+        "compressed_memory_sampling": 0.0
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "compressed_spool_write": 4,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 7365.825772532623,
+      "mesh_convergence_certified": false
+    },
+    "final-coated-refined-fixed-frequency-dense": {
+      "wall": 36.55,
+      "cpu": 108.7,
+      "peak_rss_gib": 1.949127197265625,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 11.81,
+        "factorization": 11.23,
+        "rhs_compression": 1.59,
+        "linear_solve": 1.59,
+        "condition_estimation": 0.94,
+        "rhs_solve": 0.88,
+        "condition_scaling": 0.2,
+        "far_field": 0.04,
+        "excitation": 0.03
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 100782.77819455694,
+      "mesh_convergence_certified": false
+    },
+    "tile-600-100.0-compressed": {
+      "wall": 3.99,
+      "cpu": 3.99,
+      "peak_rss_gib": 0.121978759765625,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "compressed_coefficients": 2.48,
+        "operators": 2.41,
+        "factorization": 0.44,
+        "compressed_tile_compression": 0.42,
+        "condition_estimation": 0.17,
+        "compressed_spool_write": 0.08,
+        "rhs_compression": 0.03,
+        "linear_solve": 0.03,
+        "compressed_spool_read": 0.02,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "operators": 32,
+        "compressed_coefficients": 16,
+        "compressed_tile_compression": 32,
+        "compressed_spool_write": 16,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 594.9788564612899,
+      "mesh_convergence_certified": false
+    },
+    "final-coated-100.0-dense": {
+      "wall": 8.67,
+      "cpu": 26.8,
+      "peak_rss_gib": 0.569671630859375,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 5.2,
+        "factorization": 1.57,
+        "rhs_compression": 0.22,
+        "linear_solve": 0.22,
+        "condition_estimation": 0.22,
+        "condition_scaling": 0.1,
+        "rhs_solve": 0.09,
+        "far_field": 0.08,
+        "excitation": 0.02
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 53492.39538799893,
+      "mesh_convergence_certified": false
+    },
+    "tile-400-100.0-compressed": {
+      "wall": 2.28,
+      "cpu": 2.27,
+      "peak_rss_gib": 0.11063003540039062,
+      "source_sha256": "a10616730db47475ba94319d911d300d7b94e2b43b3e9935e9d204cc9b3085ed",
+      "stages": {
+        "compressed_coefficients": 1.35,
+        "operators": 1.32,
+        "factorization": 0.26,
+        "compressed_tile_compression": 0.18,
+        "condition_estimation": 0.07,
+        "compressed_spool_write": 0.03,
+        "rhs_compression": 0.02,
+        "linear_solve": 0.02,
+        "compressed_spool_read": 0.01,
+        "far_field": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 2,
+        "operators": 8,
+        "compressed_coefficients": 4,
+        "compressed_tile_compression": 8,
+        "compressed_spool_write": 4,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8,
+        "compressed_spool_read": 1
+      },
+      "condition_est_max": 205.4741528865265,
+      "mesh_convergence_certified": false
+    },
+    "final-certified-diel-dense": {
+      "wall": 1.81,
+      "cpu": 5.39,
+      "peak_rss_gib": 0.18288803100585938,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "operators": 1.06,
+        "factorization": 0.19,
+        "rhs_compression": 0.04,
+        "linear_solve": 0.04,
+        "condition_estimation": 0.03,
+        "condition_scaling": 0.02,
+        "far_field": 0.01,
+        "rhs_solve": 0.01,
+        "excitation": 0.01,
+        "mesh_certification": 0.0
+      },
+      "stage_calls": {
+        "operators": 4,
+        "condition_scaling": 4,
+        "factorization": 4,
+        "condition_estimation": 4,
+        "excitation": 4,
+        "rhs_solve": 4,
+        "linear_solve": 4,
+        "rhs_compression": 4,
+        "far_field": 16,
+        "mesh_certification": 2
+      },
+      "condition_est_max": 3486.977871603407,
+      "mesh_convergence_certified": true
+    },
+    "final-thin-1.0-dense": {
+      "wall": 1.19,
+      "cpu": 1.19,
+      "peak_rss_gib": 0.09856796264648438,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 0.94,
+        "operators": 0.61,
+        "near_and_hypersingular": 0.24,
+        "factorization": 0.02,
+        "condition_estimation": 0.01,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01,
+        "far_field": 0.0,
+        "condition_scaling": 0.0,
+        "excitation": 0.0
+      },
+      "stage_calls": {
+        "operators": 2,
+        "near_and_hypersingular": 1,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.334759481058326,
+      "mesh_convergence_certified": false
+    },
+    "final-thin-0.01-compressed": {
+      "wall": 3.18,
+      "cpu": 3.19,
+      "peak_rss_gib": 0.102508544921875,
+      "source_sha256": "71802fc91430fb9204eaf326d8a9d0fe286eead3dc3098d40087f13770e99bd0",
+      "stages": {
+        "thin_layer_operators_and_solve": 2.93,
+        "compressed_assembly": 2.78,
+        "operators": 2.1,
+        "near_and_hypersingular": 0.58,
+        "compressed_coefficients": 0.24,
+        "factorization": 0.08,
+        "compressed_tile_compression": 0.04,
+        "condition_estimation": 0.03,
+        "rhs_compression": 0.01,
+        "linear_solve": 0.01
+      },
+      "stage_calls": {
+        "compressed_memory_sampling": 4,
+        "operators": 13,
+        "near_and_hypersingular": 4,
+        "compressed_coefficients": 5,
+        "compressed_tile_compression": 5,
+        "compressed_assembly": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 6,
+        "thin_layer_operators_and_solve": 2
+      },
+      "condition_est_max": 15.334759481060553,
+      "mesh_convergence_certified": false
+    },
+    "final-coated-refined-dense": {
+      "wall": 45.42,
+      "cpu": 146.78,
+      "peak_rss_gib": 1.9547004699707031,
+      "source_sha256": "817d4cc7fee52b3b5b34d10380e4277d6bcb91bb4f0a2effc458fbf7947a3216",
+      "stages": {
+        "operators": 16.71,
+        "factorization": 16.01,
+        "rhs_compression": 2.69,
+        "linear_solve": 2.69,
+        "condition_estimation": 1.85,
+        "rhs_solve": 1.42,
+        "condition_scaling": 0.24,
+        "far_field": 0.08,
+        "excitation": 0.08
+      },
+      "stage_calls": {
+        "operators": 2,
+        "condition_scaling": 2,
+        "factorization": 2,
+        "condition_estimation": 2,
+        "excitation": 2,
+        "rhs_solve": 4,
+        "linear_solve": 2,
+        "rhs_compression": 2,
+        "far_field": 8
+      },
+      "condition_est_max": 165429.20418078903,
+      "mesh_convergence_certified": false
+    }
+  }
+}

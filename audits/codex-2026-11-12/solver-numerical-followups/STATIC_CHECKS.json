@@ -1,0 +1,26 @@
+[
+  {
+    "command": [
+      "python",
+      "-m",
+      "compileall",
+      "-q",
+      "tools/GHOST/ghost_backend"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "-c",
+      "core.whitespace=cr-at-eol",
+      "diff",
+      "--check"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

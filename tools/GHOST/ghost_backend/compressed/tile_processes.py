@@ -16,7 +16,8 @@ import time
 MIB = 1024**2
 # Interpreter, libraries, CPU-owned kernel tables and up to two reciprocal
 # tile destinations (the extra 32 MiB is retained in all worker forecasts).
-WORKER_BASE_BYTES = 416*MIB
+# Includes another 16 MiB for normalized compression scratch (512 squared).
+WORKER_BASE_BYTES = 432*MIB
 # One bounded cache per process, retained across compatible mesh generations.
 # Both process admission and retained-worker forecasts use WORKER_BYTES.
 WORKER_MOMENT_BYTES = 64*MIB
@@ -86,6 +87,7 @@ def _compressor(operator):
     shell = StreamedOperator.__new__(StreamedOperator)
     shell.__dict__.update(groups=operator.groups, group_bounds=operator.group_bounds,
                           tolerance=operator.tolerance, compression=operator.compression,
+                          compression_rows=operator.compression_rows, compression_columns=operator.compression_columns,
                           checkpoint=_ignore_checkpoint)
     return shell
 

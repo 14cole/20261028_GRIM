@@ -67,7 +67,7 @@ class CompressedFactor:
         rejected=False
         try:
             compact=False
-            try:self._build(PRECONDITIONER_TOLERANCE)
+            try:self._build(getattr(self,'initial_preconditioner_tolerance',PRECONDITIONER_TOLERANCE))
             except MemoryError as exc:
                 self.event['compact_preconditioner']=str(exc)
                 compact=True
@@ -95,7 +95,19 @@ class CompressedFactor:
         magnitude=np.max(abs(x),axis=0)
         numerator=np.max(abs(residual)+rows[:,None]*magnitude[None,:],axis=0)
         den=np.maximum(lower*magnitude+np.max(abs(b),axis=0),1e-300)
-        return numerator/den
+        errors=numerator/den
+        if hasattr(self.a,'scaled_row_norm'):
+            r,c,norm,bounds=self._tile_scales(trans)
+            magnitude=np.max(abs(x)/c[:,None],axis=0)
+            numerator=np.max(abs(residual)*r[:,None]+bounds[:,None]*magnitude,axis=0)
+            denominator=np.maximum(max(float(np.max(norm-bounds)),0.)*magnitude+np.max(abs(b)*r[:,None],axis=0),1e-300)
+            errors=np.maximum(errors,numerator/denominator)
+        return errors
+
+    def _tile_scales(self,trans):
+        a=self.a
+        if trans:return a.compression_columns,a.compression_rows,a.scaled_column_norm,a.scaled_column_error
+        return a.compression_rows,a.compression_columns,a.scaled_row_norm,a.scaled_row_error
 
     def relative_errors(self,x,b,residual):
         error=abs(residual)+self.a.row_error[:,None]*np.max(abs(x),axis=0)[None,:]
@@ -106,7 +118,13 @@ class CompressedFactor:
     def _backward_errors(self,x,b,residual,trans):
         norm=float(np.max(self.a.row_norm if trans==0 else self.a.column_norm))
         denominator=np.maximum(norm*np.max(abs(x),axis=0)+np.max(abs(b),axis=0),1e-300)
-        return np.max(abs(residual),axis=0)/denominator,denominator
+        errors=np.max(abs(residual),axis=0)/denominator
+        if hasattr(self.a,'scaled_row_norm'):
+            r,c,scaled_norm,_=self._tile_scales(trans)
+            scaled_den=np.maximum(float(np.max(scaled_norm))*np.max(abs(x)/c[:,None],axis=0)+np.max(abs(b)*r[:,None],axis=0),1e-300)
+            errors=np.maximum(errors,np.max(abs(residual)*r[:,None],axis=0)/scaled_den)
+            denominator=np.minimum(denominator,scaled_den/r.max())
+        return errors,denominator
 
     def _upgrade_preconditioner(self):
         """One admitted attempt to avoid repeated expensive corrections.

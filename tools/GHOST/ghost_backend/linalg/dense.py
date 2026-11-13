@@ -47,12 +47,13 @@ class DenseFactor:
             rcs._ensure_finite_linear_system(self.a, label=label)
             self.matrix_inf = matrix_inf_norm(self.a)
         self.lu = self.piv = self.mixed = None
+        self._lu_scaling = None
         self._residual_spool = None
         self._spooled_buffer = None
         # Certification: the equilibration's column pass, before any in-place LU
         # (threaded column blocks; bitwise rcs._equilibrated_scaling_and_norm_1).
         self._condition_scaling = (equilibrated_scaling_and_norm_1(self.a, row_max=row_max)
-                                   if diagnostics is not None and row_max is not None else None)
+                                   if row_max is not None else None)
         blocks = diagnostics.pop('condition_balance_blocks', None) if diagnostics is not None else None
         if blocks is not None and self._condition_scaling is not None:
             # Union-closed combined exteriors only (formulations.combined_regions).
@@ -125,6 +126,32 @@ class DenseFactor:
             self.event['factorizations'] += builds-self.reported_hierarchical_builds
             self.reported_hierarchical_builds = builds
 
+    def _scale_lu_buffer(self, buffer):
+        # Scale only the owned factor buffer, after preserving the physical
+        # coefficients for residuals. No additional full matrix is allocated.
+        self._lu_scaling = self._condition_scaling
+        if self._lu_scaling is not None:
+            rows, columns, _ = self._lu_scaling
+            width = max(1, 1024**2//max(1, 16*len(buffer)))
+            for start in range(0, len(buffer), width):
+                self.checkpoint()
+                buffer[:, start:start+width] /= rows[:, None]
+                buffer[:, start:start+width] /= columns[None, start:start+width]
+            self.event['lu_scaling'] = 'condition_row_column_equilibration'
+        return buffer
+
+    def _solve_lu(self, b, trans=0):
+        import ghost_backend.twod.solver as rcs
+        if self._lu_scaling is None:
+            return rcs._SCIPY_LINALG.lu_solve((self.lu, self.piv), b, trans=trans, check_finite=False)
+        rows, columns, _ = self._lu_scaling
+        left, right = (rows, columns) if trans == 0 else (columns, rows)
+        shape = (slice(None), None) if np.ndim(b) == 2 else slice(None)
+        rhs = np.asarray(b)/left[shape]
+        x = rcs._SCIPY_LINALG.lu_solve((self.lu, self.piv), rhs, trans=trans, overwrite_b=True, check_finite=False)
+        x /= right[shape]
+        return x
+
     def _factor_double(self):
         import ghost_backend.twod.solver as rcs
         self._sync_hierarchical_builds()
@@ -153,7 +180,7 @@ class DenseFactor:
                     original = self.a
                     try:
                         self.lu, self.piv = timed_stage('factorization')(rcs._SCIPY_LINALG.lu_factor)(
-                            original, overwrite_a=True, check_finite=False)
+                            self._scale_lu_buffer(original), overwrite_a=True, check_finite=False)
                     except BaseException:
                         spool.close()
                         raise
@@ -167,7 +194,7 @@ class DenseFactor:
                     return
             lu_buffer = copy_for_lu(self.a)
             self.lu, self.piv = timed_stage('factorization')(rcs._SCIPY_LINALG.lu_factor)(
-                lu_buffer, overwrite_a=True, check_finite=False)
+                self._scale_lu_buffer(lu_buffer), overwrite_a=True, check_finite=False)
             self.event['factorizations'] += 1
 
     def _condition(self):
@@ -207,8 +234,8 @@ class DenseFactor:
                 failed = True
         elif self.lu is not None:
             estimate = rcs._equilibrated_condition_from_lu(self.a, self.lu, self.piv,
-                scaling=self._condition_scaling)
-            method = 'equilibrated_1norm_lu_onenormest'
+                self._solve_lu, scaling=self._condition_scaling)
+            method = 'equilibrated_1norm_scaled_lu_onenormest'
         else:
 
             row = np.maximum(np.max(np.abs(self.a), axis=1), 1e-300)
@@ -263,8 +290,7 @@ class DenseFactor:
             self.event['factorizations'] += 1
             x = np.linalg.solve(self.a, b)
         else:
-            x = timed_stage('rhs_solve')(rcs._SCIPY_LINALG.lu_solve)(
-                (self.lu, self.piv), b, check_finite=False)
+            x = timed_stage('rhs_solve')(self._solve_lu)(b)
         return (x, None) if return_residual else x
 
     @_timed_factor_work
@@ -286,6 +312,9 @@ class DenseFactor:
 
             np.negative(inner_residual, out=inner_residual)
             self.event['residual_products_reused'] = self.event.get('residual_products_reused', 0) + 1
+        scaling = self._condition_scaling
+        # Reuse the bounded equilibration pass and its 1-norm. The physical
+        # infinity-norm gate remains authoritative alongside this scaled gate.
         def metrics(candidate, residual=None):
             if residual is None:
                 residual = self.a @ candidate - b
@@ -297,18 +326,29 @@ class DenseFactor:
             # above holds, and the column would be reported as exact.  A zero
             # RHS with a zero solution (ri = den = 0) stays a valid 0.
             errors[~(np.isfinite(ri) & np.isfinite(den))] = np.inf
-            return residual, float(np.max(errors))
-        residual, error = metrics(x, inner_residual)
+            physical = float(np.max(errors))
+            scaled = physical
+            if scaling is not None:
+                rows, columns, norm_a = scaling
+                numerator = np.sum(abs(residual)/rows[:, None], axis=0)
+                denominator = (norm_a*np.sum(abs(candidate)*columns[:, None], axis=0)
+                               + np.sum(abs(b)/rows[:, None], axis=0))
+                values = np.divide(numerator, denominator, out=np.zeros_like(numerator), where=denominator > 0)
+                values[(denominator <= 0) & (numerator > 0)] = np.inf
+                values[~(np.isfinite(numerator) & np.isfinite(denominator))] = np.inf
+                scaled = float(np.max(values))
+            return residual, physical, scaled
+        residual, error, scaled_error = metrics(x, inner_residual)
         inner_residual = None
         steps = 0
-        for attempt in range(2):
-            if error <= rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX:
+        for attempt in range(5):
+            if error <= rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX and scaled_error <= 3e-15:
                 break
             candidate = x + self._apply_inverse(-residual)
-            updated, candidate_error = metrics(candidate)
-            if candidate_error >= error:
+            updated, candidate_error, candidate_scaled = metrics(candidate)
+            if max(candidate_error/rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX, candidate_scaled/3e-15) >= max(error/rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX, scaled_error/3e-15):
                 break
-            x, residual, error = candidate, updated, candidate_error
+            x, residual, error, scaled_error = candidate, updated, candidate_error, candidate_scaled
             steps += 1
         if first_nonfinite(x) is not None:
             raise RuntimeError('{} returned a nonfinite solution: the matrix is singular to working '
@@ -316,6 +356,10 @@ class DenseFactor:
         if not np.isfinite(error) or error > rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX:
             raise RuntimeError('{} normwise backward error {} exceeds the release limit {}.'.format(
                 self.label, error, rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX))
+        if not np.isfinite(scaled_error) or scaled_error > rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX:
+            raise RuntimeError('{} equilibrated backward error {} exceeds the release limit {}.'.format(
+                self.label, scaled_error, rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX))
+        self.event['max_equilibrated_backward_error'] = max(self.event.get('max_equilibrated_backward_error', 0.), scaled_error)
         norm = np.linalg.norm(b, axis=0)
         self.relative_residual = np.linalg.norm(residual, axis=0) / np.where(norm <= rcs.EPS, 1., norm)
         self.event['rhs_batches'] += 1
@@ -325,6 +369,7 @@ class DenseFactor:
         if self.diagnostics is not None:
             self.diagnostics.update(linear_backward_error=self.event['max_backward_error'],
                                     linear_backward_error_limit=rcs.DENSE_LINEAR_BACKWARD_ERROR_MAX,
+                                    linear_equilibrated_backward_error=self.event['max_equilibrated_backward_error'],
                                     linear_refinement_steps=max(self.diagnostics.get('linear_refinement_steps', 0), steps))
             if self.mixed is not None:
                 self.diagnostics['mixed_precision_corrections'] = self.mixed.max_corrections

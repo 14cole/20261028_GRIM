@@ -141,7 +141,14 @@ class HMatrixFactor(CompressedFactor):
             from ghost_backend.compressed.runtime import hmatrix_storage_budget
             storage_budget_bytes = hmatrix_storage_budget()
         self.storage_allowance = int(storage_budget_bytes)
+        # Calibrated on large single-dielectric systems: the coarse inverse
+        # otherwise triggers an admitted rebuild during the first probes.
+        # This is an initial guess, not a relaxed residual/condition policy;
+        # the ordinary compact-inverse retry remains available under pressure.
+        if getattr(operator.oracle, 'kind', None) == 'dielectric' and operator.n >= 4096:
+            self.initial_preconditioner_tolerance = 1e-10
         super().__init__(operator, *args, storage_budget_bytes=storage_budget_bytes, **kwargs)
+        self.event['initial_preconditioner_tolerance'] = getattr(self, 'initial_preconditioner_tolerance', 1e-8)
         self.event['solve_blas_threads'] = 1
         self.event['solve_blas_policy'] = 'small_products_within_requested_cap'
 
@@ -220,12 +227,15 @@ class HMatrixFactor(CompressedFactor):
             return solution, residual[:, 0] if vector else residual
         return solution
 
-    @timed_stage('condition_estimation')
     @factor_blas_threads
     def _condition(self):
         blocks = self.diagnostics.get('condition_balance_blocks')
         if blocks is None:
             return super()._condition()
+        return self._balanced_condition(blocks)
+
+    @timed_stage('condition_estimation')
+    def _balanced_condition(self, blocks):
         # Block Sinkhorn balance from one pass over the retained blocks.
         self.diagnostics.pop('condition_balance_blocks')
         rows, columns, _ = self.a.equilibrate()
@@ -242,6 +252,12 @@ class HMatrixFactor(CompressedFactor):
         estimate = norm*float(onenormest(inverse))
         if not np.isfinite(estimate):
             raise hf.HierarchicalRejected('Nonfinite hierarchical condition estimate.')
+        from ghost_backend.compressed.factor import CONDITION_PROBE_ACCEPTED_PERTURBATION
+        if estimate*probe > CONDITION_PROBE_ACCEPTED_PERTURBATION and self.event.get('max_probe_backward_error', 0.) > SOLVE_BACKWARD_ERROR_LIMIT:
+            probe = SOLVE_BACKWARD_ERROR_LIMIT
+            estimate = norm*float(onenormest(inverse))
+            if not np.isfinite(estimate):
+                raise hf.HierarchicalRejected('Nonfinite hierarchical condition estimate.')
         self.diagnostics.update(condition_est=estimate, condition_label=self.label,
             condition_method='equilibrated_1norm_hmatrix_refined_inverse_block_balanced')
 

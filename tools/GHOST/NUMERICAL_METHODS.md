@@ -264,6 +264,18 @@ O(h^2). Far tiles are computed on threads but scattered in a fixed tile order,
 so thread counts give bitwise identical matrices, and weighted tile
 preparation occurs outside the matrix scatter lock.
 
+Dense double-precision LU factors the row/column-equilibrated matrix using
+its existing condition-estimation scales. Only the owned LU buffer is scaled;
+physical coefficients remain intact in RAM or the original-matrix spool.
+Normal, transpose and adjoint inverse actions transform both RHS and solution,
+so field evaluation and residuals retain physical units. Refinement checks both
+the physical infinity-norm backward error and the equilibrated 1-norm error;
+the latter targets 3e-15, with at most five improving corrections. Both final
+errors must satisfy the unchanged 1e-12 release limit. The condition definition,
+condition gate and mesh certification thresholds are unchanged. This corrects
+scale-dependent early stopping and improves LU robustness without another full
+matrix allocation.
+
 Dense double-precision LU can spool an exclusively owned original matrix to
 temporary disk storage and overwrite its RAM buffer with LU. Every residual
 product still uses every original row; condition scaling is computed before
@@ -401,7 +413,12 @@ itself differs from LU by 1e-9) and 1.4e-8 on the 0.001-inch coat
 *Factorization.* The compressed backend's inverse tree (Woodbury HODLR at
 `1e-8`, refinement and GMRES) is built from range products with the
 retained factors (adaptive randomized sampling, ranks up to 2,048), so no
-coefficient is read twice. Condition estimates use exact one-pass
+coefficient is read twice. Single-dielectric hierarchical systems with at least
+4,096 unknowns start at `1e-10`, avoiding the coarse build and subsequent
+upgrade seen in the calibrated large dielectric cases. This is a performance
+heuristic, not an accuracy threshold or size limit. All original refinement,
+physical/scaled acceptance and condition gates still apply; insufficient storage
+retains the compact `1e-6` retry. Condition estimates use exact one-pass
 equilibration over the retained blocks. A factorization owns one lazily started
 thread team for its range products; it joins that team on success, failure or
 cancellation. Adjoint products reduce bounded batches of block contributions
@@ -1258,3 +1275,27 @@ a 4,096-unknown PEC solve (estimate 0.67 GiB, partner 0.25 GiB) peaked at
 and 0.66 GiB under 0.93 GiB. A forecast that lies below an unreserved run's
 peak by one matrix is the expected consequence, not an under-reservation.
 
+
+### Solver numerical follow-ups (November 2026)
+
+The legacy tile path now also chooses compression ranks in dimensionless
+coordinates, then unscales its retained factors. Both physical and scaled full-tile
+error checks apply after unscaling; failed proposals retain exact tiles. Row and
+column sums of the full coefficient error are accumulated in both coordinate
+systems. Normal/transpose/adjoint refinement and final original-coefficient
+bounds require both, without changing the 3e-15 refinement target or 1e-12
+field acceptance limit. Six extra real vectors cost 48 bytes per unknown;
+forecast ceilings, worker payloads, process allowances and compression scratch
+include them. Disk-spooled partner operators retain the same bounds.
+
+For nonlocal thin layers, the four blocks scale as length, one, length squared,
+and length when geometry and layer thickness scale together. Their multipliers
+are R=diag(I,k I), C=diag(k I,I); constrained endpoint rows use one. This extends
+scaled compression to the thin-layer polarization excluded from the hierarchy.
+Experimental CUR proposals in physical units are bypassed for normalized tiles.
+
+Hierarchical condition-estimation telemetry no longer nests two timers with the
+same name. Each polarization is counted once; comparisons with earlier profiles
+must correct the duplicated condition-stage time. Other stage times remain
+inclusive and can overlap. The reviewed probe-tolerance relaxation was not
+retained: condition probes still refine to the same strict target as before.

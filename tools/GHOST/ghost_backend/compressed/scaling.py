@@ -29,8 +29,15 @@ def compression_scales(oracle):
     elif kind == 'sheet':
         rows[:] = k*k if oracle.pol == 'TM' else 1.
         rows[getattr(oracle, 'endpoints', [])] = 1.
-    elif kind == 'thin' and oracle.B == 0:
-        rows[:] = k
+    elif kind == 'thin':
+        if oracle.B == 0:
+            rows[:] = k
+        else:
+            # C M^-1 S + M, C M^-1 K, B K', and M-B W scale as
+            # length, 1, length**2, length when thickness scales too.
+            rows[oracle.nn:] = k
+            columns[:oracle.nn] = k
+            rows[oracle.nn + oracle.endpoints] = 1.
     elif layout is not None:
         from ghost_backend.twod.constants import EPS
         for mi, interface in enumerate(layout['ifaces']):

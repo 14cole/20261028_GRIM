@@ -1,0 +1,24 @@
+{
+  "preliminary": [
+    "probe-before",
+    "probe-after",
+    "dense-coat-small",
+    "dense-coat-large",
+    "tile-*",
+    "diel8k-*"
+  ],
+  "timing_excluded": [
+    "probe-before"
+  ],
+  "experimental_probe_policy": "diel8k-probe and diel8k-tight use relaxed probes, not retained in production. run_benchmarks.py now reproduces the intermediate policy through audit-only hooks on final source. final-* and holdout-* use strict production probes.",
+  "preliminary_focused_failure": "Bitwise products differed after spooling because BLAS layout changed; factor arrays are bitwise identical. Updated test verifies coefficients exactly and products to roundoff. focused-preliminary.log retained, focused.log is final.",
+  "source_notes": "Final source hash changed from preliminary runs due to Dense equilibration, timer correction, stronger initialization and preserved original line endings. See per-run hashes; no baseline timing excludes other first runs or outliers.",
+  "harness_errors": {
+    "final-cavity-*": "Incorrect keyword placement; fixed runners now place mesh_strategy in execution options.",
+    "final-adaptive-cavity-*": "Counterclockwise closed boundary correctly refused; CW correction uses new names and retains rejected files."
+  },
+  "final_source_note": "Last operator change bypasses normalization when row and column multipliers are each uniform. Full 207 regressions predate this shortcut; focused invariant test and final 60 physics checks cover final source. Per-run hashes preserve this distinction.",
+  "timing_caveat": "First final-diel8k-before-0 overlapped approximately 0.8 seconds of focused tests at startup. It is retained; all three pairs are reported, not filtered.",
+  "large_control": "20-foot thin-coated star failed the unchanged condition gate before field RHS solves; no fields emitted. This does not reproduce the older audit-only block-balanced experiment past its condition gate.",
+  "refinement_control": "final-coated-refined-dense doubled input panels but inherited the panel-dependent default frequency, so it is a higher-frequency auxiliary control, not same-problem mesh convergence. final-coated-refined-fixed-frequency-dense explicitly holds 0.04768926290582116 GHz and radius 100 m. Both raw runs retained."
+}

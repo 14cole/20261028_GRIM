@@ -59,7 +59,7 @@ def sample_operator(oracle, coordinates, tile=512, checkpoint=None, pilot_identi
     from ghost_backend.compressed.operator import StreamedOperator
     checkpoint = checkpoint or (lambda: None)
     shell = StreamedOperator(oracle, coordinates, tile=tile, assemble=False,
-        budget=max(16*MIB, 128*oracle.n), checkpoint=checkpoint)
+        budget=max(16*MIB, 192*oracle.n), checkpoint=checkpoint)
     lengths = np.asarray([len(ids) for ids in shell.groups], dtype=np.int64)
     groups = len(lengths)
     diagonal = 16*int(np.dot(lengths, lengths))
@@ -175,7 +175,7 @@ def geometry_storage(mesh, infos, pol, kind, k0, layer=None, dofs=None):
     if previous is not None:
         return previous
     if dofs is not None and dofs <= SMALL_DENSE_DOFS:
-        size = 16*dofs**2 + 96*dofs
+        size = 16*dofs**2 + 144*dofs
         return dict(method='small_dense_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, samples=0, sampled=False, seconds=0.)
     session = current_session()
@@ -195,7 +195,7 @@ def geometry_storage(mesh, infos, pol, kind, k0, layer=None, dofs=None):
         xy = coordinates(mesh, oracle.n)
     if oracle.n <= SMALL_DENSE_DOFS:
 
-        size = 16*oracle.n**2 + 96*oracle.n
+        size = 16*oracle.n**2 + 144*oracle.n
         result = dict(method='small_dense_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, samples=0, sampled=False)
     else:
@@ -226,7 +226,7 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
         return hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb, storage_limit)
     sample = resources.get('compressed_storage')
     if sample is None:
-        size = min(storage_limit, 16*d*d+96*d)
+        size = min(storage_limit, 16*d*d+144*d)
         sample = dict(method='dimensions_only_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, sampled=False, samples=0)
     expected = sample['operator_bytes']
@@ -259,6 +259,8 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
         kernel_work = max(kernel_work,312*min(n,_ASSEMBLY_TILE)**2)
     # Reciprocal traversal keeps at most two directional tile destinations.
     assembly_work = 96*MIB + max(1,threads)*kernel_work + 16*512*min(n,1024)
+    # Two in-process compression tasks may retain normalized tile scratch.
+    assembly_work += min(2,max(1,threads))*64*tile*tile
 
 
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
