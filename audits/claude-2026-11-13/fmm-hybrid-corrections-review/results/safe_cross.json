@@ -1,0 +1,74 @@
+[
+  {
+    "case": "zero",
+    "errors": [
+      1.4171950231576374e-15,
+      0.0,
+      1.4171950231576374e-15
+    ],
+    "ranks": [
+      3,
+      0,
+      3
+    ],
+    "estimate": 0.006543528566169019
+  },
+  {
+    "case": "tiny",
+    "errors": [
+      1.4171950231576374e-15,
+      1.9650303109347484e-15,
+      1.4171950231576374e-15
+    ],
+    "ranks": [
+      3,
+      3,
+      3
+    ],
+    "estimate": 0.006543528566169019
+  },
+  {
+    "case": "all_zero",
+    "errors": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ranks": [
+      0,
+      0,
+      0
+    ],
+    "estimate": 0.0
+  },
+  {
+    "case": "nonzero_subnormal",
+    "rejected_to_exact_storage": true
+  },
+  {
+    "case": "original_subnormal",
+    "ranks": [
+      0,
+      0,
+      0
+    ],
+    "warnings": [
+      "overflow encountered in divide",
+      "invalid value encountered in divide",
+      "overflow encountered in divide",
+      "invalid value encountered in divide",
+      "overflow encountered in divide",
+      "invalid value encountered in divide"
+    ],
+    "relative_S": 1.0
+  },
+  {
+    "case": "production_style_global_nonzero_tolerance",
+    "relative_S": 6.323944000748988e-16,
+    "ranks": [
+      3,
+      0,
+      3
+    ]
+  }
+]
