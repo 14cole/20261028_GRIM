@@ -1,0 +1,186 @@
+Process 86142: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python compressed_control.py {"n": 32768, "k": 640.0, "adaptive_sketch": true, "initial_rank_cap": 256, "storage_budget_gib": 10, "out": "results/adaptive-65536"}
+Python v3.12.14 (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12)
+
+Thread 86142 (active+gil): "MainThread"
+    lstsq (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/linalg/_basic.py:1784)
+        Arguments:
+            a: <numpy.ndarray at 0x7f61747add10>
+            b: <numpy.ndarray at 0x7f61747a2370>
+            cond: 0.00000000000001
+            overwrite_a: False
+            overwrite_b: True
+            check_finite: False
+            lapack_driver: "gelsy"
+        Locals:
+            a1: <numpy.ndarray at 0x7f61747add10>
+            b1: <numpy.ndarray at 0x7f61747b1cb0>
+            m: 1384
+            n: 2709
+            nrhs: 12
+            driver: "gelsy"
+            lapack_func: <fortran at 0x7f6180219a10>
+            lapack_lwork: <fortran at 0x7f6180219aa0>
+            real_data: False
+            b2: <numpy.ndarray at 0x7f61747b1cb0>
+            lwork: 93522
+            jptv: <numpy.ndarray at 0x7f61747b0ed0>
+    _apply_over_batch.<locals>.decorator.<locals>.wrapper (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/_lib/_util.py:1181)
+        Locals:
+            args: [<numpy.ndarray at 0x7f61747add10>, <numpy.ndarray at 0x7f61747a2370>]
+            kwargs: {"cond": 0.00000000000001, "lapack_driver": "gelsy", "check_finite": False}
+            arrays: [<numpy.ndarray at 0x7f61747add10>, <numpy.ndarray at 0x7f61747a2370>]
+            other_args: []
+            i: 1
+            name: "b"
+            xp: <module at 0x7f6180d41080>
+            batch_shapes: [(), ()]
+            core_shapes: [(1384, 2709), (1384, 12)]
+            array: <numpy.ndarray at 0x7f61747a2370>
+            ndim: 2
+            shape: (1384, 12)
+    _solve (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:382)
+        Arguments:
+            matrix: <numpy.ndarray at 0x7f61747add10>
+            rhs: <numpy.ndarray at 0x7f61747a2370>
+    cross_approximation (<research adaptive column sketch>:89)
+        Arguments:
+            rows: <function at 0x7f6177e3cf40>
+            columns: <function at 0x7f6177e3df80>
+            shape: (32768, 4096)
+            tolerance: <numpy.ndarray at 0x7f6174760b10>
+            start_rank: 256
+            rng: <numpy.random._generator.Generator at 0x7f61768f5ee0>
+            max_rank: None
+        Locals:
+            m: 32768
+            n: 4096
+            limit: 4096
+            unit: 0.00008631674575031097
+            sampled: <numpy.ndarray at 0x7f617479be10>
+            first: <numpy.ndarray at 0x7f6174798150>
+            index: <numpy.ndarray at 0x7f61747cbf30>
+            values: [<numpy.ndarray at 0x7f61747cbe70>]
+            count: 1
+            have: <numpy.ndarray at 0x7f617479bbd0>
+            _: 5
+            known: [...]
+            estimate: 1.9881266391171828
+            skeleton: <numpy.ndarray at 0x7f617479bb10>
+            bases: [<numpy.ndarray at 0x7f61747e2c70>]
+            inverses: [<numpy.ndarray at 0x7f6174792430>]
+            factor: 0.125
+            previous_skeleton: 855
+            width: 855
+            original_sketch: 1710
+            sketch: 1710
+            sample_bytes: 177537024
+            sample_rows: 2709
+            workspace: 710148096
+            value: <numpy.ndarray at 0x7f61747cbe70>
+            t: 0.000000000003957209851994976
+            stacked: None
+            omega: None
+            missing: <numpy.ndarray at 0x7f617479fbd0>
+            store: {0: <numpy.ndarray at 0x7f6174798090>, 1: <numpy.ndarray at 0x7f6174799b30>, 9: <numpy.ndarray at 0x7f6174799e90>, ...}
+            fetched: <numpy.ndarray at 0x7f617479b5d0>
+            j: 4083
+            column: <numpy.ndarray at 0x7f6174792370>
+            basis: <numpy.ndarray at 0x7f61747e2c70>
+            probes: <numpy.ndarray at 0x7f61747d1b90>
+            weight: <numpy.ndarray at 0x7f61747923d0>
+            heavy: <numpy.ndarray at 0x7f61747adc50>
+            probe_values: [<numpy.ndarray at 0x7f61747924f0>]
+            passed: True
+            ratios: []
+            inverse: <numpy.ndarray at 0x7f6174792430>
+            probe: <numpy.ndarray at 0x7f61747924f0>
+            transfer: <numpy.ndarray at 0x7f617479d230>
+            residual: <numpy.ndarray at 0x7f617479f930>
+            norms: <numpy.ndarray at 0x7f617479f330>
+            current: 0.000000000007867434323328175
+            extra: <numpy.ndarray at 0x7f617479b450>
+            grow: 899
+            add: <numpy.ndarray at 0x7f61747ca490>
+            added: [<numpy.ndarray at 0x7f617479d890>]
+    _assemble.<locals>.compress (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:710)
+        Arguments:
+            k: 194
+            check: <function at 0x7f6177e3e020>
+            guess: 442
+        Locals:
+            ranges: [(8192, 12288), (12288, 16384), (16384, 20480), (40960, 45056), (45056, 49152), (49152, 53248), (53248, 57344), ...]
+            m: 4096
+            w: 32768
+            targets_tolerance: [0.000000000003957209851994976]
+            rng: <numpy.random._generator.Generator at 0x7f61768f5ee0>
+    _assemble.<locals>.<lambda> (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:740)
+        Arguments:
+            check: <function at 0x7f6177e3e020>
+            k: 194
+    _run.<locals>.run (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:583)
+        Arguments:
+            task: <function at 0x7f6177e3d8a0>
+    _run (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:586)
+        Arguments:
+            tasks: [<function at 0x7f617841bf60>, <function at 0x7f6177e3cfe0>, <function at 0x7f6177e3c7c0>, <function at 0x7f6177e3d8a0>, ...]
+            consume: <function at 0x7f6177e3c0e0>
+            checkpoint: <cell at 0x7f6180b09870>
+        Locals:
+            _thread_budget: <function at 0x7f6177e3f9c0>
+            single_thread_blas: <function at 0x7f6180ecc860>
+            budget: 1
+            workers: 1
+            wait: <function at 0x7f6180b558a0>
+            deque: 1
+            Event: 0
+            index: 3
+            task: <function at 0x7f6177e3d8a0>
+    _assemble (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:740)
+        Arguments:
+            oracle: <cell at 0x7f617b4f2e60>
+            targets: <cell at 0x7f617acf6f50>
+        Locals:
+            n: 65536
+            checkpoint: <function at 0x7f617841bb00>
+            near: {8: [8, 9, 11, 12, 15], 9: [8, 9, 11, 15, 16], 11: [8, 9, 11, 12, 23], 12: [8, 11, 12, 23, 24], 15: [8, 9, 15, 16, 18], ...}
+            target: <HMatrixOperator at 0x7f6178403e60>
+            k: 496
+            a: 65280
+            b: 65536
+            ranges: [(53248, 53504), (65024, 65280), (65280, 65536)]
+            columns: <numpy.ndarray at 0x7f6177e59410>
+            store_near: <function at 0x7f617841bec0>
+            near_entries: 79298560
+            levels: [8, 7, 6, 5, 4, 3]
+            previous: 442
+            finer: 191
+            lists: [4, 35, 67, 98, 131, 162, 194, 225, 259, 290, 322, 353, 386, 417, 449, 480]
+            measured: [94, 140, 76, 68, 117, 81, 76, 70]
+            rank_max: 191
+            row: <BlockRow at 0x7f61747a8190>
+            growth: 2.2738095238095237
+    timed_stage.<locals>.decorate.<locals>.measured (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/execution/metrics.py:229)
+        Locals:
+            args: (<NativeOracle at 0x7f618056dd60>, [<HMatrixOperator at 0x7f6178403e60>])
+            kwargs: {}
+            metrics: None
+    HMatrixOperator.__init__ (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:960)
+        Arguments:
+            self: <HMatrixOperator at 0x7f6178403e60>
+            oracle: <NativeOracle at 0x7f618056dd60>
+            coordinates: <numpy.ndarray at 0x7f617841cb70>
+            radius: <numpy.ndarray at 0x7f617841ed90>
+            leaf: None
+            eta: 1
+            tolerance: 0.000000000001
+            budget: 10737418240
+            checkpoint: None
+            seed: 20261017
+            assemble: True
+            ledger: None
+        Locals:
+            compression_scales: <function at 0x7f617841be20>
+            row_scale: <numpy.ndarray at 0x7f617841f390>
+            column_scale: <numpy.ndarray at 0x7f617841eeb0>
+            register: <function at 0x7f6178419ee0>
+    <module> (/workspace/fmm-scale-study/compressed_control.py:32)

@@ -1,0 +1,19 @@
+{
+  "reason": "Research cutoff after diagnosing oversized QR work; not a numerical failure or completed comparison",
+  "elapsed_seconds_before_stop": 4064.6900000000023,
+  "stopped_utc": "2026-11-13T23:48:34.309785+00:00",
+  "signal": "SIGTERM",
+  "validated": false,
+  "diagnostic": {
+    "qr_shape": [
+      6204,
+      8192
+    ],
+    "initial_forecast": 2183,
+    "observed_skeleton": 123,
+    "retained_sample_rows": 6204,
+    "sketch_floor": 3306,
+    "workspace_reserved_bytes": 3252682752
+  },
+  "next_step": "Validate adaptive observed-rank sketches and a bounded initial forecast without changing tolerances or acceptance gates"
+}

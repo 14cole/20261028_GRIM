@@ -1,0 +1,17 @@
+Process 84589: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python compressed_control.py {"n": 32768, "k": 640.0, "storage_budget_gib": 10, "out": "results/compressed-65536"}
+Python v3.12.14 (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12)
+
+Thread 84589 (active): "MainThread"
+    safecall (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/linalg/_decomp_qr.py:21)
+    qr (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/linalg/_decomp_qr.py:179)
+    _apply_over_batch.<locals>.decorator.<locals>.wrapper (/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/_lib/_util.py:1181)
+    _leading_columns (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:369)
+    cross_approximation (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:457)
+    _assemble.<locals>.compress (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:710)
+    _assemble.<locals>.<lambda> (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:740)
+    _run.<locals>.run (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:583)
+    _run (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:586)
+    _assemble (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:740)
+    timed_stage.<locals>.decorate.<locals>.measured (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/execution/metrics.py:229)
+    HMatrixOperator.__init__ (/workspace/fmm-scale-study/candidate/tools/GHOST/ghost_backend/compressed/hmatrix.py:960)
+    <module> (/workspace/fmm-scale-study/compressed_control.py:29)
