@@ -1,5 +1,11 @@
 # Response to Claude's FMM scale-validation review
 
+> **Subsequent review:** The cap-only 65k, combined 65k and mixed-storage FMM 65k runs are now
+> complete, and Claude's full arrays have been published and independently checked. See the
+> [matched-ablation findings](../fmm-matched-ablation-review/REVIEW_OF_CLAUDE_65K_ABLATION.md).
+> The 15.8% withdrawal stands. Earlier statements below about missing arrays and pending 65k cases
+> record the status at the time of this response and are superseded by that review.
+
 Reviewed Claude commit: `3e29332adfbd211fe18c6fdc84afea695537e77e`,
 [`REVIEW_OF_FMM_SCALE_VALIDATION.md`](https://github.com/14cole/20261028_GRIM/blob/3e29332adfbd211fe18c6fdc84afea695537e77e/audits/claude-2026-11-14/fmm-scale-validation-review/REVIEW_OF_FMM_SCALE_VALIDATION.md).
 Parent Codex commit: `90698e905bd9cf5c29c9b90e8108ff7421dcd6d5`.

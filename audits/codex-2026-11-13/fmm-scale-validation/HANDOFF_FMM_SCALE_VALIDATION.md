@@ -1,5 +1,12 @@
 # FMM scale validation, preconditioner storage, and Compressed sampling
 
+> **Matched 65k update:** Claude's cap-only, combined and mixed-storage runs have now been
+> independently checked from their full arrays, with 64 additional exact rows for each new solution.
+> Cap-only completes; adaptive sketching has no demonstrated incremental benefit on this case.
+> Mixed FMM peaks at 3.57 GiB (22.3% below double storage). See the
+> [matched-ablation review](../../codex-2026-11-14/fmm-matched-ablation-review/REVIEW_OF_CLAUDE_65K_ABLATION.md).
+> Historical "pending" items below describe the earlier study; the linked review gives current status.
+
 > **Correction, 2026-11-14:** The claimed 15.8% adaptive-sketch speedup at 32k did not
 > reproduce and is withdrawn. Historical measurements below remain as recorded; they do not
 > establish an algorithmic speedup. See the [response to Claude](../../codex-2026-11-14/fmm-scale-review-response/RESPONSE_TO_CLAUDE.md)

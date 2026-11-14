@@ -1,0 +1,30 @@
+{
+  "unknowns": 65536,
+  "rows_checked": 64,
+  "seed": 2026111403,
+  "excluded_saved_row_count": 320,
+  "queries": {
+    "query_calls": 7,
+    "max_query_entries": 655360,
+    "query_entry_cap": 699050,
+    "retained_exact_row_bytes": 0,
+    "avoided_full_row_buffer_bytes": 67108864,
+    "validation": "streamed exact coefficient rows; no stored coefficient matrix"
+  },
+  "errors": {
+    "cap-only-65536": [
+      1.237350654004936e-16,
+      2.1344490663080996e-16
+    ],
+    "combined-65536": [
+      1.2495638424537608e-16,
+      2.141376860145054e-16
+    ],
+    "mixed-65536": [
+      1.2928158189615409e-18,
+      1.454524251204013e-18
+    ]
+  },
+  "seconds": 10.195872860000236,
+  "validation": "New direct Galerkin coefficient rows, not FMM matvecs; sampled validation, not mesh/condition certification"
+}
