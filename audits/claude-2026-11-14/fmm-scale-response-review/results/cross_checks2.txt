@@ -1,0 +1,48 @@
+codex combined npz ['../../sv_evidence/results/adaptive-65536.npz']
+my combined vs Codex combined bitwise True field 0.00e+00 density 0.00e+00
+cap-only vs combined field 1.20e-13 density 2.61e-12
+cap-only vs FMM double field 3.37e-13 density 3.28e-11
+mixed FMM vs double FMM field 1.53e-16 density 3.18e-14
+mixed FMM vs combined Compressed field 3.09e-13 density 3.29e-11
+cap-only-65536 {'n': 32768, 'k': 640.0, 'adaptive_sketch': False, 'initial_rank_cap': 256, 'storage_budget_gib': 10, 'out': 'results/cap-only-65536', 'assembly_seconds': 5994.439118327, 'factor_seconds': 219.75140611200004, 'solve_seconds': 9.806491901999834, 'peak_solve_gib': 12.038619995117188, 'operator_bytes': 6448104144, 'inverse_bytes': 2539309456, 'quantized_inverse_saved_bytes': 0, 'peak_complete_gib': 12.038619995117188, 'wall_seconds': 6225.685264009, 'physical_and_sampled_residual_checks': True, 'mesh_and_condition_certification': False}
+ sketch {'enabled': False, 'initial_rank_cap': 256, 'capped_calls': 22, 'max_original_start_rank': 2174, 'max_effective_start_rank': 256, 'selection_calls': 989, 'reduced_selections': 0, 'max_qr_rows_with_stale_floor': 8037, 'max_qr_rows_actual': 8037}
+combined-65536 {'n': 32768, 'k': 640.0, 'adaptive_sketch': True, 'initial_rank_cap': 256, 'storage_budget_gib': 10, 'out': 'results/combined-65536', 'assembly_seconds': 6036.666824955999, 'factor_seconds': 237.67767462600023, 'solve_seconds': 12.697296145001019, 'peak_solve_gib': 12.06753158569336, 'operator_bytes': 6456009424, 'inverse_bytes': 2539309456, 'quantized_inverse_saved_bytes': 0, 'peak_complete_gib': 12.06753158569336, 'wall_seconds': 6288.895584907999, 'physical_and_sampled_residual_checks': True, 'mesh_and_condition_certification': False}
+ sketch {'enabled': True, 'initial_rank_cap': 256, 'capped_calls': 22, 'max_original_start_rank': 2174, 'max_effective_start_rank': 256, 'selection_calls': 990, 'reduced_selections': 161, 'max_qr_rows_with_stale_floor': 8037, 'max_qr_rows_actual': 8037}
+mixed n 32768
+mixed k 640.0
+mixed op_tol 0.01
+mixed inv_tol 0.01
+mixed preconditioner_storage complex64
+mixed detach_operator True
+mixed profile False
+mixed dense_reference False
+mixed out results/mixed-65536
+mixed unknowns 65536
+mixed compressed_operator_seconds 576.9567362820017
+mixed compressed_inverse_seconds 103.42741510400083
+mixed fmm_setup_seconds 650.7736439479995
+mixed operator_bytes 1381130960
+mixed inverse_bytes 1609957744
+mixed fmm_bytes 1157320024
+mixed preconditioner_reachable_array_bytes 1609674776
+mixed preconditioner_bytes_before_release 2999325428
+mixed construction_operator_released True
+mixed detach_absolute_errors [0.0, 0.0, 0.0]
+mixed peak_preconditioner_gib 3.5716514587402344
+mixed peak_before_reference_gib 3.5716514587402344
+mixed solve_seconds 228.91879192499982
+mixed peak_through_validation_gib 3.5716514587402344
+mixed exact_sampled_rowwise_backward_error [1.4110805432155684e-18, 2.2775489244267173e-18]
+mixed sampled_rows 320
+mixed loose_operator_passes_production_gate False
+mixed dense_reference_live_during_capacity False
+mixed production_certified False
+mixed preconditioner_storage_evidence {'enabled': True, 'blocks': 758, 'saved_bytes': 1087991808, 'near_overreservation': 634388480, 'operator_bytes': 1381130960, 'stored_block_bytes': 1105810528, 'admission_during_build': 'conservative double-sized near reservation'}
+mixed unseen_components {'rejected_blocks': 0}
+mixed validation_queries {'query_calls': 32, 'max_query_entries': 655360, 'query_entry_cap': 699050, 'retained_exact_row_bytes': 0, 'avoided_full_row_buffer_bytes': 335544320, 'validation': 'streamed exact coefficient rows; no stored coefficient matrix'}
+mixed near_details {'exterior': {'kernel_seconds': 378.47886148791076, 'queried_pairs': 23621498, 'near_bytes': 415696976, 'setup_seconds': 408.57376267900145}, 'interior': {'kernel_seconds': 217.93327562212653, 'queried_pairs': 10542681, 'near_bytes': 324545328, 'setup_seconds': 242.19890568499977}}
+mixed validated_solve_seconds 1658.7673361569996
+mixed wall_seconds 1658.7673385750004
+mixed native_pairs True
+mixed native_scope FMM NearOracle only
+mixed pair_stats {'calls': 132906, 'pairs': 33967571, 'fallback_calls': 0}
