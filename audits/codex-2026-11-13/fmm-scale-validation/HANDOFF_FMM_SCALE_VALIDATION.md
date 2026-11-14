@@ -1,5 +1,10 @@
 # FMM scale validation, preconditioner storage, and Compressed sampling
 
+> **Correction, 2026-11-14:** The claimed 15.8% adaptive-sketch speedup at 32k did not
+> reproduce and is withdrawn. Historical measurements below remain as recorded; they do not
+> establish an algorithmic speedup. See the [response to Claude](../../codex-2026-11-14/fmm-scale-review-response/RESPONSE_TO_CLAUDE.md)
+> for repeated timings, limits of the 65k cap inference, and a new cap-only research control.
+
 Parent: `codex/backend-growth-followups-2026-11-13` at `1605874203cb55ea53c78605919ac6b8c564f2be`.
 Reviewed Claude: `claude/festive-keller-nj5bje` at `9fe70a12b09cfe7191ea4544eee2742f201f04b4`,
 `audits/claude-2026-11-13/backend-growth-followups-review/REVIEW_OF_BACKEND_GROWTH_FOLLOWUPS.md`.
@@ -13,14 +18,15 @@ condition-certification comparisons and full-field comparisons corroborate the p
 those large production suites were not rerun here because this branch does not modify production.
 The row-scale concern was tested independently below. Follow-up work also exposed avoidable QR work
 in Compressed construction. A scoped research implementation and complete-field comparisons are
-included. The adaptive sketch warrants separate production-candidate validation. The blanket forecast
-cap needs isolation and should not be promoted on this evidence.
+included for research. Claude's subsequent review did not reproduce the adaptive-sketch speedup.
+Neither sampling change is recommended for production on this evidence.
 
 Keep FMM experimental. A successful sampled-row check is not mesh certification or a deterministic global
 error bound. The prototype remains P1, 2-D, and the large whole solves here are a single smooth dielectric
 star at two incident angles. No distribution-level FMM backend is being proposed by this handoff. At 65k, the completed FMM
 workflow was about 2.7 times faster and used 62% less peak RAM than the completed research Compressed
-variant, with closely matching fields. At 32k, the improved Compressed trial was faster. These are
+variant, with closely matching fields. The apparent adaptive-sketch advantage at 32k did not
+reproduce in Claude's repeated runs. These are
 case-specific results; the incomplete original 65k control and unisolated forecast cap prevent an
 optimal-backend crossover claim.
 
@@ -112,7 +118,18 @@ At 32k, double-storage FMM takes 1.063 times the production Compressed wall time
 
 Packing the loose preconditioner operator at 32k changes FMM peak RAM by -24.8% and total wall time by -5.4% versus the initial double-storage FMM variant. It saves 418.0 MiB of construction-operator blocks. Maximum-relative field difference from double-storage FMM is 8.474e-16; from production Compressed it is 3.432e-13. Timing attribution is qualified below.
 
-At 32k the research Compressed policy is 15.8% faster in this pair, with effectively unchanged peak RAM. Maximum-relative field difference from the production control is 1.363e-13. The forecast cap was not used (`capped_calls=0`, maximum initial forecast 233), so the only active algorithm change here was adapting later sketches to the observed skeleton. One factorization and three refinement steps were retained. Against this revised Compressed 32k control, packed FMM takes 1.195 times the wall time and uses 62.2% less peak RAM. This is a single timing pair; repeat it before generalizing the speedup.
+The original 32k pair differed by 15.8% (497.19 versus 418.47 s), but the **speedup claim is
+withdrawn**. Claude's two production runs took 535.83 and 503.87 s; two adaptive runs took
+541.35 and 492.56 s. The cap never fired in either adaptive run, so capped and uncapped variants
+followed the same numerical path. Their descriptive means differ by only 0.6%, with overlapping
+ranges; two repeats do not establish either a speedup or a zero effect. The former claim that
+packed FMM was about 20% slower than an "improved" Compressed backend at this size is also not
+supported as a general comparison. The smaller FMM memory footprint remains supported.
+
+The original adaptive-versus-production field difference remains 1.363e-13. The forecast cap was
+unused (`capped_calls=0`, maximum initial forecast 233); only the later-sketch rule changed. One
+factorization and three refinement steps were retained. These correctness observations survive
+the timing correction.
 
 At 65k, FMM's 320 exact-row checks give backward errors [1.3735919818315209e-18, 2.2693925764872957e-18]; a separate process checked 64 disjoint rows, errors [1.4876059082386682e-18, 2.4606236752965334e-18]. Streaming avoids 320.0 MiB of retained exact-row coefficients. One full complex128 65,536-square matrix alone would occupy 64 GiB, so no full Dense reference was attempted at this size.
 
@@ -163,7 +180,7 @@ valuable for repeated right-hand sides even if FMM gains a capacity or setup adv
 At 65k, the measured two-angle solve phases are 9.69 s for the research Compressed control and
 198.63 s for FMM. A many-angle break-even point was not measured.
 
-## New Compressed finding: rank forecasts persist too long
+## Compressed research lead: large forecasts and sampling costs
 
 The original production 65k control did not finish before the research cutoff. Two read-only,
 nonblocking `py-spy` stack snapshots locate the process in pivoted QR during operator assembly.
@@ -182,7 +199,9 @@ an identified performance weakness; the stopped run establishes neither a numeri
 an accepted solution. It also does not establish that FMM has crossed a properly tuned Compressed
 backend in validated whole-solve time.
 
-`adaptive_sketch.py` implements an adaptive sketch with an optional forecast cap:
+`adaptive_sketch.py` now exposes adaptive sketching and the forecast cap independently. The
+new cap-only control was not available at `90698e9`; previous default variants retain their
+numerical behavior. The two experimental changes are:
 
 - Once a skeleton exists, choose the sketch from its observed width using
   `max(2*width, width + 64)`, dropping the stale initial-forecast floor.
@@ -198,7 +217,7 @@ replay of the complete old solve.
 
 `check_adaptive_sketch.py` covers overforecasts, underforecasts and paired targets with different
 scales, including an independent component hidden from the original initial row sample. Full
-matrix errors are at most 4.64e-5 times the requested tolerance in all nine synthetic variants
+matrix errors are at most 4.64e-5 times the requested tolerance in the original nine synthetic variants
 (the test permits four times tolerance). Actual accepted ranks reach 90/91 even with a
 forecast cap of 64. Adaptive-only variants reduce sketch work in the overforecast cases. These
 checks do not prove arbitrary worst-case sampling accuracy; near-tolerance spectra, unusual
@@ -216,15 +235,15 @@ reason to test cap selectivity and underforecast cost before adopting a global c
 expensive block: this one has minimum dimension 4,096. By inspection, the global cap also applies
 to the later wave whose forecast is informed by pilot blocks at the same level; it can discard
 useful local rank evidence. Do not promote this cap without isolated controls. Prioritize the
-adaptive-only sketch policy for further production-candidate validation. A second snapshot
+adaptive-only sketch policy only for further research until a repeatable benefit is demonstrated. A second snapshot
 confirms progress into the later wave: the same-level pilot maximum was 719, its forecast was
 798, and the cap reduced that to 256. That block reached recompression with a 28,672 × 1,794
 QR (`adaptive-65536-stack-locals-2.txt`). This is further evidence for preserving local pilot
 information; it is still not a timing ablation or the final retained rank.
 
-This finding strengthens the case for improving Compressed as well as researching FMM. A better
-coarse representation could still lower retained storage; this sampling change primarily avoids
-work and temporary storage while constructing the same kind of operator. Initial-forecast policy
+This identifies a Compressed research target alongside FMM; it does not establish an adaptive-sketch speedup. A better
+coarse representation could still lower retained storage; smaller sketches can reduce particular QR dimensions, but a whole-solve performance benefit
+from adaptive sketching has not been established. Initial-forecast policy
 should receive an explicit memory/performance design review rather than treating 256 as a universal
 optimal value.
 
@@ -302,7 +321,10 @@ child exit stops a queue. A single storage case can be rerun as
 `run_adaptive_scale.py` takes the **panel count** and runs the revised Compressed research policy.
 An optional second argument is the forecast cap or `none`: for example,
 `python run_adaptive_scale.py 32768 none` runs a separately named adaptive-only 65k ablation.
-That whole-solve ablation was not measured here; the no-cap variant was exercised synthetically.
+The original study did not measure that 65k ablation. Claude subsequently attempted it on a
+smaller-memory host and encountered cgroup OOM; no solution was accepted. This response adds
+`python run_adaptive_scale.py 32768 256 forecast-only` for a genuine cap-only control. That large
+cap-only experiment is still pending. Use a matched host and memory allowance when comparing policies.
 `python run_compressed_scale.py` optionally attempts the unmodified production 65k control; this can
 run much longer. The recorded original trial was manually stopped after about 68 minutes, so the
 script does not promise to reproduce a completed original solve. The RSS monitor is a safety guard,
@@ -333,12 +355,12 @@ archive, part, chunk and original-file SHA-256 hashes before restoring original 
 
 ## Remaining work for Claude
 
-1. Reproduce the Compressed QR diagnosis and revised policy. The strongest near-term production follow-up is the stale rank-forecast floor. Repeat 32k/65k timings and examine difficult geometry, complex-unit scaling, paired targets, near-tolerance spectra, and full certification before proposing a production patch. Separate adapting the later sketch from capping the initial forecast; at 32k only the former was active.
+1. The 15.8% speedup claim is withdrawn. If revisiting adaptive-sketch performance, use at least three alternating fresh-process repetitions per variant on one host, retaining every run and reporting ranges and paired timings. Establish a repeatable benefit before considering a production patch. At 32k the cap did not fire.
 2. Audit whether an initial forecast cap of 256 is appropriate or should instead follow a workspace budget or local rank evidence. It is not a cap on accepted rank. The revised 65k snapshot also shows a large intermediate skeleton and costly probe fit on a 4,096-wide list whose forecast was capped; isolate underforecast costs and selective caps, and preserve useful same-level pilot rank evidence. Revisit the factor-8 initial skeleton threshold at `LARGE_LIST_MIN_DIMENSION=8192`: this large-block path and the stale forecast interacted in the slow 65k trial. Profile repeated least-squares fits and tall recompression QR, including opportunities to reuse rank-revealing factors without changing minimum-norm behavior or increasing workspace unnoticed. Do not weaken tolerances or release gates to make a case finish.
 3. Independently reproduce the repaired FMM 32k/65k checks, including disjoint exact rows, streaming, query widths above one full-row capacity, and code-generator drift failures. The stopped production control must not be presented as a validated crossover.
 4. Reproduce mixed-storage 32k and the three small Dense comparisons. Audit a clean constructor-level storage policy, accurate norms, concurrency and build-time admission. Test 65k mixed storage and inverse-construction storage separately before projecting RAM savings.
 5. Test full corners, thin gaps, layered, PEC and lossless high-frequency cases before broader FMM claims. Measure exact whole-triplet storage on flat blocks and investigate per-component exact storage without inferring an unseen component is zero. Add realistic desktop thread counts and many-angle workloads.
-6. Continue shared/directional coarse-basis work, but first quantify how much the cheaper Compressed sampling policy already recovers. The near blocks are also a major part of the loose preconditioner. Investigate duplicated S/K-prime source translations with a combined per-matvec application, checking live workspace and all RHS batches; this remains an unmeasured lead.
+6. Continue shared/directional coarse-basis work, and measure whether any sampling-policy benefit survives controlled replication. The near blocks are also a major part of the loose preconditioner. Investigate duplicated S/K-prime source translations with a combined per-matvec application, checking live workspace and all RHS batches; this remains an unmeasured lead.
 7. Keep Windows, full alternate-BLAS solves, higher-order/BoR/layered FMM integration, and mesh/condition certification explicit open items. The production candidate remains unchanged by this research branch.
 
 

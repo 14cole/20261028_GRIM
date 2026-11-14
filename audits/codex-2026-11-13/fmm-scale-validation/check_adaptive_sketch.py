@@ -14,7 +14,7 @@ with cpu_allocation_scope(1),execution_scope({'assembly_threads':1,'blas_threads
   z=(rng.normal(size=(m,1))+1j*rng.normal(size=(m,1)))@(rng.normal(size=(1,n))+1j*rng.normal(size=(1,n)))
   z[hm._spread(min(m,max(8,int(1.25*guess)+16)),m)]=0
   targets=[a,1e-6*(a+1e-4*z)];tol=[1e-10*np.linalg.norm(x) for x in targets]
-  for enabled,cap in [(False,None),(True,None),(True,64)]:
+  for enabled,cap in [(False,None),(False,64),(True,None),(True,64)]:
    started=time.perf_counter()
    with adaptive_column_sketch(enabled,initial_rank_cap=cap) as stats:
     factors,estimated=hm.cross_approximation(lambda r:[x[r].copy() for x in targets],lambda c:[x[:,c].copy() for x in targets],(m,n),tol,guess,np.random.default_rng(129))
@@ -25,6 +25,9 @@ with cpu_allocation_scope(1),execution_scope({'assembly_threads':1,'blas_threads
     arrays[f'{label}-{enabled}-{cap}-{i}-row_error']=np.linalg.norm(target-left@right,axis=1)
    records.append(dict(case=label,adaptive=enabled,initial_rank_cap=cap,ranks=[int(x[0].shape[1]) for x in factors],seconds=time.perf_counter()-started,full_error_to_tolerance=errors,estimated=estimated,evidence=stats))
   if label=='underforecast':assert all(x[0].shape[1]>64 for x in factors)
+cap_only=[r for r in records if not r['adaptive'] and r['initial_rank_cap'] is not None]
+assert any(r['evidence']['capped_calls'] for r in cap_only)
+assert all(r['evidence']['reduced_selections']==0 for r in cap_only)
 assert any(r['evidence']['reduced_selections'] for r in records if r['adaptive'] and r['initial_rank_cap'] is None)
 np.savez_compressed('results/adaptive-sketch-contracts.npz',**arrays)
 Path('results/adaptive-sketch-contracts.json').write_text(json.dumps(records,indent=2))

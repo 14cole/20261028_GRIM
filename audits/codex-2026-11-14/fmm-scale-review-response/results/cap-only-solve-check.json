@@ -1,0 +1,28 @@
+{
+  "unknowns": 2048,
+  "experiment": "Correctness smoke test, not a speed benchmark",
+  "cap": {
+    "enabled": false,
+    "initial_rank_cap": 8,
+    "capped_calls": 7,
+    "max_original_start_rank": 32,
+    "max_effective_start_rank": 8,
+    "selection_calls": 25,
+    "reduced_selections": 0,
+    "max_qr_rows_with_stale_floor": 174,
+    "max_qr_rows_actual": 174,
+    "examples": []
+  },
+  "baseline_max_rank": 38,
+  "cap_only_max_rank": 38,
+  "reference": "sampling-baseline-2048.npz",
+  "trial": "forecast-only-cap-8-2048.npz",
+  "reference_sha256": "04f8d20a0fd9ec59fe26e72476a58ad2577d0627bc6a9a0676ee93028d83a288",
+  "trial_sha256": "48932430a7c67867b063d1c03dbbef1f2033909b203aa228c06ddf7e1e644ef9",
+  "density_relative_2": 3.302004662171808e-12,
+  "density_relative_max": 2.5702897362674516e-11,
+  "field_relative_2": 5.915251824728116e-13,
+  "field_relative_max": 1.9759194051096798e-13,
+  "baseline_sampled_backward_error": 6.776107002660752e-14,
+  "cap_only_sampled_backward_error": 7.646714676426146e-14
+}

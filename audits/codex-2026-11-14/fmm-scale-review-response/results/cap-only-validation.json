@@ -1,0 +1,45 @@
+{
+  "variants": 12,
+  "prior_result_arrays_bitwise_unchanged": 18,
+  "cap_only_cases": [
+    {
+      "case": "overforecast",
+      "ranks": [
+        12,
+        13
+      ],
+      "capped_calls": 1,
+      "reduced_selections": 0,
+      "full_error_to_tolerance": [
+        1.8145179269665817e-05,
+        1.7316867466096928e-05
+      ]
+    },
+    {
+      "case": "underforecast",
+      "ranks": [
+        90,
+        91
+      ],
+      "capped_calls": 0,
+      "reduced_selections": 0,
+      "full_error_to_tolerance": [
+        4.190574046332599e-05,
+        4.635066506904261e-05
+      ]
+    },
+    {
+      "case": "large_overforecast",
+      "ranks": [
+        24,
+        25
+      ],
+      "capped_calls": 1,
+      "reduced_selections": 0,
+      "full_error_to_tolerance": [
+        2.809536182773892e-05,
+        2.432607683495607e-05
+      ]
+    }
+  ]
+}

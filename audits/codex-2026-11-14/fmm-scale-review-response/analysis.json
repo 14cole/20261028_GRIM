@@ -1,0 +1,51 @@
+{
+  "review_commit": "3e29332adfbd211fe18c6fdc84afea695537e77e",
+  "codex_commit": "90698e905bd9cf5c29c9b90e8108ff7421dcd6d5",
+  "verified_input_blobs": 43,
+  "production_32768": {
+    "values_seconds": [
+      535.8340771198273,
+      503.87108874320984
+    ],
+    "minimum_seconds": 503.87108874320984,
+    "maximum_seconds": 535.8340771198273,
+    "mean_seconds": 519.8525829315186,
+    "count": 2
+  },
+  "adaptive_32768": {
+    "values_seconds": [
+      541.3535516262054,
+      492.56275510787964
+    ],
+    "minimum_seconds": 492.56275510787964,
+    "maximum_seconds": 541.3535516262054,
+    "mean_seconds": 516.9581533670425,
+    "count": 2
+  },
+  "adaptive_mean_change_percent": -0.5567789137747359,
+  "descriptive_pairs_change_percent": [
+    1.0300715729104182,
+    -2.244291027599188
+  ],
+  "cap_never_used_at_32768": true,
+  "adaptive_statistics_match_prior_codex": true,
+  "no_significance_test_performed": true,
+  "speedup_claim_withdrawn": true,
+  "fmm_65536": {
+    "claude_wall_seconds": 1541.0335156917572,
+    "codex_wall_seconds": 1538.0364067780029,
+    "claude_peak_gib": 4.598262786865234,
+    "codex_peak_gib": 4.574302673339844
+  },
+  "uncapped_65536": {
+    "termination": "cgroup OOM; no accepted solution",
+    "rc": -9,
+    "wall_s": 4885.982918739319,
+    "peak_gib": 13.315975189208984,
+    "cpu_s": 4850.032368,
+    "stopped_by_guard": false,
+    "guard_gib": 13.2,
+    "sampled_peak_gib": 13.152267456054688
+  },
+  "array_comparisons": "Claude cross_checks.txt reports comparisons; Claude full solution arrays are not in the reviewed folder tree and were not independently recomputed in this response."
+}

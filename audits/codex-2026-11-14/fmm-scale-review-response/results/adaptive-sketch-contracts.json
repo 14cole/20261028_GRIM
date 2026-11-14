@@ -1,0 +1,344 @@
+[
+  {
+    "case": "overforecast",
+    "adaptive": false,
+    "initial_rank_cap": null,
+    "ranks": [
+      12,
+      13
+    ],
+    "seconds": 0.32786074600880966,
+    "full_error_to_tolerance": [
+      1.780513439257449e-05,
+      1.6766045818885028e-05
+    ],
+    "estimated": 0.0,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 0,
+      "max_effective_start_rank": 0,
+      "selection_calls": 0,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 0,
+      "max_qr_rows_actual": 0,
+      "examples": []
+    }
+  },
+  {
+    "case": "overforecast",
+    "adaptive": false,
+    "initial_rank_cap": 64,
+    "ranks": [
+      12,
+      13
+    ],
+    "seconds": 0.026310679997550324,
+    "full_error_to_tolerance": [
+      1.8145179269665817e-05,
+      1.7316867466096928e-05
+    ],
+    "estimated": 8.165531281644447e-06,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": 64,
+      "capped_calls": 1,
+      "max_original_start_rank": 300,
+      "max_effective_start_rank": 64,
+      "selection_calls": 1,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 192,
+      "max_qr_rows_actual": 192,
+      "examples": []
+    }
+  },
+  {
+    "case": "overforecast",
+    "adaptive": true,
+    "initial_rank_cap": null,
+    "ranks": [
+      12,
+      13
+    ],
+    "seconds": 0.17392861700500362,
+    "full_error_to_tolerance": [
+      1.780513439257449e-05,
+      1.6766045818885028e-05
+    ],
+    "estimated": 0.0,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 300,
+      "max_effective_start_rank": 300,
+      "selection_calls": 2,
+      "reduced_selections": 1,
+      "max_qr_rows_with_stale_floor": 782,
+      "max_qr_rows_actual": 782,
+      "examples": [
+        {
+          "sample_rows": 1280,
+          "columns": 480,
+          "skeleton": 12,
+          "initial_guess": 300,
+          "qr_rows_with_stale_floor": 482,
+          "qr_rows_actual": 76
+        }
+      ]
+    }
+  },
+  {
+    "case": "overforecast",
+    "adaptive": true,
+    "initial_rank_cap": 64,
+    "ranks": [
+      12,
+      13
+    ],
+    "seconds": 0.029649320989847183,
+    "full_error_to_tolerance": [
+      1.8145179269665817e-05,
+      1.7316867466096928e-05
+    ],
+    "estimated": 8.165531281644447e-06,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": 64,
+      "capped_calls": 1,
+      "max_original_start_rank": 300,
+      "max_effective_start_rank": 64,
+      "selection_calls": 1,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 192,
+      "max_qr_rows_actual": 192,
+      "examples": []
+    }
+  },
+  {
+    "case": "underforecast",
+    "adaptive": false,
+    "initial_rank_cap": null,
+    "ranks": [
+      90,
+      91
+    ],
+    "seconds": 0.08813043299596757,
+    "full_error_to_tolerance": [
+      4.190574046332599e-05,
+      4.635066506904261e-05
+    ],
+    "estimated": 3.886113614610811e-05,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 0,
+      "max_effective_start_rank": 0,
+      "selection_calls": 0,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 0,
+      "max_qr_rows_actual": 0,
+      "examples": []
+    }
+  },
+  {
+    "case": "underforecast",
+    "adaptive": false,
+    "initial_rank_cap": 64,
+    "ranks": [
+      90,
+      91
+    ],
+    "seconds": 0.0789204110042192,
+    "full_error_to_tolerance": [
+      4.190574046332599e-05,
+      4.635066506904261e-05
+    ],
+    "estimated": 3.886113614610811e-05,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": 64,
+      "capped_calls": 0,
+      "max_original_start_rank": 8,
+      "max_effective_start_rank": 8,
+      "selection_calls": 3,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 130,
+      "max_qr_rows_actual": 130,
+      "examples": []
+    }
+  },
+  {
+    "case": "underforecast",
+    "adaptive": true,
+    "initial_rank_cap": null,
+    "ranks": [
+      90,
+      91
+    ],
+    "seconds": 0.0742184660048224,
+    "full_error_to_tolerance": [
+      4.190574046332599e-05,
+      4.635066506904261e-05
+    ],
+    "estimated": 3.886113614610811e-05,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 8,
+      "max_effective_start_rank": 8,
+      "selection_calls": 3,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 130,
+      "max_qr_rows_actual": 130,
+      "examples": []
+    }
+  },
+  {
+    "case": "underforecast",
+    "adaptive": true,
+    "initial_rank_cap": 64,
+    "ranks": [
+      90,
+      91
+    ],
+    "seconds": 0.08327755199570674,
+    "full_error_to_tolerance": [
+      4.190574046332599e-05,
+      4.635066506904261e-05
+    ],
+    "estimated": 3.886113614610811e-05,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": 64,
+      "capped_calls": 0,
+      "max_original_start_rank": 8,
+      "max_effective_start_rank": 8,
+      "selection_calls": 3,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 130,
+      "max_qr_rows_actual": 130,
+      "examples": []
+    }
+  },
+  {
+    "case": "large_overforecast",
+    "adaptive": false,
+    "initial_rank_cap": null,
+    "ranks": [
+      24,
+      25
+    ],
+    "seconds": 2.0791777720005484,
+    "full_error_to_tolerance": [
+      2.788032965079886e-05,
+      2.3368514300906286e-05
+    ],
+    "estimated": 0.0,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 0,
+      "max_effective_start_rank": 0,
+      "selection_calls": 0,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 0,
+      "max_qr_rows_actual": 0,
+      "examples": []
+    }
+  },
+  {
+    "case": "large_overforecast",
+    "adaptive": false,
+    "initial_rank_cap": 64,
+    "ranks": [
+      24,
+      25
+    ],
+    "seconds": 0.09088893698935863,
+    "full_error_to_tolerance": [
+      2.809536182773892e-05,
+      2.432607683495607e-05
+    ],
+    "estimated": 1.1003832329822988e-05,
+    "evidence": {
+      "enabled": false,
+      "initial_rank_cap": 64,
+      "capped_calls": 1,
+      "max_original_start_rank": 700,
+      "max_effective_start_rank": 64,
+      "selection_calls": 1,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 192,
+      "max_qr_rows_actual": 192,
+      "examples": []
+    }
+  },
+  {
+    "case": "large_overforecast",
+    "adaptive": true,
+    "initial_rank_cap": null,
+    "ranks": [
+      24,
+      25
+    ],
+    "seconds": 1.082220757001778,
+    "full_error_to_tolerance": [
+      2.788032965079886e-05,
+      2.3368514300906286e-05
+    ],
+    "estimated": 0.0,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": null,
+      "capped_calls": 0,
+      "max_original_start_rank": 700,
+      "max_effective_start_rank": 700,
+      "selection_calls": 2,
+      "reduced_selections": 1,
+      "max_qr_rows_with_stale_floor": 1782,
+      "max_qr_rows_actual": 1782,
+      "examples": [
+        {
+          "sample_rows": 2400,
+          "columns": 1024,
+          "skeleton": 24,
+          "initial_guess": 700,
+          "qr_rows_with_stale_floor": 1082,
+          "qr_rows_actual": 88
+        }
+      ]
+    }
+  },
+  {
+    "case": "large_overforecast",
+    "adaptive": true,
+    "initial_rank_cap": 64,
+    "ranks": [
+      24,
+      25
+    ],
+    "seconds": 0.08187231799820438,
+    "full_error_to_tolerance": [
+      2.809536182773892e-05,
+      2.432607683495607e-05
+    ],
+    "estimated": 1.1003832329822988e-05,
+    "evidence": {
+      "enabled": true,
+      "initial_rank_cap": 64,
+      "capped_calls": 1,
+      "max_original_start_rank": 700,
+      "max_effective_start_rank": 64,
+      "selection_calls": 1,
+      "reduced_selections": 0,
+      "max_qr_rows_with_stale_floor": 192,
+      "max_qr_rows_actual": 192,
+      "examples": []
+    }
+  }
+]
