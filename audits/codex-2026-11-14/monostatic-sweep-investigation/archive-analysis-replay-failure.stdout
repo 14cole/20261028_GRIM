@@ -1,0 +1,7 @@
+pack_arrays.py passed
+verify_evidence.py passed
+Traceback (most recent call last):
+  File "/workspace/monostatic-study/queue_evidence.py", line 12, in <module>
+    assert json.loads(Path('analysis.json').read_text())==json.loads(Path('restored/analysis.json').read_text())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

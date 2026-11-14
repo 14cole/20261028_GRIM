@@ -1,0 +1,320 @@
+[
+  [
+    "star-2048-180-fmm-rhs_qr",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "rhs_qr",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-360-fmm-rhs_qr",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "rhs_qr",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-360-dense-batch16",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "method": "dense",
+      "batch": 16
+    }
+  ],
+  [
+    "star-2048-360-compressed-batch16",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "method": "compressed",
+      "batch": 16
+    }
+  ],
+  [
+    "star-2048-360-dense-batch256",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "method": "dense",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-360-compressed-batch256",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "method": "compressed",
+      "batch": 256
+    }
+  ],
+  [
+    "star-8192-180-dense",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "batch": 256
+    }
+  ],
+  [
+    "star-8192-180-compressed",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "compressed",
+      "batch": 256
+    }
+  ],
+  [
+    "star-8192-180-fmm",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "batch": 256
+    }
+  ],
+  [
+    "star-8192-24-fmm-warm-probe",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 24,
+      "start": -90,
+      "stop": -66,
+      "method": "fmm",
+      "krylov": "warm",
+      "batch": 256
+    }
+  ],
+  [
+    "star-8192-180-fmm-recycle",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "recycle",
+      "batch": 256,
+      "inner_m": 80
+    }
+  ],
+  [
+    "star-8192-180-fmm-rhs_qr",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "rhs_qr",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-180-fmm-packed-inverse",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "batch": 64,
+      "pack_inverse": true
+    }
+  ],
+  [
+    "star-8192-180-compressed-packed-inverse",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "compressed",
+      "batch": 256,
+      "pack_inverse": true
+    }
+  ],
+  [
+    "star-2048-180-full-dense-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": 0,
+      "stop": 360,
+      "method": "dense",
+      "krylov": "cold",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-180-full-compressed-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": 0,
+      "stop": 360,
+      "method": "compressed",
+      "krylov": "cold",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-180-full-fmm-warm",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "warm",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-180-full-fmm-recycle",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "recycle",
+      "batch": 256
+    }
+  ],
+  [
+    "star-2048-180-fmm-batch8",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "batch_gmres",
+      "batch": 64,
+      "krylov_batch": 8
+    }
+  ],
+  [
+    "star-8192-180-fmm-batch8",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "batch_gmres",
+      "batch": 64,
+      "krylov_batch": 8
+    }
+  ],
+  [
+    "star-2048-180-fmm-recycle-inner80",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "recycle",
+      "batch": 64,
+      "inner_m": 80
+    }
+  ],
+  [
+    "star-2048-180-fmm-lgmres_cold-inner80",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "lgmres_cold",
+      "batch": 64,
+      "inner_m": 80
+    }
+  ],
+  [
+    "slot-1024-180-TM-dense",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "geometry": "slot",
+      "pol": "TM",
+      "method": "dense",
+      "batch": 256
+    }
+  ],
+  [
+    "slot-1024-180-TM-compressed",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "geometry": "slot",
+      "pol": "TM",
+      "method": "compressed",
+      "batch": 256
+    }
+  ],
+  [
+    "slot-1024-180-TM-fmm",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "geometry": "slot",
+      "pol": "TM",
+      "method": "fmm",
+      "batch": 256
+    }
+  ]
+]

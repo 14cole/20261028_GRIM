@@ -1,0 +1,11 @@
+{
+  "rc": 0,
+  "wall_seconds": 38.52574938700127,
+  "peak_gib": 0.13134765625,
+  "cpu_seconds": 38.447210999999996,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "monostatic.py",
+    "{\"n\": 512, \"k\": 10, \"count\": 180, \"start\": -90, \"stop\": 90, \"method\": \"fmm\", \"krylov\": \"block_gmres\", \"batch\": 256, \"krylov_batch\": 8, \"geometry\": \"slot\", \"pol\": \"TE\", \"out\": \"/workspace/monostatic-study/results/slot-1024-180-TE-fmm-block8\"}"
+  ]
+}

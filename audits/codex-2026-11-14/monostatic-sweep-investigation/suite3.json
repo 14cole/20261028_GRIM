@@ -1,0 +1,153 @@
+[
+  [
+    "star-2048-180-TE-fmm-block8",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "geometry": "star",
+      "pol": "TE"
+    }
+  ],
+  [
+    "star-8192-180-TE-fmm-block8",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "geometry": "star",
+      "pol": "TE"
+    }
+  ],
+  [
+    "slot-1024-180-TE-fmm-block8",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "geometry": "slot",
+      "pol": "TE"
+    }
+  ],
+  [
+    "slot-1024-180-TM-fmm-block8",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "geometry": "slot",
+      "pol": "TM"
+    }
+  ],
+  [
+    "star-8192-180-fmm-cold-tol0.001",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "cold",
+      "batch": 256,
+      "krylov_batch": 8,
+      "op_tol": 0.001,
+      "inv_tol": 0.001
+    }
+  ],
+  [
+    "star-8192-180-fmm-block_gmres-tol0.001",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "op_tol": 0.001,
+      "inv_tol": 0.001
+    }
+  ],
+  [
+    "star-8192-180-fmm-block_gmres-tol0.0001",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "batch": 256,
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001
+    }
+  ],
+  [
+    "star-8192-180-dense-disk-batch256",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "batch": 256,
+      "residual_storage": "disk"
+    }
+  ],
+  [
+    "star-8192-180-dense-disk-batch16",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "batch": 16,
+      "residual_storage": "disk"
+    }
+  ],
+  [
+    "star-8192-180-dense-memory-batch16",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "batch": 16,
+      "residual_storage": "memory"
+    }
+  ]
+]

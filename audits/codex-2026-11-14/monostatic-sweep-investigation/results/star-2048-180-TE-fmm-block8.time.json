@@ -1,0 +1,11 @@
+{
+  "rc": 0,
+  "wall_seconds": 144.69316612600232,
+  "peak_gib": 0.17194366455078125,
+  "cpu_seconds": 144.406674,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "monostatic.py",
+    "{\"n\": 1024, \"k\": 20, \"count\": 180, \"start\": -90, \"stop\": 90, \"method\": \"fmm\", \"krylov\": \"block_gmres\", \"batch\": 256, \"krylov_batch\": 8, \"geometry\": \"star\", \"pol\": \"TE\", \"out\": \"/workspace/monostatic-study/results/star-2048-180-TE-fmm-block8\"}"
+  ]
+}

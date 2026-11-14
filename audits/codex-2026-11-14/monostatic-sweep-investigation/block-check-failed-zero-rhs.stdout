@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/monostatic-study/check_block.py", line 6, in <module>
+    x,d=block(lambda x:a@x,lambda x:x/np.diag(a)[:,None],b,restart_blocks=10)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/monostatic-study/block_gmres.py", line 54, in solve
+    else:raise RuntimeError('Block GMRES did not converge: '+str(rn/np.maximum(bn,1e-300)))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Block GMRES did not converge: [4.68069990e-017 5.21010113e-017 5.30491812e-017 8.61434632e+270
+ 5.79967125e-017 4.20903192e-017 3.97760306e-017 5.88394404e-017]

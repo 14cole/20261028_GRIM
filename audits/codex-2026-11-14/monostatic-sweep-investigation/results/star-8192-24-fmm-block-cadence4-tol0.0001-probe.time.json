@@ -1,0 +1,11 @@
+{
+  "rc": 0,
+  "wall_seconds": 158.63211070999387,
+  "peak_gib": 0.3913230895996094,
+  "cpu_seconds": 158.476833,
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "monostatic.py",
+    "{\"n\": 4096, \"k\": 80, \"count\": 24, \"start\": -90, \"stop\": -66, \"method\": \"fmm\", \"krylov\": \"block_gmres\", \"batch\": 256, \"krylov_batch\": 8, \"op_tol\": 0.0001, \"inv_tol\": 0.0001, \"true_check_every\": 4, \"out\": \"/workspace/monostatic-study/results/star-8192-24-fmm-block-cadence4-tol0.0001-probe\"}"
+  ]
+}

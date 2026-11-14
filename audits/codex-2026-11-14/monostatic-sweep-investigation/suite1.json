@@ -1,0 +1,281 @@
+[
+  [
+    "smoke-dense",
+    {
+      "n": 128,
+      "k": 3,
+      "count": 4,
+      "method": "dense"
+    }
+  ],
+  [
+    "smoke-compressed",
+    {
+      "n": 128,
+      "k": 3,
+      "count": 4,
+      "method": "compressed"
+    }
+  ],
+  [
+    "smoke-fmm",
+    {
+      "n": 128,
+      "k": 3,
+      "count": 4,
+      "method": "fmm"
+    }
+  ],
+  [
+    "star-2048-180-dense-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-180-compressed-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "compressed",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-180-fmm-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-180-fmm-warm",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "warm",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-180-fmm-recycle",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "recycle",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-180-fmm-lgmres_cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "lgmres_cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-dense-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "dense",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-compressed-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "compressed",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-fmm-cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-fmm-warm",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "warm",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-fmm-recycle",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "recycle",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "star-2048-360-fmm-lgmres_cold",
+    {
+      "n": 1024,
+      "k": 20,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "method": "fmm",
+      "krylov": "lgmres_cold",
+      "geometry": "star",
+      "batch": 64
+    }
+  ],
+  [
+    "square-1024-180-dense-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "krylov": "cold",
+      "geometry": "square",
+      "batch": 64
+    }
+  ],
+  [
+    "square-1024-180-compressed-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "compressed",
+      "krylov": "cold",
+      "geometry": "square",
+      "batch": 64
+    }
+  ],
+  [
+    "square-1024-180-fmm-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "cold",
+      "geometry": "square",
+      "batch": 64
+    }
+  ],
+  [
+    "slot-1024-180-dense-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "dense",
+      "krylov": "cold",
+      "geometry": "slot",
+      "batch": 64
+    }
+  ],
+  [
+    "slot-1024-180-compressed-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "compressed",
+      "krylov": "cold",
+      "geometry": "slot",
+      "batch": 64
+    }
+  ],
+  [
+    "slot-1024-180-fmm-cold",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "method": "fmm",
+      "krylov": "cold",
+      "geometry": "slot",
+      "batch": 64
+    }
+  ]
+]
