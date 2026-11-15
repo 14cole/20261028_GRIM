@@ -1,0 +1,1792 @@
+{
+  "spec": {
+    "n": 4096,
+    "k": 80,
+    "count": 180,
+    "start": -90,
+    "stop": 90,
+    "batch": 256,
+    "method": "fmm",
+    "krylov_batch": 8,
+    "op_tol": 0.0001,
+    "inv_tol": 0.0001,
+    "krylov": "block_gmres",
+    "out": "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/msw/claude/results/c8k-fmm-rightblock-tol1e-4-full"
+  },
+  "production_certified": false,
+  "mesh_certified": false,
+  "stages": {
+    "preconditioner_operator": {
+      "seconds": 22.885555500999544,
+      "peak_gib": 0.252899169921875,
+      "enabled": true,
+      "blocks": 86,
+      "saved_bytes": 118067200,
+      "near_overreservation": 84934656,
+      "operator_bytes": 128640672,
+      "stored_block_bytes": 119390768,
+      "admission_during_build": "conservative double-sized near reservation"
+    },
+    "inverse": {
+      "seconds": 2.5481736099991394,
+      "peak_gib": 0.31598663330078125,
+      "bytes": 81458704
+    },
+    "fmm": {
+      "seconds": 46.14294503800011,
+      "peak_gib": 0.3356971740722656,
+      "bytes": 147214664
+    },
+    "validation_row_setup": {
+      "seconds": 1.6751343779997114,
+      "peak_gib": 0.3688240051269531,
+      "query_calls": 3,
+      "max_query_entries": 262144,
+      "query_entry_cap": 699050,
+      "retained_exact_row_bytes": 10485760
+    }
+  },
+  "batches": [
+    {
+      "start": 0,
+      "count": 180,
+      "peak_gib": 0.444366455078125,
+      "max_exact_row_backward_error": 1.4771967284577274e-15,
+      "rhs_bytes": 23592960,
+      "solution_bytes": 23592960
+    }
+  ],
+  "angles": [],
+  "loose_operator_passes_production_gate": false,
+  "construction_operator_released": true,
+  "retained_inverse_bytes": 81421032,
+  "setup_seconds": 72.17765651299942,
+  "sample_rows": [
+    0,
+    100,
+    193,
+    250,
+    281,
+    512,
+    1024,
+    1262,
+    1329,
+    1394,
+    1528,
+    1536,
+    1578,
+    1666,
+    1804,
+    1945,
+    2035,
+    2048,
+    2054,
+    2148,
+    2176,
+    2178,
+    2279,
+    2332,
+    2394,
+    2560,
+    2739,
+    2918,
+    3060,
+    3072,
+    3151,
+    3222,
+    3584,
+    3616,
+    3619,
+    3655,
+    3663,
+    3715,
+    3911,
+    4032,
+    4076,
+    4096,
+    4305,
+    4394,
+    4565,
+    4608,
+    4751,
+    4764,
+    4900,
+    4909,
+    4922,
+    5120,
+    5312,
+    5497,
+    5582,
+    5632,
+    5691,
+    5714,
+    5728,
+    5769,
+    5820,
+    5825,
+    5879,
+    6011,
+    6036,
+    6103,
+    6143,
+    6144,
+    6492,
+    6598,
+    6656,
+    6704,
+    7168,
+    7217,
+    7634,
+    7680,
+    7733,
+    7954,
+    8000,
+    8105
+  ],
+  "block_krylov": [
+    {
+      "start": 0,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 30,
+      "cycles": 2,
+      "matrix_applications": 35,
+      "preconditioner_applications": 34,
+      "rhs_equivalent_matrix_applications": 280,
+      "preconditioner_rhs_applications": 272,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 2.7294416856027347e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.119521324410669e-13,
+          "max_true": 4.368040842829733e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 1.7436931397515474e-15,
+          "max_true": 3.013881333632367e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.8183700727598417e-15,
+          "max_true": 3.417833263325137e-11
+        },
+        {
+          "step": 30,
+          "max_projected": 1.3263596376050845e-17,
+          "max_true": 6.750488673782867e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.750488673782867e-16,
+      "seconds": 36.52877217900004,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 8,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 30,
+      "cycles": 2,
+      "matrix_applications": 35,
+      "preconditioner_applications": 34,
+      "rhs_equivalent_matrix_applications": 280,
+      "preconditioner_rhs_applications": 272,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 1.4154833053609712e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 7.338311537324751e-13,
+          "max_true": 3.972557694660197e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 2.3733761097195188e-15,
+          "max_true": 4.940821858316417e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.1753116656393223e-15,
+          "max_true": 4.6093547278186176e-11
+        },
+        {
+          "step": 30,
+          "max_projected": 9.569547728845967e-18,
+          "max_true": 6.721920100293091e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.721920100293091e-16,
+      "seconds": 37.540121633000126,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 16,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 3.3384822007408e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.481911143800519e-13,
+          "max_true": 3.013206746062031e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 1.974109396160683e-15,
+          "max_true": 2.5672632979918447e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.3734444839795253e-15,
+          "max_true": 3.237275071058413e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 2.3750779519178295e-17,
+          "max_true": 6.587008123054024e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.587008123054024e-16,
+      "seconds": 38.72096304700062,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 24,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 3.2789678980572694e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.459190811740597e-13,
+          "max_true": 2.6653191564433063e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 2.1853603588094137e-15,
+          "max_true": 2.4632815149926272e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.0995267165951057e-15,
+          "max_true": 2.1085205288601457e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 1.9071730793577998e-17,
+          "max_true": 6.729608181213765e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.729608181213765e-16,
+      "seconds": 38.175510234000285,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 32,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 5.404082604730456e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.096986681917334e-13,
+          "max_true": 1.3393576575692432e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 2.2982915663755378e-15,
+          "max_true": 1.579267877451499e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.269277684091121e-15,
+          "max_true": 1.616029992811318e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 1.3024088142406082e-17,
+          "max_true": 6.662655996717198e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.662655996717198e-16,
+      "seconds": 37.31206926999948,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 40,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 28,
+      "cycles": 2,
+      "matrix_applications": 33,
+      "preconditioner_applications": 32,
+      "rhs_equivalent_matrix_applications": 264,
+      "preconditioner_rhs_applications": 256,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 9.461704296755991e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 9.656832302482585e-13,
+          "max_true": 1.1909911744690822e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 3.1443552310173937e-15,
+          "max_true": 1.3414775698429649e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.0180067081787467e-15,
+          "max_true": 1.4278381588742813e-11
+        },
+        {
+          "step": 28,
+          "max_projected": 7.388079324784811e-17,
+          "max_true": 6.546988415799366e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.546988415799366e-16,
+      "seconds": 37.441899784999805,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 48,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 27,
+      "cycles": 2,
+      "matrix_applications": 33,
+      "preconditioner_applications": 32,
+      "rhs_equivalent_matrix_applications": 264,
+      "preconditioner_rhs_applications": 256,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.00014427759766651372,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 5.580871774644743e-13,
+          "max_true": 6.8204099894516575e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 3.6450272229659914e-14,
+          "max_true": 6.534394872100584e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.095113645751383e-15,
+          "max_true": 5.062164904866011e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.358985104900548e-15,
+          "max_true": 5.661388403410006e-12
+        },
+        {
+          "step": 27,
+          "max_projected": 9.17313917566508e-17,
+          "max_true": 6.466613091831547e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.466613091831547e-16,
+      "seconds": 36.00674499999968,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 56,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 27,
+      "cycles": 2,
+      "matrix_applications": 33,
+      "preconditioner_applications": 32,
+      "rhs_equivalent_matrix_applications": 264,
+      "preconditioner_rhs_applications": 256,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.00020585193985997818,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.120462035282364e-13,
+          "max_true": 4.269599456433544e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 3.9050921067984607e-14,
+          "max_true": 3.747851894250079e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.4705520759240215e-15,
+          "max_true": 3.6750288306252176e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.3878925076377275e-15,
+          "max_true": 3.4380933385961733e-12
+        },
+        {
+          "step": 27,
+          "max_projected": 5.297216258359626e-17,
+          "max_true": 6.5042264329811e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.5042264329811e-16,
+      "seconds": 34.83215100899997,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 64,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 31,
+      "preconditioner_applications": 30,
+      "rhs_equivalent_matrix_applications": 248,
+      "preconditioner_rhs_applications": 240,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 0.00024405834089091742,
+      "check_history": [
+        {
+          "step": 18,
+          "max_projected": 6.47282515416954e-14,
+          "max_true": 3.2335128026775687e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 3.375339185280231e-15,
+          "max_true": 3.0152330197664905e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.1756996087416908e-15,
+          "max_true": 2.754892231949849e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 2.0199026695054744e-16,
+          "max_true": 6.827808868652149e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.827808868652149e-16,
+      "seconds": 36.573401564999585,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 72,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.000293588962503611,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 7.465205801568516e-13,
+          "max_true": 2.945691375156791e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 5.1716723626765554e-14,
+          "max_true": 2.7716209977335793e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.597026597952235e-15,
+          "max_true": 2.5887916815164595e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.1555434895021799e-15,
+          "max_true": 2.8186697835994997e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 2.3790513230631176e-16,
+          "max_true": 6.92609255020162e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.92609255020162e-16,
+      "seconds": 35.491132819000086,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 80,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.0004009681682257265,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.613435814617578e-13,
+          "max_true": 2.2293016900291802e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 4.507240343265675e-14,
+          "max_true": 2.474247475492846e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.4606480322597688e-15,
+          "max_true": 2.2109743838458714e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.291172162572508e-15,
+          "max_true": 2.2272735219158677e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 1.550055427796184e-16,
+          "max_true": 6.887452114817503e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.887452114817503e-16,
+      "seconds": 36.78641454300032,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 88,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.00032708687330366385,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 4.3852257722011793e-13,
+          "max_true": 2.195502874383185e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 2.560306938222245e-14,
+          "max_true": 1.906865008848294e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 1.87436935564409e-15,
+          "max_true": 1.7800525116344786e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.1453459627626845e-15,
+          "max_true": 2.0093272696960484e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 1.4553554412537454e-16,
+          "max_true": 7.102923899168463e-16
+        }
+      ],
+      "max_scaled_relative_residual": 7.102923899168463e-16,
+      "seconds": 34.733452616999784,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 96,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.00048765805629104374,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.413775214927814e-13,
+          "max_true": 2.236736427463307e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 4.034256515683707e-14,
+          "max_true": 2.126800324876637e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.693318879965961e-15,
+          "max_true": 2.2287355511376273e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.5397207205020748e-15,
+          "max_true": 2.2268350427071474e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 1.4197702209933127e-16,
+          "max_true": 6.908814934163085e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.908814934163085e-16,
+      "seconds": 35.71296059100041,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 104,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 25,
+      "cycles": 2,
+      "matrix_applications": 31,
+      "preconditioner_applications": 30,
+      "rhs_equivalent_matrix_applications": 248,
+      "preconditioner_rhs_applications": 240,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.0004143718069566443,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 9.73841690000796e-13,
+          "max_true": 2.356788804326388e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 5.3600449196623134e-14,
+          "max_true": 2.2321597695013394e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 3.0066389327454214e-15,
+          "max_true": 2.2697381916292995e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.3242950473180048e-15,
+          "max_true": 2.271827628754039e-12
+        },
+        {
+          "step": 25,
+          "max_projected": 4.079648121478635e-16,
+          "max_true": 7.628793311169718e-16
+        }
+      ],
+      "max_scaled_relative_residual": 7.628793311169718e-16,
+      "seconds": 33.960256256999855,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 112,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 26,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.0002821484033570975,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.559923224936199e-13,
+          "max_true": 2.6230028516209243e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 3.880139445171097e-14,
+          "max_true": 2.934410283477497e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.078779062914601e-15,
+          "max_true": 2.5372173582155676e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.2958919032497666e-15,
+          "max_true": 2.985044544375062e-12
+        },
+        {
+          "step": 26,
+          "max_projected": 2.321368773762565e-16,
+          "max_true": 6.77897860433299e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.77897860433299e-16,
+      "seconds": 33.93221534599979,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 120,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 27,
+      "cycles": 2,
+      "matrix_applications": 33,
+      "preconditioner_applications": 32,
+      "rhs_equivalent_matrix_applications": 264,
+      "preconditioner_rhs_applications": 256,
+      "true_checks": 6,
+      "failed_true_checks": 4,
+      "trigger_safety": 0.00024414005021853425,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.730444664427341e-13,
+          "max_true": 3.3448910635584944e-12
+        },
+        {
+          "step": 18,
+          "max_projected": 4.261895081892019e-14,
+          "max_true": 3.250441488682251e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 2.103658673040474e-15,
+          "max_true": 3.3621115756746137e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.4016936409429347e-15,
+          "max_true": 3.118357785469924e-12
+        },
+        {
+          "step": 27,
+          "max_projected": 4.5616398279671536e-17,
+          "max_true": 6.245589983025929e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.245589983025929e-16,
+      "seconds": 36.029277372999786,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 128,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 27,
+      "cycles": 2,
+      "matrix_applications": 32,
+      "preconditioner_applications": 31,
+      "rhs_equivalent_matrix_applications": 256,
+      "preconditioner_rhs_applications": 248,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 0.00022645080944994617,
+      "check_history": [
+        {
+          "step": 18,
+          "max_projected": 6.573290522223344e-14,
+          "max_true": 5.374940199525836e-12
+        },
+        {
+          "step": 19,
+          "max_projected": 3.4394778515631823e-15,
+          "max_true": 4.866680361788191e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.135809822102362e-15,
+          "max_true": 5.967456922608334e-12
+        },
+        {
+          "step": 27,
+          "max_projected": 7.261723067962555e-17,
+          "max_true": 6.180794442813569e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.180794442813569e-16,
+      "seconds": 33.56211203299972,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 136,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 25,
+      "cycles": 2,
+      "matrix_applications": 29,
+      "preconditioner_applications": 28,
+      "rhs_equivalent_matrix_applications": 232,
+      "preconditioner_rhs_applications": 224,
+      "true_checks": 4,
+      "failed_true_checks": 2,
+      "trigger_safety": 0.002470301537399358,
+      "check_history": [
+        {
+          "step": 18,
+          "max_projected": 6.268529963597695e-14,
+          "max_true": 9.781430420510518e-12
+        },
+        {
+          "step": 20,
+          "max_projected": 1.7031240808029506e-15,
+          "max_true": 8.13081574844937e-12
+        },
+        {
+          "step": 25,
+          "max_projected": 1.9946653407531856e-15,
+          "max_true": 2.0695585016496635e-15
+        }
+      ],
+      "max_scaled_relative_residual": 2.0695585016496635e-15,
+      "seconds": 32.30647827099983,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 144,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 28,
+      "cycles": 2,
+      "matrix_applications": 33,
+      "preconditioner_applications": 32,
+      "rhs_equivalent_matrix_applications": 264,
+      "preconditioner_rhs_applications": 256,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 8.033056889015886e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 9.38554799831713e-13,
+          "max_true": 1.225135215434558e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 3.443764963155142e-15,
+          "max_true": 1.2586308513640005e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.2166017808613333e-15,
+          "max_true": 1.3754893746835698e-11
+        },
+        {
+          "step": 28,
+          "max_projected": 7.087001654767488e-17,
+          "max_true": 6.270758444563288e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.270758444563288e-16,
+      "seconds": 37.04758511599994,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 152,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 4.6917982747835e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 6.288058267680183e-13,
+          "max_true": 1.713403807153673e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 2.9022120738014086e-15,
+          "max_true": 2.2375972263444306e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.4983947909303711e-15,
+          "max_true": 2.1437858857013812e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 1.8520408407871328e-17,
+          "max_true": 6.428680584690585e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.428680584690585e-16,
+      "seconds": 40.638557551000304,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 160,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 3.3127808051008914e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 7.447448485699902e-13,
+          "max_true": 2.159285146585971e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 3.1443408101638847e-15,
+          "max_true": 3.020552363019489e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.3972290414965003e-15,
+          "max_true": 2.7341396148384677e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 2.8182619531336096e-17,
+          "max_true": 6.552427322564705e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.552427322564705e-16,
+      "seconds": 39.40793416100041,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 168,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 8,
+      "steps": 29,
+      "cycles": 2,
+      "matrix_applications": 34,
+      "preconditioner_applications": 33,
+      "rhs_equivalent_matrix_applications": 272,
+      "preconditioner_rhs_applications": 264,
+      "true_checks": 5,
+      "failed_true_checks": 3,
+      "trigger_safety": 2.976557301454009e-05,
+      "check_history": [
+        {
+          "step": 17,
+          "max_projected": 9.311240474821413e-13,
+          "max_true": 2.899590792638847e-11
+        },
+        {
+          "step": 19,
+          "max_projected": 3.2547512991951825e-15,
+          "max_true": 2.966064443375698e-11
+        },
+        {
+          "step": 20,
+          "max_projected": 1.2471318117595202e-15,
+          "max_true": 3.431337867027115e-11
+        },
+        {
+          "step": 29,
+          "max_projected": 2.7683971768677192e-17,
+          "max_true": 6.370935147439324e-16
+        }
+      ],
+      "max_scaled_relative_residual": 6.370935147439324e-16,
+      "seconds": 39.64822943099989,
+      "krylov_vector_capacity_bytes": 22020096,
+      "peak_basis_columns": 168,
+      "next_block_ranks": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "start": 176,
+      "algorithm": "right_preconditioned_rank_aware_block_gmres",
+      "columns": 4,
+      "steps": 22,
+      "cycles": 2,
+      "matrix_applications": 25,
+      "preconditioner_applications": 24,
+      "rhs_equivalent_matrix_applications": 100,
+      "preconditioner_rhs_applications": 96,
+      "true_checks": 3,
+      "failed_true_checks": 1,
+      "trigger_safety": 1.0,
+      "check_history": [
+        {
+          "step": 20,
+          "max_projected": 8.034136142804081e-13,
+          "max_true": 2.0775705235731663e-11
+        },
+        {
+          "step": 22,
+          "max_projected": 3.9837393101756275e-13,
+          "max_true": 3.9836685442287995e-13
+        }
+      ],
+      "max_scaled_relative_residual": 3.9836685442287995e-13,
+      "seconds": 17.3058729939994,
+      "krylov_vector_capacity_bytes": 11010048,
+      "peak_basis_columns": 84,
+      "next_block_ranks": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ],
+  "rhs_seconds": 0.09908597199955693,
+  "solve_seconds": 819.7706285459999,
+  "field_seconds": 0.12540367899964622,
+  "validation_seconds": 0.022266537999712455,
+  "archive_seconds": 1.453491579999536,
+  "peak_gib": 0.444366455078125,
+  "wall_seconds": 895.3242791499997,
+  "process_io_delta": {
+    "rchar": 4974406,
+    "wchar": 45279061,
+    "syscr": 32892,
+    "syscw": 91,
+    "read_bytes": 0,
+    "write_bytes": 45412352,
+    "cancelled_write_bytes": 0
+  },
+  "compute_seconds": 892.1727747099985,
+  "pair_stats": {
+    "calls": 16935,
+    "pairs": 4393503,
+    "fallback_calls": 0
+  }
+}
