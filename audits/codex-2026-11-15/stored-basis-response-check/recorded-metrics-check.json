@@ -1,0 +1,46 @@
+{
+  "source_commit": "4d72d4af10a62b30f779dcf6b9bdd95ad9bbf247",
+  "evidence": "Reanalysis of Claude's recorded JSON; not fresh full sweeps",
+  "cases": {
+    "h32k-180-right-replay-restart40": {
+      "compute_seconds": 4455.771657392,
+      "solve_seconds": 3965.53450274,
+      "peak_gib": 1.8251762390136719,
+      "block_operator_calls": 660,
+      "rhs_equivalent_operator_calls": 5156,
+      "rhs_equivalent_preconditioner_calls": 9952,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    "i8k-right-replay-r2": {
+      "compute_seconds": 648.2134229009998,
+      "solve_seconds": 552.1530614249996,
+      "peak_gib": 0.449737548828125,
+      "block_operator_calls": 420,
+      "rhs_equivalent_operator_calls": 3276,
+      "rhs_equivalent_preconditioner_calls": 6192,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    "i8k-right-z-r2": {
+      "compute_seconds": 650.210276715,
+      "solve_seconds": 550.0911957529997,
+      "peak_gib": 0.46305084228515625,
+      "block_operator_calls": 420,
+      "rhs_equivalent_operator_calls": 3276,
+      "rhs_equivalent_preconditioner_calls": 3096,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    "g8k-right-replay": {
+      "compute_seconds": 653.538945345,
+      "solve_seconds": 556.966034051,
+      "peak_gib": 0.44964599609375,
+      "block_operator_calls": 420,
+      "rhs_equivalent_operator_calls": 3276,
+      "rhs_equivalent_preconditioner_calls": 6192,
+      "cycles": 23,
+      "failed_checks": 0
+    }
+  }
+}
