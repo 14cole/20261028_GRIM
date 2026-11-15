@@ -1,0 +1,180 @@
+{
+  "spec": {
+    "runner": "claude_run_geometry.py",
+    "material": "multilayer",
+    "shape": "circle",
+    "length_m": 0.6,
+    "frequency_ghz": 5.0,
+    "eps": [
+      12.0,
+      -0.01
+    ],
+    "inner_eps": [
+      16.0,
+      -0.01
+    ],
+    "count": 180,
+    "pol": "TE",
+    "method": "compressed",
+    "packing": "none",
+    "out": "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/results/c-hard-multilayer-TE-compressed-none"
+  },
+  "geometry": {
+    "input_panels": 5447,
+    "boundary_panels": [
+      2179,
+      1852,
+      1416
+    ],
+    "length_m": 0.6,
+    "air_wavelengths": 10.00692285594456,
+    "geometry_sha_basis": "generated coordinates and material table"
+  },
+  "wall_seconds": 83.63009480399978,
+  "error": "Quality gate failed: condition_est_max=1.81062e+06 exceeds limit 1e+06",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_run_geometry.py\", line 48, in <module>\n    result=fn(g,[spec['frequency_ghz']],\n        np.linspace(-90,90,spec.get('count',180),endpoint=False).tolist(),*args,\n        geometry_units='meters',compute_condition_number=True,strict_quality_gate=True,\n        max_panels=30000,execution_options=opts)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/preparation.py\", line 115, in call\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 787, in call\n    return invoke_configured(args,kwargs,admission)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 727, in invoke_configured\n    result = invoke()\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 697, in invoke\n    result=function(*args,**kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/metrics.py\", line 246, in measured\n    result = function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/cpu.py\", line 231, in call\n    result = invoke_with_failure_evidence(function, args, kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/failure.py\", line 86, in invoke\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/solver.py\", line 2978, in solve_monostatic_rcs_2d_single_polarization\n    raise ValueError(f\"Quality gate failed: {reason}\")\nValueError: Quality gate failed: condition_est_max=1.81062e+06 exceeds limit 1e+06\n",
+  "factors": [
+    {
+      "unknowns": 9478,
+      "factorizations": 1,
+      "rhs_batches": 1,
+      "max_rhs_columns": 180,
+      "max_backward_error": 6.021753020537709e-17,
+      "max_relative_residual": 2.2257878593420749e-13,
+      "compressed": {
+        "operator": "hmatrix",
+        "unknowns": 9478,
+        "leaf": 223,
+        "eta": 1.0,
+        "tolerance": 1e-12,
+        "compression_scaling": "galerkin_physical_units_v1",
+        "scaled_sampled_row_error": 1.3305548565672716e-12,
+        "retained_bytes": 499386808,
+        "storage_budget": 10128995328,
+        "near_bytes": 246812848,
+        "far_bytes": 241865864,
+        "dense_equivalent_bytes": 1437319744,
+        "near_rows": 64,
+        "interaction_lists": 104,
+        "dense_interaction_lists": 11,
+        "max_rank": 99,
+        "mean_rank": 55.68269230769231,
+        "geometry_queries": 1055,
+        "geometry_coefficients": 42028410,
+        "shared_query_targets": 1,
+        "near_coefficients": 14474704,
+        "coefficient_fraction": 0.46785314319038535,
+        "sampled_rows": 64,
+        "sampled_row_error": 1.3305548565667266e-12,
+        "sample_leaf_count": 64,
+        "sampled_leaf_count": 64,
+        "sampled_leaf_fraction": 1.0,
+        "sample_coverage_limited": false,
+        "sample_row_storage_bytes": 9705472,
+        "sample_row_storage_limit_bytes": 268435456,
+        "operator_error_limit": 1e-11,
+        "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+      },
+      "preconditioners": [
+        {
+          "bytes": 214516576,
+          "max_rank": 255,
+          "leaves": 64,
+          "accesses": 1403638,
+          "oracle_calls": 64,
+          "max_query_entries": 22201,
+          "relative_inf_error_bound": null,
+          "relative_one_error_bound": null,
+          "storage_budget": 9629608520,
+          "inverse_only": true,
+          "inverse_builder": "hmatrix_range_sampling",
+          "range_blocks": 126,
+          "max_inverse_rank": 2048,
+          "inverse_blas_threads": 1,
+          "construction": {
+            "checks": 2042,
+            "live_checks": 140,
+            "reused_observations": 1902,
+            "largest_increment_bytes": 155729536,
+            "peak_accounted_build_bytes": 385415552,
+            "sampled_process_growth_bytes": 258314240,
+            "process_samples_exclusive": true,
+            "forecast_discount_applied": false
+          },
+          "dense_fallbacks": 0,
+          "largest_dense_fallback": 0,
+          "dense_fallback_limit": 1024
+        }
+      ],
+      "gmres_columns": 0,
+      "max_refinements": 2,
+      "refinement_steps": 10,
+      "max_probe_backward_error": 3.312031584011935e-17,
+      "max_probe_sampled_backward_error": 3.889507698643887e-14,
+      "sampled_rows": 64,
+      "initial_preconditioner_tolerance": 1e-08,
+      "solve_blas_threads": 1,
+      "solve_blas_policy": "small_products_within_requested_cap",
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "max_sampled_backward_error": 3.8024377141397984e-14,
+      "memory_forecast_observation": {
+        "mode": "shadow_only",
+        "forecast_discount_applied": false,
+        "unknowns": 9478,
+        "operator_forecast_bytes": 462307048,
+        "inverse_forecast_bytes": 262348496,
+        "operator_actual_bytes": 499386808,
+        "inverse_actual_bytes": 214516576,
+        "storage_ratios": [
+          1.0802059154417218,
+          0.8176779332479954
+        ],
+        "construction": {
+          "checks": 2042,
+          "live_checks": 140,
+          "reused_observations": 1902,
+          "largest_increment_bytes": 155729536,
+          "peak_accounted_build_bytes": 385415552,
+          "sampled_process_growth_bytes": 258314240,
+          "process_samples_exclusive": true,
+          "forecast_discount_applied": false
+        },
+        "construction_forecast_bytes": 372444944,
+        "peak_note": "Construction samples are checkpoint observations, not a measured peak guarantee.",
+        "construction_comparison": {
+          "kind": "accounted_allowance_not_measured_peak",
+          "accounted_to_forecast_ratio": 1.0348255714272765,
+          "accounted_exceeds_forecast": true,
+          "forecast_discount_applied": false
+        }
+      }
+    }
+  ],
+  "captures": [
+    {
+      "index": 0,
+      "shape": [
+        9478,
+        180
+      ]
+    }
+  ],
+  "hooks": {
+    "packing": [],
+    "residual_products": []
+  },
+  "rss_bytes": 821919744,
+  "peak_gib": 1.0037078857421875
+}

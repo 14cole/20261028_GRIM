@@ -1,0 +1,93 @@
+{
+  "spec": {
+    "material": "multilayer",
+    "shape": "circle",
+    "length_m": 0.6,
+    "frequency_ghz": 5.0,
+    "eps": [
+      12.0,
+      -0.01
+    ],
+    "inner_eps": [
+      16.0,
+      -0.01
+    ],
+    "count": 180,
+    "runner": "claude_run_geometry_relaxed.py",
+    "pol": "TM",
+    "method": "compressed",
+    "packing": "construction",
+    "storage_mib": 560,
+    "out": "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/results/d-cap560-multilayer-TM-compressed-relaxed-construction"
+  },
+  "geometry": {
+    "input_panels": 5447,
+    "boundary_panels": [
+      2179,
+      1852,
+      1416
+    ],
+    "length_m": 0.6,
+    "air_wavelengths": 10.00692285594456,
+    "geometry_sha_basis": "generated coordinates and material table"
+  },
+  "wall_seconds": 74.25527980800007,
+  "error": "Compressed inverse exceeded its retained-storage cap.",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_run_geometry_relaxed.py\", line 48, in <module>\n    result=fn(g,[spec['frequency_ghz']],\n        np.linspace(-90,90,spec.get('count',180),endpoint=False).tolist(),*args,\n        geometry_units='meters',compute_condition_number=True,strict_quality_gate=True,\n        max_panels=30000,execution_options=opts)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/preparation.py\", line 115, in call\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 787, in call\n    return invoke_configured(args,kwargs,admission)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 727, in invoke_configured\n    result = invoke()\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 697, in invoke\n    result=function(*args,**kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/metrics.py\", line 246, in measured\n    result = function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/cpu.py\", line 231, in call\n    result = invoke_with_failure_evidence(function, args, kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/failure.py\", line 86, in invoke\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/solver.py\", line 2789, in solve_monostatic_rcs_2d_single_polarization\n    rcs_lin_vec, amp_vec, multi_residual, _ = _solve_multi_region_indirect(\n                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        mesh=mesh,\n        ^^^^^^^^^^\n    ...<6 lines>...\n        return_density=False,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/solver.py\", line 2197, in _solve_multi_region_indirect\n    return _solve_fields(mesh, matrix, k0, elevations_deg,\n        lambda angles: rhs_many(mesh, layout, k0, angles), condition_diagnostics,\n    ...<5 lines>...\n        second_element_mask=mask,\n        adaptive_routes=[(layout['ifaces'][mi]['nodes'], offset) for (mi, _), (offset, _) in layout['dof_map'].items()])\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/solver.py\", line 1861, in _solve_fields\n    return solve_bounded_fields(mesh, matrix, k0, angles, rhs_builder, diagnostics, label, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/fields.py\", line 10, in solve_fields\n    return _solve_fields(mesh, matrix, k0, angles, rhs_builder, diagnostics, label, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/fields.py\", line 57, in _solve_fields\n    factor = None if gpu else factor_class(matrix, diagnostics, label,\n                              ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        evidence=state.systems if state is not None else None, checkpoint=checkpoint, **ownership)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 550, in call\n    return function(factor, *args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 150, in __init__\n    super().__init__(operator, *args, storage_budget_bytes=storage_budget_bytes, **kwargs)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_run_geometry_relaxed.py\", line 18, in init\n    try:return _fn(self,*args,**kwargs)\n               ~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/factor.py\", line 54, in __init__\n    self._fresh_build()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/factor.py\", line 76, in _fresh_build\n    if compact:self._build(COMPACT_PRECONDITIONER_TOLERANCE)\n               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 165, in _build\n    self.factor = timed_stage('factorization')(HMatrixSystem)(self.a, self.a.coordinates, tolerance,\n                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                              self.budget, self.checkpoint)\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/metrics.py\", line 231, in measured\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/hmatrix_factor.py\", line 103, in __init__\n    self.root = self.build(PreparedAccess(operator), self.permutation)\n                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_hooks_relaxed.py\", line 30, in build\n    node=original(self,*args,**kwargs);pack(self,node);return node\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 261, in build\n    node.left,node.right=self.build(oracle,left),self.build(oracle,right)\n                         ~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_hooks_relaxed.py\", line 30, in build\n    node=original(self,*args,**kwargs);pack(self,node);return node\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 261, in build\n    node.left,node.right=self.build(oracle,left),self.build(oracle,right)\n                         ~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_hooks_relaxed.py\", line 30, in build\n    node=original(self,*args,**kwargs);pack(self,node);return node\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 261, in build\n    node.left,node.right=self.build(oracle,left),self.build(oracle,right)\n                         ~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_hooks_relaxed.py\", line 30, in build\n    node=original(self,*args,**kwargs);pack(self,node);return node\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 232, in build\n    self.reserve(node.u21.nbytes+node.v21.nbytes)\n    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 162, in reserve\n    self.check_storage(count)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/compressed/inverse.py\", line 166, in check_storage\n    raise MemoryError('Compressed inverse exceeded its retained-storage cap.')\nMemoryError: Compressed inverse exceeded its retained-storage cap.\n",
+  "factors": [
+    {
+      "unknowns": 9478,
+      "factorizations": 0,
+      "rhs_batches": 0,
+      "max_rhs_columns": 0,
+      "max_backward_error": 0.0,
+      "max_relative_residual": 0.0,
+      "compressed": {
+        "operator": "hmatrix",
+        "unknowns": 9478,
+        "leaf": 223,
+        "eta": 1.0,
+        "tolerance": 1e-12,
+        "compression_scaling": "galerkin_physical_units_v1",
+        "scaled_sampled_row_error": 1.2879178516339556e-12,
+        "retained_bytes": 499017192,
+        "storage_budget": 587202560,
+        "near_bytes": 246812848,
+        "far_bytes": 241496248,
+        "dense_equivalent_bytes": 1437319744,
+        "near_rows": 64,
+        "interaction_lists": 104,
+        "dense_interaction_lists": 11,
+        "max_rank": 98,
+        "mean_rank": 55.74038461538461,
+        "geometry_queries": 1057,
+        "geometry_coefficients": 41719277,
+        "shared_query_targets": 1,
+        "near_coefficients": 14474704,
+        "coefficient_fraction": 0.4644119269817809,
+        "sampled_rows": 64,
+        "sampled_row_error": 1.2879178516331562e-12,
+        "sample_leaf_count": 64,
+        "sampled_leaf_count": 64,
+        "sampled_leaf_fraction": 1.0,
+        "sample_coverage_limited": false,
+        "sample_row_storage_bytes": 9705472,
+        "sample_row_storage_limit_bytes": 268435456,
+        "operator_error_limit": 1e-11,
+        "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+      },
+      "preconditioners": [],
+      "gmres_columns": 0,
+      "max_refinements": 0,
+      "refinement_steps": 0,
+      "compact_preconditioner": "Compressed inverse exceeded its retained-storage cap."
+    }
+  ],
+  "captures": [],
+  "hooks": {
+    "packing": [],
+    "residual_products": []
+  },
+  "rss_bytes": 568614912,
+  "peak_gib": 0.7391357421875
+}

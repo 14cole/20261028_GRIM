@@ -1,0 +1,80 @@
+{
+  "spec": {
+    "runner": "claude_run_geometry.py",
+    "material": "multilayer",
+    "shape": "circle",
+    "length_m": 0.6,
+    "frequency_ghz": 5.0,
+    "eps": [
+      12.0,
+      -0.01
+    ],
+    "inner_eps": [
+      16.0,
+      -0.01
+    ],
+    "count": 180,
+    "pol": "TE",
+    "method": "dense",
+    "packing": "none",
+    "out": "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/results/c-hard-multilayer-TE-dense-none"
+  },
+  "geometry": {
+    "input_panels": 5447,
+    "boundary_panels": [
+      2179,
+      1852,
+      1416
+    ],
+    "length_m": 0.6,
+    "air_wavelengths": 10.00692285594456,
+    "geometry_sha_basis": "generated coordinates and material table"
+  },
+  "wall_seconds": 73.65613556499989,
+  "error": "Quality gate failed: condition_est_max=1.81062e+06 exceeds limit 1e+06",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dcw/study/claude_run_geometry.py\", line 48, in <module>\n    result=fn(g,[spec['frequency_ghz']],\n        np.linspace(-90,90,spec.get('count',180),endpoint=False).tolist(),*args,\n        geometry_units='meters',compute_condition_number=True,strict_quality_gate=True,\n        max_panels=30000,execution_options=opts)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/preparation.py\", line 115, in call\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 787, in call\n    return invoke_configured(args,kwargs,admission)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 727, in invoke_configured\n    result = invoke()\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/options.py\", line 697, in invoke\n    result=function(*args,**kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/metrics.py\", line 246, in measured\n    result = function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/cpu.py\", line 231, in call\n    result = invoke_with_failure_evidence(function, args, kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/execution/failure.py\", line 86, in invoke\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/dc/tools/GHOST/ghost_backend/twod/solver.py\", line 2978, in solve_monostatic_rcs_2d_single_polarization\n    raise ValueError(f\"Quality gate failed: {reason}\")\nValueError: Quality gate failed: condition_est_max=1.81062e+06 exceeds limit 1e+06\n",
+  "factors": [
+    {
+      "unknowns": 9478,
+      "factorizations": 1,
+      "rhs_batches": 1,
+      "max_rhs_columns": 180,
+      "max_backward_error": 4.4110050911277894e-15,
+      "max_relative_residual": 3.872106556329569e-11,
+      "lu_scaling": "condition_row_column_equilibration",
+      "factor_work_seconds": 38.59207864799964,
+      "factor_variant": "lu",
+      "factor_rebuilds": 0,
+      "factor_fallback": false,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "max_equilibrated_backward_error": 8.414597040737765e-16
+    }
+  ],
+  "captures": [
+    {
+      "index": 0,
+      "shape": [
+        9478,
+        180
+      ]
+    }
+  ],
+  "hooks": {
+    "packing": [],
+    "residual_products": []
+  },
+  "rss_bytes": 150962176,
+  "peak_gib": 2.915447235107422
+}

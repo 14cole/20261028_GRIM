@@ -1,0 +1,271 @@
+{
+ "n": 8192,
+ "threads": "1",
+ "numpy": "2.4.6",
+ "results": {
+  "1": {
+   "A@XF (default out)": {
+    "median": 0.0871278139999987,
+    "min": 0.0853875960000039,
+    "max": 0.09306543499999975,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 1.5902609967899535e-15
+   },
+   "A@XC (default out)": {
+    "median": 0.08682864300000404,
+    "min": 0.08543283000000201,
+    "max": 0.09023634599999752,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 1.5902609967899535e-15
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 0.09413824800000725,
+    "min": 0.08980747900000097,
+    "max": 0.10114037399999631,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 1.5902609967899535e-15
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 0.09276198399999203,
+    "min": 0.08399823599999934,
+    "max": 0.09689604900000859,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 1.5902609967899535e-15
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 0.0900642920000081,
+    "min": 0.08695838300000958,
+    "max": 0.09140676399999847,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 1.5902609967899535e-15
+   },
+   "zgemm(A,XF)": {
+    "median": 0.1302206200000029,
+    "min": 0.1290399979999961,
+    "max": 0.13432366900001114,
+    "result_order": "both",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  },
+  "8": {
+   "A@XF (default out)": {
+    "median": 0.36849967099999503,
+    "min": 0.35038864899999567,
+    "max": 0.4019439510000069,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "A@XC (default out)": {
+    "median": 0.3757545910000033,
+    "min": 0.3413794030000048,
+    "max": 0.4255022569999909,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 0.155192741999997,
+    "min": 0.1510031690000062,
+    "max": 0.2453996260000082,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 0.1510254199999963,
+    "min": 0.14786469700000282,
+    "max": 0.207065237000009,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 0.3922236670000103,
+    "min": 0.3557290999999907,
+    "max": 0.4275054870000048,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "zgemm(A,XF)": {
+    "median": 0.20761747200000968,
+    "min": 0.1670820299999889,
+    "max": 0.2431048250000032,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  },
+  "16": {
+   "A@XF (default out)": {
+    "median": 0.4331424620000064,
+    "min": 0.40981585800000175,
+    "max": 0.5158934539999933,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "A@XC (default out)": {
+    "median": 0.45063083200000165,
+    "min": 0.3997970369999848,
+    "max": 0.5008346459999871,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 0.2285475499999876,
+    "min": 0.201526973,
+    "max": 0.2971659760000023,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 0.24867754299998523,
+    "min": 0.2044787559999861,
+    "max": 0.28846586200000957,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 0.4434066870000066,
+    "min": 0.4284928800000216,
+    "max": 0.48818481399999314,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "zgemm(A,XF)": {
+    "median": 0.2464354410000169,
+    "min": 0.23287246600000344,
+    "max": 0.28801319699999794,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  },
+  "64": {
+   "A@XF (default out)": {
+    "median": 0.7565408359999992,
+    "min": 0.7173870240000042,
+    "max": 0.7760104139999839,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "A@XC (default out)": {
+    "median": 0.7504612509999902,
+    "min": 0.7297169409999924,
+    "max": 0.8704473199999825,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 0.5596517879999965,
+    "min": 0.5370912289999978,
+    "max": 0.6572875760000159,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 0.5612345790000006,
+    "min": 0.5438185980000014,
+    "max": 0.7271329830000184,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 0.7651506859999984,
+    "min": 0.7199080869999932,
+    "max": 0.8389250500000003,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "zgemm(A,XF)": {
+    "median": 0.6235517259999881,
+    "min": 0.584241124000016,
+    "max": 0.6785448450000047,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  },
+  "180": {
+   "A@XF (default out)": {
+    "median": 1.6120365430000163,
+    "min": 1.5261904080000193,
+    "max": 1.7112046880000094,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "A@XC (default out)": {
+    "median": 1.5600611379999805,
+    "min": 1.4950363349999805,
+    "max": 1.6759286850000024,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 1.448275926000008,
+    "min": 1.3946465610000018,
+    "max": 1.4854553069999952,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 1.4818828539999913,
+    "min": 1.3792870839999978,
+    "max": 1.5828746380000212,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 1.5990848939999864,
+    "min": 1.534241455,
+    "max": 1.8478971930000228,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "zgemm(A,XF)": {
+    "median": 1.5920753519999948,
+    "min": 1.4281471789999785,
+    "max": 1.634864198999992,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  },
+  "360": {
+   "A@XF (default out)": {
+    "median": 2.9624087279999856,
+    "min": 2.8168959920000134,
+    "max": 3.023495249000007,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "A@XC (default out)": {
+    "median": 2.922226021,
+    "min": 2.8800524440000004,
+    "max": 3.1999981680000076,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=F)": {
+    "median": 2.9648866200000157,
+    "min": 2.8327958870000316,
+    "max": 3.061524840000004,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XC,out=F)": {
+    "median": 2.922453098999995,
+    "min": 2.853325436999995,
+    "max": 3.067524657999968,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "matmul(A,XF,out=C)": {
+    "median": 2.874592617000019,
+    "min": 2.8245549099999607,
+    "max": 2.9059284289999994,
+    "result_order": "C",
+    "rel_diff_vs_zgemm": 0.0
+   },
+   "zgemm(A,XF)": {
+    "median": 2.9026618710000207,
+    "min": 2.737146217000003,
+    "max": 2.9843824790000326,
+    "result_order": "F",
+    "rel_diff_vs_zgemm": 0.0
+   }
+  }
+ }
+}
