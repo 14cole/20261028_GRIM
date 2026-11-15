@@ -1,0 +1,20 @@
+{'name': 'ordinary', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 3.424624551709647e-08, 'finite': True, 'lost': 0, 'ratio': 3.407642627448228e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'all zero', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 0, 'ratio': 0.0, 'expected': 'complex64', 'ok': True}
+{'name': 'empty', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 0, 'ratio': 0.0, 'expected': 'complex64', 'ok': True}
+{'name': 'all tiny 1e-60', 'result': 'double-retained', 'returned_same_object': True, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 120, 'ratio': 1.0, 'expected': 'double-retained', 'ok': True}
+{'name': 'tiny entry among normal', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 3.103271396768639e-08, 'finite': True, 'lost': 2, 'ratio': 3.6697581330061056e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'overflow entry', 'result': 'double-retained', 'returned_same_object': True, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 0, 'ratio': inf, 'expected': 'double-retained', 'ok': True}
+{'name': 'one lost component', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 2.9691614571664523e-08, 'finite': True, 'lost': 1, 'ratio': 2.6951637088417844e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'NaN source', 'result': 'raised', 'message': 'Nonfinite source inverse factor', 'expected': 'raised', 'ok': True}
+{'name': 'Inf source', 'result': 'raised', 'message': 'Nonfinite source inverse factor', 'expected': 'raised', 'ok': True}
+{'name': 'denormal doubles only', 'result': 'double-retained', 'returned_same_object': True, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 16, 'ratio': 1.0, 'expected': 'double-retained', 'ok': True}
+{'name': 'scale 1e-30 uniform (inside float32 range)', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 2.823514445124968e-08, 'finite': True, 'lost': 0, 'ratio': 2.9158747465880153e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'scale 1e-44 uniform (float32 denormal range)', 'result': 'double-retained', 'returned_same_object': True, 'rel_err_vs_global_max': 0.0, 'finite': True, 'lost': 18, 'ratio': 0.024622491402824867, 'expected': 'double-retained', 'ok': True}
+{'name': 'scale 1e30 uniform', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 2.522047430539473e-08, 'finite': True, 'lost': 0, 'ratio': 2.2919116146908507e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'F-order', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 5.386258594001767e-08, 'finite': True, 'lost': 0, 'ratio': 5.392071527876657e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'non-contiguous view', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 3.066296346470268e-08, 'finite': True, 'lost': 0, 'ratio': 3.156693774419351e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'larger than one chunk', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 5.201411068719993e-08, 'finite': True, 'lost': 0, 'ratio': 5.206796855471303e-08, 'expected': 'complex64', 'ok': True}
+{'name': 'columns scaled 1,1e-20,1e-40,1e-50', 'result': 'complex64', 'returned_same_object': False, 'rel_err_vs_global_max': 3.8547616304416156e-08, 'finite': True, 'lost': 100, 'ratio': 4.225688736026278e-08, 'expected': 'complex64', 'ok': True}
+column relative errors [2.431332702027502e-08, 2.5317160237364346e-08, 4.201352617377674e-06, 1.0]
+compensated product relative error 0.43939440759040427
+all expectations met True

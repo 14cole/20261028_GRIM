@@ -1,0 +1,54 @@
+{
+  "spec": {
+    "packing": "bounded",
+    "out": "builder-check-bounded"
+  },
+  "checks": [
+    {
+      "trans": 0,
+      "relative_error": 4.446572807833479e-10,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    },
+    {
+      "trans": 1,
+      "relative_error": 5.310347035453265e-10,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    },
+    {
+      "trans": 2,
+      "relative_error": 4.636356694475211e-10,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    }
+  ],
+  "faults": [
+    {
+      "mode": "cancel",
+      "triggered": true,
+      "expected_exception": true,
+      "owner_references_released": true
+    },
+    {
+      "mode": "memory",
+      "triggered": true,
+      "expected_exception": true,
+      "owner_references_released": true
+    },
+    {
+      "mode": "dense_fallback",
+      "triggered": true,
+      "expected_exception": false,
+      "owner_references_released": true
+    },
+    {
+      "mode": "copy_input",
+      "triggered": true,
+      "expected_exception": false,
+      "owner_references_released": true
+    }
+  ],
+  "copy_input_count": 62,
+  "zero_rank_identity": true
+}

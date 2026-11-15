@@ -1,0 +1,48 @@
+[
+  [
+    "partialTM-dense-thread4",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "dense",
+      "pol": "TM",
+      "builder": "production",
+      "packing": "none",
+      "hook": "claude_builder",
+      "threads": 4
+    }
+  ],
+  [
+    "multilayerTM-dense-fresh",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "dense",
+      "pol": "TM",
+      "builder": "production",
+      "packing": "none",
+      "hook": "claude_builder",
+      "threads": 1,
+      "inner_eps": [
+        16.0,
+        -0.01
+      ]
+    }
+  ]
+]

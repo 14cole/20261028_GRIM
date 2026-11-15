@@ -1,0 +1,374 @@
+[
+ [
+  "f-partial-TE-prod-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "production",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-partial-TE-prod-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "production",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-partial-TE-seq-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "sequential",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-partial-TE-seq-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-partial-TE-seq-none-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "sequential",
+   "packing": "none",
+   "leaf_scaling": true
+  }
+ ],
+ [
+  "f-partial-TE-seq-bounded-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "builder": "sequential",
+   "packing": "bounded",
+   "leaf_scaling": true
+  }
+ ],
+ [
+  "f-partial-TM-prod-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "production",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-partial-TM-prod-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "production",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-partial-TM-seq-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-partial-TM-seq-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-partial-TM-seq-none-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "none",
+   "leaf_scaling": true
+  }
+ ],
+ [
+  "f-partial-TM-seq-bounded-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "bounded",
+   "leaf_scaling": true
+  }
+ ],
+ [
+  "f-multilayer-TM-prod-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "production",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-multilayer-TM-prod-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "production",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-multilayer-TM-seq-none",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "none"
+  }
+ ],
+ [
+  "f-multilayer-TM-seq-bounded",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "f-multilayer-TM-seq-none-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "none",
+   "leaf_scaling": true
+  }
+ ],
+ [
+  "f-multilayer-TM-seq-bounded-leafscale",
+  {
+   "runner": "claude_run_geometry2.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "builder": "sequential",
+   "packing": "bounded",
+   "leaf_scaling": true
+  }
+ ]
+]

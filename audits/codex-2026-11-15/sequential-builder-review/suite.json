@@ -1,0 +1,200 @@
+[
+  [
+    "original-cap640",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "bounded",
+      "hook": "claude_builder",
+      "storage_mib": 640
+    }
+  ],
+  [
+    "corrected-cap640",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "bounded",
+      "hook": "corrected_builder",
+      "storage_mib": 640
+    }
+  ],
+  [
+    "corrected-none-cap676",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "none",
+      "hook": "corrected_builder",
+      "storage_mib": 676
+    }
+  ],
+  [
+    "corrected-cap626-retry",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "bounded",
+      "hook": "corrected_builder",
+      "storage_mib": 626
+    }
+  ],
+  [
+    "rank-guard-cap640",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "bounded",
+      "hook": "corrected_builder",
+      "rank_guard": true,
+      "storage_mib": 640
+    }
+  ],
+  [
+    "tolerance-1e-10",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "none",
+      "hook": "corrected_builder",
+      "inverse_tolerance": 1e-10
+    }
+  ],
+  [
+    "tolerance-1e-12",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "none",
+      "hook": "corrected_builder",
+      "inverse_tolerance": 1e-12
+    }
+  ],
+  [
+    "partialTM-thread4-rank-guard",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "builder": "sequential",
+      "packing": "bounded",
+      "hook": "corrected_builder",
+      "rank_guard": true,
+      "threads": 4
+    }
+  ]
+]

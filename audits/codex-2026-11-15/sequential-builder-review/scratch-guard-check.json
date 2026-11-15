@@ -1,0 +1,41 @@
+{
+  "aliased_node_solve": {
+    "rhs_bytes": 8388608,
+    "tracked_peak_scratch_bytes": 6293510,
+    "claude_allowance_bytes": 1048576,
+    "corrected_allowance_bytes": 68157440,
+    "bit_identical": true
+  },
+  "rank_checks": [
+    {
+      "key": "e1",
+      "global_guard_product_error": 0.5387386713878977,
+      "rank_guard_product_error": 0.0,
+      "record": {
+        "accepted": false,
+        "component_scale": 2.477447260571046,
+        "relative_max_component_error": 4.240548784733813e-08,
+        "lost_components": 100,
+        "max_lost_component": 2.6964968912470936e-50,
+        "reason": "retain double: rank-vector conversion exceeds bound",
+        "rank_direction": "columns",
+        "rank_vector_max_relative_error": 1.0
+      }
+    },
+    {
+      "key": "v12",
+      "global_guard_product_error": 0.49603172947544605,
+      "rank_guard_product_error": 0.0,
+      "record": {
+        "accepted": false,
+        "component_scale": 2.4319808514813253,
+        "relative_max_component_error": 3.600669243014548e-08,
+        "lost_components": 100,
+        "max_lost_component": 2.4793467175043185e-50,
+        "reason": "retain double: rank-vector conversion exceeds bound",
+        "rank_direction": "rows",
+        "rank_vector_max_relative_error": 1.0
+      }
+    }
+  ]
+}

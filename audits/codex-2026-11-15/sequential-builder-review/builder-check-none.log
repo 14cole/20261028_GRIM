@@ -1,0 +1,54 @@
+{
+  "spec": {
+    "packing": "none",
+    "out": "builder-check-none"
+  },
+  "checks": [
+    {
+      "trans": 0,
+      "relative_error": 3.197421196305979e-16,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    },
+    {
+      "trans": 1,
+      "relative_error": 3.1512223444847004e-16,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    },
+    {
+      "trans": 2,
+      "relative_error": 3.127696052341509e-16,
+      "aliased_identical": true,
+      "duplicate_and_zero_rhs": true
+    }
+  ],
+  "faults": [
+    {
+      "mode": "cancel",
+      "triggered": true,
+      "expected_exception": true,
+      "owner_references_released": true
+    },
+    {
+      "mode": "memory",
+      "triggered": true,
+      "expected_exception": true,
+      "owner_references_released": true
+    },
+    {
+      "mode": "dense_fallback",
+      "triggered": true,
+      "expected_exception": false,
+      "owner_references_released": true
+    },
+    {
+      "mode": "copy_input",
+      "triggered": true,
+      "expected_exception": false,
+      "owner_references_released": true
+    }
+  ],
+  "copy_input_count": 62,
+  "zero_rank_identity": true
+}
