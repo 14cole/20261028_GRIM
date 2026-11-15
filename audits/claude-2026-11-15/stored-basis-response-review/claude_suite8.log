@@ -1,0 +1,6 @@
+START h8k-8-tree
+{"rc": 0, "wall_seconds": 134.83726622899997, "peak_gib": 0.433349609375, "cpu_seconds": 133.788262, "command": ["/usr/local/bin/python3", "monostatic_tree.py", "{\"n\": 4096, \"k\": 80, \"count\": 8, \"start\": -90, \"stop\": -82, \"batch\": 256, \"method\": \"fmm\", \"krylov_batch\": 8, \"op_tol\": 0.0001, \"inv_tol\": 0.0001, \"krylov\": \"block_gmres\", \"out\": \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/msw/claude3/results/h8k-8-tree\"}"]}
+END h8k-8-tree 0
+START h32k-180-right-replay-restart40
+{"rc": 0, "wall_seconds": 4470.281940897, "peak_gib": 1.8251762390136719, "cpu_seconds": 4430.705858, "command": ["/usr/local/bin/python3", "monostatic_right_replay.py", "{\"n\": 16384, \"k\": 320, \"count\": 180, \"start\": -90, \"stop\": 90, \"batch\": 256, \"method\": \"fmm\", \"krylov\": \"block_gmres\", \"krylov_batch\": 8, \"op_tol\": 0.0001, \"inv_tol\": 0.0001, \"restart_blocks\": 40, \"out\": \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/msw/claude3/results/h32k-180-right-replay-restart40\"}"]}
+END h32k-180-right-replay-restart40 0
