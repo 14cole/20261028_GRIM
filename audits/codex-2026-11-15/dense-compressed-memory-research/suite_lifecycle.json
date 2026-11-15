@@ -1,0 +1,40 @@
+[
+  [
+    "capture-dielectric_both-dense-none",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_capture.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ],
+  [
+    "layout-dielectric_both-dense-none",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ]
+]

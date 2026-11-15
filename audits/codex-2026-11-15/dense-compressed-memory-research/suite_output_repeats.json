@@ -1,0 +1,30 @@
+[
+  [
+    "repeat-output-star-4096-360-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "dense",
+      "residual": "full_f_output",
+      "compression": "off"
+    }
+  ],
+  [
+    "repeat-control-star-4096-360-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "dense",
+      "residual": "full",
+      "compression": "off"
+    }
+  ]
+]

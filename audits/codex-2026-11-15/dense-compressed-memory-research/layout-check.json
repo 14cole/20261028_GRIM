@@ -1,0 +1,56 @@
+[
+  {
+    "n": 70,
+    "error": 2.358397989338822e-16,
+    "trans_errors": [
+      2.358397989338822e-16,
+      2.3170662992273244e-16,
+      2.4265412539654855e-16
+    ],
+    "original_restored_bitwise": true,
+    "event": {
+      "unknowns": 70,
+      "factorizations": 1,
+      "rhs_batches": 1,
+      "max_rhs_columns": 5,
+      "max_backward_error": 2.4542782675230015e-16,
+      "max_relative_residual": 4.0474917698773357e-16,
+      "lu_scaling": "condition_row_column_equilibration",
+      "residual_storage": "research_row_major_memory",
+      "original_copy_bytes": 78400,
+      "lu_reuses_owned_buffer": true,
+      "factor_work_seconds": 0.03346687900193501,
+      "factor_variant": "lu",
+      "factor_rebuilds": 0,
+      "factor_fallback": false,
+      "max_equilibrated_backward_error": 1.0890588163225308e-16
+    }
+  },
+  {
+    "n": 300,
+    "error": 2.9517077203829774e-16,
+    "trans_errors": [
+      2.9517077203829774e-16,
+      2.726870215529013e-16,
+      2.753568563015553e-16
+    ],
+    "original_restored_bitwise": true,
+    "event": {
+      "unknowns": 300,
+      "factorizations": 1,
+      "rhs_batches": 1,
+      "max_rhs_columns": 5,
+      "max_backward_error": 1.631213076253613e-16,
+      "max_relative_residual": 5.530677482292711e-16,
+      "lu_scaling": "condition_row_column_equilibration",
+      "residual_storage": "research_row_major_memory",
+      "original_copy_bytes": 1440000,
+      "lu_reuses_owned_buffer": true,
+      "factor_work_seconds": 0.014017323002917692,
+      "factor_variant": "lu",
+      "factor_rebuilds": 0,
+      "factor_fallback": false,
+      "max_equilibrated_backward_error": 7.448844347494407e-17
+    }
+  }
+]

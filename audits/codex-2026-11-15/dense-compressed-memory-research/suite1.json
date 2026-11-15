@@ -1,0 +1,80 @@
+[
+  [
+    "star-8192-180-compressed-none",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "star-8192-180-compressed-post",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "post"
+    }
+  ],
+  [
+    "star-8192-180-compressed-construction",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "star-8192-180-dense-full",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full"
+    }
+  ],
+  [
+    "star-8192-180-dense-blocked",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "blocked"
+    }
+  ],
+  [
+    "star-8192-180-dense-blocked_c",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "blocked_c"
+    }
+  ]
+]

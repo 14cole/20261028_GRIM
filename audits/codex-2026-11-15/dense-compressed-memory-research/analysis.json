@@ -1,0 +1,3638 @@
+{
+  "evidence": "Saved-array replay of fresh solves, plus inspection of recorded fresh-check outcomes; no new equation evaluations in this script.",
+  "cases": 88,
+  "completed": 88,
+  "failures": [],
+  "summary": [
+    {
+      "case": "star-8192-180-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 49.08545579299971,
+      "compute_seconds": 44.794460205004725,
+      "solve_seconds": 2.8580469280022953,
+      "peak_gib": 0.7001571655273438,
+      "retained_factor_bytes": 149397352,
+      "unknowns": 8192,
+      "factor_peak_gib": 0.5470733642578125,
+      "factor_seconds": 3.2071368630022334,
+      "assembly_seconds": 38.411413399000594,
+      "refinement_steps": 2,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.847363976491261e-15
+    },
+    {
+      "case": "star-8192-180-compressed-post",
+      "method": "compressed",
+      "packing": "post",
+      "process_wall_seconds": 46.11214819599991,
+      "compute_seconds": 42.12501059900387,
+      "solve_seconds": 3.861682725000719,
+      "peak_gib": 0.6787376403808594,
+      "retained_factor_bytes": 94793576,
+      "unknowns": 8192,
+      "factor_peak_gib": 0.5475616455078125,
+      "factor_seconds": 3.23003419700035,
+      "assembly_seconds": 34.78192017099718,
+      "refinement_steps": 3,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.8472911999586885e-15
+    },
+    {
+      "case": "star-8192-180-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 49.42177657499997,
+      "compute_seconds": 44.779428455000016,
+      "solve_seconds": 3.929867467999429,
+      "peak_gib": 0.6864509582519531,
+      "retained_factor_bytes": 94793576,
+      "unknowns": 8192,
+      "factor_peak_gib": 0.5223846435546875,
+      "factor_seconds": 3.5681926560027932,
+      "assembly_seconds": 37.01061916600156,
+      "refinement_steps": 3,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.84725409415376e-15
+    },
+    {
+      "case": "star-8192-180-dense-full",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 61.40951533800035,
+      "compute_seconds": 57.22771603500223,
+      "solve_seconds": 7.121603681000124,
+      "peak_gib": 2.2473487854003906,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.109691619873047,
+      "factor_seconds": 23.73369013199772,
+      "assembly_seconds": 26.073689146000106,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "star-8192-180-dense-blocked",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 60.45728776000033,
+      "compute_seconds": 56.36169792500368,
+      "solve_seconds": 5.616630197000632,
+      "peak_gib": 2.2576980590820312,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.1297149658203125,
+      "factor_seconds": 24.215182666001056,
+      "assembly_seconds": 26.249896627999988,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "star-8192-180-dense-blocked_c",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 58.79327733199898,
+      "compute_seconds": 54.273705933999736,
+      "solve_seconds": 8.61509272100011,
+      "peak_gib": 2.2799072265625,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.1219558715820312,
+      "factor_seconds": 20.471946583002136,
+      "assembly_seconds": 24.884625431997847,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "adjoint-eps3.0-none",
+      "method": null,
+      "packing": "none",
+      "process_wall_seconds": 4.360233486997458,
+      "checks": [
+        {
+          "trans": 0,
+          "density_error": 3.224595379514387e-13,
+          "exact_backward_error": 4.603593485824987e-19
+        },
+        {
+          "trans": 1,
+          "density_error": 7.065888715896755e-13,
+          "exact_backward_error": 1.7385462423513377e-18
+        },
+        {
+          "trans": 2,
+          "density_error": 6.480806808699454e-13,
+          "exact_backward_error": 1.5075821242085056e-18
+        }
+      ]
+    },
+    {
+      "case": "adjoint-eps3.0-construction",
+      "method": null,
+      "packing": "construction",
+      "process_wall_seconds": 4.653950677999092,
+      "checks": [
+        {
+          "trans": 0,
+          "density_error": 3.225699564991756e-13,
+          "exact_backward_error": 4.558672493422134e-19
+        },
+        {
+          "trans": 1,
+          "density_error": 7.065498131246632e-13,
+          "exact_backward_error": 1.6062113222767755e-18
+        },
+        {
+          "trans": 2,
+          "density_error": 6.480140667050398e-13,
+          "exact_backward_error": 1.6117116060948975e-18
+        }
+      ]
+    },
+    {
+      "case": "adjoint-eps12.0-none",
+      "method": null,
+      "packing": "none",
+      "process_wall_seconds": 4.095112048998999,
+      "checks": [
+        {
+          "trans": 0,
+          "density_error": 1.3366718409276126e-13,
+          "exact_backward_error": 1.775691541070937e-19
+        },
+        {
+          "trans": 1,
+          "density_error": 7.453025272639133e-13,
+          "exact_backward_error": 2.1264125057106e-18
+        },
+        {
+          "trans": 2,
+          "density_error": 5.826952018458536e-13,
+          "exact_backward_error": 1.8406014393989045e-18
+        }
+      ]
+    },
+    {
+      "case": "adjoint-eps12.0-construction",
+      "method": null,
+      "packing": "construction",
+      "process_wall_seconds": 4.4062267300032545,
+      "checks": [
+        {
+          "trans": 0,
+          "density_error": 1.33714555400282e-13,
+          "exact_backward_error": 1.7955055533290606e-19
+        },
+        {
+          "trans": 1,
+          "density_error": 7.452913236771798e-13,
+          "exact_backward_error": 1.7016183847044703e-18
+        },
+        {
+          "trans": 2,
+          "density_error": 5.824980597062004e-13,
+          "exact_backward_error": 1.6440174005368433e-18
+        }
+      ]
+    },
+    {
+      "case": "pec20ft-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 9.917572841000947,
+      "peak_gib": 0.69573974609375,
+      "wall_seconds": 9.46644900300089,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139214,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.059786287109038e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139214,
+          "condition_est_gate_value": 383.4809201139214,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "pec20ft-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 9.87331087200073,
+      "peak_gib": 0.3278236389160156,
+      "wall_seconds": 9.394337575999089,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139687,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.990590292633095e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139687,
+          "condition_est_gate_value": 383.4809201139687,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "pec20ft-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 10.228711491003196,
+      "peak_gib": 0.3194236755371094,
+      "wall_seconds": 9.6086794369985,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139686,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.037176959219859e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139686,
+          "condition_est_gate_value": 383.4809201139686,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "coated-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.516425674002676,
+      "peak_gib": 0.12624740600585938,
+      "wall_seconds": 2.0428238339991367,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927755202,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 5.297019020038848e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927755202,
+          "condition_est_gate_value": 7381.537927755202,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "coated-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 3.7033500780016766,
+      "peak_gib": 0.12260055541992188,
+      "wall_seconds": 3.2762985529989237,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927759499,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.084298983043264e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927759499,
+          "condition_est_gate_value": 7381.537927759499,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "coated-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 3.6187765809991106,
+      "peak_gib": 0.12086868286132812,
+      "wall_seconds": 3.1933716670027934,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927759466,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.8546604497560676e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927759466,
+          "condition_est_gate_value": 7381.537927759466,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "multilayer-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 4.489881206998689,
+      "peak_gib": 0.185760498046875,
+      "wall_seconds": 3.9885501979988476,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095024718,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.2677002912926927e-12,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095024718,
+          "condition_est_gate_value": 31993.831095024718,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "multilayer-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 5.888290005001181,
+      "peak_gib": 0.17888641357421875,
+      "wall_seconds": 5.4737679149984615,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095035286,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.1955716902917993e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095035286,
+          "condition_est_gate_value": 31993.831095035286,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "multilayer-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 5.735891016000096,
+      "peak_gib": 0.17221832275390625,
+      "wall_seconds": 5.2783254259993555,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095035257,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.184520984712763e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095035257,
+          "condition_est_gate_value": 31993.831095035257,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "partial-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.7323448269999062,
+      "peak_gib": 0.10511398315429688,
+      "wall_seconds": 1.308083895000891,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.6304903296607,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.4902409343936103e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.6304903296607,
+          "condition_est_gate_value": 1046.6304903296607,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "partial-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 2.047446120999666,
+      "peak_gib": 0.10758209228515625,
+      "wall_seconds": 1.61618096699749,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.63049032965,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.1274079203713116e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.63049032965,
+          "condition_est_gate_value": 1046.63049032965,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "partial-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 2.309263645998726,
+      "peak_gib": 0.10828399658203125,
+      "wall_seconds": 1.8375887010006409,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.63049032965,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.1274079203713116e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.63049032965,
+          "condition_est_gate_value": 1046.63049032965,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "cavity-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.5791413610022573,
+      "peak_gib": 0.10184478759765625,
+      "wall_seconds": 1.1504660850005166,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.4137404633637,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.73718534630183e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.4137404633637,
+          "condition_est_gate_value": 397.4137404633637,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "cavity-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 1.6497658759981277,
+      "peak_gib": 0.10148239135742188,
+      "wall_seconds": 1.2369350410008337,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.41374046336847,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.32000314621548e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.41374046336847,
+          "condition_est_gate_value": 397.41374046336847,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "cavity-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 1.644818396998744,
+      "peak_gib": 0.10161972045898438,
+      "wall_seconds": 1.2359334230022796,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.41374046336847,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.32000314621548e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.41374046336847,
+          "condition_est_gate_value": 397.41374046336847,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "dielectric_star-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.395356108998385,
+      "peak_gib": 0.12207794189453125,
+      "wall_seconds": 1.9702047819992003,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079805,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.9466786041350183e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.8629881079805,
+          "condition_est_gate_value": 1562.8629881079805,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "dielectric_star-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 2.936392072999297,
+      "peak_gib": 0.12371826171875,
+      "wall_seconds": 2.5112841720001597,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.862988107975,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.067280755511928e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.862988107975,
+          "condition_est_gate_value": 1562.862988107975,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "dielectric_star-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 2.9801970480002637,
+      "peak_gib": 0.12449264526367188,
+      "wall_seconds": 2.560539644000528,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079748,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.120045909021096e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.8629881079748,
+          "condition_est_gate_value": 1562.8629881079748,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "multilayer-TM-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 3.525028418000147,
+      "peak_gib": 0.18546295166015625,
+      "wall_seconds": 3.08126912300213,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.437413322208,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.1985241989859153e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.437413322208,
+          "condition_est_gate_value": 16781.437413322208,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "multilayer-TM-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 5.870022793998942,
+      "peak_gib": 0.1790618896484375,
+      "wall_seconds": 5.3679597999980615,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.43741332373,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.8281735841723638e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.43741332373,
+          "condition_est_gate_value": 16781.43741332373,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "multilayer-TM-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 5.684015726001235,
+      "peak_gib": 0.17287063598632812,
+      "wall_seconds": 5.221943219999957,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.437413323736,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.8920105125839612e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.437413323736,
+          "condition_est_gate_value": 16781.437413323736,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 0
+    },
+    {
+      "case": "star-16384-180-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 137.41508216299917,
+      "compute_seconds": 129.466960714999,
+      "solve_seconds": 8.332635200000368,
+      "peak_gib": 1.5937461853027344,
+      "retained_factor_bytes": 420756320,
+      "unknowns": 16384,
+      "factor_peak_gib": 1.3348274230957031,
+      "factor_seconds": 13.324565758000972,
+      "assembly_seconds": 107.20761075500195,
+      "refinement_steps": 2,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.2465904854000546e-15
+    },
+    {
+      "case": "star-16384-180-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 152.16179841999838,
+      "compute_seconds": 144.09262315100204,
+      "solve_seconds": 14.003991698999016,
+      "peak_gib": 1.4764556884765625,
+      "retained_factor_bytes": 251706208,
+      "unknowns": 16384,
+      "factor_peak_gib": 1.2665748596191406,
+      "factor_seconds": 12.970541199003492,
+      "assembly_seconds": 116.51789413599909,
+      "refinement_steps": 3,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.2466204525228057e-15
+    },
+    {
+      "case": "star-32768-180-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 498.6627750500011,
+      "compute_seconds": 482.85778852800286,
+      "solve_seconds": 32.03752354799872,
+      "peak_gib": 3.6819496154785156,
+      "retained_factor_bytes": 974777536,
+      "unknowns": 32768,
+      "factor_peak_gib": 3.2148590087890625,
+      "factor_seconds": 47.383664067998325,
+      "assembly_seconds": 401.83300990200223,
+      "refinement_steps": 3,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 1.1068143868923642e-15
+    },
+    {
+      "case": "star-32768-180-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 512.0860004960014,
+      "compute_seconds": 495.9585145399942,
+      "solve_seconds": 40.32442398399871,
+      "peak_gib": 3.4135513305664062,
+      "retained_factor_bytes": 566488256,
+      "unknowns": 32768,
+      "factor_peak_gib": 3.0425567626953125,
+      "factor_seconds": 50.6962502949973,
+      "assembly_seconds": 403.7009748950004,
+      "refinement_steps": 5,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 1.1067783599559773e-15
+    },
+    {
+      "case": "star-4096-360-dense-full-batch256",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 18.781875570999546,
+      "compute_seconds": 15.194996016001824,
+      "solve_seconds": 3.307835186999,
+      "peak_gib": 0.6907005310058594,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.5991706848144531,
+      "factor_seconds": 2.705651135001972,
+      "assembly_seconds": 8.899091712999507,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 2
+      },
+      "fresh_exact_row_error_max": 2.053652204422212e-18
+    },
+    {
+      "case": "star-4096-360-dense-blocked-batch256",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 18.267680774999462,
+      "compute_seconds": 14.671203700989281,
+      "solve_seconds": 2.978314533997036,
+      "peak_gib": 0.6912651062011719,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.6044578552246094,
+      "factor_seconds": 2.6260966480003844,
+      "assembly_seconds": 8.771166443002585,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 2
+      },
+      "fresh_exact_row_error_max": 2.053652204422212e-18
+    },
+    {
+      "case": "star-4096-360-dense-full-batch16",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 30.697969111999555,
+      "compute_seconds": 26.713793177998014,
+      "solve_seconds": 9.374737270001788,
+      "peak_gib": 0.607940673828125,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.604278564453125,
+      "factor_seconds": 2.7640205940006126,
+      "assembly_seconds": 14.054162870001164,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback",
+        "suspended_batches": 22
+      },
+      "fresh_exact_row_error_max": 2.4888401792650133e-18
+    },
+    {
+      "case": "star-4096-360-compressed-none-batch256",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 21.66257411300103,
+      "compute_seconds": 18.042436173996975,
+      "solve_seconds": 2.4172004270003526,
+      "peak_gib": 0.38832855224609375,
+      "retained_factor_bytes": 55894096,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.2659797668457031,
+      "factor_seconds": 1.2875256489969615,
+      "assembly_seconds": 14.02542193300178,
+      "refinement_steps": 4,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "sampled_basis_attempts": 1,
+        "auto_suspended": "fallback",
+        "suspended_batches": 1
+      },
+      "fresh_exact_row_error_max": 1.107731795370628e-14
+    },
+    {
+      "case": "star-4096-360-compressed-construction-batch256",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 22.3458992090018,
+      "compute_seconds": 18.46478057100103,
+      "solve_seconds": 3.232781481001439,
+      "peak_gib": 0.3702735900878906,
+      "retained_factor_bytes": 37818448,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.2589607238769531,
+      "factor_seconds": 1.3284305529996345,
+      "assembly_seconds": 13.554014353001548,
+      "refinement_steps": 4,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "sampled_basis_attempts": 1,
+        "auto_suspended": "fallback",
+        "suspended_batches": 1
+      },
+      "fresh_exact_row_error_max": 1.1076897642578283e-14
+    },
+    {
+      "case": "star-4096-360-compressed-none-batch16",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 24.217799658999866,
+      "compute_seconds": 20.628439975025685,
+      "solve_seconds": 2.956093104006868,
+      "peak_gib": 0.28298187255859375,
+      "retained_factor_bytes": 55894096,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.26529693603515625,
+      "factor_seconds": 1.326467954000691,
+      "assembly_seconds": 15.931856847000745,
+      "refinement_steps": 35,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback",
+        "suspended_batches": 22
+      },
+      "fresh_exact_row_error_max": 1.1077205870712255e-14
+    },
+    {
+      "case": "star-4096-360-compressed-construction-batch16",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 23.252114434999385,
+      "compute_seconds": 19.4381308789998,
+      "solve_seconds": 3.9232359480047307,
+      "peak_gib": 0.2662086486816406,
+      "retained_factor_bytes": 37818448,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.2580299377441406,
+      "factor_seconds": 1.3518774540025333,
+      "assembly_seconds": 13.704616962000728,
+      "refinement_steps": 46,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback",
+        "suspended_batches": 22
+      },
+      "fresh_exact_row_error_max": 1.1077373995210505e-14
+    },
+    {
+      "case": "repeat-star-8192-180-dense-blocked",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 65.92752887900133,
+      "compute_seconds": 61.34786147200066,
+      "solve_seconds": 6.4465203559993824,
+      "peak_gib": 2.2560386657714844,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.1184844970703125,
+      "factor_seconds": 24.606681542998558,
+      "assembly_seconds": 29.897879260999616,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "repeat-star-8192-180-dense-full",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 58.540220597998996,
+      "compute_seconds": 54.03088799699981,
+      "solve_seconds": 6.172824751000007,
+      "peak_gib": 2.2580833435058594,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.1151809692382812,
+      "factor_seconds": 21.746523432997492,
+      "assembly_seconds": 25.814321898000344,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "repeat-star-8192-180-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 51.956415887998446,
+      "compute_seconds": 47.41061570199963,
+      "solve_seconds": 4.100850143997377,
+      "peak_gib": 0.6770973205566406,
+      "retained_factor_bytes": 94793576,
+      "unknowns": 8192,
+      "factor_peak_gib": 0.5224990844726562,
+      "factor_seconds": 4.003167456998199,
+      "assembly_seconds": 39.01291916400078,
+      "refinement_steps": 3,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.84725409415376e-15
+    },
+    {
+      "case": "repeat-star-8192-180-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 51.46035432800272,
+      "compute_seconds": 46.90818215900072,
+      "solve_seconds": 3.20145901000069,
+      "peak_gib": 0.7003097534179688,
+      "retained_factor_bytes": 149397352,
+      "unknowns": 8192,
+      "factor_peak_gib": 0.5472221374511719,
+      "factor_seconds": 3.6602797549967363,
+      "assembly_seconds": 39.669866547999845,
+      "refinement_steps": 2,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "fresh_exact_row_error_max": 2.847363976491261e-15
+    },
+    {
+      "case": "star-4096-360-dense-off-batch256",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 18.339930166999693,
+      "compute_seconds": 14.86792971199975,
+      "solve_seconds": 2.8870155200020235,
+      "peak_gib": 0.6911849975585938,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.6044158935546875,
+      "factor_seconds": 2.6037438589992234,
+      "assembly_seconds": 9.117428943998675,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.053652204422212e-18
+    },
+    {
+      "case": "star-4096-360-dense-off-batch16",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 23.105699979998462,
+      "compute_seconds": 19.526083511012985,
+      "solve_seconds": 7.654342895006266,
+      "peak_gib": 0.6084938049316406,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.5986061096191406,
+      "factor_seconds": 2.652819085000374,
+      "assembly_seconds": 8.780924891001632,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.4888401792650133e-18
+    },
+    {
+      "case": "star-4096-360-compressed-off-batch256",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 21.489328797997587,
+      "compute_seconds": 17.75806899199597,
+      "solve_seconds": 2.313826118999714,
+      "peak_gib": 0.3878631591796875,
+      "retained_factor_bytes": 55894096,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.2655143737792969,
+      "factor_seconds": 1.3360043540014885,
+      "assembly_seconds": 13.788822718001029,
+      "refinement_steps": 4,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 1.107731795370628e-14
+    },
+    {
+      "case": "star-4096-360-compressed-off-batch16",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 21.823717497998587,
+      "compute_seconds": 18.23948449398449,
+      "solve_seconds": 3.1975465879950207,
+      "peak_gib": 0.28342437744140625,
+      "retained_factor_bytes": 55894096,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.2657279968261719,
+      "factor_seconds": 1.3129431349989318,
+      "assembly_seconds": 13.309006932999182,
+      "refinement_steps": 35,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 1.1077205870712255e-14
+    },
+    {
+      "case": "capture-pec20ft-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 10.913832475998788,
+      "peak_gib": 0.6987495422363281,
+      "wall_seconds": 10.328525950997573,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139214,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.059786287109038e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139214,
+          "condition_est_gate_value": 383.4809201139214,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-pec20ft-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 12.240776810998796,
+      "peak_gib": 0.32884979248046875,
+      "wall_seconds": 11.753131036999548,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139687,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.990590292633095e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139687,
+          "condition_est_gate_value": 383.4809201139687,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-pec20ft-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 16.58234660100061,
+      "peak_gib": 0.31585693359375,
+      "wall_seconds": 16.037662786999135,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139686,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.037176959219859e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139686,
+          "condition_est_gate_value": 383.4809201139686,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-coated-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.6382126059979782,
+      "peak_gib": 0.12453842163085938,
+      "wall_seconds": 2.1660726010013605,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927755202,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 5.297019020038848e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927755202,
+          "condition_est_gate_value": 7381.537927755202,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-coated-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 4.775593474001653,
+      "peak_gib": 0.12272262573242188,
+      "wall_seconds": 4.276262432002113,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927759499,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.084298983043264e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927759499,
+          "condition_est_gate_value": 7381.537927759499,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-coated-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 4.154144689997338,
+      "peak_gib": 0.1215057373046875,
+      "wall_seconds": 3.709296543001983,
+      "panels": 652,
+      "unknowns": 1036,
+      "condition_est": 7381.537927759466,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 6.8546604497560676e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 7381.537927759466,
+          "condition_est_gate_value": 7381.537927759466,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 3.9786043009989953,
+      "peak_gib": 0.18601608276367188,
+      "wall_seconds": 3.5372217900003307,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095024718,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.2677002912926927e-12,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095024718,
+          "condition_est_gate_value": 31993.831095024718,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 6.24741755300056,
+      "peak_gib": 0.17862319946289062,
+      "wall_seconds": 5.815011951002816,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095035286,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.1955716902917993e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095035286,
+          "condition_est_gate_value": 31993.831095035286,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 6.769947158001742,
+      "peak_gib": 0.17139816284179688,
+      "wall_seconds": 6.244577928999206,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095035257,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.184520984712763e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095035257,
+          "condition_est_gate_value": 31993.831095035257,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-partial-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.906746470998769,
+      "peak_gib": 0.1053619384765625,
+      "wall_seconds": 1.4259218849983881,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.6304903296607,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.4902409343936103e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.6304903296607,
+          "condition_est_gate_value": 1046.6304903296607,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-partial-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 2.2578794559995004,
+      "peak_gib": 0.1076507568359375,
+      "wall_seconds": 1.6847589329991024,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.63049032965,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.1274079203713116e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.63049032965,
+          "condition_est_gate_value": 1046.63049032965,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-partial-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 2.0998930630012183,
+      "peak_gib": 0.10764694213867188,
+      "wall_seconds": 1.6628724210022483,
+      "panels": 504,
+      "unknowns": 742,
+      "condition_est": 1046.63049032965,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.1274079203713116e-15,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1046.63049032965,
+          "condition_est_gate_value": 1046.63049032965,
+          "condition_est_computed": true,
+          "warnings_count": 1
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-cavity-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.6336861710005905,
+      "peak_gib": 0.10105133056640625,
+      "wall_seconds": 1.1829795929988904,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.4137404633637,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.73718534630183e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.4137404633637,
+          "condition_est_gate_value": 397.4137404633637,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-cavity-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 1.7619546659989282,
+      "peak_gib": 0.10127639770507812,
+      "wall_seconds": 1.3088807759995689,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.41374046336847,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.32000314621548e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.41374046336847,
+          "condition_est_gate_value": 397.41374046336847,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-cavity-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 1.8646615659999952,
+      "peak_gib": 0.10158538818359375,
+      "wall_seconds": 1.3814890430003288,
+      "panels": 568,
+      "unknowns": 568,
+      "condition_est": 397.41374046336847,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 9.32000314621548e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 397.41374046336847,
+          "condition_est_gate_value": 397.41374046336847,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-dielectric_star-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.3829130190024443,
+      "peak_gib": 0.12234878540039062,
+      "wall_seconds": 1.9287034640001366,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079805,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.9466786041350183e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.8629881079805,
+          "condition_est_gate_value": 1562.8629881079805,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-dielectric_star-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 4.206520218998776,
+      "peak_gib": 0.1240234375,
+      "wall_seconds": 3.6347711119997257,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.862988107975,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.067280755511928e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.862988107975,
+          "condition_est_gate_value": 1562.862988107975,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-dielectric_star-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 3.421172452002793,
+      "peak_gib": 0.1240386962890625,
+      "wall_seconds": 2.9572406930019497,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079748,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.120045909021096e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 1562.8629881079748,
+          "condition_est_gate_value": 1562.8629881079748,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-TM-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 3.9180349959970044,
+      "peak_gib": 0.1861419677734375,
+      "wall_seconds": 3.45721464899907,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.437413322208,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.1985241989859153e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.437413322208,
+          "condition_est_gate_value": 16781.437413322208,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-none",
+      "method": "compressed",
+      "packing": "none",
+      "process_wall_seconds": 6.490944393997779,
+      "peak_gib": 0.17837142944335938,
+      "wall_seconds": 6.01730565699836,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.43741332373,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.8281735841723638e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.43741332373,
+          "condition_est_gate_value": 16781.43741332373,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-construction",
+      "method": "compressed",
+      "packing": "construction",
+      "process_wall_seconds": 6.161217892997229,
+      "peak_gib": 0.17042160034179688,
+      "wall_seconds": 5.723385844001314,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.437413323736,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.8920105125839612e-14,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.437413323736,
+          "condition_est_gate_value": 16781.437413323736,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "layout-star-8192-180-full",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 59.13705215200025,
+      "compute_seconds": 54.69063901599657,
+      "solve_seconds": 5.367284376996395,
+      "peak_gib": 2.2475318908691406,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.119182586669922,
+      "factor_seconds": 22.126097776999814,
+      "assembly_seconds": 26.923255498997605,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "layout-star-8192-180-blocked",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 62.58031348499935,
+      "compute_seconds": 58.15393097600099,
+      "solve_seconds": 6.327573409998877,
+      "peak_gib": 2.2475662231445312,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.115062713623047,
+      "factor_seconds": 23.479864813001768,
+      "assembly_seconds": 28.008600003002357,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "layout-pec20ft-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 13.732674995000707,
+      "peak_gib": 0.6978569030761719,
+      "wall_seconds": 13.197054523996485,
+      "panels": 4096,
+      "unknowns": 4096,
+      "condition_est": 383.4809201139214,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 7.059786287109038e-16,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 383.4809201139214,
+          "condition_est_gate_value": 383.4809201139214,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "layout-multilayer-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 5.527673955999489,
+      "peak_gib": 0.18577957153320312,
+      "wall_seconds": 4.438894210998114,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095024718,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 1.2677002912926927e-12,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 31993.831095024718,
+          "condition_est_gate_value": 31993.831095024718,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "layout-multilayer-TM-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 5.053582896998705,
+      "peak_gib": 0.18622970581054688,
+      "wall_seconds": 4.121899901998404,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 16781.437413322208,
+      "quality_gate": {
+        "passed": true,
+        "thresholds": {
+          "residual_norm_max": 1e-06,
+          "constraint_residual_norm_max": 1e-08,
+          "condition_est_max": 1000000.0,
+          "warnings_max": 10
+        },
+        "values": {
+          "residual_norm_max": 4.1985241989859153e-13,
+          "residual_nonfinite_count": 0,
+          "constraint_residual_norm_max": 0.0,
+          "condition_est_max": 16781.437413322208,
+          "condition_est_gate_value": 16781.437413322208,
+          "condition_est_computed": true,
+          "warnings_count": 0
+        },
+        "violations": [],
+        "certification_scope": "discrete_linear_system_residual_and_condition",
+        "mesh_convergence_certified": false,
+        "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+      },
+      "capture_count": 1
+    },
+    {
+      "case": "capture-pecsmall-both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.5992771849996643,
+      "peak_gib": 0.10019302368164062,
+      "wall_seconds": 1.044805070003349,
+      "panels": 384,
+      "unknowns": 384,
+      "condition_est": 100.74301906939044,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 6.625331683986684e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 68.49106250785667,
+              "condition_est_gate_value": 68.49106250785667,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 6.08678171347495e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 100.74301906939044,
+              "condition_est_gate_value": 100.74301906939044,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "layout-pecsmall-both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 1.774860109002475,
+      "peak_gib": 0.10000991821289062,
+      "wall_seconds": 1.1889030769998499,
+      "panels": 384,
+      "unknowns": 384,
+      "condition_est": 100.74301906939044,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 6.625331683986684e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 68.49106250785667,
+              "condition_est_gate_value": 68.49106250785667,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 6.08678171347495e-16,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 100.74301906939044,
+              "condition_est_gate_value": 100.74301906939044,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "capture-multilayer-both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 4.903235678000783,
+      "peak_gib": 0.23305511474609375,
+      "wall_seconds": 4.335520617998554,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095024718,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.2677002912926927e-12,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 31993.831095024718,
+              "condition_est_gate_value": 31993.831095024718,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 4.1985241989859153e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 16781.437413322208,
+              "condition_est_gate_value": 16781.437413322208,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "layout-multilayer-both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 5.529392618002021,
+      "peak_gib": 0.23484039306640625,
+      "wall_seconds": 4.938597386000765,
+      "panels": 959,
+      "unknowns": 1669,
+      "condition_est": 31993.831095024718,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.2677002912926927e-12,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 31993.831095024718,
+              "condition_est_gate_value": 31993.831095024718,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 4.1985241989859153e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 16781.437413322208,
+              "condition_est_gate_value": 16781.437413322208,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "capture-dielectric_both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 3.178506511001615,
+      "peak_gib": 0.12561798095703125,
+      "wall_seconds": 2.4734178870021424,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079805,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9466786041350183e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 1562.8629881079805,
+              "condition_est_gate_value": 1562.8629881079805,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9005529131791023e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 752.7281007458159,
+              "condition_est_gate_value": 752.7281007458159,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "layout-dielectric_both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.850024705996475,
+      "peak_gib": 0.12532424926757812,
+      "wall_seconds": 2.384172016998491,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079805,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9466786041350183e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 1562.8629881079805,
+              "condition_est_gate_value": 1562.8629881079805,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9005529131791023e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 752.7281007458159,
+              "condition_est_gate_value": 752.7281007458159,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "output-star-8192-180-full",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 59.42614082199725,
+      "compute_seconds": 54.192346496995015,
+      "solve_seconds": 5.540278717999172,
+      "peak_gib": 2.2478599548339844,
+      "retained_factor_bytes": 1073741824,
+      "unknowns": 8192,
+      "factor_peak_gib": 2.1153221130371094,
+      "factor_seconds": 21.600375305999478,
+      "assembly_seconds": 26.628119631997833,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "lu_direct_batches": 1
+      },
+      "fresh_exact_row_error_max": 2.2027706032064123e-18
+    },
+    {
+      "case": "output-star-4096-360-batch16",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 20.789668895999057,
+      "compute_seconds": 17.123068551009055,
+      "solve_seconds": 5.2630281780075165,
+      "peak_gib": 0.6087265014648438,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.6043319702148438,
+      "factor_seconds": 2.804746611000155,
+      "assembly_seconds": 8.630067505000625,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.4888401792650133e-18
+    },
+    {
+      "case": "output-star-4096-360-batch256",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 17.78594489799798,
+      "compute_seconds": 14.469451002005371,
+      "solve_seconds": 2.817161771003157,
+      "peak_gib": 0.6843795776367188,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.6049423217773438,
+      "factor_seconds": 2.61442015600187,
+      "assembly_seconds": 8.76572575099999,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.053652204422212e-18
+    },
+    {
+      "case": "output-dielectric_both-dense-none",
+      "method": "dense",
+      "packing": "none",
+      "process_wall_seconds": 2.776100642997335,
+      "peak_gib": 0.12634658813476562,
+      "wall_seconds": 2.3212093930014817,
+      "panels": 512,
+      "unknowns": 1024,
+      "condition_est": 1562.8629881079805,
+      "quality_gate": {
+        "passed": true,
+        "channels": {
+          "VV": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9466786041350183e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 1562.8629881079805,
+              "condition_est_gate_value": 1562.8629881079805,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          },
+          "HH": {
+            "passed": true,
+            "thresholds": {
+              "residual_norm_max": 1e-06,
+              "constraint_residual_norm_max": 1e-08,
+              "condition_est_max": 1000000.0,
+              "warnings_max": 10
+            },
+            "values": {
+              "residual_norm_max": 1.9005529131791023e-13,
+              "residual_nonfinite_count": 0,
+              "constraint_residual_norm_max": 0.0,
+              "condition_est_max": 752.7281007458159,
+              "condition_est_gate_value": 752.7281007458159,
+              "condition_est_computed": true,
+              "warnings_count": 0
+            },
+            "violations": [],
+            "certification_scope": "discrete_linear_system_residual_and_condition",
+            "mesh_convergence_certified": false,
+            "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+          }
+        },
+        "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+      },
+      "capture_count": 2
+    },
+    {
+      "case": "repeat-output-star-4096-360-batch16",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 24.00865914699898,
+      "compute_seconds": 19.467971030997433,
+      "solve_seconds": 6.643044058986561,
+      "peak_gib": 0.6083869934082031,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.6043586730957031,
+      "factor_seconds": 3.0568853659970046,
+      "assembly_seconds": 9.093730242002493,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.4888401792650133e-18
+    },
+    {
+      "case": "repeat-control-star-4096-360-batch16",
+      "method": "dense",
+      "packing": null,
+      "process_wall_seconds": 26.216246574997058,
+      "compute_seconds": 22.25532600799488,
+      "solve_seconds": 8.686425492003764,
+      "peak_gib": 0.6084938049316406,
+      "retained_factor_bytes": 268435456,
+      "unknowns": 4096,
+      "factor_peak_gib": 0.5986061096191406,
+      "factor_seconds": 3.0286074220020964,
+      "assembly_seconds": 10.0576580320012,
+      "refinement_steps": 0,
+      "factorizations": 1,
+      "sweep_compression": {
+        "requested": "off",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 360,
+        "solved_columns": 360,
+        "accepted_batches": 0,
+        "fallback_batches": 0,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0
+      },
+      "fresh_exact_row_error_max": 2.4888401792650133e-18
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "star-8192-180-compressed-none",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 2.4246748235889807e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.4476289945917103e-12
+    },
+    {
+      "case": "star-8192-180-compressed-post",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 2.4246754431116513e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.447784899883644e-12
+    },
+    {
+      "case": "star-8192-180-compressed-construction",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 2.4246664925953904e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.456016729687816e-12
+    },
+    {
+      "case": "star-8192-180-dense-blocked",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "star-8192-180-dense-blocked_c",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "pec20ft-compressed-none",
+      "reference": "pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.161023935081391e-12
+    },
+    {
+      "case": "pec20ft-compressed-construction",
+      "reference": "pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.159359317141397e-12
+    },
+    {
+      "case": "coated-compressed-none",
+      "reference": "coated-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.3394877579660058e-10
+    },
+    {
+      "case": "coated-compressed-construction",
+      "reference": "coated-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.3394738736249403e-10
+    },
+    {
+      "case": "multilayer-compressed-none",
+      "reference": "multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.753898751911172e-11
+    },
+    {
+      "case": "multilayer-compressed-construction",
+      "reference": "multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.7548151573161718e-11
+    },
+    {
+      "case": "partial-compressed-none",
+      "reference": "partial-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.2063948384778783e-15
+    },
+    {
+      "case": "partial-compressed-construction",
+      "reference": "partial-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.2063948384778783e-15
+    },
+    {
+      "case": "cavity-compressed-none",
+      "reference": "cavity-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 4.670666426305726e-16
+    },
+    {
+      "case": "cavity-compressed-construction",
+      "reference": "cavity-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 4.670666426305726e-16
+    },
+    {
+      "case": "dielectric_star-compressed-none",
+      "reference": "dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.098398334267085e-13
+    },
+    {
+      "case": "dielectric_star-compressed-construction",
+      "reference": "dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.0986770932234313e-13
+    },
+    {
+      "case": "multilayer-TM-compressed-none",
+      "reference": "multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 7.380248928808831e-12
+    },
+    {
+      "case": "multilayer-TM-compressed-construction",
+      "reference": "multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 7.375969256739935e-12
+    },
+    {
+      "case": "star-16384-180-compressed-construction",
+      "reference": "star-16384-180-compressed-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.4906615392522716e-13,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.312598981919927e-15
+    },
+    {
+      "case": "star-32768-180-compressed-construction",
+      "reference": "star-32768-180-compressed-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 4.018731928608141e-13,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.9614325450469535e-15
+    },
+    {
+      "case": "star-4096-360-dense-blocked-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "star-4096-360-dense-full-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.6317085772739212e-14,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 7.865671771488788e-15
+    },
+    {
+      "case": "star-4096-360-compressed-none-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.180161648761937e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.4540489215209486e-12
+    },
+    {
+      "case": "star-4096-360-compressed-construction-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.180142645602945e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.4558286763587523e-12
+    },
+    {
+      "case": "star-4096-360-compressed-none-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.1801780813898e-11,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 3.4529489444052972e-12
+    },
+    {
+      "case": "star-4096-360-compressed-construction-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.1801240845747296e-11,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 3.454478094864887e-12
+    },
+    {
+      "case": "repeat-star-8192-180-dense-blocked",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "repeat-star-8192-180-dense-full",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "repeat-star-8192-180-compressed-construction",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 2.4246664925953904e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.456016729687816e-12
+    },
+    {
+      "case": "repeat-star-8192-180-compressed-none",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 2.4246748235889807e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.4476289945917103e-12
+    },
+    {
+      "case": "star-4096-360-dense-off-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "star-4096-360-dense-off-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.6317085772739212e-14,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 7.865671771488788e-15
+    },
+    {
+      "case": "star-4096-360-compressed-off-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.180161648761937e-11,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 3.4540489215209486e-12
+    },
+    {
+      "case": "star-4096-360-compressed-off-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 3.1801780813898e-11,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 3.4529489444052972e-12
+    },
+    {
+      "case": "capture-pec20ft-compressed-none",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.161023935081391e-12
+    },
+    {
+      "case": "capture-pec20ft-compressed-none",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.8652683545892514e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-pec20ft-compressed-construction",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.159359317141397e-12
+    },
+    {
+      "case": "capture-pec20ft-compressed-construction",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.8652927551612455e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-coated-compressed-none",
+      "reference": "capture-coated-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.3394877579660058e-10
+    },
+    {
+      "case": "capture-coated-compressed-none",
+      "reference": "capture-coated-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 5.0736644037266915e-11,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-coated-compressed-construction",
+      "reference": "capture-coated-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.3394738736249403e-10
+    },
+    {
+      "case": "capture-coated-compressed-construction",
+      "reference": "capture-coated-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 5.073663421263979e-11,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-multilayer-compressed-none",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.753898751911172e-11
+    },
+    {
+      "case": "capture-multilayer-compressed-none",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 8.486368031123742e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-multilayer-compressed-construction",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.7548151573161718e-11
+    },
+    {
+      "case": "capture-multilayer-compressed-construction",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 8.486365614622212e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-partial-compressed-none",
+      "reference": "capture-partial-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.2063948384778783e-15
+    },
+    {
+      "case": "capture-partial-compressed-none",
+      "reference": "capture-partial-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 7.243804505157968e-15,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-partial-compressed-construction",
+      "reference": "capture-partial-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 1.2063948384778783e-15
+    },
+    {
+      "case": "capture-partial-compressed-construction",
+      "reference": "capture-partial-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 7.243804505157968e-15,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-cavity-compressed-none",
+      "reference": "capture-cavity-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 4.670666426305726e-16
+    },
+    {
+      "case": "capture-cavity-compressed-none",
+      "reference": "capture-cavity-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.1786002161116044e-15,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-cavity-compressed-construction",
+      "reference": "capture-cavity-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 4.670666426305726e-16
+    },
+    {
+      "case": "capture-cavity-compressed-construction",
+      "reference": "capture-cavity-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.1786002161116044e-15,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-dielectric_star-compressed-none",
+      "reference": "capture-dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.098398334267085e-13
+    },
+    {
+      "case": "capture-dielectric_star-compressed-none",
+      "reference": "capture-dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 4.942137434540565e-13,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-dielectric_star-compressed-construction",
+      "reference": "capture-dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 2.0986770932234313e-13
+    },
+    {
+      "case": "capture-dielectric_star-compressed-construction",
+      "reference": "capture-dielectric_star-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 4.953908245052624e-13,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-none",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 7.380248928808831e-12
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-none",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 7.418931314099024e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-construction",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 7.375969256739935e-12
+    },
+    {
+      "case": "capture-multilayer-TM-compressed-construction",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 7.418926030646697e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-star-8192-180-full",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-star-8192-180-blocked",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-pec20ft-dense-none",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-pec20ft-dense-none",
+      "reference": "capture-pec20ft-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-dense-none",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-dense-none",
+      "reference": "capture-multilayer-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-TM-dense-none",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-TM-dense-none",
+      "reference": "capture-multilayer-TM-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-pecsmall-both-dense-none",
+      "reference": "capture-pecsmall-both-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-pecsmall-both-dense-none",
+      "reference": "capture-pecsmall-both-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-both-dense-none",
+      "reference": "capture-multilayer-both-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-multilayer-both-dense-none",
+      "reference": "capture-multilayer-both-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "layout-dielectric_both-dense-none",
+      "reference": "capture-dielectric_both-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "layout-dielectric_both-dense-none",
+      "reference": "capture-dielectric_both-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "output-star-8192-180-full",
+      "reference": "star-8192-180-dense-full",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "output-star-4096-360-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.6317085772739212e-14,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 7.865671771488788e-15
+    },
+    {
+      "case": "output-star-4096-360-batch256",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0,
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "output-dielectric_both-dense-none",
+      "reference": "capture-dielectric_both-dense-none",
+      "evidence": "saved-array replay",
+      "peak_normalized_field_error": 0.0
+    },
+    {
+      "case": "output-dielectric_both-dense-none",
+      "reference": "capture-dielectric_both-dense-none",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 0.0,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "repeat-output-star-4096-360-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.6317085772739212e-14,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 7.865671771488788e-15
+    },
+    {
+      "case": "repeat-control-star-4096-360-batch16",
+      "reference": "star-4096-360-dense-full-batch256",
+      "evidence": "saved-array replay",
+      "max_per_angle_density_relative_error": 1.6317085772739212e-14,
+      "rhs_relative_error": 5.805822085236003e-17,
+      "peak_normalized_field_error": 7.865671771488788e-15
+    }
+  ]
+}

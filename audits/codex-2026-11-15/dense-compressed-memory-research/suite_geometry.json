@@ -1,0 +1,386 @@
+[
+  [
+    "pec20ft-dense-none",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 6.096,
+      "frequency_ghz": 2.0,
+      "n": 4096,
+      "threads": 4,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "pec20ft-compressed-none",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 6.096,
+      "frequency_ghz": 2.0,
+      "n": 4096,
+      "threads": 4,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "pec20ft-compressed-construction",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 6.096,
+      "frequency_ghz": 2.0,
+      "n": 4096,
+      "threads": 4,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "coated-dense-none",
+    {
+      "material": "coated",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "coated-compressed-none",
+    {
+      "material": "coated",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "coated-compressed-construction",
+    {
+      "material": "coated",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "multilayer-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "multilayer-compressed-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "multilayer-compressed-construction",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "partial-dense-none",
+    {
+      "material": "coated",
+      "shape": "partial",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "partial-compressed-none",
+    {
+      "material": "coated",
+      "shape": "partial",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "partial-compressed-construction",
+    {
+      "material": "coated",
+      "shape": "partial",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "cavity-dense-none",
+    {
+      "material": "pec",
+      "shape": "cavity",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "ppw": 25,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "cavity-compressed-none",
+    {
+      "material": "pec",
+      "shape": "cavity",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "ppw": 25,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "cavity-compressed-construction",
+    {
+      "material": "pec",
+      "shape": "cavity",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "ppw": 25,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "dielectric_star-dense-none",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "dielectric_star-compressed-none",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "dielectric_star-compressed-construction",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "multilayer-TM-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "pol": "TM"
+    }
+  ],
+  [
+    "multilayer-TM-compressed-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "none",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "pol": "TM"
+    }
+  ],
+  [
+    "multilayer-TM-compressed-construction",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "compressed",
+      "packing": "construction",
+      "runner": "run_geometry.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "pol": "TM"
+    }
+  ]
+]

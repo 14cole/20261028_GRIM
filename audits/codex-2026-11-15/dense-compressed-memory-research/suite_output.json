@@ -1,0 +1,63 @@
+[
+  [
+    "output-star-8192-180-full",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full_f_output"
+    }
+  ],
+  [
+    "output-star-4096-360-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "dense",
+      "residual": "full_f_output",
+      "compression": "off"
+    }
+  ],
+  [
+    "output-star-4096-360-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full_f_output",
+      "compression": "off"
+    }
+  ],
+  [
+    "output-dielectric_both-dense-none",
+    {
+      "material": "dielectric",
+      "shape": "star",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 512,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_capture.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true,
+      "residual": "full_f_output"
+    }
+  ]
+]

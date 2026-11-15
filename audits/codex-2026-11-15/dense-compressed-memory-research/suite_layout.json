@@ -1,0 +1,164 @@
+[
+  [
+    "layout-star-8192-180-full",
+    {
+      "runner": "run_star_layout.py",
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full",
+      "row_block": 256
+    }
+  ],
+  [
+    "layout-star-8192-180-blocked",
+    {
+      "runner": "run_star_layout.py",
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "blocked",
+      "row_block": 64
+    }
+  ],
+  [
+    "layout-pec20ft-dense-none",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 6.096,
+      "frequency_ghz": 2.0,
+      "n": 4096,
+      "threads": 4,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "layout-multilayer-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180
+    }
+  ],
+  [
+    "layout-multilayer-TM-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "pol": "TM"
+    }
+  ],
+  [
+    "capture-pecsmall-both-dense-none",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_capture.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ],
+  [
+    "layout-pecsmall-both-dense-none",
+    {
+      "material": "pec",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ],
+  [
+    "capture-multilayer-both-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_capture.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ],
+  [
+    "layout-multilayer-both-dense-none",
+    {
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.3,
+      "frequency_ghz": 5.0,
+      "n": 384,
+      "method": "dense",
+      "packing": "none",
+      "runner": "run_geometry_layout.py",
+      "eps": [
+        4.0,
+        -0.2
+      ],
+      "count": 180,
+      "both": true
+    }
+  ]
+]

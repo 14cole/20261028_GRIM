@@ -1,0 +1,205 @@
+[
+  [
+    "star-4096-360-dense-full-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full"
+    }
+  ],
+  [
+    "star-4096-360-dense-blocked-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "dense",
+      "residual": "blocked"
+    }
+  ],
+  [
+    "star-4096-360-dense-full-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "dense",
+      "residual": "full"
+    }
+  ],
+  [
+    "star-4096-360-compressed-none-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "star-4096-360-compressed-construction-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "star-4096-360-compressed-none-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "star-4096-360-compressed-construction-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "repeat-star-8192-180-dense-blocked",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "blocked"
+    }
+  ],
+  [
+    "repeat-star-8192-180-dense-full",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full"
+    }
+  ],
+  [
+    "repeat-star-8192-180-compressed-construction",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "repeat-star-8192-180-compressed-none",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "star-4096-360-dense-off-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "dense",
+      "residual": "full",
+      "packing": "none",
+      "compression": "off"
+    }
+  ],
+  [
+    "star-4096-360-dense-off-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "dense",
+      "residual": "full",
+      "packing": "none",
+      "compression": "off"
+    }
+  ],
+  [
+    "star-4096-360-compressed-off-batch256",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 256,
+      "method": "compressed",
+      "residual": "full",
+      "packing": "none",
+      "compression": "off"
+    }
+  ],
+  [
+    "star-4096-360-compressed-off-batch16",
+    {
+      "n": 2048,
+      "k": 40,
+      "count": 360,
+      "start": 0,
+      "stop": 360,
+      "batch": 16,
+      "method": "compressed",
+      "residual": "full",
+      "packing": "none",
+      "compression": "off"
+    }
+  ]
+]
