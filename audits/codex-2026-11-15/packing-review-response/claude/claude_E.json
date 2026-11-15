@@ -1,0 +1,94 @@
+[
+ [
+  "e-cap675-multilayer-TM-compressed-none",
+  {
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "runner": "claude_run_geometry.py",
+   "pol": "TM",
+   "method": "compressed",
+   "packing": "none",
+   "storage_mib": 675
+  }
+ ],
+ [
+  "e-cap675-multilayer-TM-compressed-relaxed-construction",
+  {
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "runner": "claude_run_geometry_relaxed.py",
+   "pol": "TM",
+   "method": "compressed",
+   "packing": "construction",
+   "storage_mib": 675
+  }
+ ],
+ [
+  "e-cap700-multilayer-TM-compressed-none",
+  {
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "runner": "claude_run_geometry.py",
+   "pol": "TM",
+   "method": "compressed",
+   "packing": "none",
+   "storage_mib": 700
+  }
+ ],
+ [
+  "e-cap700-multilayer-TM-compressed-relaxed-construction",
+  {
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "runner": "claude_run_geometry_relaxed.py",
+   "pol": "TM",
+   "method": "compressed",
+   "packing": "construction",
+   "storage_mib": 700
+  }
+ ]
+]

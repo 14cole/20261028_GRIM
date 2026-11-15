@@ -1,0 +1,50 @@
+{
+  "tiny_among_normal": {
+    "accepted": true,
+    "component_scale": 2.0,
+    "relative_max_component_error": 2.456492321624085e-46,
+    "lost_components": 1,
+    "max_lost_component": 1e-50,
+    "reason": "bounded conversion"
+  },
+  "all_tiny": {
+    "accepted": false,
+    "component_scale": 9.1e-46,
+    "relative_max_component_error": 0.5398884223349637,
+    "lost_components": 1,
+    "max_lost_component": 1e-50,
+    "reason": "retain double: conversion exceeds bound"
+  },
+  "overflow": {
+    "accepted": false,
+    "component_scale": 1e+39,
+    "relative_max_component_error": null,
+    "lost_components": 0,
+    "max_lost_component": 0.0,
+    "reason": "retain double: conversion exceeds bound"
+  },
+  "zeros": {
+    "accepted": true,
+    "component_scale": 0.0,
+    "relative_max_component_error": 0.0,
+    "lost_components": 0,
+    "max_lost_component": 0.0,
+    "reason": "bounded conversion"
+  },
+  "small_component": {
+    "accepted": true,
+    "component_scale": 1.0,
+    "relative_max_component_error": 1e-50,
+    "lost_components": 1,
+    "max_lost_component": 1e-50,
+    "reason": "bounded conversion"
+  },
+  "normal": {
+    "accepted": true,
+    "component_scale": 3.5597283730301466,
+    "relative_max_component_error": 3.3217755964830386e-08,
+    "lost_components": 0,
+    "max_lost_component": 0.0,
+    "reason": "bounded conversion"
+  }
+}

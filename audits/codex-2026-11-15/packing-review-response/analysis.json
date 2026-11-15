@@ -1,0 +1,256 @@
+{
+  "evidence": "Saved-array comparisons of fresh solves; gate/rejection records inspected; no new equation evaluations.",
+  "records": [
+    {
+      "case": "partialTE-dense-none",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.684539794921875,
+      "wall_seconds": 17.2920269669994,
+      "condition": 22722.982778718557,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0
+    },
+    {
+      "case": "partialTE-compressed-construction",
+      "error": "Unsafe research packing",
+      "returncode": 2,
+      "peak_gib": 0.21562957763671875,
+      "wall_seconds": 20.947525568997662,
+      "condition": null,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0
+    },
+    {
+      "case": "partialTE-compressed-none",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.31683349609375,
+      "wall_seconds": 23.06681422800102,
+      "condition": 22722.982778500827,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0,
+      "unknowns": 4146,
+      "inverse_bytes": 45301448,
+      "operator_bytes": 102896200,
+      "refinement_steps": 10,
+      "max_backward_error": 6.303088599723693e-17,
+      "max_sampled_backward_error": 1.0360964269147826e-13
+    },
+    {
+      "case": "partialTE-compressed-bounded",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.30286407470703125,
+      "wall_seconds": 22.344071735999023,
+      "condition": 22722.98277849866,
+      "storage_rejections": [],
+      "lost_components": 157,
+      "max_lost_component": 6.036907880882395e-46,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 5.03254290945147e-08,
+      "unknowns": 4146,
+      "inverse_bytes": 28355104,
+      "operator_bytes": 102896200,
+      "refinement_steps": 10,
+      "max_backward_error": 6.200440173254967e-17,
+      "max_sampled_backward_error": 1.0361034157342135e-13
+    },
+    {
+      "case": "multilayerTM-dense-none",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 2.9589881896972656,
+      "wall_seconds": 73.39229278999846,
+      "condition": 653867.7564421596,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0
+    },
+    {
+      "case": "multilayerTM-compressed-construction",
+      "error": "Unsafe research packing",
+      "returncode": 2,
+      "peak_gib": 0.7183685302734375,
+      "wall_seconds": 70.90816571100004,
+      "condition": null,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0
+    },
+    {
+      "case": "multilayerTM-compressed-none",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.9720420837402344,
+      "wall_seconds": 83.57441732600273,
+      "condition": 653867.7564617151,
+      "storage_rejections": [],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0,
+      "unknowns": 9478,
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192,
+      "refinement_steps": 10,
+      "max_backward_error": 5.646753680231959e-17,
+      "max_sampled_backward_error": 2.7561494436570556e-13
+    },
+    {
+      "case": "multilayerTM-compressed-bounded",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.8990325927734375,
+      "wall_seconds": 82.70461049900041,
+      "condition": 653867.7564617185,
+      "storage_rejections": [],
+      "lost_components": 815,
+      "max_lost_component": 6.976294307247513e-46,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 5.809075477736867e-08,
+      "unknowns": 9478,
+      "inverse_bytes": 121561064,
+      "operator_bytes": 499017192,
+      "refinement_steps": 11,
+      "max_backward_error": 2.694915429922541e-15,
+      "max_sampled_backward_error": 2.755237240734237e-13
+    },
+    {
+      "case": "multilayerTM-cap640-bounded",
+      "error": "Compressed inverse exceeded its retained-storage cap.",
+      "returncode": 2,
+      "peak_gib": 0.7526588439941406,
+      "wall_seconds": 83.02026335000119,
+      "condition": null,
+      "storage_rejections": [
+        {
+          "retained_bytes": 155109592,
+          "additional_bytes": 18728528,
+          "budget_bytes": 172071448
+        },
+        {
+          "retained_bytes": 169691808,
+          "additional_bytes": 3186224,
+          "budget_bytes": 172071448
+        }
+      ],
+      "lost_components": 1630,
+      "max_lost_component": 6.976294307247513e-46,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 5.809075477736867e-08
+    },
+    {
+      "case": "multilayerTM-cap675-none",
+      "error": "Compressed inverse exceeded its retained-storage cap.",
+      "returncode": 2,
+      "peak_gib": 0.7706794738769531,
+      "wall_seconds": 80.18552115800412,
+      "condition": null,
+      "storage_rejections": [
+        {
+          "retained_bytes": 207365960,
+          "additional_bytes": 4057440,
+          "budget_bytes": 208771608
+        },
+        {
+          "retained_bytes": 192702152,
+          "additional_bytes": 16908752,
+          "budget_bytes": 208771608
+        }
+      ],
+      "lost_components": 0,
+      "max_lost_component": 0,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 0
+    },
+    {
+      "case": "multilayerTM-cap675-bounded",
+      "error": null,
+      "returncode": 0,
+      "peak_gib": 0.8969345092773438,
+      "wall_seconds": 81.70483610700467,
+      "condition": 653867.7564617185,
+      "storage_rejections": [],
+      "lost_components": 815,
+      "max_lost_component": 6.976294307247513e-46,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 5.809075477736867e-08,
+      "unknowns": 9478,
+      "inverse_bytes": 121561064,
+      "operator_bytes": 499017192,
+      "refinement_steps": 11,
+      "max_backward_error": 2.694915429922541e-15,
+      "max_sampled_backward_error": 2.755237240734237e-13
+    },
+    {
+      "case": "multilayerTE-bounded",
+      "error": "Quality gate failed: condition_est_max=1.81062e+06 exceeds limit 1e+06",
+      "returncode": 2,
+      "peak_gib": 0.9044189453125,
+      "wall_seconds": 82.1913374279975,
+      "condition": null,
+      "storage_rejections": [],
+      "lost_components": 792,
+      "max_lost_component": 6.877908937489839e-46,
+      "retained_double_arrays": 0,
+      "max_conversion_relative_error": 5.771035267078466e-08,
+      "unknowns": 9478,
+      "inverse_bytes": 125250176,
+      "operator_bytes": 499386808,
+      "refinement_steps": 10,
+      "max_backward_error": 1.2029629685552985e-15,
+      "max_sampled_backward_error": 3.8023089533326156e-14
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "partialTE-compressed-none",
+      "reference": "partialTE-dense-none",
+      "max_per_angle_density_relative_error": 5.7218744686231766e-11,
+      "peak_normalized_field_error": 8.269622369402527e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "partialTE-compressed-bounded",
+      "reference": "partialTE-dense-none",
+      "max_per_angle_density_relative_error": 5.72181455560469e-11,
+      "peak_normalized_field_error": 8.26979134006787e-12,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "multilayerTM-compressed-none",
+      "reference": "multilayerTM-dense-none",
+      "max_per_angle_density_relative_error": 5.378109056683047e-10,
+      "peak_normalized_field_error": 6.093859176662806e-10,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "multilayerTM-compressed-bounded",
+      "reference": "multilayerTM-dense-none",
+      "max_per_angle_density_relative_error": 5.378113307909622e-10,
+      "peak_normalized_field_error": 6.093767141147769e-10,
+      "rhs_relative_error": 0.0
+    },
+    {
+      "case": "multilayerTM-cap675-bounded",
+      "reference": "multilayerTM-dense-none",
+      "max_per_angle_density_relative_error": 5.378113307909622e-10,
+      "peak_normalized_field_error": 6.093767141147769e-10,
+      "rhs_relative_error": 0.0
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+[
+  [
+    "partialTE-dense-none",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TE",
+      "method": "dense",
+      "packing": "none"
+    }
+  ],
+  [
+    "partialTE-compressed-construction",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TE",
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "partialTE-compressed-none",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TE",
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "partialTE-compressed-bounded",
+    {
+      "runner": "run_geometry.py",
+      "material": "partial",
+      "shape": "partial",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TE",
+      "method": "compressed",
+      "packing": "bounded"
+    }
+  ],
+  [
+    "multilayerTM-dense-none",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "dense",
+      "packing": "none"
+    }
+  ],
+  [
+    "multilayerTM-compressed-construction",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "construction"
+    }
+  ],
+  [
+    "multilayerTM-compressed-none",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "none"
+    }
+  ],
+  [
+    "multilayerTM-compressed-bounded",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "bounded"
+    }
+  ],
+  [
+    "multilayerTM-cap640-bounded",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "bounded",
+      "storage_mib": 640
+    }
+  ],
+  [
+    "multilayerTM-cap675-none",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "none",
+      "storage_mib": 675
+    }
+  ],
+  [
+    "multilayerTM-cap675-bounded",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TM",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "bounded",
+      "storage_mib": 675
+    }
+  ],
+  [
+    "multilayerTE-bounded",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "count": 180,
+      "pol": "TE",
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "method": "compressed",
+      "packing": "bounded"
+    }
+  ]
+]
