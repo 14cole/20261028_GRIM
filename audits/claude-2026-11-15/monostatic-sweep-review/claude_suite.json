@@ -1,0 +1,120 @@
+[
+ [
+  "c8k-compressed-r1",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed"
+  }
+ ],
+ [
+  "c8k-fmm-block-tol1e-4-r1",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "block_gmres"
+  }
+ ],
+ [
+  "c8k-compressed-r2",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed"
+  }
+ ],
+ [
+  "c8k-fmm-block-tol1e-4-r2",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "block_gmres"
+  }
+ ],
+ [
+  "c8k-fmm-cold-tol1e-4-full",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "cold"
+  }
+ ],
+ [
+  "c8k-fmm-block-cadence4-tol1e-4-full",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "block_gmres",
+   "true_check_every": 4
+  }
+ ],
+ [
+  "c32k-compressed-180",
+  {
+   "n": 16384,
+   "k": 320,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed"
+  }
+ ],
+ [
+  "c32k-fmm-block-cadence4-tol1e-4-180",
+  {
+   "n": 16384,
+   "k": 320,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov": "block_gmres",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "true_check_every": 4
+  }
+ ]
+]

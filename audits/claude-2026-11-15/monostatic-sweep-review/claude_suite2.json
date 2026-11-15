@@ -1,0 +1,65 @@
+[
+ [
+  "c8k-fmm-rightblock-tol1e-4-full",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "block_gmres",
+   "right": true
+  }
+ ],
+ [
+  "c8k-fmm-rightblock16-tol1e-4-full",
+  {
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov_batch": 16,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "krylov": "block_gmres",
+   "right": true
+  }
+ ],
+ [
+  "c32k-compressed-180",
+  {
+   "n": 16384,
+   "k": 320,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed"
+  }
+ ],
+ [
+  "c32k-fmm-rightblock-tol1e-4-180",
+  {
+   "n": 16384,
+   "k": 320,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "fmm",
+   "krylov": "block_gmres",
+   "krylov_batch": 8,
+   "op_tol": 0.0001,
+   "inv_tol": 0.0001,
+   "right": true
+  }
+ ]
+]
