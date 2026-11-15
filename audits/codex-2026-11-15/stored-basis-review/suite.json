@@ -1,0 +1,110 @@
+[
+  [
+    "star-8192-8-diagnostic",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 8,
+      "start": -90,
+      "stop": -82,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "variant": "diagnostic"
+    }
+  ],
+  [
+    "star-8192-180-v3",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "variant": "v3"
+    }
+  ],
+  [
+    "star-8192-180-z",
+    {
+      "n": 4096,
+      "k": 80,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "variant": "z"
+    }
+  ],
+  [
+    "square-1024-180-TE-z",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "geometry": "square",
+      "pol": "TE",
+      "variant": "z"
+    }
+  ],
+  [
+    "slot-1024-180-TE-z",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "geometry": "slot",
+      "pol": "TE",
+      "variant": "z"
+    }
+  ],
+  [
+    "slot-1024-180-TM-z",
+    {
+      "n": 512,
+      "k": 10,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "fmm",
+      "krylov": "block_gmres",
+      "krylov_batch": 8,
+      "op_tol": 0.0001,
+      "inv_tol": 0.0001,
+      "geometry": "slot",
+      "pol": "TM",
+      "variant": "z"
+    }
+  ]
+]

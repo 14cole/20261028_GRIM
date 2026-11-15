@@ -1,0 +1,189 @@
+{
+  "fresh_cases": [
+    {
+      "label": "star-8192-8-diagnostic",
+      "method": "fmm",
+      "reference": "star-8192-180-dense",
+      "max_density_relative_l2": 7.244742958717568e-12,
+      "peak_normalized_field_error": 3.340235545020913e-13,
+      "rhs_error": 6.006213652969747e-17,
+      "exact_row_backward_error": 1.0514490520133668e-15,
+      "max_true_relative_residual": 4.744713320340159e-13,
+      "compute_seconds": 114.00430049499997,
+      "solve_seconds": 24.041270234000024,
+      "peak_gib": 0.4306678771972656,
+      "applications": 168,
+      "preconditioner_applications": 168,
+      "cycles": 2,
+      "failed_checks": 1
+    },
+    {
+      "label": "star-8192-180-v3",
+      "method": "fmm",
+      "reference": "star-8192-180-dense",
+      "max_density_relative_l2": 7.303852929785715e-12,
+      "peak_normalized_field_error": 6.716056160782761e-13,
+      "rhs_error": 0.0,
+      "exact_row_backward_error": 2.5166632258762237e-15,
+      "max_true_relative_residual": 9.414766930959015e-13,
+      "compute_seconds": 484.03353354899997,
+      "solve_seconds": 394.963192541,
+      "peak_gib": 0.42815399169921875,
+      "applications": 3704,
+      "preconditioner_applications": 3704,
+      "cycles": 46,
+      "failed_checks": 23
+    },
+    {
+      "label": "star-8192-180-z",
+      "method": "fmm",
+      "reference": "star-8192-180-dense",
+      "max_density_relative_l2": 9.55855766704718e-12,
+      "peak_normalized_field_error": 8.070291991604449e-13,
+      "rhs_error": 0.0,
+      "exact_row_backward_error": 1.0141426022374449e-15,
+      "max_true_relative_residual": 9.738529770399795e-13,
+      "compute_seconds": 410.07837199999994,
+      "solve_seconds": 322.54602186599993,
+      "peak_gib": 0.44753265380859375,
+      "applications": 3276,
+      "preconditioner_applications": 3096,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    {
+      "label": "square-1024-180-TE-z",
+      "method": "fmm",
+      "reference": "square-1024-180-dense-cold",
+      "max_density_relative_l2": 3.5545622421141634e-13,
+      "peak_normalized_field_error": 4.3459944473320875e-14,
+      "rhs_error": 6.476877792497309e-17,
+      "exact_row_backward_error": 2.618278330052396e-16,
+      "max_true_relative_residual": 3.898121730060529e-14,
+      "compute_seconds": 19.27524722000021,
+      "solve_seconds": 2.753329206999979,
+      "peak_gib": 0.12102508544921875,
+      "applications": 1084,
+      "preconditioner_applications": 904,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    {
+      "label": "slot-1024-180-TE-z",
+      "method": "fmm",
+      "reference": "slot-1024-180-dense-cold",
+      "max_density_relative_l2": 1.047007465714949e-10,
+      "peak_normalized_field_error": 6.2384724866149e-13,
+      "rhs_error": 6.512819089559352e-17,
+      "exact_row_backward_error": 4.109607753020562e-15,
+      "max_true_relative_residual": 9.325065425458448e-13,
+      "compute_seconds": 20.68561842500003,
+      "solve_seconds": 8.073531981000087,
+      "peak_gib": 0.132537841796875,
+      "applications": 1968,
+      "preconditioner_applications": 1788,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    {
+      "label": "slot-1024-180-TM-z",
+      "method": "fmm",
+      "reference": "slot-1024-180-TM-dense",
+      "max_density_relative_l2": 2.061943084088347e-11,
+      "peak_normalized_field_error": 2.7258544946028217e-13,
+      "rhs_error": 0.0,
+      "exact_row_backward_error": 2.4459403913556154e-16,
+      "max_true_relative_residual": 1.1086405348668997e-13,
+      "compute_seconds": 17.847192079000024,
+      "solve_seconds": 4.6572621979998985,
+      "peak_gib": 0.1321563720703125,
+      "applications": 1444,
+      "preconditioner_applications": 1264,
+      "cycles": 23,
+      "failed_checks": 0
+    },
+    {
+      "label": "star-8192-180-compressed",
+      "method": "compressed",
+      "reference": "star-8192-180-dense",
+      "max_density_relative_l2": 2.4246748235889713e-11,
+      "peak_normalized_field_error": 3.4476289945917103e-12,
+      "rhs_error": 0.0,
+      "exact_row_backward_error": 2.847363976491261e-15,
+      "max_true_relative_residual": null,
+      "compute_seconds": 46.834787602999995,
+      "solve_seconds": 4.155620463999867,
+      "peak_gib": 0.7008552551269531,
+      "applications": 0,
+      "preconditioner_applications": 0,
+      "cycles": 0,
+      "failed_checks": 0
+    }
+  ],
+  "claude_published_array_checks": [
+    {
+      "file": "d8k-right-v3-a-density.npz",
+      "exact_row_backward_error": 2.4744526447672755e-15,
+      "max_density_relative_l2": 8.457655390140065e-12,
+      "peak_normalized_field_error": 9.667770749424913e-13,
+      "fresh_v3_comparison": {
+        "max_density_relative_l2": 7.017936740064614e-12,
+        "peak_normalized_field_error": 3.4872274902154633e-13
+      },
+      "fresh_stored_z_comparison": {
+        "max_density_relative_l2": 9.55302005262611e-12,
+        "peak_normalized_field_error": 9.660603041971595e-13
+      }
+    },
+    {
+      "file": "d32k-24-right-v3-restart20-density.npz",
+      "exact_row_backward_error": 1.981263433955785e-16
+    }
+  ],
+  "paired_solution_difference": {
+    "max_density_relative_l2": 8.504024300235095e-12,
+    "peak_normalized_field_error": 9.240392001338305e-13
+  },
+  "diagnostic": [
+    {
+      "step": 17,
+      "cycle": 1,
+      "preconditioner_composition_relative": 3.403336616319643e-11,
+      "stored_true": 6.119692339935701e-13,
+      "explicit_recurrence": 6.119495948627154e-13,
+      "preconditioner_difference_equation": 3.5600229558491704e-11,
+      "operator_linearity_error": 6.46725337310369e-16
+    },
+    {
+      "step": 19,
+      "cycle": 2,
+      "preconditioner_composition_relative": 1.088130985611087e-11,
+      "stored_true": 4.744713320340159e-13,
+      "explicit_recurrence": 4.744709920254612e-13,
+      "preconditioner_difference_equation": 8.150709423422313e-23,
+      "operator_linearity_error": 1.134646371247911e-26
+    }
+  ],
+  "diagnostic_check_history": [
+    {
+      "step": 17,
+      "max_projected": 6.119513506344499e-13,
+      "max_true": 3.561817259073732e-11
+    },
+    {
+      "step": 19,
+      "max_projected": 4.744709920254615e-13,
+      "max_true": 4.744713320340159e-13
+    }
+  ],
+  "inverse_array_types": {
+    "complex128": {
+      "arrays": 187,
+      "bytes": 81317824
+    },
+    "int32": {
+      "arrays": 63,
+      "bytes": 37672
+    }
+  }
+}
