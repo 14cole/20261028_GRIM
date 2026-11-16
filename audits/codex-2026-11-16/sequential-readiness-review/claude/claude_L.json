@@ -1,0 +1,70 @@
+[
+ [
+  "l-star32768-cap2900-production-0",
+  {
+   "runner": "claude_run_star_capped.py",
+   "n": 16384,
+   "k": 320.0,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed",
+   "packing": "none",
+   "factor_storage_mib": 2900,
+   "hook": "claude_builder",
+   "builder": "production"
+  }
+ ],
+ [
+  "l-star32768-cap2900-sequential-1",
+  {
+   "runner": "claude_run_star_capped.py",
+   "n": 16384,
+   "k": 320.0,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed",
+   "packing": "none",
+   "factor_storage_mib": 2900,
+   "hook": "corrected_builder",
+   "builder": "sequential"
+  }
+ ],
+ [
+  "l-star32768-cap2900-sequential-2",
+  {
+   "runner": "claude_run_star_capped.py",
+   "n": 16384,
+   "k": 320.0,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed",
+   "packing": "none",
+   "factor_storage_mib": 2900,
+   "hook": "corrected_builder",
+   "builder": "sequential"
+  }
+ ],
+ [
+  "l-star32768-cap2900-production-3",
+  {
+   "runner": "claude_run_star_capped.py",
+   "n": 16384,
+   "k": 320.0,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed",
+   "packing": "none",
+   "factor_storage_mib": 2900,
+   "hook": "claude_builder",
+   "builder": "production"
+  }
+ ]
+]

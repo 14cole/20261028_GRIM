@@ -1,0 +1,125 @@
+{
+  "hash_checks": 42,
+  "small_array_checks": 36,
+  "comparisons": {
+    "l-star32768-cap2900-production-0": {
+      "source": "cap2900-production",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    },
+    "l-star32768-cap2900-sequential-1": {
+      "source": "cap2900-sequential",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    },
+    "l-star32768-cap2900-sequential-2": {
+      "source": "cap2900-sequential",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    },
+    "l-star32768-cap2900-production-3": {
+      "source": "cap2900-production",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    },
+    "k-star32768-production-audit": {
+      "source": "cap2900-sequential",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    },
+    "k-star32768-corrected-seq-direct-priced-audit": {
+      "source": "cap2900-sequential",
+      "full_array_hash_checks": {
+        "angles": true,
+        "field": true,
+        "density": true,
+        "rhs": true,
+        "rows": true,
+        "residual": true,
+        "row_norm": true
+      },
+      "small_arrays_bit_identical": true
+    }
+  },
+  "timing_rows": [
+    {
+      "label": "l-star32768-cap2900-production-0",
+      "compute_seconds": 761.0805872679999,
+      "solve_seconds": 262.9450015319999,
+      "peak_gib": 3.450725555419922,
+      "builds": 2,
+      "gmres_columns": 180,
+      "corrections": 9
+    },
+    {
+      "label": "l-star32768-cap2900-sequential-1",
+      "compute_seconds": 516.415824469,
+      "solve_seconds": 36.97957033800003,
+      "peak_gib": 3.6690902709960938,
+      "builds": 1,
+      "gmres_columns": 0,
+      "corrections": 3
+    },
+    {
+      "label": "l-star32768-cap2900-sequential-2",
+      "compute_seconds": 511.0186514480001,
+      "solve_seconds": 37.53653008099991,
+      "peak_gib": 3.6766624450683594,
+      "builds": 1,
+      "gmres_columns": 0,
+      "corrections": 3
+    },
+    {
+      "label": "l-star32768-cap2900-production-3",
+      "compute_seconds": 778.9970283830007,
+      "solve_seconds": 274.3460716210002,
+      "peak_gib": 3.4498138427734375,
+      "builds": 2,
+      "gmres_columns": 180,
+      "corrections": 9
+    }
+  ],
+  "median_compute_reduction": 0.3328683791805538,
+  "clean_production3_vs_sequential_median": 0.3405401827721396,
+  "caveat": "production-0 overlaps evidence hashing/checking; no new 32k solve in this response. Full arrays freshly rehashed locally; old density-parts reconstruction script not rerun."
+}

@@ -1,0 +1,48 @@
+{
+  "cases": 17700,
+  "v2_mismatches": 0,
+  "v1_mismatches": 3600,
+  "v2_mismatch_kinds": {},
+  "v1_mismatch_kinds": {
+    "empty rows + invalid cols": 900,
+    "invalid rows + empty cols": 900,
+    "empty rows + invalid negative cols": 900,
+    "invalid negative rows + empty cols": 900
+  },
+  "example_empty_rows_invalid_cols": {
+    "original": [
+      "raise",
+      "IndexError"
+    ],
+    "v1": [
+      "ok",
+      [
+        0,
+        1
+      ]
+    ],
+    "v2": [
+      "raise",
+      "IndexError"
+    ]
+  },
+  "example_invalid_rows_empty_cols": {
+    "original": [
+      "raise",
+      "IndexError"
+    ],
+    "v1": [
+      "ok",
+      [
+        1,
+        0
+      ]
+    ],
+    "v2": [
+      "raise",
+      "IndexError"
+    ]
+  },
+  "actual_patch_applied_to_temporary_copy": true,
+  "production_unchanged": true
+}

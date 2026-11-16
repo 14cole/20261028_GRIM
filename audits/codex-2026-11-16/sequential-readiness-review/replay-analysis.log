@@ -1,0 +1,79 @@
+[
+  {
+    "label": "dense",
+    "max_exact_row_backward_error": 2.23883823534368e-18,
+    "worker_names": [],
+    "cancel_cleanup": null,
+    "active_tasks_when_cancel_observed": null
+  },
+  {
+    "label": "production-threads1",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [],
+    "cancel_cleanup": null,
+    "active_tasks_when_cancel_observed": null
+  },
+  {
+    "label": "production-threads2",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [
+      "ghost-hmatrix_0",
+      "ghost-hmatrix_1"
+    ],
+    "cancel_cleanup": null,
+    "active_tasks_when_cancel_observed": null
+  },
+  {
+    "label": "sequential-threads1",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [],
+    "cancel_cleanup": null,
+    "active_tasks_when_cancel_observed": null
+  },
+  {
+    "label": "sequential-threads2",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [
+      "ghost-hmatrix_0",
+      "ghost-hmatrix_1"
+    ],
+    "cancel_cleanup": null,
+    "active_tasks_when_cancel_observed": null
+  },
+  {
+    "label": "production-cancel-recover",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [
+      "ghost-hmatrix_0",
+      "ghost-hmatrix_1"
+    ],
+    "cancel_cleanup": {
+      "pending_bytes": 0,
+      "live_threads": [],
+      "live_failed_inverse_objects": 0,
+      "executor_context_reset": true,
+      "task_count": 39,
+      "max_active": 2,
+      "active_after": 0
+    },
+    "active_tasks_when_cancel_observed": 1
+  },
+  {
+    "label": "sequential-cancel-recover",
+    "max_exact_row_backward_error": 9.150753789964655e-15,
+    "worker_names": [
+      "ghost-hmatrix_0",
+      "ghost-hmatrix_1"
+    ],
+    "cancel_cleanup": {
+      "pending_bytes": 0,
+      "live_threads": [],
+      "live_failed_inverse_objects": 0,
+      "executor_context_reset": true,
+      "task_count": 39,
+      "max_active": 2,
+      "active_after": 0
+    },
+    "active_tasks_when_cancel_observed": 1
+  }
+]

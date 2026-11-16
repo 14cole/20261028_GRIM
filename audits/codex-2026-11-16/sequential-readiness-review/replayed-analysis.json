@@ -1,0 +1,805 @@
+{
+  "cases": [
+    {
+      "label": "dense",
+      "diagnostics": {
+        "condition_est": 2756.7616441096743,
+        "condition_method": "equilibrated_1norm_scaled_lu_onenormest",
+        "condition_label": "dense system",
+        "linear_backward_error": 1.7732686334516937e-18,
+        "linear_backward_error_limit": 1e-12,
+        "linear_equilibrated_backward_error": 3.5762492602026963e-17,
+        "linear_refinement_steps": 1
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.517508338690555e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.5623745809662853e-12,
+          "peak_normalized_error": 3.2497268185178677e-12
+        }
+      },
+      "max_exact_row_backward_error": 2.23883823534368e-18,
+      "worker_names": [],
+      "worker_statistics": {
+        "tasks": 0,
+        "active": 0,
+        "max_active": 0,
+        "cancel_requested": false,
+        "build_active": false
+      },
+      "cancel_cleanup": null,
+      "active_tasks_when_cancel_observed": null,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "f404f654dc643d32ec579d609e51f24359e9d72c4bb12beb6bef9d4db5128195"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "4cd2ff110e9590bb76c696e6bb9e6a9ee27a195a4504ee695f689553fcd9e8c7"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "40fb0049b39d9339e747e5b691815311e44b3342d4c75f5c57384d1c5e424a29"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "production-threads1",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [],
+      "worker_statistics": {
+        "tasks": 0,
+        "active": 0,
+        "max_active": 0,
+        "cancel_requested": false,
+        "build_active": false
+      },
+      "cancel_cleanup": null,
+      "active_tasks_when_cancel_observed": null,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "849c7b729c3157d1e90df2bce0fb1f33794604f4261ca120275dac7b8433bc4e"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "production-threads2",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [
+        "ghost-hmatrix_0",
+        "ghost-hmatrix_1"
+      ],
+      "worker_statistics": {
+        "tasks": 968,
+        "active": 0,
+        "max_active": 2,
+        "cancel_requested": false,
+        "build_active": false
+      },
+      "cancel_cleanup": null,
+      "active_tasks_when_cancel_observed": null,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "8c4b029faabe5afbd89475225b5214fe4dba4d9247918f557c55fc96ced9a5aa"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "sequential-threads1",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [],
+      "worker_statistics": {
+        "tasks": 0,
+        "active": 0,
+        "max_active": 0,
+        "cancel_requested": false,
+        "build_active": false
+      },
+      "cancel_cleanup": null,
+      "active_tasks_when_cancel_observed": null,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "849c7b729c3157d1e90df2bce0fb1f33794604f4261ca120275dac7b8433bc4e"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "sequential-threads2",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [
+        "ghost-hmatrix_0",
+        "ghost-hmatrix_1"
+      ],
+      "worker_statistics": {
+        "tasks": 968,
+        "active": 0,
+        "max_active": 2,
+        "cancel_requested": false,
+        "build_active": false
+      },
+      "cancel_cleanup": null,
+      "active_tasks_when_cancel_observed": null,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "8c4b029faabe5afbd89475225b5214fe4dba4d9247918f557c55fc96ced9a5aa"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "production-cancel-recover",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [
+        "ghost-hmatrix_0",
+        "ghost-hmatrix_1"
+      ],
+      "worker_statistics": {
+        "tasks": 969,
+        "active": 0,
+        "max_active": 2,
+        "cancel_requested": true,
+        "build_active": false
+      },
+      "cancel_cleanup": {
+        "pending_bytes": 0,
+        "live_threads": [],
+        "live_failed_inverse_objects": 0,
+        "executor_context_reset": true,
+        "task_count": 39,
+        "max_active": 2,
+        "active_after": 0
+      },
+      "active_tasks_when_cancel_observed": 1,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "8c4b029faabe5afbd89475225b5214fe4dba4d9247918f557c55fc96ced9a5aa"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    },
+    {
+      "label": "sequential-cancel-recover",
+      "diagnostics": {
+        "condition_est": 2756.761644109285,
+        "condition_label": "compressed system",
+        "condition_method": "equilibrated_1norm_compressed_refined_inverse",
+        "linear_backward_error": 1.1774022166045115e-13,
+        "linear_backward_error_limit": 1e-12,
+        "linear_backward_error_scope": "retained operator and exact sample rows"
+      },
+      "versus_dense": {
+        "density": {
+          "bit_identical": false,
+          "max_column_relative_error": 3.1801616487619364e-11,
+          "peak_normalized_error": 4.5175083386893067e-10
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "max_column_relative_error": 2.562374580965869e-12,
+          "peak_normalized_error": 3.2497268185159387e-12
+        }
+      },
+      "versus_compressed_single_thread": {
+        "density": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "max_exact_row_backward_error": 9.150753789964655e-15,
+      "worker_names": [
+        "ghost-hmatrix_0",
+        "ghost-hmatrix_1"
+      ],
+      "worker_statistics": {
+        "tasks": 969,
+        "active": 0,
+        "max_active": 2,
+        "cancel_requested": true,
+        "build_active": false
+      },
+      "cancel_cleanup": {
+        "pending_bytes": 0,
+        "live_threads": [],
+        "live_failed_inverse_objects": 0,
+        "executor_context_reset": true,
+        "task_count": 39,
+        "max_active": 2,
+        "active_after": 0
+      },
+      "active_tasks_when_cancel_observed": 1,
+      "hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "e3ae775cc41ff3f8cf88d3dedf9df66cc9353e2d32f43b348695a1fe5589b898"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "7cc666a10ccff88595a1525756617361276122fa584c3b903017cf8d358dad78"
+        },
+        "residual": {
+          "shape": [
+            96,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "8c4b029faabe5afbd89475225b5214fe4dba4d9247918f557c55fc96ced9a5aa"
+        },
+        "rhs": {
+          "shape": [
+            4096,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "08ecc4eb1066f0d20416bfd47d84245055413f3b47804a307438ac463fa94ead"
+        },
+        "row_norm": {
+          "shape": [
+            96
+          ],
+          "dtype": "<f8",
+          "sha256": "b87d07bb32ac1fc62bbc2563e5d9d20610010ac70dede24118bda2d10d7f3fcb"
+        },
+        "rows": {
+          "shape": [
+            96
+          ],
+          "dtype": "<i8",
+          "sha256": "1d8d78e8dfc10cfba5a5561a0533b0c929f60e18c7f71b66100502d2a5d6bb45"
+        }
+      }
+    }
+  ],
+  "all_seven_cases_pass": true,
+  "scope": "Fresh 4096-unknown star with condition estimation, exact rows, 180 angles; no mesh certification or speed claim."
+}

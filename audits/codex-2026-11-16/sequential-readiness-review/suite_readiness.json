@@ -1,0 +1,66 @@
+[
+  [
+    "dense",
+    {
+      "method": "dense",
+      "threads": 1,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "production-threads1",
+    {
+      "method": "compressed",
+      "builder": "production",
+      "threads": 1,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "production-threads2",
+    {
+      "method": "compressed",
+      "builder": "production",
+      "threads": 2,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "sequential-threads1",
+    {
+      "method": "compressed",
+      "builder": "sequential",
+      "threads": 1,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "sequential-threads2",
+    {
+      "method": "compressed",
+      "builder": "sequential",
+      "threads": 2,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "production-cancel-recover",
+    {
+      "method": "compressed",
+      "builder": "production",
+      "threads": 2,
+      "cancel": true,
+      "runner": "run_readiness.py"
+    }
+  ],
+  [
+    "sequential-cancel-recover",
+    {
+      "method": "compressed",
+      "builder": "sequential",
+      "threads": 2,
+      "cancel": true,
+      "runner": "run_readiness.py"
+    }
+  ]
+]
