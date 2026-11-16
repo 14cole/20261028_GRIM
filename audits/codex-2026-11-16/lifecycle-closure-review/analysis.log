@@ -1,0 +1,47 @@
+{
+  "claude_blobs_verified": 17,
+  "prior_blobs_verified": 2,
+  "first_stable_configurations_verified": [
+    "slot-1024",
+    "slot-2048",
+    "slot-512",
+    "square-1024",
+    "square-512",
+    "star-1024"
+  ],
+  "saved_residual_difference": {
+    "different_entries": 349,
+    "entries": 1536,
+    "max_abs_difference": 4.443059973708341e-17,
+    "max_denominator_normalized_difference": 1.1746115074539174e-19,
+    "backward_t1": 4.228746442552898e-15,
+    "backward_t4": 4.228748574970568e-15
+  },
+  "fresh_row_queries": 8,
+  "fresh_partition_queries": 5,
+  "fresh_ungraded_queries": 2,
+  "blas_pools_verified": true,
+  "coefficient_results_reproduce_claude": true,
+  "fixed_tile_policy_removes_thread_difference": true,
+  "ungraded_comparison": {
+    "cases": [
+      {
+        "threads": 1,
+        "far_grading": false,
+        "exact_sha256": "edc72132fb0e1bc209c0e96475385619a614bfc6d1c47e66a4fdba82d9d5d92b",
+        "residual_sha256": "8cbbd3d25f5f174067b561a100b1723e48dff08e776d80aabed375f49decc2ec"
+      },
+      {
+        "threads": 4,
+        "far_grading": false,
+        "exact_sha256": "2278d3973ea9b3169d2eaff4edf77cab4d27eae07b9c025fe8233ecc2bd971e3",
+        "residual_sha256": "26504442108149004ba535618f5b6d99909fe320bbadd70642cfb38c9b350854"
+      }
+    ],
+    "different_entries": 856,
+    "max_abs_difference": 4.235164736271502e-22
+  },
+  "production_changes": 0,
+  "new_solver_runs": 0,
+  "scope": "One Linux native library, 96 rows of one dielectric star; full row matrices compared in memory, sparse differences/residuals archived. No independent cross-thread operator or field assembly."
+}
