@@ -1,0 +1,136 @@
+[
+ [
+  "i-tol1e-08-multilayer-TM",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-08
+  }
+ ],
+ [
+  "i-tol1e-08-partial-TE",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-08
+  }
+ ],
+ [
+  "i-tol1e-08-partial-TM",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-08
+  }
+ ],
+ [
+  "i-tol1e-10-multilayer-TM",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-10
+  }
+ ],
+ [
+  "i-tol1e-10-partial-TE",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-10
+  }
+ ],
+ [
+  "i-tol1e-10-partial-TM",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "inverse_tolerance": 1e-10
+  }
+ ]
+]

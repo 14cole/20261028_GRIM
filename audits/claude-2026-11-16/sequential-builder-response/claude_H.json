@@ -1,0 +1,221 @@
+[
+ [
+  "h-audit-multilayer-TM-production-none",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-production-bounded",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-claude-seq-none",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "claude_builder",
+   "builder": "sequential",
+   "packing": "none"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-claude-seq-bounded",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "claude_builder",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-corrected-seq-none",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "corrected_builder",
+   "builder": "sequential",
+   "packing": "none"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-corrected-seq-bounded",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "corrected_builder",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "h-audit-multilayer-TM-corrected-seq-bounded-rank",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TM",
+   "audit": true,
+   "hook": "corrected_builder",
+   "builder": "sequential",
+   "packing": "bounded",
+   "rank_guard": true
+  }
+ ],
+ [
+  "h-audit-partial-TE-corrected-seq-bounded",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "audit": true,
+   "hook": "corrected_builder",
+   "builder": "sequential",
+   "packing": "bounded"
+  }
+ ],
+ [
+  "h-audit-partial-TE-corrected-seq-bounded-rank",
+  {
+   "runner": "claude_run_geometry3.py",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "frequency_ghz": 5.0,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "count": 180,
+   "method": "compressed",
+   "pol": "TE",
+   "audit": true,
+   "hook": "corrected_builder",
+   "builder": "sequential",
+   "packing": "bounded",
+   "rank_guard": true
+  }
+ ]
+]
