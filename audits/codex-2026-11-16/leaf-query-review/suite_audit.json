@@ -1,0 +1,111 @@
+[
+  [
+    "audit-original",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 0,
+      "builder": "production",
+      "hook": "claude_builder",
+      "audit": true,
+      "direct_query": false
+    }
+  ],
+  [
+    "audit-direct",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 0,
+      "builder": "production",
+      "hook": "claude_builder",
+      "audit": true,
+      "direct_query": true
+    }
+  ],
+  [
+    "audit-sequential-direct",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 0,
+      "builder": "sequential",
+      "hook": "corrected_builder",
+      "audit": true,
+      "direct_query": true
+    }
+  ],
+  [
+    "audit-direct-priced",
+    {
+      "runner": "run_geometry_priced.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 0,
+      "builder": "production",
+      "hook": "claude_builder",
+      "audit": true,
+      "direct_query": true,
+      "price_leaf_queries": true
+    }
+  ]
+]

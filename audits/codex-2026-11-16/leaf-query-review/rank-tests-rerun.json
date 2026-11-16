@@ -1,0 +1,133 @@
+[
+ {
+  "name": "e with tiny columns",
+  "key": "e1",
+  "result": "double-retained",
+  "global_guard_result": "complex64",
+  "expected": "double-retained",
+  "ok": true,
+  "worst": 1.0
+ },
+ {
+  "name": "v with tiny rows",
+  "key": "v12",
+  "result": "double-retained",
+  "global_guard_result": "complex64",
+  "expected": "double-retained",
+  "ok": true,
+  "worst": 1.0
+ },
+ {
+  "name": "e with tiny ROWS (not a rank direction)",
+  "key": "e2",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 3.8753779003086995e-08
+ },
+ {
+  "name": "v with tiny COLUMNS (not a rank direction)",
+  "key": "v21",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 4.038627985696507e-08
+ },
+ {
+  "name": "ordinary e",
+  "key": "e1",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 3.5784247979935825e-08
+ },
+ {
+  "name": "ordinary v",
+  "key": "v12",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 4.216873338129658e-08
+ },
+ {
+  "name": "e with an all-zero column",
+  "key": "e1",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 4.944507684379042e-08
+ },
+ {
+  "name": "v with an all-zero row",
+  "key": "v21",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 3.984917496106409e-08
+ },
+ {
+  "name": "rank zero e",
+  "key": "e1",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 0.0
+ },
+ {
+  "name": "rank zero v",
+  "key": "v12",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 0.0
+ },
+ {
+  "name": "e columns 1 and 1e-30 (inside float32 range)",
+  "key": "e1",
+  "result": "complex64",
+  "global_guard_result": "complex64",
+  "expected": "complex64",
+  "ok": true,
+  "worst": 3.649526887373266e-08
+ },
+ {
+  "name": "e columns 1 and 1e-39 (float32 denormal)",
+  "key": "e1",
+  "result": "double-retained",
+  "global_guard_result": "complex64",
+  "expected": "double-retained",
+  "ok": true,
+  "worst": 2.713684423086922e-07
+ },
+ {
+  "name": "F-order e with tiny column",
+  "key": "e2",
+  "result": "double-retained",
+  "global_guard_result": "complex64",
+  "expected": "double-retained",
+  "ok": true,
+  "worst": 1.0
+ },
+ {
+  "name": "all tiny e",
+  "key": "e1",
+  "result": "double-retained",
+  "global_guard_result": "double-retained",
+  "expected": "double-retained",
+  "ok": true,
+  "worst": null
+ },
+ {
+  "name": "compensated product error",
+  "global_guard": 0.5143971567127126,
+  "rank_guard": 0.0
+ }
+]

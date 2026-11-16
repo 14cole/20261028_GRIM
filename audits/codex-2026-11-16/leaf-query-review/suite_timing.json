@@ -1,0 +1,102 @@
+[
+  [
+    "cap690-production-0",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 690,
+      "builder": "production",
+      "hook": "claude_builder"
+    }
+  ],
+  [
+    "cap690-sequential-1",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 690,
+      "builder": "sequential",
+      "hook": "corrected_builder"
+    }
+  ],
+  [
+    "cap690-sequential-2",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 690,
+      "builder": "sequential",
+      "hook": "corrected_builder"
+    }
+  ],
+  [
+    "cap690-production-3",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 690,
+      "builder": "production",
+      "hook": "claude_builder"
+    }
+  ]
+]

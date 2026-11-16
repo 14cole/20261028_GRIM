@@ -1,0 +1,27 @@
+[
+  [
+    "dense-fresh",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "dense",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 0,
+      "builder": "production",
+      "hook": "claude_builder"
+    }
+  ]
+]

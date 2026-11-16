@@ -1,0 +1,52 @@
+[
+  [
+    "cap650-production",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 650,
+      "builder": "production",
+      "hook": "claude_builder"
+    }
+  ],
+  [
+    "cap650-sequential",
+    {
+      "runner": "run_geometry.py",
+      "material": "multilayer",
+      "shape": "circle",
+      "length_m": 0.6,
+      "frequency_ghz": 5.0,
+      "eps": [
+        12.0,
+        -0.01
+      ],
+      "inner_eps": [
+        16.0,
+        -0.01
+      ],
+      "count": 180,
+      "method": "compressed",
+      "pol": "TM",
+      "packing": "none",
+      "storage_mib": 650,
+      "builder": "sequential",
+      "hook": "corrected_builder"
+    }
+  ]
+]

@@ -1,0 +1,646 @@
+{
+  "evidence": "Saved arrays and recorded diagnostics from fresh runs; analysis does not reevaluate equations.",
+  "rows": [
+    {
+      "case": "cap690-production-0",
+      "error": null,
+      "wall_seconds": 97.10675049499696,
+      "peak_gib": 0.9400558471679688,
+      "builds": 2,
+      "condition_corrections": 20,
+      "field_corrections": 5,
+      "field_seconds": 8.10215022200282,
+      "audit": [],
+      "inverse_bytes": 178979624,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "cap690-sequential-1",
+      "error": null,
+      "wall_seconds": 84.32182496799942,
+      "peak_gib": 0.9605789184570312,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 3.825167347000388,
+      "audit": [],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "cap690-sequential-2",
+      "error": null,
+      "wall_seconds": 81.0944252670015,
+      "peak_gib": 0.9610176086425781,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 4.044523388001835,
+      "audit": [],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "cap690-production-3",
+      "error": null,
+      "wall_seconds": 92.05885838499671,
+      "peak_gib": 0.9405632019042969,
+      "builds": 2,
+      "condition_corrections": 20,
+      "field_corrections": 5,
+      "field_seconds": 7.986564022998209,
+      "audit": [],
+      "inverse_bytes": 178979624,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "audit-original",
+      "error": null,
+      "wall_seconds": 89.09898016100487,
+      "peak_gib": 0.9723320007324219,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 4.069333121995442,
+      "audit": [
+        {
+          "entries": 2012,
+          "shortfalls": 64,
+          "max_shortfall_bytes": 5059120,
+          "worst": {
+            "label": "leaf coefficients",
+            "accounted": 130162504,
+            "actual": 135221624,
+            "entry": 129543102,
+            "additional": 710432,
+            "live": 0,
+            "retained": 129452072
+          },
+          "by_label": {
+            "norm probes": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 48343,
+              "max_growth_bytes": 1394701,
+              "max_declared_additional": 5133056
+            },
+            "sample products": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -179019,
+              "max_growth_bytes": 5517609,
+              "max_declared_additional": 20532224
+            },
+            "sample projection": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 123274,
+              "max_growth_bytes": 21987679,
+              "max_declared_additional": 26984960
+            },
+            "range extension": {
+              "entries": 250,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1075148,
+              "max_growth_bytes": 24266661,
+              "max_declared_additional": 49592320
+            },
+            "projected inverse block": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -221532,
+              "max_growth_bytes": 56540540,
+              "max_declared_additional": 155082240
+            },
+            "projected QR": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1004965,
+              "max_growth_bytes": 65706553,
+              "max_declared_additional": 91052032
+            },
+            "projected SVD": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1042493,
+              "max_growth_bytes": 8961731,
+              "max_declared_additional": 22282240
+            },
+            "inverse block output": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 110990,
+              "max_growth_bytes": 59343321,
+              "max_declared_additional": 78022896
+            },
+            "leaf coefficients": {
+              "entries": 64,
+              "shortfalls_over_1MiB": 64,
+              "max_shortfall_bytes": 5059120,
+              "max_growth_bytes": 5678522,
+              "max_declared_additional": 710432
+            },
+            "leaf or correction LU": {
+              "entries": 127,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -946928,
+              "max_growth_bytes": 3909207,
+              "max_declared_additional": 8861680
+            },
+            "inverse child product": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1169351,
+              "max_growth_bytes": 30081249,
+              "max_declared_additional": 150876800
+            },
+            "Woodbury correction": {
+              "entries": 63,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 116478,
+              "max_growth_bytes": 4917661,
+              "max_declared_additional": 5856864
+            }
+          },
+          "max_actual_bytes": 252942110,
+          "max_accounted_bytes": 373650008,
+          "final_retained_bytes": 207953208,
+          "final_traced_bytes": 208064815
+        }
+      ],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "audit-direct",
+      "error": null,
+      "wall_seconds": 83.08285326899932,
+      "peak_gib": 0.9598503112792969,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 4.269553769001504,
+      "audit": [
+        {
+          "entries": 2012,
+          "shortfalls": 0,
+          "max_shortfall_bytes": 0,
+          "worst": null,
+          "by_label": {
+            "norm probes": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 68600,
+              "max_growth_bytes": 1394949,
+              "max_declared_additional": 5133056
+            },
+            "sample products": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -187178,
+              "max_growth_bytes": 5517513,
+              "max_declared_additional": 20532224
+            },
+            "sample projection": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 115113,
+              "max_growth_bytes": 21987615,
+              "max_declared_additional": 26984960
+            },
+            "range extension": {
+              "entries": 250,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1050831,
+              "max_growth_bytes": 24266417,
+              "max_declared_additional": 49592320
+            },
+            "projected inverse block": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -262690,
+              "max_growth_bytes": 56540489,
+              "max_declared_additional": 155082240
+            },
+            "projected QR": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1023342,
+              "max_growth_bytes": 65718023,
+              "max_declared_additional": 91052032
+            },
+            "projected SVD": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1050841,
+              "max_growth_bytes": 8961713,
+              "max_declared_additional": 22282240
+            },
+            "inverse block output": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 102642,
+              "max_growth_bytes": 59332074,
+              "max_declared_additional": 78022896
+            },
+            "leaf coefficients": {
+              "entries": 64,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 619200,
+              "max_growth_bytes": 1217874,
+              "max_declared_additional": 710432
+            },
+            "leaf or correction LU": {
+              "entries": 127,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -955012,
+              "max_growth_bytes": 3909197,
+              "max_declared_additional": 8861680
+            },
+            "inverse child product": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1177108,
+              "max_growth_bytes": 30081060,
+              "max_declared_additional": 150876800
+            },
+            "Woodbury correction": {
+              "entries": 63,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 108314,
+              "max_growth_bytes": 4917663,
+              "max_declared_additional": 5856864
+            }
+          },
+          "max_actual_bytes": 252932834,
+          "max_accounted_bytes": 373650008,
+          "final_retained_bytes": 207953208,
+          "final_traced_bytes": 208055017
+        }
+      ],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "audit-sequential-direct",
+      "error": null,
+      "wall_seconds": 86.6812402430005,
+      "peak_gib": 0.9834632873535156,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 4.233698468997318,
+      "audit": [
+        {
+          "entries": 2075,
+          "shortfalls": 0,
+          "max_shortfall_bytes": 0,
+          "worst": null,
+          "by_label": {
+            "norm probes": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 28139,
+              "max_growth_bytes": 1393359,
+              "max_declared_additional": 5133056
+            },
+            "sample products": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -198840,
+              "max_growth_bytes": 5517573,
+              "max_declared_additional": 20532224
+            },
+            "sample projection": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 103070,
+              "max_growth_bytes": 21987620,
+              "max_declared_additional": 26984960
+            },
+            "range extension": {
+              "entries": 250,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1095292,
+              "max_growth_bytes": 24266314,
+              "max_declared_additional": 49592320
+            },
+            "projected inverse block": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -263096,
+              "max_growth_bytes": 56540525,
+              "max_declared_additional": 155082240
+            },
+            "projected QR": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1035386,
+              "max_growth_bytes": 65706443,
+              "max_declared_additional": 91052032
+            },
+            "projected SVD": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1062885,
+              "max_growth_bytes": 8961439,
+              "max_declared_additional": 22282240
+            },
+            "inverse block output": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 90598,
+              "max_growth_bytes": 59331312,
+              "max_declared_additional": 78022896
+            },
+            "leaf coefficients": {
+              "entries": 64,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 627214,
+              "max_growth_bytes": 1239345,
+              "max_declared_additional": 710432
+            },
+            "leaf or correction LU": {
+              "entries": 127,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -967169,
+              "max_growth_bytes": 3908744,
+              "max_declared_additional": 8861680
+            },
+            "inverse child product (in place)": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1195140,
+              "max_growth_bytes": 11095278,
+              "max_declared_additional": 150876800
+            },
+            "Woodbury correction": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 120278,
+              "max_growth_bytes": 4929445,
+              "max_declared_additional": 5856864
+            }
+          },
+          "max_actual_bytes": 276081815,
+          "max_accounted_bytes": 358826056,
+          "final_retained_bytes": 207953208,
+          "final_traced_bytes": 208058790
+        }
+      ],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "audit-direct-priced",
+      "error": null,
+      "wall_seconds": 87.59042948899878,
+      "peak_gib": 0.9602012634277344,
+      "builds": 1,
+      "condition_corrections": 8,
+      "field_corrections": 2,
+      "field_seconds": 4.428915127995424,
+      "audit": [
+        {
+          "entries": 2012,
+          "shortfalls": 0,
+          "max_shortfall_bytes": 0,
+          "worst": null,
+          "by_label": {
+            "norm probes": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 47078,
+              "max_growth_bytes": 1394701,
+              "max_declared_additional": 5133056
+            },
+            "sample products": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -180175,
+              "max_growth_bytes": 5517573,
+              "max_declared_additional": 20532224
+            },
+            "sample projection": {
+              "entries": 376,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 122009,
+              "max_growth_bytes": 21987711,
+              "max_declared_additional": 26984960
+            },
+            "range extension": {
+              "entries": 250,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1076415,
+              "max_growth_bytes": 24266647,
+              "max_declared_additional": 49592320
+            },
+            "projected inverse block": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -226184,
+              "max_growth_bytes": 56541574,
+              "max_declared_additional": 155082240
+            },
+            "projected QR": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -987422,
+              "max_growth_bytes": 65717985,
+              "max_declared_additional": 91052032
+            },
+            "projected SVD": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1014629,
+              "max_growth_bytes": 8961584,
+              "max_declared_additional": 22282240
+            },
+            "inverse block output": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 126444,
+              "max_growth_bytes": 59331906,
+              "max_declared_additional": 78022896
+            },
+            "leaf coefficients": {
+              "entries": 64,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1097029,
+              "max_growth_bytes": 1239298,
+              "max_declared_additional": 2469440
+            },
+            "leaf or correction LU": {
+              "entries": 127,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -948101,
+              "max_growth_bytes": 3909253,
+              "max_declared_additional": 8861680
+            },
+            "inverse child product": {
+              "entries": 126,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": -1170445,
+              "max_growth_bytes": 30050954,
+              "max_declared_additional": 150876800
+            },
+            "Woodbury correction": {
+              "entries": 63,
+              "shortfalls_over_1MiB": 0,
+              "max_shortfall_bytes": 115305,
+              "max_growth_bytes": 4929341,
+              "max_declared_additional": 5856864
+            }
+          },
+          "max_actual_bytes": 252940512,
+          "max_accounted_bytes": 373650008,
+          "final_retained_bytes": 207953208,
+          "final_traced_bytes": 208063391
+        }
+      ],
+      "inverse_bytes": 207953208,
+      "operator_bytes": 499017192
+    },
+    {
+      "case": "dense-fresh",
+      "error": null,
+      "wall_seconds": 80.82071902299504,
+      "peak_gib": 2.9445343017578125,
+      "builds": 0,
+      "condition_corrections": 0,
+      "field_corrections": 0,
+      "field_seconds": 0,
+      "audit": []
+    },
+    {
+      "case": "cap650-production",
+      "error": "Compressed inverse exceeded its retained-storage cap.",
+      "wall_seconds": 80.41930969900568,
+      "peak_gib": 0.7442855834960938,
+      "builds": 2,
+      "condition_corrections": 0,
+      "field_corrections": 0,
+      "field_seconds": 0,
+      "audit": []
+    },
+    {
+      "case": "cap650-sequential",
+      "error": null,
+      "wall_seconds": 100.42221477299609,
+      "peak_gib": 0.9329452514648438,
+      "builds": 2,
+      "condition_corrections": 20,
+      "field_corrections": 5,
+      "field_seconds": 7.741950426003314,
+      "audit": [],
+      "inverse_bytes": 178979624,
+      "operator_bytes": 499017192
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "cap690-production-0",
+      "reference": "dense-fresh",
+      "density_relative": 5.377861916142396e-10,
+      "field_peak_normalized": 6.093090357767482e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "cap690-sequential-1",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "cap690-sequential-2",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "cap690-production-3",
+      "reference": "dense-fresh",
+      "density_relative": 5.377861916142396e-10,
+      "field_peak_normalized": 6.093090357767482e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "audit-original",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "audit-direct",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "audit-sequential-direct",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "audit-direct-priced",
+      "reference": "dense-fresh",
+      "density_relative": 5.378109056683047e-10,
+      "field_peak_normalized": 6.093859176662806e-10,
+      "rhs_relative": 0.0
+    },
+    {
+      "case": "cap650-sequential",
+      "reference": "dense-fresh",
+      "density_relative": 5.377861916142396e-10,
+      "field_peak_normalized": 6.093090357767482e-10,
+      "rhs_relative": 0.0
+    }
+  ],
+  "matched": [
+    {
+      "case": "audit-direct",
+      "reference": "audit-original",
+      "equal": {
+        "density": true,
+        "rhs": true,
+        "field": true
+      }
+    },
+    {
+      "case": "audit-sequential-direct",
+      "reference": "audit-original",
+      "equal": {
+        "density": true,
+        "rhs": true,
+        "field": true
+      }
+    },
+    {
+      "case": "audit-direct-priced",
+      "reference": "audit-original",
+      "equal": {
+        "density": true,
+        "rhs": true,
+        "field": true
+      }
+    }
+  ],
+  "timing": {
+    "production_seconds": [
+      97.10675049499696,
+      92.05885838499671
+    ],
+    "sequential_seconds": [
+      84.32182496799942,
+      81.0944252670015
+    ],
+    "median_reduction_fraction": 0.12554797241214866,
+    "both_sequential_faster_than_both_production": true
+  }
+}
