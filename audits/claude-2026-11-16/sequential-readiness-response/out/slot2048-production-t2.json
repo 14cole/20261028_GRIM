@@ -1,0 +1,271 @@
+{
+ "spec": {
+  "name": "slot2048-production-t2",
+  "n": 1024,
+  "kind": "slot",
+  "k": 20,
+  "threads": 2,
+  "builder": "production",
+  "out": "out/slot2048-production-t2"
+ },
+ "phases": [
+  {
+   "mode": "new_factor",
+   "target": "sample products",
+   "trigger": 6,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "sample products"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 2,
+    "tasks_started": 8,
+    "tasks_finished": 6,
+    "checkpoint_calls_in_phase": 8
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 8,
+   "tasks_finished_total": 8,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": null,
+   "recovered": true,
+   "bitwise_equal_control": true,
+   "max_abs_diff": 0.0,
+   "backward_error": 2.8476416540497602e-15,
+   "inverse_bytes": 46610456
+  },
+  {
+   "mode": "new_factor",
+   "target": "leaf coefficients",
+   "trigger": 3,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "leaf coefficients"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 0,
+    "tasks_started": 176,
+    "tasks_finished": 176,
+    "checkpoint_calls_in_phase": 3
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 176,
+   "tasks_finished_total": 176,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": null,
+   "recovered": true,
+   "bitwise_equal_control": true,
+   "max_abs_diff": 0.0,
+   "backward_error": 2.8476416540497602e-15,
+   "inverse_bytes": 46610456
+  },
+  {
+   "mode": "new_factor",
+   "target": "Woodbury correction",
+   "trigger": 3,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "Woodbury correction"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 0,
+    "tasks_started": 176,
+    "tasks_finished": 176,
+    "checkpoint_calls_in_phase": 3
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 176,
+   "tasks_finished_total": 176,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": null,
+   "recovered": true,
+   "bitwise_equal_control": true,
+   "max_abs_diff": 0.0,
+   "backward_error": 2.8476416540497602e-15,
+   "inverse_bytes": 46610456
+  },
+  {
+   "mode": "new_factor",
+   "target": "projected QR",
+   "trigger": 3,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "projected QR"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 0,
+    "tasks_started": 166,
+    "tasks_finished": 166,
+    "checkpoint_calls_in_phase": 3
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 166,
+   "tasks_finished_total": 166,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": null,
+   "recovered": true,
+   "bitwise_equal_control": true,
+   "max_abs_diff": 0.0,
+   "backward_error": 2.8476416540497602e-15,
+   "inverse_bytes": 46610456
+  },
+  {
+   "mode": "new_factor",
+   "target": "inverse child product",
+   "trigger": 4,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "inverse child product"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 0,
+    "tasks_started": 176,
+    "tasks_finished": 176,
+    "checkpoint_calls_in_phase": 4
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 176,
+   "tasks_finished_total": 176,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": null,
+   "recovered": true,
+   "bitwise_equal_control": true,
+   "max_abs_diff": 0.0,
+   "backward_error": 2.8476416540497602e-15,
+   "inverse_bytes": 46610456
+  },
+  {
+   "mode": "same_factor",
+   "target": "inverse child product",
+   "trigger": 4,
+   "raised": "Cancel",
+   "fired": {
+    "label_stack": [
+     "inverse child product"
+    ],
+    "raising_thread": "MainThread",
+    "live_threads": [
+     "ghost-hmatrix_0",
+     "ghost-hmatrix_1"
+    ],
+    "active_product_tasks": 0,
+    "tasks_started": 176,
+    "tasks_finished": 176,
+    "checkpoint_calls_in_phase": 4
+   },
+   "product_task_threads": [
+    "ghost-hmatrix_0",
+    "ghost-hmatrix_1"
+   ],
+   "active_tasks_after": 0,
+   "tasks_started_total": 176,
+   "tasks_finished_total": 176,
+   "workers_alive_after": [],
+   "inverse_objects_started": 1,
+   "inverse_objects_alive_after_gc": 0,
+   "operator_bytes_unchanged": true,
+   "pending_construction_bytes": [
+    null,
+    null
+   ],
+   "same_factor_inverse_is_none": true,
+   "recovered": true,
+   "bitwise_equal_control": false,
+   "max_abs_diff": 1.1638266653060894e-06,
+   "backward_error": 3.219830871753107e-15,
+   "inverse_bytes": 43342560
+  }
+ ],
+ "assembly_seconds": 3.6642732130000013,
+ "ledger_state_present": false,
+ "control": {
+  "backward_error": 2.8476416540497602e-15,
+  "inverse_bytes": 46610456,
+  "refinement_steps": 5,
+  "product_task_threads": [
+   "ghost-hmatrix_0",
+   "ghost-hmatrix_1"
+  ],
+  "operator_bytes": 69554160
+ }
+}
