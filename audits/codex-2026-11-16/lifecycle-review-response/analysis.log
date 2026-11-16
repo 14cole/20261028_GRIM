@@ -1,0 +1,44 @@
+{
+  "source_blobs_verified": 20,
+  "control_arrays": [
+    {
+      "label": "slot2048-production-t2",
+      "arrays": 6,
+      "max_backward_error": 2.8476416540497602e-15
+    },
+    {
+      "label": "star8192-production-t1",
+      "arrays": 6,
+      "max_backward_error": 4.228746442552898e-15
+    }
+  ],
+  "manifest_groups": {
+    "star8192": {
+      "runs": 6,
+      "unique_hash_counts": {
+        "density": 1,
+        "rhs": 1,
+        "angles": 1,
+        "rows": 1,
+        "residual": 2,
+        "row_norm": 1
+      }
+    },
+    "slot2048": {
+      "runs": 2,
+      "unique_hash_counts": {
+        "density": 1,
+        "rhs": 1,
+        "angles": 1,
+        "rows": 1,
+        "residual": 1,
+        "row_norm": 1
+      }
+    }
+  },
+  "fresh_processes": 2,
+  "fresh_density_solves": 32,
+  "first_and_stable_bit_identical_between_trees": true,
+  "full_arrays_saved": "First and stable density plus RHS only; other lifecycle equality checks were performed in the pinned harness, recorded in JSON.",
+  "scope": "No new far-field solve, ledger test, cross-thread construction rerun, natural tightening occurrence, or timing claim."
+}
