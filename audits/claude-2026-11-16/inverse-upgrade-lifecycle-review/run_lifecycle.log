@@ -1,0 +1,25 @@
+START orig slot 1024
+slot 2048 upgrades True seq [('constructed', None, 1e-08), ('first', 5, 1e-10), ('stable', 2, 1e-10), ('_fresh_build', None, 1e-08), ('rebuilt', 8, 1e-08), ('rebuilt_stable', 8, 1e-08), ('new_first', 5, 1e-10), ('new_stable', 2, 1e-10)] | rebuilt==stable False | cancel Cancel True True True [8, 8] | adv corr [8, 8, 8, 8, 8, 8, 8, 8] builds 3 real attempts 1 | bwd 3.4e-15
+START orig square 512
+square 1024 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 5.2e-18
+START orig square 1024
+square 2048 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 3.9e-15
+START orig star 1024
+star 2048 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 6.7e-15
+START orig slot 512
+slot 1024 upgrades True seq [('constructed', None, 1e-08), ('first', 5, 1e-10), ('stable', 2, 1e-10), ('_fresh_build', None, 1e-08), ('rebuilt', 5, 1e-08), ('rebuilt_stable', 5, 1e-08), ('new_first', 5, 1e-10), ('new_stable', 2, 1e-10)] | rebuilt==stable False | cancel Cancel True True True [5, 5] | adv corr [5, 5, 5, 5, 5, 5, 5, 5] builds 3 real attempts 1 | bwd 2.1e-15
+START orig slot 2048
+slot 4096 upgrades False seq [('constructed', None, 1e-10), ('first', 3, 1e-10), ('stable', 3, 1e-10), ('_fresh_build', None, 1e-10), ('rebuilt', 3, 1e-10), ('rebuilt_stable', 3, 1e-10), ('new_first', 3, 1e-10), ('new_stable', 3, 1e-10)] | rebuilt==stable True | cancel Cancel False False False [3, 3] | adv corr [3, 3, 3, 3, 3, 3, 3, 3] builds 3 real attempts 0 | bwd 2.4e-14
+START fixed slot 1024
+slot 2048 upgrades True seq [('constructed', None, 1e-08), ('first', 5, 1e-10), ('stable', 2, 1e-10), ('_fresh_build', None, 1e-08), ('rebuilt', 5, 1e-10), ('rebuilt_stable', 2, 1e-10), ('new_first', 5, 1e-10), ('new_stable', 2, 1e-10)] | rebuilt==stable True | cancel Cancel True True False [5, 2] | adv corr [8, 8, 8, 8, 8, 8, 8, 8] builds 3 real attempts 3 | bwd 3.4e-15
+START fixed square 512
+square 1024 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 5.2e-18
+START fixed square 1024
+square 2048 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 3.9e-15
+START fixed star 1024
+star 2048 upgrades False seq [('constructed', None, 1e-08), ('first', 2, 1e-08), ('stable', 2, 1e-08), ('_fresh_build', None, 1e-08), ('rebuilt', 2, 1e-08), ('rebuilt_stable', 2, 1e-08), ('new_first', 2, 1e-08), ('new_stable', 2, 1e-08)] | rebuilt==stable True | cancel Cancel False False False [2, 2] | adv corr [2, 2, 2, 2, 2, 2, 2, 2] builds 3 real attempts 0 | bwd 6.7e-15
+START fixed slot 512
+slot 1024 upgrades True seq [('constructed', None, 1e-08), ('first', 5, 1e-10), ('stable', 2, 1e-10), ('_fresh_build', None, 1e-08), ('rebuilt', 5, 1e-10), ('rebuilt_stable', 2, 1e-10), ('new_first', 5, 1e-10), ('new_stable', 2, 1e-10)] | rebuilt==stable True | cancel Cancel True True False [5, 2] | adv corr [5, 5, 5, 5, 5, 5, 5, 5] builds 3 real attempts 3 | bwd 2.1e-15
+START fixed slot 2048
+slot 4096 upgrades False seq [('constructed', None, 1e-10), ('first', 3, 1e-10), ('stable', 3, 1e-10), ('_fresh_build', None, 1e-10), ('rebuilt', 3, 1e-10), ('rebuilt_stable', 3, 1e-10), ('new_first', 3, 1e-10), ('new_stable', 3, 1e-10)] | rebuilt==stable True | cancel Cancel False False False [3, 3] | adv corr [3, 3, 3, 3, 3, 3, 3, 3] builds 3 real attempts 0 | bwd 2.4e-14
+ALLDONE
