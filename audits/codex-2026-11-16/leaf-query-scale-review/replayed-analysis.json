@@ -1,0 +1,797 @@
+{
+  "cases": [
+    {
+      "label": "cap2900-production",
+      "spec": {
+        "runner": "run_capped_star.py",
+        "n": 16384,
+        "k": 320.0,
+        "count": 180,
+        "start": -90,
+        "stop": 90,
+        "batch": 256,
+        "method": "compressed",
+        "packing": "none",
+        "storage_mib": 2900,
+        "audit": false,
+        "hook": "claude_builder",
+        "builder": "production"
+      },
+      "timing": {
+        "returncode": 0,
+        "wall_seconds": 750.7294771930028
+      },
+      "hooks": {
+        "packing": [],
+        "conversions": [],
+        "accounting": {
+          "high_water_bytes": 1001247936,
+          "high_water_with_check_bytes": 1065997504,
+          "final_bytes": [
+            965334208,
+            672264408
+          ]
+        },
+        "storage_rejections": [
+          {
+            "retained_bytes": 965334208,
+            "additional_bytes": 100663296,
+            "budget_bytes": 1034220640
+          }
+        ],
+        "builds": 2,
+        "u_copies": 0,
+        "residual_products": [],
+        "inverse_calls": [
+          {
+            "phase": "unknown",
+            "trans": 0,
+            "columns": 180,
+            "corrections": 9,
+            "seconds": 222.07630900799995,
+            "tolerance": 1e-06
+          }
+        ],
+        "audit": [],
+        "final_memory": {
+          "rss_bytes": 2394079232,
+          "peak_gib": 3.4261512756347656
+        }
+      },
+      "outcome": "accepted research solve",
+      "compute_seconds": 731.3238058329953,
+      "stages": {
+        "assembly": {
+          "seconds": 432.5415817139947,
+          "peak_gib": 2.569976806640625,
+          "operator_bytes": 2006649760
+        },
+        "factor": {
+          "seconds": 74.36062889699679,
+          "peak_gib": 2.96661376953125
+        },
+        "validation_row_setup": {
+          "seconds": 5.809692257003917,
+          "peak_gib": 2.96661376953125,
+          "query_calls": 4,
+          "max_query_entries": 688128,
+          "query_entry_cap": 699050,
+          "retained_exact_row_bytes": 41943040
+        }
+      },
+      "peak_gib": 3.4261512756347656,
+      "factor_bytes": 672264408,
+      "event": {
+        "unknowns": 32768,
+        "factorizations": 1,
+        "rhs_batches": 1,
+        "max_rhs_columns": 180,
+        "max_backward_error": 5.0299028876506816e-18,
+        "max_relative_residual": 2.0456406601826723e-14,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 32768,
+          "leaf": 256,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "compression_scaling": "galerkin_physical_units_v1",
+          "scaled_sampled_row_error": 2.481394312564213e-12,
+          "retained_bytes": 2006649760,
+          "storage_budget": 12884901888,
+          "near_bytes": 603063792,
+          "far_bytes": 1333034816,
+          "dense_equivalent_bytes": 17179869184,
+          "near_rows": 128,
+          "interaction_lists": 246,
+          "dense_interaction_lists": 0,
+          "max_rank": 159,
+          "mean_rank": 52.5609756097561,
+          "geometry_queries": 2082,
+          "geometry_coefficients": 210888448,
+          "shared_query_targets": 1,
+          "near_coefficients": 37617664,
+          "coefficient_fraction": 0.19640517234802246,
+          "sampled_rows": 128,
+          "sampled_row_error": 5.533541115438747e-15,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 67108864,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 672264408,
+            "max_rank": 269,
+            "leaves": 128,
+            "accesses": 16777216,
+            "oracle_calls": 256,
+            "max_query_entries": 65536,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 1034220640,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1,
+            "construction": {
+              "checks": 3481,
+              "live_checks": 3481,
+              "reused_observations": 0,
+              "largest_increment_bytes": 565182464,
+              "peak_accounted_build_bytes": 1303328200,
+              "sampled_process_growth_bytes": 351166464,
+              "process_samples_exclusive": false,
+              "forecast_discount_applied": false
+            },
+            "dense_fallbacks": 0,
+            "largest_dense_fallback": 0,
+            "dense_fallback_limit": 1024
+          }
+        ],
+        "gmres_columns": 180,
+        "max_refinements": 0,
+        "refinement_steps": 9,
+        "compact_preconditioner": "Compressed inverse exceeded its retained-storage cap.",
+        "initial_preconditioner_tolerance": 1e-10,
+        "solve_blas_threads": 1,
+        "solve_blas_policy": "small_products_within_requested_cap",
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 180,
+          "solved_columns": 180,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "auto_suspended": "fallback"
+        },
+        "preconditioner_upgrade": {
+          "trigger": "more_than_three_refinements",
+          "old_inverse_bytes": 672264408,
+          "phase": "field_solve",
+          "construction_allowance_bytes": 2016793224,
+          "available_bytes": 12275206963,
+          "accepted": false,
+          "reason": "replacement and working inverse do not fit the remaining reservation"
+        },
+        "max_sampled_backward_error": 1.8989689908146806e-13,
+        "sampled_rows": 128
+      },
+      "comparisons": {
+        "density": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": false,
+          "max_column_relative_error": 4.009210602363904e-13,
+          "peak_normalized_error": 1.4491347206569897e-11,
+          "sha256": "934b854768dc2580334665fb82222f4dfcf39956d6504a00bf1b412a525f49b4",
+          "reference_sha256": "5e755bdbeec35925b6f03a2db549c7465f461370d5e9c868b53be0e1652cf9c0"
+        },
+        "rhs": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0,
+          "sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd",
+          "reference_sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": false,
+          "max_column_relative_error": 2.3803945610575936e-14,
+          "peak_normalized_error": 9.007264253505433e-14,
+          "sha256": "86a8de81e5c6831e0b391e4f7c6dd4c896b8b474d714da57449c59c9fc855bc7",
+          "reference_sha256": "327f5d8185ef2a32ff8278a90631b7447c1a6e9421dbe9be400463125174238e"
+        }
+      },
+      "independent_exact_rows": {
+        "count": 80,
+        "angles": 180,
+        "max_backward_error": 1.1067878942612396e-15
+      },
+      "array_hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "934b854768dc2580334665fb82222f4dfcf39956d6504a00bf1b412a525f49b4"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "86a8de81e5c6831e0b391e4f7c6dd4c896b8b474d714da57449c59c9fc855bc7"
+        },
+        "residual": {
+          "shape": [
+            80,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "793c03a77c8ddfd5482ec12e23d9d3b8b6c2c2c0cb033d47f0acfaf4c535061c"
+        },
+        "rhs": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd"
+        },
+        "row_norm": {
+          "shape": [
+            80
+          ],
+          "dtype": "<f8",
+          "sha256": "b1ba9575f5eae3617fa4f00b637a46d459f815241e548be4c7fcc21595028d2a"
+        },
+        "rows": {
+          "shape": [
+            80
+          ],
+          "dtype": "<i8",
+          "sha256": "b0b44ade294040943af51547483a7aedd90cb55565c74cb2e25d706a58352e0f"
+        }
+      }
+    },
+    {
+      "label": "cap2900-sequential",
+      "spec": {
+        "runner": "run_capped_star.py",
+        "n": 16384,
+        "k": 320.0,
+        "count": 180,
+        "start": -90,
+        "stop": 90,
+        "batch": 256,
+        "method": "compressed",
+        "packing": "none",
+        "storage_mib": 2900,
+        "audit": false,
+        "hook": "corrected_builder",
+        "builder": "sequential",
+        "direct_gather": true,
+        "price_leaves": true
+      },
+      "timing": {
+        "returncode": 0,
+        "wall_seconds": 518.5958511569988
+      },
+      "hooks": {
+        "packing": [],
+        "conversions": [],
+        "accounting": {
+          "high_water_bytes": 974777536,
+          "high_water_with_check_bytes": 974777536,
+          "final_bytes": [
+            974777536
+          ]
+        },
+        "storage_rejections": [],
+        "builds": 1,
+        "u_copies": 0,
+        "residual_products": [],
+        "inverse_calls": [
+          {
+            "phase": "unknown",
+            "trans": 0,
+            "columns": 180,
+            "corrections": 3,
+            "seconds": 27.819270042004064,
+            "tolerance": 1e-10
+          }
+        ],
+        "audit": [],
+        "final_memory": {
+          "rss_bytes": 2310037504,
+          "peak_gib": 3.7021484375
+        }
+      },
+      "outcome": "accepted research solve",
+      "compute_seconds": 503.13258537599904,
+      "stages": {
+        "assembly": {
+          "seconds": 429.3203591979982,
+          "peak_gib": 2.5689659118652344,
+          "operator_bytes": 2006649760
+        },
+        "factor": {
+          "seconds": 42.761722176997864,
+          "peak_gib": 3.440479278564453
+        },
+        "validation_row_setup": {
+          "seconds": 6.023078603997419,
+          "peak_gib": 3.440479278564453,
+          "query_calls": 4,
+          "max_query_entries": 688128,
+          "query_entry_cap": 699050,
+          "retained_exact_row_bytes": 41943040
+        }
+      },
+      "peak_gib": 3.7021484375,
+      "factor_bytes": 974777536,
+      "event": {
+        "unknowns": 32768,
+        "factorizations": 1,
+        "rhs_batches": 1,
+        "max_rhs_columns": 180,
+        "max_backward_error": 8.706416626029092e-20,
+        "max_relative_residual": 6.946436041362781e-16,
+        "compressed": {
+          "operator": "hmatrix",
+          "unknowns": 32768,
+          "leaf": 256,
+          "eta": 1.0,
+          "tolerance": 1e-12,
+          "compression_scaling": "galerkin_physical_units_v1",
+          "scaled_sampled_row_error": 2.481394312564213e-12,
+          "retained_bytes": 2006649760,
+          "storage_budget": 12884901888,
+          "near_bytes": 603063792,
+          "far_bytes": 1333034816,
+          "dense_equivalent_bytes": 17179869184,
+          "near_rows": 128,
+          "interaction_lists": 246,
+          "dense_interaction_lists": 0,
+          "max_rank": 159,
+          "mean_rank": 52.5609756097561,
+          "geometry_queries": 2082,
+          "geometry_coefficients": 210888448,
+          "shared_query_targets": 1,
+          "near_coefficients": 37617664,
+          "coefficient_fraction": 0.19640517234802246,
+          "sampled_rows": 128,
+          "sampled_row_error": 5.533541115438747e-15,
+          "sample_leaf_count": 128,
+          "sampled_leaf_count": 128,
+          "sampled_leaf_fraction": 1.0,
+          "sample_coverage_limited": false,
+          "sample_row_storage_bytes": 67108864,
+          "sample_row_storage_limit_bytes": 268435456,
+          "operator_error_limit": 1e-11,
+          "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+        },
+        "preconditioners": [
+          {
+            "bytes": 974777536,
+            "max_rank": 384,
+            "leaves": 128,
+            "accesses": 8388608,
+            "oracle_calls": 128,
+            "max_query_entries": 65536,
+            "relative_inf_error_bound": null,
+            "relative_one_error_bound": null,
+            "storage_budget": 1034220640,
+            "inverse_only": true,
+            "inverse_builder": "hmatrix_range_sampling",
+            "range_blocks": 254,
+            "max_inverse_rank": 2048,
+            "inverse_blas_threads": 1,
+            "construction": {
+              "checks": 4004,
+              "live_checks": 4004,
+              "reused_observations": 0,
+              "largest_increment_bytes": 806354944,
+              "peak_accounted_build_bytes": 1781126336,
+              "sampled_process_growth_bytes": 1009328128,
+              "process_samples_exclusive": false,
+              "forecast_discount_applied": false
+            },
+            "dense_fallbacks": 0,
+            "largest_dense_fallback": 0,
+            "dense_fallback_limit": 1024
+          }
+        ],
+        "gmres_columns": 0,
+        "max_refinements": 3,
+        "refinement_steps": 3,
+        "initial_preconditioner_tolerance": 1e-10,
+        "solve_blas_threads": 1,
+        "solve_blas_policy": "small_products_within_requested_cap",
+        "sweep_compression": {
+          "requested": "auto",
+          "method": "incremental_pivoted_qr",
+          "input_columns": 180,
+          "solved_columns": 180,
+          "accepted_batches": 0,
+          "fallback_batches": 1,
+          "fallback_columns": 0,
+          "max_rhs_error": 0.0,
+          "max_reconstructed_backward_error": 0.0,
+          "retained_basis_columns": 0,
+          "reused_basis_batches": 0,
+          "auto_suspended": "fallback"
+        },
+        "max_sampled_backward_error": 1.898975121699776e-13,
+        "sampled_rows": 128
+      },
+      "comparisons": {
+        "density": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0,
+          "sha256": "5e755bdbeec35925b6f03a2db549c7465f461370d5e9c868b53be0e1652cf9c0",
+          "reference_sha256": "5e755bdbeec35925b6f03a2db549c7465f461370d5e9c868b53be0e1652cf9c0"
+        },
+        "rhs": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0,
+          "sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd",
+          "reference_sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "bit_identical": true,
+          "max_column_relative_error": 0.0,
+          "peak_normalized_error": 0.0,
+          "sha256": "327f5d8185ef2a32ff8278a90631b7447c1a6e9421dbe9be400463125174238e",
+          "reference_sha256": "327f5d8185ef2a32ff8278a90631b7447c1a6e9421dbe9be400463125174238e"
+        }
+      },
+      "independent_exact_rows": {
+        "count": 80,
+        "angles": 180,
+        "max_backward_error": 1.1068143868923642e-15
+      },
+      "array_hashes": {
+        "angles": {
+          "shape": [
+            180
+          ],
+          "dtype": "<f8",
+          "sha256": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb"
+        },
+        "density": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "5e755bdbeec35925b6f03a2db549c7465f461370d5e9c868b53be0e1652cf9c0"
+        },
+        "field": {
+          "shape": [
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "327f5d8185ef2a32ff8278a90631b7447c1a6e9421dbe9be400463125174238e"
+        },
+        "residual": {
+          "shape": [
+            80,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "115884426bf70e5be3c6e31cb877880136f8748b7e66b8134ccc56438c7d568a"
+        },
+        "rhs": {
+          "shape": [
+            32768,
+            180
+          ],
+          "dtype": "<c16",
+          "sha256": "51b441eec5330a4a8effb30d8f9f13429f247d6cf65e032b6fdda9ad2daa02dd"
+        },
+        "row_norm": {
+          "shape": [
+            80
+          ],
+          "dtype": "<f8",
+          "sha256": "b1ba9575f5eae3617fa4f00b637a46d459f815241e548be4c7fcc21595028d2a"
+        },
+        "rows": {
+          "shape": [
+            80
+          ],
+          "dtype": "<i8",
+          "sha256": "b0b44ade294040943af51547483a7aedd90cb55565c74cb2e25d706a58352e0f"
+        }
+      }
+    }
+  ],
+  "reference": {
+    "spec": {
+      "n": 16384,
+      "k": 320.0,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none",
+      "out": "/workspace/dense-compressed-research/results/star-32768-180-compressed-none"
+    },
+    "production_certified": false,
+    "mesh_certified": false,
+    "stages": {
+      "assembly": {
+        "seconds": 401.83300990200223,
+        "peak_gib": 2.5753860473632812,
+        "operator_bytes": 2006649760
+      },
+      "factor": {
+        "seconds": 47.383664067998325,
+        "peak_gib": 3.2148590087890625
+      },
+      "validation_row_setup": {
+        "seconds": 6.03950232599891,
+        "peak_gib": 3.2148590087890625,
+        "query_calls": 4,
+        "max_query_entries": 688128,
+        "query_entry_cap": 699050,
+        "retained_exact_row_bytes": 41943040
+      }
+    },
+    "batches": [
+      {
+        "start": 0,
+        "count": 180,
+        "peak_gib": 3.6819496154785156,
+        "max_exact_row_backward_error": 1.1068143868923642e-15,
+        "rhs_bytes": 94371840,
+        "solution_bytes": 94371840
+      }
+    ],
+    "angles": [],
+    "retained_factor_bytes": 974777536,
+    "setup_seconds": 449.41547707599966,
+    "sample_rows": [
+      0,
+      404,
+      774,
+      1005,
+      1130,
+      2048,
+      4096,
+      5063,
+      5320,
+      5578,
+      6138,
+      6144,
+      6346,
+      6686,
+      7238,
+      7789,
+      8155,
+      8192,
+      8250,
+      8609,
+      8728,
+      8746,
+      9127,
+      9349,
+      9577,
+      10240,
+      10993,
+      11678,
+      12250,
+      12288,
+      12669,
+      12929,
+      14336,
+      14498,
+      14540,
+      14625,
+      14740,
+      14899,
+      15693,
+      16211,
+      16376,
+      16384,
+      17280,
+      17605,
+      18327,
+      18432,
+      19102,
+      19108,
+      19618,
+      19717,
+      19746,
+      20480,
+      21263,
+      22021,
+      22424,
+      22528,
+      22807,
+      22982,
+      23015,
+      23185,
+      23330,
+      23351,
+      23609,
+      24076,
+      24282,
+      24436,
+      24576,
+      24657,
+      26007,
+      26530,
+      26624,
+      26831,
+      28672,
+      29034,
+      30680,
+      30720,
+      30995,
+      31988,
+      32042,
+      32434
+    ],
+    "rhs_seconds": 0.422184555001877,
+    "solve_seconds": 32.03752354799872,
+    "field_seconds": 0.982603349002602,
+    "validation_seconds": 0.12594281299971044,
+    "archive_seconds": 8.913435230002506,
+    "peak_gib": 3.6819496154785156,
+    "wall_seconds": 497.93830233100016,
+    "process_io_delta": {
+      "rchar": 10615328,
+      "wchar": 180922763,
+      "syscr": 57690,
+      "syscw": 78,
+      "read_bytes": 4096,
+      "write_bytes": 180760576,
+      "cancelled_write_bytes": 0
+    },
+    "compute_seconds": 482.85778852800286,
+    "event": {
+      "unknowns": 32768,
+      "factorizations": 1,
+      "rhs_batches": 1,
+      "max_rhs_columns": 180,
+      "max_backward_error": 8.706416626029092e-20,
+      "max_relative_residual": 6.946436041362781e-16,
+      "compressed": {
+        "operator": "hmatrix",
+        "unknowns": 32768,
+        "leaf": 256,
+        "eta": 1.0,
+        "tolerance": 1e-12,
+        "compression_scaling": "galerkin_physical_units_v1",
+        "scaled_sampled_row_error": 2.481394312564213e-12,
+        "retained_bytes": 2006649760,
+        "storage_budget": 12884901888,
+        "near_bytes": 603063792,
+        "far_bytes": 1333034816,
+        "dense_equivalent_bytes": 17179869184,
+        "near_rows": 128,
+        "interaction_lists": 246,
+        "dense_interaction_lists": 0,
+        "max_rank": 159,
+        "mean_rank": 52.5609756097561,
+        "geometry_queries": 2082,
+        "geometry_coefficients": 210888448,
+        "shared_query_targets": 1,
+        "near_coefficients": 37617664,
+        "coefficient_fraction": 0.19640517234802246,
+        "sampled_rows": 128,
+        "sampled_row_error": 5.533541115438747e-15,
+        "sample_leaf_count": 128,
+        "sampled_leaf_count": 128,
+        "sampled_leaf_fraction": 1.0,
+        "sample_coverage_limited": false,
+        "sample_row_storage_bytes": 67108864,
+        "sample_row_storage_limit_bytes": 268435456,
+        "operator_error_limit": 1e-11,
+        "error_semantics": "measured on exactly evaluated sample rows; not a deterministic bound"
+      },
+      "preconditioners": [
+        {
+          "bytes": 974777536,
+          "max_rank": 384,
+          "leaves": 128,
+          "accesses": 8388608,
+          "oracle_calls": 128,
+          "max_query_entries": 65536,
+          "relative_inf_error_bound": null,
+          "relative_one_error_bound": null,
+          "storage_budget": 10878252128,
+          "inverse_only": true,
+          "inverse_builder": "hmatrix_range_sampling",
+          "range_blocks": 254,
+          "max_inverse_rank": 2048,
+          "inverse_blas_threads": 1,
+          "construction": {
+            "checks": 3877,
+            "live_checks": 3877,
+            "reused_observations": 0,
+            "largest_increment_bytes": 806354944,
+            "peak_accounted_build_bytes": 1872352448,
+            "sampled_process_growth_bytes": 999153664,
+            "process_samples_exclusive": false,
+            "forecast_discount_applied": false
+          },
+          "dense_fallbacks": 0,
+          "largest_dense_fallback": 0,
+          "dense_fallback_limit": 1024
+        }
+      ],
+      "gmres_columns": 0,
+      "max_refinements": 3,
+      "refinement_steps": 3,
+      "initial_preconditioner_tolerance": 1e-10,
+      "solve_blas_threads": 1,
+      "solve_blas_policy": "small_products_within_requested_cap",
+      "sweep_compression": {
+        "requested": "auto",
+        "method": "incremental_pivoted_qr",
+        "input_columns": 180,
+        "solved_columns": 180,
+        "accepted_batches": 0,
+        "fallback_batches": 1,
+        "fallback_columns": 0,
+        "max_rhs_error": 0.0,
+        "max_reconstructed_backward_error": 0.0,
+        "retained_basis_columns": 0,
+        "reused_basis_batches": 0,
+        "auto_suspended": "fallback"
+      },
+      "max_sampled_backward_error": 1.898975121699776e-13,
+      "sampled_rows": 128
+    }
+  },
+  "scope": "One fresh untraced run per mode, 180 monostatic angles, shared assembly. No condition estimation or mesh certification."
+}

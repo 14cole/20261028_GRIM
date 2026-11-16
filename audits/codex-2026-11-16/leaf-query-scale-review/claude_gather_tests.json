@@ -1,0 +1,181 @@
+{
+ "value_cases": 16401,
+ "mismatches": [],
+ "flag_differences": {
+  "dense int arrays": {
+   "count": 4800,
+   "example": {
+    "original": [
+     true,
+     true,
+     false,
+     true
+    ],
+    "patched": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "shape": [
+     1,
+     3
+    ]
+   }
+  },
+  "dense negative indices": {
+   "count": 1200,
+   "example": {
+    "original": [
+     false,
+     true,
+     false,
+     true
+    ],
+    "patched": [
+     true,
+     false,
+     true,
+     true
+    ],
+    "shape": [
+     5,
+     7
+    ]
+   }
+  },
+  "dense full aranges": {
+   "count": 1200,
+   "example": {
+    "original": [
+     false,
+     true,
+     false,
+     true
+    ],
+    "patched": [
+     true,
+     false,
+     true,
+     true
+    ],
+    "shape": [
+     8,
+     2
+    ]
+   }
+  },
+  "dense sorted repeats": {
+   "count": 1200,
+   "example": {
+    "original": [
+     false,
+     true,
+     false,
+     true
+    ],
+    "patched": [
+     true,
+     false,
+     true,
+     true
+    ],
+    "shape": [
+     8,
+     2
+    ]
+   }
+  }
+ },
+ "path_checks": [
+  {
+   "case": "out of range",
+   "original": "IndexError",
+   "patched": "IndexError"
+  },
+  {
+   "case": "out of range",
+   "original": "IndexError",
+   "patched": "IndexError"
+  }
+ ],
+ "gather_allocation": [
+  {
+   "partner_columns": 512,
+   "query": 149,
+   "original_MiB": 1.5060653686523438,
+   "patched_MiB": 0.46466064453125,
+   "result_MiB": 0.3387603759765625
+  },
+  {
+   "partner_columns": 4096,
+   "query": 149,
+   "original_MiB": 9.654502868652344,
+   "patched_MiB": 0.46466064453125,
+   "result_MiB": 0.3387603759765625
+  },
+  {
+   "partner_columns": 32768,
+   "query": 149,
+   "original_MiB": 74.84200286865234,
+   "patched_MiB": 0.46466064453125,
+   "result_MiB": 0.3387603759765625
+  }
+ ],
+ "lowrank_contribution_workspace": [
+  {
+   "query_side": 149,
+   "rank": 32,
+   "peak_excluding_result_MiB": 0.8241729736328125,
+   "peak_including_result_MiB": 1.162933349609375,
+   "two_q_MiB": 0.677520751953125,
+   "four_q_plus_1_MiB": 2.35504150390625,
+   "exceeds_4q_plus_1": false
+  },
+  {
+   "query_side": 149,
+   "rank": 149,
+   "peak_excluding_result_MiB": 1.3561248779296875,
+   "peak_including_result_MiB": 1.69488525390625,
+   "two_q_MiB": 0.677520751953125,
+   "four_q_plus_1_MiB": 2.35504150390625,
+   "exceeds_4q_plus_1": false
+  },
+  {
+   "query_side": 149,
+   "rank": 600,
+   "peak_excluding_result_MiB": 3.4068756103515625,
+   "peak_including_result_MiB": 3.745635986328125,
+   "two_q_MiB": 0.677520751953125,
+   "four_q_plus_1_MiB": 2.35504150390625,
+   "exceeds_4q_plus_1": true
+  },
+  {
+   "query_side": 149,
+   "rank": 2000,
+   "peak_excluding_result_MiB": 9.772842407226562,
+   "peak_including_result_MiB": 10.111602783203125,
+   "two_q_MiB": 0.677520751953125,
+   "four_q_plus_1_MiB": 2.35504150390625,
+   "exceeds_4q_plus_1": true
+  },
+  {
+   "query_side": 256,
+   "rank": 159,
+   "peak_excluding_result_MiB": 3.2432708740234375,
+   "peak_including_result_MiB": 4.2432708740234375,
+   "two_q_MiB": 2.0,
+   "four_q_plus_1_MiB": 5.0,
+   "exceeds_4q_plus_1": false
+  },
+  {
+   "query_side": 256,
+   "rank": 384,
+   "peak_excluding_result_MiB": 5.0010833740234375,
+   "peak_including_result_MiB": 6.0010833740234375,
+   "two_q_MiB": 2.0,
+   "four_q_plus_1_MiB": 5.0,
+   "exceeds_4q_plus_1": true
+  }
+ ]
+}

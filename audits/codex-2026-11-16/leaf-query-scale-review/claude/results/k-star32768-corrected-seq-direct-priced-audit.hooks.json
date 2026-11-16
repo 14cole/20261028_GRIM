@@ -1,0 +1,135 @@
+{
+  "packing": [],
+  "conversions": [],
+  "accounting": {
+    "high_water_bytes": 974777536,
+    "high_water_with_check_bytes": 974777536,
+    "final_bytes": [
+      974777536
+    ]
+  },
+  "storage_rejections": [],
+  "builds": 1,
+  "u_copies": 0,
+  "residual_products": [],
+  "inverse_calls": [
+    {
+      "phase": "unknown",
+      "trans": 0,
+      "columns": 180,
+      "corrections": 3,
+      "seconds": 27.258226062000176,
+      "tolerance": 1e-10
+    }
+  ],
+  "audit": [
+    {
+      "entries": 4004,
+      "shortfalls": 128,
+      "max_shortfall_bytes": 2201748,
+      "worst": {
+        "label": "leaf coefficients",
+        "accounted": 454749920,
+        "actual": 456951668,
+        "entry": 453640104,
+        "additional": 2097152,
+        "live": 0,
+        "retained": 452652768
+      },
+      "by_label": {
+        "norm probes": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 860503,
+          "max_growth_bytes": 4757239,
+          "max_declared_additional": 17162368
+        },
+        "sample products": {
+          "entries": 699,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 467937,
+          "max_growth_bytes": 18970578,
+          "max_declared_additional": 68649472
+        },
+        "sample projection": {
+          "entries": 699,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 990618,
+          "max_growth_bytes": 134482385,
+          "max_declared_additional": 151519232
+        },
+        "range extension": {
+          "entries": 445,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": -317991,
+          "max_growth_bytes": 142608839,
+          "max_declared_additional": 286277632
+        },
+        "projected inverse block": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 337129,
+          "max_growth_bytes": 222459743,
+          "max_declared_additional": 464454656
+        },
+        "projected QR": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": -203132,
+          "max_growth_bytes": 402934909,
+          "max_declared_additional": 546308096
+        },
+        "projected SVD": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": -175335,
+          "max_growth_bytes": 27856095,
+          "max_declared_additional": 68157440
+        },
+        "inverse block output": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 968528,
+          "max_growth_bytes": 335547207,
+          "max_declared_additional": 436207616
+        },
+        "leaf coefficients": {
+          "entries": 128,
+          "shortfalls_over_1MiB": 128,
+          "max_shortfall_bytes": 2201748,
+          "max_growth_bytes": 3311792,
+          "max_declared_additional": 2097152
+        },
+        "leaf or correction LU": {
+          "entries": 255,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": -93197,
+          "max_growth_bytes": 9442541,
+          "max_declared_additional": 19929088
+        },
+        "inverse child product (in place)": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": -723079,
+          "max_growth_bytes": 53702122,
+          "max_declared_additional": 806354944
+        },
+        "Woodbury correction": {
+          "entries": 254,
+          "shortfalls_over_1MiB": 0,
+          "max_shortfall_bytes": 1009704,
+          "max_growth_bytes": 11798895,
+          "max_declared_additional": 14155776
+        }
+      },
+      "max_actual_bytes": 1436375138,
+      "max_accounted_bytes": 1781126336,
+      "final_retained_bytes": 974777536,
+      "final_traced_bytes": 975765998
+    }
+  ],
+  "final_memory": {
+    "rss_bytes": 2378006528,
+    "peak_gib": 3.6724929809570312
+  }
+}

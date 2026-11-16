@@ -1,0 +1,230 @@
+{
+  "empty_index_cases": [
+    {
+      "rows": [
+        4
+      ],
+      "cols": [],
+      "original": {
+        "error": "IndexError",
+        "warnings": []
+      },
+      "candidate": {
+        "shape": [
+          1,
+          0
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "corrected": {
+        "error": "IndexError",
+        "warnings": []
+      }
+    },
+    {
+      "rows": [
+        -5
+      ],
+      "cols": [],
+      "original": {
+        "error": "IndexError",
+        "warnings": []
+      },
+      "candidate": {
+        "shape": [
+          1,
+          0
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "corrected": {
+        "error": "IndexError",
+        "warnings": []
+      }
+    },
+    {
+      "rows": [],
+      "cols": [
+        5
+      ],
+      "original": {
+        "error": "IndexError",
+        "warnings": []
+      },
+      "candidate": {
+        "shape": [
+          0,
+          1
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "corrected": {
+        "error": "IndexError",
+        "warnings": []
+      }
+    },
+    {
+      "rows": [
+        0
+      ],
+      "cols": [],
+      "original": {
+        "shape": [
+          1,
+          0
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "candidate": {
+        "shape": [
+          1,
+          0
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "corrected": {
+        "shape": [
+          1,
+          0
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      }
+    },
+    {
+      "rows": [],
+      "cols": [
+        0
+      ],
+      "original": {
+        "shape": [
+          0,
+          1
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "candidate": {
+        "shape": [
+          0,
+          1
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      },
+      "corrected": {
+        "shape": [
+          0,
+          1
+        ],
+        "dtype": "<c16",
+        "bytes": "",
+        "warnings": []
+      }
+    }
+  ],
+  "original_candidate_error_mismatches": 3,
+  "corrected_error_mismatches": 0,
+  "payload_bit_cases": 27,
+  "allocation_cases": [
+    {
+      "rows": 149,
+      "columns": 149,
+      "rank": 32,
+      "stored_height": 256,
+      "stored_width": 512,
+      "peak_bytes": 1234981,
+      "result_bytes": 355216,
+      "old_proposal_bytes": 2469440,
+      "rank_aware_bytes": 2660160,
+      "exceeds_old_proposal": false
+    },
+    {
+      "rows": 149,
+      "columns": 149,
+      "rank": 600,
+      "stored_height": 1024,
+      "stored_width": 2048,
+      "peak_bytes": 3943125,
+      "result_bytes": 355216,
+      "old_proposal_bytes": 2469440,
+      "rank_aware_bytes": 5368384,
+      "exceeds_old_proposal": true
+    },
+    {
+      "rows": 149,
+      "columns": 149,
+      "rank": 2000,
+      "stored_height": 4096,
+      "stored_width": 8192,
+      "peak_bytes": 10618325,
+      "result_bytes": 355216,
+      "old_proposal_bytes": 2469440,
+      "rank_aware_bytes": 12043584,
+      "exceeds_old_proposal": true
+    },
+    {
+      "rows": 256,
+      "columns": 256,
+      "rank": 159,
+      "stored_height": 512,
+      "stored_width": 1024,
+      "peak_bytes": 4474456,
+      "result_bytes": 1048576,
+      "old_proposal_bytes": 5242880,
+      "rank_aware_bytes": 6610944,
+      "exceeds_old_proposal": false
+    },
+    {
+      "rows": 256,
+      "columns": 256,
+      "rank": 384,
+      "stored_height": 768,
+      "stored_width": 2048,
+      "peak_bytes": 6317656,
+      "result_bytes": 1048576,
+      "old_proposal_bytes": 5242880,
+      "rank_aware_bytes": 8454144,
+      "exceeds_old_proposal": true
+    },
+    {
+      "rows": 37,
+      "columns": 211,
+      "rank": 128,
+      "stored_height": 512,
+      "stored_width": 1024,
+      "peak_bytes": 896309,
+      "result_bytes": 124912,
+      "old_proposal_bytes": 1548224,
+      "rank_aware_bytes": 2087872,
+      "exceeds_old_proposal": false
+    },
+    {
+      "rows": 1024,
+      "columns": 1024,
+      "rank": 700,
+      "stored_height": 2048,
+      "stored_width": 4096,
+      "peak_bytes": 73363800,
+      "result_bytes": 16777216,
+      "old_proposal_bytes": 68157440,
+      "rank_aware_bytes": 91357184,
+      "exceeds_old_proposal": true
+    }
+  ],
+  "multilevel_ranges_repeats_pass": true,
+  "scope": "Python/NumPy tracemalloc, not a native allocation bound; full retained-operator queries"
+}

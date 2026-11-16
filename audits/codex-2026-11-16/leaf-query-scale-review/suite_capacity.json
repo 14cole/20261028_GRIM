@@ -1,0 +1,40 @@
+[
+  [
+    "cap2900-production",
+    {
+      "runner": "run_capped_star.py",
+      "n": 16384,
+      "k": 320.0,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none",
+      "storage_mib": 2900,
+      "audit": false,
+      "hook": "claude_builder",
+      "builder": "production"
+    }
+  ],
+  [
+    "cap2900-sequential",
+    {
+      "runner": "run_capped_star.py",
+      "n": 16384,
+      "k": 320.0,
+      "count": 180,
+      "start": -90,
+      "stop": 90,
+      "batch": 256,
+      "method": "compressed",
+      "packing": "none",
+      "storage_mib": 2900,
+      "audit": false,
+      "hook": "corrected_builder",
+      "builder": "sequential",
+      "direct_gather": true,
+      "price_leaves": true
+    }
+  ]
+]
