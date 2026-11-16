@@ -1,0 +1,57 @@
+{
+ "fresh_before_solve": {
+  "tolerance": 1e-08,
+  "inverse_bytes": 43342560,
+  "refinement_steps": 0,
+  "factorizations": 1,
+  "preconditioners": 1,
+  "upgrade": "None"
+ },
+ "fresh_after_solve": {
+  "tolerance": 1e-10,
+  "inverse_bytes": 46610456,
+  "refinement_steps": 5,
+  "factorizations": 2,
+  "preconditioners": 2,
+  "upgrade": "{'trigger': 'more_than_three_refinements', 'old_inverse_bytes': 43342560, 'phase': 'field_solve', 'construction_allowance_bytes': 130027680, 'available_bytes': 14958861926, 'accepted': True, 'new_inve"
+ },
+ "second_solve_same_factor_bitwise": true,
+ "after_second_solve": {
+  "tolerance": 1e-10,
+  "inverse_bytes": 46610456,
+  "refinement_steps": 7,
+  "factorizations": 2,
+  "preconditioners": 2,
+  "upgrade": "{'trigger': 'more_than_three_refinements', 'old_inverse_bytes': 43342560, 'phase': 'field_solve', 'construction_allowance_bytes': 130027680, 'available_bytes': 14958861926, 'accepted': True, 'new_inve"
+ },
+ "after_fresh_build_no_cancel": {
+  "tolerance": 1e-08,
+  "inverse_bytes": 43342560,
+  "refinement_steps": 7,
+  "factorizations": 3,
+  "preconditioners": 3,
+  "upgrade": "{'trigger': 'more_than_three_refinements', 'old_inverse_bytes': 43342560, 'phase': 'field_solve', 'construction_allowance_bytes': 130027680, 'available_bytes': 14958861926, 'accepted': True, 'new_inve"
+ },
+ "after_rebuild_solve": {
+  "tolerance": 1e-08,
+  "inverse_bytes": 43342560,
+  "refinement_steps": 15,
+  "factorizations": 3,
+  "preconditioners": 3,
+  "upgrade": "{'trigger': 'more_than_three_refinements', 'old_inverse_bytes': 43342560, 'phase': 'field_solve', 'construction_allowance_bytes': 130027680, 'available_bytes': 14958861926, 'accepted': True, 'new_inve"
+ },
+ "rebuild_without_cancel_bitwise_equal_first": false,
+ "max_abs_diff": 1.1638266653060894e-06,
+ "max_abs_density": 275.27075618743953,
+ "max_per_angle_relative_L2_diff": 1.728175917141004e-09,
+ "third_solve_after_rebuild": {
+  "tolerance": 1e-08,
+  "inverse_bytes": 43342560,
+  "refinement_steps": 23,
+  "factorizations": 3,
+  "preconditioners": 3,
+  "upgrade": "{'trigger': 'more_than_three_refinements', 'old_inverse_bytes': 43342560, 'phase': 'field_solve', 'construction_allowance_bytes': 130027680, 'available_bytes': 14958861926, 'accepted': True, 'new_inve"
+ },
+ "third_solve_bitwise_equal_second": true,
+ "second_fresh_factor_bitwise_equal_first": true
+}

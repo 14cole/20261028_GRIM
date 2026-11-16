@@ -1,0 +1,50 @@
+--- a/tools/GHOST/ghost_backend/compressed/factor.py
++++ b/tools/GHOST/ghost_backend/compressed/factor.py
+@@ -59,11 +59,18 @@
+             try:self._condition()
+             finally:self._solve_phase = 'field_solve'
+ 
+-    def _fresh_build(self):
++    def _fresh_build(self, *, allow_upgrade=True):
++        """Install a new inverse and renew its one optional upgrade attempt.
++
++        Rejected-hint fallback suppresses that attempt for this generation.
++        Failed/cancelled construction leaves the previous attempt state alone.
++        """
+         from ghost_backend.execution.memory_budget import admit_phase
+         admit_phase('factorization')
+         from ghost_backend.compressed.preconditioner_hints import try_build
+-        if try_build(self):return
++        if try_build(self):
++            self._upgrade_attempted = not allow_upgrade
++            return
+         rejected=False
+         try:
+             compact=False
+@@ -77,6 +84,7 @@
+         except (HierarchicalRejected,np.linalg.LinAlgError,RuntimeWarning) as exc:
+             self.event['coarse_rejection']=str(exc);rejected=True
+         if rejected:self._build(2e-10)
++        self._upgrade_attempted = not allow_upgrade
+ 
+     @timed_stage('factorization')
+     def _build(self,tolerance):
+@@ -127,7 +135,7 @@
+         return errors,denominator
+ 
+     def _upgrade_preconditioner(self):
+-        """One admitted attempt to avoid repeated expensive corrections.
++        """One admitted attempt per fresh build to avoid expensive corrections.
+ 
+         Keep the old inverse usable until the replacement succeeds. Its bytes
+         are removed from the replacement's payload budget, and live process
+@@ -311,8 +319,7 @@
+             self.factor=None
+             # Restore the ordinary initial policy once, without immediately
+             # repeating the optional upgrade that just failed.
+-            self._upgrade_attempted=True
+-            self._fresh_build()
++            self._fresh_build(allow_upgrade=False)
+             return self.inverse(rhs,trans,return_residual,limit)
+         if failed:
+             self._build(2e-10)

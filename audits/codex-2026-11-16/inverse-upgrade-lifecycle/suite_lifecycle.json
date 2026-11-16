@@ -1,0 +1,95 @@
+[
+  [
+    "original-lifecycle-16",
+    {
+      "variant": "original",
+      "scenario": "lifecycle",
+      "count": 16,
+      "condition": false,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "original-lifecycle-180",
+    {
+      "variant": "original",
+      "scenario": "lifecycle",
+      "count": 180,
+      "condition": true,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "original-hint_failure",
+    {
+      "variant": "original",
+      "scenario": "hint_failure",
+      "count": 16,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "original-tighten",
+    {
+      "variant": "original",
+      "scenario": "tighten",
+      "count": 16,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "fixed-lifecycle-16",
+    {
+      "variant": "fixed",
+      "scenario": "lifecycle",
+      "count": 16,
+      "condition": false,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "fixed-lifecycle-180",
+    {
+      "variant": "fixed",
+      "scenario": "lifecycle",
+      "count": 180,
+      "condition": true,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "fixed-hint_failure",
+    {
+      "variant": "fixed",
+      "scenario": "hint_failure",
+      "count": 16,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "fixed-tighten",
+    {
+      "variant": "fixed",
+      "scenario": "tighten",
+      "count": 16,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "fixed-cancel",
+    {
+      "variant": "fixed",
+      "scenario": "cancel",
+      "count": 16,
+      "runner": "run_slot.py"
+    }
+  ],
+  [
+    "dense-reference",
+    {
+      "variant": "fixed",
+      "scenario": "dense",
+      "runner": "run_slot.py"
+    }
+  ]
+]

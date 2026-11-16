@@ -1,0 +1,1645 @@
+{
+  "cases": {
+    "original-lifecycle-16": {
+      "spec": {
+        "variant": "original",
+        "scenario": "lifecycle",
+        "count": 16,
+        "condition": false,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": false,
+          "relative_error": 1.728175917141004e-09,
+          "peak_normalized_error": 4.227934276148126e-09
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "relative_error": 4.828246370276614e-14,
+          "peak_normalized_error": 4.12462886529126e-14
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-08,
+        1e-10
+      ]
+    },
+    "original-lifecycle-180": {
+      "spec": {
+        "variant": "original",
+        "scenario": "lifecycle",
+        "count": 180,
+        "condition": true,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.2123036351216886e-09,
+              "peak_normalized_error": 2.8526638098463266e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 6.020238303946304e-14,
+              "peak_normalized_error": 3.5100778676668245e-14
+            }
+          },
+          "max_exact_backward_error": 3.4198513617074298e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "31c2e8ab6fb0758b44039a917c2f204b3ea63f45d51ef6721929d4b9f75d9a92",
+            "field": "d9cb16137bc79aaae5608230f163c2a67afb599506fc75e55d8f3d03276b5d33",
+            "residual": "9cd8b49d656f761e6e734b3bff027291e32751c52eeba8e1780c1ef6cd1fbb9d",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.2123036351216886e-09,
+              "peak_normalized_error": 2.8526638098463266e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 6.020238303946304e-14,
+              "peak_normalized_error": 3.5100778676668245e-14
+            }
+          },
+          "max_exact_backward_error": 3.4198513617074298e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "31c2e8ab6fb0758b44039a917c2f204b3ea63f45d51ef6721929d4b9f75d9a92",
+            "field": "d9cb16137bc79aaae5608230f163c2a67afb599506fc75e55d8f3d03276b5d33",
+            "residual": "9cd8b49d656f761e6e734b3bff027291e32751c52eeba8e1780c1ef6cd1fbb9d",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": false,
+          "relative_error": 1.7415584902520937e-09,
+          "peak_normalized_error": 3.3569179168544032e-09
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "relative_error": 7.210144660020691e-14,
+          "peak_normalized_error": 4.29080785380702e-14
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-08,
+        1e-10
+      ]
+    },
+    "original-hint_failure": {
+      "spec": {
+        "variant": "original",
+        "scenario": "hint_failure",
+        "count": 16,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "fallback1": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "fallback2": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": null,
+      "cancel_cleanup": null,
+      "faults": [
+        "One injected hinted refinement rejection"
+      ],
+      "build_tolerances": [
+        1e-10,
+        1e-08
+      ]
+    },
+    "original-tighten": {
+      "spec": {
+        "variant": "original",
+        "scenario": "tighten",
+        "count": 16,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 10,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": false,
+          "relative_error": 1.728175917141004e-09,
+          "peak_normalized_error": 4.227934276148126e-09
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": false,
+          "relative_error": 4.828246370276614e-14,
+          "peak_normalized_error": 4.12462886529126e-14
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [
+        "One injected sample-row rejection to trigger real operator tightening"
+      ],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-08,
+        1e-10
+      ]
+    },
+    "fixed-lifecycle-16": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "lifecycle",
+        "count": 16,
+        "condition": false,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10
+      ]
+    },
+    "fixed-lifecycle-180": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "lifecycle",
+        "count": 180,
+        "condition": true,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.385133534928095e-09,
+              "peak_normalized_error": 2.982371734545056e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 2.6026327303680755e-14,
+              "peak_normalized_error": 1.8090721176040765e-14
+            }
+          },
+          "max_exact_backward_error": 3.039484521819461e-15,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "866d29a504825f7ebbaa4171e96c04405b2d1f30d5413ef6c2c50291f79d048c",
+            "field": "754a826fe6d67da480ef8e60699fdfedcaf764f53d323270064e3198a3ada094",
+            "residual": "ee6ef8bc85c210870201a96509ed1c736bc350b1a14d182c8c679b41a866a8f6",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10
+      ]
+    },
+    "fixed-hint_failure": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "hint_failure",
+        "count": 16,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "fallback1": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "fallback2": {
+          "corrections": 8,
+          "tolerance": 1e-08,
+          "inverse_bytes": 43342560,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 9.626516714850415e-10,
+              "peak_normalized_error": 3.517584703360661e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 4.1951287432528196e-14,
+              "peak_normalized_error": 3.176409039707499e-14
+            }
+          },
+          "max_exact_backward_error": 2.7688963861385e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "ecf296ac3ac678b6e4c8822c5bbf71cdbe3153db45a68a020de9c1e9315fdaa9",
+            "field": "d01c93d43fd173200b16d96db8d38bf1931d746bed58e4604d02369e12fbc86a",
+            "residual": "cf95505ffff441eb55a5cbbacfa0b5ac019d48a4580f9d43f0a5c5c33305620d",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": null,
+      "cancel_cleanup": null,
+      "faults": [
+        "One injected hinted refinement rejection"
+      ],
+      "build_tolerances": [
+        1e-10,
+        1e-08
+      ]
+    },
+    "fixed-tighten": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "tighten",
+        "count": 16,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 7,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "cancel_cleanup": null,
+      "faults": [
+        "One injected sample-row rejection to trigger real operator tightening"
+      ],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10
+      ]
+    },
+    "fixed-cancel": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "cancel",
+        "count": 16,
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "initial": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "rebuilt_stable": {
+          "corrections": 2,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "new_factor_same_operator": {
+          "corrections": 5,
+          "tolerance": 1e-10,
+          "inverse_bytes": 46610456,
+          "versus_dense": {
+            "density": {
+              "bit_identical": false,
+              "relative_error": 1.3850865234795175e-09,
+              "peak_normalized_error": 3.6365347547898736e-09
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": false,
+              "relative_error": 1.6957804032227283e-14,
+              "peak_normalized_error": 1.1226512122864089e-14
+            }
+          },
+          "max_exact_backward_error": 2.9598784475837606e-15,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "04eee2b363d515c61b2762387aaec2feb3769ccfbf726a0ae1e936cecbf7722a",
+            "field": "fbf5fbb9acaab69050e9e94c3a97f30a9d936a7f4643cb1a81f95bd3f43cce54",
+            "residual": "bb7070fffc2dc09dcd306e3b26b47d396954b23a07a0e46b2a68725fc3e313de",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": {
+        "density": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "rhs": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        },
+        "field": {
+          "bit_identical": true,
+          "relative_error": 0.0,
+          "peak_normalized_error": 0.0
+        }
+      },
+      "cancel_cleanup": {
+        "factor_is_none": true,
+        "attempt_still_consumed": true,
+        "pending_bytes": 0,
+        "live_failed_inverses": 0,
+        "workers": [],
+        "executor_reset": true
+      },
+      "faults": [],
+      "build_tolerances": [
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-08,
+        1e-10,
+        1e-08,
+        1e-10
+      ]
+    },
+    "dense-reference": {
+      "spec": {
+        "variant": "fixed",
+        "scenario": "dense",
+        "runner": "run_slot.py"
+      },
+      "solves": {
+        "dense16": {
+          "corrections": 0,
+          "tolerance": null,
+          "inverse_bytes": null,
+          "versus_dense": {
+            "density": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            }
+          },
+          "max_exact_backward_error": 2.57801677237779e-18,
+          "hashes": {
+            "angles": "dd2dc397f17f71a753a6db13e8f82c11429da5a5b0f00250ecfd60d001f82e66",
+            "density": "39cdf974cb7b6b7b4d67dbaccc49f07710052da7fd93cf15f19fa41159597e22",
+            "field": "b1f507e26bb3429531d07002dd360e92c85a55e75fe18a4b96103ce554aba2ed",
+            "residual": "e38f77270773262d05450dfdb377d630af97e56dc69ce4378ed3c6b3d777dd30",
+            "rhs": "d8ac837d3671c582824888ec9044afd821dc8ebea83271426bfea5ef48ab21e2",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        },
+        "dense180": {
+          "corrections": 0,
+          "tolerance": null,
+          "inverse_bytes": null,
+          "versus_dense": {
+            "density": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "rhs": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            },
+            "field": {
+              "bit_identical": true,
+              "relative_error": 0.0,
+              "peak_normalized_error": 0.0
+            }
+          },
+          "max_exact_backward_error": 3.2627484645437366e-18,
+          "hashes": {
+            "angles": "b060e82ee835a61e4fc68e0fa76319656e3412de889623f3604e3994220074bb",
+            "density": "0809cbab70aa506fc2516b1c83ec958569f9e158312204bfb945c87bb96b4466",
+            "field": "c8c5c73b5de79195162667245b32f22c7bf312228f0fb355c126ad2f948ee684",
+            "residual": "310c9f3feb12b17e31295d8179472ebaf990cc21c291ddfb09a46cde336a0927",
+            "rhs": "d162d4e344ba68c1471b3bfe371fddd2b6432fe68d1237126395c82743df2589",
+            "row_norm": "bc99ff9c65a9b598501e65c089615cd3faf27ea5934a426c1e9baeeedd6a2f4a",
+            "rows": "8f1bc96d02658634f67455add6432be41af37d9274e382bafac2fed0c79a60b6"
+          }
+        }
+      },
+      "recovery_vs_fresh_factor": null,
+      "cancel_cleanup": null,
+      "faults": [],
+      "build_tolerances": []
+    }
+  },
+  "completed_solutions": 41,
+  "all_cases_pass": true,
+  "max_density_error_vs_dense": 1.385133534928095e-09,
+  "max_field_error_vs_dense": 3.5100778676668245e-14,
+  "max_exact_backward_error": 3.4198513617074298e-15,
+  "scope": "Fresh native slot systems; controlled faults select production branches; shared formulation, not mesh convergence."
+}

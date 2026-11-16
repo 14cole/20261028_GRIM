@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "file": "slot2048-production-t2.json",
+      "unknowns": 2048,
+      "threads": 2,
+      "builder": "production",
+      "cancellations": 6,
+      "nonidentical": [
+        {
+          "mode": "same_factor",
+          "target": "inverse child product"
+        }
+      ],
+      "ledger_present": false,
+      "max_backward_error": 3.219830871753107e-15
+    },
+    {
+      "file": "slot2048-sequential-t2.json",
+      "unknowns": 2048,
+      "threads": 2,
+      "builder": "sequential",
+      "cancellations": 6,
+      "nonidentical": [
+        {
+          "mode": "same_factor",
+          "target": "inverse child product (in place)"
+        }
+      ],
+      "ledger_present": false,
+      "max_backward_error": 3.219830871753107e-15
+    },
+    {
+      "file": "star8192-production-t1.json",
+      "unknowns": 8192,
+      "threads": 1,
+      "builder": "production",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228746442552898e-15
+    },
+    {
+      "file": "star8192-production-t2.json",
+      "unknowns": 8192,
+      "threads": 2,
+      "builder": "production",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228746442552898e-15
+    },
+    {
+      "file": "star8192-production-t4.json",
+      "unknowns": 8192,
+      "threads": 4,
+      "builder": "production",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228748574970568e-15
+    },
+    {
+      "file": "star8192-sequential-t1.json",
+      "unknowns": 8192,
+      "threads": 1,
+      "builder": "sequential",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228746442552898e-15
+    },
+    {
+      "file": "star8192-sequential-t2.json",
+      "unknowns": 8192,
+      "threads": 2,
+      "builder": "sequential",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228746442552898e-15
+    },
+    {
+      "file": "star8192-sequential-t4.json",
+      "unknowns": 8192,
+      "threads": 4,
+      "builder": "sequential",
+      "cancellations": 6,
+      "nonidentical": [],
+      "ledger_present": false,
+      "max_backward_error": 4.228748574970568e-15
+    }
+  ],
+  "cancellations": 48,
+  "nonidentical_recoveries": 2,
+  "scope": "Pinned record/source verification only; no full control NPZ arrays or cross-thread density hashes published in ecc046c."
+}

@@ -1,0 +1,66 @@
+[
+ {
+  "name": "star8192-production-t1",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 1,
+  "builder": "production"
+ },
+ {
+  "name": "star8192-production-t2",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 2,
+  "builder": "production"
+ },
+ {
+  "name": "star8192-production-t4",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 4,
+  "builder": "production"
+ },
+ {
+  "name": "slot2048-production-t2",
+  "n": 1024,
+  "kind": "slot",
+  "k": 20,
+  "threads": 2,
+  "builder": "production"
+ },
+ {
+  "name": "star8192-sequential-t1",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 1,
+  "builder": "sequential"
+ },
+ {
+  "name": "star8192-sequential-t2",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 2,
+  "builder": "sequential"
+ },
+ {
+  "name": "star8192-sequential-t4",
+  "n": 4096,
+  "kind": "star",
+  "k": 80,
+  "threads": 4,
+  "builder": "sequential"
+ },
+ {
+  "name": "slot2048-sequential-t2",
+  "n": 1024,
+  "kind": "slot",
+  "k": 20,
+  "threads": 2,
+  "builder": "sequential"
+ }
+]
