@@ -1,0 +1,143 @@
+{
+  "all_pass": true,
+  "reviewer_array_files": 6,
+  "reviewer_text_files": 13,
+  "accuracy": {
+    "star-1024": {
+      "err_old": [
+        5.5603736219988536e-12,
+        1.2825122039468974e-11,
+        1.9125420434538318e-11
+      ],
+      "err_new": [
+        5.561866130529151e-12,
+        1.2825285046456006e-11,
+        1.9126066957534222e-11
+      ],
+      "old_new_diff": [
+        1.719231512885202e-14,
+        1.9484283184672945e-14,
+        2.19789396371999e-14
+      ],
+      "min_ratio_error_over_diff": 277.5076585231951,
+      "max_abs_error_gap_over_diff": 0.08084898647470115,
+      "new_closer_columns": 6,
+      "old_closer_columns": 10,
+      "block_vs_single_old": 2.2305772287503363e-14,
+      "dense_residual": 6.385235608963027e-13,
+      "old_new_over_old_batch_max": 0.9853476200648489
+    },
+    "slot-1024": {
+      "err_old": [
+        3.055821952731459e-10,
+        7.304850170622682e-10,
+        1.5102758242715159e-09
+      ],
+      "err_new": [
+        3.0545488809848675e-10,
+        7.304580668188803e-10,
+        1.5103020807916083e-09
+      ],
+      "old_new_diff": [
+        2.020556508559486e-13,
+        5.220191226768441e-13,
+        9.61028614471951e-13
+      ],
+      "min_ratio_error_over_diff": 317.8416162627194,
+      "max_abs_error_gap_over_diff": 0.1582980480355889,
+      "new_closer_columns": 8,
+      "old_closer_columns": 8,
+      "block_vs_single_old": 8.48760202129536e-13,
+      "dense_residual": 6.436225960672756e-13,
+      "old_new_over_old_batch_max": 1.1322734172275442
+    },
+    "star-4096": {
+      "err_old": [
+        3.9138291732407146e-11,
+        6.090464323229464e-11,
+        3.3472972620907905e-10
+      ],
+      "err_new": [
+        3.913845314453909e-11,
+        6.090492643475727e-11,
+        3.3472934935781486e-10
+      ],
+      "old_new_diff": [
+        1.3809732949430432e-14,
+        1.4719783679567023e-14,
+        1.622460297303447e-14
+      ],
+      "min_ratio_error_over_diff": 2660.33261781198,
+      "max_abs_error_gap_over_diff": 0.033545659633719624,
+      "new_closer_columns": 7,
+      "old_closer_columns": 9,
+      "block_vs_single_old": 1.6983651102952883e-14,
+      "dense_residual": 1.6149371192954873e-11,
+      "old_new_over_old_batch_max": 0.9553071288784046
+    }
+  },
+  "prior_independent_first_angles": {
+    "star": {
+      "independent_single_arrays_match_reviewer": true,
+      "old_batch_vs_single_relative_l2": 2.101143873421473e-14,
+      "old_vs_new_single_relative_l2": 2.1655808247469427e-14
+    },
+    "slot": {
+      "independent_single_arrays_match_reviewer": true,
+      "old_batch_vs_single_relative_l2": 5.090432328684236e-13,
+      "old_vs_new_single_relative_l2": 5.721010898833755e-13
+    }
+  },
+  "timing_mean_process_medians_seconds": {
+    "old": {
+      "apply_1": 0.011336036000017202,
+      "apply_180": 0.4772220902499953,
+      "refined_solve_16": 0.4039824750000207
+    },
+    "new": {
+      "apply_1": 0.01121787299999255,
+      "apply_180": 0.47345875224999645,
+      "refined_solve_16": 0.396421958000019
+    },
+    "newF": {
+      "apply_1": 0.011836280750003425,
+      "apply_180": 0.4808859877499856,
+      "refined_solve_16": 0.4109513610000022
+    }
+  },
+  "timing_ratios_to_old": {
+    "new": {
+      "apply_1": 0.9895763386756647,
+      "apply_180": 0.9921140741870784,
+      "refined_solve_16": 0.9812850371788991
+    },
+    "newF": {
+      "apply_1": 1.04412871924414,
+      "apply_180": 1.0076775521813564,
+      "refined_solve_16": 1.0172504661247523
+    }
+  },
+  "timing_newF_over_new": {
+    "apply_1": 1.0551270058068303,
+    "apply_180": 1.0156871859791228,
+    "refined_solve_16": 1.0366513577433631
+  },
+  "timing_newF_over_new_per_process": {
+    "apply_1": [
+      1.1219619092892463,
+      0.9852921687760355
+    ],
+    "apply_180": [
+      1.0276070303976892,
+      1.0038769149906122
+    ],
+    "refined_solve_16": [
+      1.0482036890331754,
+      1.0251559682635625
+    ]
+  },
+  "new_solves": 0,
+  "new_benchmarks": 0,
+  "production_changes": 0,
+  "scope": "Full saved-array replay, timing-record arithmetic, cross-analysis with prior independent solves. No new numerical solve or timing claim."
+}
