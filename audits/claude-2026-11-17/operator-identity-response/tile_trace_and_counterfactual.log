@@ -1,0 +1,128 @@
+trace 1: {'4096|536|216': 448, '4096|408|248': 456, '4096|296|291': 19, '4096|184|369': 25}
+trace 4: {'4096|536|216': 448, '4096|408|248': 456, '4096|184|369': 25, '4096|296|291': 19}
+same decisions True same operator True 22f18207d3849c37
+forced trace: {'4096|536|216': 448, '4096|408|248': 456, '4096|296|256': 19, '4096|184|256': 25}
+{
+ "operator_changed": true,
+ "same_array_paths": true,
+ "arrays_total": 351,
+ "arrays_differing": 49,
+ "complex_differing": 46,
+ "noncomplex_differing": [
+  "operator.column_norm",
+  "operator.row_norm",
+  "operator.sampled_row_errors"
+ ],
+ "shape_changes": 0,
+ "largest_abs_diff": 1.1395818439724962e-05,
+ "largest_relative_to_array_max": 9.990072346436158e-05,
+ "entries_differing": 3997621,
+ "entries_in_differing_arrays": 4003904,
+ "examples": [
+  {
+   "path": "operator.column_norm",
+   "dtype": "float64",
+   "entries": 8192,
+   "entries_differing": 6096,
+   "max_abs_diff": 2.220446049250313e-15,
+   "max_abs_value": 3.032378961035119
+  },
+  {
+   "path": "operator.far[0].u",
+   "dtype": "complex128",
+   "entries": 11520,
+   "entries_differing": 11520,
+   "max_abs_diff": 7.652682563880345e-07,
+   "max_abs_value": 0.2858216228573811
+  },
+  {
+   "path": "operator.far[0].v",
+   "dtype": "complex128",
+   "entries": 92160,
+   "entries_differing": 92160,
+   "max_abs_diff": 1.0005528278958504e-08,
+   "max_abs_value": 0.018028728120381542
+  },
+  {
+   "path": "operator.far[1].u",
+   "dtype": "complex128",
+   "entries": 10752,
+   "entries_differing": 10750,
+   "max_abs_diff": 1.7495629833998233e-08,
+   "max_abs_value": 0.2791870215138746
+  },
+  {
+   "path": "operator.far[1].v",
+   "dtype": "complex128",
+   "entries": 75264,
+   "entries_differing": 75251,
+   "max_abs_diff": 9.381951662078253e-17,
+   "max_abs_value": 0.016518969481772415
+  },
+  {
+   "path": "operator.far[4].u",
+   "dtype": "complex128",
+   "entries": 15104,
+   "entries_differing": 15104,
+   "max_abs_diff": 1.0807348733449058e-07,
+   "max_abs_value": 0.3965836096878291
+  }
+ ],
+ "operator_action_relative_difference": 1.2949077334310246e-16,
+ "action_1_vs_4_workers_bitwise_equal": true,
+ "near_arrays_differing": 0,
+ "near_largest_abs_diff": 0.0,
+ "far_arrays_differing": 46,
+ "far_largest_abs_diff": 1.1395818439724962e-05,
+ "all_differing_paths": [
+  "operator.column_norm",
+  "operator.far[0].u",
+  "operator.far[0].v",
+  "operator.far[1].u",
+  "operator.far[1].v",
+  "operator.far[4].u",
+  "operator.far[4].v",
+  "operator.far[8].u",
+  "operator.far[8].v",
+  "operator.far[9].u",
+  "operator.far[9].v",
+  "operator.far[10].u",
+  "operator.far[10].v",
+  "operator.far[14].u",
+  "operator.far[14].v",
+  "operator.far[16].u",
+  "operator.far[16].v",
+  "operator.far[18].u",
+  "operator.far[18].v",
+  "operator.far[21].u",
+  "operator.far[21].v",
+  "operator.far[22].u",
+  "operator.far[22].v",
+  "operator.far[23].u",
+  "operator.far[23].v",
+  "operator.far[27].u",
+  "operator.far[27].v",
+  "operator.far[28].u",
+  "operator.far[28].v",
+  "operator.far[34].u",
+  "operator.far[34].v",
+  "operator.far[36].u",
+  "operator.far[36].v",
+  "operator.far[39].u",
+  "operator.far[39].v",
+  "operator.far[43].u",
+  "operator.far[43].v",
+  "operator.far[44].u",
+  "operator.far[44].v",
+  "operator.far[45].u",
+  "operator.far[45].v",
+  "operator.far[46].u",
+  "operator.far[46].v",
+  "operator.far[48].u",
+  "operator.far[48].v",
+  "operator.far[53].u",
+  "operator.far[53].v",
+  "operator.row_norm",
+  "operator.sampled_row_errors"
+ ]
+}
