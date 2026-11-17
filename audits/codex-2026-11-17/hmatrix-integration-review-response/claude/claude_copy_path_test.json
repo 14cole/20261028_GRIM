@@ -1,0 +1,246 @@
+[
+ {
+  "name": "complex128 writable C",
+  "input": "complex128",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 3840,
+  "reserved_after": 3840,
+  "checks": [],
+  "steps": [
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 0,
+    "retained": 3840
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": true,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "complex128 writable F",
+  "input": "complex128",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 3840,
+  "reserved_after": 3840,
+  "checks": [],
+  "steps": [
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 0,
+    "retained": 3840
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": true,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "complex128 read-only",
+  "input": "complex128",
+  "writeable": false,
+  "error": null,
+  "reserved_before": 3840,
+  "reserved_after": 3840,
+  "checks": [
+   0
+  ],
+  "steps": [
+   {
+    "label": "copy inverse child input",
+    "additional": 3840,
+    "live_bytes": 0,
+    "retained": 3840
+   },
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 3840,
+    "retained": 3840
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": false,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "complex64",
+  "input": "complex64",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 1920,
+  "reserved_after": 3840,
+  "checks": [
+   1920
+  ],
+  "steps": [
+   {
+    "label": "copy inverse child input",
+    "additional": 3840,
+    "live_bytes": 0,
+    "retained": 1920
+   },
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 3840,
+    "retained": 1920
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": false,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "float64",
+  "input": "float64",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 1920,
+  "reserved_after": 3840,
+  "checks": [
+   1920
+  ],
+  "steps": [
+   {
+    "label": "copy inverse child input",
+    "additional": 3840,
+    "live_bytes": 0,
+    "retained": 1920
+   },
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 3840,
+    "retained": 1920
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": false,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "zero rank",
+  "input": "complex128",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 0,
+  "reserved_after": 0,
+  "checks": [],
+  "steps": [
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1048576,
+    "live_bytes": 0,
+    "retained": 0
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": true,
+  "result_bytes": 0,
+  "reserved_equals_result_bytes": true,
+  "rel_error": NaN,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "with live correction matrix",
+  "input": "complex128",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 3840,
+  "reserved_after": 3840,
+  "checks": [],
+  "steps": [
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 2304,
+    "retained": 3840
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": true,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "complex64 with live correction matrix",
+  "input": "complex64",
+  "writeable": true,
+  "error": null,
+  "reserved_before": 1920,
+  "reserved_after": 3840,
+  "checks": [
+   1920
+  ],
+  "steps": [
+   {
+    "label": "copy inverse child input",
+    "additional": 3840,
+    "live_bytes": 2304,
+    "retained": 1920
+   },
+   {
+    "label": "inverse child product (in place)",
+    "additional": 1079296,
+    "live_bytes": 6144,
+    "retained": 1920
+   }
+  ],
+  "result_dtype": "complex128",
+  "same_object_as_input": false,
+  "result_bytes": 3840,
+  "reserved_equals_result_bytes": true,
+  "rel_error": 0.0,
+  "in_place_allowance_ok": true,
+  "copy_step_live_or_additional_covers_copy": true,
+  "second_step_counts_copy_as_live": true
+ },
+ {
+  "name": "complex64, cap leaves no room for growth",
+  "input": "complex64",
+  "writeable": true,
+  "error": "MemoryError",
+  "reserved_before": 1920,
+  "reserved_after": 1920,
+  "checks": [
+   1920
+  ],
+  "steps": []
+ }
+]

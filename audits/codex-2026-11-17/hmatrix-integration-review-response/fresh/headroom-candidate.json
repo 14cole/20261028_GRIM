@@ -1,0 +1,266 @@
+[
+  {
+    "variant": "candidate",
+    "side": 256,
+    "query_bytes": 1048576,
+    "probe": true,
+    "reservation_bytes": 3670016.0,
+    "status": "memory_rejected",
+    "error": "Compressed inverse leaf coefficients requires 0.005 GiB additional allocation; 0.003 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.000 GiB, available RAM 15.855026245117188).",
+    "query_calls": 0,
+    "events": [
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 0.003414154052734375,
+        "stable_reservation_gib": 0.00341796875,
+        "available_gib": 15.855026245117188,
+        "reservation_constraints_gib": {
+          "explicit_ram_budget": 0.00341796875,
+          "initial_physical_ram": 14.269523620605469,
+          "cohort_remaining_reservation": 14.269523620605469
+        },
+        "reservation_binding_constraint": "explicit_ram_budget",
+        "available_commit_gib": null,
+        "system_commit": null,
+        "owned_numeric_gib": 0.0,
+        "credited_resident_gib": 0.0,
+        "owned_worker_resident_gib": 0.0,
+        "owned_worker_commit_gib": 0.0,
+        "worker_measurement": "live_incremental_charge",
+        "credited_commit_gib": 0.0,
+        "limits_gib": {
+          "stable_reservation": 0.003414154052734375,
+          "live_physical_ram": 14.269523620605469
+        },
+        "check_units": "additional_allocation_gib",
+        "worker_charge_refined": false,
+        "context": "Compressed inverse leaf coefficients",
+        "required_peak_gib": 0.0048828125,
+        "admitted": false,
+        "additional_allocation_gib": 0.0048828125,
+        "reserved_usage_after_reload_gib": 0.004886627197265625
+      }
+    ],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 0,
+    "construction": {
+      "checks": 1,
+      "live_checks": 0,
+      "reused_observations": 0,
+      "largest_increment_bytes": 5242880,
+      "peak_accounted_build_bytes": 5242880,
+      "sampled_process_growth_bytes": 24576,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": []
+  },
+  {
+    "variant": "candidate",
+    "side": 256,
+    "query_bytes": 1048576,
+    "probe": false,
+    "reservation_bytes": 268435456,
+    "status": "built",
+    "error": null,
+    "query_calls": 1,
+    "events": [],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 0,
+    "construction": {
+      "checks": 2,
+      "live_checks": 2,
+      "reused_observations": 0,
+      "largest_increment_bytes": 5242880,
+      "peak_accounted_build_bytes": 5242880,
+      "sampled_process_growth_bytes": 3055616,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "variant": "candidate",
+    "side": 512,
+    "query_bytes": 4194304,
+    "probe": true,
+    "reservation_bytes": 13107200.0,
+    "status": "memory_rejected",
+    "error": "Compressed inverse leaf coefficients requires 0.017 GiB additional allocation; 0.012 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.000 GiB, available RAM 15.851238250732422).",
+    "query_calls": 0,
+    "events": [
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 0.012203216552734375,
+        "stable_reservation_gib": 0.01220703125,
+        "available_gib": 15.851238250732422,
+        "reservation_constraints_gib": {
+          "explicit_ram_budget": 0.01220703125,
+          "initial_physical_ram": 14.26611442565918,
+          "cohort_remaining_reservation": 14.26611442565918
+        },
+        "reservation_binding_constraint": "explicit_ram_budget",
+        "available_commit_gib": null,
+        "system_commit": null,
+        "owned_numeric_gib": 0.0,
+        "credited_resident_gib": 0.0,
+        "owned_worker_resident_gib": 0.0,
+        "owned_worker_commit_gib": 0.0,
+        "worker_measurement": "live_incremental_charge",
+        "credited_commit_gib": 0.0,
+        "limits_gib": {
+          "stable_reservation": 0.012203216552734375,
+          "live_physical_ram": 14.266114425659179
+        },
+        "check_units": "additional_allocation_gib",
+        "worker_charge_refined": false,
+        "context": "Compressed inverse leaf coefficients",
+        "required_peak_gib": 0.0166015625,
+        "admitted": false,
+        "additional_allocation_gib": 0.0166015625,
+        "reserved_usage_after_reload_gib": 0.016605377197265625
+      }
+    ],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 1,
+    "construction": {
+      "checks": 1,
+      "live_checks": 0,
+      "reused_observations": 0,
+      "largest_increment_bytes": 17825792,
+      "peak_accounted_build_bytes": 17825792,
+      "sampled_process_growth_bytes": 4096,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": []
+  },
+  {
+    "variant": "candidate",
+    "side": 512,
+    "query_bytes": 4194304,
+    "probe": false,
+    "reservation_bytes": 268435456,
+    "status": "built",
+    "error": null,
+    "query_calls": 1,
+    "events": [],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 1,
+    "construction": {
+      "checks": 2,
+      "live_checks": 2,
+      "reused_observations": 0,
+      "largest_increment_bytes": 17825792,
+      "peak_accounted_build_bytes": 17825792,
+      "sampled_process_growth_bytes": 9158656,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "variant": "candidate",
+    "side": 1024,
+    "query_bytes": 16777216,
+    "probe": true,
+    "reservation_bytes": 50855936.0,
+    "status": "memory_rejected",
+    "error": "Compressed inverse leaf coefficients requires 0.063 GiB additional allocation; 0.047 GiB is admitted by stable_reservation (set by explicit_ram_budget) (owned payload 0.000 GiB, available RAM 15.835601806640625).",
+    "query_calls": 0,
+    "events": [
+      {
+        "binding_constraint": "stable_reservation",
+        "limit_gib": 0.047359466552734375,
+        "stable_reservation_gib": 0.04736328125,
+        "available_gib": 15.835601806640625,
+        "reservation_constraints_gib": {
+          "explicit_ram_budget": 0.04736328125,
+          "initial_physical_ram": 14.252041625976563,
+          "cohort_remaining_reservation": 14.252041625976563
+        },
+        "reservation_binding_constraint": "explicit_ram_budget",
+        "available_commit_gib": null,
+        "system_commit": null,
+        "owned_numeric_gib": 0.0,
+        "credited_resident_gib": 0.0,
+        "owned_worker_resident_gib": 0.0,
+        "owned_worker_commit_gib": 0.0,
+        "worker_measurement": "live_incremental_charge",
+        "credited_commit_gib": 0.0,
+        "limits_gib": {
+          "stable_reservation": 0.047359466552734375,
+          "live_physical_ram": 14.252041625976563
+        },
+        "check_units": "additional_allocation_gib",
+        "worker_charge_refined": false,
+        "context": "Compressed inverse leaf coefficients",
+        "required_peak_gib": 0.0634765625,
+        "admitted": false,
+        "additional_allocation_gib": 0.0634765625,
+        "reserved_usage_after_reload_gib": 0.06348037719726562
+      }
+    ],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 1,
+    "construction": {
+      "checks": 1,
+      "live_checks": 0,
+      "reused_observations": 0,
+      "largest_increment_bytes": 68157440,
+      "peak_accounted_build_bytes": 68157440,
+      "sampled_process_growth_bytes": 8192,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": []
+  },
+  {
+    "variant": "candidate",
+    "side": 1024,
+    "query_bytes": 16777216,
+    "probe": false,
+    "reservation_bytes": 268435456,
+    "status": "built",
+    "error": null,
+    "query_calls": 1,
+    "events": [],
+    "pending_after": 0,
+    "registered_after": 0,
+    "construction_bytes_after": 0,
+    "dense_fallbacks": 1,
+    "construction": {
+      "checks": 2,
+      "live_checks": 2,
+      "reused_observations": 0,
+      "largest_increment_bytes": 68157440,
+      "peak_accounted_build_bytes": 68157440,
+      "sampled_process_growth_bytes": 34570240,
+      "process_samples_exclusive": true,
+      "forecast_discount_applied": false
+    },
+    "solve_max_abs_errors": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+]

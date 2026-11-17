@@ -1,0 +1,203 @@
+{
+  "all_pass": true,
+  "pinned_files": 79,
+  "old_new_pairs": {
+    "multilayer-TM": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": -1.033747113053407,
+      "final_inverse_bytes": 207953208,
+      "formulation": "2D multi-region indirect formulation (layered coating; combined S+gamma*D coupling on closed regions and on the exterior closed by open-junction arcs, SLP on bounded regions bounded by open interfaces)"
+    },
+    "partial-TE": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": 0.39992403677513444,
+      "final_inverse_bytes": 45301448,
+      "formulation": "2D multi-region indirect formulation (layered coating; combined S+gamma*D coupling on closed regions and on the exterior closed by open-junction arcs, SLP on bounded regions bounded by open interfaces)"
+    },
+    "partial-TM": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": -0.2128618087622436,
+      "final_inverse_bytes": 43327328,
+      "formulation": "2D multi-region indirect formulation (layered coating; combined S+gamma*D coupling on closed regions and on the exterior closed by open-junction arcs, SLP on bounded regions bounded by open interfaces)"
+    },
+    "pec-circle-TE": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": 1.892692560895326,
+      "final_inverse_bytes": 29056624,
+      "formulation": "2D closed Robin combined-potential formulation"
+    },
+    "pec-cavity-TM": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": -1.021863769785747,
+      "final_inverse_bytes": 26288088,
+      "formulation": "2D closed Robin combined-potential formulation"
+    },
+    "coated-TE": {
+      "field_bytes_equal": true,
+      "published_density_rhs_hashes_equal": true,
+      "condition_equal": true,
+      "corrections_equal": true,
+      "peak_change_percent": -1.6500188739510424,
+      "final_inverse_bytes": 86937960,
+      "formulation": "2D multi-region indirect formulation (layered coating; combined S+gamma*D coupling on closed regions and on the exterior closed by open-junction arcs, SLP on bounded regions bounded by open interfaces)"
+    }
+  },
+  "replayed_dense_field_comparisons": {
+    "pec-circle-TE": {
+      "field_peak_normalized_error": 5.779848882190865e-12,
+      "angles": 180
+    },
+    "pec-cavity-TM": {
+      "field_peak_normalized_error": 1.6712055166935608e-13,
+      "angles": 180
+    },
+    "coated-TE": {
+      "field_peak_normalized_error": 2.3456786456270575e-10,
+      "angles": 180
+    }
+  },
+  "cap_outcomes": {
+    "old-multilayer-TM-cap690": {
+      "builds": 2,
+      "rejected": false,
+      "final_inverse_bytes": 178979624
+    },
+    "new-multilayer-TM-cap690": {
+      "builds": 1,
+      "rejected": false,
+      "final_inverse_bytes": 207953208
+    },
+    "old-multilayer-TM-cap650": {
+      "builds": 2,
+      "rejected": true,
+      "final_inverse_bytes": 175793400
+    },
+    "new-multilayer-TM-cap650": {
+      "builds": 2,
+      "rejected": false,
+      "final_inverse_bytes": 178979624
+    }
+  },
+  "reviewer_audit_entries": 3891,
+  "reviewer_cancellations": 24,
+  "reviewer_active_task_cancellations": 3,
+  "reviewer_process_records": 23,
+  "prior_independent_32k_array_hashes_match": true,
+  "fresh_selector_cases": 20700,
+  "fresh_copy_cases": 9,
+  "fresh_controlled_headroom_cases": [
+    {
+      "variant": "baseline",
+      "side": 256,
+      "probe": true,
+      "reservation_bytes": 3670016.0,
+      "status": "query_reached",
+      "query_calls": 1
+    },
+    {
+      "variant": "baseline",
+      "side": 256,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    },
+    {
+      "variant": "baseline",
+      "side": 512,
+      "probe": true,
+      "reservation_bytes": 13107200.0,
+      "status": "query_reached",
+      "query_calls": 1
+    },
+    {
+      "variant": "baseline",
+      "side": 512,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    },
+    {
+      "variant": "baseline",
+      "side": 1024,
+      "probe": true,
+      "reservation_bytes": 50855936.0,
+      "status": "query_reached",
+      "query_calls": 1
+    },
+    {
+      "variant": "baseline",
+      "side": 1024,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    },
+    {
+      "variant": "candidate",
+      "side": 256,
+      "probe": true,
+      "reservation_bytes": 3670016.0,
+      "status": "memory_rejected",
+      "query_calls": 0
+    },
+    {
+      "variant": "candidate",
+      "side": 256,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    },
+    {
+      "variant": "candidate",
+      "side": 512,
+      "probe": true,
+      "reservation_bytes": 13107200.0,
+      "status": "memory_rejected",
+      "query_calls": 0
+    },
+    {
+      "variant": "candidate",
+      "side": 512,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    },
+    {
+      "variant": "candidate",
+      "side": 1024,
+      "probe": true,
+      "reservation_bytes": 50855936.0,
+      "status": "memory_rejected",
+      "query_calls": 0
+    },
+    {
+      "variant": "candidate",
+      "side": 1024,
+      "probe": false,
+      "reservation_bytes": 268435456,
+      "status": "built",
+      "query_calls": 1
+    }
+  ],
+  "new_physical_solves": 0,
+  "scope": "Reviewer JSON/log replay and prior independent array fingerprints; fresh unit/admission tests. No new large solve or physical-pressure benchmark."
+}

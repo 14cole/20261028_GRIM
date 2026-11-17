@@ -1,0 +1,248 @@
+[
+ [
+  "new-multilayer-TM-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "pol": "TM",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-partial-TE-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-partial-TM-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TM",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-pec-circle-TE-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "pec",
+   "shape": "circle",
+   "length_m": 3.0,
+   "pol": "TE",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-pec-cavity-TM-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "pec",
+   "shape": "cavity",
+   "length_m": 2.0,
+   "pol": "TM",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-coated-TE-compressed",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "coated",
+   "shape": "circle",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "method": "compressed"
+  }
+ ],
+ [
+  "new-multilayer-TM-cap690",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "pol": "TM",
+   "method": "compressed",
+   "storage_mib": 690
+  }
+ ],
+ [
+  "new-multilayer-TM-cap650",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "pol": "TM",
+   "method": "compressed",
+   "storage_mib": 650
+  }
+ ],
+ [
+  "new-multilayer-TM-audit",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "multilayer",
+   "shape": "circle",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "inner_eps": [
+    16.0,
+    -0.01
+   ],
+   "pol": "TM",
+   "method": "compressed",
+   "audit": true
+  }
+ ],
+ [
+  "new-partial-TE-audit",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "method": "compressed",
+   "audit": true
+  }
+ ],
+ [
+  "new-pec-circle-TE-audit",
+  {
+   "runner": "claude_run_geometry3.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "material": "pec",
+   "shape": "circle",
+   "length_m": 3.0,
+   "pol": "TE",
+   "method": "compressed",
+   "audit": true
+  }
+ ],
+ [
+  "new-star32768-cap2900",
+  {
+   "runner": "claude_run_star_capped.py",
+   "n": 16384,
+   "k": 320.0,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "compressed",
+   "packing": "none",
+   "factor_storage_mib": 2900,
+   "hook": "claude_builder",
+   "builder": "production"
+  }
+ ]
+]
