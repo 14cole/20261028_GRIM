@@ -110,6 +110,10 @@ class HMatrixSystem(CompressedSystem):
         self.evidence.update(dense_fallbacks=self.dense_fallbacks,
             largest_dense_fallback=self.largest_dense_fallback,dense_fallback_limit=self.DENSE_FALLBACK_LIMIT)
 
+    def build(self, oracle, ids):
+        from ghost_backend.compressed.hmatrix_build import build
+        return build(self, oracle, ids)
+
     def compress_block(self, oracle, rows, cols):
         operator = self.operator
         r0, r1 = _span(operator.position[np.asarray(rows, np.int64)])

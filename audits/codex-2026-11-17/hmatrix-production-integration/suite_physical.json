@@ -1,0 +1,164 @@
+[
+  [
+    "star-dense",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "dense",
+      "geometry": "star",
+      "n": 2048,
+      "k": 40
+    }
+  ],
+  [
+    "star-baseline",
+    {
+      "runner": "run_case.py",
+      "variant": "baseline",
+      "method": "compressed",
+      "geometry": "star",
+      "n": 2048,
+      "k": 40
+    }
+  ],
+  [
+    "star-candidate",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "geometry": "star",
+      "n": 2048,
+      "k": 40
+    }
+  ],
+  [
+    "slot-dense",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "dense",
+      "geometry": "slot",
+      "n": 1024,
+      "k": 20
+    }
+  ],
+  [
+    "slot-baseline",
+    {
+      "runner": "run_case.py",
+      "variant": "baseline",
+      "method": "compressed",
+      "geometry": "slot",
+      "n": 1024,
+      "k": 20
+    }
+  ],
+  [
+    "slot-candidate",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "geometry": "slot",
+      "n": 1024,
+      "k": 20
+    }
+  ],
+  [
+    "star-candidate-t1",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "threads": 1
+    }
+  ],
+  [
+    "star-baseline-fallback",
+    {
+      "runner": "run_case.py",
+      "variant": "baseline",
+      "method": "compressed",
+      "fallback": true
+    }
+  ],
+  [
+    "star-candidate-fallback",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "fallback": true
+    }
+  ],
+  [
+    "star-cancel-products",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "cancel": "products",
+      "cancel_at": 4
+    }
+  ],
+  [
+    "star-cancel-child",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "cancel": "inverse child product (in place)",
+      "cancel_at": 4
+    }
+  ],
+  [
+    "star-cancel-woodbury",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "cancel": "Woodbury correction",
+      "cancel_at": 1
+    }
+  ],
+  [
+    "pec-dense",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "dense",
+      "kind": "robin",
+      "pol": "TM",
+      "geometry": "star",
+      "n": 1024,
+      "k": 20
+    }
+  ],
+  [
+    "pec-baseline",
+    {
+      "runner": "run_case.py",
+      "variant": "baseline",
+      "method": "compressed",
+      "kind": "robin",
+      "pol": "TM",
+      "geometry": "star",
+      "n": 1024,
+      "k": 20
+    }
+  ],
+  [
+    "pec-candidate",
+    {
+      "runner": "run_case.py",
+      "variant": "candidate",
+      "method": "compressed",
+      "kind": "robin",
+      "pol": "TM",
+      "geometry": "star",
+      "n": 1024,
+      "k": 20
+    }
+  ]
+]

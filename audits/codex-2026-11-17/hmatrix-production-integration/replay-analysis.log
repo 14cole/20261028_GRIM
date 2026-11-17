@@ -1,0 +1,34 @@
+{
+  "performance": {
+    "medium": {
+      "samples_each": 2,
+      "baseline_seconds": 47.257519010494434,
+      "candidate_seconds": 45.059034563499154,
+      "time_reduction_percent": 4.652136830346654,
+      "baseline_peak_gib": [
+        0.7007980346679688,
+        0.70123291015625
+      ],
+      "candidate_peak_gib": [
+        0.6868476867675781,
+        0.687255859375
+      ]
+    },
+    "cap32k": {
+      "samples_each": 1,
+      "baseline_seconds": 717.4001499299993,
+      "candidate_seconds": 566.0399519510102,
+      "time_reduction_percent": 21.098434115710486,
+      "baseline_peak_gib": [
+        3.426910400390625
+      ],
+      "candidate_peak_gib": [
+        3.6144180297851562
+      ]
+    }
+  },
+  "all_pass": true,
+  "completed_field_solves": 22,
+  "max_exact_backward_error": 1.6288541759956484e-13,
+  "scope": "Algebraic agreement and 96 exact rows; no mesh certification, full GUI validation, or 32 GB pressure test."
+}

@@ -275,6 +275,13 @@ class BlockRow:
 
     def values(self, rows=None, columns=None):
         """Entries for local row/column positions (all when None)."""
+        # Select both axes before copying a dense partner row.
+        # Empty selectors retain the original out-of-range error behavior.
+        if (self.v is None and isinstance(rows, np.ndarray) and isinstance(columns, np.ndarray)
+                and rows.ndim == columns.ndim == 1 and rows.size and columns.size
+                and np.issubdtype(rows.dtype, np.integer)
+                and np.issubdtype(columns.dtype, np.integer)):
+            return self.u[np.ix_(rows, columns)]
         u = self.u if rows is None else self.u[rows]
         if self.v is None:
             return u if columns is None else u[:, columns]
