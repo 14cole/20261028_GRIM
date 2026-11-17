@@ -1,0 +1,47 @@
+{
+  "spec": {
+    "count": 180,
+    "hook": "claude_builder",
+    "builder": "production",
+    "packing": "none",
+    "frequency_ghz": 5.0,
+    "method": "compressed",
+    "material": "pec",
+    "shape": "circle",
+    "length_m": 3.0,
+    "pol": "TE",
+    "ram_gib": 0.2890625,
+    "out": "/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hpw/ram/new-pec-circle-TE-ram296"
+  },
+  "geometry": {
+    "input_panels": 3144,
+    "boundary_panels": [
+      3144
+    ],
+    "length_m": 3.0,
+    "air_wavelengths": 50.03461427972281,
+    "geometry_sha_basis": "generated coordinates and material table"
+  },
+  "wall_seconds": 0.44135130399990885,
+  "error": "The multi_region 2-D solve requires an estimated 0.30 GiB, but 15.08 GiB is currently available; the safe allocation limit is 0.29 GiB. Planned system: 3144 DOFs across 1 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hpw/claude_run_geometry3.py\", line 49, in <module>\n    result=fn(g,[spec['frequency_ghz']],\n        np.linspace(-90,90,spec.get('count',180),endpoint=False).tolist(),*args,\n        geometry_units='meters',compute_condition_number=True,strict_quality_gate=True,\n        max_panels=30000,execution_options=opts)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/twod/preparation.py\", line 115, in call\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/options.py\", line 787, in call\n    return invoke_configured(args,kwargs,admission)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/options.py\", line 727, in invoke_configured\n    result = invoke()\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/options.py\", line 697, in invoke\n    result=function(*args,**kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/metrics.py\", line 246, in measured\n    result = function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/cpu.py\", line 231, in call\n    result = invoke_with_failure_evidence(function, args, kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/execution/failure.py\", line 86, in invoke\n    return function(*args, **kwargs)\n  File \"/tmp/claude-0/-home-user-20261028-GRIM/37e475f6-6ce5-5f61-b336-1c9c4571e452/scratchpad/hp/tools/GHOST/ghost_backend/twod/solver.py\", line 2641, in solve_monostatic_rcs_2d_single_polarization\n    raise MemoryError(\n    ...<15 lines>...\n    )\nMemoryError: The multi_region 2-D solve requires an estimated 0.30 GiB, but 15.08 GiB is currently available; the safe allocation limit is 0.29 GiB. Planned system: 3144 DOFs across 1 region(s). Current angle batch: 1. Binding constraint: stable_reservation. Owned numeric payload: 0.00 GiB. Reduce panel count or frequency, set an appropriate mesh_reference_ghz, or reduce the angle batch. Review the saved RAM budget and current free memory before retrying.\n",
+  "factors": [],
+  "captures": [],
+  "hooks": {
+    "packing": [],
+    "conversions": [],
+    "accounting": {
+      "high_water_bytes": 0,
+      "high_water_with_check_bytes": 0,
+      "final_bytes": []
+    },
+    "storage_rejections": [],
+    "builds": 0,
+    "u_copies": 0,
+    "residual_products": [],
+    "inverse_calls": [],
+    "audit": []
+  },
+  "rss_bytes": 106012672,
+  "peak_gib": 0.09837722778320312
+}
