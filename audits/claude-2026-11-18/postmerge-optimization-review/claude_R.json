@@ -1,0 +1,366 @@
+[
+ [
+  "r-main-s4096-360-b16-0",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-s4096-360-b16-1",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-patched-s4096-360-b16-2",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-s4096-360-b16-3",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-main-s4096-360-b16-4",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-s4096-360-b16-5",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 2048,
+   "k": 40,
+   "count": 360,
+   "start": 0,
+   "stop": 360,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-patched-s8192-180-b16-0",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-s8192-180-b16-1",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-main-s8192-180-b16-2",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-s8192-180-b16-3",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 16,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-s8192-180-b256-0",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "dense",
+   "compression": "off",
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-s8192-180-b256-1",
+  {
+   "runner": "claude_run_star_plain.py",
+   "n": 4096,
+   "k": 80,
+   "count": 180,
+   "start": -90,
+   "stop": 90,
+   "batch": 256,
+   "method": "dense",
+   "compression": "off",
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-partial-b16-t4-0",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-partial-b16-t4-1",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-patched-partial-b16-t4-2",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-partial-b16-t4-3",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "main"
+  }
+ ],
+ [
+  "r-main-partial-b256-t4-0",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 256,
+   "threads": 4,
+   "tree": "main"
+  }
+ ],
+ [
+  "r-patched-partial-b256-t4-1",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 256,
+   "threads": 4,
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-patched-partial-b256-t4-2",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 256,
+   "threads": 4,
+   "tree": "patched"
+  }
+ ],
+ [
+  "r-main-partial-b256-t4-3",
+  {
+   "runner": "claude_run_geometry4.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 256,
+   "threads": 4,
+   "tree": "main"
+  }
+ ]
+]
