@@ -68,7 +68,10 @@ class SolveMetrics:
                     self.peak_rss = max(self.peak_rss or 0, value)
                 now = time.monotonic()
                 if force_tree or now >= self._next_tree_sample:
-                    self._next_tree_sample = now + 0.25
+                    # Descendant enumeration scans the OS process table. It is
+                    # telemetry only; live admission samples owned workers
+                    # independently and must never consume this cached value.
+                    self._next_tree_sample = now + 1.0
                     self._sample_process_tree(info)
             except Exception:
                 pass
@@ -187,7 +190,7 @@ class SolveMetrics:
             "sampled_peak_process_tree_private_bytes": self.peak_tree_private,
             "process_tree_incomplete_samples": self.tree_incomplete_samples,
             "process_tree_memory_semantics": (
-                "250 ms parent plus descendant RSS sums; shared pages may be counted more than once; "
+                "1 s parent plus descendant RSS sums (also at start/finish); shared pages may be counted more than once; "
                 "includes other jobs; incomplete snapshots excluded. Private bytes, when available, "
                 "are Windows private commit, not resident RAM."),
         }

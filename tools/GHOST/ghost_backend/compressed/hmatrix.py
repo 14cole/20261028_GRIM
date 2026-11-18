@@ -25,11 +25,12 @@ import scipy.linalg as la
 from ghost_backend.linalg.hierarchical import spatial_order, HierarchicalRejected
 from ghost_backend.execution.metrics import timed_stage
 from ghost_backend.execution.runtime import ScopedValue
+from ghost_backend.linalg.products import adjoint_product
 
 # Unknowns from which the compressed backend assembles this operator instead
 # of evaluating every coefficient tile (see NUMERICAL_METHODS.md, "Hierarchical
 # 2-D operator"); GHOST_HMATRIX_MIN_UNKNOWNS overrides it, 0 disables it.
-HMATRIX_MIN_UNKNOWNS = 8192
+HMATRIX_MIN_UNKNOWNS = 1024
 # Leaf clusters hold about this many distinct points: coincident densities
 # (coatings, region interfaces) multiply the unknowns per leaf (at most 512,
 # the inverse tree's leaf limit).
@@ -274,6 +275,13 @@ class BlockRow:
 
     def values(self, rows=None, columns=None):
         """Entries for local row/column positions (all when None)."""
+        # Select both axes before copying a dense partner row.
+        # Empty selectors retain the original out-of-range error behavior.
+        if (self.v is None and isinstance(rows, np.ndarray) and isinstance(columns, np.ndarray)
+                and rows.ndim == columns.ndim == 1 and rows.size and columns.size
+                and np.issubdtype(rows.dtype, np.integer)
+                and np.issubdtype(columns.dtype, np.integer)):
+            return self.u[np.ix_(rows, columns)]
         u = self.u if rows is None else self.u[rows]
         if self.v is None:
             return u if columns is None else u[:, columns]
@@ -644,7 +652,7 @@ def _assemble(oracle, targets):
         # Tree order/position alias the operator's fields and are counted once.
         target._reserve(target.coordinates.nbytes + target.radius.nbytes
                         + sum(a.nbytes for a in vars(target.tree).values() if isinstance(a, np.ndarray))
-                        + 48*n)
+                        + 64*n)
     # Inadmissible blocks: exact coefficients, one query set per row cluster.
     plans = []
     for k in sorted(near, key=lambda c: tree.start[c]):
@@ -673,7 +681,7 @@ def _assemble(oracle, targets):
     near_entries = statistics['coefficients']
     # Operator scales from exact sample rows, with capped leaf coverage recorded.
     _sample(oracle, targets, count)
-    scales = [float(target.sample_norm.max()) for target in targets]
+    scales = [target.compression_norm for target in targets]
     if not all(scale > 0 for scale in scales):
         raise HMatrixRejected('Sampled operator rows vanish.')
     # Interaction lists, finest level first; a level's rank guess comes from
@@ -700,12 +708,20 @@ def _assemble(oracle, targets):
             # Partner lists are wider than their rows: sample (cheap) columns
             # and keep a skeleton of (long) rows, i.e. compress the transpose,
             # so long rows are evaluated about once per rank.
-            factors, _ = cross_approximation(lambda c: [value.T for value in fetch(np.arange(a, b), columns[c])],
-                                             lambda r: [value.T for value in fetch(a + r, columns)],
+            def normalized(rows, cols):
+                values = fetch(rows, cols)
+                for target, value in zip(targets, values):
+                    value *= target.compression_rows[rows, None]
+                    value *= target.compression_columns[None, cols]
+                return [value.T for value in values]
+            factors, _ = cross_approximation(lambda c: normalized(np.arange(a, b), columns[c]),
+                                             lambda r: normalized(a + r, columns),
                                              (w, m), targets_tolerance, guess, rng)
             result, ranks, dense = [], [], None
-            for vt, ut in factors:
+            for target, (vt, ut) in zip(targets, factors):
                 u, v = np.ascontiguousarray(ut.T), np.ascontiguousarray(vt.T)
+                u /= target.compression_rows[a:b, None]
+                v /= target.compression_columns[None, columns]
                 ranks.append(u.shape[1])
                 if u.shape[1]*(m + w) >= m*w:
                     # No storage gain: keep the exact coefficients instead.
@@ -803,6 +819,15 @@ def _sample(oracle, targets, count):
     _run([lambda check, s=s: part(s, check) for s in starts], store_sample, first.checkpoint)
     for target in targets:
         target.sample_norm = _sample_row_norm(target.sample_values, target.checkpoint) + target.sample_tail
+        normalized = np.empty(len(rows))
+        step = max(1, VALIDATION_CHUNK_BYTES // max(1, 16*n))
+        for start in range(0, len(rows), step):
+            target.checkpoint()
+            block = abs(target.sample_values[start:start+step])
+            block *= target.compression_columns[None, :]
+            normalized[start:start+step] = (block.sum(axis=1)
+                + target.sample_tail[start:start+step]*target.compression_columns.max())*target.compression_rows[rows[start:start+step]]
+        target.compression_norm = float(normalized.max())
 
 
 # Forecast ranks (calibration: PEC, coated and airfoil systems at 10 GHz,
@@ -844,7 +869,7 @@ def forecast_storage(coordinates, radius, wavenumber, leaf=None, eta=ETA):
     lists = list(near.items()) + list(far.items())
     metadata = (coordinates.nbytes + radius.nbytes
                 + sum(a.nbytes for a in vars(tree).values() if isinstance(a, np.ndarray))
-                + 48*n + 32*samples)
+                + 64*n + 32*samples)
     metadata += sum(8*sum(tree.size(b) for b in partners) + 8*(len(partners) + 1)
                     for _, partners in lists)
     metadata += 16*(len(lists) + len({int(a) for a, _ in lists}))
@@ -931,6 +956,10 @@ class HMatrixOperator:
         self.reserved_partner_bytes = 0
         self.entries = self.calls = self.max_entries = 0
         self.oracle = oracle
+        from ghost_backend.compressed.scaling import compression_scales
+        row_scale, column_scale, self.compression_scaling = compression_scales(oracle)
+        self.compression_rows = row_scale[self.order]
+        self.compression_columns = column_scale[self.order]
         self.bytes = 0
         from ghost_backend.execution.memory_budget import register
         register(self)
@@ -946,7 +975,8 @@ class HMatrixOperator:
         far_bytes = sum(row.nbytes for row in self.far); near_bytes = sum(row.nbytes for row in self.near + self.dense_far)
         far_ranks = [row.rank for row in self.far]
         self.evidence = dict(operator='hmatrix', unknowns=self.n, leaf=self.leaf, eta=self.eta,
-            tolerance=self.tolerance, retained_bytes=self.bytes, storage_budget=self.budget,
+            tolerance=self.tolerance, compression_scaling=self.compression_scaling,
+            scaled_sampled_row_error=self.scaled_sampled_row_error, retained_bytes=self.bytes, storage_budget=self.budget,
             near_bytes=near_bytes, far_bytes=far_bytes, dense_equivalent_bytes=16*self.n**2,
             near_rows=len(self.near), interaction_lists=len(self.far), dense_interaction_lists=self.dense_far_rows,
             max_rank=max(far_ranks or [0]), mean_rank=float(np.mean(far_ranks)) if far_ranks else 0.,
@@ -990,9 +1020,11 @@ class HMatrixOperator:
             for key in sorted(self.groups):
                 self._map(function, self.groups[key])
 
-    def _absolute(self, row_scale=None):
+    def _absolute(self, row_scale=None, dimensionless=False, include_dimensionless=False):
         """Row sums/maxima and column sums/maxima of |H| (optionally row-scaled), one pass.
 
+        With include_dimensionless, append the dimensionless row and column
+        sums from the same reconstructed values, after the ordinary reductions.
         Column partial sums are kept per fixed chunk of block rows and added
         in chunk order, so the result does not depend on the thread count.
         """
@@ -1004,27 +1036,48 @@ class HMatrixOperator:
             width = max(1, (4*1024**2)//max(1, 16*(b - a)))
             local_sum, local_max = np.zeros(b - a), np.zeros(b - a)
             col_sum, col_max = np.zeros(len(row.columns)), np.zeros(len(row.columns))
+            scaled_sum = np.zeros(b - a) if include_dimensionless else None
+            scaled_columns = np.zeros(len(row.columns)) if include_dimensionless else None
             scale = None if row_scale is None else row_scale[a:b, None]
             for c0 in range(0, len(row.columns), width):
                 value = abs(row.values(None, slice(c0, c0 + width)))
                 if scale is not None:
                     value /= scale
+                if dimensionless:
+                    value *= self.compression_rows[a:b, None]
+                    value *= self.compression_columns[None, row.columns[c0:c0+width]]
                 local_sum += value.sum(axis=1); np.maximum(local_max, value.max(axis=1), out=local_max)
                 col_sum[c0:c0+width] = value.sum(axis=0); col_max[c0:c0+width] = value.max(axis=0)
-            chunks[(row.kind, row.row)] = (row, local_sum, local_max, col_sum, col_max)
+                if include_dimensionless:
+                    if not dimensionless:
+                        value *= self.compression_rows[a:b, None]
+                        value *= self.compression_columns[None, row.columns[c0:c0+width]]
+                    scaled_sum += value.sum(axis=1)
+                    scaled_columns[c0:c0+width] = value.sum(axis=0)
+            chunks[(row.kind, row.row)] = (row, local_sum, local_max, col_sum, col_max,
+                                            scaled_sum, scaled_columns)
         self._passes(visit)
         cols_sum, cols_max = np.zeros(n), np.zeros(n)
+        scaled_rows = np.zeros(n) if include_dimensionless else None
+        scaled_cols = np.zeros(n) if include_dimensionless else None
         for key in sorted(chunks):
-            row, local_sum, local_max, col_sum, col_max = chunks[key]
+            row, local_sum, local_max, col_sum, col_max, scaled_sum, scaled_columns = chunks.pop(key)
             rows_sum[row.start:row.stop] += local_sum
             np.maximum(rows_max[row.start:row.stop], local_max, out=rows_max[row.start:row.stop])
             np.add.at(cols_sum, row.columns, col_sum)
             np.maximum.at(cols_max, row.columns, col_max)
-        return rows_sum, rows_max, cols_sum, cols_max
+            if include_dimensionless:
+                scaled_rows[row.start:row.stop] += scaled_sum
+                np.add.at(scaled_cols, row.columns, scaled_columns)
+        result = (rows_sum, rows_max, cols_sum, cols_max)
+        return result + (scaled_rows, scaled_cols) if include_dimensionless else result
 
     @timed_stage('hmatrix_norms')
     def _norms(self):
-        rows_sum, rows_max, cols_sum, _ = self._absolute()
+        uniform = (np.all(self.compression_rows == self.compression_rows[0])
+                   and np.all(self.compression_columns == self.compression_columns[0]))
+        norms = self._absolute(include_dimensionless=not uniform)
+        rows_sum, rows_max, cols_sum, _ = norms[:4]
         # Original (unpermuted) numbering, as the tile operator exposes it.
         self.row_norm = np.empty(self.n); self.row_norm[self.order] = rows_sum + self.near_tail
         self.row_max = np.empty(self.n); self.row_max[self.order] = rows_max
@@ -1033,22 +1086,36 @@ class HMatrixOperator:
         # the residual gate of hmatrix_factor uses the exact sample rows.
         self.row_error = np.zeros(self.n); self.row_error[self.order] = self.near_tail
         self.column_error = np.zeros(self.n)
+        if uniform:
+            scale = self.compression_rows[0]*self.compression_columns[0]
+            self.dimensionless_norms = (float(rows_sum.max()*scale), float(cols_sum.max()*scale))
+        else:
+            scaled_rows, scaled_columns = norms[4:]
+            self.dimensionless_norms = (float(scaled_rows.max()), float(scaled_columns.max()))
 
     @timed_stage('hmatrix_validation')
     def _validate(self):
         columns = np.arange(self.n)
         difference = np.empty(len(self.sample_rows))
+        scaled_difference = np.empty(len(self.sample_rows))
         step = max(1, VALIDATION_CHUNK_BYTES // max(1, 16*self.n))
         for start in range(0, len(self.sample_rows), step):
             self.checkpoint()
             stop = start + step
             approximate = self._get_positions(self.sample_rows[start:stop], columns)
-            difference[start:stop] = np.sum(abs(self.sample_values[start:stop] - approximate), axis=1)
-            del approximate
+            error = abs(self.sample_values[start:stop] - approximate)
+            difference[start:stop] = np.sum(error, axis=1)
+            error *= self.compression_columns[None, :]
+            scaled_difference[start:stop] = (error.sum(axis=1)
+                + self.sample_tail[start:stop]*self.compression_columns.max())*self.compression_rows[self.sample_rows[start:stop]]
+            del approximate, error
         norm = max(float(self.row_norm.max()), float(self.sample_norm.max()))
         self.operator_norm = norm
         self.sampled_row_errors = (difference + self.sample_tail)/norm
         self.sampled_row_error = float(self.sampled_row_errors.max())
+        self.scaled_sampled_row_error = float(scaled_difference.max()/self.compression_norm)
+        if not np.isfinite(self.scaled_sampled_row_error) or self.scaled_sampled_row_error > OPERATOR_ERROR_LIMIT:
+            raise HMatrixRejected('Dimensionless sampled hierarchical operator error exceeds the release limit.')
         if not np.isfinite(self.sampled_row_error) or self.sampled_row_error > OPERATOR_ERROR_LIMIT:
             raise HMatrixRejected('Sampled hierarchical operator row error {:.3g} exceeds {:.3g}.'.format(
                 self.sampled_row_error, OPERATOR_ERROR_LIMIT))
@@ -1093,8 +1160,8 @@ class HMatrixOperator:
                 out[row.start:row.stop] += value
             self._passes(visit)
             return out
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
         from ghost_backend.compressed.operator import _thread_budget
         workers = min(8, _thread_budget())
         batch_bytes = max(1, ADJOINT_BATCH_BYTES // workers)
@@ -1114,7 +1181,7 @@ class HMatrixOperator:
             for row in batch:
                 self.checkpoint()
                 y = x[row.start:row.stop]
-                values.append(adj(row.u) @ y if row.v is None else adj(row.v) @ (adj(row.u) @ y))
+                values.append(product(row.u, y) if row.v is None else product(row.v, product(row.u, y)))
             return values
         # Batches keep BLAS jobs coarse enough to amortize dispatch. At most
         # one batch per worker is retained, reduced in the original order.
@@ -1175,8 +1242,8 @@ class HMatrixOperator:
         row_order, col_order = np.argsort(rows, kind='stable'), np.argsort(cols, kind='stable')
         sorted_rows, sorted_cols = rows[row_order], cols[col_order]
         x = np.asarray(x)
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
         if trans == 0:
             result = np.zeros((len(rows), x.shape[1]), complex)
         else:
@@ -1191,8 +1258,8 @@ class HMatrixOperator:
                 result[row_order[selected_rows]] += u[:, local_cols] @ rhs if row.v is None else u @ (row.v[:, local_cols] @ rhs)
             else:
                 rhs = x[row_order[selected_rows]]
-                result[col_order[selected_cols]] += (adj(u[:, local_cols]) @ rhs if row.v is None
-                                                     else adj(row.v[:, local_cols]) @ (adj(u) @ rhs))
+                result[col_order[selected_cols]] += (product(u[:, local_cols], rhs) if row.v is None
+                                                     else product(row.v[:, local_cols], product(u, rhs)))
         return result
 
     def _within(self, r0, r1, c0, c1):

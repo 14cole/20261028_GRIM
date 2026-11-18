@@ -29,7 +29,7 @@ _STATE = ScopedValue("ghost_cpu_execution", default=None)
 _HIDDEN = ScopedValue("ghost_cpu_execution_hidden", default=False)
 
 
-def configured_batch_size():
+def configured_batch_size(planned=True):
     """Same explicit angle-batch limit for execution and resource planning."""
     value = str(environment_value('GHOST_CPU_ANGLE_BATCH_SIZE', str(BATCH_SIZE))).strip()
     try:
@@ -39,7 +39,9 @@ def configured_batch_size():
     if size < 1 or size > BATCH_SIZE:
         raise ValueError('GHOST_CPU_ANGLE_BATCH_SIZE must be between 1 and {}.'.format(BATCH_SIZE))
     from ghost_backend.execution.angle_batch import limit
-    return min(size, limit())
+    from ghost_backend.execution.dense_memory import current as dense_plan
+    plan = dense_plan() if planned else None
+    return min(size, limit(), plan['angle_batch_size'] if plan else BATCH_SIZE)
 
 
 def current_state():
@@ -273,9 +275,10 @@ def _assembly_rule_key():
     """
     from ghost_backend.execution.options import option
     from ghost_backend.twod import operators as ops
+    from ghost_backend.execution.dense_memory import assembly_tile_setting
     return (int(option('far_quadrature_order', ops._FAR_QUAD_ORDER)),
             bool(option('far_grading', ops._FAR_GRADED)),
-            int(option('assembly_tile', ops._ASSEMBLY_TILE)))
+            assembly_tile_setting(ops._ASSEMBLY_TILE))
 
 
 def cached_operator(label):

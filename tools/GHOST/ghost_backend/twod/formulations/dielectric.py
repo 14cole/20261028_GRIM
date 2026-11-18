@@ -14,6 +14,19 @@ def coupling(k0):
     return 1j * complex(k0)
 
 
+def assembly_resources(nnodes, obs_order=8, src_order=8):
+    """Owned operator storage for the same rule decision used by assembly.
+
+    Equal rules scatter all four exterior operators directly into the system.
+    Unequal rules need one separate n-by-n single-layer operator; never infer
+    its absence from the formulation name or polynomial degree alone.
+    """
+    fused = obs_order == src_order
+    return dict(assembly_operator_entries=0 if fused else int(nnodes)**2,
+                assembly_direct_destinations=bool(fused),
+                assembly_observer_order=obs_order, assembly_source_order=src_order)
+
+
 def assemble_system(mesh, infos, pol, k0, obs_order=8, src_order=8):
     import ghost_backend.twod.solver as rcs
     from ghost_backend.compressed.runtime import enabled, native
@@ -40,7 +53,7 @@ def assemble_system(mesh, infos, pol, k0, obs_order=8, src_order=8):
     k1 = k1_vals.pop()
     matrix = np.zeros((2*n, 2*n), complex, order='F')
     eta = coupling(k0)
-    fused = obs_order == src_order
+    fused = assembly_resources(n, obs_order, src_order)['assembly_direct_destinations']
     if fused:
         from ghost_backend.twod.assembly.scatter import SystemScatter
         ids = np.arange(n)

@@ -582,28 +582,16 @@ def _equilibrated_condition_from_lu(
 # dielectric system under different seeds -- and each call advanced that state
 # for other users.  A fixed private seed makes the estimate a deterministic
 # function of the matrix; the caller's global state is restored afterwards.
-_CONDITION_ESTIMATE_SEED = 0x2D5EED
-_CONDITION_ESTIMATE_LOCK = threading.Lock()
-
-
-def _reset_condition_estimate_lock() -> 'None':
-    global _CONDITION_ESTIMATE_LOCK
-    _CONDITION_ESTIMATE_LOCK = threading.Lock()
-
-
-if hasattr(os, "register_at_fork"):
-    # A pool worker forked while another thread held the lock must not inherit it.
-    os.register_at_fork(after_in_child=_reset_condition_estimate_lock)
-
-
 def _deterministic_onenormest(operator) -> 'float':
-    with _CONDITION_ESTIMATE_LOCK:
-        saved = np.random.get_state()
-        try:
-            np.random.seed(_CONDITION_ESTIMATE_SEED)
-            return float(_SCIPY_SPARSE_LINALG.onenormest(operator))
-        finally:
-            np.random.set_state(saved)
+    """1-norm estimate that neither reads nor advances NumPy's global generator.
+
+    The former implementation reseeded the process-global generator under a
+    lock around SciPy's estimator; another thread drawing random numbers during
+    the estimate saw the fixed-seed stream.  The private estimator returns the
+    same values (same algorithm, same seed) without global state.
+    """
+    from ghost_backend.linalg.onenorm import onenormest
+    return onenormest(operator)
 
 
 @timed_stage("linear_solve")
@@ -1174,6 +1162,73 @@ def _is_all_robin(infos: 'List[PanelCoupledInfo]') -> 'bool':
     """Return True if every element uses a Robin BC (PEC or IBC, no dielectric)."""
     return all(info.bc_kind == 'robin' for info in infos)
 
+# The far, touching and near quadrature rules are calibrated for panels of at
+# most this electrical length (NUMERICAL_METHODS.md, "2D transmission").
+from ghost_backend.twod.quadrature_quality import CALIBRATED_PANEL_KL_MAX, panel_qualification
+
+
+def _note_electrically_long_panels(mesh: 'LinearMesh', infos: 'List[PanelCoupledInfo]', notices) -> 'float':
+    """Warn when a panel is longer than the operators' calibrated range.
+
+    Adaptive meshes cap graded panels at |k|L = 3. A mesh built with
+    the density floor switched off can exceed 3, where the 8-point far rule of
+    S and K' and the 20-point touching rule lose accuracy without any residual
+    symptom (1e-7 at |k|L = 8, 1e-2 and worse at 20): the linear system is
+    solved exactly for a wrong operator, so the quality gate cannot see it.
+    """
+    qualification = panel_qualification(mesh, infos)
+    worst = qualification['maximum_panel_kl']
+    count = qualification['exceeded_panels']
+    if count:
+        notices.warn_once(
+            'Electrically long panels: {} panel(s) exceed |k|L = {:g} (largest {:.3g}). '
+            'The boundary-integral quadrature is calibrated up to that length, so operator '
+            'accuracy is not qualified for this mesh and a small linear residual does not '
+            'certify it. Increase the panel density.'.format(count, CALIBRATED_PANEL_KL_MAX, worst))
+    return worst
+
+
+def _has_closed_contour(mesh: 'LinearMesh') -> 'bool':
+    """True when some connected chain of elements closes on itself."""
+    parent: 'Dict[Tuple[int, int], Tuple[int, int]]' = {}
+    degree: 'Dict[Tuple[int, int], int]' = {}
+
+    def find(key):
+        while parent[key] != key:
+            parent[key] = parent[parent[key]]
+            key = parent[key]
+        return key
+
+    for element in mesh.elements:
+        ends = [mesh.nodes[int(nid)].key for nid in element.node_ids[:2]]
+        for key in ends:
+            parent.setdefault(key, key)
+            degree[key] = degree.get(key, 0) + 1
+        parent[find(ends[0])] = find(ends[1])
+    open_components = {find(key) for key, count in degree.items() if count != 2}
+    return any(find(key) not in open_components for key in degree)
+
+
+def _note_unprotected_closed_conductor(mesh: 'LinearMesh', infos: 'List[PanelCoupledInfo]',
+                                       pol: 'str', notices) -> 'None':
+    """Say so when a closed conductor is solved without the combined potential.
+
+    The combined S + gamma*D layout is all-or-nothing: one open TYPE 2 strip in
+    a conductor-only scene sends every contour, closed ones included, to the
+    single-layer equations, whose condition number peaks at the interior
+    resonances of the closed bodies (2e7 measured next to 5e2 protected).
+    """
+    if not infos or not _is_all_robin(infos):
+        return
+    from ghost_backend.twod.formulations.robin import combined_layout
+    if combined_layout(mesh, infos, pol) is None and _has_closed_contour(mesh):
+        notices.warn_once(
+            "Conductor scene: an open or otherwise ineligible contour keeps every conductor "
+            "on the single-potential representation, which is not protected against "
+            "fictitious interior resonances of the closed conductors. Near such a frequency "
+            "the condition estimate rises sharply; confirm with a neighbouring frequency.")
+
+
 def _assert_supported_te_type2_contours(
     mesh: 'LinearMesh',
     infos: 'List[PanelCoupledInfo]',
@@ -1190,25 +1245,37 @@ def _assert_supported_te_type2_contours(
     physically closed and must remain supported.
     """
 
-    if pol != "TE" or not _is_all_robin(infos):
+    if pol != "TE":
         return
 
-    type2_degree: 'Dict[Tuple[int, int], int]' = {}
+    # A TYPE 2 end is free when no other boundary element of the scene meets it.
+    # The degree is counted over every non-sheet element, so the junctions of a
+    # partial coating (TYPE 2 bare arc meeting TYPE 3 and TYPE 4) stay closed,
+    # and the check does not depend on what else the scene contains: a
+    # dielectric body or a TYPE 1 sheet elsewhere used to switch it off, and the
+    # open conductor was then solved with a single-layer Neumann row (or with
+    # unpinned edge unknowns), converging to a field several dB wrong.
+    boundary_degree: 'Dict[Tuple[int, int], int]' = {}
+    type2_keys = set()
     for elem, info in zip(mesh.elements, infos):
-        if int(info.seg_type) != 2:
+        seg_type = int(info.seg_type)
+        if seg_type == 1:
             continue
         for nid in elem.node_ids[:2]:
             key = mesh.nodes[int(nid)].key
-            type2_degree[key] = type2_degree.get(key, 0) + 1
+            boundary_degree[key] = boundary_degree.get(key, 0) + 1
+            if seg_type == 2:
+                type2_keys.add(key)
 
-    open_endpoint_count = sum(1 for degree in type2_degree.values() if degree == 1)
+    open_endpoint_count = sum(1 for key in type2_keys if boundary_degree[key] == 1)
     if open_endpoint_count > 0:
         raise ValueError(
             "Open TYPE 2 PEC/IBC contours are not supported for TE polarization: "
             "the available TE Robin MFIE is a closed-obstacle formulation and "
             f"the geometry has {open_endpoint_count} open TYPE 2 endpoint(s). "
-            "Close/stitch the obstacle contour, or use a physically appropriate "
-            "TYPE 1 sheet model for an open impedance card."
+            "Close/stitch the obstacle contour (a thin plate is a closed "
+            "finite-thickness contour), or use a physically appropriate TYPE 1 "
+            "sheet model for an open impedance card."
             + (_near_miss_note(geometry_snapshot.get("segments", []) or [], meters_scale, (2,))
                if geometry_snapshot is not None else "")
         )
@@ -1546,6 +1613,14 @@ def _memory_gate_message(
     if ledger is not None and ledger.last:
         detail_text += ' Binding constraint: {}. Owned numeric payload: {:.2f} GiB.'.format(
             ledger.last['binding_constraint'], ledger.last['owned_numeric_gib'])
+        if (ledger.last['binding_constraint'] == 'stable_reservation'
+                and ledger.last.get('reservation_binding_constraint') == 'cohort_remaining_reservation'):
+            # Free RAM is not the cause: another request holds the reservation.
+            from ghost_backend.execution.options import blas_lock_held
+            detail_text += ' Another solve running in this process holds the memory reservation.'
+            if blas_lock_held():
+                detail_text += (' This solve could not wait for it because its thread holds the BLAS '
+                                'lock of an outer execution scope. Run the solves one after another.')
     return (
         f"{context} requires an estimated {required_gb:.2f} {unit}, but "
         f"{availability}; the safe allocation limit is {limit_gb:.2f} {unit}."
@@ -1595,7 +1670,7 @@ def _estimate_memory_gb(
     factorization = factor_mode()
 
     gpu = factorization == 'dense' and (requested == 'gpu' or requested == 'auto' and d >= threshold)
-    batch = count if gpu else min(configured_batch_size(), count)
+    batch = count if gpu else min(configured_batch_size(planned=False), count)
     matrix = 16*d*d
     from ghost_backend.linalg.refined_lu import requested_precision
     if factorization == 'compressed':
@@ -1619,12 +1694,12 @@ def _estimate_memory_gb(
 
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
     solve = 2*matrix + 16*12*d*batch + 64*1024**2 + PROJECTION_CACHE_BYTES
-    from ghost_backend.linalg.hierarchical import automatic_hierarchical
-    # A large dense system is factored hierarchically by default: priced as the
-    # matrix and a factor within its storage budget (an LU fallback that finds
+    from ghost_backend.linalg.hierarchical import automatic_twod_hierarchical
+    # Explicit/legacy hierarchical overrides are priced as the matrix and
+    # a factor within its storage budget (an LU fallback that finds
     # no room for its copy spools the original, as any unforeseen shortage does).
     hierarchical_default = (factorization in ('dense', 'auto') and not gpu
-                            and requested_precision() == 'double' and automatic_hierarchical(d))
+                            and requested_precision() == 'double' and automatic_twod_hierarchical(d))
     if factorization == 'hierarchical' or hierarchical_default:
 
 
@@ -1639,13 +1714,36 @@ def _estimate_memory_gb(
         slots = {'single_dielectric': 1, 'sheet': 0, 'mixed_sheet_pec': 0,
                  'te_robin': 0, 'robin': 0, 'thin_dielectric_layer': 0}.get(kind,
                  max(0, int(operator_matrices)) if operator_matrices is not None else max(1,n_regions)*(8 if use_cfie else 4))
-        assembly = matrix + 16*slots*n*n + workspace
+        # Only an explicit formulation/rule resource record may remove the
+        # legacy allowance. Name-only/private estimates remain conservative.
+        entries = resources.get('assembly_operator_entries', slots*n*n)
+        assembly = matrix + 16*entries + workspace
 
     extra = CACHE_BYTES + TABLE_BYTES if solver_method == EXPERIMENTAL_METHOD or current_state() is not None else 0
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
     extra += resources.get('moment_cache_bytes', MOMENT_CACHE_BYTES if resources.get('basis_width', 2) > 2 else 0)
     from ghost_backend.compressed.worker_pool import retained_bytes as retained_worker_bytes
-    return (max(assembly, solve) + extra + count*4096 + retained_worker_bytes()) / 1024**3
+    from ghost_backend.execution.dense_memory import forecast as dense_forecast
+    plan = dense_forecast(d, count, batch, assembly, solve,
+        extra + count*4096 + retained_worker_bytes(),
+        eligible=(not gpu and factorization in ('dense', 'auto') and not hierarchical_default
+                  and requested_precision() == 'double' and kind in
+                  ('robin', 'te_robin', 'single_dielectric', 'multi_region', 'sheet',
+                   'mixed_sheet_pec', 'thin_dielectric_layer')),
+        submission=submission_planning, execution=activate_memory_plan)
+    if 'assembly_direct_destinations' in resources:
+        plan['assembly_ownership'] = {key: resources[key] for key in
+            ('assembly_operator_entries', 'assembly_direct_destinations',
+             'assembly_observer_order', 'assembly_source_order')}
+    if dense_resources is not None:
+        dense_resources['memory_estimate'] = plan
+    if activate_memory_plan:
+        from ghost_backend.execution.memory_budget import record_plan
+        record_plan(plan)
+    state = current_state()
+    if state is not None and plan not in state.memory_estimates:
+        state.memory_estimates.append(plan)
+    return plan['peak_bytes'] / 1024**3
 
 
 def _has_sheet(infos: 'List[PanelCoupledInfo]') -> 'bool':
@@ -1968,6 +2066,8 @@ def _dense_formulation_resources(
     pol: 'str',
     thin_parameters=None,
     sample_compression=True,
+    obs_order=8,
+    src_order=8,
 ) -> 'Dict[str, Any]':
     """Return system dimensions and retained-operator/workspace requirements for the
     selected formulation.
@@ -2021,9 +2121,11 @@ def _dense_formulation_resources(
         storage = storage_resources(mesh, layout)
         operator_matrices = storage['operator_matrices']
     elif _is_single_dielectric_body(infos):
+        from ghost_backend.twod.formulations.dielectric import assembly_resources
         formulation = "single_dielectric"
         system_dofs = 2 * nnodes
         operator_matrices = 2
+        storage = assembly_resources(nnodes, obs_order, src_order)
     elif _is_all_robin(infos):
         formulation = "robin"
         system_dofs = nnodes
@@ -2227,6 +2329,7 @@ def solve_monostatic_rcs_2d_single_polarization(
     mesh_material_flags_used: 'Set[int]' = set()
     panel_count_values: 'List[int]' = []
     surface_wave_sampling = []
+    quadrature_qualification = []
     panel_length_min_values: 'List[float]' = []
     panel_length_max_values: 'List[float]' = []
     elevations_arr = np.asarray(elevations, dtype=float)
@@ -2470,6 +2573,10 @@ def solve_monostatic_rcs_2d_single_polarization(
         _assert_no_type1_sheet_for_mixed(coupled_infos)
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
+        _note_electrically_long_panels(mesh, coupled_infos, notices)
+        quadrature_qualification.append(dict(panel_qualification(mesh, coupled_infos),
+            frequency_ghz=float(freq_ghz), polarization=pol))
+        _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
 
 
@@ -2504,7 +2611,7 @@ def solve_monostatic_rcs_2d_single_polarization(
         memory_limit_gb = available_system_memory()
         from ghost_backend.execution.angle_batch import recover as recover_angle_batch
         from ghost_backend.execution.cpu import configured_batch_size
-        initial_batch = configured_batch_size()
+        initial_batch = configured_batch_size(planned=False)
         est_gb, memory_limit_gb = recover_angle_batch(est_gb, memory_limit_gb,
             estimate_system_memory, available_system_memory, check_abort, max(1, len(elevations)),
             frequency_ghz=float(freq_ghz), polarization=pol, system_dofs=resources['system_dofs'],
@@ -2523,8 +2630,13 @@ def solve_monostatic_rcs_2d_single_polarization(
             from ghost_backend.execution.cpu import current_state
             state=current_state()
             if state is not None:
+                # The partner matrix is resident on top of this solve's own
+                # estimate (it was admitted as estimate + partner <= limit), so
+                # the peak of a paired solve is their sum.
+                partner_bytes = 16*resources['system_dofs']**2
                 state.memory_estimates.append(dict(method='paired_polarization_assembly',
-                    partner_matrix_bytes=16*resources['system_dofs']**2,total_peak_gib=est_gb,admission_limit_gib=memory_limit_gb))
+                    partner_matrix_bytes=partner_bytes, solve_estimate_gib=est_gb,
+                    total_peak_gib=est_gb+partner_bytes/1024**3, admission_limit_gib=memory_limit_gb))
         if est_gb > memory_limit_gb:
             raise MemoryError(
                 _memory_gate_message(
@@ -2788,6 +2900,7 @@ def solve_monostatic_rcs_2d_single_polarization(
         "mesh_max_refractive_index": float(np.max(mesh_max_index_values)) if mesh_max_index_values else 1.0,
         "mesh_material_flags": sorted(mesh_material_flags_used),
         "surface_wave_sampling": surface_wave_sampling,
+        "quadrature_qualification": quadrature_qualification,
         "polarization_internal": pol,
         "polarization_user": _canonical_user_polarization_label(polarization),
         "polarization_aliases": [_canonical_user_polarization_label(polarization)],
@@ -3149,6 +3262,8 @@ def _merge_co_polarized_2d_results(
         "dense_rhs_column_count": sum(m.get('dense_rhs_column_count', 0) for m in channel_metadata.values()),
         "dense_max_rhs_columns": max(m.get('dense_max_rhs_columns', 0) for m in channel_metadata.values()),
         "thin_layer": {label: channel_metadata[label].get("thin_layer", []) for label in expected_channels},
+        "quadrature_qualification": [record for label in expected_channels
+                                     for record in channel_metadata[label].get("quadrature_qualification", [])],
         "surface_wave_sampling": [record for label in expected_channels
                                   for record in channel_metadata[label].get('surface_wave_sampling', [])],
         "amplitude_version": RCS_AMPLITUDE_VERSION,
@@ -3260,6 +3375,24 @@ def _merge_co_polarized_2d_results(
         "co_solved_samples": co_solved_samples,
         "metadata": metadata,
     }
+
+
+def _reject_duplicate_angles(**grids) -> 'None':
+    """Refuse a repeated angle before any numerical work.
+
+    The co-polarized result grid has one row per (frequency, incidence,
+    observation); a repeated angle was only detected when the two finished
+    polarizations were merged, after the whole solve.
+    """
+    for name, values in grids.items():
+        seen = set()
+        for value in values:
+            key = float(value)
+            if key in seen:
+                raise ValueError(
+                    '{} contains {:g} more than once; a co-polarized 2-D result grid '
+                    'needs distinct angles. Remove the repeated value.'.format(name, key))
+            seen.add(key)
 
 
 def _frequency_local_co_solve(solve, kwargs):
@@ -3393,6 +3526,7 @@ def solve_monostatic_rcs_2d(
     (``co_solved_samples`` holds each channel in the same order).
     """
 
+    _reject_duplicate_angles(elevations_deg=elevations_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_monostatic_rcs_2d, locals())
     shared_cache: 'Dict[str, Any]' = {}
@@ -3523,6 +3657,7 @@ def solve_bistatic_rcs_2d_single_polarization(
     thin_layer_evidence = []
     panel_counts = []
     surface_wave_sampling = []
+    quadrature_qualification = []
     mesh_wavelength_values: 'List[float]' = []
     mesh_max_index_values: 'List[float]' = []
     mesh_material_flags_used: 'Set[int]' = set()
@@ -3594,6 +3729,10 @@ def solve_bistatic_rcs_2d_single_polarization(
         _assert_no_type1_sheet_for_mixed(coupled_infos)
         _assert_air_exterior(coupled_infos)
         _assert_supported_te_type2_contours(mesh, coupled_infos, pol, geometry_snapshot, unit_scale)
+        _note_electrically_long_panels(mesh, coupled_infos, notices)
+        quadrature_qualification.append(dict(panel_qualification(mesh, coupled_infos),
+            frequency_ghz=float(freq_ghz), polarization=pol))
+        _note_unprotected_closed_conductor(mesh, coupled_infos, pol, notices)
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
         nnodes = len(mesh.nodes)
 
@@ -3749,6 +3888,7 @@ def solve_bistatic_rcs_2d_single_polarization(
         "mesh_max_refractive_index": float(np.max(mesh_max_index_values)) if mesh_max_index_values else 1.0,
         "mesh_material_flags": sorted(mesh_material_flags_used),
         "surface_wave_sampling": surface_wave_sampling,
+        "quadrature_qualification": quadrature_qualification,
         "residual_norm_max": residual_norm_max,
         "residual_norm_mean": residual_norm_mean,
         "residual_nonfinite_count": residual_nonfinite_count,
@@ -3817,6 +3957,7 @@ def solve_bistatic_rcs_2d(
     observation angle as requested, with VV before HH for each sample.
     """
 
+    _reject_duplicate_angles(incidence_angles_deg=incidence_angles_deg, observation_angles_deg=observation_angles_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_bistatic_rcs_2d, locals())
     shared_cache = {}
@@ -3940,6 +4081,7 @@ def _run_certified_2d_pair_impl(
     with solve_phase('Base mesh'):
         base_result = low_level_solver(**base_kwargs)
     _require_surface_wave_sampling(base_result, 'base')
+    _require_quadrature_qualification(base_result, 'base')
 
     fine_snapshot = scale_snapshot_panel_density(
         geometry_snapshot, policy["fine_factor"]
@@ -3992,6 +4134,15 @@ def _finish_certified_2d_pair(base_result, fine_result, policy):
     return _certify_2d_results(base_result, fine_result, policy)
 
 
+def _require_quadrature_qualification(result, phase):
+    records = result.get('metadata', {}).get('quadrature_qualification', [])
+    if not records or any(not record.get('qualified', False) for record in records):
+        raise ValueError('Certified 2-D mesh convergence failed: boundary-integral '
+            f'quadrature is not qualified on the {phase} mesh. Every panel must be '
+            f'within |k|L <= {CALIBRATED_PANEL_KL_MAX:g} in both adjacent media at '
+            'every solved frequency. Increase panel density before certification.')
+
+
 def _require_surface_wave_sampling(result, phase):
     """Do not certify a short-wavelength plateau from two unresolved meshes."""
     for record in result.get('metadata', {}).get('surface_wave_sampling', []):
@@ -4013,7 +4164,9 @@ def _require_surface_wave_sampling(result, phase):
 def _certify_2d_results(base_result, fine_result, policy):
     from ghost_backend.runs.quality import evaluate_mesh_convergence
     _require_surface_wave_sampling(base_result, 'base')
+    _require_quadrature_qualification(base_result, 'base')
     _require_surface_wave_sampling(fine_result, 'fine')
+    _require_quadrature_qualification(fine_result, 'fine')
     base_panel_count = int(
         base_result.get("metadata", {}).get("panel_count", 0) or 0
     )
@@ -4049,6 +4202,9 @@ def _certify_2d_results(base_result, fine_result, policy):
     mesh_gate["fine_factor"] = policy["fine_factor"]
     mesh_gate["published_mesh"] = "fine"
     mesh_gate["geometry_model"] = "piecewise_linear_input"
+    mesh_gate["quadrature_qualification_checked"] = True
+    mesh_gate["base_quadrature_qualification"] = base_result["metadata"]["quadrature_qualification"]
+    mesh_gate["fine_quadrature_qualification"] = fine_result["metadata"]["quadrature_qualification"]
     mesh_gate["geometry_approximation_certified"] = False
     mesh_gate['surface_wave_sampling_checked'] = bool(
         base_result.get('metadata', {}).get('surface_wave_sampling') or
@@ -4223,6 +4379,7 @@ def solve_monostatic_rcs_2d_certified(
 ) -> 'Dict[str, Any]':
     """Canonical production monostatic entry; both channels must certify."""
 
+    _reject_duplicate_angles(elevations_deg=elevations_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_monostatic_rcs_2d_certified, locals())
     kwargs = dict(locals())
@@ -4318,6 +4475,7 @@ def solve_bistatic_rcs_2d_certified(
 ) -> 'Dict[str, Any]':
     """Canonical certified bistatic entry; both channels must certify."""
 
+    _reject_duplicate_angles(incidence_angles_deg=incidence_angles_deg, observation_angles_deg=observation_angles_deg)
     if len(frequencies_ghz) > 1:
         return _frequency_local_co_solve(solve_bistatic_rcs_2d_certified, locals())
     kwargs = dict(locals())

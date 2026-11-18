@@ -21,11 +21,13 @@ from ghost_backend.compressed.factor import (CompressedFactor, SOLVE_BACKWARD_ER
                                              CONDITION_PROBE_BACKWARD_ERROR_LIMIT)
 from ghost_backend.compressed.hmatrix import HMatrixRejected, DENSE_FALLBACK_LIMIT as HMATRIX_DENSE_FALLBACK_LIMIT
 from ghost_backend.execution.metrics import timed_stage
+from ghost_backend.execution.options import factor_blas_threads
 
 # Hierarchical inverse ranks of electrically large 2-D bodies exceed the 256
 # of the tile backend's cross approximation; storage still caps the build.
 MAX_INVERSE_RANK = 2048
 PROBES = 8
+PROJECTION_COLUMNS = 64
 
 
 class _RangeBlock:
@@ -39,11 +41,25 @@ class _RangeBlock:
         return self.operator.range_matmul(self.r0, self.r1, self.c0, self.c1, np.asarray(rhs, complex))
 
     def project(self, basis):
-        return self.operator.range_matmul(self.r0, self.r1, self.c0, self.c1, np.asarray(basis, complex),
-                                          adjoint=True).conj().T
+        basis = np.asarray(basis, complex)
+        width = basis.shape[1]
+        # The caller prices the full output separately. Only the operator's
+        # adjoint product temporaries are bounded by this column block size.
+        result = np.empty((width, self.shape[1]), dtype=np.complex128)
+        for start in range(0, width, PROJECTION_COLUMNS):
+            self.checkpoint()
+            stop = min(width, start + PROJECTION_COLUMNS)
+            result[start:stop] = self.operator.range_matmul(
+                self.r0, self.r1, self.c0, self.c1, basis[:, start:stop], adjoint=True).conj().T
+        return result
 
     def product_workspace(self, width, adjoint=False):
-        return self.operator.range_workspace_bytes(self.r0, self.r1, self.c0, self.c1, width, adjoint)
+        active_width = min(width, PROJECTION_COLUMNS) if adjoint else width
+        required = self.operator.range_workspace_bytes(
+            self.r0, self.r1, self.c0, self.c1, active_width, adjoint)
+        # Conjugating the adjoint result briefly holds two block outputs after
+        # the range tasks finish, even for a structurally empty range.
+        return max(required, 32*self.shape[1]*active_width) if adjoint else required
 
 
 def _span(positions):
@@ -94,6 +110,10 @@ class HMatrixSystem(CompressedSystem):
         self.evidence.update(dense_fallbacks=self.dense_fallbacks,
             largest_dense_fallback=self.largest_dense_fallback,dense_fallback_limit=self.DENSE_FALLBACK_LIMIT)
 
+    def build(self, oracle, ids):
+        from ghost_backend.compressed.hmatrix_build import build
+        return build(self, oracle, ids)
+
     def compress_block(self, oracle, rows, cols):
         operator = self.operator
         r0, r1 = _span(operator.position[np.asarray(rows, np.int64)])
@@ -114,6 +134,9 @@ class HMatrixSystem(CompressedSystem):
 class HMatrixFactor(CompressedFactor):
     """CompressedFactor for ``HMatrixOperator`` with the exact sample-row gate."""
 
+    small_product_blas_threads = 1
+
+    @factor_blas_threads
     def __init__(self, operator, *args, storage_budget_bytes=None, **kwargs):
         from ghost_backend.execution.memory_budget import current
         ledger = current()
@@ -122,7 +145,16 @@ class HMatrixFactor(CompressedFactor):
             from ghost_backend.compressed.runtime import hmatrix_storage_budget
             storage_budget_bytes = hmatrix_storage_budget()
         self.storage_allowance = int(storage_budget_bytes)
+        # Calibrated on large single-dielectric systems: the coarse inverse
+        # otherwise triggers an admitted rebuild during the first probes.
+        # This is an initial guess, not a relaxed residual/condition policy;
+        # the ordinary compact-inverse retry remains available under pressure.
+        if getattr(operator.oracle, 'kind', None) == 'dielectric' and operator.n >= 4096:
+            self.initial_preconditioner_tolerance = 1e-10
         super().__init__(operator, *args, storage_budget_bytes=storage_budget_bytes, **kwargs)
+        self.event['initial_preconditioner_tolerance'] = getattr(self, 'initial_preconditioner_tolerance', 1e-8)
+        self.event['solve_blas_threads'] = 1
+        self.event['solve_blas_policy'] = 'small_products_within_requested_cap'
 
     def _refresh_inverse_budget(self):
         from ghost_backend.twod.assembly.polynomial_pair import retained_bytes
@@ -139,13 +171,36 @@ class HMatrixFactor(CompressedFactor):
         self.tolerance = tolerance; self.event['factorizations'] += 1
         self.event['preconditioners'].append(self.factor.evidence)
 
+    def _dimensionless_denominator(self, x, b, trans=0):
+        rows = self.a.compression_rows[self.a.position]
+        columns = self.a.compression_columns[self.a.position]
+        if trans:
+            rows, columns = columns, rows
+        norm = self.a.dimensionless_norms[int(bool(trans))]
+        denominator = np.maximum(norm*np.max(abs(x)/columns[:, None], axis=0)
+                                 + np.max(abs(b)*rows[:, None], axis=0), 1e-300)
+        return rows, denominator
+
+    def _backward_errors(self, x, b, residual, trans):
+        physical, denominator = super()._backward_errors(x, b, residual, trans)
+        rows, scaled_denominator = self._dimensionless_denominator(x, b, trans)
+        scaled = np.max(abs(residual)*rows[:, None], axis=0)/scaled_denominator
+        # GMRES works in physical coordinates. This conservative absolute
+        # target also satisfies the dimensionless stopping criterion.
+        return np.maximum(physical, scaled), np.minimum(denominator, scaled_denominator/rows.max())
+
     def sampled_errors(self, x, b):
         """Normwise backward errors of ``x`` on the exactly evaluated sample rows."""
         residual, _ = self.a.sample_residual(x, b)
         norm = self.a.operator_norm
         denominator = np.maximum(norm*np.max(abs(x), axis=0) + np.max(abs(b), axis=0), 1e-300)
-        return np.max(abs(residual), axis=0)/denominator
+        physical = np.max(abs(residual), axis=0)/denominator
+        rows, scaled_denominator = self._dimensionless_denominator(x, b)
+        sample_rows = self.a.order[self.a.sample_rows]
+        scaled = np.max(abs(residual)*rows[sample_rows, None], axis=0)/scaled_denominator
+        return np.maximum(physical, scaled)
 
+    @factor_blas_threads
     def inverse(self, rhs, trans=0, return_residual=False, limit=SOLVE_BACKWARD_ERROR_LIMIT):
         b = np.asarray(rhs, complex); vector = b.ndim == 1
         if vector:
@@ -176,16 +231,21 @@ class HMatrixFactor(CompressedFactor):
             return solution, residual[:, 0] if vector else residual
         return solution
 
-    @timed_stage('condition_estimation')
+    @factor_blas_threads
     def _condition(self):
         blocks = self.diagnostics.get('condition_balance_blocks')
         if blocks is None:
             return super()._condition()
+        return self._balanced_condition(blocks)
+
+    @timed_stage('condition_estimation')
+    def _balanced_condition(self, blocks):
         # Block Sinkhorn balance from one pass over the retained blocks.
         self.diagnostics.pop('condition_balance_blocks')
         rows, columns, _ = self.a.equilibrate()
         rows, columns, norm = self.a.balanced_scaling(rows, columns, blocks)
-        from scipy.sparse.linalg import LinearOperator, onenormest
+        from scipy.sparse.linalg import LinearOperator
+        from ghost_backend.linalg.onenorm import onenormest
         probe = CONDITION_PROBE_BACKWARD_ERROR_LIMIT
         inverse = LinearOperator(self.a.shape,
             matvec=lambda z: columns*self.inverse(rows*np.asarray(z).reshape(-1), limit=probe),
@@ -196,10 +256,17 @@ class HMatrixFactor(CompressedFactor):
         estimate = norm*float(onenormest(inverse))
         if not np.isfinite(estimate):
             raise hf.HierarchicalRejected('Nonfinite hierarchical condition estimate.')
+        from ghost_backend.compressed.factor import CONDITION_PROBE_ACCEPTED_PERTURBATION
+        if estimate*probe > CONDITION_PROBE_ACCEPTED_PERTURBATION and self.event.get('max_probe_backward_error', 0.) > SOLVE_BACKWARD_ERROR_LIMIT:
+            probe = SOLVE_BACKWARD_ERROR_LIMIT
+            estimate = norm*float(onenormest(inverse))
+            if not np.isfinite(estimate):
+                raise hf.HierarchicalRejected('Nonfinite hierarchical condition estimate.')
         self.diagnostics.update(condition_est=estimate, condition_label=self.label,
             condition_method='equilibrated_1norm_hmatrix_refined_inverse_block_balanced')
 
     @timed_stage('linear_solve')
+    @factor_blas_threads
     def solve(self, rhs):
         import ghost_backend.twod.solver as rcs
         b = np.asarray(rhs, complex); vector = b.ndim == 1

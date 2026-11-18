@@ -15,7 +15,8 @@ def combine_channels(plans, n_angles, fine_factor):
         system_dofs=p['base_system_dofs'], fine_system_dofs=p['fine_system_dofs'],
         operator_matrices=p['base_operator_matrices'], fine_operator_matrices=p['fine_operator_matrices'])
         for p in plans)
-    result = dict(cost=cost, peak_gb=max(p['peak_gb'] for p in plans))
+    result = dict(cost=cost, peak_gb=max(p['peak_gb'] for p in plans),
+                  automatic_unknowns=max(max(p['base_system_dofs'], p['fine_system_dofs']) for p in plans))
     if all('backend_candidates' in p for p in plans):
         modes=[m for m in BACKENDS if all(m in p['backend_candidates'] for p in plans)]
         result['backend_candidates'] = {
@@ -80,6 +81,21 @@ def select_batch_backends(records, cores, workers, budget_gb, options):
         return {}, {}
     cores, workers = max(1, int(cores)), max(1, min(int(workers), int(cores)))
     cap = min(float(budget_gb), float(options['ram_budget_gib'] or budget_gb))
+    if options['factorization'] == 'automatic':
+        from ghost_backend.execution.policy import rank_automatic, ranking_reason
+        selections = {}
+        for record in records:
+            decision = {}
+            candidates = record['backend_candidates']
+            ranked = rank_automatic(candidates, cap, record['automatic_unknowns'], diagnostics=decision)
+            mode = ranked[0]
+            selections[record['unit']] = dict(requested='adaptive', automatic_policy=True,
+                selected=mode, candidates=candidates, ranking=decision, reason=ranking_reason(decision),
+                retry_order=[m for m in ranked[1:] if candidates[m]['peak_gb'] <= candidates[mode]['peak_gb']],
+                optimality_guaranteed=False)
+        return selections, dict(policy='memory_and_size_v1',
+            dense_units=sum(s['selected'] == 'dense' for s in selections.values()),
+            compressed_units=sum(s['selected'] == 'compressed' for s in selections.values()))
     allowed = {}
     for r in records:
         candidates = r['backend_candidates']
@@ -175,7 +191,11 @@ def apply_batch_choices(records, cores, workers, budget, options):
             selection = selections[r['unit']]
             r.update(r['backend_candidates'][selection['selected']])
         resolved.append(r)
-    if summary:
+    if summary.get('policy') == 'memory_and_size_v1':
+        print('  Automatic batch: {} dense, {} compressed; memory-and-size policy, '
+              '{} CPUs, {:.1f} GiB budget'.format(summary['dense_units'],
+                  summary['compressed_units'], cores, budget), flush=True)
+    elif summary:
         print('  Auto batch: {} dense, {} compressed; predicted completion cost {:.3g} '
               '(fastest-unit-first {:.3g}, compressed-first {:.3g}); {} CPUs, {:.1f} GiB budget'.format(
                   summary['dense_units'], summary['compressed_units'], summary['selected_cost'],

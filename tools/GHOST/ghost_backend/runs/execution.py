@@ -24,6 +24,11 @@ def driver_options(namespace):
     return run_control_options(controls, budget)
 
 
+def _driver_settings(function):
+    capture = function.__globals__.get('current_settings')
+    return capture() if callable(capture) else function.__globals__
+
+
 def driver_execution(function):
     """Scope driver planning and worker management to a captured profile."""
     @wraps(function)
@@ -37,7 +42,7 @@ def driver_execution(function):
                 profile = validate_for_run(config['execution_options'], config.get('solver_method', 'auto'),
                                            config.get('lu_precision', 'double'))
         if profile is None:
-            profile = driver_options(function.__globals__)
+            profile = driver_options(_driver_settings(function))
         with execution_scope(profile):
             return function(*args, **kwargs)
     return call
@@ -47,7 +52,7 @@ def unit_execution(function):
     """Apply manifest settings inside a fresh or reused pool worker."""
     @wraps(function)
     def call(unit, context, destination):
-        profile = context.get('execution_options') or current_options() or driver_options(function.__globals__)
+        profile = context.get('execution_options') or current_options() or driver_options(_driver_settings(function))
         from ghost_backend.execution.metrics import progress_listener
         last = [0.0]
         def progress(event):

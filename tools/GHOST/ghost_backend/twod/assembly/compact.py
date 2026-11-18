@@ -22,7 +22,10 @@ class CompactOperator:
         if values.ndim != 1 or values.dtype.kind not in 'iu':
             raise ValueError('Compact operator node IDs must be a one-dimensional integer array.')
         values = values.astype(np.int64, copy=True)
-        if np.any(values < 0) or np.any(values >= count) or len(np.unique(values)) != len(values):
+        # Scatter/query routes overwhelmingly supply sorted subsets. Check
+        # those in linear time without sorting and allocating np.unique.
+        unique = np.all(values[1:] > values[:-1]) or len(np.unique(values)) == len(values)
+        if np.any(values < 0) or np.any(values >= count) or not unique:
             raise ValueError('Compact operator node IDs must be unique and within the mesh.')
         return values
 

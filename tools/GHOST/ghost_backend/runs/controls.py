@@ -3,7 +3,7 @@ from ghost_backend.execution.options import automatic_options, validate_options
 
 
 DRIVER_CONTROL_DEFAULTS = {
-    'FACTORIZATION': 'compressed',
+    'FACTORIZATION': 'automatic',
     'MESH_STRATEGY': 'adaptive',
     'BASIS_ORDER': 1,
     'MESH_GRADING': True,
@@ -13,8 +13,9 @@ CONTROL_FIELDS = {
     'BASIS_ORDER': 'basis_order', 'MESH_GRADING': 'mesh_grading',
 }
 FACTORIZATION_LABELS = {
-    'compressed': 'Compressed (default, lower memory)',
-    'dense': 'Dense (manual override)',
+    'automatic': 'Automatic (recommended)',
+    'compressed': 'Compressed (lower memory)',
+    'dense': 'Dense',
 }
 # Accepted by APIs, drivers, and saved profiles, but not offered for new GUI runs.
 DIAGNOSTIC_FACTORIZATION_LABELS = {
@@ -54,7 +55,8 @@ def run_control_summary(options, mesh_certification):
                       'Single P1 reference mesh (no refinement)')
     else:
         mesh_label = '{}; polynomial order: P{}'.format(mesh.capitalize(), options['basis_order'])
-    return ('Factorization: {}. Mesh: {}. Corner grading: {}. {}.'.format(
-        factor, mesh_label, 'On' if options['mesh_grading'] else 'Off',
-        'Mesh certification: On (compare meshes)' if mesh_certification else
-        'Survey \u2014 mesh convergence not checked'))
+    workflow = ('Find converged mesh automatically' if mesh_certification and mesh == 'adaptive' else
+                'Check specified mesh' if mesh_certification else
+                'Solve specified mesh — mesh convergence not checked')
+    return ('Linear solver: {}. Mesh: {}. Corner grading: {}. Workflow: {}.'.format(
+        factor, mesh_label, 'On' if options['mesh_grading'] else 'Off', workflow))
