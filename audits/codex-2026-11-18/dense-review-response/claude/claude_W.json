@@ -1,0 +1,94 @@
+[
+ [
+  "w-main-partial-b16-t4",
+  {
+   "runner": "claude_run_geometry8.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "main"
+  }
+ ],
+ [
+  "w-patched-partial-b16-t4",
+  {
+   "runner": "claude_run_geometry8.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 4,
+   "tree": "patched"
+  }
+ ],
+ [
+  "w-main-partial-b16-t1",
+  {
+   "runner": "claude_run_geometry8.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 1,
+   "tree": "main"
+  }
+ ],
+ [
+  "w-patched-partial-b16-t1",
+  {
+   "runner": "claude_run_geometry8.py",
+   "count": 180,
+   "hook": "claude_builder",
+   "builder": "production",
+   "packing": "none",
+   "frequency_ghz": 5.0,
+   "method": "dense",
+   "material": "partial",
+   "shape": "partial",
+   "length_m": 0.6,
+   "eps": [
+    12.0,
+    -0.01
+   ],
+   "pol": "TE",
+   "batch": 16,
+   "threads": 1,
+   "tree": "patched"
+  }
+ ]
+]
