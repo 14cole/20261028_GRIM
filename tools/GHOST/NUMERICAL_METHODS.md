@@ -264,27 +264,59 @@ O(h^2). Far tiles are computed on threads but scattered in a fixed tile order,
 so thread counts give bitwise identical matrices, and weighted tile
 preparation occurs outside the matrix scatter lock.
 
+Dense double-precision LU factors the row/column-equilibrated matrix using
+its existing condition-estimation scales. Only the owned LU buffer is scaled;
+physical coefficients remain intact in RAM or the original-matrix spool.
+Normal, transpose and adjoint inverse actions transform both RHS and solution,
+so field evaluation and residuals retain physical units. Refinement checks both
+the physical infinity-norm backward error and the equilibrated 1-norm error;
+the latter targets 3e-15, with at most five improving corrections. Both final
+errors must satisfy the unchanged 1e-12 release limit. The condition definition,
+condition gate and mesh certification thresholds are unchanged. This corrects
+scale-dependent early stopping and improves LU robustness without another full
+matrix allocation.
+
 Dense double-precision LU can spool an exclusively owned original matrix to
 temporary disk storage and overwrite its RAM buffer with LU. Every residual
 product still uses every original row; condition scaling is computed before
 overwrite. Original TE coefficients needed for TM assembly are restored from
 the spool into the same buffer after solving. `dense_residual_storage` accepts `auto`, `memory`, or `disk` in the
-2D execution options. The admission estimates price the original next to its
-LU, so `auto` keeps it in memory whenever that copy fits: it spools an eligible
-matrix of at least 512 MiB only when the memory available as the matrix is
-factored cannot hold the copy (plus an eighth, at least 256 MiB), and falls
-back to memory if the spool cannot be created. Every residual product of a
-spooled matrix re-reads the whole file (on the certified 10 GHz airfoil, 64 s
-of 207 s for a 7.8 GB system; kept in memory the run took 145 s within its
-16.7 GB estimate). Non-owned arrays, mixed precision, and hierarchical factors
-retain their existing storage. Spools close on completion or failure. BoR modal
-factors follow the same policy: a mode worker whose copy does not fit factors a
-system of 512 MiB or more in place and computes its residuals from the spool.
+2D execution options. CPU Dense admission records one phase plan per actual
+mesh, including the original/LU storage policy, RHS width, optional paired
+polarization, retained workers and temporary-disk requirement. `auto` keeps
+in-memory residuals when the full forecast fits. Automatic applies its 20%
+headroom target before choosing this storage plan: a memory plan outside that
+target is repriced with disk residuals even if it fits the whole reservation.
+The selected per-mesh storage and batch plan survives nested polarization solves
+and cached-forecast repricing. Execution rechecks scratch and live RAM; a missing
+selected disk plan rejects that backend attempt instead of silently spending its
+RAM saving. With constrained RAM and usable disk-backed scratch it prices one
+owned matrix plus bounded spool buffers,
+then reduces the angle batch if needed; all requested angles are still solved.
+A constrained or disk plan does not retain an optional second TE/TM matrix.
+Automatic assembly tiles are capped at 128 in a constrained plan, while the
+forecast retains the conservative original assembly workspace allowance.
+Explicit tile settings remain respected. Every remesh replans; submitting-host
+forecasts retain both matrices because remote scratch is not yet known.
 
-A dense double-precision system of at least 10,000 unknowns
-(`linalg.hierarchical.HIERARCHICAL_MIN_UNKNOWNS`; the environment variable
-`GHOST_HIERARCHICAL_MIN_UNKNOWNS` overrides it, 0 keeps LU) is factored as a
-HODLR inverse under the `dense` and `auto` factorizations. Its off-diagonal
+The spool reads every original row with one reusable buffer (4 MiB target,
+at least 64 rows). Both the copy and spool paths recheck live RAM, including
+the planned RHS workspace. An automatic disk failure can fall back to a copy
+only after RAM admission; explicit `disk` propagates the disk error. Scratch
+checks reject known RAM-backed filesystems (and unknown backing); they cannot
+guarantee future free space, so creation/write failures remain
+checked and fail safely. Every residual product re-reads the full file;
+slower or network scratch can increase runtime. Non-owned arrays, mixed
+precision, GPU and hierarchical factors keep their conservative forecasts
+and existing ownership rules. Spools close on completion or failure. BoR
+retains its existing policy; its shared residual spool uses the same bounded
+read buffer.
+
+Dense 2D systems now use LU by default. Explicit `hierarchical` factorization,
+`GHOST_HIERARCHICAL_MIN_UNKNOWNS` (0 keeps LU), and legacy timing choices retain
+the HODLR implementation. BoR retains its existing automatic 10,000-unknown
+threshold. The measurements below describe the earlier HODLR calibration and
+are not a portable performance guarantee. Its off-diagonal
 blocks are compressed by an adaptive randomized range finder (products of the
 block with 32 Gaussian probes at a time, re-orthogonalized, until fresh
 samples leave less than `1e-10 ||A||_inf`; then a truncated SVD through the QR
@@ -312,14 +344,15 @@ and takes 88 s (11.5 GB).
 
 ## Hierarchical 2-D operator
 
-From 8,192 unknowns (`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`;
-`GHOST_HMATRIX_MIN_UNKNOWNS` overrides it, 0 disables it) the compressed
-backend assembles an H-matrix instead of evaluating every coefficient tile.
-Below the threshold, and whenever the automatic policy admits dense storage,
-nothing changes: results are bit-identical, and the automatic policy keeps
-dense LU/HODLR wherever it is admitted (the hierarchical backend is for the
-systems dense storage cannot hold). The threshold is where the tile operator
-stops being practical: at 10,000 PEC unknowns its retained payload exceeded the
+Explicit compressed and `automatic` execution both use H-matrix from 1,024
+unknowns (`compressed.hmatrix.HMATRIX_MIN_UNKNOWNS`). This avoids building and
+factoring a tile operator before retrying the same system hierarchically.
+`GHOST_HMATRIX_MIN_UNKNOWNS` overrides this threshold, with 0 disabling H-matrix. Tiles remain for excluded formulations,
+small systems and rejected H-matrix assembly. Automatic prefers admitted dense
+LU below 10,000 forecast unknowns and compressed above; memory admission takes
+precedence. Switching regimes preserves the numerical acceptance gates, not a
+bitwise identity guarantee. The historical 8,192 threshold reflected where the tile operator
+stopped being practical: at 10,000 PEC unknowns its retained payload exceeded the
 2-GiB default cap, while the hierarchical operator kept 15% of the dense
 storage (dense was 1.2 times faster there; from 15,000 unknowns the
 hierarchical solve of a PEC cylinder was faster than dense, 43 against 50 s).
@@ -336,8 +369,14 @@ columns (spread, random and high-weight), a pivoted-QR skeleton of the long
 rows, and a least-squares fit over more samples than the rank (an
 interpolating cross would fit the coefficients' rounding noise, about 3e-13
 of a block, into unseen rows), validated by fresh random rows and columns,
-then recompressed by QR/SVD. The target is a mean row-sum error of `1e-12
-||A||_inf` per list, estimated from probes. Lists of one level are compressed
+then recompressed by QR/SVD. Rank selection operates on the dimensionless
+operator `R A C`: Galerkin single-layer, double-layer and hypersingular
+coefficients have length powers two, one and zero. Formulation-specific positive
+row/column multipliers formed from the exterior wavenumber remove those units
+(`compressed.scaling`). The target is a mean row-sum error of
+`1e-12 ||R A C||_inf` per list, estimated from probes. Factors are unscaled
+before storage, so public products, densities, physical residuals and field
+normalizations retain their original units. Lists of one level are compressed
 concurrently (single-threaded coefficient queries on all allocated logical
 CPUs; results do not depend on the thread count), finest level first, a pilot
 wave of eight lists calibrating each level's rank guess. TE and TM share one
@@ -351,12 +390,20 @@ that allowance permits. When there are too many leaves, a spread subset of
 leaf middle rows is used. Evidence records the total and sampled leaf counts,
 coverage fraction, whether coverage is limited, and retained sample-row bytes.
 After assembly the complete row errors `sum_j |A_ij - H_ij|` of these rows
-must stay below `1e-11 ||A||_inf` (measured 1-3e-12), otherwise the tile
-operator is used. Every field solve must then pass the backend's existing
+must stay below `1e-11 ||A||_inf`; the dimensionless sample-row error must
+also stay below `1e-11 ||R A C||_inf`, otherwise the tile operator is used. Every field solve must then pass the backend's existing
 gates against the retained operator (refinement to 3e-15, 1e-12 physical
 bound) and, in addition, a normwise backward error within 1e-12 of the dense
 gate on the exact sample rows (measured 1e-14 to 3e-13). A failure rebuilds the
-operator at a tenth of its tolerance once, then rejects the solve. Field
+operator at a tenth of its tolerance once, then rejects the solve. Refinement
+also checks the dimensionless normwise backward error using `y=C^-1 x` and
+`R b`; transpose/adjoint solves exchange R and C. Exact sample-row solve gates
+check both unit systems. The original physical gates are retained. Merely
+normalizing compression was insufficient on the scale test: the physical-only
+refinement criterion could still stop early. Six equal-electrical-size dielectric
+controls (radius 100 to 0.01 metres, 4,000 unknowns) now differ from Dense by
+4.7e-12 to 8.5e-12, compared with up to 2.1e-5 before this change. These are
+sampled validation results, not a general forward-error bound. Historical field
 changes against dense LU are therefore conditioning limited: 2e-12 to 4e-12 of
 the peak on 5,000-20,000-unknown PEC cylinders, 1e-10 to 4e-10 on the
 6 GHz airfoil, 6e-9 on a dielectric of condition 6e3 (where the tile backend
@@ -366,11 +413,24 @@ itself differs from LU by 1e-9) and 1.4e-8 on the 0.001-inch coat
 *Factorization.* The compressed backend's inverse tree (Woodbury HODLR at
 `1e-8`, refinement and GMRES) is built from range products with the
 retained factors (adaptive randomized sampling, ranks up to 2,048), so no
-coefficient is read twice. Condition estimates use exact one-pass
+coefficient is read twice. Single-dielectric hierarchical systems with at least
+4,096 unknowns start at `1e-10`, avoiding the coarse build and subsequent
+upgrade seen in the calibrated large dielectric cases. This is a performance
+heuristic, not an accuracy threshold or size limit. All original refinement,
+physical/scaled acceptance and condition gates still apply; insufficient storage
+retains the compact `1e-6` retry. Condition estimates use exact one-pass
 equilibration over the retained blocks. A factorization owns one lazily started
 thread team for its range products; it joins that team on success, failure or
 cancellation. Adjoint products reduce bounded batches of block contributions
-in a fixed order, avoiding a complete tree's temporary outputs.
+in a fixed order, avoiding a complete tree's temporary outputs. Its many small
+BLAS products use one thread under both automatic and numeric thread settings;
+a numeric setting is a cap, not a forced team size. Assembly/range-product
+workers retain the allocated CPU budget. The process-wide BLAS lock and nested
+restoration apply on successful solves, failures and cancellation. Process-tree
+telemetry enumerates descendants once per second and at solve start/finish;
+parent RSS still samples every 50 ms. These are sampled diagnostics, so brief
+child peaks can be missed. Admission and owned-worker memory checks remain live
+and independent of this telemetry throttle.
 
 The retained-storage ledger includes numeric geometry, tree and block indexes,
 sample rows and their diagnostics, and norm/error vectors as well as block
@@ -385,6 +445,20 @@ the inverse and concurrent assembly workspaces are priced, and the
 forecast is used by the solver's admission gate, the automatic planner, the
 HPC planner and the GUI setup. At the 2,048-MiB default (and at 0) the
 hierarchical storage cap is sized automatically from the solve RAM limit.
+The planner first prices paired TE/TM assembly including both retained
+operators and its paired workspace. If that plan does not fit, it prices
+separate assembly with one operator and one workspace. Each candidate fixes
+its pairing decision before calculating the payload remainder; increasing
+the separate plan's payload allowance cannot silently enable paired assembly.
+Explicit payload limits remain unchanged, and live allocation checks still
+apply. Submission forecasts retain their conservative workspace allowance.
+
+For a single dielectric body with equal observation and source quadrature
+orders, dense assembly scatters its operators directly into the final system
+matrix. The forecast no longer charges an additional standalone single-layer
+matrix on that path. Unequal rules retain that matrix and its allowance.
+Generic or unqualified resource estimates keep the conservative allowance;
+assembly workspace and residual-storage admission are otherwise unchanged.
 
 *Coverage.* Every formulation reached through the compressed coefficient
 oracles is covered: closed PEC/IBC combined potentials, single dielectric
@@ -1093,3 +1167,135 @@ material side for conductor surfaces. Invalid incidence is rejected before
 operator construction. Dielectric IDs 900000 and above are reserved for
 solver-owned virtual sheet regions; user dielectric IDs must be 1–899999.
 This prevents a material definition from being silently interpreted as air.
+
+## November 2026 audit changes
+
+These follow the independent audit and its cross-examination
+([development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/SOLVER_AUDIT_2D_BOR.md), [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/)). Regression scripts and calibration data
+are in [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/). On 31 reference field sets (every 2-D
+formulation family on the dense and compressed backends, and six BoR bodies)
+the correctness changes leave every field bit for bit; the W far-rule change
+moves 2-D fields by at most 3.1e-12 of the largest amplitude, and BoR fields
+are unchanged.
+
+*TE open conductors.* A free TYPE 2 end is refused for TE in every scene. The
+check used to run only when every element was a conductor, so a dielectric, a
+coating or a TYPE 1 sheet elsewhere switched it off: the open conductor then
+received a single-layer Neumann row (multi-region scenes) or unpinned edge
+unknowns (sheet scenes), which cannot represent the jump of `Hz` across a
+screen. The result was mesh-converged, passed the gate and the certificate,
+and was 3 to 8 dB wrong (dielectric rectangle plus strip against a thin closed
+plate). The end count is taken over every non-sheet element, so the junctions
+of a partial coating (TYPE 2 bare arc meeting TYPE 3 and TYPE 4) remain closed.
+TM is unchanged. The statement in "TE sheets" that open TYPE 2 strips keep the
+single-potential equations applies to TM only. A conductor strip
+attached to a closed body at both ends (a handle) never reaches this count:
+the material-region check refuses it first, because the enclosed pocket is
+declared air by one boundary and conductor by the other.
+
+*Dense backward-error gate.* A nonfinite solution made both the residual and
+its denominator NaN; neither comparison of the normwise formula held, and the
+column was accepted with backward error 0.0. Such columns now fail, and a
+nonfinite solution raises before the gate. A zero right-hand side with a zero
+solution remains a valid 0.
+
+*Condition estimates.* `linalg.onenorm.onenormest` is the block 1-norm
+estimator of Higham and Tisseur with a generator of its own. It returns the
+values of SciPy's estimator under the former fixed seed (300 random real and
+complex operators, bit for bit) and reads no global state. The compressed,
+hierarchical and BoR compressed estimates used SciPy's estimator directly, so
+they depended on the caller's NumPy random state and advanced it: two PEC
+circles 0.5% apart gave 706, 676, 733 or 216 for the same system (dense: 726).
+All paths now return 726.34091 there.
+
+*BoR mode extension.* When the automatic mode cap is extended, only the new
+modal band is integrated. The near convergence test scaled each component by
+its largest value inside that band; near a graded axis tip those blocks are
+rounding noise (1e-22 beside 1e-8 at mode 0), and the test compared noise with
+noise up to order 192 before reporting a mesh problem. The band is now scaled
+by the pair's two lowest modes as well, as a build from mode 0 is. The cone
+that failed at `mode_tol=1e-13` agrees with an explicit cap to 5e-14.
+
+*Mesh density.* The gross four-panels-per-wavelength floor applies to negative
+`N` (`N = -1 .. -3` are refused while `enforce_mesh_density` is on). When the
+floor is off, a mesh with panels beyond `|k| L = 3` is solved with a warning:
+the far and touching rules are calibrated to that length (see below), and an
+exact solve of an inaccurate operator shows no residual symptom. Certification
+now separately requires structured electrical-length qualification of every
+base and refined mesh, both polarizations and all solved frequencies; a small
+warning count cannot bypass it. Adaptive wavelength-based panels are split
+where their actual graded lengths would exceed `|k|L = 3`. Input vertices and
+explicit positive panel counts are preserved. An unqualified fixed mesh can
+still be used for an explicitly uncertified solve, with its warning, but cannot
+receive a mesh-convergence certificate.
+
+*W far rule.* For the linear basis the far order of the hypersingular block is
+graded per tile like S and K'. [development evidence](https://github.com/14cole/20261028_GRIM/tree/4f97977bf7f295ee30c0ac2078749e2b158225cd/audits/claude-2026-11-10/calibration/) compares
+the completed Maue block with a 48-point rule over `|k| L` from 1e-8 to 3,
+`arg k` from 0 to -90 degrees, length ratios from 1 to 1e-6, separations of 3
+to 30 panel lengths and all orientations. Orders by `|k| L` bound and smallest
+separation (below 5, below 10, beyond): 0.15: 6/5/5; 0.5: 7/6/5; 1.0: 7/6/6;
+1.5: 8/7/7; 3.0: 8/8/8. Every entry keeps the worst block error at or below
+1e-13 except the last row, which is the former uniform rule (2.7e-13 on this
+grid; the 1.5e-14 quoted above came from a narrower one). Sliver panels and
+very low frequencies are no worse than ordinary ones, so the 16-point fallback
+now starts at a length ratio of 1e-6 and `|k| L` of 1e-8 instead of 1e-3 and
+1e-4. The caller's default order is no longer a floor of its own; an
+explicitly raised order still is. Degrees 2 and 3 keep 9 points. Measured on
+one core, dense LU, median of three (`evidence/bench_2d_before_after.txt`):
+1,600-panel PEC and impedance circles at 20 panels per wavelength 5.19 to
+4.16 s and 5.52 to 4.57 s, at `|k| L = 1` 6.23 to 5.23 s, a coated cylinder
+6.35 to 5.34 s; a 1,200-panel circle with one sliver 7.59 to 2.83 s.
+
+*Concurrency.* A second solve started in the same process while another holds
+the memory reservation waits for it (honouring its abort event) instead of
+being admitted with 0 GiB. The order is reservation first, BLAS lock second: a
+thread that already holds the BLAS lock from an outer
+`execution_scope(limit_blas=True)` does not wait, because the running solve
+needs that lock; it is admitted against what is left, as before the audit, and
+a refusal names the cause. Leaf and correction factorizations test LAPACK's
+status instead of turning warnings into errors through the process-wide filter
+list. A frequency worker that dies, whether the pool reports it when a result
+is collected or when the next unit is submitted, leaves the unfinished
+frequencies to the parent's sequential path, as a worker `MemoryError` already
+did.
+
+*Smaller items.* Repeated angles are refused before any work on the
+co-polarized entry points. A closed conductor solved without the combined
+potential because another contour of the scene is open carries a warning. The
+`paired_polarization_assembly` record reports the solve estimate plus the
+partner matrix as its peak. `GHOST_HIERARCHICAL_MIN_UNKNOWNS` is validated.
+
+*Memory forecast of paired assembly.* The dense forecast prices the matrix and
+its LU copy; the TM partner assembled during the TE traversal is admitted
+separately, only when estimate plus partner fits the limit in force. Under a
+scheduler reservation the pairing is therefore declined when it would not fit:
+a 4,096-unknown PEC solve (estimate 0.67 GiB, partner 0.25 GiB) peaked at
+0.88 GiB unreserved, 0.41 and 0.63 GiB under reservations of 0.83 and 0.90 GiB,
+and 0.66 GiB under 0.93 GiB. A forecast that lies below an unreserved run's
+peak by one matrix is the expected consequence, not an under-reservation.
+
+
+### Solver numerical follow-ups (November 2026)
+
+The legacy tile path now also chooses compression ranks in dimensionless
+coordinates, then unscales its retained factors. Both physical and scaled full-tile
+error checks apply after unscaling; failed proposals retain exact tiles. Row and
+column sums of the full coefficient error are accumulated in both coordinate
+systems. Normal/transpose/adjoint refinement and final original-coefficient
+bounds require both, without changing the 3e-15 refinement target or 1e-12
+field acceptance limit. Six extra real vectors cost 48 bytes per unknown;
+forecast ceilings, worker payloads, process allowances and compression scratch
+include them. Disk-spooled partner operators retain the same bounds.
+
+For nonlocal thin layers, the four blocks scale as length, one, length squared,
+and length when geometry and layer thickness scale together. Their multipliers
+are R=diag(I,k I), C=diag(k I,I); constrained endpoint rows use one. This extends
+scaled compression to the thin-layer polarization excluded from the hierarchy.
+Experimental CUR proposals in physical units are bypassed for normalized tiles.
+
+Hierarchical condition-estimation telemetry no longer nests two timers with the
+same name. Each polarization is counted once; comparisons with earlier profiles
+must correct the duplicated condition-stage time. Other stage times remain
+inclusive and can overlap. The reviewed probe-tolerance relaxation was not
+retained: condition probes still refine to the same strict target as before.

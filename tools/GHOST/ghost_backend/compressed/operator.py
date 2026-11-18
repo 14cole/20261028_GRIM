@@ -250,6 +250,10 @@ class StreamedOperator:
         self.row_error=np.zeros(self.n);self.row_norm=np.zeros(self.n)
         self.column_error=np.zeros(self.n);self.column_norm=np.zeros(self.n)
         self.row_max=np.zeros(self.n)
+        from ghost_backend.compressed.scaling import compression_scales
+        self.compression_rows,self.compression_columns,self.compression_scaling=compression_scales(oracle)
+        self.scaled_row_norm=np.zeros(self.n);self.scaled_column_norm=np.zeros(self.n)
+        self.scaled_row_error=np.zeros(self.n);self.scaled_column_error=np.zeros(self.n)
         order=spatial_order(coordinates,np.arange(self.n),tile)
         self.order=order
 
@@ -265,7 +269,9 @@ class StreamedOperator:
         ends=np.cumsum([len(ids) for ids in self.groups])
         self.group_slices=tuple(slice(int(stop-len(ids)),int(stop)) for ids,stop in zip(self.groups,ends))
         self.bytes=sum(a.nbytes for a in (order,self.group_id,self.local_id,self.row_error,self.row_norm,
-                                        self.column_error,self.column_norm,self.row_max,self.coordinates,self.group_bounds))
+                                        self.column_error,self.column_norm,self.row_max,self.coordinates,self.group_bounds,
+                                        self.compression_rows,self.compression_columns,self.scaled_row_norm,
+                                        self.scaled_column_norm,self.scaled_row_error,self.scaled_column_error))
         if self.bytes>budget:
             raise MemoryError('Compressed operator exceeded its retained-storage cap: '
                 '{} bytes required for geometry, {} bytes allowed ({} unknowns).'.format(self.bytes,budget,self.n))
@@ -316,19 +322,45 @@ class StreamedOperator:
         size=raw.nbytes+tail.nbytes
         if not np.all(np.isfinite(raw)) or not np.all(np.isfinite(tail)) or np.any(tail<0):
             raise ValueError('Oracle returned invalid coefficients or error bounds.')
+        r=self.compression_rows[rows];c=self.compression_columns[cols]
         payload,accepted=(raw,None),False
-        if i!=j and proposal is not None:
+        physical=raw
+        original_tail=tail
+        # Uniform multipliers leave relative compression error unchanged.
+        normalize=not (np.all(r==r[0]) and np.all(c==c[0]))
+        if i!=j and proposal is not None and not normalize:
             payload,raw,tail,accepted=proposal.validate(raw,tail,self.tolerance)
         if i!=j and not accepted:
-            payload,raw,tail,accepted=tile_payload(raw,tail,self.tolerance,self.compression,probe=self.separated(i,j))
+            if normalize:
+                scaled=raw*r[:,None]*c[None,:]
+                payload,_,_,accepted=tile_payload(scaled,np.zeros_like(tail),self.tolerance,self.compression,probe=self.separated(i,j))
+                if accepted:
+                    left,right=payload
+                    payload=(left/r[:,None],right/c[None,:])
+                    raw=payload[0]@payload[1]
+                    difference=abs(physical-raw)
+                    # Both full-tile gates apply after unscaling, including
+                    # factor-storage roundoff. Fall back to exact coefficients.
+                    if (np.linalg.norm(difference)>self.tolerance*max(np.linalg.norm(physical),1e-300)
+                            or np.linalg.norm(difference*r[:,None]*c[None,:])>self.tolerance*max(np.linalg.norm(scaled),1e-300)):
+                        payload,raw,accepted=(physical,None),physical,False
+                    else:tail=original_tail+difference
+                else:payload=(physical,None)
+            else:
+                payload,raw,tail,accepted=tile_payload(raw,tail,self.tolerance,self.compression,probe=self.separated(i,j))
         magnitude=abs(raw)
+        scaled_magnitude=magnitude*r[:,None]*c[None,:]
+        scaled_tail=tail*r[:,None]*c[None,:]
         sums=(np.sum(magnitude,axis=1),np.max(magnitude,axis=1),np.sum(tail,axis=1),
-              np.sum(magnitude,axis=0),np.sum(tail,axis=0))
+              np.sum(magnitude,axis=0),np.sum(tail,axis=0),
+              np.sum(scaled_magnitude,axis=1),np.sum(scaled_magnitude,axis=0),
+              np.sum(scaled_tail,axis=1),np.sum(scaled_tail,axis=0))
         return i,j,size,payload,accepted,sums
 
     def store_tile(self,compressed):
         """Account one compressed tile; callers store tiles in assembly order."""
-        i,j,size,payload,accepted,(row_norm,row_max,row_error,column_norm,column_error)=compressed
+        i,j,size,payload,accepted,(row_norm,row_max,row_error,column_norm,column_error,
+                                 scaled_row_norm,scaled_column_norm,scaled_row_error,scaled_column_error)=compressed
         if (i,j) in self.tiles:raise ValueError('Duplicate or incorrectly shaped tile.')
         rows,cols=self.groups[i],self.groups[j]
         required=self.bytes+sum(a.nbytes for a in payload if a is not None)
@@ -343,12 +375,17 @@ class StreamedOperator:
         self.row_error[rows]+=row_error
         self.column_norm[cols]+=column_norm
         self.column_error[cols]+=column_error
+        self.scaled_row_norm[rows]+=scaled_row_norm
+        self.scaled_column_norm[cols]+=scaled_column_norm
+        self.scaled_row_error[rows]+=scaled_row_error
+        self.scaled_column_error[cols]+=scaled_column_error
         self.bytes=required
         self.tiles[i,j]=payload
 
     def finalize(self,oracle):
         if len(self.tiles)!=len(self.groups)**2:raise ValueError('Operator has missing tiles.')
-        if not all(np.all(np.isfinite(a)) for a in (self.row_norm,self.row_error,self.column_norm,self.column_error,self.row_max)):
+        if not all(np.all(np.isfinite(a)) for a in (self.row_norm,self.row_error,self.column_norm,self.column_error,self.row_max,
+                                                       self.scaled_row_norm,self.scaled_column_norm,self.scaled_row_error,self.scaled_column_error)):
             raise ValueError('Operator norms or coefficient error bounds overflowed.')
         # Reciprocal tasks finish both directions together. Keep every later
         # multiplication and equilibration in canonical column-major tile order.
@@ -357,6 +394,7 @@ class StreamedOperator:
             retained_bytes=self.bytes,max_query_bytes=self.peak_tile,geometry_queries=oracle.calls,
             geometry_coefficients=oracle.entries,dropped_routes=oracle.dropped_routes,
             row_error_bound=float(self.row_error.max()),storage_budget=self.budget,compression=self.compression)
+        self.evidence['compression_scaling'] = self.compression_scaling
         self.evidence['reused_admission_tiles'] = self.pilot_reuses
         if hasattr(self, 'worker_moment_cache'):
             self.evidence['worker_moment_cache'] = self.worker_moment_cache

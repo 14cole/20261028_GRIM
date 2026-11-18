@@ -695,7 +695,7 @@ def predict_2d_resources_many(
                 raise RuntimeError(
                     "base/fine resource planning selected different formulations"
                 )
-            modes = ('dense','compressed') if settings is not None and settings['factorization'] == 'adaptive' else (None,)
+            modes = ('dense','compressed') if settings is not None and settings['factorization'] in ('adaptive', 'automatic') else (None,)
             estimates = {}
             for mode in modes:
                 if mode is None:

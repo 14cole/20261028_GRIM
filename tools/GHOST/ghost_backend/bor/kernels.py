@@ -16,15 +16,24 @@ from scipy.special import roots_legendre
 NEAR_KERNEL_WORK_BYTES = 64_000_000
 NEAR_ANGULAR_MAX_ORDER = 4096
 NEAR_ANGULAR_RTOL = 2.0e-8
-# The coarse level of the graded near rules is evaluated on every
-# NEAR_CHECK_STRIDE-th point of a layout chunk (the first included) and the
-# chunk is accepted at the fine level when every probed point passes; any
-# probed failure falls back to the complete check of every point.  The fine
-# level is the published value either way, so a chunk whose probes pass
-# yields the complete check's values bitwise; on the bodies measured (PEC,
-# dielectric and coated spheres, cylinders) no chunk ever fell back and the
-# coarse level was 40% of all angular samples.  GHOST_BOR_NEAR_CHECK_STRIDE=0
-# restores the complete check (October 2026).
+# The graded near rules are evaluated at a coarse and a fine level.  With a
+# positive stride the two are compared on every NEAR_CHECK_STRIDE-th point of
+# a layout chunk (the first included); when every probed point passes, the
+# chunk is accepted at the fine level, and any probed failure falls back to
+# the complete check of every point.  The fine level is the published value
+# either way: it carries its own margin at the points that are not probed.
+# GHOST_BOR_NEAR_CHECK_STRIDE=0 restores the complete check (October 2026).
+#
+# GHOST_BOR_NEAR_PUBLISH=coarse publishes the coarse level of an accepted
+# chunk instead and evaluates the fine level on the probes only (1.375 instead
+# of 1.75 coarse units per point).  It is an experiment, off by default and
+# NOT qualified: a probe bounds only the probed points.  For k = 80, 93 modes
+# and two point pairs sharing one layout, the probes agreed to 1.2e-9 while an
+# unprobed coarse value was 3.2e-7 from the exact kernel, sixteen times
+# NEAR_ANGULAR_RTOL (fine level: 9e-14).  On spheres, a cone, an ogive and a
+# cylinder up to ka = 30 the two levels agreed to 1.3e-10 and fields to 2e-13
+# (audits/claude-2026-11-10/calibration/bor_near_publish.py), which is why the
+# defect was not seen there.
 NEAR_CHECK_STRIDE = 4
 
 C0 = 299_792_458.0
@@ -373,23 +382,6 @@ def _numpy_trig_moments(rows, xi, count, want_cos=True, want_sin=False, start_or
         if want_sin:
             sine[:, :, start:start + 32] = np.matmul(rows, np.sin(arg))
     return cosine, sine
-
-
-def _cosine_moments(weights, xi, count):
-    """``2 * sum_a weights[:, a] cos(m xi[:, a])`` for ``m = 0..count-1``,
-    ``weights`` complex ``[n, na]``: the modal projection of the near Green's
-    rules.  Native recurrence when available, else the trigonometric table."""
-    native = _native_trig_moments(np.stack([weights.real, weights.imag], axis=1), xi, count, False)
-    if native is not None:
-        cosine = native[0]
-        return 2.0 * (cosine[:, 0] + 1j * cosine[:, 1])
-    _notice_native_fallback(('trig_moments',))
-    out = np.empty((weights.shape[0], count), complex)
-    orders = np.arange(count)
-    for m0 in range(0, count, 32):
-        table = np.cos(xi[:, :, None] * orders[None, None, m0:m0 + 32])
-        out[:, m0:m0 + 32] = 2.0 * np.matmul(weights[:, None, :], table).squeeze(1)
-    return out
 
 
 def _parity_moments(even, odd, xi, count):
@@ -971,28 +963,6 @@ def mfie_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
     return tuple(o.reshape(shape + (2 * m_max + 1,)) for o in out)
 
 
-def _project_parity_brackets(Fp, w_pos, xi_pos, m):
-    """Exact angular parity of the MFIE/IBC tangential bracket components.
-
-    tt/ff are even in xi; tf/ft are odd, for real and complex k. Thus their
-    half-range contributions are 2 F cos(m xi) and -2j F sin(m xi).
-    Preserve the generic signed-mode output without evaluating -xi or
-    multiplying the identically zero/unused rows of the generic projector.
-    The cosine moments of the even rows and the sine moments of the odd rows
-    come from one fused native pass when available (``_parity_moments``).
-    """
-    m = np.asarray(m, dtype=int)
-    magnitude = np.abs(m)
-    count = int(magnitude.max()) + 1 if m.size else 0
-    weighted = [2 * value * w_pos for value in Fp]
-    even = np.stack([weighted[0].real, weighted[3].real,
-                     weighted[0].imag, weighted[3].imag], axis=1)
-    odd = np.stack([weighted[1].real, weighted[2].real,
-                    weighted[1].imag, weighted[2].imag], axis=1)
-    cosines, sines = _parity_moments(even, odd, np.asarray(xi_pos, dtype=float), count)
-    return _parity_outputs(cosines, sines, m)
-
-
 def _stable_brackets(points, k, xi, family):
     """The four MFIE or IBC brackets without the cancellations of the sampled forms.
 
@@ -1153,111 +1123,6 @@ def ibc_kernels_fft(rho_p, z_p, tr_p, tz_p, rho_q, z_q, tr_q, tz_q, k,
             o[i0:i1] = np.fft.fft(F, axis=-1)[:, bins] * phase
         del Fs, F
     return tuple(o.reshape(Pp, Pq, -1) for o in out)
-
-
-def _checked_near_kernels(rule, args, k, m_max, order, tail_order, bracket):
-    """Resolve core and tail oscillation, check refinement, and bound scratch
-    (legacy two-piece rules ``_*_kernels_near_rule``).
-
-    A refinement step compares a coarse and a fine result only when BOTH the
-    core and the tail order increased: an order held at
-    NEAR_ANGULAR_MAX_ORDER would be shared by the two results, its error
-    would cancel out of their difference and the step could accept an
-    unconverged kernel.  When a capped order prevents a valid comparison the
-    bracket rules restart with the cancellation-free forms, and otherwise the
-    call raises.
-
-    The limit applies to temporary point/angular/mode arrays. The returned
-    point-by-mode arrays are owned by the caller and must be budgeted there.
-    """
-    args = tuple(np.ravel(a) for a in np.broadcast_arrays(
-        *[np.atleast_1d(np.asarray(a, dtype=float)) for a in args]))
-    q = 4 if bracket else 2
-    rp, zp, rq, zq = args[0], args[1], args[q], args[q + 1]
-    n = len(rp)
-    nm = 2 * m_max + 1 if bracket else m_max + 2
-    outputs = tuple(np.empty((n, nm), complex) for _ in range(4 if bracket else 1))
-    if n == 0:
-        return outputs if bracket else outputs[0]
-    a = np.sqrt(np.maximum(4 * rp * rq, 0.0))
-    d = np.hypot(rp - rq, zp - zq)
-    s0 = np.minimum(0.25, 20 * d / np.maximum(a, 1e-150))
-    xi0 = 2 * np.arcsin(s0)
-    core_phase = abs(complex(k)) * a * s0 + (m_max + 2) * xi0
-    if bracket:
-        core_phase = np.where(a <= 1e-15, (m_max + 2) * np.pi, core_phase)
-    core = max(int(order), 48, int(math.ceil(24 + 2 * np.max(core_phase))))
-    tail = max(int(tail_order), 64, int(math.ceil(
-        4 * (abs(complex(k)) * float(np.max(a)) / math.pi + m_max + 2))))
-    if max(core, tail) > NEAR_ANGULAR_MAX_ORDER:
-        raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
-
-
-    point_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
-                            (128 * (core + tail) * max(min(nm, 32), 16))))
-    for start in range(0, n, point_chunk):
-        stop = min(n, start + point_chunk)
-        # Absolute indices of the points in this chunk that still need a
-        # higher angular order.  Each point's kernel depends only on its own
-        # coordinates, so refining a subset reproduces its per-point values;
-        # points that already meet the tolerance keep their accepted result.
-        active = np.arange(start, stop)
-        part = tuple(a[start:stop] for a in args)
-
-
-        c, t = max(16, core // 2), max(16, tail // 2)
-        coarse = rule(*part, k, m_max, order=c, tail_order=t)
-        coarse = coarse if bracket else (coarse,)
-        # Sampled brackets reach a rounding floor above the tolerance once two
-        # points are closer than about 5e-6 rho (tiny or graded elements).
-        # Points still pending at the maximum order restart with the
-        # cancellation-free closed forms; everything that converged before is
-        # untouched, so existing results do not change.
-        options = {}
-        error = scale = None
-        while True:
-            cf = min(NEAR_ANGULAR_MAX_ORDER, max(core, c + 16, int(math.ceil(1.5 * c))))
-            tf = min(NEAR_ANGULAR_MAX_ORDER, max(tail, t + 16, int(math.ceil(1.5 * t))))
-            if cf <= c or tf <= t:
-                # A capped order cannot increase: no valid comparison remains.
-                if bracket and not options:
-                    options = {'stable': True}
-                    c, t = max(16, core // 2), max(16, tail // 2)
-                    coarse = rule(*part, k, m_max, order=c, tail_order=t, **options)
-                    continue
-                if error is None:
-                    raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
-                worst = int(np.argmax(error / np.maximum(scale, 1e-280)))
-                coordinates = tuple(float(a[worst]) for a in part)
-                raise ValueError(f"BoR near angular quadrature did not converge at the maximum order: {rule.__name__}, point={coordinates}, relative change={float(error[worst] / max(scale[worst], 1e-280)):.3g}.")
-
-
-            fine_chunk = max(1, int(NEAR_KERNEL_WORK_BYTES /
-                                   (128 * (cf + tf) * max(min(nm, 32), 16))))
-            fine = tuple(np.empty_like(x) for x in coarse)
-            for i in range(0, len(active), fine_chunk):
-                val = rule(*(a[i:i + fine_chunk] for a in part), k, m_max,
-                           order=cf, tail_order=tf, **options)
-                val = val if bracket else (val,)
-                for out, x in zip(fine, val):
-                    out[i:i + fine_chunk] = x
-            scale = np.maximum.reduce([np.max(np.abs(x), axis=1) for x in fine])
-            error = np.maximum.reduce([np.max(np.abs(x - y), axis=1)
-                                       for x, y in zip(fine, coarse)])
-            converged = np.isfinite(error) & (
-                error <= NEAR_ANGULAR_RTOL * np.maximum(scale, 1e-280)
-            )
-            for out, x in zip(outputs, fine):
-                out[active[converged]] = x[converged]
-            if np.all(converged):
-                break
-            pending = ~converged
-            active = active[pending]
-            part = tuple(a[pending] for a in part)
-            coarse = tuple(x[pending] for x in fine)
-            error, scale = error[pending], scale[pending]
-            c, t = cf, tf
-    return outputs if bracket else outputs[0]
 
 
 # --------------------------------------------------------------------------
@@ -1714,23 +1579,48 @@ def _near_check_stride():
     return int(NEAR_CHECK_STRIDE)
 
 
+def _near_publish_coarse():
+    """Publish the coarse level of a probed chunk: opt-in, unqualified (see NEAR_CHECK_STRIDE)."""
+    return os.environ.get('GHOST_BOR_NEAR_PUBLISH', '').strip().lower() == 'coarse'
+
+
 def _refine_near_chunk(kind, arrays, ids, stable, base_orders, evaluate, next_orders, out, offset=0):
     """Coarse/fine levels of one chunk of a layout group (_run_near_group).
 
     ``offset`` is the first order kept: the evaluated moments cover every
     order from 0 and only ``[offset:]`` is stored.  The fine level is
-    evaluated first for every point; with a positive NEAR_CHECK_STRIDE the
-    coarse level is evaluated for every stride-th point and the chunk is
-    accepted when all of them pass, otherwise every point is checked."""
+    compared with the coarse level on every stride-th point (positive
+    NEAR_CHECK_STRIDE); when all of them pass the chunk is accepted at the
+    fine level (at the coarse one under the opt-in of
+    :func:`_near_publish_coarse`), otherwise every point is checked and
+    published at the first level that converges."""
     bracket = kind != 'g'
     use_stable = stable
     coarse_orders = np.asarray(base_orders, dtype=np.int64)
     fine_orders = next_orders(coarse_orders)
     if fine_orders is None:
         raise ValueError("BoR near angular quadrature exceeds its accuracy limit; refine the mesh or reduce modal bandwidth.")
-    fine = evaluate(ids, fine_orders, use_stable)
     stride = _near_check_stride()
-    if stride > 0 and len(ids) >= 2 * stride:
+    probed = stride > 0 and len(ids) >= 2 * stride
+    coarse = None
+    if probed and _near_publish_coarse():
+        # Opt-in experiment: publish the coarse level and spend the fine one
+        # on the probed points only (1 + 1.5/stride coarse units per point
+        # instead of 1.5 + 1/stride).  The probes do not bound the others.
+        coarse = evaluate(ids, coarse_orders, use_stable)
+        probe = np.arange(0, len(ids), stride)
+        fine_probe = evaluate(ids[probe], fine_orders, use_stable)
+        coarse_probe = (coarse[0][probe], coarse[1][probe]) if bracket else coarse[probe]
+        error, scale = _near_check(kind, fine_probe, coarse_probe)
+        if np.all(np.isfinite(error) & (error <= NEAR_ANGULAR_RTOL * np.maximum(scale, 1e-280))):
+            if bracket:
+                out[0][ids] = coarse[0][:, :, offset:]
+                out[1][ids] = coarse[1][:, :, offset:]
+            else:
+                out[ids] = 2.0 * (coarse[:, 0][:, offset:] + 1j * coarse[:, 1][:, offset:])
+            return
+    fine = evaluate(ids, fine_orders, use_stable)
+    if probed and coarse is None:
         probe = np.arange(0, len(ids), stride)
         coarse_probe = evaluate(ids[probe], coarse_orders, use_stable)
         fine_probe = (fine[0][probe], fine[1][probe]) if bracket else fine[probe]
@@ -1742,7 +1632,8 @@ def _refine_near_chunk(kind, arrays, ids, stable, base_orders, evaluate, next_or
             else:
                 out[ids] = 2.0 * (fine[:, 0][:, offset:] + 1j * fine[:, 1][:, offset:])
             return
-    coarse = evaluate(ids, coarse_orders, use_stable)
+    if coarse is None:
+        coarse = evaluate(ids, coarse_orders, use_stable)
     while True:
         error, scale = _near_check(kind, fine, coarse)
         converged = np.isfinite(error) & (error <= NEAR_ANGULAR_RTOL * np.maximum(scale, 1e-280))

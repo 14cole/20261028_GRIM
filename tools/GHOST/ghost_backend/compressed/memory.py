@@ -59,7 +59,7 @@ def sample_operator(oracle, coordinates, tile=512, checkpoint=None, pilot_identi
     from ghost_backend.compressed.operator import StreamedOperator
     checkpoint = checkpoint or (lambda: None)
     shell = StreamedOperator(oracle, coordinates, tile=tile, assemble=False,
-        budget=max(16*MIB, 128*oracle.n), checkpoint=checkpoint)
+        budget=max(16*MIB, 192*oracle.n), checkpoint=checkpoint)
     lengths = np.asarray([len(ids) for ids in shell.groups], dtype=np.int64)
     groups = len(lengths)
     diagonal = 16*int(np.dot(lengths, lengths))
@@ -175,7 +175,7 @@ def geometry_storage(mesh, infos, pol, kind, k0, layer=None, dofs=None):
     if previous is not None:
         return previous
     if dofs is not None and dofs <= SMALL_DENSE_DOFS:
-        size = 16*dofs**2 + 96*dofs
+        size = 16*dofs**2 + 144*dofs
         return dict(method='small_dense_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, samples=0, sampled=False, seconds=0.)
     session = current_session()
@@ -195,7 +195,7 @@ def geometry_storage(mesh, infos, pol, kind, k0, layer=None, dofs=None):
         xy = coordinates(mesh, oracle.n)
     if oracle.n <= SMALL_DENSE_DOFS:
 
-        size = 16*oracle.n**2 + 96*oracle.n
+        size = 16*oracle.n**2 + 144*oracle.n
         result = dict(method='small_dense_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, samples=0, sampled=False)
     else:
@@ -226,7 +226,7 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
         return hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb, storage_limit)
     sample = resources.get('compressed_storage')
     if sample is None:
-        size = min(storage_limit, 16*d*d+96*d)
+        size = min(storage_limit, 16*d*d+144*d)
         sample = dict(method='dimensions_only_ceiling', operator_bytes=size,
             operator_allowance_bytes=size, sampled=False, samples=0)
     expected = sample['operator_bytes']
@@ -259,6 +259,8 @@ def forecast(n, d, count, batch, threads, storage_limit, resources=None, safety=
         kernel_work = max(kernel_work,312*min(n,_ASSEMBLY_TILE)**2)
     # Reciprocal traversal keeps at most two directional tile destinations.
     assembly_work = 96*MIB + max(1,threads)*kernel_work + 16*512*min(n,1024)
+    # Two in-process compression tasks may retain normalized tile scratch.
+    assembly_work += min(2,max(1,threads))*64*tile*tile
 
 
     from ghost_backend.twod.assembly.kernels import PROJECTION_CACHE_BYTES
@@ -299,7 +301,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
     from ghost_backend.compressed.runtime import hmatrix_storage_budget
     limit = hmatrix_storage_budget() if storage_limit is None else storage_limit
     operator, inverse, construction = model['operator_bytes'], model['inverse_bytes'], model['inverse_peak_bytes']
-    paired = 2*operator + inverse <= limit
+    pairing = resources.get('hmatrix_pairing')
+    paired = 2*operator + inverse <= limit if pairing is None else bool(pairing)
     resident = 2*operator if paired else operator
     from ghost_backend.twod.polynomial_quadrature import MOMENT_CACHE_BYTES
     moment_cache = resources.get('moment_cache_bytes', MOMENT_CACHE_BYTES if resources.get('basis_width', 2) > 2 else 0)
@@ -317,9 +320,12 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
     phases = dict(assembly=resident + (resident//operator)*model['assembly_workspace_bytes'] + overhead,
                   factorization=resident + construction + overhead,
                   solve=resident + inverse + solve_work + correction_work + PROJECTION_CACHE_BYTES + overhead)
-    # Reserve paired assembly workspace even when this particular cap admits
-    # only one operator. Enlarging the cap must not invalidate its own forecast.
-    nonstorage = dict(assembly=2*model['assembly_workspace_bytes']+overhead,
+    # Local automatic planning prices fixed paired and separate candidates.
+    # Their payload remainder must reserve the workspace they will actually
+    # use. Unqualified/submission callers keep the old paired reserve so a
+    # later change of payload cap cannot silently invalidate their forecast.
+    assembly_copies = (2 if paired else 1) if pairing is not None else 2
+    nonstorage = dict(assembly=assembly_copies*model['assembly_workspace_bytes']+overhead,
         factorization=max(0, construction-inverse)+overhead,
         solve=solve_work+correction_work+PROJECTION_CACHE_BYTES+overhead)
     peak = max(float(floor_gb)*GIB, max(phases.values()))
@@ -341,7 +347,8 @@ def hmatrix_forecast(n, d, count, batch, threads, resources, model, floor_gb=0.,
         assembly_workspace_bytes=int(model['assembly_workspace_bytes']),
         assembly_sample_workspace_bytes=int(model.get('assembly_sample_workspace_bytes', 0)),
         adaptive_sample_growth_admitted=bool(model.get('adaptive_sample_growth_admitted', False)),
-        storage_limit_bytes=int(limit), storage_fits=bool(operator + inverse <= limit),
+        storage_limit_bytes=int(limit), storage_fits=bool(resident + inverse <= limit),
+        pairing_fixed=pairing is not None,
         temporary_disk_bytes=0, storage_method=model['method'], sampled=False, samples=0,
         coefficients=int(model['coefficients']), inverse_rank=int(model['inverse_rank']),
         safety=1., floor_gb=float(floor_gb), forecast_is_hard_limit=False)

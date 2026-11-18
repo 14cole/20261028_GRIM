@@ -1,0 +1,103 @@
+{
+  "platform": "Linux x86-64",
+  "instruction_baseline": "x86-64/SSE2",
+  "bor_openmp": true,
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "build_host_glibc": "2.41",
+  "minimum_required_glibc": "2.35",
+  "runtime_requirements": [
+    "glibc 2.35 or newer",
+    "libgomp.so.1 with GOMP_4.0 and OMP_1.0"
+  ],
+  "source_commit": "4f97977bf7f295ee30c0ac2078749e2b158225cd",
+  "libraries": [
+    {
+      "path": "ghost_backend/twod/assembly/native/libghost_table.so",
+      "bytes": 15096,
+      "sha256": "b8bb1a4af83f3208a0d6ab5a116d0a4125a165a9b90018efcbfc1631939b7fa3",
+      "source": "ghost_backend/twod/assembly/native/table.c",
+      "source_sha256": "a17488f440f356795c4cfa7ed40431677e401bab918ada66ded4da8c6e3c1725",
+      "required_exports": [
+        "ghost_table_eval"
+      ],
+      "needed_libraries": [],
+      "required_symbol_versions": []
+    },
+    {
+      "path": "ghost_backend/twod/assembly/native/libghost_far.so",
+      "bytes": 48568,
+      "sha256": "aacfc3c069dc67a704609daeba33c2c98a990f7e9bb23fa427a767c588c48709",
+      "source": "ghost_backend/twod/assembly/native/far.c",
+      "source_sha256": "ccbe2dea5c78aa1fda68a158884e8c9121b4448a3ea1e1f416a54d71cd79649b",
+      "required_exports": [
+        "ghost_far_block",
+        "ghost_scatter_columns",
+        "ghost_scatter_tile",
+        "ghost_scatter_has_fused"
+      ],
+      "needed_libraries": [
+        "libm.so.6",
+        "libc.so.6"
+      ],
+      "required_symbol_versions": [
+        "GLIBC_2.2.5"
+      ]
+    },
+    {
+      "path": "ghost_backend/twod/assembly/native/libghost_near.so",
+      "bytes": 52944,
+      "sha256": "38445ddcea6ad61bf5650aab851021f2048347e38ddef05eef54f2f03917b2ba",
+      "source": "ghost_backend/twod/assembly/native/near.c",
+      "source_sha256": "370eda53b346f07b9c6d5eb8f031814d65522fc6498d4128c4c5c6312303b617",
+      "required_exports": [
+        "ghost_near_box_arguments",
+        "ghost_near_box_blocks",
+        "ghost_thin_analytic",
+        "ghost_thin_squares",
+        "ghost_thin_remainder",
+        "ghost_thin_contract",
+        "ghost_near_has_fused"
+      ],
+      "needed_libraries": [
+        "libm.so.6"
+      ],
+      "required_symbol_versions": [
+        "GLIBC_2.35"
+      ]
+    },
+    {
+      "path": "ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so",
+      "bytes": 91688,
+      "sha256": "cf05635e0dad323d065befe0d29c2a86f400835d968f686593bf3ace1801d287",
+      "source": "ghost_backend/bor/native/bor_stream_kernel.c",
+      "source_sha256": "abd752ec1fb93bd501b390abbd723411c0b59d368ab0e460b4c3547d593556da",
+      "required_exports": [
+        "sample_g",
+        "sample_mfie",
+        "sample_ibc",
+        "near_mfie",
+        "near_brackets",
+        "near_brackets_stable",
+        "near_green",
+        "sample_g_pairs",
+        "sample_brackets_pairs",
+        "trig_moments",
+        "parity_moments",
+        "near_green_rule",
+        "near_brackets_rule"
+      ],
+      "needed_libraries": [
+        "libm.so.6",
+        "libgomp.so.1",
+        "libc.so.6"
+      ],
+      "required_symbol_versions": [
+        "GLIBC_2.2.5",
+        "GLIBC_2.29",
+        "GOMP_1.0",
+        "GOMP_4.0",
+        "OMP_1.0"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 """Bounded, incrementally shared QR incident basis with original-RHS checks."""
-from ghost_backend.execution.options import environment_value
+from ghost_backend.execution.options import environment_value, factor_blas_threads
 import math
 import os
 import threading
@@ -236,6 +236,7 @@ def _direct(factor, rhs, evidence, count, key=None):
 
 
 @timed_stage('rhs_compression')
+@factor_blas_threads
 def solve(factor, rhs, basis_state=None, setting=None, hint=None):
     """Solve ``factor`` for the columns of ``rhs``, reusing an incident basis.
 

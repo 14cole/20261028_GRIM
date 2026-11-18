@@ -1,6 +1,7 @@
 """Checked inverse of a compressed operator, including adjoint evidence."""
 import numpy as np
-from scipy.sparse.linalg import LinearOperator,onenormest
+from scipy.sparse.linalg import LinearOperator
+from ghost_backend.linalg.onenorm import onenormest
 from ghost_backend.compressed.inverse import CompressedSystem
 from ghost_backend.linalg.hierarchical import HierarchicalRejected
 from ghost_backend.execution.metrics import timed_stage
@@ -58,15 +59,22 @@ class CompressedFactor:
             try:self._condition()
             finally:self._solve_phase = 'field_solve'
 
-    def _fresh_build(self):
+    def _fresh_build(self, *, allow_upgrade=True):
+        """Install a new inverse and renew its one optional upgrade attempt.
+
+        Rejected-hint fallback suppresses that attempt for this generation.
+        Failed/cancelled construction leaves the previous attempt state alone.
+        """
         from ghost_backend.execution.memory_budget import admit_phase
         admit_phase('factorization')
         from ghost_backend.compressed.preconditioner_hints import try_build
-        if try_build(self):return
+        if try_build(self):
+            self._upgrade_attempted = not allow_upgrade
+            return
         rejected=False
         try:
             compact=False
-            try:self._build(PRECONDITIONER_TOLERANCE)
+            try:self._build(getattr(self,'initial_preconditioner_tolerance',PRECONDITIONER_TOLERANCE))
             except MemoryError as exc:
                 self.event['compact_preconditioner']=str(exc)
                 compact=True
@@ -76,6 +84,7 @@ class CompressedFactor:
         except (HierarchicalRejected,np.linalg.LinAlgError,RuntimeWarning) as exc:
             self.event['coarse_rejection']=str(exc);rejected=True
         if rejected:self._build(2e-10)
+        self._upgrade_attempted = not allow_upgrade
 
     @timed_stage('factorization')
     def _build(self,tolerance):
@@ -94,7 +103,19 @@ class CompressedFactor:
         magnitude=np.max(abs(x),axis=0)
         numerator=np.max(abs(residual)+rows[:,None]*magnitude[None,:],axis=0)
         den=np.maximum(lower*magnitude+np.max(abs(b),axis=0),1e-300)
-        return numerator/den
+        errors=numerator/den
+        if hasattr(self.a,'scaled_row_norm'):
+            r,c,norm,bounds=self._tile_scales(trans)
+            magnitude=np.max(abs(x)/c[:,None],axis=0)
+            numerator=np.max(abs(residual)*r[:,None]+bounds[:,None]*magnitude,axis=0)
+            denominator=np.maximum(max(float(np.max(norm-bounds)),0.)*magnitude+np.max(abs(b)*r[:,None],axis=0),1e-300)
+            errors=np.maximum(errors,numerator/denominator)
+        return errors
+
+    def _tile_scales(self,trans):
+        a=self.a
+        if trans:return a.compression_columns,a.compression_rows,a.scaled_column_norm,a.scaled_column_error
+        return a.compression_rows,a.compression_columns,a.scaled_row_norm,a.scaled_row_error
 
     def relative_errors(self,x,b,residual):
         error=abs(residual)+self.a.row_error[:,None]*np.max(abs(x),axis=0)[None,:]
@@ -105,10 +126,16 @@ class CompressedFactor:
     def _backward_errors(self,x,b,residual,trans):
         norm=float(np.max(self.a.row_norm if trans==0 else self.a.column_norm))
         denominator=np.maximum(norm*np.max(abs(x),axis=0)+np.max(abs(b),axis=0),1e-300)
-        return np.max(abs(residual),axis=0)/denominator,denominator
+        errors=np.max(abs(residual),axis=0)/denominator
+        if hasattr(self.a,'scaled_row_norm'):
+            r,c,scaled_norm,_=self._tile_scales(trans)
+            scaled_den=np.maximum(float(np.max(scaled_norm))*np.max(abs(x)/c[:,None],axis=0)+np.max(abs(b)*r[:,None],axis=0),1e-300)
+            errors=np.maximum(errors,np.max(abs(residual)*r[:,None],axis=0)/scaled_den)
+            denominator=np.minimum(denominator,scaled_den/r.max())
+        return errors,denominator
 
     def _upgrade_preconditioner(self):
-        """One admitted attempt to avoid repeated expensive corrections.
+        """One admitted attempt per fresh build to avoid expensive corrections.
 
         Keep the old inverse usable until the replacement succeeds. Its bytes
         are removed from the replacement's payload budget, and live process
@@ -292,8 +319,7 @@ class CompressedFactor:
             self.factor=None
             # Restore the ordinary initial policy once, without immediately
             # repeating the optional upgrade that just failed.
-            self._upgrade_attempted=True
-            self._fresh_build()
+            self._fresh_build(allow_upgrade=False)
             return self.inverse(rhs,trans,return_residual,limit)
         if failed:
             self._build(2e-10)

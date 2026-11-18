@@ -1,5 +1,5 @@
 """Validated, serializable execution settings scoped to one solve."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from functools import wraps
 import inspect
 import math
@@ -39,7 +39,7 @@ AUTOMATIC_STORAGE_MIB = 0
 # effective_assembly_threads): the physical cores available to this process,
 # bounded by the scheduler's per-solve CPU allocation when one is set (batch
 # workers, whose per-unit counts the drivers compute).
-EFFICIENT_DEFAULTS = dict(DEFAULTS, factorization='compressed', mesh_strategy='adaptive',
+EFFICIENT_DEFAULTS = dict(DEFAULTS, factorization='automatic', mesh_strategy='adaptive',
                           compressed_storage_mib=AUTOMATIC_STORAGE_MIB, assembly_threads='auto', blas_threads='auto')
 # SMT siblings add no assembly throughput, tile parallelism saturates, and
 # every thread is priced 128 MiB of workspace in the memory forecasts, so
@@ -49,10 +49,16 @@ _ACTIVE = ScopedValue('ghost_execution_options', default=None)
 _ASSEMBLY_ALLOCATION = ScopedValue('ghost_assembly_allocation', default=None)
 _MEMORY_ALLOCATION = ScopedValue('ghost_memory_allocation', default=None)
 _BLAS_LOCK = threading.RLock()
+_BLAS_HOLD = threading.local()
 _BLAS_EVENTS = ScopedValue('ghost_blas_events', default=None)
 _PUBLIC_DEPTH = ScopedValue('ghost_public_execution_depth',default=0)
 _AUTOMATIC_REQUEST = ScopedValue('ghost_automatic_backend_request', default=False)
+_AUTOMATIC_POLICY = ScopedValue('ghost_automatic_backend_policy', default=False)
 _FACTOR_EVIDENCE = ScopedValue('ghost_measured_factor_evidence', default=None)
+
+
+def automatic_policy_requested():
+    return _AUTOMATIC_POLICY.get()
 
 
 def automatic_backend_requested():
@@ -85,8 +91,8 @@ def validate_options(value):
     result.update(value)
     if type(result['version']) is not int or result['version'] != 1:
         raise ValueError('Unsupported execution settings version.')
-    if result['factorization'] not in ('dense', 'hierarchical', 'auto', 'compressed', 'adaptive'):
-        raise ValueError('Choose dense, hierarchical, auto, compressed, or adaptive factorization.')
+    if result['factorization'] not in ('dense', 'hierarchical', 'auto', 'compressed', 'adaptive', 'automatic'):
+        raise ValueError('Choose automatic, dense, hierarchical, auto, compressed, or adaptive factorization.')
     if type(result['basis_order']) is not int or result['basis_order'] not in (1, 2, 3):
         raise ValueError('Boundary polynomial degree must be 1, 2 or 3.')
     if result['mesh_strategy'] not in ('global', 'local', 'adaptive'):
@@ -244,7 +250,7 @@ def host_assembly_threads():
 
 
 # Every 2D GUI and batch run uses the automatic profile: the backend, mesh and
-# polynomial degree are chosen per solve, and double-precision LU is fixed.
+# polynomial degree are chosen per solve; numerical precision stays double.
 AUTOMATIC_SOLVER_METHOD = 'auto'
 AUTOMATIC_LU_PRECISION = 'double'
 
@@ -260,7 +266,7 @@ def automatic_options(ram_budget_gib=None):
 def automatic_run(scattering='monostatic', ram_budget_gib=None):
     """Solver method, LU precision and execution settings for a 2D run.
 
-    Adaptive meshing and compressed execution are monostatic capabilities, so a
+    Adaptive meshing and automatic/compressed execution are monostatic capabilities, so a
     bistatic run uses dense factorization on the reference mesh.
     """
     options = automatic_options(ram_budget_gib)
@@ -439,7 +445,7 @@ def validate_for_run(options, method='direct', precision='double', scattering='m
         raise ValueError('Hierarchical and compressed selections apply to the 2D solver only.')
     if mode != 'dense' and (precision != 'double' or scattering != 'monostatic'):
         raise ValueError('Hierarchical and compressed runs require monostatic scattering and double precision.')
-    if mode in ('compressed', 'adaptive') and method not in ('auto','experimental_cpu'):
+    if mode in ('compressed', 'adaptive', 'automatic') and method not in ('auto','experimental_cpu'):
         raise ValueError('Compressed assembly requires CPU streaming kernel evaluation.')
     if method == 'experimental_cpu' and (precision != 'double' or scattering != 'monostatic'):
         raise ValueError('CPU streaming requires monostatic scattering and double precision.')
@@ -453,6 +459,27 @@ def temporary_directory():
     if not path.is_absolute() or not path.is_dir():
         raise ValueError('Temporary directory is not available on this host: {}'.format(directory))
     return str(path)
+
+
+@contextmanager
+def _held_blas_lock():
+    """Hold ``_BLAS_LOCK`` and record that this thread does."""
+    with _BLAS_LOCK:
+        _BLAS_HOLD.depth = getattr(_BLAS_HOLD, 'depth', 0) + 1
+        try:
+            yield
+        finally:
+            _BLAS_HOLD.depth -= 1
+
+
+def blas_lock_held():
+    """True while the calling thread holds the process BLAS lock.
+
+    A solve needs that lock for its linear algebra.  A thread that holds it,
+    for example from ``execution_scope(limit_blas=True)`` around a public
+    solve, must therefore never wait for another solve to finish.
+    """
+    return getattr(_BLAS_HOLD, 'depth', 0) > 0
 
 
 @contextmanager
@@ -471,14 +498,15 @@ def execution_scope(value, limit_blas=False, assembly_threads=None, memory_budge
     inherited_memory=_MEMORY_ALLOCATION.get()
     if inherited_memory is not None:
         memory=min(memory,inherited_memory)
-    with _ACTIVE.override(checked), _ASSEMBLY_ALLOCATION.override(allocation), _MEMORY_ALLOCATION.override(memory):
+    with _ACTIVE.override(checked), _ASSEMBLY_ALLOCATION.override(allocation), _MEMORY_ALLOCATION.override(memory), \
+            _AUTOMATIC_POLICY.override(_AUTOMATIC_POLICY.get() or checked['factorization'] == 'automatic'):
         if not limit_blas:
             yield checked
             return
         import numpy
         import scipy.linalg
         from ghost_backend.execution.thread_control import threadpool_limits
-        with _BLAS_LOCK:
+        with _held_blas_lock():
             with threadpool_limits(limits=blas_thread_reservation(checked), user_api='blas'):
                 yield checked
 
@@ -499,7 +527,7 @@ def linear_algebra_threads(matrix_size=None):
         desired = int(setting)
     target = min(desired, allocated_cpu_budget())
     from ghost_backend.execution.thread_control import threadpool_info, threadpool_limits
-    with _BLAS_LOCK:
+    with _held_blas_lock():
         with threadpool_limits(limits=target, user_api='blas'):
             events = _BLAS_EVENTS.get()
             if events is not None:
@@ -509,11 +537,40 @@ def linear_algebra_threads(matrix_size=None):
             yield target
 
 
+def factor_blas_threads(function):
+    """Apply a factor's small-product policy within the requested BLAS cap.
+
+    Hold the same process-wide lock as ordinary linear algebra. Nested scopes
+    restore their caller's limits even after a rejected solve or cancellation.
+    """
+    @wraps(function)
+    def call(factor, *args, **kwargs):
+        if getattr(factor, 'small_product_blas_threads', None) == 1:
+            with _held_blas_lock(), single_thread_blas():
+                return function(factor, *args, **kwargs)
+        return function(factor, *args, **kwargs)
+    return call
+
+
 def configured_execution(function):
     """Accept execution_options at public solver entry points."""
     signature = inspect.signature(function)
-    def invoke_configured(*args, **kwargs):
+    def invoke_configured(args, kwargs, admission=None):
         execution_start=time.perf_counter()
+        def admit(value, arguments):
+            nonlocal execution_start
+            if admission is None:
+                return  # Nested calls share their outer request's ledger.
+            from ghost_backend.execution.memory_budget import scope as memory_scope, reservation_caps
+            # Use the already resolved profile and the live gate's cap logic.
+            # A profile's explicit None masks the launch cap; the scheduler
+            # reservation remains a hard upper bound in every case.
+            with _ACTIVE.override(value):
+                wanted = min(reservation_caps().values(), default=None)
+            started = time.perf_counter()
+            admission.enter_context(memory_scope(arguments.get('abort_event'), wanted_gib=wanted))
+            # Queueing time must not become numerical timing-history evidence.
+            execution_start += time.perf_counter()-started
         requested = kwargs.pop('execution_options', None)
         inherited = current_options()
         # Public convenience spelling; internally retain the existing CPU
@@ -541,7 +598,7 @@ def configured_execution(function):
                 # Explicit old profiles and launch overrides retain their meaning.
                 base=from_environment()
                 if not os.environ.get('GHOST_CPU_FACTORIZATION','').strip():
-                    base['factorization']='compressed' if requested_precision()=='double' else 'dense'
+                    base['factorization']='automatic' if requested_precision()=='double' else 'dense'
                 if requested is None and not os.environ.get('GHOST_ASSEMBLY_THREADS','').strip():
                     # A bare automatic request runs on the host's physical cores,
                     # as the GUI and batch profiles do (the former one-thread
@@ -552,7 +609,7 @@ def configured_execution(function):
                     base['mesh_strategy']='adaptive'
                 requested=dict(base,**(requested or {}))
             supplied.arguments['solver_method']='experimental_cpu' if requested_precision()=='double' else 'direct'
-            if requested_precision()!='double' and inherited is None and requested['factorization']=='adaptive':
+            if requested_precision()!='double' and inherited is None and requested['factorization'] in ('adaptive', 'automatic'):
                 requested['factorization']='dense'
             if 'max_panels' in signature.parameters and 'max_panels' not in supplied.arguments:
                 supplied.arguments['max_panels']=100_000
@@ -560,9 +617,10 @@ def configured_execution(function):
         if requested is not None and inherited is not None and validate_options(requested) != inherited:
             raise ValueError('A nested solve must use the active execution settings.')
         value = requested if requested is not None else inherited
-        if value is None and os.environ.get('GHOST_CPU_FACTORIZATION', '').strip().lower() == 'adaptive':
+        if value is None and os.environ.get('GHOST_CPU_FACTORIZATION', '').strip().lower() in ('adaptive', 'automatic'):
             value = from_environment()
         if value is None:
+            admit(None, supplied.arguments)
             return function(*args, **kwargs)
         bound = signature.bind(*args, **kwargs)
         bound.apply_defaults()
@@ -570,6 +628,7 @@ def configured_execution(function):
         value = validate_for_run(value, method=bound.arguments.get('solver_method', 'direct'),
                          precision=requested_precision(),
                          scattering='bistatic' if 'bistatic' in function.__name__ else 'monostatic')
+        admit(value, bound.arguments)
         timing_key=None
         # Historical timing-based backend/factor selection is retained only for
         # explicitly requested legacy adaptive profiles. Fixed modes do not read
@@ -599,7 +658,7 @@ def configured_execution(function):
                 timing_key=with_factor_choices(timing_key,factor_choices)
         selection = None
         requested_value = value
-        if value['factorization'] == 'adaptive':
+        if value['factorization'] in ('adaptive', 'automatic'):
             if 'cfie_alpha' in bound.arguments:
                 from ghost_backend.twod.solver import _validate_disabled_2d_cfie_alpha
                 _validate_disabled_2d_cfie_alpha(bound.arguments['cfie_alpha'])
@@ -622,14 +681,14 @@ def configured_execution(function):
         def invoke():
             nonlocal value,selection
             from ghost_backend.execution.errors import BackendNumericalError
-            from ghost_backend.execution.selection import request_selection_scope
+            from ghost_backend.execution.selection import request_selection_scope, current_request_selection
             from numpy.linalg import LinAlgError
             failures=[]
             modes=[value['factorization']]+(selection.get('retry_order',[]) if selection else [])
             # The forecast of this request (its candidate meshes, priced and
             # admitted) is visible to the adaptive controller, which would
             # otherwise rebuild and re-price the same meshes per candidate step.
-            forecast=selection if selection is not None and selection.get('meshes') else None
+            forecast=selection if selection is not None and selection.get('meshes') else current_request_selection()
             for index,mode in enumerate(modes):
                 value=dict(value,factorization=mode)
                 attempt_start=time.perf_counter()
@@ -661,7 +720,7 @@ def configured_execution(function):
         hint_scope = inverse_hint_scope(bound.arguments.get('frequencies_ghz', ()),
             bound.arguments.get('geometry_snapshot'), bound.arguments.get('material_base_dir'),
             bound.arguments.get('geometry_units'))
-        with hint_scope, _BLAS_EVENTS.override(events), _AUTOMATIC_REQUEST.override(selection is not None or _AUTOMATIC_REQUEST.get()), execution_scope(value, limit_blas=requested is not None and inherited is None):
+        with hint_scope, _AUTOMATIC_POLICY.override(_AUTOMATIC_POLICY.get() or requested_value['factorization'] == 'automatic'), _BLAS_EVENTS.override(events), _AUTOMATIC_REQUEST.override(selection is not None or _AUTOMATIC_REQUEST.get()), execution_scope(value, limit_blas=requested is not None and inherited is None):
             adjustment = (selection or {}).get('resource_adjustment', {})
             if adjustment.get('notice') and bound.arguments.get('progress_callback'):
                 bound.arguments['progress_callback'](0, len(bound.arguments.get('frequencies_ghz', ())), adjustment['notice'])
@@ -718,12 +777,14 @@ def configured_execution(function):
     def call(*args,**kwargs):
         if _PUBLIC_DEPTH.get():
             with _PUBLIC_DEPTH.override(_PUBLIC_DEPTH.get()+1):
-                return invoke_configured(*args,**kwargs)
+                return invoke_configured(args,kwargs)
         from ghost_backend.linalg.crossover import scope
         from ghost_backend.execution.angle_batch import scope as batch_scope
-        from ghost_backend.execution.memory_budget import scope as memory_scope
-        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), memory_scope():
-            return invoke_configured(*args,**kwargs)
+        # Resolve/validate options before enrolling, then retain the resulting
+        # memory scope through the full request, including any numerical retry.
+        with _PUBLIC_DEPTH.override(1), scope({}), _FACTOR_EVIDENCE.override({}), batch_scope(), \
+                ExitStack() as admission:
+            return invoke_configured(args,kwargs,admission)
     parameters = list(signature.parameters.values())
     parameters.append(inspect.Parameter('execution_options', inspect.Parameter.KEYWORD_ONLY, default=None))
     call.__signature__ = signature.replace(parameters=parameters)

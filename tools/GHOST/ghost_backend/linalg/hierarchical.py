@@ -8,10 +8,10 @@ backend's operator oracles, which cannot form a block.
 from ghost_backend.execution.options import environment_value
 from ghost_backend.execution.errors import BackendNumericalError
 import os
-import warnings
 import numpy as np
 import scipy.linalg as la
 from ghost_backend.linalg.workspace import matrix_inf_norm
+from ghost_backend.linalg.products import adjoint_product
 
 
 class HierarchicalRejected(BackendNumericalError):
@@ -46,8 +46,26 @@ def automatic_hierarchical(n):
         from ghost_backend.linalg.crossover import chosen
         measured=chosen(n)
         if measured is not None:return measured=='hodlr'
-    threshold = int(raw) if raw else HIERARCHICAL_MIN_UNKNOWNS
+    try:
+        threshold = int(raw) if raw else HIERARCHICAL_MIN_UNKNOWNS
+    except ValueError:
+        raise ValueError('GHOST_HIERARCHICAL_MIN_UNKNOWNS must be an integer number of unknowns '
+                         '(0 keeps LU); got {!r}.'.format(raw)) from None
+    if threshold < 0:
+        raise ValueError('GHOST_HIERARCHICAL_MIN_UNKNOWNS must not be negative; got {!r}.'.format(raw))
     return threshold > 0 and int(n) >= threshold
+
+
+def automatic_twod_hierarchical(n):
+    """2D dense uses LU unless a launch override or legacy timing choice opts in.
+
+    BoR retains automatic_hierarchical and its existing threshold. The shared
+    HODLR primitives also remain in use by the compressed H-matrix inverse.
+    """
+    if os.environ.get('GHOST_HIERARCHICAL_MIN_UNKNOWNS', '').strip():
+        return automatic_hierarchical(n)
+    from ghost_backend.linalg.crossover import chosen
+    return chosen(n) == 'hodlr'
 
 
 def factor_storage_budget(matrix_bytes):
@@ -385,13 +403,13 @@ class Node:
             z1 -= self.e1 @ correction[:r]
             z2 -= self.e2 @ correction[r:]
             return
-        def adj(a):
-            return a.T if trans == 1 else a.conj().T
-        small = np.vstack((adj(self.e1) @ b[:n], adj(self.e2) @ b[n:]))
+        def product(a, rhs):
+            return a.T @ rhs if trans == 1 else adjoint_product(a, rhs)
+        small = np.vstack((product(self.e1, b[:n]), product(self.e2, b[n:])))
         correction = la.lu_solve(self.lu, small, trans=trans, check_finite=False)
         r = self.e1.shape[1]
-        result[:n] = b[:n]-adj(self.v21) @ correction[r:]
-        result[n:] = b[n:]-adj(self.v12) @ correction[:r]
+        result[:n] = b[:n]-product(self.v21, correction[r:])
+        result[n:] = b[n:]-product(self.v12, correction[:r])
         self.left.solve_into(result[:n], result[:n], trans)
         self.right.solve_into(result[n:], result[n:], trans)
 
@@ -485,9 +503,8 @@ class HierarchicalFactor:
 
     def _lu(self, matrix):
         self._reserve(matrix.nbytes + 8*len(matrix))
-        with warnings.catch_warnings():
-            warnings.simplefilter('error')
-            return la.lu_factor(np.asarray(matrix, order='F'), overwrite_a=True, check_finite=False)
+        from ghost_backend.linalg.workspace import strict_lu_factor
+        return strict_lu_factor(np.asarray(matrix, order='F'))
 
     def _build(self, ids):
         self.checkpoint()

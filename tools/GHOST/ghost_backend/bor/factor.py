@@ -368,7 +368,8 @@ def compressed_storage_budget(options, workers):
 
 def compressed_factor(oracle, mode, monitor_cond, options, workers, checkpoint=None,
                       exact_far_cache=False):
-    from scipy.sparse.linalg import LinearOperator, onenormest
+    from scipy.sparse.linalg import LinearOperator
+    from ghost_backend.linalg.onenorm import onenormest
     from ghost_backend.compressed.operator import StreamedOperator
     from ghost_backend.compressed.factor import CompressedFactor
     from ghost_backend.bor.solver import BOR_CONDITION_EST_MAX

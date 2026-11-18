@@ -64,7 +64,8 @@ def _key(mesh, infos, pol, backend, obs_order, src_order):
     from ghost_backend.twod.assembly.session import system_key
     from ghost_backend.execution.options import option
     from ghost_backend.twod import operators
-    quadrature = (int(option('assembly_tile', operators._ASSEMBLY_TILE)),
+    from ghost_backend.execution.dense_memory import assembly_tile_setting
+    quadrature = (assembly_tile_setting(operators._ASSEMBLY_TILE),
                   int(option('far_quadrature_order', operators._FAR_QUAD_ORDER)),
                   bool(option('far_grading', operators._FAR_GRADED)),
                   float(operators._ASSEMBLY_COMPACT_BELOW), bool(operators._NATIVE_FAR))

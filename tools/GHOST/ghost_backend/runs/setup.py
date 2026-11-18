@@ -79,12 +79,12 @@ class RunSetupMixin:
             return validate_bor_setup(dict(schema='grim.bor-run-setup', version=1,
                 frequencies_ghz=freq, aspects_deg=aspects.tolist(), radar_grid=grid,
                 units=self.cmb_units.currentText(),
-                mesh_certification=self.chk_mesh_certification.isChecked(),
+                mesh_certification=self._mesh_check_enabled(),
                 accuracy=self.cmb_accuracy_target.currentData(),
                 cfie_alpha=float(self.edit_cfie_alpha.text()), bor_options=self.bor_options_widget.value()))
         scattering = self.cmb_scatter_mode.currentData()
         return two_d_request(freq, angles, self.cmb_units.currentText(),
-            self.chk_mesh_certification.isChecked(), self.cmb_accuracy_target.currentData(), scattering,
+            self._mesh_check_enabled(), self.cmb_accuracy_target.currentData(), scattering,
             [] if scattering == 'monostatic' else self._parse_list(self.edit_obs_angles.text(), 'Observation angles'),
             controls=self.twod_options_widget.value() if scattering == 'monostatic' else None)
 
@@ -109,7 +109,7 @@ class RunSetupMixin:
         selection_note = ''
         if not forecast_frequencies:
             selection_note = 'Matching checkpoints found for every frequency; no new solve forecast needed.\n'
-        elif value['execution_options']['factorization'] == 'adaptive':
+        elif value['execution_options']['factorization'] in ('adaptive', 'automatic'):
             from ghost_backend.execution.selection import select_backend
             from ghost_backend.runs.quality import accuracy_target_policy
             arguments = dict(geometry_snapshot=snapshot, material_base_dir=base_dir,
