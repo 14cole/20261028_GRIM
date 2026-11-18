@@ -1,0 +1,9 @@
+# Pre-measurement plan, 2026-11-18
+
+Baseline: main bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c. No production code other than the separately tested Dense residual candidate will change.
+
+Dense hypothesis: for F-contiguous physical coefficients, directly producing a Fortran-order residual product avoids an expensive BLAS layout path, particularly at narrow RHS widths. Subtracting the RHS in the owned output also avoids one n-by-batch temporary. Inputs, full physical and scaled residual gates, precision, and fallback operators must be preserved. Measure C/F/strided matrices and RHS, vectors, zero/nonfinite RHS, disk residuals, both physical polarizations, and alternating fresh-process timings at narrow and 180-angle widths. Do not generalize one host's performance to Windows or other BLAS implementations. Promote only if numerical checks pass and matched timings support a benefit without a material wide-batch regression.
+
+Compressed hypothesis: smaller spatial leaves may reduce exact near storage, but can increase far-list count, query overhead, and inverse complexity. Compare default, half, and quarter leaf dimensions on smooth/star, narrow-slot, PEC, and dielectric examples, keeping operator/inverse tolerances and precision fixed. Measure near/far/sample payload, actual process RSS, build/factor/solve times, full 180-angle fields, and independent seeded exact-row residuals. A storage reduction alone is not a whole-process RAM win. Leaf tuning remains research-only unless representative scale and safety/admission evidence are sufficient.
+
+All fresh-process numerical tests are run by Codex. Claude should formulate independent expectations and acceptance tests before running its own computations, then cross-analyze the published raw evidence. Existing research helpers may generate meshes but production code is pinned to main/candidate and checked by Git blob identity.

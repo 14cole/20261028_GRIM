@@ -317,7 +317,20 @@ class DenseFactor:
         # infinity-norm gate remains authoritative alongside this scaled gate.
         def metrics(candidate, residual=None):
             if residual is None:
-                residual = self.a @ candidate - b
+                if (type(self.a) is np.ndarray and self.a.flags.f_contiguous
+                        and candidate.shape[1] <= 16):
+                    # Let BLAS write directly into a column-major result; a
+                    # narrow RHS otherwise takes an expensive output-layout path.
+                    # Keep wider batches on their existing path: layout benefits
+                    # there depend on the BLAS implementation and thread count.
+                    # This owned result also holds the residual without a second
+                    # n-by-RHS subtraction buffer. Keep custom/disk operators on
+                    # their own bounded-memory product implementations.
+                    residual = np.empty(candidate.shape, dtype=np.complex128, order='F')
+                    np.matmul(self.a, candidate, out=residual)
+                    residual -= b
+                else:
+                    residual = self.a @ candidate - b
             ri = np.max(np.abs(residual), axis=0)
             den = self.matrix_inf * np.max(np.abs(candidate), axis=0) + np.max(np.abs(b), axis=0)
             errors = np.divide(ri, den, out=np.zeros_like(ri), where=den > 0)

@@ -1,0 +1,22 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "blas": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 5,
+      "prefix": "libscipy_openblas",
+      "filepath": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-fdde5778.so",
+      "version": "0.3.30",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ],
+  "cgroup_memory_max": "17179869184",
+  "cgroup_cpu_max": "400000 100000",
+  "baseline": "bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c",
+  "note": "Timed suites run sequentially, in fresh processes. Shared host; one BLAS thread unless explicitly labeled four. The recorded environment pools here are informational; run_suite sets OPENBLAS_NUM_THREADS per child."
+}

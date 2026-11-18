@@ -1,0 +1,47 @@
+[
+  [
+    "final-narrow",
+    {
+      "root": "/workspace/postmerge-optimization/candidate",
+      "variant": "new",
+      "n": 2048,
+      "k": 40,
+      "geometry": "star",
+      "pol": "TE",
+      "method": "dense",
+      "batch": 16,
+      "threads": 2,
+      "blas_threads": 1
+    }
+  ],
+  [
+    "final-wide",
+    {
+      "root": "/workspace/postmerge-optimization/candidate",
+      "variant": "new",
+      "n": 2048,
+      "k": 40,
+      "geometry": "star",
+      "pol": "TE",
+      "method": "dense",
+      "batch": 180,
+      "threads": 2,
+      "blas_threads": 1
+    }
+  ],
+  [
+    "final-wide4t",
+    {
+      "root": "/workspace/postmerge-optimization/candidate",
+      "variant": "new",
+      "n": 2048,
+      "k": 40,
+      "geometry": "star",
+      "pol": "TE",
+      "method": "dense",
+      "batch": 180,
+      "threads": 4,
+      "blas_threads": 4
+    }
+  ]
+]
