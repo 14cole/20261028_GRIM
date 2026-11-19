@@ -2186,10 +2186,10 @@ class SolverTab(RunSetupMixin, QWidget):
         sweep_notes = list(getattr(self, "_sweep_notes", []) or [])
         self.lbl_status.setText(
             "Starting solver thread..." + "".join(f" Note: {note}" for note in sweep_notes))
-        self._set_solving_state(True)
-
         abort_event = threading.Event()
         self._abort_event = abort_event
+        # Button state needs the new cancellation event before the job starts.
+        self._set_solving_state(True)
         self._solve_run_serial += 1
         run_id = self._solve_run_serial
         self._active_solve_run_id = run_id
