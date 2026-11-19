@@ -1,0 +1,60 @@
+{
+  "baseline": "bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c",
+  "unchanged_production_files": 527,
+  "changed": [
+    {
+      "path": "tools/GHOST/ghost_backend/ui/solver.py",
+      "before": "c4c4579853071579278a71879c89ed63d6ed664d",
+      "after": "8016db14a2d0b8a60fdeeb267f5b98adc6254c5c"
+    }
+  ],
+  "checks": [
+    "fixed work never regresses and does not show premature 100",
+    "cancellation stops activity and ignores queued progress/telemetry",
+    "convergence retries stay indeterminate; stage and cancellation status retained",
+    "BoR remains indeterminate and failure restores a stopped bar",
+    "restart resets old state; unknown totals latch activity mode",
+    "worker distinguishes unknown denominator from zero-percent work",
+    "three actual GUI worker solves: specified, checked, automatic; 180 monostatic angles",
+    "invalid new setup replaces the previous completed bar with Failed",
+    "100 only after export; queued events cannot overwrite finishing status",
+    "declined automatic export completes result progress",
+    "stale export skip stops progress",
+    "export failure stops progress and retains completed solve",
+    "partial result reports completed frequencies without 100",
+    "density calculation can reuse progress bar after convergence"
+  ],
+  "real_gui_runs": {
+    "single": {
+      "callbacks": 371,
+      "quality_gate": true,
+      "mesh_certified": false,
+      "adaptive": null,
+      "final_status": "Solved 2-D monostatic scattering width with 1 frequency(ies) and 180 cut angle(s). Quality gate: PASS. Specified mesh solved; mesh convergence not checked."
+    },
+    "check": {
+      "callbacks": 739,
+      "quality_gate": true,
+      "mesh_certified": true,
+      "adaptive": null,
+      "final_status": "Solved 2-D monostatic scattering width with 1 frequency(ies) and 180 cut angle(s). Quality gate: PASS. Mesh convergence: PASS (rms=2.5e-05 dB, max=2.5e-05 dB)."
+    },
+    "automatic": {
+      "callbacks": 739,
+      "quality_gate": true,
+      "mesh_certified": true,
+      "adaptive": {
+        "reason": "Explicit fixed panel counts retain their requested discretization.",
+        "used": false
+      },
+      "final_status": "Solved 2-D monostatic scattering width with 1 frequency(ies) and 180 cut angle(s). Quality gate: PASS. Mesh convergence: PASS (rms=2.5e-05 dB, max=2.5e-05 dB)."
+    }
+  },
+  "screenshot": "Synthetic progress state rendered in the real Qt widget; plotted curves are from the completed PEC-circle run.",
+  "qt_platform": "offscreen",
+  "limitations": [
+    "No Windows GUI run",
+    "BoR display checked with simulated events, not a numerical BoR solve",
+    "Adaptive retry sequences simulated; automatic real run selected the fixed-panel reference path"
+  ]
+}
