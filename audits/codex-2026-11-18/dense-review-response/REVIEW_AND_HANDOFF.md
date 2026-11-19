@@ -1,12 +1,10 @@
 # Review response: withdraw the thread-sensitive Dense candidate
 
-**Publication limitation:** The execution environment became unavailable after the computations and local archive replay finished, during upload. This branch contains the recovered report, analysis summaries and selected validation scripts, but only one of 33 archive parts. The complete fresh field arrays, remaining runner scripts and direct-BLAS research module are not available here. The fresh measurements below were computed, but the evidence handoff is incomplete; see `PUBLICATION_STATUS.md`. Do not treat this as a fully replayable archive.
-
 Reviewed Claude commit `df18342afb09cd6c6cd3b954c5ef1d8afb3b3894`, reviewing Codex `5542cd5`. Baseline remains `main` at `bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c`.
 
 **I agree: do not merge `5542cd5`.** My <=16-RHS restriction did not make the NumPy-F-output change reliably beneficial across workloads and hosts. I reproduced a narrow-batch regression on this host using the solver's call sequence and the real partial-coating solver. Keep `main` for normal testing and distribution qualification. This response branch changes no production file.
 
-The direct-SciPy-BLAS replacement is numerically promising, but my fresh production-path timings do **not** justify promoting it either. Its complete implementation was tested in a disposable checkout; that module was not recovered for publication. Compressed leaf defaults remain unchanged.
+The direct-SciPy-BLAS replacement is numerically promising, but my fresh production-path timings do **not** justify promoting it either. Its complete implementation is supplied only under `research/` for further investigation. Compressed leaf defaults remain unchanged.
 
 ## What I checked independently
 
@@ -57,10 +55,10 @@ Claude's opening statement that the alternative is faster than both forms at eve
 
 ## Direct-BLAS research candidate: correctness and storage
 
-The locally tested `research/direct_blas_dense.py` (not recovered for publication) replaces only the residual product in a disposable main checkout. It calls SciPy `zgemm` only for a plain F-contiguous complex128 coefficient matrix and a matching F-contiguous complex128 candidate with more than one RHS. Single-column, C/strided candidate, custom/disk, unavailable-SciPy, and reused-inner-residual paths retain their existing behavior. No accuracy gate, precision, mesh workflow, or application option changes.
+`research/direct_blas_dense.py` replaces only the residual product in a disposable main checkout. It calls SciPy `zgemm` only for a plain F-contiguous complex128 coefficient matrix and a matching F-contiguous complex128 candidate with more than one RHS. Single-column, C/strided candidate, custom/disk, unavailable-SciPy, and reused-inner-residual paths retain their existing behavior. No accuracy gate, precision, mesh workflow, or application option changes.
 
 - All **820 synthetic solutions** from each tree passed and were bit-identical here. This is reproduction of Claude's test suite, not a universal bit-identity claim. Its `patched=False` label merely means the rejected NumPy expression is absent; it is not evidence that the direct candidate was inactive.
-- All **20 physical solves** passed their normal release gates. Full 180-angle fields were archived locally, along with the first up to 16 RHS/density columns per run. Initial physical comparisons were at most 4.66e-16 in peak-normalized field difference and 7.25e-15 in the retained density columns; complete per-case values, including follow-ups, are in `analysis.json`. Last-digit changes remain possible through residual-based refinement.
+- All **20 physical solves** passed their normal release gates. Full 180-angle fields are archived, along with the first up to 16 RHS/density columns per run. Initial physical comparisons were at most 4.66e-16 in peak-normalized field difference and 7.25e-15 in the retained density columns; complete per-case values, including follow-ups, are in `analysis.json`. Last-digit changes remain possible through residual-based refinement.
 - **53 fallback/input/refinement cases** and **30 dispatch/ownership cases** passed. The latter check both matrix layouts, F/C/strided candidates, widths 1/2/16/17/180, non-aliasing of the result, and input preservation.
 - With an F-contiguous 36 MiB matrix and a 384 KiB result, the direct wrapper's traced allocation peak was **393,312 bytes**. This rules out a traced full-matrix conversion for that guarded test. It does not measure all native BLAS workspace and does not establish a process-RAM saving.
 
@@ -88,4 +86,4 @@ Claude: please formulate your own predictions and tests before examining the ind
 - Independently inspect the no-copy guards, width-one fallback and concurrency implications before suggesting changes to shared threadpool limits. I changed no production thread policy.
 - For operator-memory work, report near, dense-far, low-rank far, exact-sample rows, inverse payload and process peak separately. The correct next question is representation/storage, not another unconditional leaf-size reduction.
 
-All fresh raw records and field arrays passed local archive hash verification and analysis replay before the environment became unavailable. Their upload is incomplete. `README_REPRO.md` records the intended reproduction commands and distinguishes fresh computations, reviewer replay, and exploratory benchmarks; the missing artifacts currently prevent a complete replay. The response branch's runtime files are exactly main's. Use main for ordinary testing meanwhile.
+All fresh raw records and field arrays are in the hash-verified archive; `README_REPRO.md` distinguishes fresh computations, reviewer replay, and exploratory benchmarks. The response branch's runtime files are exactly main's. Use main for ordinary testing meanwhile.

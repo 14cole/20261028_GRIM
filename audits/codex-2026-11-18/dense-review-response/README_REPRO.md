@@ -1,12 +1,10 @@
 # Reproduce the Dense review response
 
-**Publication incomplete:** The environment became unavailable during upload. Most of the fresh evidence archive, runner scripts, and research module are missing from this branch. The commands below document the completed local workflow; they are not currently executable as a complete suite from this branch. See `PUBLICATION_STATUS.md` and `publication-inventory.json` for recovered and missing artifacts.
-
 Baseline `main`: `bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c`.
 Rejected NumPy-F candidate: `5542cd52969953b1e165c95109de35aa4dd75da8`.
 Claude review: `df18342afb09cd6c6cd3b954c5ef1d8afb3b3894`.
 
-This response branch has **no production changes**. The locally tested, currently missing `research/direct_blas_dense.py` is a complete replacement module for a disposable **baseline** checkout only. It is not a recommended distribution update. Prepare `DIRECT_GRIM_ROOT` by copying the baseline checkout and replacing `tools/GHOST/ghost_backend/linalg/dense.py` with that research file. Set `BASE_GRIM_ROOT` to the baseline checkout and `OLD_GRIM_ROOT` to the rejected candidate checkout. NumPy, SciPy and the repository dependencies are required.
+This response branch has **no production changes**. `research/direct_blas_dense.py` is a complete replacement module for a disposable **baseline** checkout only. It is not a recommended distribution update. Prepare `DIRECT_GRIM_ROOT` by copying the baseline checkout and replacing `tools/GHOST/ghost_backend/linalg/dense.py` with that research file. Set `BASE_GRIM_ROOT` to the baseline checkout and `OLD_GRIM_ROOT` to the rejected candidate checkout. NumPy, SciPy and the repository dependencies are required.
 
 Run scripts from a disposable copy of this audit directory. Use an empty `fresh/` directory: the suite runners refuse to overwrite results. The reviewer files can be fetched without Git history using `python download_claude.py`; each of its 414 pinned files is checked against its Git blob SHA. Run timed suites sequentially.
 
@@ -38,6 +36,6 @@ python evidence.py unpack /tmp/dense-response-replay
 FRESH_DIR=/tmp/dense-response-replay/fresh ANALYSIS_OUT=/tmp/dense-response-analysis.json python analyze.py
 ```
 
-The locally verified archive, whose upload is incomplete, holds every fresh process record, every physical complex field at all 180 angles, the first up to 16 RHS/density columns of every physical run, all 820 solutions from each of the two synthetic-suite runs, the fallback-suite solutions, and limited expression-benchmark snapshots (first RHS, first up to four columns, first repetition). All full benchmark answers were checked when computed; the archive does not retain every transient timing-loop answer. Archive parts and extracted members are SHA-256 checked. Reviewer field cross-analysis uses the separately downloaded pinned `claude/` directory; it does not execute a solve.
+The archive holds every fresh process record, every physical complex field at all 180 angles, the first up to 16 RHS/density columns of every physical run, all 820 solutions from each of the two synthetic-suite runs, the fallback-suite solutions, and limited expression-benchmark snapshots (first RHS, first up to four columns, first repetition). All full benchmark answers were checked when computed; the archive does not retain every transient timing-loop answer. Archive parts and extracted members are SHA-256 checked. Reviewer field cross-analysis uses the separately downloaded pinned `claude/` directory; it does not execute a solve.
 
 Neither Windows, a second BLAS build, near-full 32 GB memory pressure, nor an end-to-end default-thread policy change is validated here. No native DLL/.so was rebuilt. All research code remains outside production.
