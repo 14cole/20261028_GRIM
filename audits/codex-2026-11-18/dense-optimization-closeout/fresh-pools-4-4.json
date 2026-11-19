@@ -1,0 +1,70 @@
+{
+ "n": 4146,
+ "requested": {
+  "numpy": 4,
+  "scipy": 4
+ },
+ "pools_read_back": {
+  "numpy": 4,
+  "scipy": 4
+ },
+ "libraries": {
+  "numpy": {
+   "version": "0.3.30",
+   "architecture": "SkylakeX",
+   "filepath": "libscipy_openblas64_-fdde5778.so"
+  },
+  "scipy": {
+   "version": "0.3.30",
+   "architecture": "SkylakeX",
+   "filepath": "libscipy_openblas-6cdc3b4a.so"
+  }
+ },
+ "results": {
+  "scipy_lu|numpy_old": {
+   "total": 3.0003459590000148,
+   "solve_sum": 1.6383124915007556,
+   "product_sum": 1.3808956535008292
+  },
+  "scipy_lu|numpy_F": {
+   "total": 3.0634849569999005,
+   "solve_sum": 1.6825005769992458,
+   "product_sum": 1.4141691074989922
+  },
+  "scipy_lu|scipy_zgemm": {
+   "total": 1.3304125720001139,
+   "solve_sum": 0.7988081169996804,
+   "product_sum": 0.5315543160004381
+  },
+  "scipy_gemm_inverse|numpy_old": {
+   "total": 2.7939502655001434,
+   "solve_sum": 1.3427526585001033,
+   "product_sum": 1.407787630499115
+  },
+  "scipy_gemm_inverse|numpy_F": {
+   "total": 3.131126190000032,
+   "solve_sum": 1.5706854224999915,
+   "product_sum": 1.5849854969994794
+  },
+  "scipy_gemm_inverse|scipy_zgemm": {
+   "total": 0.9437437520000458,
+   "solve_sum": 0.485226418998991,
+   "product_sum": 0.46005059700041784
+  },
+  "numpy_gemm_inverse|numpy_old": {
+   "total": 1.0077737244998843,
+   "solve_sum": 0.45834941250041084,
+   "product_sum": 0.5493156814995928
+  },
+  "numpy_gemm_inverse|numpy_F": {
+   "total": 0.9055465195001489,
+   "solve_sum": 0.4551177280000047,
+   "product_sum": 0.4456391904991506
+  },
+  "numpy_gemm_inverse|scipy_zgemm": {
+   "total": 3.0132584964999296,
+   "solve_sum": 1.5386244485000589,
+   "product_sum": 1.5640192610017039
+  }
+ }
+}

@@ -1,0 +1,4 @@
+numpy/scipy threads {'numpy': 1, 'scipy': 4}
+  solve via scipy_lu             {'numpy_old': '2.73 (solve 0.72 + product 2.01)', 'numpy_F': '1.95 (solve 0.74 + product 1.20)', 'scipy_zgemm': '1.10 (solve 0.67 + product 0.43)'}
+  solve via scipy_gemm_inverse   {'numpy_old': '2.48 (solve 0.48 + product 2.00)', 'numpy_F': '1.65 (solve 0.46 + product 1.20)', 'scipy_zgemm': '0.90 (solve 0.45 + product 0.45)'}
+  solve via numpy_gemm_inverse   {'numpy_old': '3.14 (solve 1.17 + product 1.97)', 'numpy_F': '2.33 (solve 1.16 + product 1.16)', 'scipy_zgemm': '1.64 (solve 1.18 + product 0.45)'}
