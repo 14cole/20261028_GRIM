@@ -1,0 +1,107 @@
+{
+  "base_branch_commit": "c65d052c7cedd67f743ae5fdd6a89fe39443d278",
+  "main": "bf5201c26e0fa3ac98faf6363e52ab9e118d1a7c",
+  "source": [
+    "tools/GHOST/ghost_backend/ui/solver.py",
+    "6887a1b71569c23183ad696ea5f7033f7573f7a5"
+  ],
+  "unchanged_production_files": 527,
+  "claude_script_before": {
+    "undisturbed_run_samples": {
+      "(False, True, True)": 554,
+      "(False, False, True)": 1
+    },
+    "undisturbed_result_published": true,
+    "enabled_when_clicked": false,
+    "abort_event_exists_when_clicked": true,
+    "click_cancelled_the_run": false,
+    "bar_text_after_click": "%p%",
+    "status_after_click": "Solved 2-D monostatic scattering width with 3 frequency(ies) and 180 cut angle(s). Quality",
+    "direct_handler_cancelled_the_run": true
+  },
+  "claude_script_main": {
+    "undisturbed_run_samples": {
+      "(False, True, True)": 611,
+      "(False, False, True)": 1
+    },
+    "undisturbed_result_published": true,
+    "enabled_when_clicked": false,
+    "abort_event_exists_when_clicked": true,
+    "click_cancelled_the_run": false,
+    "bar_text_after_click": "%p%",
+    "status_after_click": "Solved 2-D monostatic scattering width with 3 frequency(ies) and 180 cut angle(s). Quality",
+    "direct_handler_cancelled_the_run": true
+  },
+  "claude_script_after": {
+    "undisturbed_run_samples": {
+      "(True, True, True)": 848,
+      "(False, False, True)": 1
+    },
+    "undisturbed_result_published": true,
+    "enabled_when_clicked": true,
+    "abort_event_exists_when_clicked": true,
+    "click_cancelled_the_run": true,
+    "bar_text_after_click": "Canceled",
+    "status_after_click": "Solve canceled by user.\nCompleted frequencies are available in: /workspace/progress-cancel",
+    "direct_handler_cancelled_the_run": true
+  },
+  "mouse_regression": {
+    "cases": [
+      {
+        "case": "initial_success",
+        "progress": 100,
+        "quality_gate": true
+      },
+      {
+        "case": "mouse_cancel_single",
+        "enabled_at_click": true,
+        "abort_set": true,
+        "prior_result_preserved": true,
+        "clean_teardown": true,
+        "status": "Solve canceled by user.\nCompleted frequencies are available in: /workspace/progress-cancel-fix/Run_Recovery/run_20261119_023017_d0c6b31fc4064db2af20e93db72290aa"
+      },
+      {
+        "case": "mouse_cancel_check",
+        "enabled_at_click": true,
+        "abort_set": true,
+        "prior_result_preserved": true,
+        "clean_teardown": true,
+        "status": "Solve canceled; no result was published.\nCompleted frequencies are available in: /workspace/progress-cancel-fix/Run_Recovery/run_20261119_023017_8e45a362136b4d5cb838f9e19f809d5d"
+      },
+      {
+        "case": "mouse_cancel_automatic",
+        "enabled_at_click": true,
+        "abort_set": true,
+        "prior_result_preserved": true,
+        "clean_teardown": true,
+        "status": "Solve canceled; no result was published.\nCompleted frequencies are available in: /workspace/progress-cancel-fix/Run_Recovery/run_20261119_023018_5d4fc8cf4fbb49b39371cef0b9520dd4"
+      },
+      {
+        "case": "success_after_cancellations",
+        "progress": 100,
+        "quality_gate": true,
+        "fresh_event": true
+      }
+    ],
+    "errors": [],
+    "qt": "PySide6 offscreen",
+    "angles": 180,
+    "all_pass": true
+  },
+  "progress_checks": [
+    "fixed work never regresses and does not show premature 100",
+    "cancellation stops activity and ignores queued progress/telemetry",
+    "convergence retries stay indeterminate; stage and cancellation status retained",
+    "BoR remains indeterminate and failure restores a stopped bar",
+    "restart resets old state; unknown totals latch activity mode",
+    "worker distinguishes unknown denominator from zero-percent work",
+    "three actual GUI worker solves: specified, checked, automatic; 180 monostatic angles",
+    "invalid new setup replaces the previous completed bar with Failed",
+    "100 only after export; queued events cannot overwrite finishing status",
+    "declined automatic export completes result progress",
+    "stale export skip stops progress",
+    "export failure stops progress and retains completed solve",
+    "partial result reports completed frequencies without 100",
+    "density calculation can reuse progress bar after convergence"
+  ]
+}
