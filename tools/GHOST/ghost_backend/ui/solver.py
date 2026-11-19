@@ -468,10 +468,10 @@ class _SolveWorker(QObject):
 
     def _on_progress(self, done_steps: 'int', total_steps: 'int', message: 'str') -> 'None':
         if total_steps <= 0:
-            pct = 0
+            pct = -1  # Unknown work: the desktop uses an activity indicator.
         else:
             pct = int(round(100.0 * float(done_steps) / float(total_steps)))
-        pct = max(0, min(100, pct))
+            pct = max(0, min(100, pct))
         self.progress.emit(pct, message)
 
     def _run_bor(self):
@@ -758,6 +758,9 @@ class SolverTab(RunSetupMixin, QWidget):
         self._solve_run_serial: 'int' = 0
         self._active_solve_run_id: 'Optional[int]' = None
         self._is_solving: 'bool' = False
+        self._solver_progress_percent = 0
+        self._solver_progress_indeterminate = False
+        self._solver_finishing = False
         self._abort_event: 'Optional[threading.Event]' = None
         self._pending_density_context: 'Optional[Dict[str, Any]]' = None
         self._density_thread: 'Optional[QThread]' = None
@@ -1186,6 +1189,11 @@ class SolverTab(RunSetupMixin, QWidget):
         tools_form.addRow(self.btn_recover)
         tools_form.addRow(self.btn_currents)
         outer.addLayout(btn_row)
+
+        self.lbl_progress = QLabel()
+        self.lbl_progress.setWordWrap(True)
+        self.lbl_progress.hide()
+        outer.addWidget(self.lbl_progress)
 
         self.progress = QProgressBar()
         self.progress.setRange(0, 100)
@@ -1805,7 +1813,7 @@ class SolverTab(RunSetupMixin, QWidget):
 
         self._density_thread = thread
         self._density_worker = worker
-        self.progress.setValue(0)
+        self._stop_solver_progress(0)
         self.lbl_status.setText(
             "Starting boundary-density calculation in the background..."
         )
@@ -1908,9 +1916,44 @@ class SolverTab(RunSetupMixin, QWidget):
         self._active_density_run_id = None
         self._apply_job_state()
 
-    @Slot(int, str)
+    def _start_solver_progress(self, mesh_certification, solver_kind):
+        self._solver_progress_percent = 0
+        self._solver_finishing = False
+        self._solver_progress_indeterminate = bool(mesh_certification or solver_kind == 'bor')
+        self.progress.setFormat('%p%')
+        self.progress.setRange(0, 100)
+        self.progress.setValue(0)
+        if self._solver_progress_indeterminate:
+            label = ('Checking mesh and mode convergence' if mesh_certification else
+                     'Checking mode convergence') if solver_kind == 'bor' else 'Checking mesh convergence'
+            self._show_progress_activity(label + ' — additional passes may be needed.')
+        else:
+            self.lbl_progress.hide()
+            self.progress.setToolTip('Completed solve work; 100% is shown after results are ready.')
+
+    def _show_progress_activity(self, message):
+        # Adaptive passes and retries have no reliable total-work denominator.
+        self._solver_progress_indeterminate = True
+        self.progress.setRange(0, 0)
+        self.progress.setToolTip('The amount of remaining work is not yet known. See the current stage below.')
+        self.lbl_progress.setText(message)
+        self.lbl_progress.show()
+
+    def _stop_solver_progress(self, value, text='%p%'):
+        self._solver_finishing = True
+        self.progress.setRange(0, 100)
+        self.progress.setValue(max(0, min(100, int(value))))
+        self.progress.setFormat(text)
+        self.progress.setToolTip('')
+        self.lbl_progress.hide()
+
+    def _solver_progress_is_active(self):
+        return (self._is_solving and not self._solver_finishing and
+                not (self._abort_event is not None and self._abort_event.is_set()))
+
+    @Slot(object)
     def _on_execution_progress(self, event):
-        if not self._is_solving:
+        if not self._solver_progress_is_active():
             return
         elapsed = float(event.get('elapsed_seconds', 0))
         minutes, seconds = divmod(int(elapsed), 60)
@@ -1926,7 +1969,14 @@ class SolverTab(RunSetupMixin, QWidget):
         self.lbl_status.setText('{} | {}m {:02d}s{}'.format(title, minutes, seconds, memory))
 
     def _on_solver_progress(self, pct: 'int', message: 'str'):
-        self.progress.setValue(max(0, min(100, int(pct))))
+        if not self._solver_progress_is_active():
+            return
+        if pct < 0 and not self._solver_progress_indeterminate:
+            self._show_progress_activity('Solving — remaining work is not yet known.')
+        if not self._solver_progress_indeterminate:
+            # Nested callbacks may restart at zero or reach 100 before final checks.
+            self._solver_progress_percent = max(self._solver_progress_percent, min(99, int(pct)))
+            self.progress.setValue(self._solver_progress_percent)
         if message:
             self.lbl_status.setText(f"Solving... {message}")
 
@@ -1937,6 +1987,9 @@ class SolverTab(RunSetupMixin, QWidget):
         if self._abort_event is not None and self._abort_event.is_set():
             self._on_solver_canceled("Solve canceled by user.")
             return
+        self._solver_finishing = True
+        self.lbl_progress.setText('Preparing results and exports…')
+        self.lbl_progress.show()
         self.last_result = result
         self.last_source_path = source_path
         self.last_solve_context = self._pending_solve_context
@@ -1980,9 +2033,9 @@ class SolverTab(RunSetupMixin, QWidget):
             requested = max(metadata.get('requested_frequency_count', 1), 1)
             write_summary = 'PARTIAL RESULT ({}/{} frequencies). '.format(completed, requested) + write_summary
             mesh_suffix += ' Checkpoint storage failed; remaining frequencies were not solved. Manual export is available.'
-            self.progress.setValue(int(100 * completed / requested))
+            completed_progress = min(99, int(100 * completed / requested))
         else:
-            self.progress.setValue(100)
+            completed_progress = 100
         self.lbl_status.setText(write_summary + quality_suffix + mesh_suffix)
         if self._last_result_stale:
             self.lbl_status.setText(
@@ -2010,6 +2063,7 @@ class SolverTab(RunSetupMixin, QWidget):
                         + mesh_suffix
                         + " Automatic export was canceled; the result remains available."
                     )
+                    self._stop_solver_progress(100)
                     self._set_solving_state(False)
                     return
 
@@ -2024,6 +2078,7 @@ class SolverTab(RunSetupMixin, QWidget):
                         + " Automatic export skipped because geometry or the "
                         "active solver result changed during export confirmation."
                     )
+                    self._stop_solver_progress(100)
                     self._set_solving_state(False)
                     return
                 files = self._export_result_files(
@@ -2049,6 +2104,7 @@ class SolverTab(RunSetupMixin, QWidget):
             except Exception as exc:
                 QMessageBox.warning(self, "Export Warning", f"Solve completed, but export failed:\n{exc}")
 
+        self._stop_solver_progress(completed_progress, 'Partial — %p%' if partial else '%p%')
         self._set_solving_state(False)
 
     @Slot(str)
@@ -2060,7 +2116,7 @@ class SolverTab(RunSetupMixin, QWidget):
             self._on_solver_canceled(f"Solve canceled; no result was published.{detail}")
             return
         self._pending_solve_context = None
-        self.progress.setValue(0)
+        self._stop_solver_progress(self._solver_progress_percent, 'Failed')
         self.lbl_status.setText(f"Solve failed: {message}")
         QMessageBox.critical(self, "Solver Error", message)
         self._set_solving_state(False)
@@ -2070,7 +2126,7 @@ class SolverTab(RunSetupMixin, QWidget):
         """Treat an operator cancellation as a normal terminal state."""
 
         self._pending_solve_context = None
-        self.progress.setValue(0)
+        self._stop_solver_progress(self._solver_progress_percent, 'Canceled')
         self.lbl_status.setText(_message or "Solve canceled; no result was published.")
         self._set_solving_state(False)
 
@@ -2121,18 +2177,19 @@ class SolverTab(RunSetupMixin, QWidget):
             if preflight_setup is not None:
                 self._update_run_output_note()
         except Exception as exc:
+            self._stop_solver_progress(0, 'Failed')
             QMessageBox.critical(self, "Solver Error", str(exc))
             self.lbl_status.setText(f"Solve failed: {exc}")
             return
 
-        self.progress.setValue(0)
+        self._start_solver_progress(mesh_certification, solver_kind)
         sweep_notes = list(getattr(self, "_sweep_notes", []) or [])
         self.lbl_status.setText(
             "Starting solver thread..." + "".join(f" Note: {note}" for note in sweep_notes))
-        self._set_solving_state(True)
-
         abort_event = threading.Event()
         self._abort_event = abort_event
+        # Button state needs the new cancellation event before the job starts.
+        self._set_solving_state(True)
         self._solve_run_serial += 1
         run_id = self._solve_run_serial
         self._active_solve_run_id = run_id
