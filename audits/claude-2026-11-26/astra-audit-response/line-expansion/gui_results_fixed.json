@@ -1,0 +1,67 @@
+{
+ "sections_only": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-zx1s12bc/gui-ref.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)",
+  "seconds_to_idle": 1.11,
+  "cancel_clicked_at": null
+ },
+ "tab_inputs": {
+  "named_inputs": [
+   "angle_step",
+   "body_edit",
+   "mirror",
+   "oblique",
+   "oblique_solves",
+   "oblique_tilt",
+   "output_edit",
+   "shadow"
+  ],
+  "grid_fields": [
+   "azimuths_deg",
+   "elevations_deg",
+   "frequencies_ghz"
+  ],
+  "shadow_checked_by_default": true,
+  "any_attitude_input": false
+ },
+ "bor_profile_base_default_shadow_on": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-zx1s12bc/gui-default_shadow_on.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)",
+  "seconds_to_idle": 0.82,
+  "cancel_clicked_at": null,
+  "output_written": true
+ },
+ "bor_profile_base_shadow_off": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-zx1s12bc/gui-shadow_off.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)",
+  "seconds_to_idle": 0.49,
+  "cancel_clicked_at": null,
+  "output_written": true
+ },
+ "radian_base": {
+  "started": true,
+  "status": "The base dataset cannot be used as it is. /tmp/le-gui-zx1s12bc/rad.grim: Assembly requires units.azimuth='deg'; got 'rad'.",
+  "seconds_to_idle": 0.02,
+  "cancel_clicked_at": null,
+  "output_written": false
+ },
+ "cancel_during_section_solve": {
+  "uncanceled": {
+   "started": true,
+   "status": "Saved /tmp/le-gui-zx1s12bc/gui-big.grim\nsection 1: big.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)\n\u26a0 A 0.5 deg section angle step under-samples big.geo at 3 GHz (it reaches 1.5 m from its origin); use 0.15 deg or finer.",
+   "seconds_to_idle": 2.61,
+   "cancel_clicked_at": null
+  },
+  "canceled": {
+   "started": true,
+   "status": "Solve canceled by user.",
+   "seconds_to_idle": 0.56,
+   "cancel_clicked_at": 0.5
+  },
+  "output_written_after_cancel": false
+ },
+ "overflow_sweep": {
+  "escaped": false,
+  "status": "Azimuths (deg) sweep has too many samples (limit 100,000 per axis)."
+ }
+}

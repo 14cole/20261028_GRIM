@@ -6,9 +6,9 @@ Real section solver, real files, every result reopened from disk.
 
     GRIM_ROOT=/path/to/checkout QT_QPA_PLATFORM=offscreen python -m pytest -q test_line_expansion_regressions.py
 
-At ed90b65: 22 fail, 8 pass (the passing ones are controls). With trial-fix.patch: 26 pass and
-4 fail; those four are the cases added from Codex's review of abe8bd0, which the trial patch
-does not cover.
+History: at ed90b65, 22 of the first 30 cases fail and 8 pass (controls). The
+cases below the "acceptance" marker were added with the fix and follow Codex's
+notes on f920c8a. With the fix on this branch all cases pass.
 """
 import json, os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -199,3 +199,144 @@ def test_sweep_overflow_is_a_reported_input_error():
     for text in ("0:1e308:1e-308", "0:1e12:1"):
         with pytest.raises(ValueError):
             parse_samples(text, "Azimuths")
+
+
+# ==== acceptance cases added with the fix (Codex's notes on f920c8a) ==========
+import threading
+from unittest.mock import patch
+from ghost_backend.assembly.fields import load_body_requested_radar_grid, radar_frame_basis
+
+
+def test_attitude_is_stored_numerically_where_the_next_reader_looks(ctx):
+    grid = load_body_requested_radar_grid(ctx["att_path"])
+    assert {k: float(grid[k]) for k in ATT} == ATT
+    record = json.loads(scalar(reopen(ctx["att_path"])[0], "line_expansion_provenance_json"))
+    assert record["body_attitude_deg"] == ATT
+
+
+def test_conflicting_attitude_on_a_nonzero_base_is_refused(ctx):
+    other = dict(ATT, roll_deg=ATT["roll_deg"] + 5.0)
+    with pytest.raises(ValueError, match="attitude"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"conflict.grim"), body_grim=ctx["att_path"], **other)
+    assert not (ctx["work"]/"conflict.grim").exists()
+
+
+def legacy_base(ctx, name, field, **changes):
+    """The attitude-ATT file with optional tags absent, as an older writer would leave it."""
+    payload, _ = reopen(ctx["att_path"])
+    for key in ("time_convention", "polarization_basis", "line_expansion_provenance_json"):
+        payload.pop(key, None)
+    payload.update(changes)
+    payload.update(rcs_amp_real=field.real.copy(), rcs_amp_imag=field.imag.copy(),
+                   rcs_power=(4*np.pi*np.abs(field)**2).astype(np.float32),
+                   rcs_phase=np.angle(field).astype(np.float32))
+    return _save_grim_npz(payload, str(ctx["work"]/name))
+
+
+def test_legacy_base_without_optional_tags_is_accepted_at_nonzero_attitude(ctx):
+    base = legacy_base(ctx, "legacy.grim", ctx["att"])
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"legacy-out.grim"), body_grim=base)
+    payload, got = reopen(run["output"])
+    assert rel(got, 2*ctx["att"]) < TOL
+    assert {k: float(load_body_requested_radar_grid(run["output"])[k]) for k in ATT} == ATT
+    assert "exp(+jwt)" in scalar(payload, "phase_reference")
+
+
+def test_contradictory_primary_phase_reference_is_refused(ctx):
+    """Opposite sign declared only in phase_reference, with no optional time tag."""
+    phase = scalar(reopen(ctx["att_path"])[0], "phase_reference").replace("exp(+jwt)", "exp(-jwt)")
+    base = legacy_base(ctx, "phase-only.grim", ctx["att"].conj(), phase_reference=np.asarray(phase))
+    with pytest.raises(ValueError, match="phase_reference"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"phase-only-out.grim"), body_grim=base)
+    assert not (ctx["work"]/"phase-only-out.grim").exists()
+
+
+def test_contradictory_amplitude_convention_is_refused(ctx):
+    base = legacy_base(ctx, "amp.grim", ctx["att"], amplitude_convention=np.asarray("sqrt(sigma_3d)"))
+    with pytest.raises(ValueError, match="amplitude_convention"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"amp-out.grim"), body_grim=base)
+
+
+# ---- shadowing must actually happen --------------------------------------------
+def test_shadowed_looks_lose_the_section_and_visible_looks_keep_it(ctx):
+    """A short section beside a 0.15 m sphere: hidden looks add nothing, clear looks add everything."""
+    R, x0, half = 0.15, 0.25, 0.02
+    az = [float(a) for a in range(0, 360, 15)]; el = [0.0, 30.0]
+    section = dict(ctx["section"], root=(x0, -half, 0.0), tip=(x0, half, 0.0), normal=(0.0, 0.0, 1.0))
+    grid = dict(frequencies_ghz=[1.0], azimuths_deg=az, elevations_deg=el)
+    free = expand([section], output_grim=str(ctx["work"]/"free.grim"), **grid)
+    payload, alone = reopen(free["output"])
+    theta = np.linspace(0, np.pi, 49)
+    payload = dict(payload, body_profile_rho_m=(R*np.sin(theta)).clip(0), body_profile_z_m=-R*np.cos(theta),
+                   body_profile_kind=np.asarray("outer_boundary"))
+    payload.update(rcs_amp_real=0*alone.real, rcs_amp_imag=0*alone.real,
+                   rcs_power=np.zeros(alone.shape, np.float32), rcs_phase=np.zeros(alone.shape, np.float32))
+    base = _save_grim_npz(payload, str(ctx["work"]/"sphere-zero.grim"))
+    out = {}
+    for shadow in (True, False):
+        run = expand([section], output_grim=str(ctx["work"]/f"sph-{shadow}.grim"), body_grim=base, shadow=shadow)
+        out[shadow] = reopen(run["output"])[1]
+    assert rel(out[False], alone) < TOL                                  # shadow off: unchanged
+    # Analytic classification of each look for every point of the segment.
+    directions, _ = radar_frame_basis(az, el)
+    from ghost_backend.geometry.frames import to_axis_frame
+    pts = to_axis_frame(np.array([(x0, y, 0.0) for y in np.linspace(-half, half, 9)]))   # looks are in the axis frame
+    along = pts @ directions.T                                           # (point, look)
+    miss2 = (pts**2).sum(1)[:, None] - along**2                           # squared ray-centre distance
+    hidden = np.all((along < 0) & (miss2 < (0.9*R)**2), axis=0).reshape(len(az), len(el))
+    clear = np.all((along > 0) | (miss2 > (1.1*R)**2), axis=0).reshape(len(az), len(el))
+    assert hidden.sum() >= 4 and clear.sum() >= 4
+    peak = np.abs(alone).max()
+    assert np.abs(out[True][hidden]).max() < 1e-12*peak                   # nothing added behind the body
+    assert np.abs(out[True][clear] - alone[clear]).max() < 1e-9*peak       # everything added in the clear
+    assert np.abs(alone[hidden]).max() > 1e-3*peak                        # the hidden looks were not trivially zero
+
+
+def test_occluder_method_used_by_assembly_handles_many_leaves():
+    owner, lo, hi = Occluder(sheet(18)).visible_line_intervals(
+        np.array([[-2.0, -1.37, -1.0]]), np.array([[2.0, 1.43, -1.0]]), np.array([0.0, 0.0, 1.0]))
+    assert abs(float(np.sum(hi-lo)) - 0.5) < 1e-12
+
+
+# ---- cancellation ----------------------------------------------------------------
+def test_cancel_event_reaches_the_section_solver_and_stops_it(ctx):
+    from ghost_backend.twod import solver
+    event, seen = threading.Event(), []
+    real = solver.solve_monostatic_rcs_2d_certified
+    def solve(*args, **kwargs):
+        seen.append(kwargs.get("abort_event") is event)
+        event.set()                                # the user clicks Cancel while the solve is starting
+        return real(*args, **kwargs)
+    out = ctx["work"]/"cancel-solve.grim"; out.write_bytes(b"previous")
+    with patch.object(solver, "solve_monostatic_rcs_2d_certified", solve), pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.3], azimuths_deg=[0.0, 10.0],
+               elevations_deg=[0.0], abort_event=event)
+    assert seen == [True] and out.read_bytes() == b"previous"
+    assert not list(ctx["work"].glob(".cancel-solve*"))
+
+
+def test_cancel_accepted_before_publication_keeps_the_previous_file(ctx):
+    from ghost_backend.io import grim
+    event = threading.Event(); real = grim._save_grim_npz
+    def save(payload, *args, **kwargs):
+        result = real(payload, *args, **kwargs)
+        if "line_expansion_provenance_json" in payload:
+            event.set()                            # staged file is complete; rename not yet done
+        return result
+    out = ctx["work"]/"cancel-publish.grim"; out.write_bytes(b"previous")
+    with patch.object(grim, "_save_grim_npz", save), pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0, 10.0],
+               elevations_deg=[0.0], abort_event=event)
+    assert out.read_bytes() == b"previous" and not list(ctx["work"].glob(".cancel-publish*"))
+
+
+# ---- combined grid size ----------------------------------------------------------
+def test_oversized_combined_grid_is_refused_before_any_array_is_built(ctx):
+    from ghost_backend.ui.line_expansion import parse_samples
+    az = parse_samples("0:359:0.01", "Azimuths"); el = parse_samples("-90:90:0.01", "Elevations")
+    def no_arrays(*args, **kwargs):
+        raise AssertionError("the grid product was about to be built")
+    with patch.object(np, "meshgrid", no_arrays), pytest.raises(ValueError, match="looks"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"huge.grim"), frequencies_ghz=[1.0],
+               azimuths_deg=az, elevations_deg=el)
+    assert not (ctx["work"]/"huge.grim").exists()

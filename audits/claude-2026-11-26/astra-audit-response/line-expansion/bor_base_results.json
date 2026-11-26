@@ -1,0 +1,65 @@
+{
+ "base_keys_of_interest": [
+  "body_model_amp_hh_imag",
+  "body_model_amp_hh_real",
+  "body_model_amp_vv_imag",
+  "body_model_amp_vv_real",
+  "body_model_aspects_deg",
+  "body_model_metadata_json",
+  "body_profile_kind",
+  "body_profile_rho_m",
+  "body_profile_z_m",
+  "requested_radar_grid_json"
+ ],
+ "base_attitude": {
+  "axis_az_deg": 20.0,
+  "axis_el_deg": -10.0,
+  "roll_deg": 15.0
+ },
+ "shadow_off": {
+  "error_vs_body_plus_section": 0.0,
+  "warnings": []
+ },
+ "shadow_on": {
+  "hidden_looks": 4,
+  "clear_looks": 18,
+  "max_added_on_hidden_looks_rel": 0.0,
+  "max_error_on_clear_looks_rel": 6.431786320104491e-16,
+  "unshadowed_section_on_hidden_looks_rel": 0.4696704238941196,
+  "warnings": [],
+  "output_attitude": {
+   "axis_az_deg": 20.0,
+   "axis_el_deg": -10.0,
+   "roll_deg": 15.0
+  },
+  "body_model_kept": true,
+  "provenance": {
+   "base": "body.grim",
+   "body_attitude_deg": {
+    "axis_az_deg": 20.0,
+    "axis_el_deg": -10.0,
+    "roll_deg": 15.0
+   },
+   "body_shadowing": true,
+   "corner_estimate_count": 0,
+   "model_scope": "single bounce; no end, junction or mutual coupling",
+   "oblique_correction": false,
+   "phase_mapping_deg": {
+    "TE": 0.0,
+    "TM": 180.0
+   },
+   "schema": "ghost.assembly.line-expansion.v1",
+   "section_solve": "certified mesh-converged 2-D solve; Solver-tab settings are not used",
+   "stations": [
+    "section 1: wedge.geo, span 0.04 m, 2-D +x = [0.0, 1.0, 0.0], 2-D +y = [1.0, 0.0, 0.0] at the start (axis frame)"
+   ],
+   "warnings": []
+  }
+ },
+ "output_usable_as_assembly_body": true,
+ "chained_implicit": {
+  "error_vs_body_plus_2x_added": 1.6553064767911105e-16,
+  "warnings": []
+ },
+ "conflicting_attitude": "refused: The base dataset was computed at body attitude axis_az_deg=20, axis_el_deg=-10, roll_deg=15; its stored field cannot be combined with sectio"
+}

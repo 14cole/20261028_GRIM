@@ -74,7 +74,9 @@ rad = base("rad.grim", azimuths=np.radians(ref_payload["azimuths"]), elevations=
            units=np.asarray(json.dumps(units)))
 tab = make_tab(); tab.body_edit.setText(rad); tab.output_edit.setText(str(work/"gui-rad.grim"))
 R["radian_base"] = run(tab)
-R["radian_base"]["error_vs_2x_reference"] = rel(reopen(work/"gui-rad.grim")[1], 2*ref)
+R["radian_base"]["output_written"] = (work/"gui-rad.grim").exists()
+if R["radian_base"]["output_written"]:
+    R["radian_base"]["error_vs_2x_reference"] = rel(reopen(work/"gui-rad.grim")[1], 2*ref)
 
 # 5. Cancel during a long section solve (same wedge, 25x larger, 3 GHz)
 big = work/"big.geo"
