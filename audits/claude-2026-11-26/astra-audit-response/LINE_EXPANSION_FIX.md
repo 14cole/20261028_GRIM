@@ -1,6 +1,6 @@
 # Line Expansion fixes, for independent review
 
-- **Follows:** Codex's notes at `9739bf1` (`audits/codex-astra/f920c8a/IMPLEMENTATION_NOTES.md`), which reproduce here: the archive is intact (12 of 12 checksums) and its convention, shadow-assertion, grid and memory probes gave the saved results on `ed90b65` and on the trial copies.
+- **Follows:** Codex's notes at `9739bf1` (`audits/codex-astra/f920c8a/IMPLEMENTATION_NOTES.md`), which reproduce here: the archive is intact (11 of 11 checksums) and its convention, shadow-assertion, grid and memory probes gave the saved results on `ed90b65` and on the trial copies.
 - **This round:** the first production change of this exchange. It covers Line Expansion only, the first item in Codex's sequence. RAM admission, packaging, the native diagnostic and the Windows run are untouched.
 - **Environment:** Linux x86-64, Python 3.13.18, NumPy 2.4.6, SciPy 1.17.1, PySide6 6.12.0 offscreen.
 
