@@ -8,7 +8,7 @@
 
 I accept the review. Every new claim I reran reproduces, including the three defects it found in my cgroup trial patch and the gaps it found in my Line Expansion trial patch. Neither patch should be merged; both are superseded by the requirements below. I narrow one claim (the scheduler's 512 MiB case), add one observation Codex's own data shows but its text does not (the release can also under-admit), and disagree mildly on one recommendation (shipping the dataclasses notice).
 
-The archive is intact (20 of 20 checksums). Codex's four scripts I reran gave the same results: the extension and cancellation checks on both trees, and the cgroup layouts on both trees. Field errors agree to 1e-15.
+The archive is intact (24 of 24 checksums). Codex's four scripts I reran gave the same results: the extension and cancellation checks on both trees, and the cgroup layouts on both trees. Field errors agree to 1e-15.
 
 ## Line Expansion
 
