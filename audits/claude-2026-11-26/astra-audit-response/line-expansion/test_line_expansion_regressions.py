@@ -340,3 +340,196 @@ def test_oversized_combined_grid_is_refused_before_any_array_is_built(ctx):
         expand([ctx["section"]], output_grim=str(ctx["work"]/"huge.grim"), frequencies_ghz=[1.0],
                azimuths_deg=az, elevations_deg=el)
     assert not (ctx["work"]/"huge.grim").exists()
+
+
+# ==== cases added after Codex's review of d0a9b01 ==============================
+def test_sections_only_output_is_usable_by_assembly_with_and_without_a_mesh(ctx):
+    from ghost_backend.assembly.workflow import (
+        FeatureAssemblyRequest, execute_feature_assembly, prepare_feature_assembly, prepare_feature_input_preview)
+    base = ctx["work"]/"ref.grim"
+    assert "requested_radar_grid_json" in ctx["payload"] and "body_profile_rho_m" not in ctx["payload"]
+    mesh = ctx["work"]/"mesh.stl"
+    mesh.write_text("solid p\nfacet normal 0 0 1\nouter loop\nvertex 0 0 0\nvertex 1 0 0\nvertex 0 1 0\nendloop\nendfacet\nendsolid p\n")
+    for name, kwargs, source in (("asm-none", {}, "none"),
+                                 ("asm-stl", dict(surface_mesh=mesh, surface_units="meters"), "surface_mesh")):
+        assert prepare_feature_input_preview(base_grim=base, **kwargs).body_source == source
+        plan = prepare_feature_assembly(FeatureAssemblyRequest(base_grim=base, output_grim=ctx["work"]/f"{name}.grim", **kwargs))
+        done = execute_feature_assembly(plan, acknowledged_plan_sha256=plan.prepared_plan_sha256)
+        assert rel(reopen(done)[1], ctx["ref"]) == 0.0
+
+
+def rotated_body_without_request(ctx, name):
+    """A non-zero field at attitude ATT whose file carries a BoR profile but no attitude record."""
+    payload, _ = reopen(ctx["att_path"])
+    for key in ("requested_radar_grid_json", "line_expansion_provenance_json"):
+        payload.pop(key, None)
+    payload.update(body_profile_rho_m=np.array([0.0, 0.01, 0.0]), body_profile_z_m=np.array([-0.01, 0.0, 0.01]),
+                   body_model_aspects_deg=np.array([0.0, 180.0]))
+    return _save_grim_npz(payload, str(ctx["work"]/name))
+
+
+def test_unknown_attitude_is_reported_as_an_assumption_and_can_be_stated(ctx):
+    base = rotated_body_without_request(ctx, "rotated-no-request.grim")
+    assert float(load_body_requested_radar_grid(base)["axis_az_deg"]) == 0.0      # the reader's fallback zeros
+    implicit = expand([ctx["section"]], output_grim=str(ctx["work"]/"unk-implicit.grim"), body_grim=base, shadow=False)
+    assert any("assum" in w.lower() for w in implicit["warnings"])
+    record = json.loads(scalar(reopen(implicit["output"])[0], "line_expansion_provenance_json"))
+    assert set(record["body_attitude_source"].values()) == {"assumed"}
+    stated = expand([ctx["section"]], output_grim=str(ctx["work"]/"unk-stated.grim"), body_grim=base, shadow=False, **ATT)
+    assert rel(reopen(stated["output"])[1], 2*ctx["att"]) < TOL and not stated["warnings"]
+    assert json.loads(scalar(reopen(stated["output"])[0], "line_expansion_provenance_json"))["body_attitude_source"] == dict.fromkeys(ATT, "stated")
+    # the assumption stays visible when the assumed file is expanded again
+    again = expand([ctx["section"]], output_grim=str(ctx["work"]/"unk-again.grim"), body_grim=implicit["output"], shadow=False)
+    assert any("assum" in w.lower() for w in again["warnings"])
+
+
+def test_partly_stated_attitude_uses_the_stated_angle_and_flags_the_rest(ctx):
+    base = rotated_body_without_request(ctx, "rotated-no-request-2.grim")
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"unk-partial.grim"), body_grim=base, shadow=False,
+                 axis_az_deg=ATT["axis_az_deg"])
+    record = json.loads(scalar(reopen(run["output"])[0], "line_expansion_provenance_json"))
+    assert record["body_attitude_source"] == dict(axis_az_deg="stated", axis_el_deg="assumed", roll_deg="assumed")
+    assert any("axis_el_deg" in w and "axis_az_deg" not in w for w in run["warnings"])
+
+
+def test_physically_equivalent_attitude_is_not_a_conflict(ctx):
+    same = dict(axis_az_deg=ATT["axis_az_deg"] + 360.0, axis_el_deg=ATT["axis_el_deg"], roll_deg=ATT["roll_deg"] - 360.0)
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"equiv.grim"), body_grim=ctx["att_path"], **same)
+    assert rel(reopen(run["output"])[1], 2*ctx["att"]) < TOL
+    assert {k: float(load_body_requested_radar_grid(run["output"])[k]) for k in ATT} == ATT
+
+
+def test_power_and_phase_base_gives_an_output_that_expands_again(ctx):
+    """Version-1 layout without the optional complex-field-domain tag."""
+    from ghost_backend.assembly.fields import RADAR_COMPONENT_FIELD_DOMAIN
+    payload, _ = reopen(ctx["att_path"])
+    for key in ("complex_field_domain", "rcs_amp_real", "rcs_amp_imag", "raw_complex_amplitude_preserved",
+                "line_expansion_provenance_json"):
+        payload.pop(key, None)
+    payload["rcs_power"] = 4*np.pi*np.abs(ctx["att"])**2; payload["rcs_phase"] = np.angle(ctx["att"])
+    base = _save_grim_npz(payload, str(ctx["work"]/"power-phase.grim"), format_version=1)
+    with np.load(base) as stored:
+        assert "complex_field_domain" not in stored.files and "rcs_complex" not in stored.files
+    first = expand([ctx["section"]], output_grim=str(ctx["work"]/"pp-1.grim"), body_grim=base)
+    out, field = reopen(first["output"])
+    assert rel(field, 2*ctx["att"]) < TOL and scalar(out, "complex_field_domain") == RADAR_COMPONENT_FIELD_DOMAIN
+    assert "metadata_advisories_json" in out and str(ctx["work"]) not in scalar(out, "metadata_advisories_json")
+    second = expand([ctx["section"]], output_grim=str(ctx["work"]/"pp-2.grim"), body_grim=first["output"])
+    assert rel(reopen(second["output"])[1], 3*ctx["att"]) < TOL
+
+
+def test_oversized_base_is_refused_after_reading_only_its_axes(ctx):
+    with np.load(ctx["att_path"]) as handle:
+        cls = type(handle)
+    read, real = [], cls.__getitem__
+    def record(self, member):
+        read.append(member); return real(self, member)
+    out = ctx["work"]/"big-base-out.grim"; out.write_bytes(b"previous")
+    with patch.object(cls, "__getitem__", record), patch.object(wing, "MAX_LOOKS", len(AZ)*len(EL)-1), \
+            pytest.raises(ValueError, match="too large"):
+        expand([ctx["section"]], output_grim=str(out), body_grim=ctx["att_path"])
+    assert sorted(read) == ["azimuths", "elevations", "frequencies", "polarizations"]
+    assert out.read_bytes() == b"previous"
+
+
+def test_output_size_counts_every_channel_of_the_base(ctx):
+    order = ["VV", "HH", "VH", "HV"]
+    lab = [str(x) for x in ctx["payload"]["polarizations"]]
+    field = np.stack([ctx["ref"][..., lab.index("VH" if c == "HV" else c)] for c in order], -1)
+    base = write_base(ctx, "four-for-size.grim", field=field, polarizations=np.array(order),
+                      polarization_aliases_json=np.asarray(json.dumps(order)), polarization_alias_primary=np.asarray("VV"))
+    three_channel_count = field[..., :3].size
+    with patch.object(wing, "MAX_OUTPUT_SAMPLES", three_channel_count), pytest.raises(ValueError, match="4 channels"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"four-size-out.grim"), body_grim=base)
+
+
+def test_axis_limit_holds_at_the_boundary_for_parser_and_api(ctx):
+    from ghost_backend.ui.line_expansion import parse_samples
+    assert len(parse_samples("0:99999:1", "Azimuths")) == wing.MAX_AXIS_SAMPLES
+    for text in ("0:100000:1", "0:99999.9999999995:1"):
+        try:
+            assert len(parse_samples(text, "Azimuths")) <= wing.MAX_AXIS_SAMPLES
+        except ValueError:
+            pass
+    with patch.object(np, "meshgrid", side_effect=AssertionError("built")), pytest.raises(ValueError, match="frequencies"):
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"manyf.grim"), frequencies_ghz=range(1, 100_002),
+               azimuths_deg=[0.0], elevations_deg=[0.0])
+
+
+@pytest.mark.parametrize("where", ["solver_settings_event", "top_level_event"])
+@pytest.mark.parametrize("with_callback", [False, True])
+def test_a_cancel_from_any_source_is_honoured(ctx, where, with_callback):
+    """Event set before the run, optionally beside a callback that says 'not canceled'."""
+    event = threading.Event(); event.set()
+    kw = dict(section_solver_kwargs={"abort_event": event}) if where == "solver_settings_event" else dict(abort_event=event)
+    if with_callback:
+        kw["cancel_check"] = lambda: False
+    out = ctx["work"]/f"src-{where}-{with_callback}.grim"; out.write_bytes(b"previous")
+    with pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0], elevations_deg=[0.0], **kw)
+    assert out.read_bytes() == b"previous"
+
+
+def test_event_set_at_publication_is_honoured_beside_a_false_callback(ctx):
+    from ghost_backend.io import grim
+    event = threading.Event(); real = grim._save_grim_npz
+    def save(payload, *args, **kwargs):
+        result = real(payload, *args, **kwargs)
+        if "line_expansion_provenance_json" in payload:
+            event.set()
+        return result
+    out = ctx["work"]/"pub-callback.grim"; out.write_bytes(b"previous")
+    with patch.object(grim, "_save_grim_npz", save), pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0], elevations_deg=[0.0],
+               abort_event=event, cancel_check=lambda: False)
+    assert out.read_bytes() == b"previous"
+
+
+def test_two_jobs_for_one_destination_publish_only_the_uncanceled_one(ctx):
+    """A (30 deg) and B (60 deg) both stage; B is canceled; A publishes first, then B unwinds."""
+    from ghost_backend.io import grim
+    real = grim._save_grim_npz
+    staged = {n: threading.Event() for n in "AB"}; release = {n: threading.Event() for n in "AB"}
+    cancel = {n: threading.Event() for n in "AB"}; paths, results = {}, {}
+    def save(payload, path, *args, **kwargs):
+        result = real(payload, path, *args, **kwargs)
+        name = threading.current_thread().name
+        if name in staged and "line_expansion_provenance_json" in payload:
+            paths[name] = str(path); staged[name].set(); assert release[name].wait(60)
+        return result
+    out = ctx["work"]/"shared.grim"
+    def work(name, az):
+        try:
+            expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[az], elevations_deg=[0.0],
+                   abort_event=cancel[name]); results[name] = "saved"
+        except InterruptedError:
+            results[name] = "canceled"
+    a = threading.Thread(target=work, args=("A", 30.0), name="A"); b = threading.Thread(target=work, args=("B", 60.0), name="B")
+    with patch.object(grim, "_save_grim_npz", save):
+        try:
+            a.start(); assert staged["A"].wait(60)
+            b.start(); assert staged["B"].wait(60)
+            cancel["B"].set()
+            release["A"].set(); a.join(60); release["B"].set(); b.join(60)
+        finally:
+            release["A"].set(); release["B"].set()
+    assert results == {"A": "saved", "B": "canceled"} and paths["A"] != paths["B"]
+    assert np.asarray(reopen(out)[0]["azimuths"]).tolist() == [30.0]
+    assert not list(ctx["work"].glob(".shared.grim.tmp.*"))
+
+
+def test_publication_gate_tells_a_late_cancel_it_was_too_late(ctx):
+    gate, event = wing.PublicationGate(), threading.Event()
+    seen = {}
+    real = os.replace
+    def at_rename(src, dst, *a, **k):
+        if str(dst) == str(out):                                # the final rename, not the staging write
+            seen["accepted"] = gate.request_cancel(event)      # the click lands after the last check
+        return real(src, dst, *a, **k)
+    out = ctx["work"]/"gate.grim"; out.write_bytes(b"previous")
+    with patch.object(os, "replace", at_rename):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0], elevations_deg=[0.0],
+               abort_event=event, publication_gate=gate)
+    assert seen == {"accepted": False} and not event.is_set() and out.read_bytes() != b"previous"
+    early = wing.PublicationGate(); event2 = threading.Event()
+    assert early.request_cancel(event2) and event2.is_set()

@@ -72,6 +72,24 @@ if "shadow_on" in runs:
         out["output_usable_as_assembly_body"] = True
     except Exception as exc:
         out["output_usable_as_assembly_body"] = f"{type(exc).__name__}: {exc}"
+    from ghost_backend.assembly.workflow import (
+        FeatureAssemblyRequest, execute_feature_assembly, prepare_feature_assembly, prepare_feature_input_preview)
+    try:      # real Assembly preview, preparation and execution on the expanded BoR file
+        source = prepare_feature_input_preview(base_grim=run["output"]).body_source
+        plan = prepare_feature_assembly(FeatureAssemblyRequest(base_grim=run["output"], output_grim=work/"assembly.grim"))
+        done = execute_feature_assembly(plan, acknowledged_plan_sha256=plan.prepared_plan_sha256)
+        out["assembly_on_output"] = dict(body_source=source, samples=int(field.size),
+                                         max_field_difference=rel(reopen(done)[1], field))
+    except Exception as exc:
+        out["assembly_on_output"] = f"{type(exc).__name__}: {exc}"
+    # The same real export with only its attitude request removed (as an axis edit leaves it).
+    stripped = {k: v for k, v in body_payload.items() if k != "requested_radar_grid_json"}
+    from common import _save_grim_npz
+    no_request = _save_grim_npz(stripped, str(work/"body-no-request.grim"))
+    for label, kw in (("implicit", {}), ("stated", ATT)):
+        r = expand([section], output_grim=str(work/f"noreq-{label}.grim"), body_grim=no_request, shadow=False, **kw)
+        out[f"request_removed_{label}"] = dict(error_vs_body_plus_section=rel(reopen(r["output"])[1], body + alone),
+                                               warnings=r["warnings"])
     chained = expand([section], output_grim=str(work/"chained.grim"), body_grim=run["output"], shadow=True)
     out["chained_implicit"] = dict(error_vs_body_plus_2x_added=rel(reopen(chained["output"])[1], body + 2*added),
                                    warnings=chained["warnings"])

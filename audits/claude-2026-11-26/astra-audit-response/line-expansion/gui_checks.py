@@ -78,6 +78,25 @@ R["radian_base"]["output_written"] = (work/"gui-rad.grim").exists()
 if R["radian_base"]["output_written"]:
     R["radian_base"]["error_vs_2x_reference"] = rel(reopen(work/"gui-rad.grim")[1], 2*ref)
 
+# 4b. the tab's attitude fields: a rotated base with no attitude record
+att = dict(axis_az_deg=25.0, axis_el_deg=-12.0, roll_deg=40.0)
+if hasattr(tab, "attitude_fields"):
+    rotated = expand([section], output_grim=str(work/"rot.grim"), frequencies_ghz=[1.0, 1.6],
+                     azimuths_deg=[0, 40, 95, 200, 310], elevations_deg=[-15, 25], **att)
+    rp, rfield = reopen(rotated["output"])
+    for key in ("requested_radar_grid_json", "line_expansion_provenance_json"):
+        rp.pop(key, None)
+    _save_grim_npz(rp, str(work/"rot-norecord.grim"))
+    R["attitude_fields"] = {}
+    for label, values in (("left_blank", {}), ("filled_in", att), ("bad_text", dict(axis_el_deg="up"))):
+        tab = make_tab(); tab.body_edit.setText(str(work/"rot-norecord.grim")); tab.output_edit.setText(str(work/f"rot-{label}.grim"))
+        for key, value in values.items():
+            tab.attitude_fields[key].setText(str(value))
+        row = run(tab)
+        if (work/f"rot-{label}.grim").exists():
+            row["error_vs_2x_rotated"] = rel(reopen(work/f"rot-{label}.grim")[1], 2*rfield)
+        R["attitude_fields"][label] = row
+
 # 5. Cancel during a long section solve (same wedge, 25x larger, 3 GHz)
 big = work/"big.geo"
 big.write_text("\n".join(

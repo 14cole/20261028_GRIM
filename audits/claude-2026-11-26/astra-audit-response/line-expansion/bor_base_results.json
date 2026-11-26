@@ -40,6 +40,11 @@
     "axis_el_deg": -10.0,
     "roll_deg": 15.0
    },
+   "body_attitude_source": {
+    "axis_az_deg": "base",
+    "axis_el_deg": "base",
+    "roll_deg": "base"
+   },
    "body_shadowing": true,
    "corner_estimate_count": 0,
    "model_scope": "single bounce; no end, junction or mutual coupling",
@@ -57,9 +62,24 @@
   }
  },
  "output_usable_as_assembly_body": true,
+ "assembly_on_output": {
+  "body_source": "embedded_bor_profile",
+  "samples": 72,
+  "max_field_difference": 0.0
+ },
+ "request_removed_implicit": {
+  "error_vs_body_plus_section": 0.33826293577460725,
+  "warnings": [
+   "The body attitude is an assumption for axis_az_deg=0, axis_el_deg=0, roll_deg=0: the base dataset did not declare it. If the base was computed at another body attitude the added sections are wrong; state the attitude when expanding the original base."
+  ]
+ },
+ "request_removed_stated": {
+  "error_vs_body_plus_section": 0.0,
+  "warnings": []
+ },
  "chained_implicit": {
   "error_vs_body_plus_2x_added": 1.6553064767911105e-16,
   "warnings": []
  },
- "conflicting_attitude": "refused: The base dataset was computed at body attitude axis_az_deg=20, axis_el_deg=-10, roll_deg=15; its stored field cannot be combined with sectio"
+ "conflicting_attitude": "refused: The base dataset declares body attitude axis_az_deg=20, axis_el_deg=-10, roll_deg=15; its stored field cannot be combined with sections at a"
 }
