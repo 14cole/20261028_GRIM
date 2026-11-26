@@ -1,0 +1,68 @@
+{
+ "label": "child with 1 GiB limit",
+ "ghost_root": "/tmp/claude-0/-home-user-20261028-GRIM/34683ac5-6634-5a70-a1b4-b7dff37e1b80/scratchpad/fixed/tools/GHOST",
+ "proc_self_cgroup": "9:name=systemd:/\n8:pids:/process_api/cc-shell\n7:blkio:/\n6:freezer:/\n5:devices:/\n4:memory:/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe\n3:cpuset:/\n2:cpuacct:/\n1:cpu:/\n0::/\n",
+ "hierarchies": [
+  {
+   "fstype": "cgroup",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/memory",
+   "process_group": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+     "limit": "1073741824",
+     "usage": "5238784",
+     "remaining_bytes": 1068503040
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash",
+     "limit": "14338371584",
+     "usage": "2736549888",
+     "remaining_bytes": 11601821696
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87",
+     "limit": "9223372036854771712",
+     "usage": "3111051264",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api",
+     "limit": "9223372036854771712",
+     "usage": "3218096128",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory",
+     "limit": "9223372036854771712",
+     "usage": "3114237952",
+     "remaining_bytes": null
+    }
+   ]
+  },
+  {
+   "fstype": "cgroup2",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/unified",
+   "process_group": "/",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/unified",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    }
+   ]
+  }
+ ],
+ "mem_available_bytes": 15994609664,
+ "true_remaining_bytes": 1031217152,
+ "true_remaining_gib": 0.9603958129882812,
+ "probe_cgroup_remaining_bytes": 1032003584,
+ "probe_detected_available_gib": 0.9603958129882812,
+ "correct_budget_gib": 0.8643562316894532,
+ "ledger_budget_gib": 0.8643562316894531,
+ "ledger_binding": "live_physical_ram",
+ "over_admitted_gib": -1.1102230246251565e-16
+}

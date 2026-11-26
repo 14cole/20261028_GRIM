@@ -1,0 +1,94 @@
+{
+ "label": "mount rooted at the 1 GiB group; process in its unlimited child",
+ "ghost_root": "/tmp/claude-0/-home-user-20261028-GRIM/34683ac5-6634-5a70-a1b4-b7dff37e1b80/scratchpad/fixed/tools/GHOST",
+ "proc_self_cgroup": "9:name=systemd:/\n8:pids:/process_api/cc-shell\n7:blkio:/\n6:freezer:/\n5:devices:/\n4:memory:/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker\n3:cpuset:/\n2:cpuacct:/\n1:cpu:/\n0::/\n",
+ "hierarchies": [
+  {
+   "fstype": "cgroup",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/memory",
+   "process_group": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory",
+     "limit": "1073741824",
+     "usage": "5672960",
+     "remaining_bytes": 1068068864
+    }
+   ]
+  },
+  {
+   "fstype": "cgroup2",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/unified",
+   "process_group": "/",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/unified",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    }
+   ]
+  },
+  {
+   "fstype": "cgroup",
+   "mount_root": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+   "mount_point": "/sys/fs/cgroup/memory",
+   "process_group": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/memory/worker",
+     "limit": "9223372036854771712",
+     "usage": "5181440",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory",
+     "limit": "1073741824",
+     "usage": "5672960",
+     "remaining_bytes": 1068068864
+    }
+   ]
+  }
+ ],
+ "mem_available_bytes": 16035610624,
+ "true_remaining_bytes": 1031090176,
+ "true_remaining_gib": 0.9602775573730469,
+ "probe_cgroup_remaining_bytes": 1031876608,
+ "probe_detected_available_gib": 0.9602775573730469,
+ "correct_budget_gib": 0.8642498016357422,
+ "ledger_budget_gib": 0.8642498016357422,
+ "ledger_binding": "stable_reservation",
+ "over_admitted_gib": 0.0
+}

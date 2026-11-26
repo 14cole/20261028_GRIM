@@ -1,0 +1,112 @@
+diff --git a/tools/GHOST/ghost_backend/assembly/expand_wing_sections.py b/tools/GHOST/ghost_backend/assembly/expand_wing_sections.py
+index 31d53f5..8dfeec4 100644
+--- a/tools/GHOST/ghost_backend/assembly/expand_wing_sections.py
++++ b/tools/GHOST/ghost_backend/assembly/expand_wing_sections.py
+@@ -488,6 +488,17 @@ def _load_base(path):
+             f"{path}: the base dataset holds no complex field; a power-only "
+             "response cannot be added to coherently."
+         )
++    try:
++        units = json.loads(str(np.asarray(payload.get("units", "{}")).reshape(()).item()) or "{}")
++    except ValueError:
++        units = {}
++    for axis in ("azimuth", "elevation"):
++        unit = str(units.get(axis, "deg")).strip().lower()
++        if unit not in ("deg", "degree", "degrees"):
++            raise ValueError(
++                f"{path}: the base {axis} axis is in {unit!r}; Line Expansion "
++                "needs a base whose radar grid is in degrees."
++            )
+     labels = [str(value).strip().upper()
+               for value in np.asarray(payload["polarizations"]).ravel()]
+     expected = (len(payload["azimuths"]), len(payload["elevations"]),
+@@ -503,6 +514,8 @@ def _load_base(path):
+             if alias in labels:
+                 channels[name] = labels.index(alias)
+                 break
++    if "VH" in labels and "HV" in labels:
++        channels["hv"] = labels.index("HV")
+     if "vv" not in channels or "hh" not in channels:
+         raise ValueError(f"{path}: the base dataset needs VV and HH channels.")
+     return payload, amp, channels
+@@ -598,6 +611,19 @@ def expand_wing_sections(
+             stored = load_body_requested_radar_grid(body_path) or {}
+         except (KeyError, TypeError, ValueError):
+             stored = {}
++        if not all(key in stored for key in ("axis_az_deg", "axis_el_deg", "roll_deg")):
++            try:
++                earlier = json.loads(str(np.asarray(
++                    base_payload["line_expansion_provenance_json"]).reshape(()).item()))
++                stored = {key: float(earlier["body_attitude_deg"][key])
++                          for key in ("axis_az_deg", "axis_el_deg", "roll_deg")}
++            except (KeyError, TypeError, ValueError):
++                stored = {}
++                if any(value is None for value in (axis_az_deg, axis_el_deg, roll_deg)):
++                    warnings.append(
++                        "The base dataset records no body attitude; unstated "
++                        "axis azimuth, axis elevation and roll are taken as 0 deg."
++                    )
+         frequencies = [float(f) for f in base_payload["frequencies"]]
+         azimuths = [float(a) for a in base_payload["azimuths"]]
+         elevations = [float(e) for e in base_payload["elevations"]]
+@@ -798,6 +824,8 @@ def expand_wing_sections(
+             amp[:, :, index, channels["hh"]] += radar[:, 1, 1].reshape(shape)
+             if "vh" in channels:
+                 amp[:, :, index, channels["vh"]] += radar[:, 0, 1].reshape(shape)
++            if "hv" in channels:
++                amp[:, :, index, channels["hv"]] += radar[:, 1, 0].reshape(shape)
+         check_cancel()
+         if coarse_oblique:
+             warnings.append(
+@@ -817,6 +845,8 @@ def expand_wing_sections(
+             "stations": descriptions,
+             "corner_estimate_count": len(corner_entries),
+             "phase_mapping_deg": {"TM": float(psi_tm_deg), "TE": float(psi_te_deg)},
++            "body_attitude_deg": attitude,
++            "warnings": list(warnings),
+             "body_shadowing": occluder is not None,
+             "oblique_correction": bool(oblique),
+             "model_scope": "single bounce; no end, junction or mutual coupling",
+diff --git a/tools/GHOST/ghost_backend/geometry/line_visibility.py b/tools/GHOST/ghost_backend/geometry/line_visibility.py
+index 75b750b..0198290 100644
+--- a/tools/GHOST/ghost_backend/geometry/line_visibility.py
++++ b/tools/GHOST/ghost_backend/geometry/line_visibility.py
+@@ -22,7 +22,7 @@ def _decode(value):
+ 
+ def _union(intervals):
+     merged = []
+-    for lo, hi in sorted(intervals):
++    for lo, hi in sorted((float(lo), float(hi)) for lo, hi in intervals):
+         if merged and lo <= merged[-1][1]:
+             merged[-1][1] = max(hi, merged[-1][1])
+         else:
+diff --git a/tools/GHOST/ghost_backend/io/grim.py b/tools/GHOST/ghost_backend/io/grim.py
+index 7a96d1b..66042f4 100644
+--- a/tools/GHOST/ghost_backend/io/grim.py
++++ b/tools/GHOST/ghost_backend/io/grim.py
+@@ -882,7 +882,8 @@ def _save_grim_npz(
+                         'body_model_amp_vv_imag',
+                         'body_model_amp_hh_real',
+                         'body_model_amp_hh_imag',
+-                        'feature_provenance_json'):
++                        'feature_provenance_json',
++                        'line_expansion_provenance_json'):
+                 if key in payload:
+                     save_payload[key] = payload[key]
+             np.savez_compressed(f, **save_payload)
+diff --git a/tools/GHOST/ghost_backend/ui/line_expansion.py b/tools/GHOST/ghost_backend/ui/line_expansion.py
+index 5e77379..f02d2b3 100644
+--- a/tools/GHOST/ghost_backend/ui/line_expansion.py
++++ b/tools/GHOST/ghost_backend/ui/line_expansion.py
+@@ -66,7 +66,10 @@ def parse_samples(text: 'str', label: 'str') -> 'Optional[Tuple[float, ...]]':
+             raise ValueError(
+                 f"{label} sweep needs a positive step and stop >= start."
+             )
+-        count = int(math.floor((stop - start) / step + 1.0e-9)) + 1
++        span = (stop - start) / step
++        if not span < 1.0e6:
++            raise ValueError(f"{label} sweep has too many samples (limit 1,000,000).")
++        count = int(math.floor(span + 1.0e-9)) + 1
+         return tuple(start + index * step for index in range(count))
+     try:
+         values = tuple(float(part) for part in raw.replace(",", " ").split())

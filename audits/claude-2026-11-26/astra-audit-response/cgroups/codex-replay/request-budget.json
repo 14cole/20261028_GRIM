@@ -1,0 +1,26 @@
+{
+  "solver_blob": "8e15267ce9c7444d599cca5e6ec0e03934861e19",
+  "request_budget_cases": [
+    {
+      "case": "control: process and finite limit at mount root",
+      "true_headroom_gib": 1,
+      "expected_budget_gib": 0.9,
+      "detected_available_gib": 1.0,
+      "actual_budget_gib": 0.9
+    },
+    {
+      "case": "process in child with finite limit",
+      "true_headroom_gib": 1,
+      "expected_budget_gib": 0.9,
+      "detected_available_gib": 24.0,
+      "actual_budget_gib": 21.6
+    },
+    {
+      "case": "tight parent with uncapped child and finite mount root",
+      "true_headroom_gib": 1,
+      "expected_budget_gib": 0.9,
+      "detected_available_gib": 24.0,
+      "actual_budget_gib": 21.6
+    }
+  ]
+}

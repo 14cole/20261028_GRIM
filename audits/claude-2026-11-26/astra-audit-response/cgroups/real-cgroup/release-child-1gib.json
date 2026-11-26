@@ -1,0 +1,68 @@
+{
+ "label": "child with 1 GiB limit",
+ "ghost_root": "/home/user/20261028_GRIM/tools/GHOST",
+ "proc_self_cgroup": "9:name=systemd:/\n8:pids:/process_api/cc-shell\n7:blkio:/\n6:freezer:/\n5:devices:/\n4:memory:/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe\n3:cpuset:/\n2:cpuacct:/\n1:cpu:/\n0::/\n",
+ "hierarchies": [
+  {
+   "fstype": "cgroup",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/memory",
+   "process_group": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+     "limit": "1073741824",
+     "usage": "4976640",
+     "remaining_bytes": 1068765184
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash",
+     "limit": "14338371584",
+     "usage": "2727182336",
+     "remaining_bytes": 11611189248
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87",
+     "limit": "9223372036854771712",
+     "usage": "3101687808",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api",
+     "limit": "9223372036854771712",
+     "usage": "3208732672",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory",
+     "limit": "9223372036854771712",
+     "usage": "3105087488",
+     "remaining_bytes": null
+    }
+   ]
+  },
+  {
+   "fstype": "cgroup2",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/unified",
+   "process_group": "/",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/unified",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    }
+   ]
+  }
+ ],
+ "mem_available_bytes": 15996674048,
+ "true_remaining_bytes": 1031524352,
+ "true_remaining_gib": 0.9606819152832031,
+ "probe_cgroup_remaining_bytes": null,
+ "probe_detected_available_gib": 14.881973266601562,
+ "correct_budget_gib": 0.8646137237548829,
+ "ledger_budget_gib": 13.393775939941406,
+ "ledger_binding": "stable_reservation",
+ "over_admitted_gib": 12.529162216186524
+}

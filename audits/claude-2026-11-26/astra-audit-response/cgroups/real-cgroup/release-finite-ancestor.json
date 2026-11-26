@@ -1,0 +1,74 @@
+{
+ "label": "unlimited grandchild under 1 GiB ancestor",
+ "ghost_root": "/home/user/20261028_GRIM/tools/GHOST",
+ "proc_self_cgroup": "9:name=systemd:/\n8:pids:/process_api/cc-shell\n7:blkio:/\n6:freezer:/\n5:devices:/\n4:memory:/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker\n3:cpuset:/\n2:cpuacct:/\n1:cpu:/\n0::/\n",
+ "hierarchies": [
+  {
+   "fstype": "cgroup",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/memory",
+   "process_group": "/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe/worker",
+     "limit": "9223372036854771712",
+     "usage": "4714496",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash/ghost-audit-probe",
+     "limit": "1073741824",
+     "usage": "4902912",
+     "remaining_bytes": 1068838912
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87/claude-code-bash",
+     "limit": "14338371584",
+     "usage": "2717790208",
+     "remaining_bytes": 11620581376
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api/01a21592-ef34-7589-b056-68f04ef13b87",
+     "limit": "9223372036854771712",
+     "usage": "3092291584",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory/process_api",
+     "limit": "9223372036854771712",
+     "usage": "3199598592",
+     "remaining_bytes": null
+    },
+    {
+     "dir": "/sys/fs/cgroup/memory",
+     "limit": "9223372036854771712",
+     "usage": "3095859200",
+     "remaining_bytes": null
+    }
+   ]
+  },
+  {
+   "fstype": "cgroup2",
+   "mount_root": "/",
+   "mount_point": "/sys/fs/cgroup/unified",
+   "process_group": "/",
+   "levels": [
+    {
+     "dir": "/sys/fs/cgroup/unified",
+     "limit": null,
+     "usage": null,
+     "remaining_bytes": null
+    }
+   ]
+  }
+ ],
+ "mem_available_bytes": 15979397120,
+ "true_remaining_bytes": 1031389184,
+ "true_remaining_gib": 0.9605560302734375,
+ "probe_cgroup_remaining_bytes": null,
+ "probe_detected_available_gib": 14.893138885498047,
+ "correct_budget_gib": 0.8645004272460938,
+ "ledger_budget_gib": 13.403824996948241,
+ "ledger_binding": "live_physical_ram",
+ "over_admitted_gib": 12.539324569702147
+}

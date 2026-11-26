@@ -1,0 +1,305 @@
+{
+ "ghost_root": "/home/user/20261028_GRIM/tools/GHOST",
+ "mode": "observe",
+ "wrong_cases": [
+  "B v2 nested: unlimited root, tight leaf",
+  "C v2 finite ancestor, leaf 'max', loose finite root",
+  "D v2 mount rooted below the global hierarchy; tighter child of the mount root",
+  "E v1 nested (this container's layout): unlimited root, tight leaf",
+  "F v1 finite ancestor, unlimited leaf",
+  "G hybrid: v1 memory nested and tight, v2 mounted at /unified without memory files",
+  "I v1 container with a tighter sub-group below a mount rooted at /docker/abc",
+  "J v2 nested limit, usage counter unreadable (falls back to process RSS)",
+  "M mount path containing an escaped space (\\040)"
+ ],
+ "cases": [
+  {
+   "case": "A v2 root control: process at mount root, finite root limit",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": 1.0,
+   "probe_detected_available_gib": 1.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 0.9,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 0.0,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current"
+   ]
+  },
+  {
+   "case": "B v2 nested: unlimited root, tight leaf",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "C v2 finite ancestor, leaf 'max', loose finite root",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": 24.0,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current"
+   ]
+  },
+  {
+   "case": "D v2 mount rooted below the global hierarchy; tighter child of the mount root",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": 6.0,
+   "probe_detected_available_gib": 6.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 5.4,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 4.5,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current"
+   ]
+  },
+  {
+   "case": "E v1 nested (this container's layout): unlimited root, tight leaf",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "F v1 finite ancestor, unlimited leaf",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "G hybrid: v1 memory nested and tight, v2 mounted at /unified without memory files",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "H v1 container: mount root equals the process group (root != '/')",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": 1.0,
+   "probe_detected_available_gib": 1.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 0.9,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 0.0,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes"
+   ]
+  },
+  {
+   "case": "I v1 container with a tighter sub-group below a mount rooted at /docker/abc",
+   "true_remaining_gib": 0.5,
+   "probe_cgroup_remaining_gib": 3.0,
+   "probe_detected_available_gib": 3.0,
+   "correct_budget_gib": 0.45,
+   "ledger_budget_gib": 2.7,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 2.25,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes"
+   ]
+  },
+  {
+   "case": "J v2 nested limit, usage counter unreadable (falls back to process RSS)",
+   "true_remaining_gib": 1.75,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 1.575,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.025000000000002,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "K both tight: root is tighter than leaf (root must still win)",
+   "true_remaining_gib": 0.5,
+   "probe_cgroup_remaining_gib": 0.5,
+   "probe_detected_available_gib": 0.5,
+   "correct_budget_gib": 0.45,
+   "ledger_budget_gib": 0.45,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 0.0,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current"
+   ]
+  },
+  {
+   "case": "L no cgroup limit anywhere: host probe is the bound",
+   "true_remaining_gib": 24.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 21.6,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 0.0,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "M mount path containing an escaped space (\\040)",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": null,
+   "probe_detected_available_gib": 24.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 21.6,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 20.700000000000003,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+   ]
+  },
+  {
+   "case": "N /proc unreadable: conventional root files still honoured",
+   "true_remaining_gib": 1.0,
+   "probe_cgroup_remaining_gib": 1.0,
+   "probe_detected_available_gib": 1.0,
+   "correct_budget_gib": 0.9,
+   "ledger_budget_gib": 0.9,
+   "ledger_binding": "stable_reservation",
+   "over_admitted_gib": 0.0,
+   "paths_read": [
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current",
+    "/sys/fs/cgroup/memory.max",
+    "/sys/fs/cgroup/memory.current"
+   ]
+  }
+ ]
+}

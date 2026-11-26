@@ -1,0 +1,63 @@
+{
+  "main": "ed90b65ff89826274adacae01bcfbafe143e9819",
+  "source_blob": "8e15267ce9c7444d599cca5e6ec0e03934861e19",
+  "cases": [
+    {
+      "case": "control: process and finite limit at mount root",
+      "expected_available_gib": 1,
+      "detected_available_gib": 1.0,
+      "overestimated_gib": 0.0,
+      "cgroup_path": "/",
+      "fixture": {
+        "/proc/self/cgroup": "0::/\n",
+        "/proc/self/mountinfo": "32 31 0:28 / /sys/fs/cgroup rw - cgroup2 cgroup rw\n",
+        "/sys/fs/cgroup/memory.max": "2147483648\n",
+        "/sys/fs/cgroup/memory.current": "1073741824\n"
+      },
+      "paths_read": [
+        "/sys/fs/cgroup/memory.max",
+        "/sys/fs/cgroup/memory.current"
+      ]
+    },
+    {
+      "case": "process in child with finite limit",
+      "expected_available_gib": 1,
+      "detected_available_gib": 24.0,
+      "overestimated_gib": 23.0,
+      "cgroup_path": "/job",
+      "fixture": {
+        "/proc/self/cgroup": "0::/job\n",
+        "/proc/self/mountinfo": "32 31 0:28 / /sys/fs/cgroup rw - cgroup2 cgroup rw\n",
+        "/sys/fs/cgroup/memory.max": "max\n",
+        "/sys/fs/cgroup/memory.current": "8589934592\n",
+        "/sys/fs/cgroup/job/memory.max": "2147483648\n",
+        "/sys/fs/cgroup/job/memory.current": "1073741824\n"
+      },
+      "paths_read": [
+        "/sys/fs/cgroup/memory.max",
+        "/sys/fs/cgroup/memory/memory.limit_in_bytes"
+      ]
+    },
+    {
+      "case": "tight parent with uncapped child and finite mount root",
+      "expected_available_gib": 1,
+      "detected_available_gib": 24.0,
+      "overestimated_gib": 23.0,
+      "cgroup_path": "/job/worker",
+      "fixture": {
+        "/proc/self/cgroup": "0::/job/worker\n",
+        "/proc/self/mountinfo": "32 31 0:28 / /sys/fs/cgroup rw - cgroup2 cgroup rw\n",
+        "/sys/fs/cgroup/memory.max": "34359738368\n",
+        "/sys/fs/cgroup/memory.current": "8589934592\n",
+        "/sys/fs/cgroup/job/memory.max": "2147483648\n",
+        "/sys/fs/cgroup/job/memory.current": "1073741824\n",
+        "/sys/fs/cgroup/job/worker/memory.max": "max\n",
+        "/sys/fs/cgroup/job/worker/memory.current": "268435456\n"
+      },
+      "paths_read": [
+        "/sys/fs/cgroup/memory.max",
+        "/sys/fs/cgroup/memory.current"
+      ]
+    }
+  ]
+}

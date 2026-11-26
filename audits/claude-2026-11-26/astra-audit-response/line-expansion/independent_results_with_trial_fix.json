@@ -1,0 +1,543 @@
+{
+ "reference": {
+  "shape": [
+   5,
+   2,
+   2,
+   3
+  ],
+  "max_abs_by_channel": [
+   0.07724372308952476,
+   0.0786037452623812,
+   0.023046029135412285
+  ],
+  "labels": [
+   "VV",
+   "HH",
+   "VH"
+  ],
+  "warnings": [],
+  "seconds": 0.79
+ },
+ "metadata_after_reopen": {
+  "keys": [
+   "amplitude_convention",
+   "assembly_angular_coordinate_contract",
+   "azimuths",
+   "combine_role",
+   "complex_field_domain",
+   "elevations",
+   "frequencies",
+   "history",
+   "line_expansion_provenance_json",
+   "phase_reference",
+   "polarization_alias_primary",
+   "polarization_aliases_json",
+   "polarizations",
+   "power_domain",
+   "raw_complex_amplitude_preserved",
+   "rcs_amp_imag",
+   "rcs_amp_real",
+   "rcs_domain",
+   "rcs_phase",
+   "rcs_power",
+   "source_path",
+   "units"
+  ],
+  "has_line_expansion_provenance": true,
+  "history": "line expansion: 1 2-D section station(s), 0 corner estimate(s), psi_tm=180 psi_te=0, shadow=off, oblique=off | feature_sum radar-frame coherent axis_az=25 axis_el=-12 roll=40",
+  "attitude_readable_by_base_loader": null,
+  "attitude_keys": [],
+  "attitude_changes_field": 0.9403315063798365
+ },
+ "chained_attitude": {
+  "requested": {
+   "axis_az_deg": 25.0,
+   "axis_el_deg": -12.0,
+   "roll_deg": 40.0
+  },
+  "implicit": {
+   "error": 0.0,
+   "warnings": []
+  },
+  "explicit": {
+   "error": 0.0,
+   "warnings": []
+  },
+  "third_link_implicit_error_vs_3x": 0.0
+ },
+ "degree_vs_radian_base": {
+  "degrees": {
+   "accepted": true,
+   "base_units": "{\"azimuth\": \"deg\", \"elevation\": \"deg\", \"frequency\": \"GHz\", \"rcs_log_unit\": \"dBsm\", \"rcs_linear_quantity\": \"sigma_3d\", \"angular_coordinate_system\": \"conic\"}",
+   "output_units": "{\"azimuth\": \"deg\", \"elevation\": \"deg\", \"frequency\": \"GHz\", \"rcs_log_unit\": \"dBsm\", \"rcs_linear_quantity\": \"sigma_3d\", \"angular_coordinate_system\": \"conic\"}",
+   "output_azimuths": [
+    0.0,
+    40.0,
+    95.0,
+    200.0,
+    310.0
+   ],
+   "error_vs_2x_reference": 0.0,
+   "error_of_added_part_vs_reference": 0.0,
+   "warnings": []
+  },
+  "radians_units_declared": {
+   "accepted": false,
+   "error": "ValueError: /tmp/le-f2bms798/base-radians_units_declared.grim: the base azimuth axis is in 'rad'; Line Expansion needs a base whose radar grid is in degrees."
+  },
+  "radians_with_degree_contract_tag": {
+   "accepted": false,
+   "error": "ValueError: /tmp/le-f2bms798/base-radians_with_degree_contract_tag.grim: the base azimuth axis is in 'rad'; Line Expansion needs a base whose radar grid is in degrees."
+  }
+ },
+ "four_channel_base": {
+  "VVHHVHHV": {
+   "output_labels": [
+    "VV",
+    "HH",
+    "VH",
+    "HV"
+   ],
+   "error_by_channel": {
+    "VV": 0.0,
+    "HH": 0.0,
+    "VH": 0.0,
+    "HV": 1.5054424046624581e-16
+   },
+   "max_abs_VH": 0.04609205827082457,
+   "max_abs_HV": 0.04609205827082457,
+   "reciprocity_residual": 1.5054424046624581e-16,
+   "HV_unchanged_from_base": false,
+   "warnings": []
+  },
+  "HHHVVHVV": {
+   "output_labels": [
+    "HH",
+    "HV",
+    "VH",
+    "VV"
+   ],
+   "error_by_channel": {
+    "HH": 0.0,
+    "HV": 1.5054424046624581e-16,
+    "VH": 0.0,
+    "VV": 0.0
+   },
+   "max_abs_VH": 0.04609205827082457,
+   "max_abs_HV": 0.04609205827082457,
+   "reciprocity_residual": 1.5054424046624581e-16,
+   "HV_unchanged_from_base": false,
+   "warnings": []
+  },
+  "VVHVHHVH": {
+   "output_labels": [
+    "VV",
+    "HV",
+    "HH",
+    "VH"
+   ],
+   "error_by_channel": {
+    "VV": 0.0,
+    "HV": 1.5054424046624581e-16,
+    "HH": 0.0,
+    "VH": 0.0
+   },
+   "max_abs_VH": 0.04609205827082457,
+   "max_abs_HV": 0.04609205827082457,
+   "reciprocity_residual": 1.5054424046624581e-16,
+   "HV_unchanged_from_base": false,
+   "warnings": []
+  }
+ },
+ "sheet_shadow": {
+  "1x1": {
+   "triangles": 2,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 2.220446049250313e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 2.220446049250313e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 3.3306690738754696e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  },
+  "8x8": {
+   "triangles": 128,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 1.1102230246251565e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 2.220446049250313e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 3.3306690738754696e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  },
+  "11x11": {
+   "triangles": 242,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 4.440892098500626e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 6.800116025829084e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 5.551115123125783e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  },
+  "12x12": {
+   "triangles": 288,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 1.6653345369377348e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 3.3306690738754696e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 4.440892098500626e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  },
+  "18x18": {
+   "triangles": 648,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 7.8236028766554e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 1.1934897514720433e-15,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 1.7763568394002505e-15,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  },
+  "40x40": {
+   "triangles": 3200,
+   "leaf_limit": 256,
+   "looks": {
+    "0": {
+     "max_abs_fraction_error": 5.551115123125783e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.533333333,
+      0.535714286,
+      0.0,
+      1.0,
+      1.0
+     ]
+    },
+    "20": {
+     "max_abs_fraction_error": 2.8449465006019636e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.593995039,
+      0.470719601,
+      0.045547287,
+      1.0,
+      1.0
+     ]
+    },
+    "-35": {
+     "max_abs_fraction_error": 7.771561172376096e-16,
+     "visible_fraction": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ],
+     "exact": [
+      0.666666667,
+      0.416632077,
+      0.660751346,
+      0.138946538,
+      0.812370289,
+      1.0
+     ]
+    }
+   }
+  }
+ },
+ "expansion_with_bor_base_shadow_True": {
+  "completed": true,
+  "added_vs_reference": 0.4560880073259386,
+  "warnings": []
+ },
+ "expansion_with_bor_base_shadow_False": {
+  "completed": true,
+  "added_vs_reference": 0.0,
+  "warnings": []
+ }
+}

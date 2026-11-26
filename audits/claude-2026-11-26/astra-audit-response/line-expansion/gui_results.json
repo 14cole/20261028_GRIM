@@ -1,0 +1,69 @@
+{
+ "sections_only": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-ssckcbzs/gui-ref.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)",
+  "seconds_to_idle": 1.11,
+  "cancel_clicked_at": null
+ },
+ "tab_inputs": {
+  "named_inputs": [
+   "angle_step",
+   "body_edit",
+   "mirror",
+   "oblique",
+   "oblique_solves",
+   "oblique_tilt",
+   "output_edit",
+   "shadow"
+  ],
+  "grid_fields": [
+   "azimuths_deg",
+   "elevations_deg",
+   "frequencies_ghz"
+  ],
+  "shadow_checked_by_default": true,
+  "any_attitude_input": false
+ },
+ "bor_profile_base_default_shadow_on": {
+  "started": true,
+  "status": "'<' not supported between instances of 'tuple' and 'list'",
+  "seconds_to_idle": 0.24,
+  "cancel_clicked_at": null,
+  "output_written": false
+ },
+ "bor_profile_base_shadow_off": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-ssckcbzs/gui-shadow_off.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)",
+  "seconds_to_idle": 0.48,
+  "cancel_clicked_at": null,
+  "output_written": true
+ },
+ "radian_base": {
+  "started": true,
+  "status": "Saved /tmp/le-gui-ssckcbzs/gui-rad.grim\nsection 1: wedge.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)\n\u26a0 The base dataset has no embedded BoR profile, so the sections are not shadowed by the body.",
+  "seconds_to_idle": 0.54,
+  "cancel_clicked_at": null,
+  "error_vs_2x_reference": 0.5297980408652501
+ },
+ "cancel_during_section_solve": {
+  "uncanceled": {
+   "started": true,
+   "status": "Saved /tmp/le-gui-ssckcbzs/gui-big.grim\nsection 1: big.geo, span 0.3403 m, 2-D +x = [0.1665, 0.3768, -0.9112], 2-D +y = [0.9316, -0.363, 0.0201] at the start (axis frame)\n\u26a0 A 0.5 deg section angle step under-samples big.geo at 3 GHz (it reaches 1.5 m from its origin); use 0.15 deg or finer.",
+   "seconds_to_idle": 2.7,
+   "cancel_clicked_at": null
+  },
+  "canceled": {
+   "started": true,
+   "status": "Feature assembly canceled.",
+   "seconds_to_idle": 2.65,
+   "cancel_clicked_at": 0.5
+  },
+  "output_written_after_cancel": false
+ },
+ "overflow_sweep": {
+  "escaped": true,
+  "exception": "OverflowError: cannot convert float infinity to integer",
+  "status": "",
+  "job_started": false
+ }
+}

@@ -1,0 +1,36 @@
+=== native wheel, base tree
+    "ghost_em2d-0.1.1.tar.gz"
+  ]
+}
+native-base/ghost_em2d-0.1.1-py3-none-linux_x86_64.whl
+    87728  2026-01-01 00:00   ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so
+     3170  2026-01-01 00:00   ghost_backend/geometry/geometries/material_examples/README.md
+    48800  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_far.so
+    57240  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_near.so
+    15192  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_table.so
+  4962786                     259 files
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  -
+=== native wheel, fix tree
+    "ghost_em2d-0.1.1.tar.gz"
+  ]
+}
+native-fix/ghost_em2d-0.1.1-py3-none-linux_x86_64.whl
+    87728  2026-01-01 00:00   ghost_backend/bor/native/bor_stream_kernel.linux-x86_64.so
+     1507  2026-01-01 00:00   ghost_backend/execution/thread_control/LICENSE-3.6.0.txt
+     3170  2026-01-01 00:00   ghost_backend/geometry/geometries/material_examples/README.md
+    48800  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_far.so
+    57240  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_near.so
+    15192  2026-01-01 00:00   ghost_backend/twod/assembly/native/libghost_table.so
+  4964406                     260 files
+81ac619075248b06e53660b652d10e485f4675f5d0ae0f97ea22370da1f7e23b  -
+81ac619075248b06e53660b652d10e485f4675f5d0ae0f97ea22370da1f7e23b  /home/user/20261028_GRIM/tools/GHOST/ghost_backend/execution/thread_control/LICENSE-3.6.0.txt
+=== source zip sha256 (Codex recorded 7673ffde...70a6)
+7673ffde15b41bd934d46753b388665d3804279d782b3c8a87e043cd7a5c70a6  base/artifacts/release/ghost-em2d-0.1.1-source.zip
+7673ffde15b41bd934d46753b388665d3804279d782b3c8a87e043cd7a5c70a6  native-base/ghost-em2d-0.1.1-source.zip
+df81e2895fec16d26c288927dad1061dc687ceb7e7daf8a6f8dc5886a79538bb  fix/artifacts/release/ghost-em2d-0.1.1-source.zip
+=== install fixed native wheel in fresh venv and probe
+[notice] To update, run: /tmp/claude-0/-home-user-20261028-GRIM/34683ac5-6634-5a70-a1b4-b7dff37e1b80/scratchpad/dist-work/iv/bin/python3 -m pip install --upgrade pip
+installed at site-packages: True
+near True far True tile True table True bor banded_native_pairs
+notice installed: True | check_speed_paths.py installed: False
+NATIVE_LIBRARIES manifests installed: False

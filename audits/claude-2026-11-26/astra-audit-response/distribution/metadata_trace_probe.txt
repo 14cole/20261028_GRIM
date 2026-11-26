@@ -1,0 +1,56 @@
+== a_baseline
+{
+ "loaders": {
+  "near": true,
+  "far": true,
+  "tile": true,
+  "table": true
+ },
+ "near_box_argument_calls": 0,
+ "metadata_strings_naming_an_assembly_route": {
+  "/experimental_cpu/kernel_tables[0]/evaluation_backend": "native_horner",
+  "/experimental_cpu/kernel_tables[1]/evaluation_backend": "native_horner"
+ }
+}
+== b_near_missing
+{
+ "loaders": {
+  "near": false,
+  "far": true,
+  "tile": true,
+  "table": true
+ },
+ "near_box_argument_calls": 0,
+ "metadata_strings_naming_an_assembly_route": {
+  "/experimental_cpu/kernel_tables[0]/evaluation_backend": "native_horner",
+  "/experimental_cpu/kernel_tables[1]/evaluation_backend": "native_horner"
+ }
+}
+== e_far_wrong_exports
+{
+ "loaders": {
+  "near": true,
+  "far": true,
+  "tile": false,
+  "table": true
+ },
+ "near_box_argument_calls": 0,
+ "metadata_strings_naming_an_assembly_route": {
+  "/experimental_cpu/kernel_tables[0]/evaluation_backend": "native_horner",
+  "/experimental_cpu/kernel_tables[1]/evaluation_backend": "native_horner"
+ }
+}
+== g_all_three_2d_missing
+{
+ "loaders": {
+  "near": false,
+  "far": false,
+  "tile": false,
+  "table": false
+ },
+ "near_box_argument_calls": 0,
+ "metadata_strings_naming_an_assembly_route": {
+  "/experimental_cpu/kernel_tables[0]/evaluation_backend": "scipy_ppoly",
+  "/experimental_cpu/kernel_tables[1]/evaluation_backend": "scipy_ppoly"
+ }
+}
