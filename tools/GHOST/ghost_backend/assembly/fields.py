@@ -1979,21 +1979,38 @@ def load_body_requested_radar_grid(
     return stored
 
 
-def load_embedded_body_radar_grid(path: 'str') -> 'Optional[Dict[str, Any]]':
-    """Radar grid of a base that carries its own BoR profile, else ``None``.
+def recorded_line_expansion_attitude(payload):
+    """Body attitude a Line Expansion output records, while its grid is unchanged.
 
-    A radar-grid request records the grid and body attitude of any radar-frame
-    file, including Line Expansion outputs that have no body geometry. Only
-    the embedded profile says the geometry comes from the file itself.
+    Returns ``(angles, sources)`` or ``None``. The record names the azimuths
+    and elevations it was written for. It is trusted only while every current
+    look is one of them (a reorder, a crop, or a 0/360 relabel), which shows
+    the coordinate frame is the same. After any other axis edit the attitude
+    is unknown.
     """
 
-    with np.load(path, allow_pickle=False) as payload:
-        has_profile = ("body_profile_rho_m" in payload.files
-                       and "body_profile_z_m" in payload.files)
-        is_line_expansion = "line_expansion_provenance_json" in payload.files
-    if is_line_expansion and not has_profile:
+    keys = ("axis_az_deg", "axis_el_deg", "roll_deg")
+    if "line_expansion_provenance_json" not in payload:
         return None
-    return load_body_requested_radar_grid(path)
+    try:
+        raw = np.asarray(payload["line_expansion_provenance_json"]).reshape(()).item()
+        record = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else str(raw))
+        angles = {key: float(record["body_attitude_deg"][key]) for key in keys}
+        grid = record["radar_grid_deg"]
+        recorded_az = {round(float(v) % 360.0, 9) for v in grid["azimuths"]}
+        recorded_el = {round(float(v), 9) for v in grid["elevations"]}
+        current_az = {round(float(v) % 360.0, 9)
+                      for v in np.asarray(payload["azimuths"], dtype=float).ravel()}
+        current_el = {round(float(v), 9)
+                      for v in np.asarray(payload["elevations"], dtype=float).ravel()}
+        sources = dict(record.get("body_attitude_source") or {})
+    except (AttributeError, KeyError, TypeError, ValueError):
+        return None
+    if not all(math.isfinite(value) for value in angles.values()):
+        return None
+    if not (current_az <= recorded_az and current_el <= recorded_el):
+        return None
+    return angles, sources
 
 
 def _load_declared_body_requested_radar_grid(
@@ -5369,7 +5386,7 @@ def add_features_to_monostatic_grim(
                 "The deterministic feature-only output must not overwrite the "
                 f"{protected_label}: {features_destination}"
             )
-    embedded_grid = load_embedded_body_radar_grid(base)
+    embedded_grid = load_body_requested_radar_grid(base)
     capacity_grid = dict(radar_grid) if radar_grid is not None else embedded_grid
     if capacity_grid is not None:
         if _capacity_estimate is None:
