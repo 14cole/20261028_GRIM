@@ -50,6 +50,8 @@ R["metadata_after_reopen"] = dict(
     has_line_expansion_provenance="line_expansion_provenance_json" in a_payload,
     history=scalar(a_payload, "history"),
     attitude_readable_by_base_loader=grid,
+    attitude_in_line_expansion_record=(json.loads(scalar(a_payload, "line_expansion_provenance_json") or "{}")
+                                       .get("body_attitude_deg")),
     attitude_keys=[k for k in a_payload if any(s in k for s in ("axis", "roll", "attitude", "requested"))],
     attitude_changes_field=rel(a_field, ref),
 )

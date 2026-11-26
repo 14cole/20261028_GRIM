@@ -1,0 +1,70 @@
+{
+ "file_keys": {
+  "has_request": false,
+  "has_profile": false,
+  "has_line_expansion_record": true
+ },
+ "panel_sections_only": {
+  "classifier_valid": true,
+  "embedded_bor": false,
+  "summary": "External 3-D body response detected; choose its matching STL/facet surface for feature placement or shadowing.",
+  "validate_enabled": true,
+  "calculate_enabled": true
+ },
+ "panel_sections_with_stl": {
+  "classifier_valid": true,
+  "embedded_bor": false,
+  "summary": "External 3-D body response detected; choose its matching STL/facet surface for feature placement or shadowing.",
+  "validate_enabled": true,
+  "calculate_enabled": true
+ },
+ "panel_incomplete_profile_pair": {
+  "classifier_valid": false,
+  "embedded_bor": false,
+  "summary": "Malformed embedded body profile; both rho and z arrays are required.",
+  "validate_enabled": false,
+  "calculate_enabled": false
+ },
+ "axis_edit_equivalent_relabel": {
+  "azimuths_after": [
+   80.0,
+   150.0,
+   260.0,
+   360.0
+  ],
+  "samples_unchanged": 0.0,
+  "attitude_record": {
+   "axis_az_deg": -35.0,
+   "axis_el_deg": 18.0,
+   "roll_deg": 50.0
+  },
+  "record_still_trusted": true,
+  "blank": {
+   "error_vs_2x": 8.713833192206448e-16,
+   "warnings": []
+  },
+  "restated": {
+   "error_vs_2x": 8.713833192206448e-16,
+   "warnings": []
+  },
+  "contradicting": {
+   "refused": "The base dataset declares body attitude axis_az_deg=-35, axis_el_deg=18, roll_deg=50; its stored field cannot be combined with sections at a different"
+  }
+ },
+ "axis_edit_real_change": {
+  "azimuths_after": [
+   0.0,
+   95.0,
+   150.0,
+   260.0
+  ],
+  "warnings": [
+   "The body attitude is an assumption for axis_az_deg=0, axis_el_deg=0, roll_deg=0: the base dataset did not declare it. If the base was computed at another body attitude the added sections are wrong; state the attitude when expanding the original base."
+  ],
+  "attitude_sources": {
+   "axis_az_deg": "assumed",
+   "axis_el_deg": "assumed",
+   "roll_deg": "assumed"
+  }
+ }
+}

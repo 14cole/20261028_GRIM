@@ -204,12 +204,17 @@ def test_sweep_overflow_is_a_reported_input_error():
 # ==== acceptance cases added with the fix (Codex's notes on f920c8a) ==========
 import threading
 from unittest.mock import patch
-from ghost_backend.assembly.fields import load_body_requested_radar_grid, radar_frame_basis
+from ghost_backend.assembly.fields import (
+    load_body_requested_radar_grid, radar_frame_basis, recorded_line_expansion_attitude)
+
+
+def stored_attitude(path):
+    """The attitude the next Line Expansion or Assembly run will read from this file."""
+    return recorded_line_expansion_attitude(reopen(path)[0])[0]
 
 
 def test_attitude_is_stored_numerically_where_the_next_reader_looks(ctx):
-    grid = load_body_requested_radar_grid(ctx["att_path"])
-    assert {k: float(grid[k]) for k in ATT} == ATT
+    assert stored_attitude(ctx["att_path"]) == ATT
     record = json.loads(scalar(reopen(ctx["att_path"])[0], "line_expansion_provenance_json"))
     assert record["body_attitude_deg"] == ATT
 
@@ -235,10 +240,12 @@ def legacy_base(ctx, name, field, **changes):
 
 def test_legacy_base_without_optional_tags_is_accepted_at_nonzero_attitude(ctx):
     base = legacy_base(ctx, "legacy.grim", ctx["att"])
-    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"legacy-out.grim"), body_grim=base)
+    # an older file records no attitude, so it is stated
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"legacy-out.grim"), body_grim=base, **ATT)
+    assert not run["warnings"]
     payload, got = reopen(run["output"])
     assert rel(got, 2*ctx["att"]) < TOL
-    assert {k: float(load_body_requested_radar_grid(run["output"])[k]) for k in ATT} == ATT
+    assert stored_attitude(run["output"]) == ATT
     assert "exp(+jwt)" in scalar(payload, "phase_reference")
 
 
@@ -347,7 +354,8 @@ def test_sections_only_output_is_usable_by_assembly_with_and_without_a_mesh(ctx)
     from ghost_backend.assembly.workflow import (
         FeatureAssemblyRequest, execute_feature_assembly, prepare_feature_assembly, prepare_feature_input_preview)
     base = ctx["work"]/"ref.grim"
-    assert "requested_radar_grid_json" in ctx["payload"] and "body_profile_rho_m" not in ctx["payload"]
+    # no body, so no radar-grid request: GRIM and Assembly read that key as embedded geometry
+    assert "requested_radar_grid_json" not in ctx["payload"] and "body_profile_rho_m" not in ctx["payload"]
     mesh = ctx["work"]/"mesh.stl"
     mesh.write_text("solid p\nfacet normal 0 0 1\nouter loop\nvertex 0 0 0\nvertex 1 0 0\nvertex 0 1 0\nendloop\nendfacet\nendsolid p\n")
     for name, kwargs, source in (("asm-none", {}, "none"),
@@ -396,7 +404,7 @@ def test_physically_equivalent_attitude_is_not_a_conflict(ctx):
     same = dict(axis_az_deg=ATT["axis_az_deg"] + 360.0, axis_el_deg=ATT["axis_el_deg"], roll_deg=ATT["roll_deg"] - 360.0)
     run = expand([ctx["section"]], output_grim=str(ctx["work"]/"equiv.grim"), body_grim=ctx["att_path"], **same)
     assert rel(reopen(run["output"])[1], 2*ctx["att"]) < TOL
-    assert {k: float(load_body_requested_radar_grid(run["output"])[k]) for k in ATT} == ATT
+    assert stored_attitude(run["output"]) == ATT
 
 
 def test_power_and_phase_base_gives_an_output_that_expands_again(ctx):
@@ -410,7 +418,7 @@ def test_power_and_phase_base_gives_an_output_that_expands_again(ctx):
     base = _save_grim_npz(payload, str(ctx["work"]/"power-phase.grim"), format_version=1)
     with np.load(base) as stored:
         assert "complex_field_domain" not in stored.files and "rcs_complex" not in stored.files
-    first = expand([ctx["section"]], output_grim=str(ctx["work"]/"pp-1.grim"), body_grim=base)
+    first = expand([ctx["section"]], output_grim=str(ctx["work"]/"pp-1.grim"), body_grim=base, **ATT)
     out, field = reopen(first["output"])
     assert rel(field, 2*ctx["att"]) < TOL and scalar(out, "complex_field_domain") == RADAR_COMPONENT_FIELD_DOMAIN
     assert "metadata_advisories_json" in out and str(ctx["work"]) not in scalar(out, "metadata_advisories_json")
@@ -533,3 +541,148 @@ def test_publication_gate_tells_a_late_cancel_it_was_too_late(ctx):
     assert seen == {"accepted": False} and not event.is_set() and out.read_bytes() != b"previous"
     early = wing.PublicationGate(); event2 = threading.Event()
     assert early.request_cancel(event2) and event2.is_set()
+
+
+# ==== cases added after Codex's review of 9635f7c ==============================
+def axis_relabel(ctx, source, name, shift=0.0):
+    """What GRIM's Axis Edit leaves: 0 deg relabeled 360 (or a real shift), reordered, request dropped."""
+    payload, field = reopen(source)
+    az = np.asarray(payload["azimuths"], float) + shift
+    az = np.where(az == 0.0, 360.0, az); order = np.argsort(az)
+    payload.pop("requested_radar_grid_json", None)
+    payload.update(azimuths=az[order], rcs_amp_real=field.real[order].copy(), rcs_amp_imag=field.imag[order].copy(),
+                   rcs_power=(4*np.pi*np.abs(field[order])**2).astype(np.float32),
+                   rcs_phase=np.angle(field[order]).astype(np.float32))
+    return _save_grim_npz(payload, str(ctx["work"]/name)), field[order]
+
+
+def test_equivalent_axis_relabel_keeps_the_known_attitude(ctx):
+    base, field = axis_relabel(ctx, ctx["att_path"], "relabel.grim")
+    assert 360.0 in np.asarray(reopen(base)[0]["azimuths"]) and stored_attitude(base) == ATT
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"relabel-out.grim"), body_grim=base)
+    assert rel(reopen(run["output"])[1], 2*field) < TOL and not run["warnings"]
+    with pytest.raises(ValueError, match="attitude"):          # a contradiction is still refused
+        expand([ctx["section"]], output_grim=str(ctx["work"]/"relabel-bad.grim"), body_grim=base, axis_az_deg=0.0)
+
+
+def test_cropped_grid_keeps_the_known_attitude(ctx):
+    payload, field = reopen(ctx["att_path"])
+    payload.update(azimuths=np.asarray(payload["azimuths"])[1:4], rcs_amp_real=field.real[1:4].copy(),
+                   rcs_amp_imag=field.imag[1:4].copy(), rcs_power=(4*np.pi*np.abs(field[1:4])**2).astype(np.float32),
+                   rcs_phase=np.angle(field[1:4]).astype(np.float32))
+    base = _save_grim_npz(payload, str(ctx["work"]/"crop.grim"))
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"crop-out.grim"), body_grim=base)
+    assert rel(reopen(run["output"])[1], 2*field[1:4]) < TOL and not run["warnings"]
+
+
+def test_a_real_axis_change_makes_the_attitude_unknown(ctx):
+    base, _ = axis_relabel(ctx, ctx["att_path"], "shifted.grim", shift=7.0)
+    assert recorded_line_expansion_attitude(reopen(base)[0]) is None
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"shifted-out.grim"), body_grim=base)
+    assert any("assum" in w.lower() for w in run["warnings"])
+
+
+def test_assembly_places_a_feature_at_the_base_attitude(ctx):
+    """A point of known response on a sections-only base at a non-zero attitude.
+
+    The expected field is the point's own translation phase at each look,
+    computed here from the attitude angles; no Assembly routine is used for it.
+    """
+    from ghost_backend.assembly.fields import export_radar_grim, point_pattern_convention_metadata
+    from ghost_backend.assembly.workflow import (
+        FeatureAssemblyRequest, execute_feature_assembly, prepare_feature_assembly)
+    work = ctx["work"]; P, H = 0.4 - 0.3j, 0.2
+    att = dict(axis_az_deg=-35.0, axis_el_deg=18.0, roll_deg=50.0)
+    az, el, f = [10.0, 80.0, 150.0, 260.0], [5.0, 30.0], 1.2
+    pattern = work/"point.grim"
+    export_radar_grim(str(pattern), bor_result=None, placements=[], azimuths_deg=[0.0, 90.0, 180.0, 270.0],
+                      elevations_deg=[-90.0, 0.0, 90.0], frequencies_ghz=[f])
+    payload, zeros = reopen(pattern)
+    arr = np.broadcast_to(np.array([P, P, 0.0]), zeros.shape)
+    payload.update(rcs_amp_real=arr.real.copy(), rcs_amp_imag=arr.imag.copy(), rcs_power=4*np.pi*np.abs(arr)**2,
+                   rcs_phase=np.angle(arr), **point_pattern_convention_metadata())
+    for key in ("storage_kind", "storage_domain", "rcs_complex", "grim_format_version", "polarization_basis"):
+        payload.pop(key, None)
+    _save_grim_npz(payload, str(pattern))
+    csv = work/"sites.csv"
+    csv.write_text(f"placement_id,dataset_id,x,y,z,nx,ny,nz,roll_x,roll_y,roll_z\nsite,pattern,0,0,{H},0,0,1,1,0,0\n")
+    mesh = work/"patch.stl"
+    mesh.write_text(f"solid p\nfacet normal 0 0 1\nouter loop\nvertex -1 -1 {H}\nvertex 1 -1 {H}\nvertex 0 1 {H}\nendloop\nendfacet\nendsolid p\n")
+
+    def expected(a):
+        yaw, pitch, roll = np.radians([a["axis_az_deg"], a["axis_el_deg"], a["roll_deg"]])
+        up = np.array([-np.sin(pitch)*np.cos(yaw), -np.sin(pitch)*np.sin(yaw), np.cos(pitch)])
+        cross = np.array([np.sin(yaw), -np.cos(yaw), 0.0])
+        site = H*(up*np.cos(roll) + cross*np.sin(roll))
+        A, E = np.meshgrid(np.radians(az), np.radians(el), indexing="ij")
+        look = np.stack([np.cos(E)*np.cos(A), np.cos(E)*np.sin(A), np.sin(E)], -1)
+        phase = np.exp(4j*np.pi*f*1e9*(look @ site)/299792458.0)
+        return (P*phase)[:, :, None, None]*np.array([1.0, 1.0, 0.0])
+
+    zero = dict.fromkeys(att, 0.0)
+    for name, a in (("zero", zero), ("rotated", att)):
+        base = work/f"asm-base-{name}.grim"
+        expand([ctx["section"]], output_grim=str(base), frequencies_ghz=[f], azimuths_deg=az, elevations_deg=el, **a)
+        original = reopen(base)[1]
+        plan = prepare_feature_assembly(FeatureAssemblyRequest(
+            base_grim=base, output_grim=work/f"asm-out-{name}.grim", point_datasets={"pattern": pattern},
+            point_response_settings={"pattern": {"one_sided": False}}, coordinate_units="meters",
+            point_locations_csv=csv, surface_mesh=mesh, surface_units="meters"))
+        assert {k: float(plan.radar_grid[k]) for k in att} == a                 # planned at the base attitude
+        done = execute_feature_assembly(plan, acknowledged_plan_sha256=plan.prepared_plan_sha256)
+        out_payload, total = reopen(done)
+        assert rel(total - original, expected(a)) < 1e-9                        # the added feature
+        assert rel(total, original + expected(a)) < 1e-9                        # and the total
+        assert recorded_line_expansion_attitude(out_payload)[0] == a            # the result still says so
+        assert "requested_radar_grid_json" not in out_payload
+    assert rel(expected(att), expected(zero)) > 0.5                             # the two attitudes are distinguishable
+
+
+def test_blank_declarations_and_existing_advisories_survive_a_round_trip(ctx):
+    """Version-1 writer leaves '' for missing declarations; an advisory is already present."""
+    payload, _ = reopen(ctx["att_path"])
+    for key in ("complex_field_domain", "rcs_amp_real", "rcs_amp_imag", "raw_complex_amplitude_preserved"):
+        payload.pop(key, None)
+    payload.update(phase_reference=np.asarray(""), amplitude_convention=np.asarray(""),
+                   metadata_advisories_json=np.asarray(json.dumps(["earlier advisory"])),
+                   rcs_power=4*np.pi*np.abs(ctx["att"])**2, rcs_phase=np.angle(ctx["att"]))
+    base = _save_grim_npz(payload, str(ctx["work"]/"blank-decl.grim"), format_version=1)
+    first = expand([ctx["section"]], output_grim=str(ctx["work"]/"blank-1.grim"), body_grim=base)
+    out, field = reopen(first["output"])
+    assert rel(field, 2*ctx["att"]) < TOL
+    assert scalar(out, "phase_reference").strip() and scalar(out, "amplitude_convention").strip()
+    advisories = json.loads(scalar(out, "metadata_advisories_json"))
+    assert "earlier advisory" in advisories and any("phase_reference" in a for a in advisories)
+    from ghost_backend.assembly.fields import _validate_declared_coherent_base
+    _validate_declared_coherent_base(dict(out, _amp=field), "strict", allow_legacy_metadata=False)   # strict Assembly accepts it
+    second = expand([ctx["section"]], output_grim=str(ctx["work"]/"blank-2.grim"), body_grim=first["output"])
+    assert rel(reopen(second["output"])[1], 3*ctx["att"]) < TOL
+
+
+def test_a_separate_bound_callback_on_the_same_controller_is_polled(ctx):
+    class Controller(threading.Event):
+        def wants_stop(self):
+            return True                       # says stop although the event itself is not set
+    controller = Controller()
+    out = ctx["work"]/"bound.grim"; out.write_bytes(b"previous")
+    with pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0], elevations_deg=[0.0],
+               abort_event=controller, cancel_check=controller.wants_stop)
+    assert out.read_bytes() == b"previous"
+
+
+def test_a_one_shot_cancel_seen_by_the_gate_stops_publication(ctx):
+    from ghost_backend.io import grim
+    armed, real = [], grim._save_grim_npz
+    def save(payload, *a, **k):
+        result = real(payload, *a, **k)
+        if "line_expansion_provenance_json" in payload:
+            armed.append(True)
+        return result
+    def one_shot():
+        return bool(armed) and armed.pop()    # true exactly once, at the final gate
+    out = ctx["work"]/"oneshot.grim"; out.write_bytes(b"previous")
+    with patch.object(grim, "_save_grim_npz", save), pytest.raises(InterruptedError):
+        expand([ctx["section"]], output_grim=str(out), frequencies_ghz=[1.0], azimuths_deg=[0.0], elevations_deg=[0.0],
+               cancel_check=one_shot, publication_gate=wing.PublicationGate())
+    assert out.read_bytes() == b"previous" and not list(ctx["work"].glob(".oneshot.grim.tmp.*"))
