@@ -47,6 +47,10 @@ _GRID_FIELDS = (
 )
 
 
+# One axis of the radar grid; the combined grid is checked by the expansion.
+MAX_AXIS_SAMPLES = 100_000
+
+
 def parse_samples(text: 'str', label: 'str') -> 'Optional[Tuple[float, ...]]':
     """Blank, an increasing list, or an inclusive start:stop:step sweep."""
 
@@ -66,12 +70,22 @@ def parse_samples(text: 'str', label: 'str') -> 'Optional[Tuple[float, ...]]':
             raise ValueError(
                 f"{label} sweep needs a positive step and stop >= start."
             )
-        count = int(math.floor((stop - start) / step + 1.0e-9)) + 1
+        span = (stop - start) / step
+        if not span < MAX_AXIS_SAMPLES:
+            raise ValueError(
+                f"{label} sweep has too many samples "
+                f"(limit {MAX_AXIS_SAMPLES:,} per axis)."
+            )
+        count = int(math.floor(span + 1.0e-9)) + 1
         return tuple(start + index * step for index in range(count))
     try:
         values = tuple(float(part) for part in raw.replace(",", " ").split())
     except ValueError as exc:
         raise ValueError(f"{label} must be comma-separated numbers.") from exc
+    if len(values) > MAX_AXIS_SAMPLES:
+        raise ValueError(
+            f"{label} has too many samples (limit {MAX_AXIS_SAMPLES:,} per axis)."
+        )
     if not all(math.isfinite(value) for value in values) or any(
         a >= b for a, b in zip(values, values[1:])
     ):
@@ -106,6 +120,7 @@ class _ExpansionWorker(QObject):
             result = expand_wing_sections(
                 self.sections,
                 cancel_check=self.abort_event.is_set,
+                abort_event=self.abort_event,
                 progress_callback=self._report,
                 **self.arguments,
             )
@@ -160,8 +175,11 @@ class LineExpansionTab(QWidget):
             "on that line: 2-D +y is the normal and 2-D +x is line direction "
             "\u00d7 normal. For a curved or twisted path, chain short rows end to "
             "end and give each an end normal (blank = same as its normal), or "
-            "use Import path. Single bounce only: no end effects, no coupling "
-            "or shadowing between sections or with the body.",
+            "use Import path. Single bounce only: no end effects and no "
+            "coupling or shadowing between sections. The only shadowing is "
+            "the optional line-of-sight blocking by the base's BoR body "
+            "below. Each section is solved with the certified, mesh-converged "
+            "2-D solve; Solver-tab settings are not used here.",
             self,
         )
         help_label.setWordWrap(True)
@@ -297,7 +315,8 @@ class LineExpansionTab(QWidget):
             "the wing and body normals point out of the two faces into the "
             "corner; face width is how far the double bounce reaches along "
             "each face. Same frame and units as the sections. Its phase "
-            "against the other terms is approximate.",
+            "against the other terms is approximate. Corners are hidden by "
+            "the base's BoR body when shadowing is on.",
             self,
         )
         corner_help.setWordWrap(True)
@@ -588,8 +607,8 @@ class LineExpansionTab(QWidget):
             self._abort_event.set()
             self.cancel_button.setEnabled(False)
             self._set_status(
-                "Canceling after the current section; no partial output "
-                "will be saved."
+                "Canceling; no partial output will be saved and an existing "
+                "output is kept."
             )
 
     @Slot(int, str)

@@ -157,6 +157,65 @@ _SAMPLE_PHASE_RAD = 0.5
 _MIRROR_AXIS = np.array([1.0, -1.0, 1.0])  # CAD x is axis-frame y
 
 
+# Radar-grid size limits. A look costs working memory in every station
+# expansion, and every look x frequency holds four complex samples on output.
+MAX_LOOKS = 4_000_000
+MAX_OUTPUT_SAMPLES = 64_000_000
+_ATTITUDE_KEYS = ("axis_az_deg", "axis_el_deg", "roll_deg")
+REQUESTED_GRID_SCHEMA = "ghost.workflow.requested-radar-grid.v1"
+
+
+class _CancelFlag:
+    """Present a cancel_check callable as the solver's abort_event."""
+
+    def __init__(self, check):
+        self._check = check
+
+    def is_set(self):
+        return bool(self._check())
+
+
+def _check_grid_size(azimuths, elevations, frequencies):
+    """Refuse a radar grid too large to expand, before any array is built."""
+
+    looks = len(azimuths) * len(elevations)
+    samples = looks * len(frequencies) * 4
+    if looks > MAX_LOOKS or samples > MAX_OUTPUT_SAMPLES:
+        raise ValueError(
+            f"The radar grid is too large: {len(azimuths):,} azimuths x "
+            f"{len(elevations):,} elevations = {looks:,} looks, and "
+            f"{samples:,} complex samples over {len(frequencies):,} "
+            f"frequencies and four channels. The limits are {MAX_LOOKS:,} "
+            f"looks and {MAX_OUTPUT_SAMPLES:,} samples; use a coarser grid "
+            "or split the run."
+        )
+
+
+def _validate_base(path, payload, amp, frequencies, azimuths, elevations):
+    """Apply Assembly's base-field checks at the Line Expansion boundary.
+
+    Absent optional metadata stays advisory; declared units, angle systems,
+    time or amplitude conventions that contradict the radar-frame field are
+    refused, because relabeling does not convert the stored samples.
+    """
+
+    from ghost_backend.assembly.fields import (
+        _validate_declared_coherent_base, _validate_optional_field_tags,
+        validate_assembly_base_grid_metadata,
+    )
+
+    label = str(path)
+    grid = dict(frequencies_ghz=frequencies, azimuths_deg=azimuths,
+                elevations_deg=elevations, axis_az_deg=0.0, axis_el_deg=0.0,
+                roll_deg=0.0)
+    try:
+        validate_assembly_base_grid_metadata(dict(payload), grid, label)
+        _validate_optional_field_tags(dict(payload), label)
+        _validate_declared_coherent_base(dict(payload, _amp=amp), label)
+    except ValueError as exc:
+        raise ValueError(f"The base dataset cannot be used as it is. {exc}") from exc
+
+
 def _unit_scale(units, label):
     key = str(units).strip().lower()
     if key not in UNIT_SCALE:
@@ -503,6 +562,10 @@ def _load_base(path):
             if alias in labels:
                 channels[name] = labels.index(alias)
                 break
+    if "VH" in labels and "HV" in labels:
+        # Independent cross-polarized channels: the monostatic line model is
+        # reciprocal, so both receive the same addition.
+        channels["vh"], channels["hv"] = labels.index("VH"), labels.index("HV")
     if "vv" not in channels or "hh" not in channels:
         raise ValueError(f"{path}: the base dataset needs VV and HH channels.")
     return payload, amp, channels
@@ -533,6 +596,7 @@ def expand_wing_sections(
     corners=(),
     base_dir=None,
     cancel_check=None,
+    abort_event=None,
     progress_callback=None,
 ):
     """Line-expand 2-D sections, add them to the optional base, save one GRIM.
@@ -556,6 +620,13 @@ def expand_wing_sections(
         radar_frame_basis,
     )
     from ghost_backend.io.grim import _save_grim_npz
+
+    if abort_event is None and cancel_check is not None:
+        abort_event = _CancelFlag(cancel_check)
+    if cancel_check is None and abort_event is not None:
+        cancel_check = abort_event.is_set
+    if abort_event is not None:
+        section_solver_kwargs = dict(section_solver_kwargs or {}, abort_event=abort_event)
 
     def check_cancel():
         if cancel_check is not None and cancel_check():
@@ -594,13 +665,41 @@ def expand_wing_sections(
                 "dataset is chosen; the sections are added on its own grid."
             )
         base_payload, base_amp, channels = _load_base(body_path)
+        frequencies = [float(f) for f in base_payload["frequencies"]]
+        azimuths = [float(a) for a in base_payload["azimuths"]]
+        elevations = [float(e) for e in base_payload["elevations"]]
+        _check_grid_size(azimuths, elevations, frequencies)
+        _validate_base(body_path, base_payload, base_amp, frequencies,
+                       azimuths, elevations)
         try:
             stored = load_body_requested_radar_grid(body_path) or {}
         except (KeyError, TypeError, ValueError):
             stored = {}
-        frequencies = [float(f) for f in base_payload["frequencies"]]
-        azimuths = [float(a) for a in base_payload["azimuths"]]
-        elevations = [float(e) for e in base_payload["elevations"]]
+            warnings.append(
+                "The base dataset's radar-grid record is unreadable and was "
+                "ignored."
+            )
+        explicit = {key: value for key, value in zip(
+            _ATTITUDE_KEYS, (axis_az_deg, axis_el_deg, roll_deg)) if value is not None}
+        recorded = all(key in stored for key in _ATTITUDE_KEYS)
+        if recorded and np.any(base_amp != 0.0):
+            changed = [key for key, value in explicit.items()
+                       if abs(float(value) - float(stored[key])) > 1e-9]
+            if changed:
+                raise ValueError(
+                    "The base dataset was computed at body attitude "
+                    + ", ".join(f"{key}={float(stored[key]):g}" for key in _ATTITUDE_KEYS)
+                    + "; its stored field cannot be combined with sections at a "
+                    "different attitude ("
+                    + ", ".join(f"{key}={float(explicit[key]):g}" for key in changed)
+                    + "). Leave the attitude unset to use the base's, or "
+                    "recompute the base."
+                )
+        if not recorded and len(explicit) < len(_ATTITUDE_KEYS):
+            warnings.append(
+                "The base dataset records no body attitude; unstated axis "
+                "azimuth, axis elevation and roll are taken as 0 deg."
+            )
         if "vh" not in channels:
             warnings.append(
                 "The base dataset has no VH channel; the cross-polarized part "
@@ -612,6 +711,7 @@ def expand_wing_sections(
                              (elevations_deg, "elevations")):
             if value is None:
                 raise ValueError(f"Enter {label} (no base dataset supplies them).")
+        _check_grid_size(azimuths_deg, elevations_deg, frequencies_ghz)
         frequencies = [float(f) for f in frequencies_ghz]
         azimuths = [float(a) for a in azimuths_deg]
         elevations = [float(e) for e in elevations_deg]
@@ -798,6 +898,8 @@ def expand_wing_sections(
             amp[:, :, index, channels["hh"]] += radar[:, 1, 1].reshape(shape)
             if "vh" in channels:
                 amp[:, :, index, channels["vh"]] += radar[:, 0, 1].reshape(shape)
+            if "hv" in channels:
+                amp[:, :, index, channels["hv"]] += radar[:, 1, 0].reshape(shape)
         check_cancel()
         if coarse_oblique:
             warnings.append(
@@ -817,11 +919,27 @@ def expand_wing_sections(
             "stations": descriptions,
             "corner_estimate_count": len(corner_entries),
             "phase_mapping_deg": {"TM": float(psi_tm_deg), "TE": float(psi_te_deg)},
+            "body_attitude_deg": attitude,
+            "section_solve": "certified mesh-converged 2-D solve; "
+                             "Solver-tab settings are not used",
+            "warnings": list(warnings),
             "body_shadowing": occluder is not None,
             "oblique_correction": bool(oblique),
             "model_scope": "single bounce; no end, junction or mutual coupling",
         }, sort_keys=True))
+        # The one attitude record every later reader uses: a base's earlier
+        # request is replaced by the attitude these fields were built at.
+        payload["requested_radar_grid_json"] = np.asarray(json.dumps({
+            "schema": REQUESTED_GRID_SCHEMA,
+            "frequencies_ghz": frequencies,
+            "azimuths_deg": azimuths,
+            "elevations_deg": elevations,
+            **attitude,
+        }, sort_keys=True))
         _save_grim_npz(payload, staged)
+        # Publication cutoff: a cancel accepted before the rename keeps the
+        # previous output; after it the new file is the result.
+        check_cancel()
         os.replace(staged, destination)
     finally:
         if os.path.exists(staged):
