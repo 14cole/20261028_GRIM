@@ -6,7 +6,9 @@ Real section solver, real files, every result reopened from disk.
 
     GRIM_ROOT=/path/to/checkout QT_QPA_PLATFORM=offscreen python -m pytest -q test_line_expansion_regressions.py
 
-At ed90b65: 18 fail, 8 pass (the passing ones are controls). With trial-fix.patch: 26 pass.
+At ed90b65: 22 fail, 8 pass (the passing ones are controls). With trial-fix.patch: 26 pass and
+4 fail; those four are the cases added from Codex's review of abe8bd0, which the trial patch
+does not cover.
 """
 import json, os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -136,6 +138,58 @@ def test_saved_file_keeps_provenance_and_attitude(ctx):
     record = json.loads(scalar(payload, "line_expansion_provenance_json"))
     assert record["schema"].startswith("ghost.assembly.line-expansion")
     assert json.dumps(record).count("25") and "-12" in json.dumps(record) and "40" in json.dumps(record)
+
+
+# ---- cases added from Codex's review of abe8bd0 --------------------------------
+def refused_or_exact(ctx, name, base, expected, **kw):
+    try:
+        run = expand([ctx["section"]], output_grim=str(ctx["work"]/name), body_grim=str(base), **kw)
+    except ValueError:
+        assert not (ctx["work"]/name).exists()
+        return None
+    assert rel(reopen(run["output"])[1], expected) < TOL
+    return run
+
+
+def test_polar_theta_base_is_refused_or_converted(ctx):
+    """Degrees, but polar theta: the marker Assembly's own reader refuses (fields.py:689-697)."""
+    el = [10.0, 25.0]                                   # theta 80, 65: inside [-90, 90], so it looks plausible
+    run = expand([ctx["section"]], output_grim=str(ctx["work"]/"theta-ref.grim"), frequencies_ghz=FREQ,
+                 azimuths_deg=AZ, elevations_deg=el)
+    payload, ref = reopen(run["output"])
+    units = json.loads(scalar(payload, "units"))
+    units["elevation_coordinate_convention"] = "sentri_theta_top_zero"
+    out = dict(payload, elevations=90.0-np.asarray(el)[::-1], units=np.asarray(json.dumps(units)),
+               rcs_amp_real=ref.real[:, ::-1].copy(), rcs_amp_imag=ref.imag[:, ::-1].copy(),
+               rcs_power=(4*np.pi*np.abs(ref[:, ::-1])**2).astype(np.float32),
+               rcs_phase=np.angle(ref[:, ::-1]).astype(np.float32))
+    base = _save_grim_npz(out, str(ctx["work"]/"theta.grim"))
+    refused_or_exact(ctx, "theta-out.grim", base, 2*ref[:, ::-1])
+
+
+def test_opposite_time_convention_base_is_refused_or_converted(ctx):
+    base = write_base(ctx, "minus.grim", field=ctx["ref"].conj(), time_convention=np.asarray("exp(-jwt)"),
+                      phase_reference=np.asarray(scalar(ctx["payload"], "phase_reference").replace("exp(+jwt)", "exp(-jwt)")))
+    refused_or_exact(ctx, "minus-out.grim", base, 2*ctx["ref"].conj())
+
+
+def declared_grid(**attitude):
+    return np.asarray(json.dumps(dict(schema="ghost.workflow.requested-radar-grid.v1", frequencies_ghz=FREQ,
+                                      azimuths_deg=AZ, elevations_deg=EL, **attitude)))
+
+
+@pytest.mark.parametrize("bor_profile", [False, True])
+def test_explicit_attitude_override_is_what_the_next_run_inherits(ctx, bor_profile):
+    """Zero-field base declaring attitude 0; first run states ATT; second run states nothing."""
+    extra = dict(requested_radar_grid_json=declared_grid(axis_az_deg=0.0, axis_el_deg=0.0, roll_deg=0.0))
+    if bor_profile:      # the shared loader then supplies zeros even without a declared request
+        extra = dict(body_profile_rho_m=np.array([0.0, 0.01, 0.0]), body_profile_z_m=np.array([-0.01, 0.0, 0.01]),
+                     body_model_aspects_deg=np.array([0.0, 180.0]))
+    tag = "bor" if bor_profile else "declared"
+    base = write_base(ctx, f"zero-{tag}.grim", field=0*ctx["ref"], **extra)
+    first = refused_or_exact(ctx, f"first-{tag}.grim", base, ctx["att"], shadow=False, **ATT)
+    if first is not None:
+        refused_or_exact(ctx, f"second-{tag}.grim", first["output"], 2*ctx["att"], shadow=False)
 
 
 # ---- sweep parser ------------------------------------------------------------
