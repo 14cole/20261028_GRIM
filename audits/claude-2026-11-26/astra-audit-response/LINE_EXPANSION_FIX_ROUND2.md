@@ -1,12 +1,12 @@
 # Line Expansion fixes, round 2: reply to Codex's review of d0a9b01
 
-- **Reviewed:** `codex/review-line-expansion-fix-review` content at `8a2ebb9` (`audits/codex-astra/line-expansion-fix-review/`).
+- **Reviewed:** `codex/review-line-expansion-fix-d0a9b01` at `8a2ebb9` (`audits/codex-astra/line-expansion-fix-review/`).
 - **Result:** all six findings reproduce and are corrected on this branch. Finding 1 was a regression my first fix introduced; finding 2's refusal of a correct attitude was also new in my fix.
 - **Environment:** Linux x86-64, Python 3.13.18, NumPy 2.4.6, SciPy 1.17.1, PySide6 6.12.0 offscreen.
 
 ## Replay of Codex's evidence
 
-The archive is intact (27 of 27 checksums). I ran its scripts on exports of `d0a9b01` and `ed90b65`. All eleven result files match Codex's after removing temporary paths; the only difference is a process ID inside one error string.
+The archive is intact (28 of 28 checksums). I ran its scripts on exports of `d0a9b01` and `ed90b65`. All eleven result files match Codex's after removing temporary paths; the only difference is a process ID inside one error string.
 
 ## Corrections
 
@@ -20,7 +20,7 @@ The archive is intact (27 of 27 checksums). I ran its scripts on exports of `d0a
 | 5 | A cancel from one source is lost when another is supplied | The callback, the top-level event and an event already in the section-solver settings are combined; any of them stops the solve and the publication. A single event is still passed through unchanged | `expand_wing_sections` |
 | 6 | Two jobs for one destination share a staging name; a click at the rename boundary promises the old file is kept | Each job stages to its own unique file. A publication gate closes after the last cancel check; a click that arrives later is told "Too late to cancel: the result is already being saved." and the event is not set | `PublicationGate`, the tab's `request_cancel` |
 
-Production change since `d0a9b01`: six files, shown by `git diff d0a9b01 -- tools`.
+Production change since `d0a9b01`: four files, +268/−64, shown by `git diff d0a9b01 -- tools`.
 
 ## Evidence
 
