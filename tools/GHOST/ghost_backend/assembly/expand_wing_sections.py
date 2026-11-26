@@ -61,6 +61,8 @@ if not __package__:
 import json
 import math
 import os
+import tempfile
+import threading
 from pathlib import Path
 
 import numpy as np
@@ -158,37 +160,108 @@ _MIRROR_AXIS = np.array([1.0, -1.0, 1.0])  # CAD x is axis-frame y
 
 
 # Radar-grid size limits. A look costs working memory in every station
-# expansion, and every look x frequency holds four complex samples on output.
+# expansion, and every look x frequency x channel is one complex output sample.
+MAX_AXIS_SAMPLES = 100_000
 MAX_LOOKS = 4_000_000
 MAX_OUTPUT_SAMPLES = 64_000_000
 _ATTITUDE_KEYS = ("axis_az_deg", "axis_el_deg", "roll_deg")
+_ATTITUDE_PERIOD = {"axis_az_deg": 360.0, "roll_deg": 360.0}
 REQUESTED_GRID_SCHEMA = "ghost.workflow.requested-radar-grid.v1"
 
 
 class _CancelFlag:
-    """Present a cancel_check callable as the solver's abort_event."""
+    """One abort_event for the section solver that is set when any source is."""
 
-    def __init__(self, check):
-        self._check = check
+    def __init__(self, sources):
+        self._sources = tuple(sources)
 
     def is_set(self):
-        return bool(self._check())
+        return any(source() for source in self._sources)
 
 
-def _check_grid_size(azimuths, elevations, frequencies):
+class PublicationGate:
+    """Decides whether a cancel request still precedes publication.
+
+    The expansion closes the gate after its last cancellation check and before
+    it renames the staged file. ``request_cancel`` sets the event only while
+    the gate is open, so a caller knows whether the previous output is kept.
+    """
+
+    def __init__(self):
+        self._lock = threading.Lock()
+        self.closed = False
+
+    def request_cancel(self, event):
+        with self._lock:
+            if self.closed:
+                return False
+            event.set()
+            return True
+
+    def close_unless(self, canceled):
+        """Close the gate and return True, or return False if canceled first."""
+        with self._lock:
+            if canceled():
+                return False
+            self.closed = True
+            return True
+
+
+def _check_grid_size(azimuths, elevations, frequencies, channels=3):
     """Refuse a radar grid too large to expand, before any array is built."""
 
+    for label, axis in (("azimuths", azimuths), ("elevations", elevations),
+                        ("frequencies", frequencies)):
+        if len(axis) > MAX_AXIS_SAMPLES:
+            raise ValueError(
+                f"The radar grid is too large: {len(axis):,} {label} "
+                f"(limit {MAX_AXIS_SAMPLES:,} samples per axis)."
+            )
     looks = len(azimuths) * len(elevations)
-    samples = looks * len(frequencies) * 4
+    samples = looks * len(frequencies) * int(channels)
     if looks > MAX_LOOKS or samples > MAX_OUTPUT_SAMPLES:
         raise ValueError(
             f"The radar grid is too large: {len(azimuths):,} azimuths x "
             f"{len(elevations):,} elevations = {looks:,} looks, and "
             f"{samples:,} complex samples over {len(frequencies):,} "
-            f"frequencies and four channels. The limits are {MAX_LOOKS:,} "
-            f"looks and {MAX_OUTPUT_SAMPLES:,} samples; use a coarser grid "
-            "or split the run."
+            f"frequencies and {int(channels)} channels. The limits are "
+            f"{MAX_LOOKS:,} looks and {MAX_OUTPUT_SAMPLES:,} samples; use a "
+            "coarser grid or split the run."
         )
+
+
+def _declared_attitude(payload):
+    """(angles the base actually declares, True when its record is unreadable).
+
+    Only values written in the base's radar-grid request count. Zeros that a
+    reader would substitute for a missing request are not measurements.
+    """
+
+    if "requested_radar_grid_json" not in payload:
+        return {}, False
+    try:
+        raw = np.asarray(payload["requested_radar_grid_json"]).reshape(()).item()
+        record = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else str(raw))
+        if not isinstance(record, dict) or record.get("schema") != REQUESTED_GRID_SCHEMA:
+            return {}, True
+        declared = {}
+        for key in _ATTITUDE_KEYS:
+            if key in record:
+                value = float(record[key])
+                if not math.isfinite(value):
+                    return {}, True
+                declared[key] = value
+        return declared, False
+    except (TypeError, ValueError):
+        return {}, True
+
+
+def _same_angle(key, first, second):
+    difference = float(first) - float(second)
+    period = _ATTITUDE_PERIOD.get(key)
+    if period:
+        difference = (difference + period / 2.0) % period - period / 2.0
+    return abs(difference) <= 1e-9
 
 
 def _validate_base(path, payload, amp, frequencies, azimuths, elevations):
@@ -204,16 +277,24 @@ def _validate_base(path, payload, amp, frequencies, azimuths, elevations):
         validate_assembly_base_grid_metadata,
     )
 
-    label = str(path)
+    label = os.path.basename(str(path))     # advisories are saved; keep folders out
     grid = dict(frequencies_ghz=frequencies, azimuths_deg=azimuths,
                 elevations_deg=elevations, axis_az_deg=0.0, axis_el_deg=0.0,
                 roll_deg=0.0)
     try:
         validate_assembly_base_grid_metadata(dict(payload), grid, label)
         _validate_optional_field_tags(dict(payload), label)
-        _validate_declared_coherent_base(dict(payload, _amp=amp), label)
+        validated = _validate_declared_coherent_base(dict(payload, _amp=amp), label)
     except ValueError as exc:
         raise ValueError(f"The base dataset cannot be used as it is. {exc}") from exc
+    # The checks ran on a copy. Carry the radar-frame declarations they
+    # established, and the assumptions they recorded, into the output so the
+    # saved file states what it holds and can be expanded again.
+    for key in ("complex_field_domain", "phase_reference", "amplitude_convention",
+                "combine_role", "time_convention", "polarization_basis",
+                "metadata_advisories_json"):
+        if key in validated and key not in payload:
+            payload[key] = validated[key]
 
 
 def _unit_scale(units, label):
@@ -521,7 +602,18 @@ def _load_base(path):
     from ghost_backend.assembly.fields import RADAR_COMPONENT_FIELD_DOMAIN
 
     with np.load(path, allow_pickle=False) as stored:
-        payload = {key: stored[key] for key in stored.files}
+        # Read only the axes first: an oversized base is refused before its
+        # field arrays are read or decoded.
+        axes = {}
+        for key in ("azimuths", "elevations", "frequencies", "polarizations"):
+            if key not in stored.files:
+                raise ValueError(f"{path}: the base dataset has no {key} axis.")
+            axes[key] = stored[key]
+        _check_grid_size(*(np.asarray(axes[key]).ravel() for key in (
+            "azimuths", "elevations", "frequencies")),
+            max(1, np.asarray(axes["polarizations"]).size))
+        payload = dict(axes)
+        payload.update({key: stored[key] for key in stored.files if key not in axes})
     from ghost_backend.data_tools.cem_tools.native_samples import decode_native_samples, raw_amplitude
     payload = decode_native_samples(payload, label=str(path))
     for key in ("azimuths", "elevations", "frequencies", "polarizations"):
@@ -597,6 +689,7 @@ def expand_wing_sections(
     base_dir=None,
     cancel_check=None,
     abort_event=None,
+    publication_gate=None,
     progress_callback=None,
 ):
     """Line-expand 2-D sections, add them to the optional base, save one GRIM.
@@ -616,20 +709,32 @@ def expand_wing_sections(
     """
 
     from ghost_backend.assembly.fields import (
-        corner_amplitude, export_radar_grim, load_body_requested_radar_grid,
-        radar_frame_basis,
+        corner_amplitude, export_radar_grim, radar_frame_basis,
     )
     from ghost_backend.io.grim import _save_grim_npz
 
-    if abort_event is None and cancel_check is not None:
-        abort_event = _CancelFlag(cancel_check)
-    if cancel_check is None and abort_event is not None:
-        cancel_check = abort_event.is_set
-    if abort_event is not None:
-        section_solver_kwargs = dict(section_solver_kwargs or {}, abort_event=abort_event)
+    # A cancel may come from the callback, the top-level event, or an event
+    # the caller already placed in the section-solver settings. Any of them
+    # stops the section solve and the publication.
+    solver_event = (section_solver_kwargs or {}).get("abort_event")
+    events = [event for event in (abort_event, solver_event) if event is not None]
+    if len(events) == 2 and events[0] is events[1]:
+        events.pop()
+    sources = [event.is_set for event in events]
+    if cancel_check is not None and not any(
+            getattr(cancel_check, "__self__", None) is event for event in events):
+        sources.append(cancel_check)
+    if len(sources) == 1 and events:
+        combined = events[0]                # one event: hand it over unchanged
+    else:
+        combined = _CancelFlag(sources) if sources else None
+    canceled = combined.is_set if combined is not None else (lambda: False)
+    if combined is not None:
+        section_solver_kwargs = dict(section_solver_kwargs or {}, abort_event=combined)
+    cancel_check = canceled if combined is not None else None
 
     def check_cancel():
-        if cancel_check is not None and cancel_check():
+        if canceled():
             raise InterruptedError("Line expansion canceled; existing output kept.")
 
     def resolve(value):
@@ -651,7 +756,10 @@ def expand_wing_sections(
     if not destination.lower().endswith(".grim"):
         destination += ".grim"
     warnings = []
-    base_payload, base_amp, channels, stored, body_path = None, None, None, {}, ""
+    base_payload, base_amp, channels, body_path = None, None, None, ""
+    declared = {}
+    explicit = {key: float(value) for key, value in zip(
+        _ATTITUDE_KEYS, (axis_az_deg, axis_el_deg, roll_deg)) if value is not None}
     if str(body_grim or "").strip():
         body_path = str(resolve(body_grim))
         if os.path.normcase(os.path.abspath(destination)) == os.path.normcase(
@@ -668,38 +776,32 @@ def expand_wing_sections(
         frequencies = [float(f) for f in base_payload["frequencies"]]
         azimuths = [float(a) for a in base_payload["azimuths"]]
         elevations = [float(e) for e in base_payload["elevations"]]
-        _check_grid_size(azimuths, elevations, frequencies)
         _validate_base(body_path, base_payload, base_amp, frequencies,
                        azimuths, elevations)
-        try:
-            stored = load_body_requested_radar_grid(body_path) or {}
-        except (KeyError, TypeError, ValueError):
-            stored = {}
+        declared, unreadable = _declared_attitude(base_payload)
+        if unreadable:
             warnings.append(
-                "The base dataset's radar-grid record is unreadable and was "
-                "ignored."
+                "The base dataset's radar-grid record is unreadable; its body "
+                "attitude is treated as unknown."
             )
-        explicit = {key: value for key, value in zip(
-            _ATTITUDE_KEYS, (axis_az_deg, axis_el_deg, roll_deg)) if value is not None}
-        recorded = all(key in stored for key in _ATTITUDE_KEYS)
-        if recorded and np.any(base_amp != 0.0):
-            changed = [key for key, value in explicit.items()
-                       if abs(float(value) - float(stored[key])) > 1e-9]
+        if np.any(base_amp != 0.0):
+            changed = [key for key in _ATTITUDE_KEYS
+                       if key in explicit and key in declared
+                       and not _same_angle(key, explicit[key], declared[key])]
             if changed:
                 raise ValueError(
-                    "The base dataset was computed at body attitude "
-                    + ", ".join(f"{key}={float(stored[key]):g}" for key in _ATTITUDE_KEYS)
+                    "The base dataset declares body attitude "
+                    + ", ".join(f"{key}={declared[key]:g}" for key in _ATTITUDE_KEYS
+                                if key in declared)
                     + "; its stored field cannot be combined with sections at a "
                     "different attitude ("
                     + ", ".join(f"{key}={float(explicit[key]):g}" for key in changed)
-                    + "). Leave the attitude unset to use the base's, or "
+                    + "). Leave those values unset to use the base's, or "
                     "recompute the base."
                 )
-        if not recorded and len(explicit) < len(_ATTITUDE_KEYS):
-            warnings.append(
-                "The base dataset records no body attitude; unstated axis "
-                "azimuth, axis elevation and roll are taken as 0 deg."
-            )
+            # A declared value wins over an equivalent restatement (20 vs 380).
+            for key in declared:
+                explicit.pop(key, None)
         if "vh" not in channels:
             warnings.append(
                 "The base dataset has no VH channel; the cross-polarized part "
@@ -716,16 +818,37 @@ def expand_wing_sections(
         azimuths = [float(a) for a in azimuths_deg]
         elevations = [float(e) for e in elevations_deg]
 
-    def attitude_value(value, key):
-        if value is not None:
-            return float(value)
-        return float(stored.get(key, 0.0))
-
-    attitude = dict(
-        axis_az_deg=attitude_value(axis_az_deg, "axis_az_deg"),
-        axis_el_deg=attitude_value(axis_el_deg, "axis_el_deg"),
-        roll_deg=attitude_value(roll_deg, "roll_deg"),
-    )
+    # Stated values first, then what the base declares; anything left is an
+    # assumption, which is reported and recorded as one.
+    attitude, attitude_source = {}, {}
+    earlier_source = {}
+    if base_payload is not None and "line_expansion_provenance_json" in base_payload:
+        try:
+            earlier_source = dict(json.loads(str(np.asarray(
+                base_payload["line_expansion_provenance_json"]
+            ).reshape(()).item())).get("body_attitude_source") or {})
+        except (TypeError, ValueError):
+            earlier_source = {}
+    for key in _ATTITUDE_KEYS:
+        if key in explicit:
+            attitude[key], attitude_source[key] = explicit[key], "stated"
+        elif key in declared and earlier_source.get(key) == "assumed":
+            # An earlier run on this file assumed it; it is still an assumption.
+            attitude[key], attitude_source[key] = declared[key], "assumed"
+        elif key in declared:
+            attitude[key], attitude_source[key] = declared[key], "base"
+        else:
+            attitude[key] = 0.0
+            attitude_source[key] = "assumed" if base_payload is not None else "default"
+    assumed = [key for key in _ATTITUDE_KEYS if attitude_source[key] == "assumed"]
+    if assumed:
+        warnings.append(
+            "The body attitude is an assumption for " + ", ".join(
+                f"{key}={attitude[key]:g}" for key in assumed)
+            + ": the base dataset did not declare it. If the base was computed "
+            "at another body attitude the added sections are wrong; state the "
+            "attitude when expanding the original base."
+        )
     directions, basis = radar_frame_basis(azimuths, elevations, **attitude)
 
     descriptions = []
@@ -803,10 +926,13 @@ def expand_wing_sections(
         )
 
     os.makedirs(os.path.dirname(destination), exist_ok=True)
-    staged = os.path.join(
-        os.path.dirname(destination),
-        f".{os.path.basename(destination)}.tmp.{os.getpid()}.grim",
+    # A staging name of this job's own, so two jobs for one destination never
+    # publish or delete each other's file.
+    handle, staged = tempfile.mkstemp(
+        prefix=f".{os.path.basename(destination)}.tmp.", suffix=".grim",
+        dir=os.path.dirname(destination),
     )
+    os.close(handle)
     history = (
         f"line expansion: {len(stations)} 2-D section station(s), "
         f"{len(corner_entries)} corner estimate(s), "
@@ -920,6 +1046,7 @@ def expand_wing_sections(
             "corner_estimate_count": len(corner_entries),
             "phase_mapping_deg": {"TM": float(psi_tm_deg), "TE": float(psi_te_deg)},
             "body_attitude_deg": attitude,
+            "body_attitude_source": attitude_source,
             "section_solve": "certified mesh-converged 2-D solve; "
                              "Solver-tab settings are not used",
             "warnings": list(warnings),
@@ -939,7 +1066,11 @@ def expand_wing_sections(
         _save_grim_npz(payload, staged)
         # Publication cutoff: a cancel accepted before the rename keeps the
         # previous output; after it the new file is the result.
-        check_cancel()
+        if publication_gate is not None:
+            if not publication_gate.close_unless(canceled):
+                check_cancel()
+        else:
+            check_cancel()
         os.replace(staged, destination)
     finally:
         if os.path.exists(staged):

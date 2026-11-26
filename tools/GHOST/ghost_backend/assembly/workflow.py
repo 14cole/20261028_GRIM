@@ -39,6 +39,7 @@ from ghost_backend.assembly.fields import (
     load_seam_from_grim,
     load_body_profile_grim,
     load_body_requested_radar_grid,
+    load_embedded_body_radar_grid,
     preflight_feature_assembly_capacity,
     prepare_point_pattern,
     require_body_mesh_certification as audit_body_mesh_certification,
@@ -1066,7 +1067,7 @@ def prepare_feature_input_preview(
         base = resolve_path(base_grim, base_dir=base_dir)
         if not base.is_file():
             raise FileNotFoundError(f"Base monostatic GRIM not found: {base}")
-        embedded_grid = load_body_requested_radar_grid(str(base))
+        embedded_grid = load_embedded_body_radar_grid(str(base))
         if embedded_grid is not None:
             profile = np.array(
                 load_body_profile_grim(str(base)), dtype=float, copy=True
@@ -3910,7 +3911,7 @@ def prepare_feature_assembly(
         validated_base_payload.get(_LEGACY_BASE_ASSUMPTIONS_KEY, ())
     )
 
-    embedded_grid = load_body_requested_radar_grid(str(sources.base))
+    embedded_grid = load_embedded_body_radar_grid(str(sources.base))
     pre_validation_warnings: 'list[str]' = []
     pre_absent_paths: 'set[str]' = set()
     surface_geometry_contract: 'dict[str, Any]' = {

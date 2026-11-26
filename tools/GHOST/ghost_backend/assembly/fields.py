@@ -1979,6 +1979,23 @@ def load_body_requested_radar_grid(
     return stored
 
 
+def load_embedded_body_radar_grid(path: 'str') -> 'Optional[Dict[str, Any]]':
+    """Radar grid of a base that carries its own BoR profile, else ``None``.
+
+    A radar-grid request records the grid and body attitude of any radar-frame
+    file, including Line Expansion outputs that have no body geometry. Only
+    the embedded profile says the geometry comes from the file itself.
+    """
+
+    with np.load(path, allow_pickle=False) as payload:
+        has_profile = ("body_profile_rho_m" in payload.files
+                       and "body_profile_z_m" in payload.files)
+        is_line_expansion = "line_expansion_provenance_json" in payload.files
+    if is_line_expansion and not has_profile:
+        return None
+    return load_body_requested_radar_grid(path)
+
+
 def _load_declared_body_requested_radar_grid(
     path: 'str',
 ) -> 'Optional[Dict[str, Any]]':
@@ -5352,7 +5369,7 @@ def add_features_to_monostatic_grim(
                 "The deterministic feature-only output must not overwrite the "
                 f"{protected_label}: {features_destination}"
             )
-    embedded_grid = load_body_requested_radar_grid(base)
+    embedded_grid = load_embedded_body_radar_grid(base)
     capacity_grid = dict(radar_grid) if radar_grid is not None else embedded_grid
     if capacity_grid is not None:
         if _capacity_estimate is None:

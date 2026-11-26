@@ -30,6 +30,7 @@ from ghost_backend.assembly.expand_wing_sections import (
     expand_wing_sections,
     read_path_points,
     sections_from_path,
+    MAX_AXIS_SAMPLES, PublicationGate,
 )
 
 
@@ -47,8 +48,29 @@ _GRID_FIELDS = (
 )
 
 
-# One axis of the radar grid; the combined grid is checked by the expansion.
-MAX_AXIS_SAMPLES = 100_000
+_ATTITUDE_FIELDS = (
+    ("axis_az_deg", "axis azimuth"),
+    ("axis_el_deg", "axis elevation"),
+    ("roll_deg", "roll"),
+)
+
+
+def parse_angle(text: 'str', label: 'str') -> 'Optional[float]':
+    """Blank (use the base's value) or one finite angle in degrees."""
+
+    raw = str(text).strip()
+    if not raw:
+        return None
+    try:
+        value = float(raw)
+    except ValueError as exc:
+        raise ValueError(f"Body attitude {label} must be a number.") from exc
+    if not math.isfinite(value) or (label == "axis elevation" and abs(value) > 90.0):
+        raise ValueError(
+            f"Body attitude {label} must be finite"
+            + (" and within -90 to 90 deg." if label == "axis elevation" else ".")
+        )
+    return value
 
 
 def parse_samples(text: 'str', label: 'str') -> 'Optional[Tuple[float, ...]]':
@@ -77,6 +99,11 @@ def parse_samples(text: 'str', label: 'str') -> 'Optional[Tuple[float, ...]]':
                 f"(limit {MAX_AXIS_SAMPLES:,} per axis)."
             )
         count = int(math.floor(span + 1.0e-9)) + 1
+        if count > MAX_AXIS_SAMPLES:
+            raise ValueError(
+                f"{label} sweep has too many samples "
+                f"(limit {MAX_AXIS_SAMPLES:,} per axis)."
+            )
         return tuple(start + index * step for index in range(count))
     try:
         values = tuple(float(part) for part in raw.replace(",", " ").split())
@@ -142,6 +169,7 @@ class LineExpansionTab(QWidget):
         self._thread: 'Optional[QThread]' = None
         self._worker: 'Optional[_ExpansionWorker]' = None
         self._abort_event: 'Optional[threading.Event]' = None
+        self._gate: 'Optional[PublicationGate]' = None
         self._build_ui()
 
     def _build_ui(self) -> 'None':
@@ -301,6 +329,19 @@ class LineExpansionTab(QWidget):
             )
             self.grid_fields[key] = control
             form.addRow(label, control)
+        self.attitude_fields: 'Dict[str, QLineEdit]' = {}
+        attitude_row = QHBoxLayout()
+        for key, label in _ATTITUDE_FIELDS:
+            control = QLineEdit(self)
+            control.setPlaceholderText(label)
+            control.setToolTip(
+                "Body attitude in degrees. Leave blank to use the attitude "
+                "the base dataset records (0 without a base). Fill it in when "
+                "a base was computed at a known attitude it does not record."
+            )
+            self.attitude_fields[key] = control
+            attitude_row.addWidget(control)
+        form.addRow("Body attitude (deg):", attitude_row)
         self.output_edit = QLineEdit(self)
         self.output_browse = QPushButton("Browse\u2026", self)
         output_row = QHBoxLayout()
@@ -384,6 +425,7 @@ class LineExpansionTab(QWidget):
             self.coordinate_units, self.geometry_units, self.mirror,
             self.angle_step, self.body_edit, self.body_browse,
             self.output_edit, self.output_browse, *self.grid_fields.values(),
+            *self.attitude_fields.values(),
             self.oblique, self.oblique_tilt, self.oblique_solves, self.shadow,
             self.corner_table, self.add_corner_button,
             self.remove_corner_button,
@@ -578,11 +620,17 @@ class LineExpansionTab(QWidget):
                     )
                     for key, label in _GRID_FIELDS
                 },
+                **{
+                    key: parse_angle(self.attitude_fields[key].text(), label)
+                    for key, label in _ATTITUDE_FIELDS
+                },
             )
         except ValueError as exc:
             self._set_status(str(exc))
             return
         self._abort_event = threading.Event()
+        self._gate = PublicationGate()
+        arguments["publication_gate"] = self._gate
         thread = QThread(self)
         worker = _ExpansionWorker(sections, arguments, self._abort_event)
         worker.moveToThread(thread)
@@ -604,8 +652,14 @@ class LineExpansionTab(QWidget):
     @Slot()
     def request_cancel(self) -> 'None':
         if self._abort_event is not None:
-            self._abort_event.set()
             self.cancel_button.setEnabled(False)
+            if self._gate is not None and not self._gate.request_cancel(self._abort_event):
+                self._set_status(
+                    "Too late to cancel: the result is already being saved."
+                )
+                return
+            if self._gate is None:
+                self._abort_event.set()
             self._set_status(
                 "Canceling; no partial output will be saved and an existing "
                 "output is kept."
@@ -630,4 +684,5 @@ class LineExpansionTab(QWidget):
         self._thread = None
         self._worker = None
         self._abort_event = None
+        self._gate = None
         self._set_busy(False)
