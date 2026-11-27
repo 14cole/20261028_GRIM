@@ -11,7 +11,7 @@
 | Codex's conclusion | My result |
 |---|---|
 | Both backends reproduce analytic cylinder fields | **Reproduces.** My own series matches Codex's reference to 4e-15 and reproduces every figure in its accuracy table. My own fixtures agree |
-| Dense and Compressed agree far below mesh error | **Reproduces.** At most 3.2e-11 up to 3k unknowns and 1.7e-10 up to 24k |
+| Dense and Compressed agree far below mesh error | **Reproduces.** At most 3.2e-11 up to 3k unknowns, 1.7e-10 up to 12k and 5.7e-10 at 24k |
 | Certification converges on the drawn polygon, not the intended curve | **Reproduces, and the effect is much larger than Codex's example shows.** A coarse polygon can be certified while more than 100% from the intended field |
 | Dense is faster and Compressed lighter | **Reproduces at Codex's size; I disagree as general guidance.** Compressed is faster from about 6k unknowns on one thread and from about 12k on four, and at 24k it was 17 times faster here |
 
@@ -88,7 +88,7 @@ A coated PEC cylinder (core 100 mm, outer 120 mm, ε 2.8−0.06j) at 10 GHz, siz
 | 11,968 | 101.5 (98.3–104.7) | 6.83 | 74.7 (72.9–76.5) | 1.56 | 2 |
 | 23,936 | **2,959** | 9.26 | **172** | 3.06 | 1 |
 
-Times are medians with the range in brackets. The analytic error of these meshes is 0.019%, 0.0048%, 0.0012% and 0.0003% from smallest to largest, the same for both backends. Dense and Compressed differ by at most 1.7e-10.
+Times are medians with the range in brackets. The analytic error of these meshes is 0.019%, 0.0048%, 0.0012% and 0.0003% from smallest to largest, the same for both backends. Dense and Compressed differ by at most 1.7e-10 up to 12k unknowns and by 5.7e-10 at 24k.
 
 ### What the measurements show
 - **The crossover depends on the thread count.** On one thread Compressed is faster from somewhere between 3k and 6k unknowns. On four threads Dense is still 1.4 times faster at 6k and Compressed leads only by 12k, because the dense factorization uses the extra cores better. The ranges do not overlap in any of these comparisons.
@@ -107,7 +107,7 @@ One small numerical note: for the Dense backend the 180- and 360-angle grids agr
 
 ## Backend and mesh guidance supported by this evidence
 
-1. **Accuracy does not decide the backend.** The two agree to 1e-10 or better at every size tested. The mesh and the drawn geometry decide accuracy.
+1. **Accuracy does not decide the backend.** The two agree to 6e-10 or better at every size tested. The mesh and the drawn geometry decide accuracy.
 2. **Below about 5,000 unknowns per system use Dense.** It is 1.3 to 2 times faster and memory is under 2 GiB either way.
 3. **Above about 12,000 use Compressed.** It is faster at any thread count tested and uses a quarter of the memory or less.
 4. **Between the two it depends on cores.** With one or two threads Compressed is already ahead at 6k; with four or more Dense still is. The shipped Automatic policy switches at 10,000 forecast unknowns, which sits inside the measured four-thread crossover and is a reasonable default for a multi-core desktop.
