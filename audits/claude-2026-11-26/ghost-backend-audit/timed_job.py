@@ -45,4 +45,8 @@ print(json.dumps(dict(
     rss_before_solve_gib=round(rss_before, 3), peak_rss_gib=round(status("VmHWM"), 3),
     error_TM=rel(F["TM"], exact["TM"]), error_TE=rel(F["TE"], exact["TE"]),
     memory_accounting={k: v for k, v in mem.items() if isinstance(v, (int, float, str, bool))},
+    stage_seconds=(meta.get("runtime_profile") or {}).get("stage_seconds"),
+    stage_calls=(meta.get("runtime_profile") or {}).get("stage_calls"),
+    stage_semantics=(meta.get("runtime_profile") or {}).get("stage_semantics"),
+    process_io={line.split(":")[0]: int(line.split()[1]) for line in open("/proc/self/io")},
 ), default=str))
