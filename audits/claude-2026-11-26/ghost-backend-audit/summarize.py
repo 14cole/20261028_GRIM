@@ -52,16 +52,20 @@ for mode in ("memory", "disk"):                              # forced residual-s
         r.update(batch="c_residual", tag=f"s4224_a360_t4_dense_{mode}", requested=f"dense[residual={mode}]",
                  npz=str(root / "c_residual" / f"s4224_a360_t4_dense_{mode}.npz"))
         runs.append(r)
+# The container moved to a different host between sessions; never pool timings across hosts.
+HOST_B = {"c_threads2", "c_residual", "c_drift"}
+for r in runs:
+    r["host"] = "B (Xeon 2.30 GHz, second session)" if r["batch"] in HOST_B else "A (Xeon 2.10 GHz, first session)"
 out["C_run_count"] = len(runs)
 out["C_archives_present"] = sum(Path(r["npz"]).exists() for r in runs)
 groups = {}
 for r in runs:
     if "solve_wall_s" in r:
-        groups.setdefault((r["unknowns_per_system"], r["threads"], r["angles"], r["requested"]), []).append(r)
+        groups.setdefault((r["host"], r["unknowns_per_system"], r["threads"], r["angles"], r["requested"]), []).append(r)
 table = []
-for (n, t, a, b), rs in sorted(groups.items()):
+for (h, n, t, a, b), rs in sorted(groups.items()):
     w = [r["solve_wall_s"] for r in rs]; m = [r["peak_rss_gib"] for r in rs]
-    table.append(dict(unknowns=n, threads=t, angles=a, requested=b, backend=rs[0]["linear_backend"], panels=rs[0]["panels"],
+    table.append(dict(host=h, unknowns=n, threads=t, angles=a, requested=b, backend=rs[0]["linear_backend"], panels=rs[0]["panels"],
                       runs=len(rs), batches=sorted({r["batch"] for r in rs}), wall_s=w, wall_median_s=statistics.median(w),
                       wall_min_s=min(w), wall_max_s=max(w), peak_rss_gib=m, peak_rss_median_gib=statistics.median(m),
                       error_TM=rs[0]["error_TM"], error_TE=rs[0]["error_TE"], quality=all(r["quality_passed"] for r in rs)))
@@ -70,6 +74,11 @@ load = lambda r: np.load(r["npz"])
 worst = lambda x, y: max(float(np.max(np.abs(x[k] - y[k])) / np.max(np.abs(y[k]))) for k in ("ghost_TM", "ghost_TE"))
 out["C_repeat_field_spread_max"] = max(worst(load(r), load(rs[0])) for rs in groups.values() for r in rs)
 out["C_dense_vs_compressed_max"] = {
-    f"{n}_{t}_{a}": worst(load(groups[(n, t, a, "compressed")][0]), load(rs[0]))
-    for (n, t, a, b), rs in groups.items() if b == "dense" and (n, t, a, "compressed") in groups}
+    f"{h[0]}_{n}_{t}_{a}": worst(load(groups[(h, n, t, a, "compressed")][0]), load(rs[0]))
+    for (h, n, t, a, b), rs in groups.items() if b == "dense" and (h, n, t, a, "compressed") in groups}
+# the same mesh and backend must give the same field on both hosts
+by_case = {}
+for (h, n, t, a, b), rs in groups.items():
+    by_case.setdefault((n, a, b.split("[")[0]), []).append(rs[0])
+out["C_cross_host_and_thread_field_spread_max"] = max(worst(load(r), load(rs[0])) for rs in by_case.values() for r in rs)
 print(json.dumps(out, indent=1, default=float))
