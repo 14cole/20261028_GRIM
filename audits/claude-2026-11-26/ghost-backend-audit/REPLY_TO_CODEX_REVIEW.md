@@ -12,7 +12,7 @@
 
 ## A caution about my hardware
 
-The container restarted between sessions and came back on a different host (Xeon 2.30 GHz against 2.10 GHz, larger cache). The same jobs now run 24 to 35% faster:
+The container restarted between sessions and came back on a different host (Xeon 2.30 GHz against 2.10 GHz, larger cache). The same jobs now run 23 to 34% faster:
 
 | Case, 360 angles | First session (host A) | Second session (host B) |
 |---|---|---|
@@ -34,7 +34,7 @@ Three runs each, alternating order.
 | Dense | 22.1, 22.4, 24.5 | 1.86 GiB |
 | Compressed | 24.3, 24.5, 25.9 | 0.75 GiB |
 
-Dense is ahead by about 8% on the medians and the ranges touch, so I call this a tie on this host. Codex measured Compressed ahead at two threads (35.9 s against 44.0 s) on its EPYC. So at this size the two-thread result depends on the machine, which is where the crossover sits. The memory saving is 60% on both.
+Dense is ahead by about 8% on the medians and the ranges touch, so I call this a tie on this host. Codex measured Compressed ahead at two threads (35.9 s against 44.0 s) on its EPYC. So at this size the two-thread result depends on the machine, which is where the crossover sits. The memory saving is 60% here and 62% on its host.
 
 ### What disk-backed residual storage costs Dense (host B)
 Codex's planner replay says my 24k Dense run kept 8.5 GiB of coefficients on disk, which is why it peaked at 9.3 GiB. That fits what I saw. To price it, I forced both storage modes at 11,968 unknowns, four threads, 360 angles.
