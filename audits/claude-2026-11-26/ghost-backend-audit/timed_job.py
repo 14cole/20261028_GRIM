@@ -26,14 +26,16 @@ def status(key):
 
 
 rss_before = status("VmRSS")
-result, solve_wall = solve_fixed(text, ghz, angles, backend, threads=threads)
+extra = json.loads(os.environ.get("GHOST_AUDIT_OPTIONS", "{}"))      # e.g. {"dense_residual_storage": "disk"}
+result, solve_wall = solve_fixed(text, ghz, angles, backend, threads=threads, **extra)
 F = fields_of(result); meta = result["metadata"]
 exact = {pol: ref.stored_amplitude(pol, ghz, angles, center=CENTER, **FX) for pol in ("TM", "TE")}
 np.savez_compressed(out, angles_deg=angles, ghost_TM=F["TM"], ghost_TE=F["TE"],
                     analytic_TM=exact["TM"], analytic_TE=exact["TE"])
 mem = meta.get("memory_accounting") or {}
 print(json.dumps(dict(
-    outer_sides=sides, requested=backend, angles=n_angles, threads=threads, ghz=ghz,
+    outer_sides=sides, requested=backend, angles=n_angles, threads=threads, ghz=ghz, extra_options=extra,
+    residual_storage_requested=(meta.get("execution_options") or {}).get("dense_residual_storage"),
     linear_backend=meta.get("linear_backend"), solver_method=meta.get("solver_method"),
     panels=meta.get("panel_count"), unknowns_per_system=meta.get("dense_largest_system") or meta.get("linear_node_count"),
     nodes=meta.get("linear_node_count"), polynomial_degree=meta.get("polynomial_degree"),
