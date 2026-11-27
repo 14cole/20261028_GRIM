@@ -52,10 +52,24 @@ for mode in ("memory", "disk"):                              # forced residual-s
         r.update(batch="c_residual", tag=f"s4224_a360_t4_dense_{mode}", requested=f"dense[residual={mode}]",
                  npz=str(root / "c_residual" / f"s4224_a360_t4_dense_{mode}.npz"))
         runs.append(r)
+for name in ("dense_paired_memory", "dense_unpaired_memory", "dense_disk", "compressed"):   # pairing held fixed, 12k
+    f = root / "c_pairing" / f"{name}.out"
+    if f.exists() and f.read_text().strip():
+        r = json.loads(f.read_text().strip().splitlines()[-1])
+        r.update(batch="c_pairing", tag=f"s4224_a360_t4_{name}", requested=name.replace("_", " "),
+                 npz=str(root / "c_pairing" / f"s4224_a360_t4_{name}.npz"))
+        runs.append(r)
+f = root / "c_trace24k" / "dense.out"                        # stage-instrumented 24k Dense run
+if f.exists() and f.read_text().strip():
+    r = json.loads(f.read_text().strip().splitlines()[-1])
+    r.update(batch="c_trace24k", tag="s8448_a360_t4_dense", npz=str(root / "c_trace24k" / "s8448_a360_t4_dense.npz"))
+    runs.append(r)
 # The container moved to a different host between sessions; never pool timings across hosts.
+HOST_C = {"c_pairing", "c_trace24k"}
 HOST_B = {"c_threads2", "c_residual", "c_drift"}
 for r in runs:
-    r["host"] = "B (Xeon 2.30 GHz, second session)" if r["batch"] in HOST_B else "A (Xeon 2.10 GHz, first session)"
+    r["host"] = ("B (Xeon 2.30 GHz, second session)" if r["batch"] in HOST_B else
+                 "C (Xeon 2.10 GHz, third session)" if r["batch"] in HOST_C else "A (Xeon 2.10 GHz, first session)")
 out["C_run_count"] = len(runs)
 out["C_archives_present"] = sum(Path(r["npz"]).exists() for r in runs)
 groups = {}
@@ -68,7 +82,11 @@ for (h, n, t, a, b), rs in sorted(groups.items()):
     table.append(dict(host=h, unknowns=n, threads=t, angles=a, requested=b, backend=rs[0]["linear_backend"], panels=rs[0]["panels"],
                       runs=len(rs), batches=sorted({r["batch"] for r in rs}), wall_s=w, wall_median_s=statistics.median(w),
                       wall_min_s=min(w), wall_max_s=max(w), peak_rss_gib=m, peak_rss_median_gib=statistics.median(m),
-                      error_TM=rs[0]["error_TM"], error_TE=rs[0]["error_TE"], quality=all(r["quality_passed"] for r in rs)))
+                      error_TM=rs[0]["error_TM"], error_TE=rs[0]["error_TE"], quality=all(r["quality_passed"] for r in rs),
+                      stage_seconds=rs[0].get("stage_seconds"), stage_calls=rs[0].get("stage_calls"),
+                      storage_read_gib=None if "process_io" not in rs[0] else rs[0]["process_io"]["read_bytes"] / 2**30,
+                      logical_read_gib=None if "process_io" not in rs[0] else rs[0]["process_io"]["rchar"] / 2**30,
+                      storage_write_gib=None if "process_io" not in rs[0] else rs[0]["process_io"]["write_bytes"] / 2**30))
 out["C_timing"] = table
 load = lambda r: np.load(r["npz"])
 worst = lambda x, y: max(float(np.max(np.abs(x[k] - y[k])) / np.max(np.abs(y[k]))) for k in ("ghost_TM", "ghost_TE"))
@@ -79,6 +97,6 @@ out["C_dense_vs_compressed_max"] = {
 # the same mesh and backend must give the same field on both hosts
 by_case = {}
 for (h, n, t, a, b), rs in groups.items():
-    by_case.setdefault((n, a, b.split("[")[0]), []).append(rs[0])
+    by_case.setdefault((n, a, "compressed" if "compressed" in b else "dense"), []).append(rs[0])
 out["C_cross_host_and_thread_field_spread_max"] = max(worst(load(r), load(rs[0])) for rs in by_case.values() for r in rs)
 print(json.dumps(out, indent=1, default=float))
