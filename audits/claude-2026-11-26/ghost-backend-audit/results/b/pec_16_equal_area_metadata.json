@@ -1,0 +1,2606 @@
+{
+ "polynomial_degree": 1,
+ "linear_node_count": 224,
+ "mesh_strategy_used": "global",
+ "source_path": "",
+ "segment_count": 1,
+ "panel_count": 224,
+ "panel_count_min": 224,
+ "panel_count_max": 224,
+ "polarizations": [
+  "VV",
+  "HH"
+ ],
+ "polarization_internal": [
+  "TE",
+  "TM"
+ ],
+ "polarization_mapping": {
+  "VV": "TE",
+  "HH": "TM"
+ },
+ "formulation": "co-polarized 2-D BIE/MoM",
+ "formulations": {
+  "VV": "2D closed Robin combined-potential formulation",
+  "HH": "2D closed Robin combined-potential formulation"
+ },
+ "solver_method": "dense_lu_experimental_cpu",
+ "solver_method_requested": "auto",
+ "residual_norm_max": 3.589899213292801e-14,
+ "constraint_residual_norm_max": 0.0,
+ "condition_est_max": 72.86157907655007,
+ "condition_est_computed": true,
+ "warnings": [],
+ "information": [],
+ "warning_count": 0,
+ "preflight": {
+  "segment_count": 1,
+  "primitive_count": 16,
+  "dangling_nodes": 0,
+  "high_degree_nodes": 0,
+  "warning_count": 0,
+  "warnings": []
+ },
+ "quality_gate": {
+  "passed": true,
+  "channels": {
+   "VV": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 3.589899213292801e-14,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 48.389475941702386,
+     "condition_est_gate_value": 48.389475941702386,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "HH": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 5.74303303839285e-16,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 72.86157907655007,
+     "condition_est_gate_value": 72.86157907655007,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   }
+  },
+  "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+ },
+ "channel_metadata": {
+  "VV": {
+   "source_path": "",
+   "segment_count": 1,
+   "panel_count": 224,
+   "panel_count_min": 224,
+   "panel_count_max": 224,
+   "panel_length_min_m": 0.000823444999220069,
+   "panel_length_max_m": 0.0016468899984401545,
+   "mesh_reference_ghz": 6.0,
+   "mesh_reference_ghz_min": 6.0,
+   "mesh_reference_ghz_max": 6.0,
+   "mesh_wavelength_m": 0.04996540966666667,
+   "mesh_wavelength_min_m": 0.04996540966666667,
+   "mesh_wavelength_max_m": 0.04996540966666667,
+   "mesh_max_refractive_index": 1.0,
+   "mesh_material_flags": [],
+   "surface_wave_sampling": [],
+   "quadrature_qualification": [
+    {
+     "qualified": true,
+     "calibrated_panel_kl_max": 3.0,
+     "maximum_panel_kl": 0.20709757229596862,
+     "exceeded_panels": 0,
+     "invalid_panels": 0,
+     "panel_count": 224,
+     "complete": true,
+     "frequency_ghz": 6.0,
+     "polarization": "TE"
+    }
+   ],
+   "polarization_internal": "TE",
+   "polarization_user": "TE",
+   "polarization_aliases": [
+    "TE"
+   ],
+   "polarization_export": "TE",
+   "polarization_export_alias": "VV",
+   "rcs_normalization_mode": "physical",
+   "formulation": "2D closed Robin combined-potential formulation",
+   "solver_method": "dense_lu",
+   "solver_method_requested": "experimental_cpu",
+   "residual_norm_max": 3.589899213292801e-14,
+   "residual_norm_mean": 3.5898992132928006e-14,
+   "residual_nonfinite_count": 0,
+   "constraint_residual_norm_max": 0.0,
+   "constraint_residual_norm_mean": 0.0,
+   "constraint_residual_applicable": false,
+   "condition_est_max": 48.389475941702386,
+   "condition_est_mean": 48.389475941702386,
+   "condition_est_frequency_scaled_max": 48.389475941702386,
+   "condition_est_computed": true,
+   "condition_estimator": "equilibrated_1norm_scaled_lu_onenormest",
+   "thin_layer": [],
+   "acute_corners": null,
+   "warnings": [],
+   "information": [],
+   "warning_count": 0,
+   "math_backend_real_bessel": "libm",
+   "math_backend_complex_hankel": "scipy-special",
+   "reused_matrix_solve_count": 360,
+   "shared_operator_cache_enabled": true,
+   "shared_operator_cache_hits": 0,
+   "shared_operator_cache_stores": 0,
+   "parallel_elevation_solve_count": 0,
+   "max_parallel_workers_used": 1,
+   "mesh_reference_frequency_used": false,
+   "cfie_alpha": 0.0,
+   "junction_nodes": 0,
+   "junction_constraints": 0,
+   "junction_constraint_candidates": 0,
+   "junction_constraints_applied": false,
+   "junction_constraints_applied_count": 0,
+   "junction_treatment": "none",
+   "junction_panels": 0,
+   "junction_trace_constraints": 0,
+   "junction_flux_constraints": 0,
+   "junction_orientation_conflict_nodes": 0,
+   "linear_node_count": 224,
+   "linear_element_count": 224,
+   "shared_node_count": 224,
+   "split_node_count": 0,
+   "split_boundary_primitive_count": 224,
+   "multi_signature_node_count": 0,
+   "preflight": {
+    "segment_count": 1,
+    "primitive_count": 16,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+   },
+   "cpu_factorization_requested": "dense",
+   "cpu_rhs_compression_requested": "auto",
+   "hierarchical_factors": [],
+   "compressed_factors": [],
+   "sweep_compression": [
+    {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    }
+   ],
+   "dense_condition_methods": [
+    "equilibrated_1norm_scaled_lu_onenormest"
+   ],
+   "linear_backend": "cpu",
+   "dense_gpu_solve_count": 0,
+   "dense_cpu_solve_count": 2,
+   "dense_factorization_count": 1,
+   "dense_rhs_batch_count": 2,
+   "dense_rhs_column_count": 360,
+   "dense_max_rhs_columns": 256,
+   "dense_mixed_precision_solve_count": 0,
+   "dense_fallback_reasons": [],
+   "dense_gpu_fallback_reasons": [],
+   "dense_gpu_devices": [],
+   "dense_largest_system": 224,
+   "amplitude_version": 2,
+   "quality_gate": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 3.589899213292801e-14,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 48.389475941702386,
+     "condition_est_gate_value": 48.389475941702386,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "linear_algebra_execution": [
+    {
+     "matrix_size": 224,
+     "policy": "auto",
+     "requested_threads": 1,
+     "pools": [
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 1
+      },
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 1
+      }
+     ]
+    }
+   ],
+   "execution_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "global",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": null,
+    "temporary_directory": "",
+    "assembly_threads": "auto",
+    "blas_threads": "auto",
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+   },
+   "polynomial_degree": 1,
+   "execution_wall_seconds": 0.1995468380000034,
+   "execution_threads": {
+    "assembly": 4,
+    "blas": "auto"
+   },
+   "mesh_strategy_used": "global",
+   "mesh_convergence": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 0.00030918431657415594,
+    "max_abs_db": 0.0004674703563201099,
+    "mean_db": -1.8175972891264368e-05,
+    "median_abs_db": 0.00031374936500960793,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 0.00031862664506725213,
+    "max_abs_db_unfloored": 0.0004814948557250176,
+    "complex_rms_normalized": 6.775384471173873e-05,
+    "complex_max_normalized": 0.00010549855335491647,
+    "complex_reference_peak_amplitude": 8.728291204439662,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.728291204439662
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00337937124360534,
+    "phase_max_deg": 0.00565932061147059,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.569498298511676e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 42.18516747479424,
+      "condition_est_gate_value": 42.18516747479424,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.589899213292801e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 48.389475941702386,
+      "condition_est_gate_value": 48.389475941702386,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 0.0002637463833872912,
+     "complex_rms_normalized": 0.00016938461177934687,
+     "max_abs_db": 0.001168675890800275,
+     "rms_db": 0.00077296079143539,
+     "phase_max_deg": 0.014148301528676478,
+     "phase_rms_deg": 0.008448428109013351
+    },
+    "estimated_published_complex_max_normalized": 0.0002637463833872912,
+    "estimated_published_complex_rms_normalized": 0.00016938461177934687,
+    "estimated_published_max_abs_db": 0.001168675890800275,
+    "estimated_published_rms_db": 0.00077296079143539
+   },
+   "mesh_convergence_certified": true,
+   "certified_entry_point": true,
+   "published_mesh": "fine"
+  },
+  "HH": {
+   "source_path": "",
+   "segment_count": 1,
+   "panel_count": 224,
+   "panel_count_min": 224,
+   "panel_count_max": 224,
+   "panel_length_min_m": 0.000823444999220069,
+   "panel_length_max_m": 0.0016468899984401545,
+   "mesh_reference_ghz": 6.0,
+   "mesh_reference_ghz_min": 6.0,
+   "mesh_reference_ghz_max": 6.0,
+   "mesh_wavelength_m": 0.04996540966666667,
+   "mesh_wavelength_min_m": 0.04996540966666667,
+   "mesh_wavelength_max_m": 0.04996540966666667,
+   "mesh_max_refractive_index": 1.0,
+   "mesh_material_flags": [],
+   "surface_wave_sampling": [],
+   "quadrature_qualification": [
+    {
+     "qualified": true,
+     "calibrated_panel_kl_max": 3.0,
+     "maximum_panel_kl": 0.20709757229596862,
+     "exceeded_panels": 0,
+     "invalid_panels": 0,
+     "panel_count": 224,
+     "complete": true,
+     "frequency_ghz": 6.0,
+     "polarization": "TM"
+    }
+   ],
+   "polarization_internal": "TM",
+   "polarization_user": "TM",
+   "polarization_aliases": [
+    "TM"
+   ],
+   "polarization_export": "TM",
+   "polarization_export_alias": "HH",
+   "rcs_normalization_mode": "physical",
+   "formulation": "2D closed Robin combined-potential formulation",
+   "solver_method": "dense_lu",
+   "solver_method_requested": "experimental_cpu",
+   "residual_norm_max": 5.74303303839285e-16,
+   "residual_norm_mean": 5.74303303839285e-16,
+   "residual_nonfinite_count": 0,
+   "constraint_residual_norm_max": 0.0,
+   "constraint_residual_norm_mean": 0.0,
+   "constraint_residual_applicable": false,
+   "condition_est_max": 72.86157907655007,
+   "condition_est_mean": 72.86157907655007,
+   "condition_est_frequency_scaled_max": 72.86157907655007,
+   "condition_est_computed": true,
+   "condition_estimator": "equilibrated_1norm_scaled_lu_onenormest",
+   "thin_layer": [],
+   "acute_corners": null,
+   "warnings": [],
+   "information": [],
+   "warning_count": 0,
+   "math_backend_real_bessel": "libm",
+   "math_backend_complex_hankel": "scipy-special",
+   "reused_matrix_solve_count": 360,
+   "shared_operator_cache_enabled": true,
+   "shared_operator_cache_hits": 0,
+   "shared_operator_cache_stores": 0,
+   "parallel_elevation_solve_count": 0,
+   "max_parallel_workers_used": 1,
+   "mesh_reference_frequency_used": false,
+   "cfie_alpha": 0.0,
+   "junction_nodes": 0,
+   "junction_constraints": 0,
+   "junction_constraint_candidates": 0,
+   "junction_constraints_applied": false,
+   "junction_constraints_applied_count": 0,
+   "junction_treatment": "none",
+   "junction_panels": 0,
+   "junction_trace_constraints": 0,
+   "junction_flux_constraints": 0,
+   "junction_orientation_conflict_nodes": 0,
+   "linear_node_count": 224,
+   "linear_element_count": 224,
+   "shared_node_count": 224,
+   "split_node_count": 0,
+   "split_boundary_primitive_count": 224,
+   "multi_signature_node_count": 0,
+   "preflight": {
+    "segment_count": 1,
+    "primitive_count": 16,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+   },
+   "cpu_factorization_requested": "dense",
+   "cpu_rhs_compression_requested": "auto",
+   "hierarchical_factors": [],
+   "compressed_factors": [],
+   "sweep_compression": [
+    {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    }
+   ],
+   "dense_condition_methods": [
+    "equilibrated_1norm_scaled_lu_onenormest"
+   ],
+   "linear_backend": "cpu",
+   "dense_gpu_solve_count": 0,
+   "dense_cpu_solve_count": 2,
+   "dense_factorization_count": 1,
+   "dense_rhs_batch_count": 2,
+   "dense_rhs_column_count": 360,
+   "dense_max_rhs_columns": 256,
+   "dense_mixed_precision_solve_count": 0,
+   "dense_fallback_reasons": [],
+   "dense_gpu_fallback_reasons": [],
+   "dense_gpu_devices": [],
+   "dense_largest_system": 224,
+   "amplitude_version": 2,
+   "quality_gate": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 5.74303303839285e-16,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 72.86157907655007,
+     "condition_est_gate_value": 72.86157907655007,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "linear_algebra_execution": [
+    {
+     "matrix_size": 224,
+     "policy": "auto",
+     "requested_threads": 1,
+     "pools": [
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 1
+      },
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 1
+      }
+     ]
+    }
+   ],
+   "execution_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "global",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": null,
+    "temporary_directory": "",
+    "assembly_threads": "auto",
+    "blas_threads": "auto",
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+   },
+   "polynomial_degree": 1,
+   "execution_wall_seconds": 0.07089075800001865,
+   "execution_threads": {
+    "assembly": 4,
+    "blas": "auto"
+   },
+   "mesh_strategy_used": "global",
+   "mesh_convergence": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 7.3123948439987676e-06,
+    "max_abs_db": 1.2653892687009005e-05,
+    "mean_db": -4.702558984388045e-06,
+    "median_abs_db": 4.374570565790492e-06,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 7.535539387382609e-06,
+    "max_abs_db_unfloored": 1.3041194485197138e-05,
+    "complex_rms_normalized": 6.047679963869739e-06,
+    "complex_max_normalized": 7.086560300858938e-06,
+    "complex_reference_peak_amplitude": 9.039110331073816,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 9.039110331073816
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00034708227479222665,
+    "phase_max_deg": 0.0004052190777787676,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.966321406048201e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 74.53694429425404,
+      "condition_est_gate_value": 74.53694429425404,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.74303303839285e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 72.86157907655007,
+      "condition_est_gate_value": 72.86157907655007,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 1.7716400752147346e-05,
+     "complex_rms_normalized": 1.511919990967435e-05,
+     "max_abs_db": 3.163473171752252e-05,
+     "rms_db": 1.8280987109996923e-05,
+     "phase_max_deg": 0.0010130476944469192,
+     "phase_rms_deg": 0.0008677056869805668
+    },
+    "estimated_published_complex_max_normalized": 1.7716400752147346e-05,
+    "estimated_published_complex_rms_normalized": 1.511919990967435e-05,
+    "estimated_published_max_abs_db": 3.163473171752252e-05,
+    "estimated_published_rms_db": 1.8280987109996923e-05
+   },
+   "mesh_convergence_certified": true,
+   "certified_entry_point": true,
+   "published_mesh": "fine"
+  }
+ },
+ "cpu_factorization_requested": "dense",
+ "compressed_factors": [],
+ "cpu_rhs_compression_requested": "auto",
+ "hierarchical_factors": {
+  "VV": [],
+  "HH": []
+ },
+ "sweep_compression": {
+  "VV": [
+   {
+    "requested": "auto",
+    "method": "incremental_pivoted_qr",
+    "input_columns": 360,
+    "solved_columns": 360,
+    "accepted_batches": 0,
+    "fallback_batches": 0,
+    "fallback_columns": 0,
+    "max_rhs_error": 0.0,
+    "max_reconstructed_backward_error": 0.0,
+    "retained_basis_columns": 0,
+    "reused_basis_batches": 0
+   }
+  ],
+  "HH": [
+   {
+    "requested": "auto",
+    "method": "incremental_pivoted_qr",
+    "input_columns": 360,
+    "solved_columns": 360,
+    "accepted_batches": 0,
+    "fallback_batches": 0,
+    "fallback_columns": 0,
+    "max_rhs_error": 0.0,
+    "max_reconstructed_backward_error": 0.0,
+    "retained_basis_columns": 0,
+    "reused_basis_batches": 0
+   }
+  ]
+ },
+ "dense_factorization_count": 4,
+ "dense_rhs_batch_count": 8,
+ "dense_rhs_column_count": 1440,
+ "dense_max_rhs_columns": 256,
+ "thin_layer": {
+  "VV": [],
+  "HH": []
+ },
+ "quadrature_qualification": [
+  {
+   "qualified": true,
+   "calibrated_panel_kl_max": 3.0,
+   "maximum_panel_kl": 0.20709757229596862,
+   "exceeded_panels": 0,
+   "invalid_panels": 0,
+   "panel_count": 224,
+   "complete": true,
+   "frequency_ghz": 6.0,
+   "polarization": "TE"
+  },
+  {
+   "qualified": true,
+   "calibrated_panel_kl_max": 3.0,
+   "maximum_panel_kl": 0.20709757229596862,
+   "exceeded_panels": 0,
+   "invalid_panels": 0,
+   "panel_count": 224,
+   "complete": true,
+   "frequency_ghz": 6.0,
+   "polarization": "TM"
+  }
+ ],
+ "surface_wave_sampling": [],
+ "amplitude_version": 2,
+ "co_solve_shared_discretization": true,
+ "shared_operator_cache_enabled": true,
+ "shared_operator_cache_hits": 0,
+ "shared_operator_cache_stores": 0,
+ "linear_backend": "cpu",
+ "dense_gpu_solve_count": 0,
+ "dense_cpu_solve_count": 4,
+ "dense_gpu_fallback_reasons": [],
+ "dense_gpu_devices": [],
+ "dense_largest_system": 224,
+ "mesh_convergence_certified": true,
+ "certified_entry_point": true,
+ "survey_mode": false,
+ "published_mesh": "fine",
+ "mesh_convergence": {
+  "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+  "passed": true,
+  "published_mesh": "fine",
+  "channels": {
+   "VV": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 0.00030918431657415594,
+    "max_abs_db": 0.0004674703563201099,
+    "mean_db": -1.8175972891264368e-05,
+    "median_abs_db": 0.00031374936500960793,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 0.00031862664506725213,
+    "max_abs_db_unfloored": 0.0004814948557250176,
+    "complex_rms_normalized": 6.775384471173873e-05,
+    "complex_max_normalized": 0.00010549855335491647,
+    "complex_reference_peak_amplitude": 8.728291204439662,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.728291204439662
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00337937124360534,
+    "phase_max_deg": 0.00565932061147059,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.569498298511676e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 42.18516747479424,
+      "condition_est_gate_value": 42.18516747479424,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.589899213292801e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 48.389475941702386,
+      "condition_est_gate_value": 48.389475941702386,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 0.0002637463833872912,
+     "complex_rms_normalized": 0.00016938461177934687,
+     "max_abs_db": 0.001168675890800275,
+     "rms_db": 0.00077296079143539,
+     "phase_max_deg": 0.014148301528676478,
+     "phase_rms_deg": 0.008448428109013351
+    },
+    "estimated_published_complex_max_normalized": 0.0002637463833872912,
+    "estimated_published_complex_rms_normalized": 0.00016938461177934687,
+    "estimated_published_max_abs_db": 0.001168675890800275,
+    "estimated_published_rms_db": 0.00077296079143539
+   },
+   "HH": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 7.3123948439987676e-06,
+    "max_abs_db": 1.2653892687009005e-05,
+    "mean_db": -4.702558984388045e-06,
+    "median_abs_db": 4.374570565790492e-06,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 7.535539387382609e-06,
+    "max_abs_db_unfloored": 1.3041194485197138e-05,
+    "complex_rms_normalized": 6.047679963869739e-06,
+    "complex_max_normalized": 7.086560300858938e-06,
+    "complex_reference_peak_amplitude": 9.039110331073816,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 9.039110331073816
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00034708227479222665,
+    "phase_max_deg": 0.0004052190777787676,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.966321406048201e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 74.53694429425404,
+      "condition_est_gate_value": 74.53694429425404,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.74303303839285e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 72.86157907655007,
+      "condition_est_gate_value": 72.86157907655007,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 1.7716400752147346e-05,
+     "complex_rms_normalized": 1.511919990967435e-05,
+     "max_abs_db": 3.163473171752252e-05,
+     "rms_db": 1.8280987109996923e-05,
+     "phase_max_deg": 0.0010130476944469192,
+     "phase_rms_deg": 0.0008677056869805668
+    },
+    "estimated_published_complex_max_normalized": 1.7716400752147346e-05,
+    "estimated_published_complex_rms_normalized": 1.511919990967435e-05,
+    "estimated_published_max_abs_db": 3.163473171752252e-05,
+    "estimated_published_rms_db": 1.8280987109996923e-05
+   }
+  },
+  "polarizations": {
+   "VV": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 0.00030918431657415594,
+    "max_abs_db": 0.0004674703563201099,
+    "mean_db": -1.8175972891264368e-05,
+    "median_abs_db": 0.00031374936500960793,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 0.00031862664506725213,
+    "max_abs_db_unfloored": 0.0004814948557250176,
+    "complex_rms_normalized": 6.775384471173873e-05,
+    "complex_max_normalized": 0.00010549855335491647,
+    "complex_reference_peak_amplitude": 8.728291204439662,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.728291204439662
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00337937124360534,
+    "phase_max_deg": 0.00565932061147059,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.569498298511676e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 42.18516747479424,
+      "condition_est_gate_value": 42.18516747479424,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.589899213292801e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 48.389475941702386,
+      "condition_est_gate_value": 48.389475941702386,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 0.0002637463833872912,
+     "complex_rms_normalized": 0.00016938461177934687,
+     "max_abs_db": 0.001168675890800275,
+     "rms_db": 0.00077296079143539,
+     "phase_max_deg": 0.014148301528676478,
+     "phase_rms_deg": 0.008448428109013351
+    },
+    "estimated_published_complex_max_normalized": 0.0002637463833872912,
+    "estimated_published_complex_rms_normalized": 0.00016938461177934687,
+    "estimated_published_max_abs_db": 0.001168675890800275,
+    "estimated_published_rms_db": 0.00077296079143539
+   },
+   "HH": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 7.3123948439987676e-06,
+    "max_abs_db": 1.2653892687009005e-05,
+    "mean_db": -4.702558984388045e-06,
+    "median_abs_db": 4.374570565790492e-06,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 7.535539387382609e-06,
+    "max_abs_db_unfloored": 1.3041194485197138e-05,
+    "complex_rms_normalized": 6.047679963869739e-06,
+    "complex_max_normalized": 7.086560300858938e-06,
+    "complex_reference_peak_amplitude": 9.039110331073816,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 9.039110331073816
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 0.00034708227479222665,
+    "phase_max_deg": 0.0004052190777787676,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.3106463584439525,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 160,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.20709757229596862,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 224,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.966321406048201e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 74.53694429425404,
+      "condition_est_gate_value": 74.53694429425404,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.74303303839285e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 72.86157907655007,
+      "condition_est_gate_value": 72.86157907655007,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 160,
+    "fine_panel_count": 224,
+    "panel_refinement_ratio": 1.4,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.4,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.5000000000000004,
+     "complex_max_normalized": 1.7716400752147346e-05,
+     "complex_rms_normalized": 1.511919990967435e-05,
+     "max_abs_db": 3.163473171752252e-05,
+     "rms_db": 1.8280987109996923e-05,
+     "phase_max_deg": 0.0010130476944469192,
+     "phase_rms_deg": 0.0008677056869805668
+    },
+    "estimated_published_complex_max_normalized": 1.7716400752147346e-05,
+    "estimated_published_complex_rms_normalized": 1.511919990967435e-05,
+    "estimated_published_max_abs_db": 3.163473171752252e-05,
+    "estimated_published_rms_db": 1.8280987109996923e-05
+   }
+  },
+  "base_quality_gate": {
+   "passed": true,
+   "channels": {
+    "VV": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.569498298511676e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 42.18516747479424,
+      "condition_est_gate_value": 42.18516747479424,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "HH": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.966321406048201e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 74.53694429425404,
+      "condition_est_gate_value": 74.53694429425404,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    }
+   }
+  },
+  "fine_quality_gate": {
+   "passed": true,
+   "channels": {
+    "VV": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 3.589899213292801e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 48.389475941702386,
+      "condition_est_gate_value": 48.389475941702386,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "HH": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.74303303839285e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 72.86157907655007,
+      "condition_est_gate_value": 72.86157907655007,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    }
+   }
+  },
+  "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+  "rms_db": 0.00030918431657415594,
+  "max_abs_db": 0.0004674703563201099,
+  "complex_rms_normalized": 6.775384471173873e-05,
+  "complex_max_normalized": 0.00010549855335491647,
+  "phase_rms_deg": 0.00337937124360534,
+  "phase_max_deg": 0.00565932061147059,
+  "base_panel_count": 160.0,
+  "fine_panel_count": 224.0,
+  "panel_refinement_ratio": 1.4,
+  "fine_factor": 1.5,
+  "estimated_published_complex_max_normalized": 0.0002637463833872912,
+  "estimated_published_complex_rms_normalized": 0.00016938461177934687,
+  "estimated_published_max_abs_db": 0.001168675890800275,
+  "estimated_published_rms_db": 0.00077296079143539
+ },
+ "assembled_system_reuses": 2,
+ "certification_phase_counters": {
+  "base": {
+   "dense_factorization_count": 2,
+   "dense_rhs_batch_count": 4,
+   "dense_rhs_column_count": 720
+  },
+  "fine": {
+   "dense_factorization_count": 2,
+   "dense_rhs_batch_count": 4,
+   "dense_rhs_column_count": 720
+  }
+ },
+ "certification_solve_order": [
+  "base_TE",
+  "base_TM",
+  "fine_TE",
+  "fine_TM"
+ ],
+ "adaptive_mesh": {
+  "used": false,
+  "reason": "Small reference mesh retains linear basis to avoid polynomial quadrature overhead."
+ },
+ "experimental_cpu": {
+  "version": 1,
+  "precision": "double",
+  "device": "cpu",
+  "scope": "experimental_cpu",
+  "batch_size": 256,
+  "cache": {
+   "hits": 0,
+   "stores": 0,
+   "evictions": 0,
+   "bytes": 0,
+   "peak_bytes": 0,
+   "budget_bytes": 67108864
+  },
+  "kernel_tables": [
+   {
+    "used": true,
+    "k_real": 125.75070131710089,
+    "k_imag": 0.0,
+    "degree": 12,
+    "intervals": 160,
+    "bytes": 200968,
+    "check_points": 10880,
+    "max_check_relative": 5.004767967596462e-15,
+    "max_tail_relative": 8.859423220100823e-14,
+    "tolerance": 2e-13,
+    "tolerance_model": "max(2e-13, 8 eps |k| r)",
+    "max_check_to_tolerance": 0.44297116100504114,
+    "build_seconds": 0.013414865999948233,
+    "evaluation_backend": "native_horner",
+    "native_check_relative": 4.932693897754768e-15,
+    "domain_upper": 0.1432600539573687,
+    "table_upper": 0.1432600539573687,
+    "partial_domain": false
+   }
+  ],
+  "table_budget_bytes": 33554432,
+  "systems": [
+   {
+    "unknowns": 160,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 9.079349090571114e-15,
+    "max_relative_residual": 3.569498298511676e-14,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.014153802999999243,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 2.852814679593485e-15
+   },
+   {
+    "unknowns": 160,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 1.7021829548486652e-16,
+    "max_relative_residual": 4.966321406048201e-16,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.02321355899999844,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 7.122390260668316e-17
+   },
+   {
+    "unknowns": 224,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 8.591463226200498e-15,
+    "max_relative_residual": 3.589899213292801e-14,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.023329302999968604,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 2.4830407898511373e-15
+   },
+   {
+    "unknowns": 224,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 1.9650289695484247e-16,
+    "max_relative_residual": 5.74303303839285e-16,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.03444425800000772,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 8.5001353841642e-17
+   }
+  ],
+  "formulations": [
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   }
+  ],
+  "memory_estimates": [
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 160,
+    "matrix_bytes": 409600,
+    "peak_bytes": 344070152,
+    "phase_bytes": {
+     "assembly": 344070152,
+     "factorization": 320946176,
+     "solve": 320946176
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14560837632,
+    "selection_target_bytes": 11648670105,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": true,
+    "partner_matrix_bytes": 409600,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "paired_polarization_assembly",
+    "partner_matrix_bytes": 409600,
+    "solve_estimate_gib": 0.32005883008241653,
+    "total_peak_gib": 0.32044029980897903,
+    "admission_limit_gib": 13.560836791992188
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 160,
+    "matrix_bytes": 409600,
+    "peak_bytes": 343660552,
+    "phase_bytes": {
+     "assembly": 343660552,
+     "factorization": 320536576,
+     "solve": 320536576
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14560837632,
+    "selection_target_bytes": 11648670105,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": false,
+    "partner_matrix_bytes": 0,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "reused_dense_matrix_admission",
+    "resident_matrix_bytes": 409600,
+    "total_peak_gib": 0.32005883008241653,
+    "admission_limit_gib": 13.560836791992188
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 224,
+    "matrix_bytes": 802816,
+    "peak_bytes": 347813384,
+    "phase_bytes": {
+     "assembly": 347813384,
+     "factorization": 325271552,
+     "solve": 325271552
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14560837632,
+    "selection_target_bytes": 11648670105,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": true,
+    "partner_matrix_bytes": 802816,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "paired_polarization_assembly",
+    "partner_matrix_bytes": 802816,
+    "solve_estimate_gib": 0.3231787756085396,
+    "total_peak_gib": 0.3239264562726021,
+    "admission_limit_gib": 13.560836791992188
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 224,
+    "matrix_bytes": 802816,
+    "peak_bytes": 347010568,
+    "phase_bytes": {
+     "assembly": 347010568,
+     "factorization": 324468736,
+     "solve": 324468736
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14560837632,
+    "selection_target_bytes": 11648670105,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": false,
+    "partner_matrix_bytes": 0,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "reused_dense_matrix_admission",
+    "resident_matrix_bytes": 802816,
+    "total_peak_gib": 0.3231787756085396,
+    "admission_limit_gib": 13.560836791992188
+   }
+  ],
+  "stage_cost_meshes": [
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 160,
+    "unknowns": 160,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 160,
+     "panels": 160,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 160,
+     "operator_matrices": 5,
+     "operator_entries": 51200,
+     "geometric_near_pairs": 1250,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 52480,
+     "mass_workspace_bytes": 26888,
+     "block_workspace_bytes": 1966080,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 106816000
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 160,
+    "unknowns": 160,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 160,
+     "panels": 160,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 160,
+     "operator_matrices": 5,
+     "operator_entries": 51200,
+     "geometric_near_pairs": 1250,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 52480,
+     "mass_workspace_bytes": 26888,
+     "block_workspace_bytes": 1966080,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 106816000
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 224,
+    "unknowns": 224,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 224,
+     "panels": 224,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 224,
+     "operator_matrices": 6,
+     "operator_entries": 100352,
+     "geometric_near_pairs": 1668,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 73472,
+     "mass_workspace_bytes": 37640,
+     "block_workspace_bytes": 2752512,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 109741056
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 224,
+    "unknowns": 224,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 224,
+     "panels": 224,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 224,
+     "operator_matrices": 6,
+     "operator_entries": 100352,
+     "geometric_near_pairs": 1668,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 73472,
+     "mass_workspace_bytes": 37640,
+     "block_workspace_bytes": 2752512,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 109741056
+    }
+   }
+  ]
+ },
+ "memory_accounting": {
+  "policy": "90_percent_initial_available_with_live_incremental_checks",
+  "initial_available_gib": 15.067596435546875,
+  "initial_available_commit_gib": null,
+  "baseline_rss_bytes": 113262592,
+  "last_check": {
+   "binding_constraint": "stable_reservation",
+   "limit_gib": 13.560836791992188,
+   "stable_reservation_gib": 13.560836791992188,
+   "available_gib": 15.077583312988281,
+   "reservation_constraints_gib": {
+    "initial_physical_ram": 13.560836791992188,
+    "cohort_remaining_reservation": 13.560836791992188
+   },
+   "reservation_binding_constraint": "initial_physical_ram",
+   "available_commit_gib": null,
+   "system_commit": null,
+   "owned_numeric_gib": 0.0,
+   "credited_resident_gib": 0.12360763549804688,
+   "owned_worker_resident_gib": 0.0,
+   "owned_worker_commit_gib": 0.0,
+   "worker_measurement": "unique_residency_credit",
+   "credited_commit_gib": 0.0,
+   "limits_gib": {
+    "stable_reservation": 13.560836791992188,
+    "live_physical_ram": 13.69443130493164
+   }
+  },
+  "checks": [],
+  "total_checks": 0,
+  "summarized_construction_checks": 0,
+  "construction_checks": {
+   "live": 0,
+   "reused": 0,
+   "admitted": 0,
+   "refused": 0
+  },
+  "construction_observation_policy": {
+   "max_age_seconds": 0.05,
+   "fresh_at_bytes": 16777216,
+   "cumulative_bytes_cap": 67108864,
+   "reservation_fraction_cap": 0.01,
+   "reuse_with_peers": false,
+   "reuse_with_active_workers": false,
+   "idle_worker_identity_required": true,
+   "complete_worker_sample_required": true
+  },
+  "omitted_earlier_checks": 0,
+  "worker_samples": [],
+  "worker_samples_note": "The last 16 samples may mix full and incremental readings. When residency_credit_eligible is false, unique_resident_bytes=0 means not measured for credit, not zero unique RAM. Calibrate residency only from complete samples with residency_credit_eligible=true.",
+  "shared_process": false,
+  "cohort_capacity_gib": 13.560836791992188,
+  "initial_system_commit": null,
+  "commit_capacity_changes": [],
+  "commit_policy": "Expand only after observed system backing-limit growth; initial physical/user/scheduler caps and live checks still apply.",
+  "ownership": "Weak run-owned references; no parent-process growth credit after request overlap.",
+  "worker_policy": "Scheduler reservations and worker growth allowances remain enforced."
+ },
+ "linear_algebra_execution": [
+  {
+   "matrix_size": 160,
+   "policy": "auto",
+   "requested_threads": 1,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    }
+   ]
+  },
+  {
+   "matrix_size": 160,
+   "policy": "auto",
+   "requested_threads": 1,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    }
+   ]
+  },
+  {
+   "matrix_size": 224,
+   "policy": "auto",
+   "requested_threads": 1,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    }
+   ]
+  },
+  {
+   "matrix_size": 224,
+   "policy": "auto",
+   "requested_threads": 1,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 1
+    }
+   ]
+  }
+ ],
+ "execution_options": {
+  "version": 1,
+  "factorization": "dense",
+  "mesh_strategy": "adaptive",
+  "basis_order": 1,
+  "mesh_grading": true,
+  "enforce_mesh_density": true,
+  "compressed_storage_mib": 0,
+  "ram_budget_gib": null,
+  "temporary_directory": "",
+  "assembly_threads": "auto",
+  "blas_threads": "auto",
+  "rhs_compression": "auto",
+  "angle_batch_size": 256,
+  "assembly_tile": 0,
+  "far_quadrature_order": 0,
+  "far_grading": true,
+  "dense_residual_storage": "auto",
+  "compressed_far_method": "full"
+ },
+ "execution_wall_seconds": 0.6445615059999454,
+ "backend_selection": {
+  "requested": "adaptive",
+  "automatic_policy": true,
+  "dense_peak_gib": 0.3231787756085396,
+  "model": "stage_work_v6",
+  "objective": "memory_and_size",
+  "candidates": {
+   "dense": {
+    "cost": 0.17166469405866666,
+    "peak_gb": 0.3231787756085396
+   },
+   "compressed": {
+    "cost": 0.17169536490666668,
+    "peak_gb": 0.4113929271697998
+   }
+  },
+  "cost_source": "stage_work_prior",
+  "exclusions": {},
+  "optimality_guaranteed": false,
+  "admission_budget_gib": 13.560836791992188,
+  "dense_margin_fraction": 0.2,
+  "angle_batch_size": 256,
+  "meshes": [
+   {
+    "frequency_ghz": 6.0,
+    "phase": "base",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 160,
+    "unknowns": 160,
+    "dense_peak_gib": 0.32005883008241653,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.32005883008241653,
+     "compressed": 0.41016364097595215
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 160,
+      "matrix_bytes": 409600,
+      "peak_bytes": 343660552,
+      "phase_bytes": {
+       "assembly": 343660552,
+       "factorization": 320536576,
+       "solve": 320536576
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14560837632,
+      "selection_target_bytes": 11648670105,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 440409856,
+      "nonstorage_phase_bytes": {
+       "assembly": 439977216,
+       "factorization": 187419136,
+       "solve": 221360384
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 440409856,
+       "factorization": 188269056,
+       "solve": 222210304
+      },
+      "operator_bytes": 432640,
+      "operator_allowance_bytes": 432640,
+      "inverse_ceiling_bytes": 417280,
+      "process_geometry_bytes": 170231040,
+      "rhs_workspace_bytes": 41418752,
+      "gmres_workspace_bytes": 1321984,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 269746176,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14120860416,
+      "temporary_disk_bytes": 432640,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 160,
+     "panels": 160,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 160,
+     "operator_matrices": 5,
+     "operator_entries": 51200,
+     "geometric_near_pairs": 1250,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 52480,
+     "mass_workspace_bytes": 26888,
+     "block_workspace_bytes": 1966080,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 106816000
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "base",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 160,
+    "unknowns": 160,
+    "dense_peak_gib": 0.32005883008241653,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.32005883008241653,
+     "compressed": 0.41016364097595215
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 160,
+      "matrix_bytes": 409600,
+      "peak_bytes": 343660552,
+      "phase_bytes": {
+       "assembly": 343660552,
+       "factorization": 320536576,
+       "solve": 320536576
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14560837632,
+      "selection_target_bytes": 11648670105,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 440409856,
+      "nonstorage_phase_bytes": {
+       "assembly": 439977216,
+       "factorization": 187419136,
+       "solve": 221360384
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 440409856,
+       "factorization": 188269056,
+       "solve": 222210304
+      },
+      "operator_bytes": 432640,
+      "operator_allowance_bytes": 432640,
+      "inverse_ceiling_bytes": 417280,
+      "process_geometry_bytes": 170231040,
+      "rhs_workspace_bytes": 41418752,
+      "gmres_workspace_bytes": 1321984,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 269746176,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14120860416,
+      "temporary_disk_bytes": 432640,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 160,
+     "panels": 160,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 160,
+     "operator_matrices": 5,
+     "operator_entries": 51200,
+     "geometric_near_pairs": 1250,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 52480,
+     "mass_workspace_bytes": 26888,
+     "block_workspace_bytes": 1966080,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 106816000
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "fine",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 224,
+    "unknowns": 224,
+    "dense_peak_gib": 0.3231787756085396,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.3231787756085396,
+     "compressed": 0.4113929271697998
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 224,
+      "matrix_bytes": 802816,
+      "peak_bytes": 347010568,
+      "phase_bytes": {
+       "assembly": 347010568,
+       "factorization": 324468736,
+       "solve": 324468736
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14560837632,
+      "selection_target_bytes": 11648670105,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 441729792,
+      "nonstorage_phase_bytes": {
+       "assembly": 440894720,
+       "factorization": 188206080,
+       "solve": 225374464
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 441729792,
+       "factorization": 189854720,
+       "solve": 227023104
+      },
+      "operator_bytes": 835072,
+      "operator_allowance_bytes": 835072,
+      "inverse_ceiling_bytes": 813568,
+      "process_geometry_bytes": 170624256,
+      "rhs_workspace_bytes": 44564480,
+      "gmres_workspace_bytes": 1797120,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 270270464,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14119942912,
+      "temporary_disk_bytes": 835072,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 224,
+     "panels": 224,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 224,
+     "operator_matrices": 6,
+     "operator_entries": 100352,
+     "geometric_near_pairs": 1668,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 73472,
+     "mass_workspace_bytes": 37640,
+     "block_workspace_bytes": 2752512,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 109741056
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "fine",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 224,
+    "unknowns": 224,
+    "dense_peak_gib": 0.3231787756085396,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.3231787756085396,
+     "compressed": 0.4113929271697998
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 224,
+      "matrix_bytes": 802816,
+      "peak_bytes": 347010568,
+      "phase_bytes": {
+       "assembly": 347010568,
+       "factorization": 324468736,
+       "solve": 324468736
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14560825344,
+      "selection_target_bytes": 11648660275,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 441729792,
+      "nonstorage_phase_bytes": {
+       "assembly": 440894720,
+       "factorization": 188206080,
+       "solve": 225374464
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 441729792,
+       "factorization": 189854720,
+       "solve": 227023104
+      },
+      "operator_bytes": 835072,
+      "operator_allowance_bytes": 835072,
+      "inverse_ceiling_bytes": 813568,
+      "process_geometry_bytes": 170624256,
+      "rhs_workspace_bytes": 44564480,
+      "gmres_workspace_bytes": 1797120,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 270270464,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14119942912,
+      "temporary_disk_bytes": 835072,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 224,
+     "panels": 224,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 224,
+     "operator_matrices": 6,
+     "operator_entries": 100352,
+     "geometric_near_pairs": 1668,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 73472,
+     "mass_workspace_bytes": 37640,
+     "block_workspace_bytes": 2752512,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 109741056
+    }
+   }
+  ],
+  "cost_scope": {
+   "kind": "aggregate_forecast_meshes",
+   "systems": 4,
+   "polynomial_degrees": [
+    1
+   ]
+  },
+  "mesh_forecast_scope": {
+   "initial_candidate_unknowns_min": 160,
+   "initial_candidate_unknowns_max": 224,
+   "final_size_guaranteed": false,
+   "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+  },
+  "selected": "dense",
+  "retry_order": [
+   "compressed"
+  ],
+  "ranking": {
+   "cost_winner": "dense",
+   "selected": "dense",
+   "admitted": [
+    "dense",
+    "compressed"
+   ],
+   "budget_gib": 13.560836791992188,
+   "margin_fraction": 0.2,
+   "margin_applied": true,
+   "excluded": {},
+   "dense_preference_applied": false,
+   "dense_preference_enabled": false,
+   "preference_changed_winner": false,
+   "policy": "memory_and_size_v1",
+   "unknowns": 224,
+   "dense_limit": 10000,
+   "preferred": "dense"
+  },
+  "reason": "Automatic memory-and-size policy selected dense at 224 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+  "planning_seconds": 0.06560684200002243
+ },
+ "requested_execution_options": {
+  "version": 1,
+  "factorization": "automatic",
+  "mesh_strategy": "adaptive",
+  "basis_order": 1,
+  "mesh_grading": true,
+  "enforce_mesh_density": true,
+  "compressed_storage_mib": 0,
+  "ram_budget_gib": null,
+  "temporary_directory": "",
+  "assembly_threads": "auto",
+  "blas_threads": "auto",
+  "rhs_compression": "auto",
+  "angle_batch_size": 256,
+  "assembly_tile": 0,
+  "far_quadrature_order": 0,
+  "far_grading": true,
+  "dense_residual_storage": "auto",
+  "compressed_far_method": "full"
+ },
+ "execution_threads": {
+  "assembly": 4,
+  "blas": "auto"
+ }
+}

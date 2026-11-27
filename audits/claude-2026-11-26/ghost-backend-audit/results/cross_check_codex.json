@@ -1,0 +1,78 @@
+{
+ "reference_agreement": {
+  "pec_2GHz_VV": 4.1991640064190463e-16,
+  "pec_2GHz_HH": 1.8967620902380568e-16,
+  "dielectric_2GHz_VV": 5.489904611857411e-16,
+  "dielectric_2GHz_HH": 4.473489259106451e-16,
+  "pec_15GHz_VV": 4.0280494850454505e-16,
+  "pec_15GHz_HH": 4.711059862430573e-16,
+  "dielectric_15GHz_VV": 4.140939542480716e-15,
+  "dielectric_15GHz_HH": 1.2092741273291066e-15,
+  "coat_2GHz_VV": 1.242447219904262e-15,
+  "coat_2GHz_HH": 6.945244375909829e-16,
+  "coat_15GHz_VV": 4.851467882403691e-16,
+  "coat_15GHz_HH": 1.067145416104585e-15
+ },
+ "error_vs_my_reference": {
+  "pec_2GHz": {
+   "96": 0.2424,
+   "384": 0.0151
+  },
+  "dielectric_2GHz": {
+   "96": 0.6538,
+   "384": 0.0397
+  },
+  "pec_15GHz": {
+   "384": 0.1291,
+   "768": 0.0301
+  },
+  "dielectric_15GHz": {
+   "384": 0.0552,
+   "768": 0.0154
+  },
+  "coat_2GHz": {
+   "96_60": 1.2883,
+   "384_240": 0.0784
+  },
+  "coat_15GHz": {
+   "384_240": 0.2739,
+   "768_480": 0.0682
+  }
+ },
+ "dense_vs_compressed": {
+  "f2_pec_96_dense_VV": 3.2997825454924047e-15,
+  "f2_pec_384_dense_VV": 2.4178345468811572e-15,
+  "f2_pec_96_dense_HH": 3.226908573783571e-15,
+  "f2_pec_384_dense_HH": 2.3378035298773428e-15,
+  "f2_dielectric_96_dense_VV": 6.485111836312517e-15,
+  "f2_dielectric_384_dense_VV": 6.363439286371926e-15,
+  "f2_dielectric_96_dense_HH": 4.638795625814421e-15,
+  "f2_dielectric_384_dense_HH": 3.616703313453875e-15,
+  "f15_pec_384_dense_VV": 7.486314116879551e-16,
+  "f15_pec_768_dense_VV": 7.112526435345519e-16,
+  "f15_pec_384_dense_HH": 1.3246609904270212e-15,
+  "f15_pec_768_dense_HH": 1.8062061808368865e-15,
+  "f15_dielectric_384_dense_VV": 1.1736093018681215e-13,
+  "f15_dielectric_768_dense_VV": 7.696742962685396e-14,
+  "f15_dielectric_384_dense_HH": 7.790876893404075e-14,
+  "f15_dielectric_768_dense_HH": 5.267847035231904e-14,
+  "f2_96_60_dense_VV": 1.0206542695010444e-14,
+  "f2_384_240_dense_VV": 1.1123403031297266e-14,
+  "f2_96_60_dense_HH": 8.054745973862542e-15,
+  "f2_384_240_dense_HH": 1.1051257026556338e-14,
+  "f15_384_240_dense_VV": 2.772674082895707e-13,
+  "f15_768_480_dense_VV": 1.8317703678759944e-11,
+  "f15_384_240_dense_HH": 2.259499063560359e-13,
+  "f15_768_480_dense_HH": 1.0371849976804331e-11
+ },
+ "certified_error_vs_my_circle_percent": {
+  "96_vertices": 0.6471,
+  "192_vertices": 0.1596
+ },
+ "certified_reference_agreement": {
+  "96_vertices": 5.489904611857411e-16,
+  "192_vertices": 5.489904611857411e-16
+ },
+ "max_reference_disagreement": 4.140939542480716e-15,
+ "max_dense_vs_compressed_l2": 1.8317703678759944e-11
+}

@@ -1,0 +1,2618 @@
+{
+ "polynomial_degree": 1,
+ "linear_node_count": 540,
+ "mesh_strategy_used": "global",
+ "source_path": "",
+ "segment_count": 1,
+ "panel_count": 540,
+ "panel_count_min": 540,
+ "panel_count_max": 540,
+ "polarizations": [
+  "VV",
+  "HH"
+ ],
+ "polarization_internal": [
+  "TE",
+  "TM"
+ ],
+ "polarization_mapping": {
+  "VV": "TE",
+  "HH": "TM"
+ },
+ "formulation": "co-polarized 2-D BIE/MoM",
+ "formulations": {
+  "VV": "2D closed Robin combined-potential formulation",
+  "HH": "2D closed Robin combined-potential formulation"
+ },
+ "solver_method": "dense_lu_experimental_cpu",
+ "solver_method_requested": "auto",
+ "residual_norm_max": 4.954485876347741e-14,
+ "constraint_residual_norm_max": 0.0,
+ "condition_est_max": 86.93484231774937,
+ "condition_est_computed": true,
+ "warnings": [],
+ "information": [],
+ "warning_count": 0,
+ "preflight": {
+  "segment_count": 1,
+  "primitive_count": 360,
+  "dangling_nodes": 0,
+  "high_degree_nodes": 0,
+  "warning_count": 0,
+  "warnings": []
+ },
+ "quality_gate": {
+  "passed": true,
+  "channels": {
+   "VV": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 4.954485876347741e-14,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 86.93484231774937,
+     "condition_est_gate_value": 86.93484231774937,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "HH": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 5.481030530971699e-16,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 75.44012201061446,
+     "condition_est_gate_value": 75.44012201061446,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   }
+  },
+  "reason": "Both VV<-TE and HH<-TM discrete linear-system quality gates passed"
+ },
+ "channel_metadata": {
+  "VV": {
+   "source_path": "",
+   "segment_count": 1,
+   "panel_count": 540,
+   "panel_count_min": 540,
+   "panel_count_max": 540,
+   "panel_length_min_m": 0.00043632677491866326,
+   "panel_length_max_m": 0.000872653549837435,
+   "mesh_reference_ghz": 6.0,
+   "mesh_reference_ghz_min": 6.0,
+   "mesh_reference_ghz_max": 6.0,
+   "mesh_wavelength_m": 0.04996540966666667,
+   "mesh_wavelength_min_m": 0.04996540966666667,
+   "mesh_wavelength_max_m": 0.04996540966666667,
+   "mesh_max_refractive_index": 1.0,
+   "mesh_material_flags": [],
+   "surface_wave_sampling": [],
+   "quadrature_qualification": [
+    {
+     "qualified": true,
+     "calibrated_panel_kl_max": 3.0,
+     "maximum_panel_kl": 0.1097367958989151,
+     "exceeded_panels": 0,
+     "invalid_panels": 0,
+     "panel_count": 540,
+     "complete": true,
+     "frequency_ghz": 6.0,
+     "polarization": "TE"
+    }
+   ],
+   "polarization_internal": "TE",
+   "polarization_user": "TE",
+   "polarization_aliases": [
+    "TE"
+   ],
+   "polarization_export": "TE",
+   "polarization_export_alias": "VV",
+   "rcs_normalization_mode": "physical",
+   "formulation": "2D closed Robin combined-potential formulation",
+   "solver_method": "dense_lu",
+   "solver_method_requested": "experimental_cpu",
+   "residual_norm_max": 4.954485876347741e-14,
+   "residual_norm_mean": 4.954485876347743e-14,
+   "residual_nonfinite_count": 0,
+   "constraint_residual_norm_max": 0.0,
+   "constraint_residual_norm_mean": 0.0,
+   "constraint_residual_applicable": false,
+   "condition_est_max": 86.93484231774937,
+   "condition_est_mean": 86.93484231774937,
+   "condition_est_frequency_scaled_max": 86.93484231774937,
+   "condition_est_computed": true,
+   "condition_estimator": "equilibrated_1norm_scaled_lu_onenormest",
+   "thin_layer": [],
+   "acute_corners": null,
+   "warnings": [],
+   "information": [],
+   "warning_count": 0,
+   "math_backend_real_bessel": "libm",
+   "math_backend_complex_hankel": "scipy-special",
+   "reused_matrix_solve_count": 360,
+   "shared_operator_cache_enabled": true,
+   "shared_operator_cache_hits": 0,
+   "shared_operator_cache_stores": 0,
+   "parallel_elevation_solve_count": 0,
+   "max_parallel_workers_used": 1,
+   "mesh_reference_frequency_used": false,
+   "cfie_alpha": 0.0,
+   "junction_nodes": 0,
+   "junction_constraints": 0,
+   "junction_constraint_candidates": 0,
+   "junction_constraints_applied": false,
+   "junction_constraints_applied_count": 0,
+   "junction_treatment": "none",
+   "junction_panels": 0,
+   "junction_trace_constraints": 0,
+   "junction_flux_constraints": 0,
+   "junction_orientation_conflict_nodes": 0,
+   "linear_node_count": 540,
+   "linear_element_count": 540,
+   "shared_node_count": 540,
+   "split_node_count": 0,
+   "split_boundary_primitive_count": 540,
+   "multi_signature_node_count": 0,
+   "preflight": {
+    "segment_count": 1,
+    "primitive_count": 360,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+   },
+   "cpu_factorization_requested": "dense",
+   "cpu_rhs_compression_requested": "auto",
+   "hierarchical_factors": [],
+   "compressed_factors": [],
+   "sweep_compression": [
+    {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0,
+     "hint_probe": true,
+     "small_batches": 2
+    }
+   ],
+   "dense_condition_methods": [
+    "equilibrated_1norm_scaled_lu_onenormest"
+   ],
+   "linear_backend": "cpu",
+   "dense_gpu_solve_count": 0,
+   "dense_cpu_solve_count": 2,
+   "dense_factorization_count": 1,
+   "dense_rhs_batch_count": 2,
+   "dense_rhs_column_count": 360,
+   "dense_max_rhs_columns": 256,
+   "dense_mixed_precision_solve_count": 0,
+   "dense_fallback_reasons": [],
+   "dense_gpu_fallback_reasons": [],
+   "dense_gpu_devices": [],
+   "dense_largest_system": 540,
+   "amplitude_version": 2,
+   "quality_gate": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 4.954485876347741e-14,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 86.93484231774937,
+     "condition_est_gate_value": 86.93484231774937,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "linear_algebra_execution": [
+    {
+     "matrix_size": 540,
+     "policy": "auto",
+     "requested_threads": 4,
+     "pools": [
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 4
+      },
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 4
+      }
+     ]
+    }
+   ],
+   "execution_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "global",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": null,
+    "temporary_directory": "",
+    "assembly_threads": "auto",
+    "blas_threads": "auto",
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+   },
+   "polynomial_degree": 1,
+   "execution_wall_seconds": 0.5163182239999742,
+   "execution_threads": {
+    "assembly": 4,
+    "blas": "auto"
+   },
+   "mesh_strategy_used": "global",
+   "mesh_convergence": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 2.8839342978519727e-07,
+    "max_abs_db": 2.883937533226799e-07,
+    "mean_db": -2.8839342978518684e-07,
+    "median_abs_db": 2.883934202557725e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 2.9704523260874743e-07,
+    "max_abs_db_unfloored": 2.9704556681053873e-07,
+    "complex_rms_normalized": 4.948417335239254e-08,
+    "complex_max_normalized": 4.948423541179402e-08,
+    "complex_reference_peak_amplitude": 8.543851647897844,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.543851647897844
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 2.0491869875334386e-06,
+    "phase_max_deg": 2.0491905974714034e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.8044121345038e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 60.43998239757818,
+      "condition_est_gate_value": 60.43998239757818,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.954485876347741e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 86.93484231774937,
+      "condition_est_gate_value": 86.93484231774937,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 9.896847082358804e-08,
+     "complex_rms_normalized": 9.896834670478508e-08,
+     "max_abs_db": 5.767875066453598e-07,
+     "rms_db": 5.767868595703945e-07,
+     "phase_max_deg": 4.098381194942807e-06,
+     "phase_rms_deg": 4.098373975066877e-06
+    },
+    "estimated_published_complex_max_normalized": 9.896847082358804e-08,
+    "estimated_published_complex_rms_normalized": 9.896834670478508e-08,
+    "estimated_published_max_abs_db": 5.767875066453598e-07,
+    "estimated_published_rms_db": 5.767868595703945e-07
+   },
+   "mesh_convergence_certified": true,
+   "certified_entry_point": true,
+   "published_mesh": "fine"
+  },
+  "HH": {
+   "source_path": "",
+   "segment_count": 1,
+   "panel_count": 540,
+   "panel_count_min": 540,
+   "panel_count_max": 540,
+   "panel_length_min_m": 0.00043632677491866326,
+   "panel_length_max_m": 0.000872653549837435,
+   "mesh_reference_ghz": 6.0,
+   "mesh_reference_ghz_min": 6.0,
+   "mesh_reference_ghz_max": 6.0,
+   "mesh_wavelength_m": 0.04996540966666667,
+   "mesh_wavelength_min_m": 0.04996540966666667,
+   "mesh_wavelength_max_m": 0.04996540966666667,
+   "mesh_max_refractive_index": 1.0,
+   "mesh_material_flags": [],
+   "surface_wave_sampling": [],
+   "quadrature_qualification": [
+    {
+     "qualified": true,
+     "calibrated_panel_kl_max": 3.0,
+     "maximum_panel_kl": 0.1097367958989151,
+     "exceeded_panels": 0,
+     "invalid_panels": 0,
+     "panel_count": 540,
+     "complete": true,
+     "frequency_ghz": 6.0,
+     "polarization": "TM"
+    }
+   ],
+   "polarization_internal": "TM",
+   "polarization_user": "TM",
+   "polarization_aliases": [
+    "TM"
+   ],
+   "polarization_export": "TM",
+   "polarization_export_alias": "HH",
+   "rcs_normalization_mode": "physical",
+   "formulation": "2D closed Robin combined-potential formulation",
+   "solver_method": "dense_lu",
+   "solver_method_requested": "experimental_cpu",
+   "residual_norm_max": 5.481030530971699e-16,
+   "residual_norm_mean": 5.481030530971698e-16,
+   "residual_nonfinite_count": 0,
+   "constraint_residual_norm_max": 0.0,
+   "constraint_residual_norm_mean": 0.0,
+   "constraint_residual_applicable": false,
+   "condition_est_max": 75.44012201061446,
+   "condition_est_mean": 75.44012201061446,
+   "condition_est_frequency_scaled_max": 75.44012201061446,
+   "condition_est_computed": true,
+   "condition_estimator": "equilibrated_1norm_scaled_lu_onenormest",
+   "thin_layer": [],
+   "acute_corners": null,
+   "warnings": [],
+   "information": [],
+   "warning_count": 0,
+   "math_backend_real_bessel": "libm",
+   "math_backend_complex_hankel": "scipy-special",
+   "reused_matrix_solve_count": 360,
+   "shared_operator_cache_enabled": true,
+   "shared_operator_cache_hits": 0,
+   "shared_operator_cache_stores": 0,
+   "parallel_elevation_solve_count": 0,
+   "max_parallel_workers_used": 1,
+   "mesh_reference_frequency_used": false,
+   "cfie_alpha": 0.0,
+   "junction_nodes": 0,
+   "junction_constraints": 0,
+   "junction_constraint_candidates": 0,
+   "junction_constraints_applied": false,
+   "junction_constraints_applied_count": 0,
+   "junction_treatment": "none",
+   "junction_panels": 0,
+   "junction_trace_constraints": 0,
+   "junction_flux_constraints": 0,
+   "junction_orientation_conflict_nodes": 0,
+   "linear_node_count": 540,
+   "linear_element_count": 540,
+   "shared_node_count": 540,
+   "split_node_count": 0,
+   "split_boundary_primitive_count": 540,
+   "multi_signature_node_count": 0,
+   "preflight": {
+    "segment_count": 1,
+    "primitive_count": 360,
+    "dangling_nodes": 0,
+    "high_degree_nodes": 0,
+    "warning_count": 0,
+    "warnings": []
+   },
+   "cpu_factorization_requested": "dense",
+   "cpu_rhs_compression_requested": "auto",
+   "hierarchical_factors": [],
+   "compressed_factors": [],
+   "sweep_compression": [
+    {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0,
+     "hint_probe": true,
+     "small_batches": 2
+    }
+   ],
+   "dense_condition_methods": [
+    "equilibrated_1norm_scaled_lu_onenormest"
+   ],
+   "linear_backend": "cpu",
+   "dense_gpu_solve_count": 0,
+   "dense_cpu_solve_count": 2,
+   "dense_factorization_count": 1,
+   "dense_rhs_batch_count": 2,
+   "dense_rhs_column_count": 360,
+   "dense_max_rhs_columns": 256,
+   "dense_mixed_precision_solve_count": 0,
+   "dense_fallback_reasons": [],
+   "dense_gpu_fallback_reasons": [],
+   "dense_gpu_devices": [],
+   "dense_largest_system": 540,
+   "amplitude_version": 2,
+   "quality_gate": {
+    "passed": true,
+    "thresholds": {
+     "residual_norm_max": 1e-06,
+     "constraint_residual_norm_max": 1e-08,
+     "condition_est_max": 1000000.0,
+     "warnings_max": 10
+    },
+    "values": {
+     "residual_norm_max": 5.481030530971699e-16,
+     "residual_nonfinite_count": 0,
+     "constraint_residual_norm_max": 0.0,
+     "condition_est_max": 75.44012201061446,
+     "condition_est_gate_value": 75.44012201061446,
+     "condition_est_computed": true,
+     "warnings_count": 0
+    },
+    "violations": [],
+    "certification_scope": "discrete_linear_system_and_mesh_convergence",
+    "mesh_convergence_certified": true,
+    "reason": "discrete linear-system quality thresholds and production mesh-convergence certification satisfied"
+   },
+   "linear_algebra_execution": [
+    {
+     "matrix_size": 540,
+     "policy": "auto",
+     "requested_threads": 4,
+     "pools": [
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 4
+      },
+      {
+       "internal_api": "openblas",
+       "prefix": "libscipy_openblas",
+       "num_threads": 4
+      }
+     ]
+    }
+   ],
+   "execution_options": {
+    "version": 1,
+    "factorization": "dense",
+    "mesh_strategy": "global",
+    "basis_order": 1,
+    "mesh_grading": true,
+    "enforce_mesh_density": true,
+    "compressed_storage_mib": 0,
+    "ram_budget_gib": null,
+    "temporary_directory": "",
+    "assembly_threads": "auto",
+    "blas_threads": "auto",
+    "rhs_compression": "auto",
+    "angle_batch_size": 256,
+    "assembly_tile": 0,
+    "far_quadrature_order": 0,
+    "far_grading": true,
+    "dense_residual_storage": "auto",
+    "compressed_far_method": "full"
+   },
+   "polynomial_degree": 1,
+   "execution_wall_seconds": 0.3309859270000288,
+   "execution_threads": {
+    "assembly": 4,
+    "blas": "auto"
+   },
+   "mesh_strategy_used": "global",
+   "mesh_convergence": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 4.86032430370277e-07,
+    "max_abs_db": 4.860324454014631e-07,
+    "mean_db": 4.860324303702768e-07,
+    "median_abs_db": 4.860324298583407e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 5.006134034572322e-07,
+    "max_abs_db_unfloored": 5.006134200513657e-07,
+    "complex_rms_normalized": 1.0432055056981626e-07,
+    "complex_max_normalized": 1.0432055244385092e-07,
+    "complex_reference_peak_amplitude": 8.946696846052722,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.946696846052722
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 4.9820833639613265e-06,
+    "phase_max_deg": 4.9820834522125975e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.364076622739332e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 59.80776345369577,
+      "condition_est_gate_value": 59.80776345369577,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.481030530971699e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 75.44012201061446,
+      "condition_est_gate_value": 75.44012201061446,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 2.0864110488770183e-07,
+     "complex_rms_normalized": 2.0864110113963253e-07,
+     "max_abs_db": 9.720648908029261e-07,
+     "rms_db": 9.72064860740554e-07,
+     "phase_max_deg": 9.964166904425195e-06,
+     "phase_rms_deg": 9.964166727922653e-06
+    },
+    "estimated_published_complex_max_normalized": 2.0864110488770183e-07,
+    "estimated_published_complex_rms_normalized": 2.0864110113963253e-07,
+    "estimated_published_max_abs_db": 9.720648908029261e-07,
+    "estimated_published_rms_db": 9.72064860740554e-07
+   },
+   "mesh_convergence_certified": true,
+   "certified_entry_point": true,
+   "published_mesh": "fine"
+  }
+ },
+ "cpu_factorization_requested": "dense",
+ "compressed_factors": [],
+ "cpu_rhs_compression_requested": "auto",
+ "hierarchical_factors": {
+  "VV": [],
+  "HH": []
+ },
+ "sweep_compression": {
+  "VV": [
+   {
+    "requested": "auto",
+    "method": "incremental_pivoted_qr",
+    "input_columns": 360,
+    "solved_columns": 360,
+    "accepted_batches": 0,
+    "fallback_batches": 0,
+    "fallback_columns": 0,
+    "max_rhs_error": 0.0,
+    "max_reconstructed_backward_error": 0.0,
+    "retained_basis_columns": 0,
+    "reused_basis_batches": 0,
+    "hint_probe": true,
+    "small_batches": 2
+   }
+  ],
+  "HH": [
+   {
+    "requested": "auto",
+    "method": "incremental_pivoted_qr",
+    "input_columns": 360,
+    "solved_columns": 360,
+    "accepted_batches": 0,
+    "fallback_batches": 0,
+    "fallback_columns": 0,
+    "max_rhs_error": 0.0,
+    "max_reconstructed_backward_error": 0.0,
+    "retained_basis_columns": 0,
+    "reused_basis_batches": 0,
+    "hint_probe": true,
+    "small_batches": 2
+   }
+  ]
+ },
+ "dense_factorization_count": 4,
+ "dense_rhs_batch_count": 8,
+ "dense_rhs_column_count": 1440,
+ "dense_max_rhs_columns": 256,
+ "thin_layer": {
+  "VV": [],
+  "HH": []
+ },
+ "quadrature_qualification": [
+  {
+   "qualified": true,
+   "calibrated_panel_kl_max": 3.0,
+   "maximum_panel_kl": 0.1097367958989151,
+   "exceeded_panels": 0,
+   "invalid_panels": 0,
+   "panel_count": 540,
+   "complete": true,
+   "frequency_ghz": 6.0,
+   "polarization": "TE"
+  },
+  {
+   "qualified": true,
+   "calibrated_panel_kl_max": 3.0,
+   "maximum_panel_kl": 0.1097367958989151,
+   "exceeded_panels": 0,
+   "invalid_panels": 0,
+   "panel_count": 540,
+   "complete": true,
+   "frequency_ghz": 6.0,
+   "polarization": "TM"
+  }
+ ],
+ "surface_wave_sampling": [],
+ "amplitude_version": 2,
+ "co_solve_shared_discretization": true,
+ "shared_operator_cache_enabled": true,
+ "shared_operator_cache_hits": 0,
+ "shared_operator_cache_stores": 0,
+ "linear_backend": "cpu",
+ "dense_gpu_solve_count": 0,
+ "dense_cpu_solve_count": 4,
+ "dense_gpu_fallback_reasons": [],
+ "dense_gpu_devices": [],
+ "dense_largest_system": 540,
+ "mesh_convergence_certified": true,
+ "certified_entry_point": true,
+ "survey_mode": false,
+ "published_mesh": "fine",
+ "mesh_convergence": {
+  "schema": "ghost.solver.mesh-convergence.co-polarized.v1",
+  "passed": true,
+  "published_mesh": "fine",
+  "channels": {
+   "VV": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 2.8839342978519727e-07,
+    "max_abs_db": 2.883937533226799e-07,
+    "mean_db": -2.8839342978518684e-07,
+    "median_abs_db": 2.883934202557725e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 2.9704523260874743e-07,
+    "max_abs_db_unfloored": 2.9704556681053873e-07,
+    "complex_rms_normalized": 4.948417335239254e-08,
+    "complex_max_normalized": 4.948423541179402e-08,
+    "complex_reference_peak_amplitude": 8.543851647897844,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.543851647897844
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 2.0491869875334386e-06,
+    "phase_max_deg": 2.0491905974714034e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.8044121345038e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 60.43998239757818,
+      "condition_est_gate_value": 60.43998239757818,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.954485876347741e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 86.93484231774937,
+      "condition_est_gate_value": 86.93484231774937,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 9.896847082358804e-08,
+     "complex_rms_normalized": 9.896834670478508e-08,
+     "max_abs_db": 5.767875066453598e-07,
+     "rms_db": 5.767868595703945e-07,
+     "phase_max_deg": 4.098381194942807e-06,
+     "phase_rms_deg": 4.098373975066877e-06
+    },
+    "estimated_published_complex_max_normalized": 9.896847082358804e-08,
+    "estimated_published_complex_rms_normalized": 9.896834670478508e-08,
+    "estimated_published_max_abs_db": 5.767875066453598e-07,
+    "estimated_published_rms_db": 5.767868595703945e-07
+   },
+   "HH": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 4.86032430370277e-07,
+    "max_abs_db": 4.860324454014631e-07,
+    "mean_db": 4.860324303702768e-07,
+    "median_abs_db": 4.860324298583407e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 5.006134034572322e-07,
+    "max_abs_db_unfloored": 5.006134200513657e-07,
+    "complex_rms_normalized": 1.0432055056981626e-07,
+    "complex_max_normalized": 1.0432055244385092e-07,
+    "complex_reference_peak_amplitude": 8.946696846052722,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.946696846052722
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 4.9820833639613265e-06,
+    "phase_max_deg": 4.9820834522125975e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.364076622739332e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 59.80776345369577,
+      "condition_est_gate_value": 59.80776345369577,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.481030530971699e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 75.44012201061446,
+      "condition_est_gate_value": 75.44012201061446,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 2.0864110488770183e-07,
+     "complex_rms_normalized": 2.0864110113963253e-07,
+     "max_abs_db": 9.720648908029261e-07,
+     "rms_db": 9.72064860740554e-07,
+     "phase_max_deg": 9.964166904425195e-06,
+     "phase_rms_deg": 9.964166727922653e-06
+    },
+    "estimated_published_complex_max_normalized": 2.0864110488770183e-07,
+    "estimated_published_complex_rms_normalized": 2.0864110113963253e-07,
+    "estimated_published_max_abs_db": 9.720648908029261e-07,
+    "estimated_published_rms_db": 9.72064860740554e-07
+   }
+  },
+  "polarizations": {
+   "VV": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 2.8839342978519727e-07,
+    "max_abs_db": 2.883937533226799e-07,
+    "mean_db": -2.8839342978518684e-07,
+    "median_abs_db": 2.883934202557725e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 2.9704523260874743e-07,
+    "max_abs_db_unfloored": 2.9704556681053873e-07,
+    "complex_rms_normalized": 4.948417335239254e-08,
+    "complex_max_normalized": 4.948423541179402e-08,
+    "complex_reference_peak_amplitude": 8.543851647897844,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.543851647897844
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 2.0491869875334386e-06,
+    "phase_max_deg": 2.0491905974714034e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TE"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.8044121345038e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 60.43998239757818,
+      "condition_est_gate_value": 60.43998239757818,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.954485876347741e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 86.93484231774937,
+      "condition_est_gate_value": 86.93484231774937,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 9.896847082358804e-08,
+     "complex_rms_normalized": 9.896834670478508e-08,
+     "max_abs_db": 5.767875066453598e-07,
+     "rms_db": 5.767868595703945e-07,
+     "phase_max_deg": 4.098381194942807e-06,
+     "phase_rms_deg": 4.098373975066877e-06
+    },
+    "estimated_published_complex_max_normalized": 9.896847082358804e-08,
+    "estimated_published_complex_rms_normalized": 9.896834670478508e-08,
+    "estimated_published_max_abs_db": 5.767875066453598e-07,
+    "estimated_published_rms_db": 5.767868595703945e-07
+   },
+   "HH": {
+    "passed": true,
+    "sample_count": 360,
+    "rms_db": 4.86032430370277e-07,
+    "max_abs_db": 4.860324454014631e-07,
+    "mean_db": 4.860324303702768e-07,
+    "median_abs_db": 4.860324298583407e-07,
+    "db_metric": "20*log10(|A| + db_floor_relative*peak) per frequency",
+    "db_sample_count_above_floor": 360,
+    "rms_db_unfloored": 5.006134034572322e-07,
+    "max_abs_db_unfloored": 5.006134200513657e-07,
+    "complex_rms_normalized": 1.0432055056981626e-07,
+    "complex_max_normalized": 1.0432055244385092e-07,
+    "complex_reference_peak_amplitude": 8.946696846052722,
+    "complex_reference_peak_amplitude_by_frequency": {
+     "6.0": 8.946696846052722
+    },
+    "phase_sample_count": 360,
+    "phase_rms_deg": 4.9820833639613265e-06,
+    "phase_max_deg": 4.9820834522125975e-06,
+    "limits": {
+     "rms_db": 1.0,
+     "max_abs_db": 3.0,
+     "complex_rms_normalized": 0.02,
+     "complex_max_normalized": 0.05,
+     "phase_rms_deg": 5.0,
+     "phase_max_deg": 15.0,
+     "phase_floor_relative": 0.03,
+     "db_floor_relative": 0.03
+    },
+    "violations": [],
+    "reason": "mesh convergence passed",
+    "schema": "ghost.solver.mesh-convergence.v1",
+    "fine_factor": 1.5,
+    "published_mesh": "fine",
+    "geometry_model": "piecewise_linear_input",
+    "quadrature_qualification_checked": true,
+    "base_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.10973679589891594,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 360,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "fine_quadrature_qualification": [
+     {
+      "qualified": true,
+      "calibrated_panel_kl_max": 3.0,
+      "maximum_panel_kl": 0.1097367958989151,
+      "exceeded_panels": 0,
+      "invalid_panels": 0,
+      "panel_count": 540,
+      "complete": true,
+      "frequency_ghz": 6.0,
+      "polarization": "TM"
+     }
+    ],
+    "geometry_approximation_certified": false,
+    "surface_wave_sampling_checked": false,
+    "base_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.364076622739332e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 59.80776345369577,
+      "condition_est_gate_value": 59.80776345369577,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "fine_quality_gate": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.481030530971699e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 75.44012201061446,
+      "condition_est_gate_value": 75.44012201061446,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "base_polynomial_degree": 1,
+    "fine_polynomial_degree": 1,
+    "refinement_kind": "mesh",
+    "base_panel_count": 360,
+    "fine_panel_count": 540,
+    "panel_refinement_ratio": 1.5,
+    "estimated_published_error": {
+     "assumed_order": 1.0,
+     "refinement_ratio": 1.5,
+     "basis": "delta/(r**p - 1) with conservative p = 1; reported, not gated",
+     "available": true,
+     "factor": 2.0,
+     "complex_max_normalized": 2.0864110488770183e-07,
+     "complex_rms_normalized": 2.0864110113963253e-07,
+     "max_abs_db": 9.720648908029261e-07,
+     "rms_db": 9.72064860740554e-07,
+     "phase_max_deg": 9.964166904425195e-06,
+     "phase_rms_deg": 9.964166727922653e-06
+    },
+    "estimated_published_complex_max_normalized": 2.0864110488770183e-07,
+    "estimated_published_complex_rms_normalized": 2.0864110113963253e-07,
+    "estimated_published_max_abs_db": 9.720648908029261e-07,
+    "estimated_published_rms_db": 9.72064860740554e-07
+   }
+  },
+  "base_quality_gate": {
+   "passed": true,
+   "channels": {
+    "VV": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.8044121345038e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 60.43998239757818,
+      "condition_est_gate_value": 60.43998239757818,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "HH": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.364076622739332e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 59.80776345369577,
+      "condition_est_gate_value": 59.80776345369577,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    }
+   }
+  },
+  "fine_quality_gate": {
+   "passed": true,
+   "channels": {
+    "VV": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 4.954485876347741e-14,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 86.93484231774937,
+      "condition_est_gate_value": 86.93484231774937,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    },
+    "HH": {
+     "passed": true,
+     "thresholds": {
+      "residual_norm_max": 1e-06,
+      "constraint_residual_norm_max": 1e-08,
+      "condition_est_max": 1000000.0,
+      "warnings_max": 10
+     },
+     "values": {
+      "residual_norm_max": 5.481030530971699e-16,
+      "residual_nonfinite_count": 0,
+      "constraint_residual_norm_max": 0.0,
+      "condition_est_max": 75.44012201061446,
+      "condition_est_gate_value": 75.44012201061446,
+      "condition_est_computed": true,
+      "warnings_count": 0
+     },
+     "violations": [],
+     "certification_scope": "discrete_linear_system_residual_and_condition",
+     "mesh_convergence_certified": false,
+     "reason": "discrete linear-system quality thresholds satisfied; mesh convergence is separately certified by the production workflow"
+    }
+   }
+  },
+  "reason": "VV<-TE and HH<-TM mesh-convergence gates passed",
+  "rms_db": 4.86032430370277e-07,
+  "max_abs_db": 4.860324454014631e-07,
+  "complex_rms_normalized": 1.0432055056981626e-07,
+  "complex_max_normalized": 1.0432055244385092e-07,
+  "phase_rms_deg": 4.9820833639613265e-06,
+  "phase_max_deg": 4.9820834522125975e-06,
+  "base_panel_count": 360.0,
+  "fine_panel_count": 540.0,
+  "panel_refinement_ratio": 1.5,
+  "fine_factor": 1.5,
+  "estimated_published_complex_max_normalized": 2.0864110488770183e-07,
+  "estimated_published_complex_rms_normalized": 2.0864110113963253e-07,
+  "estimated_published_max_abs_db": 9.720648908029261e-07,
+  "estimated_published_rms_db": 9.72064860740554e-07
+ },
+ "assembled_system_reuses": 2,
+ "certification_phase_counters": {
+  "base": {
+   "dense_factorization_count": 2,
+   "dense_rhs_batch_count": 4,
+   "dense_rhs_column_count": 720
+  },
+  "fine": {
+   "dense_factorization_count": 2,
+   "dense_rhs_batch_count": 4,
+   "dense_rhs_column_count": 720
+  }
+ },
+ "certification_solve_order": [
+  "base_TE",
+  "base_TM",
+  "fine_TE",
+  "fine_TM"
+ ],
+ "adaptive_mesh": {
+  "used": false,
+  "reason": "Small reference mesh retains linear basis to avoid polynomial quadrature overhead."
+ },
+ "experimental_cpu": {
+  "version": 1,
+  "precision": "double",
+  "device": "cpu",
+  "scope": "experimental_cpu",
+  "batch_size": 256,
+  "cache": {
+   "hits": 0,
+   "stores": 0,
+   "evictions": 0,
+   "bytes": 0,
+   "peak_bytes": 0,
+   "budget_bytes": 67108864
+  },
+  "kernel_tables": [
+   {
+    "used": true,
+    "k_real": 125.75070131710089,
+    "k_imag": 0.0,
+    "degree": 12,
+    "intervals": 160,
+    "bytes": 200968,
+    "check_points": 10880,
+    "max_check_relative": 5.004767967596462e-15,
+    "max_tail_relative": 8.859423220100823e-14,
+    "tolerance": 2e-13,
+    "tolerance_model": "max(2e-13, 8 eps |k| r)",
+    "max_check_to_tolerance": 0.44297116100504114,
+    "build_seconds": 0.007851923999965038,
+    "evaluation_backend": "native_horner",
+    "native_check_relative": 4.932693897754768e-15,
+    "domain_upper": 0.14142135623845098,
+    "table_upper": 0.14142135623845098,
+    "partial_domain": false
+   }
+  ],
+  "table_budget_bytes": 33554432,
+  "systems": [
+   {
+    "unknowns": 360,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 1.3215099926262864e-14,
+    "max_relative_residual": 5.8044121345038e-14,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.09206840799993188,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 2.7519314543229344e-15
+   },
+   {
+    "unknowns": 360,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 2.0633593078897947e-16,
+    "max_relative_residual": 5.364076622739332e-16,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.11392053599996643,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0
+    },
+    "max_equilibrated_backward_error": 8.894547193851421e-17
+   },
+   {
+    "unknowns": 540,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 8.645413859592312e-15,
+    "max_relative_residual": 4.954485876347741e-14,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.06535217799995507,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0,
+     "hint_probe": true,
+     "small_batches": 2
+    },
+    "max_equilibrated_backward_error": 1.7517587424963173e-15
+   },
+   {
+    "unknowns": 540,
+    "factorizations": 1,
+    "rhs_batches": 2,
+    "max_rhs_columns": 256,
+    "max_backward_error": 2.0237213477852585e-16,
+    "max_relative_residual": 5.481030530971699e-16,
+    "lu_scaling": "condition_row_column_equilibration",
+    "factor_work_seconds": 0.20731098299995665,
+    "factor_variant": "lu",
+    "factor_rebuilds": 0,
+    "factor_fallback": false,
+    "sweep_compression": {
+     "requested": "auto",
+     "method": "incremental_pivoted_qr",
+     "input_columns": 360,
+     "solved_columns": 360,
+     "accepted_batches": 0,
+     "fallback_batches": 0,
+     "fallback_columns": 0,
+     "max_rhs_error": 0.0,
+     "max_reconstructed_backward_error": 0.0,
+     "retained_basis_columns": 0,
+     "reused_basis_batches": 0,
+     "hint_probe": true,
+     "small_batches": 2
+    },
+    "max_equilibrated_backward_error": 8.254505404937739e-17
+   }
+  ],
+  "formulations": [
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   },
+   {
+    "formulation": "multi_region",
+    "streamed": true,
+    "reason": ""
+   }
+  ],
+  "memory_estimates": [
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 360,
+    "matrix_bytes": 2073600,
+    "peak_bytes": 406477192,
+    "phase_bytes": {
+     "assembly": 406477192,
+     "factorization": 335768576,
+     "solve": 335768576
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14579748864,
+    "selection_target_bytes": 11663799091,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": true,
+    "partner_matrix_bytes": 2073600,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "paired_polarization_assembly",
+    "partner_matrix_bytes": 2073600,
+    "solve_estimate_gib": 0.37663019448518753,
+    "total_peak_gib": 0.3785613849759102,
+    "admission_limit_gib": 13.578449249267578
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 360,
+    "matrix_bytes": 2073600,
+    "peak_bytes": 404403592,
+    "phase_bytes": {
+     "assembly": 404403592,
+     "factorization": 333694976,
+     "solve": 333694976
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14570430464,
+    "selection_target_bytes": 11656344371,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": false,
+    "partner_matrix_bytes": 0,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "reused_dense_matrix_admission",
+    "resident_matrix_bytes": 2073600,
+    "total_peak_gib": 0.37663019448518753,
+    "admission_limit_gib": 13.578449249267578
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 540,
+    "matrix_bytes": 4665600,
+    "peak_bytes": 494648392,
+    "phase_bytes": {
+     "assembly": 494648392,
+     "factorization": 352391936,
+     "solve": 352391936
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14570500096,
+    "selection_target_bytes": 11656400076,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": true,
+    "partner_matrix_bytes": 4665600,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "paired_polarization_assembly",
+    "partner_matrix_bytes": 4665600,
+    "solve_estimate_gib": 0.4563320353627205,
+    "total_peak_gib": 0.46067721396684647,
+    "admission_limit_gib": 13.578449249267578
+   },
+   {
+    "model": "dense_phase_v1",
+    "system_dofs": 540,
+    "matrix_bytes": 4665600,
+    "peak_bytes": 489982792,
+    "phase_bytes": {
+     "assembly": 489982792,
+     "factorization": 347726336,
+     "solve": 347726336
+    },
+    "process_baseline_bytes": 134217728,
+    "process_geometry_bytes": 236355584,
+    "angle_batch_size": 256,
+    "requested_angle_batch_size": 256,
+    "residual_storage": "memory",
+    "residual_storage_requested": "auto",
+    "residual_spool_workspace_bytes": 0,
+    "temporary_disk_bytes": 0,
+    "scratch_checked": true,
+    "scratch_available": true,
+    "scratch_failure": null,
+    "submission_planning": false,
+    "capacity_bytes": 14554497024,
+    "selection_target_bytes": 11643597619,
+    "selection_margin_fraction": 0.2,
+    "selected_plan_carried": false,
+    "memory_recovery": false,
+    "assembly_tile": 0,
+    "paired_assembly": false,
+    "partner_matrix_bytes": 0,
+    "allow_optional_partner": true,
+    "forecast_is_hard_limit": false
+   },
+   {
+    "method": "reused_dense_matrix_admission",
+    "resident_matrix_bytes": 4665600,
+    "total_peak_gib": 0.4563320353627205,
+    "admission_limit_gib": 13.578449249267578
+   }
+  ],
+  "stage_cost_meshes": [
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 360,
+    "unknowns": 360,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 360,
+     "panels": 360,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 360,
+     "operator_matrices": 8,
+     "operator_entries": 259200,
+     "geometric_near_pairs": 2520,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 118080,
+     "mass_workspace_bytes": 60488,
+     "block_workspace_bytes": 4423680,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 165795840
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 360,
+    "unknowns": 360,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 360,
+     "panels": 360,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 360,
+     "operator_matrices": 8,
+     "operator_entries": 259200,
+     "geometric_near_pairs": 2520,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 118080,
+     "mass_workspace_bytes": 60488,
+     "block_workspace_bytes": 4423680,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 165795840
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 540,
+    "unknowns": 540,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 540,
+     "panels": 540,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 540,
+     "operator_matrices": 11,
+     "operator_entries": 583200,
+     "geometric_near_pairs": 3780,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 177120,
+     "mass_workspace_bytes": 90728,
+     "block_workspace_bytes": 6635520,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 248693760
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "actual",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 540,
+    "unknowns": 540,
+    "formulation": "multi_region",
+    "resources": {
+     "nodes": 540,
+     "panels": 540,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 540,
+     "operator_matrices": 11,
+     "operator_entries": 583200,
+     "geometric_near_pairs": 3780,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 177120,
+     "mass_workspace_bytes": 90728,
+     "block_workspace_bytes": 6635520,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 248693760
+    }
+   }
+  ]
+ },
+ "memory_accounting": {
+  "policy": "90_percent_initial_available_with_live_incremental_checks",
+  "initial_available_gib": 15.087165832519531,
+  "initial_available_commit_gib": null,
+  "baseline_rss_bytes": 112517120,
+  "last_check": {
+   "binding_constraint": "stable_reservation",
+   "limit_gib": 13.578449249267578,
+   "stable_reservation_gib": 13.578449249267578,
+   "available_gib": 15.063648223876953,
+   "reservation_constraints_gib": {
+    "initial_physical_ram": 13.578449249267578,
+    "cohort_remaining_reservation": 13.578449249267578
+   },
+   "reservation_binding_constraint": "initial_physical_ram",
+   "available_commit_gib": null,
+   "system_commit": null,
+   "owned_numeric_gib": 0.0,
+   "credited_resident_gib": 0.1146697998046875,
+   "owned_worker_resident_gib": 0.0,
+   "owned_worker_commit_gib": 0.0,
+   "worker_measurement": "unique_residency_credit",
+   "credited_commit_gib": 0.0,
+   "limits_gib": {
+    "stable_reservation": 13.578449249267578,
+    "live_physical_ram": 13.669601440429688
+   }
+  },
+  "checks": [],
+  "total_checks": 0,
+  "summarized_construction_checks": 0,
+  "construction_checks": {
+   "live": 0,
+   "reused": 0,
+   "admitted": 0,
+   "refused": 0
+  },
+  "construction_observation_policy": {
+   "max_age_seconds": 0.05,
+   "fresh_at_bytes": 16777216,
+   "cumulative_bytes_cap": 67108864,
+   "reservation_fraction_cap": 0.01,
+   "reuse_with_peers": false,
+   "reuse_with_active_workers": false,
+   "idle_worker_identity_required": true,
+   "complete_worker_sample_required": true
+  },
+  "omitted_earlier_checks": 0,
+  "worker_samples": [],
+  "worker_samples_note": "The last 16 samples may mix full and incremental readings. When residency_credit_eligible is false, unique_resident_bytes=0 means not measured for credit, not zero unique RAM. Calibrate residency only from complete samples with residency_credit_eligible=true.",
+  "shared_process": false,
+  "cohort_capacity_gib": 13.578449249267578,
+  "initial_system_commit": null,
+  "commit_capacity_changes": [],
+  "commit_policy": "Expand only after observed system backing-limit growth; initial physical/user/scheduler caps and live checks still apply.",
+  "ownership": "Weak run-owned references; no parent-process growth credit after request overlap.",
+  "worker_policy": "Scheduler reservations and worker growth allowances remain enforced."
+ },
+ "linear_algebra_execution": [
+  {
+   "matrix_size": 360,
+   "policy": "auto",
+   "requested_threads": 4,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    }
+   ]
+  },
+  {
+   "matrix_size": 360,
+   "policy": "auto",
+   "requested_threads": 4,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    }
+   ]
+  },
+  {
+   "matrix_size": 540,
+   "policy": "auto",
+   "requested_threads": 4,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    }
+   ]
+  },
+  {
+   "matrix_size": 540,
+   "policy": "auto",
+   "requested_threads": 4,
+   "pools": [
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    },
+    {
+     "internal_api": "openblas",
+     "prefix": "libscipy_openblas",
+     "num_threads": 4
+    }
+   ]
+  }
+ ],
+ "execution_options": {
+  "version": 1,
+  "factorization": "dense",
+  "mesh_strategy": "adaptive",
+  "basis_order": 1,
+  "mesh_grading": true,
+  "enforce_mesh_density": true,
+  "compressed_storage_mib": 0,
+  "ram_budget_gib": null,
+  "temporary_directory": "",
+  "assembly_threads": "auto",
+  "blas_threads": "auto",
+  "rhs_compression": "auto",
+  "angle_batch_size": 256,
+  "assembly_tile": 0,
+  "far_quadrature_order": 0,
+  "far_grading": true,
+  "dense_residual_storage": "auto",
+  "compressed_far_method": "full"
+ },
+ "execution_wall_seconds": 1.5833332349999978,
+ "backend_selection": {
+  "requested": "adaptive",
+  "automatic_policy": true,
+  "dense_peak_gib": 0.4563320353627205,
+  "model": "stage_work_v6",
+  "objective": "memory_and_size",
+  "candidates": {
+   "dense": {
+    "cost": 0.43922343999999996,
+    "peak_gb": 0.4563320353627205
+   },
+   "compressed": {
+    "cost": 0.4396153504,
+    "peak_gb": 0.41925543546676636
+   }
+  },
+  "cost_source": "stage_work_prior",
+  "exclusions": {},
+  "optimality_guaranteed": false,
+  "admission_budget_gib": 13.578449249267578,
+  "dense_margin_fraction": 0.2,
+  "angle_batch_size": 256,
+  "meshes": [
+   {
+    "frequency_ghz": 6.0,
+    "phase": "base",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 360,
+    "unknowns": 360,
+    "dense_peak_gib": 0.37663019448518753,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.37663019448518753,
+     "compressed": 0.41441047191619873
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 360,
+      "matrix_bytes": 2073600,
+      "peak_bytes": 404403592,
+      "phase_bytes": {
+       "assembly": 404403592,
+       "factorization": 333694976,
+       "solve": 333694976
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14579748864,
+      "selection_target_bytes": 11663799091,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 444969856,
+      "nonstorage_phase_bytes": {
+       "assembly": 442844416,
+       "factorization": 190313536,
+       "solve": 233904384
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 444969856,
+       "factorization": 194529856,
+       "solve": 238120704
+      },
+      "operator_bytes": 2125440,
+      "operator_allowance_bytes": 2125440,
+      "inverse_ceiling_bytes": 2090880,
+      "process_geometry_bytes": 171459840,
+      "rhs_workspace_bytes": 51249152,
+      "gmres_workspace_bytes": 2806784,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 271384576,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14136904448,
+      "temporary_disk_bytes": 2125440,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 360,
+     "panels": 360,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 360,
+     "operator_matrices": 8,
+     "operator_entries": 259200,
+     "geometric_near_pairs": 2520,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 118080,
+     "mass_workspace_bytes": 60488,
+     "block_workspace_bytes": 4423680,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 165795840
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "base",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 360,
+    "unknowns": 360,
+    "dense_peak_gib": 0.37663019448518753,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.37663019448518753,
+     "compressed": 0.41441047191619873
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 360,
+      "matrix_bytes": 2073600,
+      "peak_bytes": 404403592,
+      "phase_bytes": {
+       "assembly": 404403592,
+       "factorization": 333694976,
+       "solve": 333694976
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14579748864,
+      "selection_target_bytes": 11663799091,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 444969856,
+      "nonstorage_phase_bytes": {
+       "assembly": 442844416,
+       "factorization": 190313536,
+       "solve": 233904384
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 444969856,
+       "factorization": 194529856,
+       "solve": 238120704
+      },
+      "operator_bytes": 2125440,
+      "operator_allowance_bytes": 2125440,
+      "inverse_ceiling_bytes": 2090880,
+      "process_geometry_bytes": 171459840,
+      "rhs_workspace_bytes": 51249152,
+      "gmres_workspace_bytes": 2806784,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 271384576,
+      "tile_metadata_bytes": 1280,
+      "storage_limit_bytes": 14136904448,
+      "temporary_disk_bytes": 2125440,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 360,
+     "panels": 360,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 360,
+     "operator_matrices": 8,
+     "operator_entries": 259200,
+     "geometric_near_pairs": 2520,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 118080,
+     "mass_workspace_bytes": 60488,
+     "block_workspace_bytes": 4423680,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 165795840
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "fine",
+    "polarization": "TE",
+    "polynomial_degree": 1,
+    "panels": 540,
+    "unknowns": 540,
+    "dense_peak_gib": 0.4563320353627205,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.4563320353627205,
+     "compressed": 0.41925543546676636
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 540,
+      "matrix_bytes": 4665600,
+      "peak_bytes": 489982792,
+      "phase_bytes": {
+       "assembly": 489982792,
+       "factorization": 347726336,
+       "solve": 347726336
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14579748864,
+      "selection_target_bytes": 11663799091,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 450172096,
+      "nonstorage_phase_bytes": {
+       "assembly": 445428736,
+       "factorization": 204951152,
+       "solve": 245197824
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 450172096,
+       "factorization": 215554592,
+       "solve": 255801264
+      },
+      "operator_bytes": 4743360,
+      "operator_allowance_bytes": 4743360,
+      "inverse_ceiling_bytes": 5860080,
+      "process_geometry_bytes": 172569600,
+      "rhs_workspace_bytes": 60096512,
+      "gmres_workspace_bytes": 4143104,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 272859136,
+      "tile_metadata_bytes": 5120,
+      "storage_limit_bytes": 14134320128,
+      "temporary_disk_bytes": 4743360,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 540,
+     "panels": 540,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 540,
+     "operator_matrices": 11,
+     "operator_entries": 583200,
+     "geometric_near_pairs": 3780,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 177120,
+     "mass_workspace_bytes": 90728,
+     "block_workspace_bytes": 6635520,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 248693760
+    }
+   },
+   {
+    "frequency_ghz": 6.0,
+    "phase": "fine",
+    "polarization": "TM",
+    "polynomial_degree": 1,
+    "panels": 540,
+    "unknowns": 540,
+    "dense_peak_gib": 0.4563320353627205,
+    "formulation": "multi_region",
+    "backend_peak_gib": {
+     "dense": 0.4563320353627205,
+     "compressed": 0.41925543546676636
+    },
+    "backend_memory_plans": {
+     "dense": {
+      "model": "dense_phase_v1",
+      "system_dofs": 540,
+      "matrix_bytes": 4665600,
+      "peak_bytes": 489982792,
+      "phase_bytes": {
+       "assembly": 489982792,
+       "factorization": 347726336,
+       "solve": 347726336
+      },
+      "process_baseline_bytes": 134217728,
+      "process_geometry_bytes": 236355584,
+      "angle_batch_size": 256,
+      "requested_angle_batch_size": 256,
+      "residual_storage": "memory",
+      "residual_storage_requested": "auto",
+      "residual_spool_workspace_bytes": 0,
+      "temporary_disk_bytes": 0,
+      "scratch_checked": true,
+      "scratch_available": true,
+      "scratch_failure": null,
+      "submission_planning": false,
+      "capacity_bytes": 14579748864,
+      "selection_target_bytes": 11663799091,
+      "selection_margin_fraction": 0.2,
+      "selected_plan_carried": false,
+      "memory_recovery": false,
+      "assembly_tile": 0,
+      "paired_assembly": false,
+      "partner_matrix_bytes": 0,
+      "allow_optional_partner": true,
+      "forecast_is_hard_limit": false
+     },
+     "compressed": {
+      "model": "compressed_phase_v2",
+      "peak_bytes": 450172096,
+      "nonstorage_phase_bytes": {
+       "assembly": 445428736,
+       "factorization": 204951152,
+       "solve": 245197824
+      },
+      "process_baseline_bytes": 134217728,
+      "phase_bytes": {
+       "assembly": 450172096,
+       "factorization": 215554592,
+       "solve": 255801264
+      },
+      "operator_bytes": 4743360,
+      "operator_allowance_bytes": 4743360,
+      "inverse_ceiling_bytes": 5860080,
+      "process_geometry_bytes": 172569600,
+      "rhs_workspace_bytes": 60096512,
+      "gmres_workspace_bytes": 4143104,
+      "projection_cache_bytes": 8388608,
+      "retained_worker_allowance_bytes": 0,
+      "retained_polynomial_operator_bytes": 0,
+      "moment_cache_bytes": 0,
+      "assembly_workspace_bytes": 272859136,
+      "tile_metadata_bytes": 5120,
+      "storage_limit_bytes": 14134320128,
+      "temporary_disk_bytes": 4743360,
+      "temporary_disk_semantics": "one partner estimate; exact payload depends on its material equations",
+      "storage_method": "dimensions_only_ceiling",
+      "sampled": false,
+      "samples": 0,
+      "safety": 1.0,
+      "floor_gb": 0.0,
+      "forecast_is_hard_limit": false,
+      "storage_policy": "reservation_minus_phase_workspace"
+     }
+    },
+    "resources": {
+     "nodes": 540,
+     "panels": 540,
+     "basis_width": 2,
+     "n_regions": 1,
+     "formulation": "multi_region",
+     "system_dofs": 540,
+     "operator_matrices": 11,
+     "operator_entries": 583200,
+     "geometric_near_pairs": 3780,
+     "assembly_operator_entries": 0,
+     "operator_map_bytes": 177120,
+     "mass_workspace_bytes": 90728,
+     "block_workspace_bytes": 6635520,
+     "moment_cache_bytes": 0,
+     "assembly_workspace_bytes": 248693760
+    }
+   }
+  ],
+  "cost_scope": {
+   "kind": "aggregate_forecast_meshes",
+   "systems": 4,
+   "polynomial_degrees": [
+    1
+   ]
+  },
+  "mesh_forecast_scope": {
+   "initial_candidate_unknowns_min": 360,
+   "initial_candidate_unknowns_max": 540,
+   "final_size_guaranteed": false,
+   "note": "Initial candidate meshes only; later refinement is admitted again. This is not a likely final-size range."
+  },
+  "selected": "dense",
+  "retry_order": [
+   "compressed"
+  ],
+  "ranking": {
+   "cost_winner": "dense",
+   "selected": "dense",
+   "admitted": [
+    "dense",
+    "compressed"
+   ],
+   "budget_gib": 13.578449249267578,
+   "margin_fraction": 0.2,
+   "margin_applied": true,
+   "excluded": {},
+   "dense_preference_applied": false,
+   "dense_preference_enabled": false,
+   "preference_changed_winner": false,
+   "policy": "memory_and_size_v1",
+   "unknowns": 540,
+   "dense_limit": 10000,
+   "preferred": "dense"
+  },
+  "reason": "Automatic memory-and-size policy selected dense at 540 unknowns; dense preference is below 10000 unknowns, subject to RAM admission.",
+  "planning_seconds": 0.09340558900004226
+ },
+ "requested_execution_options": {
+  "version": 1,
+  "factorization": "automatic",
+  "mesh_strategy": "adaptive",
+  "basis_order": 1,
+  "mesh_grading": true,
+  "enforce_mesh_density": true,
+  "compressed_storage_mib": 0,
+  "ram_budget_gib": null,
+  "temporary_directory": "",
+  "assembly_threads": "auto",
+  "blas_threads": "auto",
+  "rhs_compression": "auto",
+  "angle_batch_size": 256,
+  "assembly_tile": 0,
+  "far_quadrature_order": 0,
+  "far_grading": true,
+  "dense_residual_storage": "auto",
+  "compressed_far_method": "full"
+ },
+ "execution_threads": {
+  "assembly": 4,
+  "blas": "auto"
+ }
+}
