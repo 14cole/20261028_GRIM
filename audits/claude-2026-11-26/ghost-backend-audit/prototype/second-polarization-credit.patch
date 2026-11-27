@@ -1,0 +1,69 @@
+diff --git a/tools/GHOST/ghost_backend/execution/dense_memory.py b/tools/GHOST/ghost_backend/execution/dense_memory.py
+index 1289984..c42d71c 100644
+--- a/tools/GHOST/ghost_backend/execution/dense_memory.py
++++ b/tools/GHOST/ghost_backend/execution/dense_memory.py
+@@ -14,6 +14,16 @@ import tempfile
+ GIB = 1024**3
+ MIB = 1024**2
+ MODEL = 'dense_phase_v1'
++# Bytes of an owned matrix that the solve being planned will reuse in place.
++# The caller sets it only after verifying the exact reusable matrix; final
++# admission already credits the same bytes.
++from ghost_backend.execution.runtime import ScopedValue
++_REUSED_MATRIX = ScopedValue('ghost_dense_reused_matrix_bytes', default=0)
++
++
++def reused_matrix_credit(matrix_bytes):
++    """Plan the enclosed forecast with the verified reusable matrix credited."""
++    return _REUSED_MATRIX.override(int(matrix_bytes or 0))
+ 
+ 
+ def current(dofs=None):
+@@ -76,7 +86,13 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+     storage = option('dense_residual_storage', 'auto')
+     # Use the live limit, including owned-residency credit, not just the
+     # original reservation: another process may have consumed RAM since then.
+-    capacity = None if submission else int(_solve_memory_limit_gb()*GIB)
++    # A matrix this solve reuses in place is already resident, so it is
++    # credited here exactly as final admission credits it. Without the credit
++    # the second polarization is planned against the RAM left beside that
++    # matrix, and a constrained disk plan narrows its angle batch to one.
++    reused = _REUSED_MATRIX.get()
++    reused = reused if reused == matrix and execution and not submission else 0
++    capacity = None if submission else int(_solve_memory_limit_gb(reused/GIB)*GIB)
+     # Price the same lean plan before Automatic's headroom ranking and on
+     # the actual mesh. Explicit storage requests retain their meaning.
+     from ghost_backend.execution.policy import AUTOMATIC_MEMORY_MARGIN
+@@ -134,6 +150,7 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+         scratch_checked=eligible and not submission and storage != 'memory',
+         scratch_available=scratch_ok, scratch_failure=scratch_reason,
+         submission_planning=bool(submission), capacity_bytes=capacity,
++        reused_matrix_credit_bytes=reused,
+         selection_target_bytes=target, selection_margin_fraction=margin,
+         selected_plan_carried=bool(carried),
+         memory_recovery=constrained, assembly_tile=128 if constrained and eligible else 0,
+diff --git a/tools/GHOST/ghost_backend/twod/solver.py b/tools/GHOST/ghost_backend/twod/solver.py
+index 8e15267..2c4b099 100644
+--- a/tools/GHOST/ghost_backend/twod/solver.py
++++ b/tools/GHOST/ghost_backend/twod/solver.py
+@@ -2595,7 +2595,11 @@ def solve_monostatic_rcs_2d_single_polarization(
+             assembly=current_session()
+             if assembly is not None:
+                 assembly.compressed_partner=(mesh,_build_linear_coupled_infos(mesh,materials,freq_ghz,'TM',k0))
++        from ghost_backend.twod.assembly.session import reusable_dense_bytes, plan_paired_assembly
++        from ghost_backend.execution.dense_memory import reused_matrix_credit
++        resident_bytes=reusable_dense_bytes(mesh,coupled_infos,pol,resources['formulation'],resources['system_dofs'])
+         def estimate_system_memory():
++          with reused_matrix_credit(resident_bytes):
+             return _estimate_memory_gb(
+                 resources["nodes"], use_cfie=False,
+                 n_regions=max(1, resources["n_regions"]),
+@@ -2604,8 +2608,6 @@ def solve_monostatic_rcs_2d_single_polarization(
+                 n_rhs=max(1, len(elevations)), solver_method=solver_method,
+                 formulation=resources["formulation"])
+         est_gb = estimate_system_memory()
+-        from ghost_backend.twod.assembly.session import reusable_dense_bytes, plan_paired_assembly
+-        resident_bytes=reusable_dense_bytes(mesh,coupled_infos,pol,resources['formulation'],resources['system_dofs'])
+         def available_system_memory():
+             return _solve_memory_limit_gb(resident_bytes/1024**3) if resident_bytes else _solve_memory_limit_gb()
+         memory_limit_gb = available_system_memory()

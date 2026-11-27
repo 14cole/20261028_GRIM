@@ -45,6 +45,10 @@ print(json.dumps(dict(
     rss_before_solve_gib=round(rss_before, 3), peak_rss_gib=round(status("VmHWM"), 3),
     error_TM=rel(F["TM"], exact["TM"]), error_TE=rel(F["TE"], exact["TE"]),
     memory_accounting={k: v for k, v in mem.items() if isinstance(v, (int, float, str, bool))},
+    rhs_batches={k: meta.get(k) for k in ("dense_rhs_batch_count", "dense_max_rhs_columns", "dense_rhs_column_count",
+                                          "dense_factorization_count", "assembled_system_reuses")},
+    memory_estimates=[{k: v for k, v in e.items() if isinstance(v, (int, float, str, bool))}
+                      for e in ((meta.get("experimental_cpu") or {}).get("memory_estimates") or [])][-8:],
     stage_seconds=(meta.get("runtime_profile") or {}).get("stage_seconds"),
     stage_calls=(meta.get("runtime_profile") or {}).get("stage_calls"),
     stage_semantics=(meta.get("runtime_profile") or {}).get("stage_semantics"),
