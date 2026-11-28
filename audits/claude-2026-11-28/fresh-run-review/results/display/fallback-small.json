@@ -1,0 +1,424 @@
+{
+  "source": "rc",
+  "case": "full",
+  "host": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "numpy": "2.4.6",
+  "python": "3.13.18",
+  "pyside6": "6.12.0",
+  "fixture": "synthetic fields through RecoveryRun.save/result and offscreen SolverTab",
+  "display_limit_bytes": 1,
+  "results": {
+    "complete": {
+      "presentation": {
+        "seconds": 0.5585174390000134,
+        "verified_frequency_loads": 196,
+        "distinct_frequencies": 7,
+        "loads_per_frequency": [
+          28
+        ],
+        "incremental_peak_rss_mib": 4.40625
+      },
+      "all_cells": {
+        "seconds": 0.04192213700000025,
+        "verified_frequency_loads": 7,
+        "distinct_frequencies": 7,
+        "loads_per_frequency": [
+          1
+        ],
+        "incremental_peak_rss_mib": 0.01953125,
+        "read_order_ghz": [
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0,
+          7.0
+        ]
+      },
+      "repeated_view": {
+        "seconds": 0.35820986400000265,
+        "verified_frequency_loads": 84,
+        "distinct_frequencies": 7,
+        "loads_per_frequency": [
+          12
+        ],
+        "incremental_peak_rss_mib": 0.06640625
+      },
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Cut angle (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "c258dfabd959cceb2cbef6370d18bf308119ae430db557bf9a361321ebb917b6",
+        "curves_sha256": "bc52b7628464170a122314021034e4c444c42b3c0fb86fa99f50d38bd18a5a37",
+        "rows": 154,
+        "cells": 770,
+        "curves": 14,
+        "plot_labels": [
+          "Monostatic 2-D Scattering Width",
+          "Cut angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "state": {
+        "status": "Solved 2-D monostatic scattering width with 7 frequency(ies) and 11 cut angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=2d_monostatic_rcs result_kind=2d_monostatic scattering_mode=monostatic freq_count=7 cut_count=11 units=meters pols=VV,HH"
+        ],
+        "missing": []
+      },
+      "reader_released_after_replacement": true
+    },
+    "partial_recover_dialog": {
+      "presentation": {
+        "seconds": 0.24654480600000284,
+        "verified_frequency_loads": 48,
+        "distinct_frequencies": 4,
+        "loads_per_frequency": [
+          12
+        ],
+        "incremental_peak_rss_mib": 0.16796875
+      },
+      "all_cells": {
+        "seconds": 0.026733334999988756,
+        "verified_frequency_loads": 4,
+        "distinct_frequencies": 4,
+        "loads_per_frequency": [
+          1
+        ],
+        "incremental_peak_rss_mib": 0.0234375,
+        "read_order_ghz": [
+          4.0,
+          5.0,
+          6.0,
+          7.0
+        ]
+      },
+      "repeated_view": {
+        "seconds": 0.23317923699997323,
+        "verified_frequency_loads": 48,
+        "distinct_frequencies": 4,
+        "loads_per_frequency": [
+          12
+        ],
+        "incremental_peak_rss_mib": 0.46875
+      },
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Cut angle (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "64f4b387de044c4227a272ea130a5b29abefd0d1d99db220a1dd904a407f4473",
+        "curves_sha256": "ef50b247cbe8a080972a7350c152cebe82f894fc0d3621b817d2e95165398c1d",
+        "rows": 88,
+        "cells": 440,
+        "curves": 8,
+        "plot_labels": [
+          "Monostatic 2-D Scattering Width",
+          "Cut angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "state": {
+        "status": "Recovered 4 of 7 frequencies. Missing frequencies were not filled or solved. Use Export Last Result to export the completed data. Folder: <run>",
+        "history": [],
+        "missing": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    "corrupt_after_index": {
+      "messages": [
+        "Cannot display the completed result: Frequency output is missing or corrupt: 7 GHz"
+      ],
+      "blocked": true,
+      "previous_result_kept": true,
+      "previous_valid_record_readable_after_error": true
+    },
+    "bor_plain_list": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Aspect (deg)",
+          "RCS (m^2)",
+          "RCS (dBsm)"
+        ],
+        "table_sha256": "981b4727a0fe9d19249a4b2019c164ccd57228af05746dd782999105ad3a8a82",
+        "curves_sha256": "e761173001bef88575a00d135b92f7d4d4b27c454cd452968e141a45c71b70f9",
+        "rows": 4,
+        "cells": 20,
+        "curves": 2,
+        "plot_labels": [
+          "Monostatic RCS (BoR)",
+          "Aspect angle from +z axis (deg)",
+          "RCS (dBsm)"
+        ]
+      },
+      "status": "Solved BoR monostatic RCS with 2 frequency(ies) and 3 aspect angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+      "history": [
+        "solver=bor_mom_rcs result_kind=bor scattering_mode=monostatic freq_count=2 aspect_count=3 units=meters pols=VV,HH"
+      ]
+    },
+    "bistatic_plain_list": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Incidence (deg)",
+          "Observation (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "eebaa5eb7e4c36364486933f35939be3802c6b92030eb16f7880ff4990ea7f09",
+        "curves_sha256": "0b8fe09b13ed3e7eef84e0707b7d2c1bb660acc7f3d51f8b31a2dc5a4651a959",
+        "rows": 4,
+        "cells": 24,
+        "curves": 3,
+        "plot_labels": [
+          "Bistatic 2-D Scattering Width",
+          "Observation angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "status": "Solved 2-D bistatic scattering width with 2 frequency(ies), 3 incidence angle(s), and 4 observation angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+      "history": [
+        "solver=2d_bistatic_rcs result_kind=2d_bistatic scattering_mode=bistatic freq_count=2 inc_count=3 obs_count=4 units=meters pols=VV,HH"
+      ]
+    },
+    "generic_in_place_refresh": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Cut angle (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "2e14c848c90b2919e2f205e9e8486c6d7685e07403b6f6c870acd4f1d3802b1b",
+        "curves_sha256": "679d0d88da289c10d4ca9f3d13b2a3eb74025f9e15579a9cabe361c4130462b6",
+        "rows": 2,
+        "cells": 10,
+        "curves": 2,
+        "plot_labels": [
+          "Monostatic 2-D Scattering Width",
+          "Cut angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      }
+    },
+    "bor_requested_order_record": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Aspect (deg)",
+          "RCS (m^2)",
+          "RCS (dBsm)"
+        ],
+        "table_sha256": "39e5414fa8b938bc8573aa7b8ced36a192da563c4fabcb02ff3dba62edbe416c",
+        "curves_sha256": "be0b9a9d7c9c56843c4b6e26787f7f840992377628379d934c2985bf03a9847c",
+        "rows": 66,
+        "cells": 330,
+        "curves": 6,
+        "plot_labels": [
+          "Monostatic RCS (BoR)",
+          "Aspect angle from +z axis (deg)",
+          "RCS (dBsm)"
+        ]
+      },
+      "state": {
+        "status": "Solved BoR monostatic RCS with 3 frequency(ies) and 11 aspect angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=bor_mom_rcs result_kind=bor scattering_mode=monostatic freq_count=3 aspect_count=11 units=meters pols=VV,HH"
+        ]
+      },
+      "presentation": {
+        "seconds": 0.29007586599999513,
+        "verified_frequency_loads": 84,
+        "distinct_frequencies": 3,
+        "loads_per_frequency": [
+          28
+        ],
+        "incremental_peak_rss_mib": 0.140625
+      },
+      "expected_compact": true
+    },
+    "bor_expanded_order_record": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Aspect (deg)",
+          "RCS (m^2)",
+          "RCS (dBsm)"
+        ],
+        "table_sha256": "39e5414fa8b938bc8573aa7b8ced36a192da563c4fabcb02ff3dba62edbe416c",
+        "curves_sha256": "be0b9a9d7c9c56843c4b6e26787f7f840992377628379d934c2985bf03a9847c",
+        "rows": 66,
+        "cells": 330,
+        "curves": 6,
+        "plot_labels": [
+          "Monostatic RCS (BoR)",
+          "Aspect angle from +z axis (deg)",
+          "RCS (dBsm)"
+        ]
+      },
+      "state": {
+        "status": "Solved BoR monostatic RCS with 3 frequency(ies) and 11 aspect angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=bor_mom_rcs result_kind=bor scattering_mode=monostatic freq_count=3 aspect_count=11 units=meters pols=VV,HH"
+        ]
+      },
+      "presentation": {
+        "seconds": 0.3491342049999844,
+        "verified_frequency_loads": 84,
+        "distinct_frequencies": 3,
+        "loads_per_frequency": [
+          28
+        ],
+        "incremental_peak_rss_mib": 0.11328125
+      },
+      "expected_compact": true
+    },
+    "bistatic_record": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Incidence (deg)",
+          "Observation (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "13b1feaad765cac0e3ef90fc20d90940b183815552bddf7b1370e7bc5ee719c4",
+        "curves_sha256": "e4c9ca89a23c5bdadb60ff0a50cbf803b24df075d437135ba9ed7ee575b7b4f1",
+        "rows": 66,
+        "cells": 396,
+        "curves": 12,
+        "plot_labels": [
+          "Bistatic 2-D Scattering Width",
+          "Observation angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "state": {
+        "status": "Solved 2-D bistatic scattering width with 3 frequency(ies), 2 incidence angle(s), and 11 observation angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=2d_bistatic_rcs result_kind=2d_bistatic scattering_mode=bistatic freq_count=3 inc_count=2 obs_count=11 units=meters pols=VV,HH"
+        ]
+      },
+      "presentation": {
+        "seconds": 0.33992370900000424,
+        "verified_frequency_loads": 96,
+        "distinct_frequencies": 3,
+        "loads_per_frequency": [
+          32
+        ],
+        "incremental_peak_rss_mib": 0.39453125
+      },
+      "expected_compact": true
+    },
+    "extension_record": {
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Incidence (deg)",
+          "Observation (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "d398edfa430fc113739b1300c3c89f63bea87ac4db305784dcd595d6d02aa860",
+        "curves_sha256": "e6f540ff07d71df08c6688d890dd081695d31cf30ddcd4038fee211bdbfb419d",
+        "rows": 66,
+        "cells": 396,
+        "curves": 15,
+        "plot_labels": [
+          "Bistatic 2-D Scattering Width",
+          "Observation angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "state": {
+        "status": "Solved 2-D bistatic scattering width with 3 frequency(ies), 2 incidence angle(s), and 11 observation angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=2d_bistatic_rcs result_kind=2d_bistatic scattering_mode=bistatic freq_count=3 inc_count=2 obs_count=11 units=meters pols=VV,HH"
+        ]
+      },
+      "presentation": {
+        "seconds": 0.3298205239999845,
+        "verified_frequency_loads": 96,
+        "distinct_frequencies": 3,
+        "loads_per_frequency": [
+          32
+        ],
+        "incremental_peak_rss_mib": 0.2734375
+      },
+      "expected_compact": false
+    },
+    "retry_after_disk_repair": {
+      "repaired_without_reopen": true,
+      "errors": []
+    },
+    "real_export_release": {
+      "numeric_members": {
+        "azimuths": [
+          "float64",
+          [
+            11
+          ],
+          "2912a5f2fe39df97369a6c3caccb28618c83d3e6bb8c8687a389e7241f112d38"
+        ],
+        "elevations": [
+          "float64",
+          [
+            1
+          ],
+          "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        ],
+        "frequencies": [
+          "float64",
+          [
+            3
+          ],
+          "fe6fe01dcee767edb26b77ae1559725f9d98a7f32c9283e9d2139ce41712fcd2"
+        ],
+        "raw_complex_amplitude_preserved": [
+          "bool",
+          [],
+          "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+        ],
+        "grim_format_version": [
+          "int16",
+          [],
+          "99be5efb88ca2013bd8e4eb035fd42d5245468fe9afa70d8ba9c1c419a48c4e8"
+        ],
+        "rcs_complex": [
+          "complex128",
+          [
+            11,
+            1,
+            3,
+            2
+          ],
+          "a56e193e5901552a0e681d76d4657e7c04bcd0d935344bf2685d42678abfdac0"
+        ]
+      },
+      "released": true,
+      "stale_warning": [
+        "Geometry changed after this result was computed. Run the solver again before exporting."
+      ],
+      "post_display_corruption_prevented_export": true
+    }
+  }
+}

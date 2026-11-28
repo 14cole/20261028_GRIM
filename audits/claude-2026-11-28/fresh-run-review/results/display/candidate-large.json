@@ -1,0 +1,59 @@
+{
+  "source": "rc",
+  "case": "large",
+  "host": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "numpy": "2.4.6",
+  "python": "3.13.18",
+  "pyside6": "6.12.0",
+  "fixture": "synthetic fields through RecoveryRun.save/result and offscreen SolverTab",
+  "display_limit_bytes": 16777216,
+  "results": {
+    "complete": {
+      "presentation": {
+        "seconds": 0.499562606000012,
+        "verified_frequency_loads": 53,
+        "distinct_frequencies": 53,
+        "loads_per_frequency": [
+          1
+        ],
+        "incremental_peak_rss_mib": 7.80859375
+      },
+      "all_cells": {
+        "seconds": 5.099107067000006,
+        "verified_frequency_loads": 53,
+        "distinct_frequencies": 53,
+        "loads_per_frequency": [
+          1
+        ],
+        "incremental_peak_rss_mib": 6.66015625
+      },
+      "repeated_view": {},
+      "values": {
+        "headers": [
+          "Frequency (GHz)",
+          "Pol",
+          "Cut angle (deg)",
+          "Width (m)",
+          "Width (dBke)"
+        ],
+        "table_sha256": "a796f16149cbb724512adf3027315ac34b956db43075420754362fd27b75af66",
+        "curves_sha256": "07284d91d308dc98219f937e7024d416cb32b82e3eddc8153a3ec2bba0509175",
+        "rows": 57346,
+        "cells": 286730,
+        "curves": 106,
+        "plot_labels": [
+          "Monostatic 2-D Scattering Width",
+          "Cut angle (deg)",
+          "2-D scattering width (dBke)"
+        ]
+      },
+      "state": {
+        "status": "Solved 2-D monostatic scattering width with 53 frequency(ies) and 541 cut angle(s). Quality gate: NOT REPORTED. Exported capture.grim",
+        "history": [
+          "solver=2d_monostatic_rcs result_kind=2d_monostatic scattering_mode=monostatic freq_count=53 cut_count=541 units=meters pols=VV,HH"
+        ],
+        "missing": []
+      }
+    }
+  }
+}
