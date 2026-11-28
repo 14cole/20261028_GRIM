@@ -293,11 +293,19 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                         materials=materials, frequencies_ghz=served)
                     k0 = 2 * math.pi * freq * 1e9 / s.C0
                     pols=(s._normalize_polarization(arguments['polarization']),) if 'polarization' in arguments else ('TE','TM')
+                    thin_mesh = None
                     for pol in pols:
                         infos = s._build_coupled_panel_info(panels, materials, freq, pol, k0)
-                        mesh, _ = s._build_linear_mesh_interface_aware(panels, infos, polarization=pol)
-                        coupled = s._build_linear_coupled_infos(mesh, materials, freq, pol, k0)
-                        layer = s.layer_for_mesh(mesh, materials, freq) if any(i.bc_kind == 'thin_layer' for i in coupled) else None
+                        if thin_mesh is None:
+                            mesh, _ = s._build_linear_mesh_interface_aware(panels, infos, polarization=pol)
+                            coupled = s._build_linear_coupled_infos(mesh, materials, freq, pol, k0)
+                        else:
+                            # A homogeneous thin layer shares its physical midsurface. The new
+                            # channel's panel-order material records follow its saved permutation.
+                            mesh, coupled = thin_mesh, infos
+                        mesh, coupled, layer = s._prepare_formulation_mesh(mesh, coupled, materials, freq)
+                        if layer is not None:
+                            thin_mesh = mesh
                         resources = s._dense_formulation_resources(mesh, coupled, pol, layer, sample_compression=False)
                         if resource_records is not None:
                             resource_records.append((dict(resources), dict(mesh_options)))
