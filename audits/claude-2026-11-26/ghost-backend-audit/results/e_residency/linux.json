@@ -1,0 +1,94 @@
+{
+ "resident": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 255.99609375,
+  "credit_mib": 255.99609375,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 256.63671875,
+  "expected": "full"
+ },
+ "released": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 0.0,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 0.64453125,
+  "process_rss_growth_mib": 0.64453125,
+  "expected": "zero"
+ },
+ "released_then_unrelated_allocation": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 0.0,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 256.66015625,
+  "expected": "zero"
+ },
+ "half_restored": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 129.171875,
+  "credit_mib": 129.171875,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 385.8359375,
+  "expected": "half"
+ },
+ "allocated_never_written": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 0.0,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 129.83984375,
+  "process_rss_growth_mib": 129.83984375,
+  "expected": "zero"
+ },
+ "view_of_resident_buffer": {
+  "array_mib": 255.99998474121094,
+  "measured_resident_mib": null,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 255.99998474121094,
+  "process_rss_growth_mib": 385.84375,
+  "expected": "zero (not an owned buffer)"
+ },
+ "fortran_ordered_matrix": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 255.99609375,
+  "credit_mib": 255.99609375,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 385.84765625,
+  "expected": "full"
+ },
+ "probe_unavailable": {
+  "array_mib": 256.0,
+  "measured_resident_mib": null,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 385.84765625,
+  "expected": "zero"
+ },
+ "probe_raises": {
+  "array_mib": 256.0,
+  "measured_resident_mib": null,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 385.84765625,
+  "expected": "zero"
+ },
+ "overlapping_requests": {
+  "array_mib": 256.0,
+  "measured_resident_mib": 255.99609375,
+  "credit_mib": 0.0,
+  "rss_growth_rule_mib": 256.0,
+  "process_rss_growth_mib": 385.84765625,
+  "expected": "zero"
+ },
+ "limit_after_release_and_refill": {
+  "uncredited_limit_gib": 0.5,
+  "per_buffer_rule_limit_gib": 0.5,
+  "rss_growth_rule_limit_gib": 0.75,
+  "binding": "live_physical_ram"
+ },
+ "explicit_cap_with_full_credit": {
+  "credit_mib": 255.99609375,
+  "limit_gib": 0.3,
+  "binding": "stable_reservation"
+ },
+ "probe_seconds_per_gib": 0.010818155500032844
+}

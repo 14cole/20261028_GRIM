@@ -1,0 +1,314 @@
+diff --git a/tools/GHOST/ghost_backend/execution/dense_memory.py b/tools/GHOST/ghost_backend/execution/dense_memory.py
+index 1289984..5ed8f91 100644
+--- a/tools/GHOST/ghost_backend/execution/dense_memory.py
++++ b/tools/GHOST/ghost_backend/execution/dense_memory.py
+@@ -65,7 +65,20 @@ def scratch_available(required):
+         return False, str(exc)
+ 
+ 
+-def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False, execution=False):
++def bounded_reuse_hint(matrix):
++    """Physical credit for a retained matrix: only the pages the OS reports resident."""
++    if matrix is None:
++        return 0
++    from ghost_backend.execution.memory_budget import current
++    from ghost_backend.execution.residency import physical_credit
++    owner = current()
++    if owner is None or owner.shared_process:
++        return 0
++    return physical_credit(matrix)
++
++
++def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False, execution=False,
++             reusable_matrix=None):
+     from ghost_backend.execution.options import option, automatic_policy_requested
+     from ghost_backend.twod.solver import _solve_memory_limit_gb
+     from ghost_backend.linalg.residual_spool import ResidualSpool
+@@ -76,12 +89,10 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+     storage = option('dense_residual_storage', 'auto')
+     # Use the live limit, including owned-residency credit, not just the
+     # original reservation: another process may have consumed RAM since then.
+-    capacity = None if submission else int(_solve_memory_limit_gb()*GIB)
+     # Price the same lean plan before Automatic's headroom ranking and on
+     # the actual mesh. Explicit storage requests retain their meaning.
+     from ghost_backend.execution.policy import AUTOMATIC_MEMORY_MARGIN
+     margin = AUTOMATIC_MEMORY_MARGIN if automatic_policy_requested() and storage == 'auto' else 0.
+-    target = int(capacity*(1.-margin)) if capacity is not None else None
+     carried = None
+     if execution and eligible and storage == 'auto':
+         from ghost_backend.execution.selection import current_request_selection
+@@ -115,6 +126,30 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+     chosen = 'disk' if eligible and scratch_ok and (storage == 'disk' or carried) else 'memory'
+     phases, peak = price(chosen, batch)
+     initial_peak = price('memory', original_batch)[1]
++
++    def limits(hint):
++        if submission:
++            return None, None, False, 0
++        capacity = int((_solve_memory_limit_gb(hint/GIB) if hint else _solve_memory_limit_gb()) * GIB)
++        target = int(capacity * (1.-margin))
++        constrained = bool(carried) or initial_peak > target
++        return capacity, target, constrained, 128 if constrained and eligible else 0
++
++    hint = 0
++    offered = 0
++    retained = reusable_matrix[0]() if execution and not submission and reusable_matrix else None
++    if retained is not None and retained.nbytes == matrix:
++        offered = matrix
++        hint = bounded_reuse_hint(retained)
++    del retained
++    capacity, target, constrained, tile = limits(hint)
++    if hint:
++        from ghost_backend.twod.operators import _ASSEMBLY_TILE
++        if _effective_tile(_ASSEMBLY_TILE, tile) != reusable_matrix[1]:
++            # The proposed plan cannot consume the retained matrix. Price a
++            # fresh destination before publishing this plan or using its batch.
++            hint = 0
++            capacity, target, constrained, tile = limits(0)
+     if eligible and target is not None and peak > target and storage != 'memory' and scratch_ok:
+         chosen = 'disk'
+         phases, peak = price(chosen, batch)
+@@ -123,7 +158,6 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+         while peak > target and batch > 1:
+             batch = max(1, min(64, batch//2))
+             phases, peak = price(chosen, batch)
+-    constrained = bool(carried) or target is not None and initial_peak > target
+     return dict(model=MODEL, system_dofs=d, matrix_bytes=matrix,
+         peak_bytes=int(math.ceil(peak)), phase_bytes={k:int(v) for k,v in phases.items()},
+         process_baseline_bytes=128*MIB, process_geometry_bytes=overhead,
+@@ -133,10 +167,10 @@ def forecast(d, count, batch, assembly, solve, extra, eligible, submission=False
+         temporary_disk_bytes=matrix if chosen == 'disk' else 0,
+         scratch_checked=eligible and not submission and storage != 'memory',
+         scratch_available=scratch_ok, scratch_failure=scratch_reason,
+-        submission_planning=bool(submission), capacity_bytes=capacity,
++        submission_planning=bool(submission), capacity_bytes=capacity, reused_matrix_offered_bytes=offered, reused_matrix_credit_bytes=hint,
+         selection_target_bytes=target, selection_margin_fraction=margin,
+         selected_plan_carried=bool(carried),
+-        memory_recovery=constrained, assembly_tile=128 if constrained and eligible else 0,
++        memory_recovery=constrained, assembly_tile=tile,
+         paired_assembly=False, partner_matrix_bytes=0,
+         allow_optional_partner=not constrained and chosen == 'memory',
+         forecast_is_hard_limit=False)
+@@ -184,9 +218,13 @@ def admit_spool(matrix):
+         raise MemoryError('Dense disk residual workspace no longer fits the remaining solve RAM budget.')
+ 
+ 
+-def assembly_tile_setting(default=0, planned=True):
+-    """Effective tile override, also part of retained-operator cache identities."""
++def _effective_tile(default, recovery_tile):
+     from ghost_backend.execution.options import option
+     explicit = int(option('assembly_tile', default))
++    return explicit if explicit > 0 else recovery_tile
++
++
++def assembly_tile_setting(default=0, planned=True):
++    """Effective tile override, also part of retained-operator cache identities."""
+     plan = current() if planned else None
+-    return explicit if explicit > 0 else int(plan['assembly_tile']) if plan else 0
++    return _effective_tile(default, int(plan['assembly_tile']) if plan else 0)
+diff --git a/tools/GHOST/ghost_backend/execution/residency.py b/tools/GHOST/ghost_backend/execution/residency.py
+new file mode 100644
+index 0000000..d5ac469
+--- /dev/null
++++ b/tools/GHOST/ghost_backend/execution/residency.py
+@@ -0,0 +1,92 @@
++"""Measured physical residency of one owned buffer.
++
++Process RSS growth cannot show which arrays are in RAM: pages trimmed from one
++buffer are replaced in the total by any later allocation. Ask the OS about the
++buffer's own pages instead. None means unknown; callers then grant no credit.
++"""
++import ctypes
++import os
++import sys
++
++_CHUNK_PAGES = 1 << 18
++
++
++def _interior(array, page):
++    """Whole pages inside the buffer; partial edge pages are never credited."""
++    start = array.__array_interface__['data'][0]
++    first = -(-start // page) * page
++    return first, max(0, (start + array.nbytes - first) // page)
++
++
++def _posix(array):
++    page = os.sysconf('SC_PAGESIZE')
++    address, pages = _interior(array, page)
++    libc = ctypes.CDLL(None, use_errno=True)
++    mincore = libc.mincore
++    mincore.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_char_p]
++    mincore.restype = ctypes.c_int
++    vector = ctypes.create_string_buffer(_CHUNK_PAGES)
++    resident = 0
++    for offset in range(0, pages, _CHUNK_PAGES):
++        count = min(_CHUNK_PAGES, pages - offset)
++        if mincore(address + offset*page, count*page, vector):
++            return None
++        raw = vector.raw[:count]
++        # Only bit 0 is defined; the other bits are reserved.
++        resident += sum(raw.count(bytes([value])) for value in range(1, 256, 2))
++    return resident*page
++
++
++def _windows(array):
++    from ctypes import wintypes
++
++    class Entry(ctypes.Structure):
++        _fields_ = [('address', ctypes.c_void_p), ('attributes', ctypes.c_size_t)]
++
++    information = ctypes.windll.kernel32.GetSystemInfo
++    class SystemInfo(ctypes.Structure):
++        _fields_ = [('oem', wintypes.DWORD), ('page', wintypes.DWORD), ('low', ctypes.c_void_p),
++                    ('high', ctypes.c_void_p), ('mask', ctypes.c_size_t), ('count', wintypes.DWORD),
++                    ('kind', wintypes.DWORD), ('granularity', wintypes.DWORD),
++                    ('level', wintypes.WORD), ('revision', wintypes.WORD)]
++    system = SystemInfo()
++    information(ctypes.byref(system))
++    page = int(system.page)
++    address, pages = _interior(array, page)
++    kernel = ctypes.windll.kernel32
++    kernel.GetCurrentProcess.restype = wintypes.HANDLE
++    query = ctypes.windll.psapi.QueryWorkingSetEx
++    query.argtypes = [wintypes.HANDLE, ctypes.c_void_p, wintypes.DWORD]
++    query.restype = wintypes.BOOL
++    process = kernel.GetCurrentProcess()
++    chunk = 1 << 16
++    entries = (Entry*chunk)()
++    resident = 0
++    for offset in range(0, pages, chunk):
++        count = min(chunk, pages - offset)
++        for index in range(count):
++            entries[index].address = address + (offset + index)*page
++        if not query(process, entries, count*ctypes.sizeof(Entry)):
++            return None
++        # Bit 0 (Valid): the page is in this process's working set.
++        resident += sum(1 for index in range(count) if entries[index].attributes & 1)
++    return resident*page
++
++
++def resident_bytes(array):
++    """Bytes of ``array``'s own buffer now in physical memory, or None if unknown."""
++    try:
++        import numpy as np
++        if not isinstance(array, np.ndarray) or not array.flags.owndata or not (array.flags.c_contiguous or array.flags.f_contiguous):
++            return None
++        if not array.nbytes:
++            return 0
++        return _windows(array) if sys.platform == 'win32' else _posix(array)
++    except Exception:
++        return None
++
++
++def physical_credit(array):
++    """Credit for a retained buffer: what the OS confirms is resident, else nothing."""
++    measured = resident_bytes(array)
++    return 0 if measured is None else min(int(array.nbytes), int(measured))
+diff --git a/tools/GHOST/ghost_backend/twod/assembly/session.py b/tools/GHOST/ghost_backend/twod/assembly/session.py
+index 5b0b9cd..45c6e1c 100644
+--- a/tools/GHOST/ghost_backend/twod/assembly/session.py
++++ b/tools/GHOST/ghost_backend/twod/assembly/session.py
+@@ -67,7 +67,13 @@ def plan_paired_assembly(polarization, formulation, dofs, estimated_gib, limit_g
+ 
+ 
+ def reusable_dense_bytes(mesh, infos, polarization, formulation, dofs):
+-    """Credit only the owned matrix the next polarization will reuse.
++    """Size of the owned matrix the next polarization will reuse, else 0."""
++    matrix = reusable_dense(mesh, infos, polarization, formulation, dofs)
++    return 0 if matrix is None else matrix.nbytes
++
++
++def reusable_dense(mesh, infos, polarization, formulation, dofs):
++    """The owned matrix the next polarization will reuse under the current plan.
+ 
+     A matching shape alone is insufficient: geometry, materials, frequency,
+     formulation and quadrature must match the assembly session key.
+@@ -76,15 +82,15 @@ def reusable_dense_bytes(mesh, infos, polarization, formulation, dofs):
+     from ghost_backend.linalg.hierarchical import factor_mode
+     session=current_session()
+     if factor_mode()!='dense' or polarization!='TM' or session is None or session.pending is None:
+-        return 0
++        return None
+     kind={'robin':'robin','single_dielectric':'dielectric','multi_region':'multi_region'}.get(formulation)
+-    if kind is None:return 0
++    if kind is None:return None
+     key,value=session.pending
+-    if key!=system_key(mesh,infos,kind,8,8):return 0
++    if key!=system_key(mesh,infos,kind,8,8):return None
+     matrix=value[0]
+     if (not isinstance(matrix,np.ndarray) or matrix.dtype!=np.complex128 or
+-        matrix.shape!=(dofs,dofs) or not matrix.flags.owndata):return 0
+-    return matrix.nbytes
++        matrix.shape!=(dofs,dofs) or not matrix.flags.owndata):return None
++    return matrix
+ 
+ 
+ def shared_assembly(function):
+diff --git a/tools/GHOST/ghost_backend/twod/solver.py b/tools/GHOST/ghost_backend/twod/solver.py
+index 8e15267..766a262 100644
+--- a/tools/GHOST/ghost_backend/twod/solver.py
++++ b/tools/GHOST/ghost_backend/twod/solver.py
+@@ -1643,6 +1643,7 @@ def _estimate_memory_gb(
+     dense_resources=None,
+     activate_memory_plan=False,
+     submission_planning=False,
++    reusable_matrix=None,
+ ) -> 'float':
+     """
+     Estimate peak memory for the dense BIE/MoM solve in GiB (2**30 bytes).
+@@ -1730,7 +1731,7 @@ def _estimate_memory_gb(
+                   and requested_precision() == 'double' and kind in
+                   ('robin', 'te_robin', 'single_dielectric', 'multi_region', 'sheet',
+                    'mixed_sheet_pec', 'thin_dielectric_layer')),
+-        submission=submission_planning, execution=activate_memory_plan)
++        submission=submission_planning, execution=activate_memory_plan, reusable_matrix=reusable_matrix)
+     if 'assembly_direct_destinations' in resources:
+         plan['assembly_ownership'] = {key: resources[key] for key in
+             ('assembly_operator_entries', 'assembly_direct_destinations',
+@@ -2595,6 +2596,14 @@ def solve_monostatic_rcs_2d_single_polarization(
+             assembly=current_session()
+             if assembly is not None:
+                 assembly.compressed_partner=(mesh,_build_linear_coupled_infos(mesh,materials,freq_ghz,'TM',k0))
++        from ghost_backend.twod.assembly.session import reusable_dense, plan_paired_assembly
++        from ghost_backend.execution.dense_memory import assembly_tile_setting, bounded_reuse_hint
++        reuse_args = (mesh, coupled_infos, pol, resources['formulation'], resources['system_dofs'])
++        owned = reusable_dense(*reuse_args)
++        import weakref
++        # Weak: pricing must not extend the life of the matrix it prices.
++        reusable_matrix = (weakref.ref(owned), assembly_tile_setting(_ASSEMBLY_TILE)) if owned is not None else None
++        del owned
+         def estimate_system_memory():
+             return _estimate_memory_gb(
+                 resources["nodes"], use_cfie=False,
+@@ -2602,12 +2611,17 @@ def solve_monostatic_rcs_2d_single_polarization(
+                 system_dofs=resources["system_dofs"],
+                 operator_matrices=resources["operator_matrices"], dense_resources=resources, activate_memory_plan=True,
+                 n_rhs=max(1, len(elevations)), solver_method=solver_method,
+-                formulation=resources["formulation"])
++                formulation=resources["formulation"], reusable_matrix=reusable_matrix)
+         est_gb = estimate_system_memory()
+-        from ghost_backend.twod.assembly.session import reusable_dense_bytes, plan_paired_assembly
+-        resident_bytes=reusable_dense_bytes(mesh,coupled_infos,pol,resources['formulation'],resources['system_dofs'])
++        # The final tile was unknown when the forecast started. Recheck the
++        # complete identity under the selected plan before the live gate.
++        retained = reusable_dense(*reuse_args)
++        resident_bytes = 0 if retained is None else retained.nbytes
++        retained = None if retained is None else weakref.ref(retained)
++        credited = [0]
+         def available_system_memory():
+-            return _solve_memory_limit_gb(resident_bytes/1024**3) if resident_bytes else _solve_memory_limit_gb()
++            credited[0] = bounded_reuse_hint(retained() if retained is not None else None)
++            return _solve_memory_limit_gb(credited[0]/1024**3) if credited[0] else _solve_memory_limit_gb()
+         memory_limit_gb = available_system_memory()
+         from ghost_backend.execution.angle_batch import recover as recover_angle_batch
+         from ghost_backend.execution.cpu import configured_batch_size
+@@ -2625,7 +2639,8 @@ def solve_monostatic_rcs_2d_single_polarization(
+             state=current_state()
+             if state is not None:
+                 state.memory_estimates.append(dict(method='reused_dense_matrix_admission',
+-                    resident_matrix_bytes=resident_bytes,total_peak_gib=est_gb,admission_limit_gib=memory_limit_gb))
++                    resident_matrix_bytes=resident_bytes,measured_resident_credit_bytes=credited[0],
++                    assembly_tile=assembly_tile_setting(_ASSEMBLY_TILE),total_peak_gib=est_gb,admission_limit_gib=memory_limit_gb))
+         if plan_paired_assembly(pol, resources['formulation'], resources['system_dofs'], est_gb, memory_limit_gb):
+             from ghost_backend.execution.cpu import current_state
+             state=current_state()
