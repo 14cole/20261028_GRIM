@@ -1979,6 +1979,40 @@ def load_body_requested_radar_grid(
     return stored
 
 
+def recorded_line_expansion_attitude(payload):
+    """Body attitude a Line Expansion output records, while its grid is unchanged.
+
+    Returns ``(angles, sources)`` or ``None``. The record names the azimuths
+    and elevations it was written for. It is trusted only while every current
+    look is one of them (a reorder, a crop, or a 0/360 relabel), which shows
+    the coordinate frame is the same. After any other axis edit the attitude
+    is unknown.
+    """
+
+    keys = ("axis_az_deg", "axis_el_deg", "roll_deg")
+    if "line_expansion_provenance_json" not in payload:
+        return None
+    try:
+        raw = np.asarray(payload["line_expansion_provenance_json"]).reshape(()).item()
+        record = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else str(raw))
+        angles = {key: float(record["body_attitude_deg"][key]) for key in keys}
+        grid = record["radar_grid_deg"]
+        recorded_az = {round(float(v) % 360.0, 9) for v in grid["azimuths"]}
+        recorded_el = {round(float(v), 9) for v in grid["elevations"]}
+        current_az = {round(float(v) % 360.0, 9)
+                      for v in np.asarray(payload["azimuths"], dtype=float).ravel()}
+        current_el = {round(float(v), 9)
+                      for v in np.asarray(payload["elevations"], dtype=float).ravel()}
+        sources = dict(record.get("body_attitude_source") or {})
+    except (AttributeError, KeyError, TypeError, ValueError):
+        return None
+    if not all(math.isfinite(value) for value in angles.values()):
+        return None
+    if not (current_az <= recorded_az and current_el <= recorded_el):
+        return None
+    return angles, sources
+
+
 def _load_declared_body_requested_radar_grid(
     path: 'str',
 ) -> 'Optional[Dict[str, Any]]':

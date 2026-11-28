@@ -39,6 +39,7 @@ from ghost_backend.assembly.fields import (
     load_seam_from_grim,
     load_body_profile_grim,
     load_body_requested_radar_grid,
+    recorded_line_expansion_attitude,
     preflight_feature_assembly_capacity,
     prepare_point_pattern,
     require_body_mesh_certification as audit_body_mesh_certification,
@@ -3932,6 +3933,43 @@ def prepare_feature_assembly(
             ),
         }
     else:
+        # A base without embedded geometry is placed at the module's body
+        # attitude, unless a Line Expansion run recorded the attitude its
+        # fields were built at: features must be added at that attitude.
+        external_attitude = {
+            "axis_az_deg": float(AXIS_AZ_DEG),
+            "axis_el_deg": float(AXIS_EL_DEG),
+            "roll_deg": float(ROLL_DEG),
+        }
+        recorded_attitude = recorded_line_expansion_attitude(base_payload)
+        if recorded_attitude is not None:
+            recorded_angles, recorded_sources = recorded_attitude
+            periods = {"axis_az_deg": 360.0, "roll_deg": 360.0}
+            def _differs(key):
+                delta = external_attitude[key] - recorded_angles[key]
+                if key in periods:
+                    delta = (delta + 180.0) % 360.0 - 180.0
+                return abs(delta) > 1e-9
+            contradicted = [key for key in external_attitude
+                            if external_attitude[key] != 0.0 and _differs(key)]
+            if contradicted:
+                raise ValueError(
+                    f"{sources.base}: its Line Expansion record gives body attitude "
+                    + ", ".join(f"{key}={value:g}" for key, value in recorded_angles.items())
+                    + ", but the Assembly settings give "
+                    + ", ".join(f"{key}={external_attitude[key]:g}" for key in contradicted)
+                    + ". Features cannot be added at a different attitude from "
+                    "the base field."
+                )
+            external_attitude = dict(recorded_angles)
+            assumed_keys = sorted(key for key, source in recorded_sources.items()
+                                  if source == "assumed")
+            if assumed_keys:
+                pre_validation_warnings.append(
+                    "The base's body attitude was an assumption in Line Expansion ("
+                    + ", ".join(assumed_keys) + "); features are placed at the same "
+                    "assumed attitude."
+                )
         grid = {
             "frequencies_ghz": np.asarray(
                 base_payload["frequencies"], dtype=float
@@ -3940,9 +3978,7 @@ def prepare_feature_assembly(
             "elevations_deg": np.asarray(
                 base_payload["elevations"], dtype=float
             ),
-            "axis_az_deg": float(AXIS_AZ_DEG),
-            "axis_el_deg": float(AXIS_EL_DEG),
-            "roll_deg": float(ROLL_DEG),
+            **external_attitude,
         }
         base_grid_contract = validate_assembly_base_grid_metadata(
             base_payload,
