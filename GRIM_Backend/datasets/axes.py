@@ -375,6 +375,17 @@ class GridAxesMixin:
 
 
             edited_extra[key] = extra_value
+        if "line_expansion_provenance_json" in edited_extra:
+            equivalent = axis_index >= 2
+            if axis_index == 0:
+                try:
+                    period = self._angle_value_from_degrees(360., "azimuth")
+                    equivalent = abs(math.remainder(new_value - old_value, period)) <= period * (1e-9 / 360.)
+                except ValueError:
+                    equivalent = False
+            self._transfer_line_expansion_frame(
+                edited_extra, axes[:2] if equivalent else None, f"edit-{attribute}"
+            )
         self._drop_malformed_raw_metadata(edited_extra)
         if axis_index == 2:
             edited_extra, samples = self._frequency_relabel(
@@ -545,6 +556,9 @@ class GridAxesMixin:
                 extra=self._exact_transform_extra(
                     lambda value: select_result(value, selection),
                     coordinate_change=("align-intersect-relabel" if relabeled else None),
+                    line_expansion_looks=(az_new, el_new) if (
+                        np.array_equal(source_axes[0], az_new) and np.array_equal(source_axes[1], el_new)
+                    ) else None,
                 ),
                 _adopt_clean_arrays=True,
             )
@@ -601,6 +615,9 @@ class GridAxesMixin:
         )
         self._invalidate_assembly_sampling_hash(
             interp_extra, "align-interpolate"
+        )
+        self._transfer_line_expansion_frame(
+            interp_extra, (other.azimuths, other.elevations), "align-interpolate"
         )
         sampling = _phase_step_summary(phase_steps)
         if sampling:
@@ -812,6 +829,7 @@ class GridAxesMixin:
         self._invalidate_assembly_sampling_hash(
             interp_extra, f"interpolate-{key}"
         )
+        self._transfer_line_expansion_frame(interp_extra, new_axes[:2], f"interpolate-{key}")
         sampling = _phase_step_summary(phase_steps)
         if sampling and "sampling_warning" in sampling:
             warnings.warn(sampling["sampling_warning"], RuntimeWarning, stacklevel=2)
@@ -1245,7 +1263,8 @@ class GridAxesMixin:
             self.polarizations[p_idx],
             **self._sample_kwargs(selection),
             extra=self._exact_transform_extra(
-                lambda value: select_result(value, selection)
+                lambda value: select_result(value, selection),
+                line_expansion_looks=(self.azimuths[az_idx], self.elevations[el_idx]),
             ),
             _adopt_clean_arrays=True,
         )
@@ -1508,7 +1527,8 @@ class GridAxesMixin:
             units=converted_units,
             history=history,
             extra=self._exact_transform_extra(
-                coordinate_change="convert-axis-storage-units"
+                coordinate_change="convert-axis-storage-units",
+                line_expansion_looks=(self.azimuths, self.elevations),
             ),
             _adopt_clean_arrays=True,
         )
@@ -1527,6 +1547,7 @@ class GridAxesMixin:
             rcs_domain="power_phase",
             extra=self._exact_transform_extra(
                 coordinate_change="shift-azimuth",
+                line_expansion_looks=(shifted_az, self.elevations) if float(delta_deg) % 360. == 0 else None,
                 preserve_angular_contract=False,
             ),
             _adopt_clean_arrays=True,
@@ -1644,7 +1665,8 @@ class GridAxesMixin:
                 output_raw_real[selection][unmodeled] = np.nan
                 output_raw_imag[selection][unmodeled] = np.nan
         wrapped_extra = self._exact_transform_extra(
-            coordinate_change="wrap-azimuth", preserve_raw=False
+            coordinate_change="wrap-azimuth", preserve_raw=False,
+            line_expansion_looks=(unique_vals, self.elevations),
         )
         if preserve_raw:
             wrapped_extra["rcs_amp_real"] = output_raw_real
@@ -1771,7 +1793,10 @@ class GridAxesMixin:
         if not changed:
             return self
         extra = self._exact_transform_extra(
-            coordinate_change="round-" + "-".join(changed)
+            coordinate_change="round-" + "-".join(changed),
+            line_expansion_looks=axes[:2] if (
+                np.array_equal(axes[0], self.azimuths) and np.array_equal(axes[1], self.elevations)
+            ) else None,
         )
         extra, samples = self._frequency_relabel(
             extra, self._sample_kwargs(), self.frequencies, axes[2]
@@ -1811,6 +1836,7 @@ class GridAxesMixin:
             rcs_domain="power_phase",
             extra=self._exact_transform_extra(
                 coordinate_change="shift-elevation",
+                line_expansion_looks=(self.azimuths, shifted_el) if delta == 0 else None,
                 preserve_angular_contract=False,
             ),
             _adopt_clean_arrays=True,

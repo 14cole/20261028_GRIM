@@ -1006,6 +1006,57 @@ class GridMetadataMixin:
             extra["assembly_base_response_transform"] = str(operation)
         return extra
 
+    def _transfer_line_expansion_frame(self, extra, looks, operation):
+        """Carry the source attitude to new samples, or record the loss of its frame.
+
+        Check the entire source grid before transferring a record. Otherwise a
+        crop could hide an earlier changed row and make a stale attitude valid.
+        `looks` are in source storage units. None denotes a physical relabel.
+        """
+        key = "line_expansion_provenance_json"
+        if key not in self.extra:
+            return
+        original = self.extra[key]
+        extra[key] = copy.deepcopy(original)
+        try:
+            record = json.loads(np.asarray(original).reshape(()).item())
+        except (TypeError, ValueError, UnicodeError):
+            return
+        if not isinstance(record, dict) or "body_attitude_invalidated_by" in record:
+            return
+        if "body_attitude_deg" not in record:
+            return  # Older producer records did not declare an orientation.
+        if looks is not None:
+            target = {}
+            try:
+                for axis, old, new in zip(("azimuth", "elevation"),
+                                          (self.azimuths, self.elevations), looks):
+                    unit = self._supported_unit(axis, _ANGLE_UNITS, "deg")
+                    recorded = np.asarray(record["radar_grid_deg"][axis + "s"], dtype=float)
+                    old = np.asarray(old, dtype=float)
+                    new = np.asarray(new, dtype=float)
+                    if unit == "rad":
+                        old, new = np.rad2deg(old), np.rad2deg(new)
+                    if not all(values.ndim == 1 and np.isfinite(values).all()
+                               for values in (recorded, old, new)):
+                        break
+                    if axis == "azimuth":
+                        recorded, old = recorded % 360., old % 360.
+                    if not {round(float(v), 9) for v in old}.issubset(
+                            round(float(v), 9) for v in recorded):
+                        break
+                    target[axis + "s"] = new.tolist()
+                else:
+                    record["radar_grid_deg"] = target
+                    extra[key] = json.dumps(record, separators=(",", ":"))
+                    return
+            except (KeyError, TypeError, ValueError, OverflowError):
+                pass
+        for field in ("body_attitude_deg", "body_attitude_source", "radar_grid_deg"):
+            record.pop(field, None)
+        record["body_attitude_invalidated_by"] = operation or "source angular grid mismatch"
+        extra[key] = json.dumps(record, separators=(",", ":"))
+
     def _exact_transform_extra(
         self,
         array_transform=None,
@@ -1014,6 +1065,7 @@ class GridMetadataMixin:
         preserve_raw=True,
         coordinate_change=None,
         preserve_angular_contract=True,
+        line_expansion_looks=None,
     ):
         """Metadata policy for an exact sample-preserving transform.
 
@@ -1065,6 +1117,9 @@ class GridMetadataMixin:
                 extra["rcs_amp_imag"] = transformed_imag
                 extra["raw_complex_amplitude_preserved"] = True
         if not preserve_all:
+            if line_expansion_looks is None and not coordinate_change:
+                line_expansion_looks = (self.azimuths, self.elevations)
+            self._transfer_line_expansion_frame(extra, line_expansion_looks, coordinate_change)
             self._carry_native_sentri_hazard(extra, (self,))
         if coordinate_change:
             self._invalidate_assembly_sampling_hash(extra, coordinate_change)
