@@ -60,7 +60,7 @@ Default hierarchical cutoff 1,024 unknowns. "Mixed" naming, forced Compressed. "
 | Compressed | 0.32 GiB | refused | refused |
 
 - **Both admitted jobs are bit-identical to the prototype's ample-budget run and to the release candidate's ample-budget run,** in all 18 numeric columns.
-- **The admissions are justified:** the matrix that is built is the 1,218 one, and measured peak RSS was 0.17 GiB against the 0.44 and 0.34 GiB reservations.
+- **The admissions are justified:** the matrix that is built is the 1,218 one, and measured peak RSS was 0.149 GiB (Dense) and 0.168 GiB (Compressed) against the 0.44 and 0.34 GiB reservations. (An earlier version of this line quoted 0.17 GiB for both, which was the ample-budget figure; Codex's replay caught it.)
 - **Newly rejected supported geometry: none found.** Ring, disconnected strips, reversed and shuffled names, magnetic and zero contrast, and Dense bistatic all solve on both trees with identical fields. Compressed bistatic is refused on both, with the same message.
 - **Earlier rejection of an unsupported request:** an explicit P2 basis is refused at solve time on both trees. On the prototype the HPC planner also refuses it; on the release candidate the HPC planner returned a 522 / 261 forecast for a job that could not run.
 - **Understated memory: none found on the prototype.** The only understatement I saw is the release candidate's, in section 2.
@@ -86,4 +86,4 @@ git archive f1564a7 tools GRIM_Backend | tar xf - -C /path/proto
 RC=/path/rc PROTO=/path/proto ./run_all.sh
 ```
 
-Each run writes its input `.geo`, a JSON trace and an `.npz` of every numeric sample column under `results/`. Host details are in `results/host.txt`.
+The saved `.geo` name does not include the material or basis variant, so the magnetic, zero-contrast and P2 runs overwrote the plain `120_six_mixed.geo`; regenerate those inputs from the runner (the tracer now includes the variant tag in the name). The tracer exits 0 even when a solve is refused or raises; read the `outcome` field. Each run writes its input `.geo`, a JSON trace and an `.npz` of every numeric sample column under `results/`. Host details are in `results/host.txt`.

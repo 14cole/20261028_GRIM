@@ -90,7 +90,7 @@ def geometry():
 
 
 TEXT = geometry()
-(out / f"{fixture.replace(':', '_')}.geo").write_text(TEXT)
+(out / (fixture.replace(':', '_') + os.environ.get("THIN_TAG", "") + ".geo")).write_text(TEXT)
 log, where = [], ["execution"]
 
 real_resources = solver._dense_formulation_resources
