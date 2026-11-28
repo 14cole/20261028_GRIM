@@ -1,0 +1,170 @@
+{
+ "tree": "thin",
+ "fixture": "956:six_mixed",
+ "backend": "compressed",
+ "mode": "plan_only",
+ "ram_cap_gib": null,
+ "hierarchical_cutoff": 1024,
+ "hpc_VV_HH": {
+  "VV": {
+   "system_dofs": 1930,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "HH": {
+   "system_dofs": 965,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "hpc_HH_VV": {
+  "HH": {
+   "system_dofs": 965,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "VV": {
+   "system_dofs": 1930,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "outcome": "planned",
+ "wall_s": 0.0,
+ "rss_before_gib": 0.0896,
+ "peak_rss_gib": 0.0896,
+ "log": [
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1930,
+   "nodes": 965,
+   "elements": 964,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 965,
+   "nodes": 965,
+   "elements": 964,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1930,
+   "gib": 0.4072192311286926,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1930,
+   "gib": 0.4072192311286926,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 965,
+   "gib": 0.3246851861476898,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 965,
+   "gib": 0.3246851861476898,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 965,
+   "nodes": 965,
+   "elements": 964,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1930,
+   "nodes": 965,
+   "elements": 964,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 965,
+   "gib": 0.3246851861476898,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 965,
+   "gib": 0.3246851861476898,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1930,
+   "gib": 0.4072192311286926,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1930,
+   "gib": 0.4072192311286926,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  }
+ ]
+}

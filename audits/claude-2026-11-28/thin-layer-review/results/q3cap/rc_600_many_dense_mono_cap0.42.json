@@ -1,0 +1,191 @@
+{
+ "tree": "rc",
+ "fixture": "600:many",
+ "backend": "dense",
+ "mode": "mono",
+ "ram_cap_gib": "0.42",
+ "hierarchical_cutoff": 1024,
+ "hpc_VV_HH": {
+  "VV": {
+   "system_dofs": 1616,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "HH": {
+   "system_dofs": 808,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "hpc_HH_VV": {
+  "HH": {
+   "system_dofs": 808,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "VV": {
+   "system_dofs": 1616,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "outcome": "refused: The thin_dielectric_layer 2-D solve requires an estimated 0.45 GiB, but 15.17 GiB is currently available; the safe allocation limit is 0.42 GiB. Planned system: 1616 DOFs across 201 region(s). Current angle batch: 1. Binding constraint: sta",
+ "wall_s": 0.06,
+ "rss_before_gib": 0.0882,
+ "peak_rss_gib": 0.09,
+ "log": [
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1616,
+   "nodes": 808,
+   "elements": 608,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 808,
+   "nodes": 808,
+   "elements": 608,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1616,
+   "gib": 0.4522438049316406,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1616,
+   "gib": 0.4522438049316406,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 808,
+   "gib": 0.42305850982666016,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 808,
+   "gib": 0.42305850982666016,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 808,
+   "nodes": 808,
+   "elements": 608,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1616,
+   "nodes": 808,
+   "elements": 608,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 808,
+   "gib": 0.42305850982666016,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 808,
+   "gib": 0.42305850982666016,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1616,
+   "gib": 0.4522438049316406,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1616,
+   "gib": 0.4522438049316406,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "resources",
+   "source": "execution",
+   "pol": "TE",
+   "system_dofs": 1616,
+   "nodes": 808,
+   "elements": 608,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 1616,
+   "gib": 0.4522438049316406,
+   "factor_mode": "dense",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  }
+ ]
+}

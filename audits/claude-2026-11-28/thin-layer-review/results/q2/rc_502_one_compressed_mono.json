@@ -1,0 +1,283 @@
+{
+ "tree": "rc",
+ "fixture": "502:one",
+ "backend": "compressed",
+ "mode": "mono",
+ "ram_cap_gib": null,
+ "hierarchical_cutoff": 1024,
+ "hpc_VV_HH": {
+  "VV": {
+   "system_dofs": 1014,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "HH": {
+   "system_dofs": 507,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "hpc_HH_VV": {
+  "HH": {
+   "system_dofs": 507,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "VV": {
+   "system_dofs": 1014,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "outcome": "solved",
+ "linear_backend": "cpu_compressed",
+ "residual_norm_max": 7.670495684355604e-16,
+ "quality_passed": true,
+ "thin_layer_evidence": [
+  {
+   "polarization": "TE",
+   "unknowns": 1014,
+   "estimated_peak_gib": 0.32002177834510803
+  },
+  {
+   "polarization": "TM",
+   "unknowns": 507,
+   "estimated_peak_gib": 0.30845922231674194
+  }
+ ],
+ "wall_s": 5.92,
+ "rss_before_gib": 0.0876,
+ "peak_rss_gib": 0.1511,
+ "log": [
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1014,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 507,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 507,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 1014,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "resources",
+   "source": "execution",
+   "pol": "TE",
+   "system_dofs": 1014,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": true,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 1014,
+   "gib": 0.32002177834510803,
+   "factor_mode": "compressed",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": true,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "operator",
+   "type": "StreamedOperator",
+   "module": "ghost_backend.compressed.operator",
+   "shape": [
+    1014,
+    1014
+   ],
+   "mesh_nodes": 507,
+   "rhs_shapes": [
+    [
+     1014,
+     240
+    ]
+   ]
+  },
+  {
+   "event": "resources",
+   "source": "execution",
+   "pol": "TM",
+   "system_dofs": 507,
+   "nodes": 507,
+   "elements": 506,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": true,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 507,
+   "gib": 0.30845922231674194,
+   "factor_mode": "compressed",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": true,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "operator",
+   "type": "StreamedOperator",
+   "module": "ghost_backend.compressed.operator",
+   "shape": [
+    507,
+    507
+   ],
+   "mesh_nodes": 507,
+   "rhs_shapes": [
+    [
+     507,
+     240
+    ]
+   ]
+  }
+ ]
+}

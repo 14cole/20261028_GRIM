@@ -1,0 +1,349 @@
+{
+ "tree": "rc",
+ "fixture": "120:one",
+ "backend": "automatic",
+ "mode": "mono",
+ "ram_cap_gib": null,
+ "hierarchical_cutoff": 1024,
+ "hpc_VV_HH": {
+  "VV": {
+   "system_dofs": 258,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "HH": {
+   "system_dofs": 129,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "hpc_HH_VV": {
+  "HH": {
+   "system_dofs": 129,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  },
+  "VV": {
+   "system_dofs": 258,
+   "peak_gb": 0.6000000005587935,
+   "candidates": {}
+  }
+ },
+ "outcome": "solved",
+ "linear_backend": "cpu",
+ "residual_norm_max": 3.3638555283524496e-15,
+ "quality_passed": true,
+ "thin_layer_evidence": [
+  {
+   "polarization": "TE",
+   "unknowns": 258,
+   "estimated_peak_gib": 0.4091416001319885
+  },
+  {
+   "polarization": "TM",
+   "unknowns": 129,
+   "estimated_peak_gib": 0.40839768946170807
+  }
+ ],
+ "wall_s": 0.34,
+ "rss_before_gib": 0.0858,
+ "peak_rss_gib": 0.1162,
+ "log": [
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 258,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 129,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TM",
+   "system_dofs": 129,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "resources",
+   "source": "hpc_forecast",
+   "pol": "TE",
+   "system_dofs": 258,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "hpc_forecast",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "resources",
+   "source": "desktop_forecast",
+   "pol": "TE",
+   "system_dofs": 258,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "desktop_forecast",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "desktop_forecast",
+   "system_dofs": 258,
+   "gib": 0.3005405366420746,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "resources",
+   "source": "desktop_forecast",
+   "pol": "TM",
+   "system_dofs": 129,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "desktop_forecast",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "desktop_forecast",
+   "system_dofs": 129,
+   "gib": 0.29977932572364807,
+   "factor_mode": "compressed",
+   "live": false,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "compressed_phase_v2"
+  },
+  {
+   "event": "resources",
+   "source": "execution",
+   "pol": "TE",
+   "system_dofs": 258,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 258,
+   "gib": 0.4091416001319885,
+   "factor_mode": "dense",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "operator",
+   "type": "ndarray",
+   "module": "numpy",
+   "shape": [
+    258,
+    258
+   ],
+   "mesh_nodes": 129,
+   "rhs_shapes": [
+    [
+     258,
+     240
+    ]
+   ]
+  },
+  {
+   "event": "resources",
+   "source": "execution",
+   "pol": "TM",
+   "system_dofs": 129,
+   "nodes": 129,
+   "elements": 128,
+   "hierarchical_storage_priced": false
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "estimate",
+   "source": "execution",
+   "system_dofs": 129,
+   "gib": 0.40839768946170807,
+   "factor_mode": "dense",
+   "live": true,
+   "hierarchical_storage_priced": false,
+   "sampled_storage_priced": false,
+   "formulation": "thin_dielectric_layer",
+   "plan_model": "dense_phase_v1"
+  },
+  {
+   "event": "operator",
+   "type": "ndarray",
+   "module": "numpy",
+   "shape": [
+    129,
+    129
+   ],
+   "mesh_nodes": 129,
+   "rhs_shapes": [
+    [
+     129,
+     240
+    ]
+   ]
+  }
+ ]
+}
