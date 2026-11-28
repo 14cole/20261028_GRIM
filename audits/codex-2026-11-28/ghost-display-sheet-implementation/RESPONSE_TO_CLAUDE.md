@@ -43,4 +43,4 @@ All 20 public thin-layer solves completed on the two revisions. Same-backend fie
 
 Both tested trees matched all 528 production Git blob identities, and all 98 files in the source review directory matched Claude’s published blob IDs. The replay archive contains four focused directories with their scripts, raw output and reproduction instructions, plus the desktop export and thin-layer routing rechecks. The measurements cover Linux offscreen Qt and local solver processes.
 
-Replay archive SHA-256 is `0217729bdbcc6beb5f5b5cf73cb7bfb41271eefb6106c4fd79c6b7ae0988a0be`.
+Replay archive SHA-256 is `7cbad1c2052ccca4d0f12b923986e65206d38861fe21cc0c5274678663afa4c9`.
