@@ -23,6 +23,7 @@ from ghost_backend.execution.metrics import active_metrics, profiled_solve, time
 from ghost_backend.twod.formulations.thin_layer import (
     ThinLayerDefinition,
     layer_for_mesh,
+    _prepare_formulation_mesh,
     solve_thin_layer_fields,
 )
 from ghost_backend.linalg.refined_lu import RefinedLU, requested_precision
@@ -2580,8 +2581,8 @@ def solve_monostatic_rcs_2d_single_polarization(
         acute_corners = _note_acute_corners(mesh, k0, notices, acute_corners)
 
 
-        resources = _dense_formulation_resources(mesh, coupled_infos, pol,
-            layer_for_mesh(mesh, materials, freq_ghz) if any(i.bc_kind == 'thin_layer' for i in coupled_infos) else None)
+        mesh, coupled_infos, layer = _prepare_formulation_mesh(mesh, coupled_infos, materials, freq_ghz)
+        resources = _dense_formulation_resources(mesh, coupled_infos, pol, layer)
         batch_label = "Experimental CPU: solved" if solver_method == EXPERIMENTAL_METHOD else "Solved"
         def batch_progress(completed, total):
             if progress_callback is not None:
@@ -2672,11 +2673,11 @@ def solve_monostatic_rcs_2d_single_polarization(
             )
             sheet_solver = _solve_tm_sheet if pol == "TM" else _solve_te_sheet
             condition_diagnostics = {} if compute_condition_number else None
-            if any(info.bc_kind == "thin_layer" for info in coupled_infos):
-                eps, mu, thickness = layer_for_mesh(mesh, materials, freq_ghz)
+            if layer is not None:
+                eps, mu, thickness = layer
                 rcs_lin_vec, amp_vec, sheet_residual, layer_evidence = solve_thin_layer_fields(
                     mesh, k0, elevations_arr, pol, eps, mu, thickness,
-                    condition_diagnostics=condition_diagnostics)
+                    condition_diagnostics=condition_diagnostics, _resource_record=resources)
                 formulation_label = "2D transmitting thin dielectric layer (normal and tangential polarization)"
                 thin_layer_evidence.append(dict(layer_evidence, frequency_ghz=float(freq_ghz), polarization=pol))
             else:
@@ -3748,8 +3749,8 @@ def solve_bistatic_rcs_2d_single_polarization(
                             combined_layout(mesh, coupled_infos, pol) is not None)
 
         panel_counts.append(len(mesh.elements))
-        resources = _dense_formulation_resources(mesh, coupled_infos, pol,
-            layer_for_mesh(mesh, materials, freq_ghz) if any(i.bc_kind == 'thin_layer' for i in coupled_infos) else None)
+        mesh, coupled_infos, layer = _prepare_formulation_mesh(mesh, coupled_infos, materials, freq_ghz)
+        resources = _dense_formulation_resources(mesh, coupled_infos, pol, layer)
         est_gb = _estimate_memory_gb(
             resources["nodes"],
             use_cfie=False,
@@ -3787,16 +3788,13 @@ def solve_bistatic_rcs_2d_single_polarization(
         if est_gb > 8.0:
             notices.inform_once(_memory_estimate_note(est_gb, resources, memory_limit_gb))
 
-        use_thin_sheet = any(info.bc_kind == "thin_layer" for info in coupled_infos)
-
-
         inc_all_arr = np.asarray(inc_angles, dtype=float)
         condition_diagnostics = {} if compute_condition_number else None
-        if use_thin_sheet:
-            eps, mu, thickness = layer_for_mesh(mesh, materials, freq_ghz)
+        if layer is not None:
+            eps, mu, thickness = layer
             _, batch_amp, residual, evidence = solve_thin_layer_fields(
                 mesh, k0, inc_all_arr, pol, eps, mu, thickness,
-                observation_angles_deg=obs_arr, condition_diagnostics=condition_diagnostics)
+                observation_angles_deg=obs_arr, condition_diagnostics=condition_diagnostics, _resource_record=resources)
             thin_layer_evidence.append(dict(evidence, frequency_ghz=float(freq_ghz), polarization=pol))
         elif use_multi_region:
             _, batch_amp, residual, _ = _solve_multi_region_indirect(

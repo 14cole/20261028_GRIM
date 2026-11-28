@@ -58,7 +58,11 @@ def _continuous_oriented_mesh(mesh):
     geometric node, regardless of segment names or authoring direction. Work
     on copies so other formulations and cached geometry remain unchanged.
     """
-    from ghost_backend.twod.solver import LinearMesh
+    from ghost_backend.twod.geometry import LinearMesh, ThinLayerMidsurface
+    if any(len(element.node_ids) != 2 for element in mesh.elements):
+        raise ValueError('Thin-layer asymptotic equations require the qualified linear basis.')
+    if isinstance(mesh, ThinLayerMidsurface):
+        return mesh
     nodes_by_key = {}
     incident = {}
     ends = []
@@ -76,7 +80,7 @@ def _continuous_oriented_mesh(mesh):
     node_ids = {key: index for index, key in enumerate(keys)}
     pending = set(range(len(mesh.elements)))
     elements = []
-
+    source_indices = []
 
     starts = sorted(key for key in keys if len(incident[key]) == 1) + keys
     for current in starts:
@@ -95,8 +99,11 @@ def _continuous_oriented_mesh(mesh):
                 changes.update(p0=original.p1, p1=original.p0,
                                tangent=-original.tangent, normal=-original.normal)
             elements.append(replace(original, **changes))
+            source_indices.append(edge)
             current = following
-    return LinearMesh(nodes=[nodes_by_key[key] for key in keys], elements=elements)
+    physical = LinearMesh(nodes=[nodes_by_key[key] for key in keys], elements=elements)
+    curvature, maximum_turn = _midsurface_geometry(physical)
+    return ThinLayerMidsurface(physical.nodes, physical.elements, source_indices, curvature, maximum_turn)
 
 
 def _midsurface_geometry(mesh):
@@ -167,19 +174,40 @@ def _midsurface_geometry(mesh):
     return max_curvature, math.degrees(maximum_turn)
 
 
+def _thickness_curvature_ratio(mesh, thickness):
+    ratio = thickness * mesh.max_curvature
+    if ratio > 0.05:
+        raise ValueError("Thin-layer thickness/curvature radius exceeds 0.05; use explicit bulk geometry.")
+    return ratio
+
+
+def _prepare_formulation_mesh(mesh, interface_infos, materials, frequency_ghz):
+    """Use the physical midsurface and its aligned per-channel information for thin layers.
+
+    Input infos are in the original interface mesh's element order. A planner
+    can reuse the physical mesh with the other channel's original infos.
+    """
+    if not any(info.bc_kind == 'thin_layer' for info in interface_infos):
+        return mesh, interface_infos, None
+    from ghost_backend.twod.constants import C0
+    layer = layer_for_mesh(mesh, materials, frequency_ghz)
+    validate_thin_layer(*layer, 2 * math.pi * frequency_ghz * 1e9 / C0)
+    mesh = _continuous_oriented_mesh(mesh)
+    _thickness_curvature_ratio(mesh, layer[2])
+    return mesh, [interface_infos[i] for i in mesh.source_element_indices], layer
+
+
 @timed_stage("thin_layer_operators_and_solve")
 def solve_thin_layer_fields(mesh, k0, incidence_angles_deg, polarization,
                             epsilon, permeability, thickness_m, *,
                             observation_angles_deg=None,
-                            condition_diagnostics=None, order=8):
+                            condition_diagnostics=None, order=8, _resource_record=None):
     """Return width, stored complex field, residual and approximation evidence.
 
     The midsurface is a smooth closed curve or an open sheet. Junctions with
     other material models are deliberately not inferred from this API.
     """
     import ghost_backend.twod.solver as rcs
-    if any(len(element.node_ids) != 2 for element in mesh.elements):
-        raise ValueError('Thin-layer asymptotic equations require the qualified linear basis.')
     eps, mu, d, electrical = validate_thin_layer(epsilon, permeability, thickness_m, k0)
     pol = str(polarization).upper()
     if pol not in {"TM", "TE"}:
@@ -199,19 +227,22 @@ def solve_thin_layer_fields(mesh, k0, incidence_angles_deg, polarization,
             raise ValueError('A thin-layer solve needs finite observation angles.')
 
 
-    max_curvature, maximum_turn_deg = _midsurface_geometry(mesh)
-    curvature_ratio = d * max_curvature
-    if curvature_ratio > 0.05:
-        raise ValueError("Thin-layer thickness/curvature radius exceeds 0.05; use explicit bulk geometry.")
+    curvature_ratio = _thickness_curvature_ratio(mesh, d)
 
     zero_contrast = eps == 1 and mu == 1
-    resources = dict(formulation='thin_dielectric_layer', analytic_zero=zero_contrast)
-    from ghost_backend.compressed.runtime import enabled as compressed_enabled
-    if compressed_enabled() and not zero_contrast:
-        from ghost_backend.compressed.memory import geometry_storage
-        resources['compressed_storage'] = geometry_storage(mesh, None, pol,
-            'thin_dielectric_layer', k0, (eps,mu,d), n if B==0 else 2*n)
-    required = rcs._estimate_memory_gb(n, False, system_dofs=n if B == 0 else 2*n,
+    dofs = 0 if zero_contrast else n if B == 0 else 2*n
+    if _resource_record is None:
+        # Standalone mesh API has no enclosing formulation admission.
+        resources = dict(formulation='thin_dielectric_layer', analytic_zero=zero_contrast)
+        from ghost_backend.compressed.runtime import enabled as compressed_enabled
+        if compressed_enabled() and not zero_contrast:
+            from ghost_backend.compressed.memory import geometry_storage
+            resources['compressed_storage'] = geometry_storage(mesh, None, pol,
+                'thin_dielectric_layer', k0, (eps,mu,d), dofs)
+    else:
+        # Preserve the admitted operator family and sampled geometry at the live recheck.
+        resources = dict(_resource_record)
+    required = rcs._estimate_memory_gb(n, False, system_dofs=dofs,
         n_rhs=len(angles), dense_resources=resources, activate_memory_plan=True)
     evidence = {
         'model': 'first_order_isotropic_transmitting_layer',
@@ -219,9 +250,9 @@ def solve_thin_layer_fields(mesh, k0, incidence_angles_deg, polarization,
         'thickness_m': d, 'electrical_thickness': electrical,
         'thickness_curvature_ratio': curvature_ratio,
         'curvature_geometry': 'collinear_coalesced_midsurface',
-        'maximum_geometric_turn_deg': maximum_turn_deg,
+        'maximum_geometric_turn_deg': mesh.maximum_turn_deg,
         'smooth_midsurface_assumed': True,
-        'unknowns': 0 if zero_contrast else n if B == 0 else 2*n,
+        'unknowns': dofs,
         'estimated_peak_gib': required,
         'zero_field_jump_eliminated': B == 0,
         'zero_contrast_eliminated': zero_contrast,

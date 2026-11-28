@@ -465,6 +465,18 @@ def _planning_mesh_index(rcs_solver, panels, preview, polarization, topology_gro
     return len(topology_groups) - 1
 
 
+def _planning_resources(rcs_solver, mesh, preview, materials, frequency_ghz, polarization):
+    """Price the physical mesh and return it for the other channel of this topology."""
+    mesh, infos, layer = rcs_solver._prepare_formulation_mesh(mesh, preview, materials, frequency_ghz)
+    rcs_solver._assert_no_type1_sheet_for_mixed(infos)
+    rcs_solver._assert_air_exterior(infos)
+    rcs_solver._assert_supported_te_type2_contours(mesh, infos, polarization)
+    resources = rcs_solver._dense_formulation_resources(
+        mesh, infos, polarization, layer, sample_compression=False
+    )
+    return mesh, resources
+
+
 def _resource_records_for_frequency(
     rcs_solver: 'Any',
     snapshot: 'Dict[str, Any]',
@@ -495,19 +507,11 @@ def _resource_records_for_frequency(
             panels, materials, freq_ghz, canonical_pol, k0
         )
         index = _planning_mesh_index(rcs_solver, panels, preview, canonical_pol, topology_groups)
-        mesh = topology_groups[index][1]
-        infos = preview
-        rcs_solver._assert_no_type1_sheet_for_mixed(infos)
-        rcs_solver._assert_air_exterior(infos)
-        rcs_solver._assert_supported_te_type2_contours(
-            mesh, infos, canonical_pol
+        representative, mesh = topology_groups[index]
+        mesh, resources = _planning_resources(
+            rcs_solver, mesh, preview, materials, freq_ghz, canonical_pol
         )
-        resources = rcs_solver._dense_formulation_resources(
-            mesh, infos, canonical_pol,
-            rcs_solver.layer_for_mesh(mesh, materials, freq_ghz)
-            if any(i.bc_kind == 'thin_layer' for i in infos) else None,
-            sample_compression=False,
-        )
+        topology_groups[index] = (representative, mesh)
         records[requested_pol] = {
             "panels": int(len(panels)),
             **resources,
@@ -566,17 +570,8 @@ def _resource_records_for_degrees(
             meshes = [enrich(copy_linear_mesh(mesh))[0] for _, mesh in topology_groups]
             records[degree] = {}
             for requested_pol, canonical_pol, infos, index in previews:
-                mesh = meshes[index]
-                rcs_solver._assert_no_type1_sheet_for_mixed(infos)
-                rcs_solver._assert_air_exterior(infos)
-                rcs_solver._assert_supported_te_type2_contours(
-                    mesh, infos, canonical_pol
-                )
-                resources = rcs_solver._dense_formulation_resources(
-                    mesh, infos, canonical_pol,
-                    rcs_solver.layer_for_mesh(mesh, materials, freq_ghz)
-                    if any(i.bc_kind == 'thin_layer' for i in infos) else None,
-                    sample_compression=False,
+                meshes[index], resources = _planning_resources(
+                    rcs_solver, meshes[index], infos, materials, freq_ghz, canonical_pol
                 )
                 records[degree][requested_pol] = {
                     "panels": int(len(panels)),

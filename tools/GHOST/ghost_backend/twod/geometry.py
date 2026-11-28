@@ -78,6 +78,15 @@ class LinearMesh:
     elements: 'List[LinearElement]'
 
 
+@dataclass
+class ThinLayerMidsurface(LinearMesh):
+    """Oriented physical mesh with the permutation back to the source elements."""
+
+    source_element_indices: 'List[int]'
+    max_curvature: float
+    maximum_turn_deg: float
+
+
 def copy_linear_mesh(mesh: 'LinearMesh') -> 'LinearMesh':
     """A mesh with its own node list and element records over the same node
     and element data, so polynomial enrichment of the copy (``basis.enrich``
