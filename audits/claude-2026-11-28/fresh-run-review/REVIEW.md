@@ -21,7 +21,7 @@
 
 - **The overcount is exactly one unknown per joint** (8, 6 and 6 here), the same at P1, P2 and P3, and only in TE. TM and the PEC control agree.
 - **Cause, from the code:** `execution/selection.py` builds the mesh without passing the polarization; execution passes it.
-- **Where I differ on priority.** In every case I built the planner is high, never low, and by under 5%. It is a real defect and cheap to fix, but as measured it cannot under-admit memory. I would rank it below the display and duplicate-allocation items unless the three-way-junction case (planner estimates, execution rejects) matters to users; I did not test that case.
+- **Where I differ on priority.** In every case I built the planner is high, never low, and by about 5% at most. It is a real defect and cheap to fix, but as measured it cannot under-admit memory. I would rank it below the display and duplicate-allocation items unless the three-way-junction case (planner estimates, execution rejects) matters to users; I did not test that case.
 
 ## 2. Airfoil cost table — reproduces, with the same backend ordering
 
