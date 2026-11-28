@@ -289,7 +289,8 @@ class FrequencyReader:
 
     def read(self, frequency):
         if self.frequency != frequency:
-            self.value = None
+            # Release the old record before loading. A failed read must invalidate its key too.
+            self.frequency, self.value = None, None
             self.value = self.run.load(frequency)
             self.frequency = frequency
         return self.value

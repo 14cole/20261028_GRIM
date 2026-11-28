@@ -12,10 +12,15 @@ except ImportError:
 from ghost_backend.twod.samples import sample_column
 
 
+_DISPLAY_FIELDS = ('frequency_ghz', 'theta_inc_deg', 'theta_scat_deg', 'rcs_linear')
+_DISPLAY_COLUMN_LIMIT_BYTES = 16 * 1024**2
+
+
 class ResultRows(Sequence):
     """Channel-labeled view over original rows; no retained row dictionaries."""
     def __init__(self, result):
         self.blocks, self.ends = [], []
+        self._display_columns = {}
         channels = result.get('co_solved_samples')
         if isinstance(channels, dict):
             for label in ('VV', 'HH'):
@@ -31,6 +36,59 @@ class ResultRows(Sequence):
     def _add(self, rows, label, override):
         self.ends.append(len(self)+len(rows))
         self.blocks.append((rows, label, override))
+
+    @classmethod
+    def for_display(cls, result, previous=None):
+        """Read compact display columns together while each verified frequency is open."""
+        from ghost_backend.execution.recovery import DiskSamples
+
+        view = cls(result)
+        if (previous is not None and previous._display_columns
+                and len(view.blocks) == len(previous.blocks)
+                and all(a[0] is b[0] and a[1:] == b[1:]
+                        for a, b in zip(view.blocks, previous.blocks))):
+            return previous
+        size = len(view) * len(_DISPLAY_FIELDS) * np.dtype(np.float64).itemsize
+        if not view.blocks or size > _DISPLAY_COLUMN_LIMIT_BYTES:
+            return view
+        sources = [source for source, _, override in view.blocks
+                   if override and isinstance(source, DiskSamples) and source.channel is not None]
+        if len(sources) != len(view.blocks):
+            return view
+        first = sources[0]
+        if any(source.reader is not first.reader or source.frequencies != first.frequencies
+               for source in sources[1:]):
+            return view
+
+        try:
+            columns = {key: np.empty(len(view), dtype=np.float64) for key in _DISPLAY_FIELDS}
+        except MemoryError:
+            return view
+        for index, frequency in enumerate(first.frequencies):
+            record = first.reader.run.load(frequency)
+            block_start = 0
+            for source in sources:
+                rows = record['co_solved_samples'][source.channel]
+                start = block_start + (source.ends[index - 1] if index else 0)
+                stop = block_start + source.ends[index]
+                if len(rows) != stop - start:
+                    raise ValueError(f'Recovery row count mismatch at {frequency:g} GHz ({source.channel}).')
+                for key, target in columns.items():
+                    values = sample_column(rows, key)
+                    if values is None:
+                        # Extensions can have missing fields and caller-specific defaults.
+                        return view
+                    target[start:stop] = values
+                    del values
+                block_start += len(source)
+            del record, rows
+        view._display_columns = columns
+        return view
+
+    def values_for_export(self, key, default):
+        if key in self._display_columns:
+            return self._display_columns[key]
+        return (row.get(key, default) for row in self)
 
     def __len__(self):
         return self.ends[-1] if self.ends else 0
@@ -53,6 +111,8 @@ class ResultRows(Sequence):
         return row
 
     def column(self, key, default=0.0):
+        if key in self._display_columns:
+            return self._display_columns[key]
         columns = []
         for source, label, override in self.blocks:
             if key == 'polarization' and override:
@@ -125,8 +185,15 @@ class SolverResultsTableModel(QAbstractTableModel):
         self.result, self.kind, self.db_formatter = None, '', None
         self.headers = ['Frequency (GHz)', 'Azimuth (deg)', 'RCS (linear)', 'RCS (dB)']
 
+    def display_rows(self, result):
+        if self.result is result:
+            return self.rows.rows
+        return ResultRows(result)
+
     def set_result(self, result, kind, db_formatter):
-        rows = sorted_rows(ResultRows(result), ('frequency_ghz', 'polarization', 'theta_inc_deg', 'theta_scat_deg'))
+        previous = self.rows.rows if self.result is result else None
+        source = ResultRows.for_display(result, previous)
+        rows = sorted_rows(source, ('frequency_ghz', 'polarization', 'theta_inc_deg', 'theta_scat_deg'))
         if kind == '2d_bistatic':
             headers = ['Frequency (GHz)', 'Pol', 'Incidence (deg)', 'Observation (deg)', 'Width (m)', 'Width (dBke)']
         elif kind == 'bor':
