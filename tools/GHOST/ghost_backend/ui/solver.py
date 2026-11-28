@@ -100,6 +100,7 @@ def _result_kind(result: 'Dict[str, Any]') -> 'str':
 def _planned_export_paths(
     result: 'Dict[str, Any]',
     output_path: 'str',
+    rows=None,
 ) -> 'List[str]':
     """Return every path a solver result will publish before writing it."""
 
@@ -107,10 +108,12 @@ def _planned_export_paths(
     mode = str(result.get("scattering_mode", "monostatic")).strip().lower()
     if mode != "bistatic":
         return [root]
+    if rows is None:
+        rows = _result_rows(result)
     incidence_set = set()
-    for row in _result_rows(result):
+    for incidence in rows.values_for_export("theta_inc_deg", math.nan):
         try:
-            value = float(row.get("theta_inc_deg", math.nan))
+            value = float(incidence)
         except (TypeError, ValueError):
             continue
         if math.isfinite(value):
@@ -151,10 +154,11 @@ def _result_rows(result: 'Dict[str, Any]') -> ResultRows:
     return ResultRows(result)
 
 
-def _result_sample_counts(result: 'Dict[str, Any]') -> 'Dict[str, int]':
+def _result_sample_counts(result: 'Dict[str, Any]', rows=None) -> 'Dict[str, int]':
     """Count the axes actually represented by the returned samples."""
 
-    rows = _result_rows(result)
+    if rows is None:
+        rows = _result_rows(result)
     metadata = result.get("metadata", {}) or {}
 
     def count_or_metadata(sample_key: 'str', metadata_key: 'str') -> 'int':
@@ -183,9 +187,9 @@ def _result_sample_counts(result: 'Dict[str, Any]') -> 'Dict[str, int]':
     }
 
 
-def _result_summary(result: 'Dict[str, Any]') -> 'str':
+def _result_summary(result: 'Dict[str, Any]', rows=None) -> 'str':
     kind = _result_kind(result)
-    counts = _result_sample_counts(result)
+    counts = _result_sample_counts(result, rows)
     if kind == "bor":
         return (
             "Solved BoR monostatic RCS with "
@@ -229,9 +233,10 @@ def _result_history(
     *,
     units: 'str',
     manual_export: 'bool' = False,
+    rows=None,
 ) -> 'str':
     kind = _result_kind(result)
-    counts = _result_sample_counts(result)
+    counts = _result_sample_counts(result, rows)
     fields = [
         f"solver={result.get('solver', 'unknown')}",
         f"result_kind={kind}",
@@ -279,11 +284,13 @@ def _display_db_value(
 
 
 def _result_plot_groups(
-    result: 'Dict[str, Any]',
+    result: 'Dict[str, Any]', rows=None,
 ) -> dict:
     """Keep separate bistatic incidence sweeps from becoming one curve."""
 
-    return plot_groups(_result_rows(result), _result_kind(result) == "2d_bistatic")
+    if rows is None:
+        rows = _result_rows(result)
+    return plot_groups(rows, _result_kind(result) == "2d_bistatic")
 
 
 def _stable_sha256(path: 'str') -> 'str':
@@ -1990,6 +1997,11 @@ class SolverTab(RunSetupMixin, QWidget):
         self._solver_finishing = True
         self.lbl_progress.setText('Preparing results and exports…')
         self.lbl_progress.show()
+        try:
+            self._populate_results_table(result)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            self._on_solver_error(f"Cannot display the completed result: {exc}")
+            return
         self.last_result = result
         self.last_source_path = source_path
         self.last_solve_context = self._pending_solve_context
@@ -1999,12 +2011,12 @@ class SolverTab(RunSetupMixin, QWidget):
         )
         self._pending_solve_context = None
         self._sync_export_state()
-        self._select_result_view("rcs")
+        self._select_result_view("rcs", table_ready=True)
 
         metadata = result.get("metadata", {}) or {}
         partial = bool(metadata.get('partial_result'))
         units = str(metadata.get("geometry_units_in", self.cmb_units.currentText()))
-        write_summary = _result_summary(result)
+        write_summary = _result_summary(result, self.result_table_model.display_rows(result))
         quality_suffix = _quality_gate_suffix(metadata)
         mesh_suffix = ""
         mesh = metadata.get("mesh_convergence", {}) or {}
@@ -2029,10 +2041,14 @@ class SolverTab(RunSetupMixin, QWidget):
             mesh_suffix += f" Note: {note}"
 
         if partial:
-            completed = metadata.get('frequency_checkpoints', {}).get('completed', 0)
-            requested = max(metadata.get('requested_frequency_count', 1), 1)
+            recovery = metadata.get('run_recovery', {})
+            checkpoints = metadata.get('frequency_checkpoints', {})
+            completed = recovery.get('completed', checkpoints.get('completed', 0))
+            requested = max(recovery.get('requested', metadata.get('requested_frequency_count', 1)), 1)
             write_summary = 'PARTIAL RESULT ({}/{} frequencies). '.format(completed, requested) + write_summary
-            mesh_suffix += ' Checkpoint storage failed; remaining frequencies were not solved. Manual export is available.'
+            mesh_suffix += ' Data for the remaining frequencies are unavailable in this result.'
+            if not self._last_result_stale:
+                mesh_suffix += ' Use Export Last Result to save the available data.'
             completed_progress = min(99, int(100 * completed / requested))
         else:
             completed_progress = 100
@@ -2055,7 +2071,7 @@ class SolverTab(RunSetupMixin, QWidget):
                 if requested_output.strip():
                     self.edit_output.setText(out_text)
                 if not self._confirm_export_replacements(
-                    _planned_export_paths(result, out_text)
+                    _planned_export_paths(result, out_text, self.result_table_model.display_rows(result))
                 ):
                     self.lbl_status.setText(
                         write_summary
@@ -2088,6 +2104,7 @@ class SolverTab(RunSetupMixin, QWidget):
                     history=_result_history(
                         result,
                         units=units,
+                        rows=self.result_table_model.display_rows(result),
                     ),
                 )
                 self.lbl_status.setText(
@@ -2264,7 +2281,8 @@ class SolverTab(RunSetupMixin, QWidget):
 
         if result.get('_recovery_run'):
             from ghost_backend.execution.recovery_export import export_run
-            return export_run(result, _planned_export_paths(result, output_path),
+            paths = _planned_export_paths(result, output_path, self.result_table_model.display_rows(result))
+            return export_run(result, paths,
                 lambda single, path: self._export_result_files(single, path, source_path=source_path, history=history))
 
         from ghost_backend.io.solver_export import export_solver_result
@@ -2283,12 +2301,13 @@ class SolverTab(RunSetupMixin, QWidget):
             run = RecoveryRun.open(Path(path).parent)
             result = run.result()
             request = run.request()
+            self._populate_results_table(result)
             self.last_result = result
             self.last_source_path = run.manifest['source_path']
             self.last_solve_context = dict(request['context'], uses_geometry_tab=False, geometry_stale=False)
             self._last_result_stale = False
             self._sync_export_state()
-            self._select_result_view('rcs')
+            self._select_result_view('rcs', table_ready=True)
             info = result['metadata']['run_recovery']
             self.lbl_status.setText('Recovered {} of {} frequencies. Missing frequencies were not filled or solved. '
                 'Use Export Last Result to export the completed data. Folder: {}'.format(
@@ -2324,7 +2343,7 @@ class SolverTab(RunSetupMixin, QWidget):
         )
         self.edit_output.setText(out_text)
         try:
-            planned = _planned_export_paths(result, out_text)
+            planned = _planned_export_paths(result, out_text, self.result_table_model.display_rows(result))
         except Exception as exc:
             QMessageBox.critical(self, "Export Error", str(exc))
             return
@@ -2363,6 +2382,7 @@ class SolverTab(RunSetupMixin, QWidget):
                         )
                     ),
                     manual_export=True,
+                    rows=self.result_table_model.display_rows(result),
                 ),
             )
         except Exception as exc:
@@ -2382,7 +2402,7 @@ class SolverTab(RunSetupMixin, QWidget):
     ) -> 'float':
         return _display_db_value(result, row)
 
-    def _select_result_view(self, view):
+    def _select_result_view(self, view, *, table_ready=False):
         for index in range(self.cmb_result_view.count()):
             available = self.last_result is not None if index == 0 else self.last_density_result is not None
             self.cmb_result_view.model().item(index).setEnabled(available)
@@ -2390,13 +2410,14 @@ class SolverTab(RunSetupMixin, QWidget):
         blocked = self.cmb_result_view.blockSignals(True)
         self.cmb_result_view.setCurrentIndex(self.cmb_result_view.findData(view))
         self.cmb_result_view.blockSignals(blocked)
-        self._show_result_view()
+        self._show_result_view(table_ready=table_ready)
 
-    def _show_result_view(self, _index=0):
+    def _show_result_view(self, _index=0, *, table_ready=False):
         view = self.cmb_result_view.currentData()
         if view == "rcs" and self.last_result is not None:
             self.lbl_result_details.setText("")
-            self._populate_results_table(self.last_result)
+            if not table_ready:
+                self._populate_results_table(self.last_result)
             self._plot_results(self.last_result)
         elif view != "rcs" and self.last_density_result is not None:
             self._plot_boundary_densities(self.last_density_result, phase=view == "density_phase")
@@ -2446,7 +2467,7 @@ class SolverTab(RunSetupMixin, QWidget):
 
     def _plot_results(self, result: 'Dict[str, Any]'):
         kind = _result_kind(result)
-        plot_groups = _result_plot_groups(result)
+        plot_groups = _result_plot_groups(result, self.result_table_model.display_rows(result))
         self.canvas.fig.clear()
         self.canvas.ax = self.canvas.fig.add_subplot(111)
         ax = self.canvas.ax
