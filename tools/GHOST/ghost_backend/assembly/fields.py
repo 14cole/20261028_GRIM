@@ -1962,6 +1962,7 @@ def load_body_requested_radar_grid(
         has_radar_body = all(key in payload.files for key in (
             "body_model_aspects_deg", "body_profile_rho_m", "body_profile_z_m",
         ))
+        recorded = recorded_line_expansion_attitude(payload) if has_radar_body else None
         stored = {target: np.asarray(payload[source], dtype=float) for source, target in (
             ("frequencies", "frequencies_ghz"), ("azimuths", "azimuths_deg"),
             ("elevations", "elevations_deg"),
@@ -1976,7 +1977,81 @@ def load_body_requested_radar_grid(
                   axis_az_deg=0.0, axis_el_deg=0.0, roll_deg=0.0)
     if declared is not None:
         stored.update({key: declared[key] for key in ("axis_az_deg", "axis_el_deg", "roll_deg")})
+    if recorded is not None:
+        angles, _ = recorded
+        check_line_expansion_attitude(angles, declared or {}, path)
+        stored.update(angles)
     return stored
+
+
+_LEGACY_EXPANSION_ATTITUDE_WARNING = (
+    "This older Line Expansion file does not bind its body attitude to the saved "
+    "looks. Confirm the Assembly orientation against the original expansion."
+)
+
+
+def same_body_angle(key, first, second):
+    delta = float(first) - float(second)
+    if key in ("axis_az_deg", "roll_deg"):
+        delta = (delta + 180.0) % 360.0 - 180.0
+    return abs(delta) <= 1e-9
+
+
+def check_line_expansion_attitude(angles, supplied, label):
+    """An explicit setting must match the orientation of the stored field."""
+    for key, expected in angles.items():
+        if key not in supplied:
+            continue
+        value = float(supplied[key])
+        if not same_body_angle(key, value, expected):
+            raise ValueError(
+                f"{label}: {key}={value:g} conflicts with the recorded Line "
+                f"Expansion body attitude ({expected:g} degrees). Use the "
+                "base field's orientation or recompute the base field."
+            )
+
+
+def recorded_line_expansion_attitude(payload, *, reject_stale=False):
+    """Read the attitude of an expansion on its original or a compatible grid.
+
+    Older files have no grid binding. Assembly rejects invalidated records
+    before selecting a subset, which could otherwise hide an edited look.
+    """
+    if "line_expansion_provenance_json" not in payload:
+        return None
+    try:
+        raw = np.asarray(payload["line_expansion_provenance_json"]).reshape(()).item()
+        record = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else str(raw))
+        if "body_attitude_invalidated_by" in record or record.get("schema") != "ghost.assembly.line-expansion.v1":
+            raise ValueError("invalidated or unrecognized record")
+        if "radar_grid_deg" not in record:
+            return None
+        keys = ("axis_az_deg", "axis_el_deg", "roll_deg")
+        angles = {key: float(record["body_attitude_deg"][key]) for key in keys}
+        if not all(math.isfinite(value) for value in angles.values()) or abs(angles["axis_el_deg"]) > 90.0:
+            raise ValueError("invalid body attitude")
+        grid = record["radar_grid_deg"]
+        def labels(values, axis):
+            values = np.asarray(values, dtype=float)
+            if values.ndim != 1 or not values.size or not np.isfinite(values).all():
+                raise ValueError("invalid angular grid")
+            if axis == "azimuths":
+                return set(np.round(values % 360.0, 9) % 360.0)
+            return set(np.round(values, 9))
+
+        for axis in ("azimuths", "elevations"):
+            if not labels(payload[axis], axis) <= labels(grid[axis], axis):
+                raise ValueError("edited angular grid")
+        sources = dict(record.get("body_attitude_source") or {})
+    except (AttributeError, KeyError, TypeError, ValueError, OverflowError) as exc:
+        if reject_stale:
+            raise ValueError(
+                "The Line Expansion body attitude cannot be verified for this "
+                "angular grid. Use the original expansion and select its stored "
+                "looks, or regenerate the base field in the intended frame."
+            ) from exc
+        return None
+    return angles, sources
 
 
 def _load_declared_body_requested_radar_grid(
@@ -5427,6 +5502,13 @@ def add_features_to_monostatic_grim(
     missing_grid = sorted(required_grid - set(grid))
     if missing_grid:
         raise ValueError(f"radar_grid is missing {missing_grid}.")
+    recorded = recorded_line_expansion_attitude(base_payload, reject_stale=True)
+    if recorded is not None:
+        angles, _ = recorded
+        check_line_expansion_attitude(angles, radar_grid or {}, label)
+        grid.update(angles)
+    elif "line_expansion_provenance_json" in base_payload and (placements or points or corners):
+        _record_metadata_advisory(validated_base, _LEGACY_EXPANSION_ATTITUDE_WARNING)
     base_payload, grid = exact_assembly_subset(base_payload, grid)
     validated_base, _ = exact_assembly_subset(validated_base, grid)
     base_grid_contract = validate_assembly_base_grid_metadata(

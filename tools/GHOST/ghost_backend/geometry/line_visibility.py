@@ -21,8 +21,9 @@ def _decode(value):
 
 
 def _union(intervals):
+    # Merged intervals are lists and new leaf hits are tuples; compare as numbers.
     merged = []
-    for lo, hi in sorted(intervals):
+    for lo, hi in sorted((float(lo), float(hi)) for lo, hi in intervals):
         if merged and lo <= merged[-1][1]:
             merged[-1][1] = max(hi, merged[-1][1])
         else:
