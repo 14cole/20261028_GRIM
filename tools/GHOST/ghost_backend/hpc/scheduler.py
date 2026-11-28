@@ -439,21 +439,30 @@ def _same_interface_topology(
     left: 'Sequence[Any]',
     right: 'Sequence[Any]',
 ) -> 'bool':
-    """Whether two polarization previews produce the same nodal topology.
-
-    Today the signature depends only on geometry/interface flags, not material
-    values or polarization. Keeping the comparison explicit makes the reuse
-    fail-safe if a future formulation introduces a polarization-dependent
-    interface: that channel simply receives its own mesh.
-    """
+    """Can two distinct polarization channels use the same oriented mesh?"""
 
     if len(left) != len(right) or len(left) != len(panels):
         return False
-    return all(
-        rcs_solver._linear_panel_signature_from_info(panel, l_info)
-        == rcs_solver._linear_panel_signature_from_info(panel, r_info)
-        for panel, l_info, r_info in zip(panels, left, right)
+    for panel, l_info, r_info in zip(panels, left, right):
+        # Only TE orients impedance sheets and joins traces across their IBC
+        # flags and virtual regions. Thin dielectric layers use the ordinary mesh.
+        if int(panel.seg_type) == 1 and l_info.bc_kind != 'thin_layer':
+            return False
+        if (rcs_solver._linear_panel_signature_from_info(panel, l_info)
+                != rcs_solver._linear_panel_signature_from_info(panel, r_info)):
+            return False
+    return True
+
+
+def _planning_mesh_index(rcs_solver, panels, preview, polarization, topology_groups):
+    for index, (representative, _) in enumerate(topology_groups):
+        if _same_interface_topology(rcs_solver, panels, representative, preview):
+            return index
+    mesh, _ = rcs_solver._build_linear_mesh_interface_aware(
+        panels, preview, polarization=polarization
     )
+    topology_groups.append((preview, mesh))
+    return len(topology_groups) - 1
 
 
 def _resource_records_for_frequency(
@@ -485,20 +494,8 @@ def _resource_records_for_frequency(
         preview = rcs_solver._build_coupled_panel_info(
             panels, materials, freq_ghz, canonical_pol, k0
         )
-        mesh = None
-        for representative, candidate_mesh in topology_groups:
-            if _same_interface_topology(
-                rcs_solver, panels, representative, preview
-            ):
-                mesh = candidate_mesh
-                break
-        if mesh is None:
-            mesh, _stats = rcs_solver._build_linear_mesh_interface_aware(
-                panels, preview
-            )
-            topology_groups.append((preview, mesh))
-
-
+        index = _planning_mesh_index(rcs_solver, panels, preview, canonical_pol, topology_groups)
+        mesh = topology_groups[index][1]
         infos = preview
         rcs_solver._assert_no_type1_sheet_for_mixed(infos)
         rcs_solver._assert_air_exterior(infos)
@@ -561,12 +558,7 @@ def _resource_records_for_degrees(
             preview = rcs_solver._build_coupled_panel_info(
                 panels, materials, freq_ghz, canonical_pol, k0
             )
-            index = next((i for i, (representative, _) in enumerate(topology_groups)
-                          if _same_interface_topology(rcs_solver, panels, representative, preview)), None)
-            if index is None:
-                mesh, _stats = rcs_solver._build_linear_mesh_interface_aware(panels, preview)
-                topology_groups.append((preview, mesh))
-                index = len(topology_groups) - 1
+            index = _planning_mesh_index(rcs_solver, panels, preview, canonical_pol, topology_groups)
             previews.append((requested_pol, canonical_pol, preview, index))
     records = {}  # type: Dict[int, Dict[str, Dict[str, Any]]]
     for degree in degrees:

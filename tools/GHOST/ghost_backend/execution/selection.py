@@ -295,7 +295,7 @@ def _forecast_backend(arguments, options, certified=False, checkpoint=None, reso
                     pols=(s._normalize_polarization(arguments['polarization']),) if 'polarization' in arguments else ('TE','TM')
                     for pol in pols:
                         infos = s._build_coupled_panel_info(panels, materials, freq, pol, k0)
-                        mesh, _ = s._build_linear_mesh_interface_aware(panels, infos)
+                        mesh, _ = s._build_linear_mesh_interface_aware(panels, infos, polarization=pol)
                         coupled = s._build_linear_coupled_infos(mesh, materials, freq, pol, k0)
                         layer = s.layer_for_mesh(mesh, materials, freq) if any(i.bc_kind == 'thin_layer' for i in coupled) else None
                         resources = s._dense_formulation_resources(mesh, coupled, pol, layer, sample_compression=False)
