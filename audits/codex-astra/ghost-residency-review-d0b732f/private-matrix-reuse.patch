@@ -1,0 +1,157 @@
+--- a/tools/GHOST/ghost_backend/execution/residency.py
++++ b/tools/GHOST/ghost_backend/execution/residency.py
+@@ -1,92 +1,59 @@
+-"""Measured physical residency of one owned buffer.
+-
+-Process RSS growth cannot show which arrays are in RAM: pages trimmed from one
+-buffer are replaced in the total by any later allocation. Ask the OS about the
+-buffer's own pages instead. None means unknown; callers then grant no credit.
+-"""
+-import ctypes
++"""Experimental physical reuse credit for GHOST-owned anonymous matrices on Linux."""
+ import os
+ import sys
+ 
+-_CHUNK_PAGES = 1 << 18
++import numpy as np
+ 
+ 
+ def _interior(array, page):
+-    """Whole pages inside the buffer; partial edge pages are never credited."""
+-    start = array.__array_interface__['data'][0]
+-    first = -(-start // page) * page
+-    return first, max(0, (start + array.nbytes - first) // page)
++    """Whole pages in the retained allocation. Discard both partial edges."""
++    address = array.__array_interface__['data'][0]
++    first = -(-address // page) * page
++    return first, max(0, (address + array.nbytes - first) // page)
+ 
+ 
+ def _posix(array):
+-    page = os.sysconf('SC_PAGESIZE')
+-    address, pages = _interior(array, page)
+-    libc = ctypes.CDLL(None, use_errno=True)
+-    mincore = libc.mincore
+-    mincore.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_char_p]
+-    mincore.restype = ctypes.c_int
+-    vector = ctypes.create_string_buffer(_CHUNK_PAGES)
+-    resident = 0
+-    for offset in range(0, pages, _CHUNK_PAGES):
+-        count = min(_CHUNK_PAGES, pages - offset)
+-        if mincore(address + offset*page, count*page, vector):
+-            return None
+-        raw = vector.raw[:count]
+-        # Only bit 0 is defined; the other bits are reserved.
+-        resident += sum(raw.count(bytes([value])) for value in range(1, 256, 2))
+-    return resident*page
+-
+-
+-def _windows(array):
+-    from ctypes import wintypes
+-
+-    class Entry(ctypes.Structure):
+-        _fields_ = [('address', ctypes.c_void_p), ('attributes', ctypes.c_size_t)]
+-
+-    information = ctypes.windll.kernel32.GetSystemInfo
+-    class SystemInfo(ctypes.Structure):
+-        _fields_ = [('oem', wintypes.DWORD), ('page', wintypes.DWORD), ('low', ctypes.c_void_p),
+-                    ('high', ctypes.c_void_p), ('mask', ctypes.c_size_t), ('count', wintypes.DWORD),
+-                    ('kind', wintypes.DWORD), ('granularity', wintypes.DWORD),
+-                    ('level', wintypes.WORD), ('revision', wintypes.WORD)]
+-    system = SystemInfo()
+-    information(ctypes.byref(system))
+-    page = int(system.page)
++    # Linux added pagemap's exclusive flag in 4.2. Unknown layouts earn no credit.
++    release = os.uname().release.split('.')
++    if (int(release[0]), int(release[1])) < (4, 2):
++        return None
++    page = os.sysconf('SC_PAGE_SIZE')
+     address, pages = _interior(array, page)
+-    kernel = ctypes.windll.kernel32
+-    kernel.GetCurrentProcess.restype = wintypes.HANDLE
+-    query = ctypes.windll.psapi.QueryWorkingSetEx
+-    query.argtypes = [wintypes.HANDLE, ctypes.c_void_p, wintypes.DWORD]
+-    query.restype = wintypes.BOOL
+-    process = kernel.GetCurrentProcess()
+-    chunk = 1 << 16
+-    entries = (Entry*chunk)()
+-    resident = 0
+-    for offset in range(0, pages, chunk):
+-        count = min(chunk, pages - offset)
+-        for index in range(count):
+-            entries[index].address = address + (offset + index)*page
+-        if not query(process, entries, count*ctypes.sizeof(Entry)):
+-            return None
+-        # Bit 0 (Valid): the page is in this process's working set.
+-        resident += sum(1 for index in range(count) if entries[index].attributes & 1)
+-    return resident*page
++    first = address // page
++    chunk = 65536
++    present = 1 << 63
++    swapped = 1 << 62
++    file_or_shared_anon = 1 << 61
++    exclusive = 1 << 56
++    mask = np.uint64(present | swapped | file_or_shared_anon | exclusive)
++    wanted = np.uint64(present | exclusive)
++    eligible = 0
++    with open('/proc/self/pagemap', 'rb', buffering=0) as handle:
++        for offset in range(0, pages, chunk):
++            count = min(chunk, pages - offset)
++            raw = os.pread(handle.fileno(), 8 * count, 8 * (first + offset))
++            if len(raw) != 8 * count:
++                return None
++            flags = np.frombuffer(raw, dtype=np.uint64)
++            eligible += int(np.count_nonzero((flags & mask) == wanted))
++    return eligible * page
+ 
+ 
+ def resident_bytes(array):
+-    """Bytes of ``array``'s own buffer now in physical memory, or None if unknown."""
++    """Count whole, present, exclusively mapped anonymous pages in this matrix."""
++    if sys.platform != 'linux' or not isinstance(array, np.ndarray):
++        return None
++    flags = array.flags
++    if not flags.owndata or not flags.writeable or not (flags.c_contiguous or flags.f_contiguous):
++        return None
++    if not array.nbytes:
++        return 0
+     try:
+-        import numpy as np
+-        if not isinstance(array, np.ndarray) or not array.flags.owndata or not (array.flags.c_contiguous or array.flags.f_contiguous):
+-            return None
+-        if not array.nbytes:
+-            return 0
+-        return _windows(array) if sys.platform == 'win32' else _posix(array)
+-    except Exception:
++        return _posix(array)
++    except (OSError, ValueError, IndexError, OverflowError):
+         return None
+ 
+ 
+ def physical_credit(array):
+-    """Credit for a retained buffer: what the OS confirms is resident, else nothing."""
+     measured = resident_bytes(array)
+-    return 0 if measured is None else min(int(array.nbytes), int(measured))
++    return 0 if measured is None else measured
+--- a/tools/GHOST/ghost_backend/twod/formulations/dielectric.py
++++ b/tools/GHOST/ghost_backend/twod/formulations/dielectric.py
+@@ -44,14 +44,17 @@
+         if abs(old_factor) > rcs.EPS:
+             matrix[n:, n:] *= factor / old_factor
+             return matrix
+-        previous = matrix = None
+     k1_vals = {complex(i.k_plus) for i in infos if i.plus_region > 0}
+     if not k1_vals:
+         k1_vals = {complex(i.k_minus) for i in infos if i.minus_region > 0}
+     if not k1_vals:
+         raise ValueError('Dielectric indirect solver requires a dielectric region.')
+     k1 = k1_vals.pop()
+-    matrix = np.zeros((2*n, 2*n), complex, order='F')
++    if previous is None:
++        matrix = np.zeros((2*n, 2*n), complex, order='F')
++    else:
++        # A tiny saved factor prevents rescaling. Rebuild into the admitted buffer.
++        matrix.fill(0)
+     eta = coupling(k0)
+     fused = assembly_resources(n, obs_order, src_order)['assembly_direct_destinations']
+     if fused:
