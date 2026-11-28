@@ -67,6 +67,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ghost_backend.assembly.fields import same_body_angle
 from ghost_backend.assembly.line_expansion import (
     C0, PSI_HH_DEG, PSI_VV_DEG, SeamCoefficients, coefficients_from_2d,
     expand_perimeter,
@@ -165,7 +166,6 @@ MAX_AXIS_SAMPLES = 100_000
 MAX_LOOKS = 4_000_000
 MAX_OUTPUT_SAMPLES = 64_000_000
 _ATTITUDE_KEYS = ("axis_az_deg", "axis_el_deg", "roll_deg")
-_ATTITUDE_PERIOD = {"axis_az_deg": 360.0, "roll_deg": 360.0}
 REQUESTED_GRID_SCHEMA = "ghost.workflow.requested-radar-grid.v1"
 
 
@@ -239,8 +239,13 @@ def _declared_attitude(payload):
     measurements.
     """
 
-    from ghost_backend.assembly.fields import recorded_line_expansion_attitude
+    from ghost_backend.assembly.fields import check_line_expansion_attitude, recorded_line_expansion_attitude
 
+    try:
+        recorded = recorded_line_expansion_attitude(payload, reject_stale=True)
+    except ValueError:
+        # An edit can invalidate both the expansion and its older BoR request.
+        return {}, {}, True
     declared, unreadable = {}, False
     if "requested_radar_grid_json" in payload:
         try:
@@ -256,21 +261,12 @@ def _declared_attitude(payload):
                     declared[key] = value
         except (TypeError, ValueError):
             declared, unreadable = {}, True
-    recorded = recorded_line_expansion_attitude(payload)
     earlier_source = {}
     if recorded is not None:
         angles, earlier_source = recorded
-        for key in _ATTITUDE_KEYS:
-            declared.setdefault(key, angles[key])
+        check_line_expansion_attitude(angles, declared, "base field")
+        declared.update(angles)
     return declared, earlier_source, unreadable
-
-
-def _same_angle(key, first, second):
-    difference = float(first) - float(second)
-    period = _ATTITUDE_PERIOD.get(key)
-    if period:
-        difference = (difference + period / 2.0) % period - period / 2.0
-    return abs(difference) <= 1e-9
 
 
 def _validate_base(path, payload, amp, frequencies, azimuths, elevations):
@@ -801,13 +797,13 @@ def expand_wing_sections(
         declared, earlier_source, unreadable = _declared_attitude(base_payload)
         if unreadable:
             warnings.append(
-                "The base dataset's radar-grid record is unreadable; its body "
+                "The base dataset's attitude record is unreadable or no longer matches its grid; its body "
                 "attitude is treated as unknown."
             )
         if np.any(base_amp != 0.0):
             changed = [key for key in _ATTITUDE_KEYS
                        if key in explicit and key in declared
-                       and not _same_angle(key, explicit[key], declared[key])]
+                       and not same_body_angle(key, explicit[key], declared[key])]
             if changed:
                 raise ValueError(
                     "The base dataset declares body attitude "
